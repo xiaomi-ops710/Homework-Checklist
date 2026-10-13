@@ -549,6 +549,10 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 @media(min-width:700px){#main{max-width:1280px}}
 @media(min-width:900px){.plan>.stg{grid-template-columns:1fr 1fr!important}}
 @media(max-width:699px){.ov-h{grid-template-columns:1fr}.ov-m{justify-self:start}.ov-g{grid-template-columns:1fr}.ov-r{grid-template-columns:80px 1fr 50px 64px}}
+.pv,.qpv{font-weight:600;color:var(--primary);min-height:1.5em}.pv{margin:-6px 4px 14px}.qpv{text-align:center;margin-bottom:6px}
+.tcur{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:500;color:var(--on-v)}.tcur>span:first-child{flex:1}.tcur .pp{flex:none}
+.tcur input{width:96px;height:46px;border:0;border-radius:14px;background:var(--s3);font:inherit;font-weight:600;font-size:1.15rem;text-align:center;color:var(--on)}
+.tcur input:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}.tcur em{font-style:normal;min-width:64px}
 </style>
 </head>
 <body>
@@ -965,7 +969,8 @@ function taskCard(t, s) {
     <button class="thead" data-act="edittask" data-id="${t.id}" aria-label="${esc(t.title)}を編集"><div><div class="tt">${esc(t.title)}</div><div class="tchips"><span class="tag ${t.req ? 'req' : 'opt'}">${ms(t.req ? 'priority_high' : 'low_priority')}${t.req ? '必須' : '任意'}</span>${dueTag(t)}${pin ? `<span class="tag soon">${ms('star', 'f')}今日やる</span>` : ''}${done ? `<span class="tag ok">${ms('check')}完了</span>` : ''}</div></div><div class="tnum"><b>${rem}</b><small>ページ残り</small></div></button>
     ${t.note ? `<div class="tnote">${esc(t.note)}</div>` : ''}
     ${done ? '' : `<div class="tnext">${ms('arrow_forward')}次は p.${t.start + t.done} から</div>`}
-    <div class="tprog">${wave(p, 'tw' + t.id)}<span>${pct(p)}%</span><em>${t.done}/${t.total}p</em></div>
+    <div class="tprog">${wave(p, 'tw' + t.id)}<span>${pct(p)}%</span><em>p.${t.start}〜${t.start + t.total - 1}</em></div>
+    <label class="tcur"><span>現在のページ</span><span class="pp">p.</span><input type="number" inputmode="numeric" data-cur="${t.id}" min="${t.start - 1}" max="${t.start + t.total - 1}" value="${t.done ? t.start + t.done - 1 : ''}" placeholder="${t.start - 1}" aria-label="現在のページ（ここまで終わった）"><em>/ p.${t.start + t.total - 1}</em></label>
     <div class="tact"><div class="cgroup"><button data-act="inc" data-id="${t.id}" data-n="-1" aria-label="1ページ戻す">−1</button><button data-act="inc" data-id="${t.id}" data-n="1">+1</button><button data-act="inc" data-id="${t.id}" data-n="5">+5</button><button data-act="inc" data-id="${t.id}" data-n="10">+10</button></div>
     <div class="cgroup"><button class="${pin ? 'pinned' : ''}" data-act="pin" data-id="${t.id}" aria-label="今日やる">${ms('star')}</button><button data-act="quick" data-id="${t.id}" aria-label="ページ数を入力">${ms('edit')}</button><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}" aria-label="${done ? '未完了に戻す' : '完了にする'}">${ms('check')}</button></div></div>
   </article>`;
@@ -1119,21 +1124,25 @@ function taskDlg(id, sid, dueDef) {
     <div class="fld"><div class="lbl">教科</div><div class="chips">${subs.map(s => `<label class="rchip sc" style="--sh:${s.hue}"><input type="radio" name="sid" value="${s.id}" ${s.id === t.sid ? 'checked' : ''}><span>${ms(s.icon)}${esc(s.name)}</span></label>`).join('')}</div></div>
     <div class="fld"><label for="ti">課題のタイトル</label><input id="ti" name="title" type="text" value="${esc(t.title)}" maxlength="60" placeholder="例：ワーク / 青チャート / 漢字ドリル" ${id ? '' : 'autofocus'}></div>
     <div class="fld"><div class="lbl">区分</div><div class="seg"><input type="radio" id="r1" name="req" value="1" ${t.req ? 'checked' : ''}><label for="r1">${ms('priority_high')}必須</label><input type="radio" id="r0" name="req" value="0" ${t.req ? '' : 'checked'}><label for="r0">${ms('low_priority')}任意</label></div></div>
-    <div class="fld2"><div class="fld"><label for="to">総ページ数</label><input id="to" name="total" type="number" inputmode="numeric" min="1" max="9999" value="${t.total}" placeholder="例：80"></div>
-    <div class="fld"><label for="dn">完了ページ</label><input id="dn" name="done" type="number" inputmode="numeric" min="0" max="9999" value="${t.done}"></div></div>
-    <div class="fld2"><div class="fld"><label for="st">開始ページ（p.◯から）</label><input id="st" name="start" type="number" inputmode="numeric" min="1" max="9999" value="${t.start}"></div>
+    <div class="fld2"><div class="fld"><label for="st">開始ページ</label><input id="st" name="start" type="number" inputmode="numeric" min="1" max="9999" value="${t.start}"></div>
+    <div class="fld"><label for="en">終了ページ</label><input id="en" name="end" type="number" inputmode="numeric" min="1" max="9999" value="${t.total ? t.start + t.total - 1 : ''}" placeholder="例：80"></div></div>
+    <div class="fld2"><div class="fld"><label for="cu">現在のページ（ここまで終わった）</label><input id="cu" name="cur" type="number" inputmode="numeric" min="0" max="9999" value="${t.done ? t.start + t.done - 1 : ''}" placeholder="未着手は空欄"></div>
     <div class="fld"><label for="du">提出期限</label><input id="du" name="due" type="date" value="${esc(t.due)}"></div></div>
+    <div class="pv" id="pv"></div>
     <div class="fld"><label for="no">メモ</label><textarea id="no" name="note" maxlength="300" placeholder="範囲・提出先・先生の指示など">${esc(t.note)}</textarea></div>
     <div class="err" id="err"></div>
     <div class="dact">${id ? `<button type="button" class="btn text danger" data-act="deltask" data-id="${id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}保存</button></div>
   </form>`);
+  const pv = () => { const a = parseInt($('#st').value, 10), e = parseInt($('#en').value, 10), c = parseInt($('#cu').value, 10); $('#pv').textContent = a >= 1 && e >= a ? (() => { const tot = e - a + 1, d = c >= a ? Math.min(c - a + 1, tot) : 0; return `全${tot}ページ中 ${d}ページ完了（${pct(d / tot)}%）`; })() : ''; };
+  ['st', 'en', 'cu'].forEach(i => $('#' + i).addEventListener('input', pv)); pv();
   $('#f').onsubmit = ev => {
     ev.preventDefault();
-    const fd = new FormData(ev.target), title = (fd.get('title') || '').trim(), total = parseInt(fd.get('total'), 10);
+    const fd = new FormData(ev.target), title = (fd.get('title') || '').trim();
     if (!title) return err('タイトルを入力してください');
-    if (!(total >= 1)) return err('総ページ数は1以上で入力してください');
-    let done = parseInt(fd.get('done'), 10); if (!(done >= 0)) done = 0; done = Math.min(done, total);
-    let start = parseInt(fd.get('start'), 10); if (!(start >= 1)) start = 1;
+    const start = parseInt(fd.get('start'), 10), end = parseInt(fd.get('end'), 10);
+    if (!(start >= 1)) return err('開始ページは1以上で入力してください');
+    if (!(end >= start)) return err('終了ページは開始ページ以上で入力してください');
+    const total = end - start + 1, cp = parseInt(fd.get('cur'), 10), done = cp >= start ? Math.min(cp - start + 1, total) : 0;
     const data = { sid: fd.get('sid'), title, req: fd.get('req') === '1', total, start, due: fd.get('due') || '', note: (fd.get('note') || '').trim() };
     if (id) { Object.assign(t, data); t.done = done; t.doneAt = done >= total ? (t.doneAt || Date.now()) : null; }
     else S.tasks.push({ id: uid(), ...data, done, pin: '', at: Date.now(), doneAt: done >= total ? Date.now() : null });
@@ -1141,18 +1150,22 @@ function taskDlg(id, sid, dueDef) {
   };
 }
 function quickDlg(id) {
-  const t = T(id), s = SUB(t.sid);
-  openDlg(`<h2>進捗を記録</h2><p class="muted">${esc(s.name)}：${esc(t.title)}</p>
-  <form id="f"><div class="bignum"><input id="qn" type="number" inputmode="numeric" min="0" max="${t.total}" value="${t.done}" aria-label="完了ページ数"><span>/ ${t.total} ページ</span></div>
-  <input id="qr" type="range" min="0" max="${t.total}" value="${t.done}" aria-label="スライダー">
-  <div class="chips" style="margin-bottom:18px"><button type="button" class="chip" data-act="qset" data-id="0">0</button><button type="button" class="chip" data-act="qset" data-id="${Math.floor(t.total / 2)}">半分</button><button type="button" class="chip" data-act="qset" data-id="${t.total}">ぜんぶ</button></div>
+  const t = T(id), s = SUB(t.sid), a = t.start, e = a + t.total - 1, cur = a + t.done - 1;
+  openDlg(`<h2>進捗を記録</h2><p class="muted">${esc(s.name)}：${esc(t.title)}（p.${a}〜${e}）</p>
+  <form id="f"><div class="lbl" style="text-align:center">現在のページ（ここまで終わった）</div>
+  <div class="bignum"><span>p.</span><input id="qn" type="number" inputmode="numeric" min="${a - 1}" max="${e}" value="${t.done ? cur : ''}" placeholder="${a - 1}" aria-label="現在のページ"><span>/ p.${e}</span></div>
+  <div class="qpv" id="qpv"></div>
+  <input id="qr" type="range" min="${a - 1}" max="${e}" value="${cur}" aria-label="スライダー">
+  <div class="chips" style="margin-bottom:18px"><button type="button" class="chip" data-act="qadd" data-id="1">+1</button><button type="button" class="chip" data-act="qadd" data-id="5">+5</button><button type="button" class="chip" data-act="qadd" data-id="10">+10</button><button type="button" class="chip" data-act="qset" data-id="${Math.floor((a + e) / 2)}">半分</button><button type="button" class="chip" data-act="qset" data-id="${e}">最後まで</button><button type="button" class="chip" data-act="qset" data-id="${a - 1}">未着手</button></div>
   <div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}記録する</button></div></form>`);
-  const n = $('#qn'), r = $('#qr'), sync = () => r.style.setProperty('--p', (t.total ? r.value / t.total * 100 : 0) + '%');
-  n.oninput = () => { r.value = n.value; sync(); }; r.oninput = () => { n.value = r.value; sync(); }; sync();
+  const n = $('#qn'), r = $('#qr'), val = () => { const v = n.value === '' ? a - 1 : parseInt(n.value, 10); return Math.max(a - 1, Math.min(e, isNaN(v) ? a - 1 : v)); };
+  const sync = () => { const d = val() - a + 1; r.style.setProperty('--p', (d / t.total * 100) + '%'); $('#qpv').textContent = `${d}/${t.total}ページ完了（${pct(d / t.total)}%）`; };
+  n.oninput = () => { r.value = val(); sync(); }; r.oninput = () => { n.value = r.value; sync(); }; sync();
+  setTimeout(() => { n.focus(); n.select(); }, 350);
   $('#f').onsubmit = ev => {
     ev.preventDefault();
     const was = isDone(t);
-    setDone(t, n.value); ui.flash = { id }; closeDlg(); commit();
+    setDone(t, val() - a + 1); ui.flash = { id }; closeDlg(); commit();
     if (!was && isDone(t)) { confetti(innerWidth / 2, innerHeight / 2.2, 70); toast('完了を記録しました'); }
   };
 }
@@ -1372,6 +1385,7 @@ const ACT = {
   preset() { presetDlg(); },
   close() { closeDlg(); },
   quick(id) { quickDlg(id); },
+  qadd(id) { const n = $('#qn'), r = $('#qr'); ACT.qset(Math.min(+r.max, Math.max(+r.min, (parseInt(n.value, 10) || +r.min) + +id))); },
   qset(id) { $('#qn').value = id; $('#qr').value = id; $('#qr').oninput(); },
   padd(id) { const n = $('#qn'); n.value = Math.min(+n.max, (+n.value || 0) + +id); },
   exam(id) { S.cur = id; ui.sid = ''; ui.anim = true; commit(); },
@@ -1451,13 +1465,20 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('change', e => {
   const t = e.target;
-  if (t.id === 'sort') { ui.sort = t.value; $('#tl').innerHTML = taskList(); postRender(); }
+  if (t.dataset && t.dataset.cur) {
+    const k = T(t.dataset.cur);
+    if (k) { const was = isDone(k), v = t.value === '' ? 0 : parseInt(t.value, 10) - k.start + 1, r = t.getBoundingClientRect();
+      if (setDone(k, isNaN(v) ? k.done : v)) { ui.flash = { id: k.id }; commit(); if (!was && isDone(k)) celebrate(r, k); }
+      else t.value = k.done ? k.start + k.done - 1 : ''; }
+  }
+  else if (t.id === 'sort') { ui.sort = t.value; $('#tl').innerHTML = taskList(); postRender(); }
   else if (t.dataset && t.dataset.act === 'hue') ACT.hue(t.dataset.id);
   else if (t.dataset && t.dataset.set) { S.set[t.dataset.set] = t.checked; applyTheme(); save(); }
   else if (t.dataset && t.dataset.setn) { const mn = +t.min, mx = +t.max; let v = Math.round(+t.value) || mn; v = Math.max(mn, Math.min(mx, v)); t.value = v; S.set[t.dataset.setn] = v; save(); if (!TM.running) tmReset(TM.mode); }
   else if (t.id === 'ftask') { TM.tid = t.value; const k = T(t.value); TM.sid = k ? k.sid : ''; }
   else if (t.id === 'imp') importData(t);
 });
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.dataset && e.target.dataset.cur) e.target.blur(); });
 document.addEventListener('input', e => { if (e.target.id === 'q') { ui.q = e.target.value; $('#tl').innerHTML = taskList(); postRender(); } });
 
 /* ====================== バックアップ・共有 ====================== */
