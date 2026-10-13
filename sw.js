@@ -1,4 +1,4 @@
-const V = 'kosa-v5';
+const V = 'kosa-v7';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'firebase-config.js', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 const FONT = ['fonts.googleapis.com', 'fonts.gstatic.com', 'www.gstatic.com'];
 self.addEventListener('install', e => e.waitUntil(caches.open(V).then(c => c.addAll(SHELL))));

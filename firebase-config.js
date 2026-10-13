@@ -7,3 +7,6 @@ window.FIREBASE_CONFIG = {
   messagingSenderId: "909288674254",
   appId: "1:909288674254:web:ab13a39428e7479b74d19f"
 };
+
+// PWA（ホーム画面から開いたとき）のGoogleログインで使う「ウェブクライアントID」。
+window.GOOGLE_CLIENT_ID = "909288674254-rdn22g4s7vnnrpaeo95295tjf92cb92q.apps.googleusercontent.com";
