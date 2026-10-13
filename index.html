@@ -553,6 +553,17 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .tcur{display:flex;align-items:center;gap:8px;font-size:.9rem;font-weight:500;color:var(--on-v)}.tcur>span:first-child{flex:1}.tcur .pp{flex:none}
 .tcur input{width:96px;height:46px;border:0;border-radius:14px;background:var(--s3);font:inherit;font-weight:600;font-size:1.15rem;text-align:center;color:var(--on)}
 .tcur input:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}.tcur em{font-style:normal;min-width:64px}
+[hidden]{display:none!important}
+.dc b{position:relative}.dc .pu{position:absolute;bottom:.14em;margin-left:.1em;font-size:.5em;font-weight:600}
+.scard{gap:16px}.scard .top{gap:12px}.scard .nm{font-size:1.2rem;font-weight:700}
+.scard .body{display:grid;grid-template-columns:auto 1fr;gap:20px;align-items:center}
+.scard .dc b{font-size:1.7rem!important}
+.scard .tag.sct{background:color-mix(in srgb,var(--on-scc) 14%,transparent);color:var(--on-scc)}
+.kv{margin:0;display:grid;gap:2px}.kv>div{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid color-mix(in srgb,var(--on-scc) 14%,transparent)}
+.kv>div:last-child{border:0}.kv dt{font-size:.82rem;opacity:.8}.kv dd{margin:0;font-weight:700;font-size:1.25rem}.kv small{font-size:.75rem;font-weight:500;margin-left:2px;opacity:.8}
+.trow{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;min-height:46px}
+.tcur{margin-left:auto}.tcur>span:first-child{flex:none}.tcur .pp{flex:none}
+.task{gap:14px}
 </style>
 </head>
 <body>
@@ -568,6 +579,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <div id="toast" role="status" aria-live="polite"></div>
 <canvas id="cv"></canvas>
 <input type="file" id="imp" accept=".json,application/json" hidden>
+<input type="file" id="impsub" accept=".json,application/json" hidden>
 <script>
 'use strict';
 /* ====================== 定数 ====================== */
@@ -758,7 +770,7 @@ function donut({ key = '', size = 160, stroke = 18, segs = [], total = 0, center
   const f = fs || Math.round(size * .24);
   return `<div class="donutw" style="width:${size}px;height:${size}px"><svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true"><g transform="rotate(-90 ${c} ${c})"><circle class="track" cx="${c}" cy="${c}" r="${r}" fill="none" stroke-width="${stroke}"/>${arcs}</g></svg><div class="dc"><b style="font-size:${f}px">${center}</b>${sub ? `<small style="font-size:${Math.max(11, Math.round(f * .27))}px">${sub}</small>` : ''}</div></div>`;
 }
-const pcCenter = (a, s) => a.total ? `${cu(pct(a.p))}<span style="font-size:.5em">%</span>` : '—';
+const pcCenter = (a, s) => a.total ? `<span class="pn">${cu(pct(a.p))}</span><span class="pu">%</span>` : '—';
 function postRender() {
   requestAnimationFrame(() => {
     $$('[data-w]').forEach(e => { e.style.width = e.dataset.w + '%'; });
@@ -839,6 +851,7 @@ function buildPlan() {
   return items.slice(0, 8);
 }
 function rangeText(it) {
+  if (it.t.kind === 'chk') return '完了にする';
   const a = it.t.start + (it.t.done - it.doneToday), b = a + it.amt - 1;
   return a === b ? `p.${a}` : `p.${a}〜${b}`;
 }
@@ -899,9 +912,9 @@ function viewHome() {
   h += `<div class="h-sec"><h2>${ms('donut_large')}教科ごとの進み具合</h2><span class="sp"></span><button class="btn tonal xs" data-act="addsubj">${ms('add')}教科</button></div><div class="grid stg">`;
   for (const s of subs) {
     const ts = tasksOfSub(s.id), a = agg(scoped(ts)), rq = agg(ts.filter(t => t.req));
-    h += `<button class="scard sc" style="--sh:${s.hue}" data-act="goto" data-id="${s.id}"><div class="top">${avatar(s, 52)}<div class="nm">${esc(s.name)}</div></div>
-      <div class="row"><div><div class="rem">残り<b>${cu(a.rem)}</b>ページ</div><div class="small">${ts.length ? `必須の残り ${rq.rem}p ・ ${a.nd}/${a.n}冊完了` : '課題はまだありません'}</div>${s.exam ? `<div style="margin-top:8px">${examTag(s)}</div>` : ''}</div>
-      ${donut({ key: 'sd' + s.id, size: 92, stroke: 12, segs: [{ v: a.done, color: 'var(--sc)' }], total: a.total, center: pcCenter(a), fs: 22 })}</div>${wave(a.p, 'sw' + s.id)}</button>`;
+    h += `<button class="scard sc" style="--sh:${s.hue}" data-act="goto" data-id="${s.id}"><div class="top">${avatar(s, 44)}<div class="nm">${esc(s.name)}</div>${s.exam ? examTag(s) : ''}</div>
+      <div class="body">${donut({ key: 'sd' + s.id, size: 112, stroke: 13, segs: [{ v: a.done, color: 'var(--sc)' }], total: a.total, center: pcCenter(a), fs: 26 })}
+      ${ts.length ? `<dl class="kv"><div><dt>残り</dt><dd>${cu(a.rem)}<small>p</small></dd></div><div><dt>必須の残り</dt><dd>${rq.rem}<small>p</small></dd></div><div><dt>完了</dt><dd>${a.nd}/${a.n}<small>件</small></dd></div></dl>` : `<div class="small">課題はまだありません</div>`}</div>${wave(a.p, 'sw' + s.id)}</button>`;
   }
   h += `</div>`;
 
@@ -964,15 +977,18 @@ function taskList() {
   return any ? html : emptyState('search_off', '見つかりませんでした', '絞り込みの条件を変更してください。');
 }
 function taskCard(t, s) {
-  const rem = t.total - t.done, done = isDone(t), pin = isPinned(t), p = t.total ? t.done / t.total : 0;
+  const chk = t.kind === 'chk', rem = t.total - t.done, done = isDone(t), pin = isPinned(t), p = t.total ? t.done / t.total : 0, end = t.start + t.total - 1;
+  const num = chk ? `<b>${done ? '済' : '未'}</b><small>${done ? '完了' : '未完了'}</small>` : `<b>${rem}</b><small>ページ残り</small>`;
+  const trow = chk ? '' : `<div class="trow"><span class="tnext">${done ? '' : `${ms('arrow_forward')}次は p.${t.start + t.done} から`}</span><label class="tcur"><span class="pp">現在 p.</span><input type="number" inputmode="numeric" data-cur="${t.id}" min="${t.start - 1}" max="${end}" value="${t.done ? t.start + t.done - 1 : ''}" placeholder="${t.start - 1}" aria-label="現在のページ（ここまで終わった）"><em>/ ${end}</em></label></div>`;
+  const left = chk ? `<div class="cgroup"><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}">${ms('check')}${done ? '未完了に戻す' : '完了にする'}</button></div>`
+    : `<div class="cgroup"><button data-act="inc" data-id="${t.id}" data-n="-1" aria-label="1ページ戻す">−1</button><button data-act="inc" data-id="${t.id}" data-n="1">+1</button><button data-act="inc" data-id="${t.id}" data-n="5">+5</button><button data-act="inc" data-id="${t.id}" data-n="10">+10</button></div>`;
+  const right = `<div class="cgroup"><button class="${pin ? 'pinned' : ''}" data-act="pin" data-id="${t.id}" aria-label="今日やる">${ms('star')}</button>${chk ? '' : `<button data-act="quick" data-id="${t.id}" aria-label="ページ数を入力">${ms('edit')}</button><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}" aria-label="${done ? '未完了に戻す' : '完了にする'}">${ms('check')}</button>`}</div>`;
   return `<article class="task sc ${done ? 'is-done' : ''}" style="--sh:${s.hue}" data-id="${t.id}">
-    <button class="thead" data-act="edittask" data-id="${t.id}" aria-label="${esc(t.title)}を編集"><div><div class="tt">${esc(t.title)}</div><div class="tchips"><span class="tag ${t.req ? 'req' : 'opt'}">${ms(t.req ? 'priority_high' : 'low_priority')}${t.req ? '必須' : '任意'}</span>${dueTag(t)}${pin ? `<span class="tag soon">${ms('star', 'f')}今日やる</span>` : ''}${done ? `<span class="tag ok">${ms('check')}完了</span>` : ''}</div></div><div class="tnum"><b>${rem}</b><small>ページ残り</small></div></button>
+    <button class="thead" data-act="edittask" data-id="${t.id}" aria-label="${esc(t.title)}を編集"><div><div class="tt">${esc(t.title)}</div><div class="tchips"><span class="tag ${t.req ? 'req' : 'opt'}">${ms(t.req ? 'priority_high' : 'low_priority')}${t.req ? '必須' : '任意'}</span>${chk ? `<span class="tag plain">${ms('task_alt')}完了のみ</span>` : ''}${dueTag(t)}${pin ? `<span class="tag soon">${ms('star', 'f')}今日やる</span>` : ''}${done ? `<span class="tag ok">${ms('check')}完了</span>` : ''}</div></div><div class="tnum">${num}</div></button>
     ${t.note ? `<div class="tnote">${esc(t.note)}</div>` : ''}
-    ${done ? '' : `<div class="tnext">${ms('arrow_forward')}次は p.${t.start + t.done} から</div>`}
-    <div class="tprog">${wave(p, 'tw' + t.id)}<span>${pct(p)}%</span><em>p.${t.start}〜${t.start + t.total - 1}</em></div>
-    <label class="tcur"><span>現在のページ</span><span class="pp">p.</span><input type="number" inputmode="numeric" data-cur="${t.id}" min="${t.start - 1}" max="${t.start + t.total - 1}" value="${t.done ? t.start + t.done - 1 : ''}" placeholder="${t.start - 1}" aria-label="現在のページ（ここまで終わった）"><em>/ p.${t.start + t.total - 1}</em></label>
-    <div class="tact"><div class="cgroup"><button data-act="inc" data-id="${t.id}" data-n="-1" aria-label="1ページ戻す">−1</button><button data-act="inc" data-id="${t.id}" data-n="1">+1</button><button data-act="inc" data-id="${t.id}" data-n="5">+5</button><button data-act="inc" data-id="${t.id}" data-n="10">+10</button></div>
-    <div class="cgroup"><button class="${pin ? 'pinned' : ''}" data-act="pin" data-id="${t.id}" aria-label="今日やる">${ms('star')}</button><button data-act="quick" data-id="${t.id}" aria-label="ページ数を入力">${ms('edit')}</button><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}" aria-label="${done ? '未完了に戻す' : '完了にする'}">${ms('check')}</button></div></div>
+    <div class="tprog">${wave(p, 'tw' + t.id)}<span>${pct(p)}%</span>${chk ? '' : `<em>p.${t.start}〜${end}</em>`}</div>
+    ${trow}
+    <div class="tact">${left}${right}</div>
   </article>`;
 }
 
@@ -1104,7 +1120,7 @@ function viewSettings() {
 
   <div class="h-sec"><h2>${ms('database')}データ</h2></div>
   <div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">データはこのiPad内にのみ保存されます。機種変更や万一に備えて、定期的にバックアップしてください。${st.lastBackup ? `<br>最後のバックアップ：${new Date(st.lastBackup).toLocaleDateString('ja-JP')}` : ''}</p>
-  <div class="chips"><button class="btn tonal" data-act="export">${ms('download')}バックアップ</button><button class="btn tonal" data-act="import">${ms('upload')}復元する</button><button class="btn tonal" data-act="csv">${ms('table_view')}CSVで書き出す</button><button class="btn outlined danger" data-act="reset">${ms('delete')}すべて削除</button></div></div>
+  <div class="chips"><button class="btn tonal" data-act="export">${ms('download')}バックアップ</button><button class="btn tonal" data-act="import">${ms('upload')}復元する</button><button class="btn tonal" data-act="expsub">${ms('ios_share')}教科を書き出す</button><button class="btn tonal" data-act="impsub">${ms('library_add')}教科を読み込む</button><button class="btn tonal" data-act="csv">${ms('table_view')}CSVで書き出す</button><button class="btn outlined danger" data-act="reset">${ms('delete')}すべて削除</button></div></div>
   <p class="about">考査課題マネージャー v3.0</p>`;
 }
 
@@ -1124,26 +1140,31 @@ function taskDlg(id, sid, dueDef) {
     <div class="fld"><div class="lbl">教科</div><div class="chips">${subs.map(s => `<label class="rchip sc" style="--sh:${s.hue}"><input type="radio" name="sid" value="${s.id}" ${s.id === t.sid ? 'checked' : ''}><span>${ms(s.icon)}${esc(s.name)}</span></label>`).join('')}</div></div>
     <div class="fld"><label for="ti">課題のタイトル</label><input id="ti" name="title" type="text" value="${esc(t.title)}" maxlength="60" placeholder="例：ワーク / 青チャート / 漢字ドリル" ${id ? '' : 'autofocus'}></div>
     <div class="fld"><div class="lbl">区分</div><div class="seg"><input type="radio" id="r1" name="req" value="1" ${t.req ? 'checked' : ''}><label for="r1">${ms('priority_high')}必須</label><input type="radio" id="r0" name="req" value="0" ${t.req ? '' : 'checked'}><label for="r0">${ms('low_priority')}任意</label></div></div>
-    <div class="fld2"><div class="fld"><label for="st">開始ページ</label><input id="st" name="start" type="number" inputmode="numeric" min="1" max="9999" value="${t.start}"></div>
+    <div class="fld"><div class="lbl">課題の形式</div><div class="seg"><input type="radio" id="k1" name="kind" value="pg" ${t.kind === 'chk' ? '' : 'checked'}><label for="k1">${ms('menu_book')}ページ数あり</label><input type="radio" id="k0" name="kind" value="chk" ${t.kind === 'chk' ? 'checked' : ''}><label for="k0">${ms('task_alt')}完了のみ</label></div></div>
+    <div id="pgf"><div class="fld2"><div class="fld"><label for="st">開始ページ</label><input id="st" name="start" type="number" inputmode="numeric" min="1" max="9999" value="${t.start}"></div>
     <div class="fld"><label for="en">終了ページ</label><input id="en" name="end" type="number" inputmode="numeric" min="1" max="9999" value="${t.total ? t.start + t.total - 1 : ''}" placeholder="例：80"></div></div>
-    <div class="fld2"><div class="fld"><label for="cu">現在のページ（ここまで終わった）</label><input id="cu" name="cur" type="number" inputmode="numeric" min="0" max="9999" value="${t.done ? t.start + t.done - 1 : ''}" placeholder="未着手は空欄"></div>
-    <div class="fld"><label for="du">提出期限</label><input id="du" name="due" type="date" value="${esc(t.due)}"></div></div>
-    <div class="pv" id="pv"></div>
+    <div class="fld"><label for="cu">現在のページ（ここまで終わった）</label><input id="cu" name="cur" type="number" inputmode="numeric" min="0" max="9999" value="${t.done ? t.start + t.done - 1 : ''}" placeholder="未着手は空欄"></div>
+    <div class="pv" id="pv"></div></div>
+    <div class="fld"><label for="du">提出期限</label><input id="du" name="due" type="date" value="${esc(t.due)}"></div>
     <div class="fld"><label for="no">メモ</label><textarea id="no" name="note" maxlength="300" placeholder="範囲・提出先・先生の指示など">${esc(t.note)}</textarea></div>
     <div class="err" id="err"></div>
     <div class="dact">${id ? `<button type="button" class="btn text danger" data-act="deltask" data-id="${id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}保存</button></div>
   </form>`);
   const pv = () => { const a = parseInt($('#st').value, 10), e = parseInt($('#en').value, 10), c = parseInt($('#cu').value, 10); $('#pv').textContent = a >= 1 && e >= a ? (() => { const tot = e - a + 1, d = c >= a ? Math.min(c - a + 1, tot) : 0; return `全${tot}ページ中 ${d}ページ完了（${pct(d / tot)}%）`; })() : ''; };
   ['st', 'en', 'cu'].forEach(i => $('#' + i).addEventListener('input', pv)); pv();
+  const kd = () => { $('#pgf').hidden = $('#k0').checked; }; $('#k0').onchange = $('#k1').onchange = kd; kd();
   $('#f').onsubmit = ev => {
     ev.preventDefault();
     const fd = new FormData(ev.target), title = (fd.get('title') || '').trim();
     if (!title) return err('タイトルを入力してください');
-    const start = parseInt(fd.get('start'), 10), end = parseInt(fd.get('end'), 10);
-    if (!(start >= 1)) return err('開始ページは1以上で入力してください');
-    if (!(end >= start)) return err('終了ページは開始ページ以上で入力してください');
-    const total = end - start + 1, cp = parseInt(fd.get('cur'), 10), done = cp >= start ? Math.min(cp - start + 1, total) : 0;
-    const data = { sid: fd.get('sid'), title, req: fd.get('req') === '1', total, start, due: fd.get('due') || '', note: (fd.get('note') || '').trim() };
+    const chk = fd.get('kind') === 'chk'; let start = 1, total = 1, done = (id && isDone(t)) ? 1 : 0;
+    if (!chk) {
+      start = parseInt(fd.get('start'), 10); const end = parseInt(fd.get('end'), 10);
+      if (!(start >= 1)) return err('開始ページは1以上で入力してください');
+      if (!(end >= start)) return err('終了ページは開始ページ以上で入力してください');
+      total = end - start + 1; const cp = parseInt(fd.get('cur'), 10); done = cp >= start ? Math.min(cp - start + 1, total) : 0;
+    }
+    const data = { sid: fd.get('sid'), title, req: fd.get('req') === '1', total, start, kind: chk ? 'chk' : 'pg', due: fd.get('due') || '', note: (fd.get('note') || '').trim() };
     if (id) { Object.assign(t, data); t.done = done; t.doneAt = done >= total ? (t.doneAt || Date.now()) : null; }
     else S.tasks.push({ id: uid(), ...data, done, pin: '', at: Date.now(), doneAt: done >= total ? Date.now() : null });
     closeDlg(); commit(); toast(id ? '保存しました' : '課題を追加しました');
@@ -1435,6 +1456,7 @@ const ACT = {
   undo() { if (lastUndo) { S = migrate(JSON.parse(lastUndo)); lastUndo = null; applyTheme(); save(); render(); $('#toast').classList.remove('show'); } },
   export() { exportData(); }, csv() { exportCsv(); }, share() { shareProgress(); },
   import() { $('#imp').click(); },
+  expsub() { exportSubjects(); }, impsub() { $('#impsub').click(); },
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); ui.sid = ''; ui.tab = 'home'; })); },
   reload() { updating = true; waiting && waiting.postMessage('skip'); },
   calday(id) { ui.sel = id; const d = parse(id); ui.cal = { y: d.getFullYear(), m: d.getMonth() }; render(); },
@@ -1477,6 +1499,7 @@ document.addEventListener('change', e => {
   else if (t.dataset && t.dataset.setn) { const mn = +t.min, mx = +t.max; let v = Math.round(+t.value) || mn; v = Math.max(mn, Math.min(mx, v)); t.value = v; S.set[t.dataset.setn] = v; save(); if (!TM.running) tmReset(TM.mode); }
   else if (t.id === 'ftask') { TM.tid = t.value; const k = T(t.value); TM.sid = k ? k.sid : ''; }
   else if (t.id === 'imp') importData(t);
+  else if (t.id === 'impsub') importSubjects(t);
 });
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.dataset && e.target.dataset.cur) e.target.blur(); });
 document.addEventListener('input', e => { if (e.target.id === 'q') { ui.q = e.target.value; $('#tl').innerHTML = taskList(); postRender(); } });
@@ -1489,6 +1512,36 @@ async function saveFile(name, type, text) {
   setTimeout(() => URL.revokeObjectURL(a.href), 5000); toast('ファイルを保存しました'); return true;
 }
 async function exportData() { const ok = await saveFile(`shukudai-backup-${today()}.json`, 'application/json', JSON.stringify(S, null, 2)); if (ok) { S.set.lastBackup = Date.now(); save(); render(); } }
+function exportSubjects() {
+  const ex = curExam(), subs = subjects();
+  if (!subs.length) return toast('書き出す教科がありません');
+  const data = { app: 'kosa-subjects', v: 1, exam: { name: ex.name, date: ex.date || '' }, subjects: subs.map(s => ({ name: s.name, icon: s.icon, hue: s.hue, exam: s.exam || '', tasks: tasksOfSub(s.id).map(k => ({ title: k.title, req: !!k.req, kind: k.kind || 'pg', total: k.total, start: k.start, due: k.due || '', note: k.note || '' })) })) };
+  saveFile(`kadai-subjects-${today()}.json`, 'application/json', JSON.stringify(data, null, 2));
+}
+function importSubjects(input) {
+  const f = input.files && input.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const j = JSON.parse(r.result); if (!j || j.app !== 'kosa-subjects' || !Array.isArray(j.subjects)) throw 0;
+      const nt = j.subjects.reduce((a, s) => a + (s.tasks || []).length, 0);
+      confirmDlg('教科と課題を読み込みますか？', `教科 ${j.subjects.length} 件・課題 ${nt} 件を「${curExam().name}」に追加します。進捗は含まれず、0からはじまります。同名の教科には課題を追加し、同じタイトルの課題は読み飛ばします。`, '読み込む', () => undoable('教科と課題を読み込みました', () => {
+        const exId = curExam().id;
+        for (const x of j.subjects) {
+          let s = S.subjects.find(v => v.ex === exId && v.name === x.name);
+          if (!s) { s = { id: uid(), ex: exId, name: String(x.name || '').slice(0, 30), icon: x.icon || 'menu_book', hue: +x.hue || 222, exam: x.exam || '' }; S.subjects.push(s); }
+          for (const k of x.tasks || []) {
+            if (S.tasks.some(v => v.sid === s.id && v.title === k.title)) continue;
+            const chk = k.kind === 'chk';
+            S.tasks.push({ id: uid(), sid: s.id, title: String(k.title || '').slice(0, 60), req: !!k.req, kind: chk ? 'chk' : 'pg', total: chk ? 1 : Math.max(1, +k.total || 1), start: chk ? 1 : Math.max(1, +k.start || 1), done: 0, due: k.due || '', note: k.note || '', pin: '', at: Date.now(), doneAt: null });
+          }
+        }
+      }));
+    } catch (e) { toast('教科のファイルを読み込めませんでした'); }
+    input.value = '';
+  };
+  r.readAsText(f);
+}
 function exportCsv() {
   const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
   const rows = [['考査', '教科', '課題', '区分', '総ページ', '終わった', '残り', '達成率%', '期限', 'メモ']];
