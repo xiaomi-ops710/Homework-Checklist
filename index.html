@@ -580,6 +580,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <canvas id="cv"></canvas>
 <input type="file" id="imp" accept=".json,application/json" hidden>
 <input type="file" id="impsub" accept=".json,application/json" hidden>
+<script src="firebase-config.js"></script>
 <script>
 'use strict';
 /* ====================== 定数 ====================== */
@@ -642,7 +643,8 @@ function load() {
 let S = load();
 let ui = { tab: 'home', filter: 'all', sid: '', q: '', sort: 'due', period: 7, metric: 'pages', collapsed: {}, anim: true, fab: false, flash: null, cal: { y: new Date().getFullYear(), m: new Date().getMonth() }, sel: today() };
 let lastUndo = null;
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('保存に失敗しました。容量を確認してください'); } }
+let _noSync = false;
+function save() { try { if (!_noSync) S.mt = Date.now(); localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('保存に失敗しました。容量を確認してください'); } if (!_noSync) cloudPush(); }
 const snap = () => JSON.stringify(S);
 const curExam = () => S.exams.find(e => e.id === S.cur) || S.exams[0];
 const subjects = () => S.subjects.filter(s => s.ex === curExam().id);
@@ -1118,6 +1120,8 @@ function viewSettings() {
   <div class="fld"><div class="lbl">文字の大きさ</div><div class="seg">${[['s', '小'], ['m', '標準'], ['l', '大']].map(([v, l]) => `<button class="${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}">${l}</button>`).join('')}</div></div>
   ${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}</div>
 
+  <div class="h-sec"><h2>${ms('cloud_sync')}アカウントと同期</h2></div>${cloudCard()}
+
   <div class="h-sec"><h2>${ms('database')}データ</h2></div>
   <div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">データはこのiPad内にのみ保存されます。機種変更や万一に備えて、定期的にバックアップしてください。${st.lastBackup ? `<br>最後のバックアップ：${new Date(st.lastBackup).toLocaleDateString('ja-JP')}` : ''}</p>
   <div class="chips"><button class="btn tonal" data-act="export">${ms('download')}バックアップ</button><button class="btn tonal" data-act="import">${ms('upload')}復元する</button><button class="btn tonal" data-act="expsub">${ms('ios_share')}教科を書き出す</button><button class="btn tonal" data-act="impsub">${ms('library_add')}教科を読み込む</button><button class="btn tonal" data-act="csv">${ms('table_view')}CSVで書き出す</button><button class="btn outlined danger" data-act="reset">${ms('delete')}すべて削除</button></div></div>
@@ -1456,6 +1460,7 @@ const ACT = {
   undo() { if (lastUndo) { S = migrate(JSON.parse(lastUndo)); lastUndo = null; applyTheme(); save(); render(); $('#toast').classList.remove('show'); } },
   export() { exportData(); }, csv() { exportCsv(); }, share() { shareProgress(); },
   import() { $('#imp').click(); },
+  cloudin() { cloudLogin(); }, cloudout() { cloudLogout(); }, cloudnow() { cloudPushNow().then(() => toast('同期しました')); },
   expsub() { exportSubjects(); }, impsub() { $('#impsub').click(); },
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); ui.sid = ''; ui.tab = 'home'; })); },
   reload() { updating = true; waiting && waiting.postMessage('skip'); },
@@ -1569,6 +1574,70 @@ function importData(input) {
   r.readAsText(f);
 }
 
+
+/* ====================== Firebase 同期（Googleログイン + Firestore） ====================== */
+const CLOUD = { user: null, fb: null, unsub: null, timer: null, status: 'off', first: false };
+const cloudRefresh = () => { if (ui.tab === 'settings' && !dlg.open && !TM.open) render(); };
+async function cloudInit() {
+  const cfg = window.FIREBASE_CONFIG;
+  if (!cfg || !cfg.apiKey || cfg.apiKey.startsWith('YOUR')) { CLOUD.status = 'unconfigured'; return; }
+  try {
+    const B = 'https://www.gstatic.com/firebasejs/10.14.1/';
+    const [app, auth, fs] = await Promise.all([import(B + 'firebase-app.js'), import(B + 'firebase-auth.js'), import(B + 'firebase-firestore.js')]);
+    const a = app.initializeApp(cfg), authI = auth.getAuth(a), db = fs.getFirestore(a);
+    CLOUD.fb = { auth, fs, authI, db }; CLOUD.status = 'out';
+    auth.getRedirectResult(authI).catch(() => { });
+    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; if (u) cloudStart(); else cloudStop(); cloudRefresh(); });
+  } catch (e) { CLOUD.status = 'error'; }
+  cloudRefresh();
+}
+function cloudStop() { if (CLOUD.unsub) CLOUD.unsub(); CLOUD.unsub = null; clearTimeout(CLOUD.timer); CLOUD.status = CLOUD.fb ? 'out' : CLOUD.status; }
+function cloudStart() {
+  cloudStop(); const { fs, db } = CLOUD.fb; CLOUD.first = true; CLOUD.status = 'sync';
+  CLOUD.unsub = fs.onSnapshot(fs.doc(db, 'users', CLOUD.user.uid), ds => {
+    if (ds.metadata.hasPendingWrites || ds.metadata.fromCache) return;
+    CLOUD.status = 'ok';
+    const d = ds.exists() ? ds.data() : null, lm = S.mt || 0;
+    if (!d || !d.json) cloudPushNow();
+    else {
+      let remote; try { remote = JSON.parse(d.json); } catch (e) { return; }
+      const rm = d.mt || 0;
+      if (rm > lm) {
+        const before = lm && CLOUD.first ? snap() : null;
+        _noSync = true; S = migrate(remote); S.mt = rm; applyTheme(); save(); _noSync = false; ui.sid = '';
+        if (!dlg.open && !TM.open) render();
+        if (before) toast('クラウドのデータに更新しました', before);
+      } else if (lm > rm) cloudPush();
+    }
+    CLOUD.first = false; cloudRefresh();
+  }, () => { CLOUD.status = 'error'; cloudRefresh(); });
+}
+function cloudPush() { if (!CLOUD.user || !CLOUD.fb) return; clearTimeout(CLOUD.timer); CLOUD.timer = setTimeout(cloudPushNow, 1500); }
+async function cloudPushNow() {
+  if (!CLOUD.user || !CLOUD.fb) return; const { fs, db } = CLOUD.fb;
+  try { if (!S.mt) { _noSync = true; S.mt = Date.now(); save(); _noSync = false; } await fs.setDoc(fs.doc(db, 'users', CLOUD.user.uid), { json: JSON.stringify(S), mt: S.mt, updatedAt: fs.serverTimestamp() }); CLOUD.status = 'ok'; }
+  catch (e) { CLOUD.status = 'error'; }
+  cloudRefresh();
+}
+async function cloudLogin() {
+  if (!CLOUD.fb) return toast(CLOUD.status === 'unconfigured' ? 'firebase-config.js が未設定です' : '同期サービスに接続できません');
+  const { auth, authI } = CLOUD.fb, p = new auth.GoogleAuthProvider(); p.setCustomParameters({ prompt: 'select_account' });
+  try { await auth.signInWithPopup(authI, p); }
+  catch (e) {
+    if (e.code === 'auth/popup-blocked' || e.code === 'auth/operation-not-supported-in-this-environment') { try { await auth.signInWithRedirect(authI, p); } catch (_) { toast('ログインに失敗しました'); } }
+    else if (e.code !== 'auth/popup-closed-by-user' && e.code !== 'auth/cancelled-popup-request') toast('ログインに失敗しました（' + (e.code || '') + '）');
+  }
+}
+async function cloudLogout() { try { await CLOUD.fb.auth.signOut(CLOUD.fb.authI); toast('ログアウトしました。この端末のデータは残ります'); } catch (e) { toast('ログアウトに失敗しました'); } }
+function cloudCard() {
+  const st = CLOUD.status, u = CLOUD.user;
+  if (st === 'unconfigured') return `<div class="card"><p class="muted">Firebase の設定が未入力です。<b>firebase-config.js</b> にプロジェクトの設定値を入力すると、Google アカウントでの同期が使えます。</p></div>`;
+  if (st === 'error' && !CLOUD.fb) return `<div class="card"><p class="muted">同期サービスに接続できません。オフラインの場合は、接続後にもう一度開いてください。</p></div>`;
+  if (!u) return `<div class="card"><p class="muted" style="margin-bottom:14px">Google アカウントでログインすると、同じアカウントでログインした端末どうしで進捗・考査日・設定などすべてのデータが同期されます。</p><button class="btn" data-act="cloudin">${ms('login')}Googleでログイン</button></div>`;
+  const label = { sync: '同期しています…', ok: '同期済み', error: '同期できませんでした。接続を確認してください' }[st] || '';
+  return `<div class="card"><div class="setrow" style="padding-top:0"><span class="t">${esc(u.displayName || 'Google アカウント')}<small>${esc(u.email || '')}</small></span></div><p class="muted" style="margin:6px 0 14px">${ms(st === 'ok' ? 'cloud_done' : st === 'error' ? 'cloud_off' : 'cloud_sync', '', 'font-size:18px;vertical-align:-4px')} ${label}</p><div class="chips"><button class="btn tonal" data-act="cloudnow">${ms('sync')}今すぐ同期</button><button class="btn tonal" data-act="cloudout">${ms('logout')}ログアウト</button></div></div>`;
+}
+
 /* ====================== テーマ・PWA・起動 ====================== */
 function applyTheme() {
   const mode = S.set.theme, dark = mode === 'dark' || (mode === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches), r = document.documentElement;
@@ -1603,7 +1672,7 @@ function splash() {
 if (document.fonts && document.fonts.load) {
   document.fonts.load('24px "Material Symbols Rounded"', 'home').then(f => { if (f && f.length) document.documentElement.classList.add('msr'); }).catch(() => { });
 } else document.documentElement.classList.add('msr');
-applyTheme(); checkBadges(true); tmReset('focus'); renderFab(); render(); splash();
+applyTheme(); checkBadges(true); tmReset('focus'); renderFab(); render(); splash(); cloudInit();
 </script>
 </body>
 </html>
