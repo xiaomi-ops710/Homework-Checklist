@@ -576,6 +576,57 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .gbtn{display:inline-flex;align-items:center;gap:12px;height:44px;padding:0 20px 0 14px;border-radius:22px;background:#fff;color:#1f1f1f;box-shadow:inset 0 0 0 1px #747775;font-weight:500;font-size:.95rem;white-space:nowrap;transition:transform .3s var(--spring)}
 .gbtn:active{transform:scale(.96)}
 :root[data-theme="dark"] .gbtn{background:#131314;color:#e3e3e3;box-shadow:inset 0 0 0 1px #8e918f}
+#updbar{position:fixed;z-index:25;top:calc(10px + env(safe-area-inset-top));left:16px;right:78px;max-width:460px}
+.updb{width:100%;display:flex;align-items:center;gap:12px;height:48px;padding:0 6px 0 16px;border-radius:24px;background:var(--primary);color:var(--on-primary);text-align:left;box-shadow:0 4px 14px rgba(0,0,0,.25)}
+.updb span{flex:1;display:grid;line-height:1.15;min-width:0}.updb b{font-weight:600;font-size:.92rem}.updb small{font-size:.74rem;opacity:.85}
+.updb i{font-style:normal;font-weight:600;padding:8px 16px;border-radius:18px;background:var(--on-primary);color:var(--primary)}
+.updb .ms{animation:updpulse 2s ease-in-out infinite}@keyframes updpulse{50%{transform:translateY(2px)}}
+.upd-top{display:flex;align-items:center;gap:16px;margin-bottom:22px}.upd-top img{border-radius:16px}.upd-top b{display:block;font-size:1.2rem;font-weight:600}.upd-top span{color:var(--on-v);font-weight:500}
+.upd-body{display:grid;justify-items:center;text-align:center;gap:8px;padding:26px 16px;border-radius:28px;background:var(--s2);margin-bottom:20px}
+.upd-ic{width:80px;height:80px;border-radius:40px;display:grid;place-items:center;background:var(--primary);color:var(--on-primary)}
+.upd-body h2{margin:6px 0 0;font-size:1.3rem;font-weight:600}.upd-body p{margin:0}
+.upd-ic.spin .ms{animation:updspin 1.2s linear infinite}@keyframes updspin{to{transform:rotate(360deg)}}
+.upd-bar{width:min(320px,80%);height:6px;border-radius:3px;background:var(--s3);overflow:hidden;margin-top:12px}
+.upd-bar i{display:block;width:40%;height:100%;border-radius:3px;background:var(--primary);animation:updbar 1.3s ease-in-out infinite}@keyframes updbar{0%{transform:translateX(-100%)}100%{transform:translateX(250%)}}
+.rgrow{display:flex;align-items:center;gap:8px;margin:8px 0}.rgrow>span{color:var(--on-v)}
+.rgrow input{flex:1;min-width:0;height:52px;border:0;border-radius:14px;background:var(--s3);padding:0 14px;font:inherit;color:var(--on);text-align:center}
+.rgrow input:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}
+.hint{display:block;font-weight:400;color:var(--on-v);margin-top:2px}
+.cl{display:grid;gap:4px;margin:2px 0}
+.clr{display:flex;align-items:center;gap:12px;min-height:44px;padding:4px 6px;border-radius:14px;cursor:pointer}
+.clr input{position:absolute;opacity:0;pointer-events:none}
+.clr .cb{flex:none;width:26px;height:26px;border-radius:9px;display:grid;place-items:center;box-shadow:inset 0 0 0 2px var(--on-v);color:transparent;transition:background .2s,color .2s}
+.clr .cb .ms{font-size:20px}.clr input:checked+.cb{background:var(--sc);box-shadow:none;color:var(--on-sc,#fff)}
+.clr.on .cx{text-decoration:line-through;opacity:.6}.clr .cx{font-weight:500;overflow-wrap:anywhere}
+.rgrow .cld{flex:none;width:24px;height:24px;accent-color:var(--primary)}
+.dsub{display:inline-flex;align-items:center;gap:4px;margin-left:auto;padding:6px 12px;border-radius:16px;background:var(--s3);font-size:.8rem;font-weight:600;white-space:nowrap}
+.dli.urgent{box-shadow:inset 0 0 0 2px var(--err)}
+.pillchip.warnp{background:var(--err);color:#fff}
+.wk-top{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.wk-n{font-size:2.8rem;font-weight:600;line-height:1.05;letter-spacing:-.03em}.wk-n small{font-size:1rem;font-weight:500;margin-left:4px}
+.wk-g{text-align:right}.wk-g b{display:block;font-size:1.6rem;font-weight:600;color:var(--primary)}.wk-g span{color:var(--on-v);font-weight:500;font-size:.85rem}
+.wk-days{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:16px 0}
+.wd{display:grid;justify-items:center;gap:2px;padding:10px 0;border-radius:16px;background:var(--s2);font-size:.8rem;font-weight:500}.wd b{font-size:1.1rem;font-weight:600}
+.wd.ok{background:var(--primary);color:var(--on-primary)}.wd.today{box-shadow:0 0 0 2px var(--s1),0 0 0 4px var(--primary)}
+.wk-st{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;text-align:center}.wk-st b{display:block;font-size:1.25rem;font-weight:600}.wk-st small{font-size:.75rem;font-weight:500}.wk-st span{color:var(--on-v);font-size:.8rem;font-weight:500}
+.hgrid{display:grid;grid-template-columns:1fr;column-gap:24px;align-items:start}.hcol{min-width:0}
+@media(min-width:900px){.hgrid{grid-template-columns:3fr 2fr}.plan>.stg{grid-template-columns:1fr!important}}
+.greet{margin-bottom:6px}.hero{padding:22px 28px}
+.pitem .rg{font-weight:600;white-space:nowrap;color:var(--on-v)}
+.scard .donutw{width:96px!important;height:96px!important}.scard .dc b{font-size:1.5rem!important}
+.kv>div{padding:5px 0}.kv dd{font-size:1.1rem}.scard{gap:12px}
+.dl .dli{min-height:64px}
+.fabscrim{position:fixed;inset:0;z-index:-1;background:rgba(0,0,0,.34);opacity:0;pointer-events:none;transition:opacity .35s var(--smooth,ease)}
+#fab.open .fabscrim{opacity:1;pointer-events:auto}
+.fabb{transition:transform .5s var(--spring),border-radius .5s var(--spring),background .3s,box-shadow .3s}
+.fabi{transition:opacity .25s,transform .55s var(--spring),border-radius .35s var(--spring)}
+.sclist{display:grid;gap:14px}.scr{display:grid;grid-template-columns:88px 1fr 76px 112px;gap:12px;align-items:center}
+.scn{font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.scb{position:relative;height:12px;border-radius:6px;background:var(--s3)}.scb i{display:block;height:100%;border-radius:6px;background:var(--sc)}
+.scb u{position:absolute;top:-4px;bottom:-4px;width:3px;border-radius:2px;background:var(--on);text-decoration:none}
+.scr b{font-weight:600;text-align:right}.scr small{font-weight:500;color:var(--on-v)}
+.scr em{font-style:normal;font-size:.8rem;font-weight:600;color:var(--on-v)}.scr em.ok{color:var(--primary)}.scr em.ng{color:var(--err)}
+@media(max-width:520px){.scr{grid-template-columns:70px 1fr 64px}.scr em{grid-column:1/-1}}
 </style>
 </head>
 <body>
@@ -584,6 +635,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
   <nav id="nav" aria-label="メインメニュー"></nav>
   <main id="main"><div id="view"></div></main>
 </div>
+<div id="updbar" hidden></div>
 <div id="acct"></div>
 <div id="fab"></div>
 <div id="mini"></div>
@@ -706,10 +758,52 @@ function addMinutes(min, sid) {
   const l = dayLog(today(), true); l.m += min;
   if (sid) l.sm[sid] = (l.sm[sid] || 0) + min;
 }
+function syncItems(t) {
+  if (t.kind !== 'list' || !t.items) return;
+  let c = t.items.filter(x => x.done).length;
+  for (const x of t.items) { if (c >= t.done) break; if (!x.done) { x.done = true; c++; } }
+  for (let i = t.items.length - 1; i >= 0 && c > t.done; i--) if (t.items[i].done) { t.items[i].done = false; c--; }
+}
+function setItem(t, i, on) {
+  const it = t.items && t.items[i]; if (!it) return; it.done = !!on;
+  const v = t.items.filter(x => x.done).length, d = v - t.done; t.done = v; addLog(d, t);
+  t.doneAt = v >= t.total ? (t.doneAt || Date.now()) : null; ui.flash = { id: t.id }; commit();
+}
+const clRow = x => `<div class="rgrow clrow"><input type="checkbox" class="cld" ${x.done ? 'checked' : ''} aria-label="完了"><input class="clt" type="text" maxlength="60" value="${esc(x.text)}" placeholder="項目（例：問題1〜5）" style="text-align:left"><button type="button" class="ibtn" data-act="delcl" aria-label="この項目を削除">${ms('close')}</button></div>`;
+const clHtml = t => `<div class="cl">${(t.items || []).map((x, i) => `<label class="clr ${x.done ? 'on' : ''}"><input type="checkbox" data-cl="${t.id}" data-i="${i}" ${x.done ? 'checked' : ''}><span class="cb">${ms('check')}</span><span class="cx">${esc(x.text)}</span></label>`).join('')}</div>`;
+const subTags = t => !t.subreq ? '' : `${t.dest ? `<span class="tag plain">${ms('send')}${esc(t.dest)}</span>` : ''}${t.submitted ? `<span class="tag ok">${ms('outbox')}提出済み</span>` : (isDone(t) ? `<span class="tag soon">${ms('outbox')}未提出</span>` : '')}`;
+function scoreCard() {
+  const rows = subjects().filter(s => s.goal != null || s.score != null);
+  if (!rows.length) return '';
+  const got = rows.filter(s => s.score != null), avg = got.length ? Math.round(got.reduce((q, s) => q + s.score / (s.full || 100) * 100, 0) / got.length) : null;
+  return `<div class="h-sec"><h2>${ms('grade')}成績</h2>${avg !== null ? `<span class="sp"></span><span class="muted" style="font-weight:500">平均 ${avg}%（満点換算）</span>` : ''}</div><div class="card"><div class="sclist">${rows.map(s => { const f = s.full || 100, ok = s.score != null && s.goal != null ? s.score >= s.goal : null; return `<div class="scr sc" style="--sh:${s.hue}"><span class="scn">${esc(s.name)}</span><div class="scb"><i style="width:${s.score != null ? Math.min(100, s.score / f * 100) : 0}%"></i>${s.goal != null ? `<u style="left:${Math.min(100, s.goal / f * 100)}%"></u>` : ''}</div><b>${s.score ?? '—'}<small>/${f}</small></b><em class="${ok === null ? '' : ok ? 'ok' : 'ng'}">${s.goal != null ? '目標 ' + s.goal : ''}${ok === null ? '' : ok ? '（達成）' : '（未達）'}</em></div>`; }).join('')}</div></div>
+`;
+}
+function weekData(off) {
+  const n = new Date(), mon = new Date(n.getFullYear(), n.getMonth(), n.getDate() - ((n.getDay() + 6) % 7) - 7 * off);
+  const days = [...Array(7)].map((_, i) => { const d = new Date(mon.getFullYear(), mon.getMonth(), mon.getDate() + i), l = dayLog(ymd(d)); return { d, k: ymd(d), a: l.a, m: l.m }; });
+  const t0 = mon.getTime(), t1 = t0 + 7 * 864e5;
+  return { mon, days, a: days.reduce((q, x) => q + x.a, 0), m: days.reduce((q, x) => q + x.m, 0), act: days.filter(x => x.a > 0 || x.m > 0).length, fin: S.tasks.filter(k => isDone(k) && k.doneAt && k.doneAt >= t0 && k.doneAt < t1).length };
+}
+function wkReview() {
+  if (!S.tasks.length) return '';
+  const w0 = weekData(0), w1 = weekData(1), g = S.set.goalMode === 'manual' ? S.set.goal : 0, td = today(), diff = w0.a - w1.a;
+  const end = new Date(w0.mon.getFullYear(), w0.mon.getMonth(), w0.mon.getDate() + 6);
+  const msg = !w0.a && !w1.a ? '今週はまだ記録がありません' : diff > 0 ? `先週より ${diff}ページ多く進んでいます` : diff < 0 ? `先週より ${-diff}ページ少ないペースです` : '先週と同じペースです';
+  const ws = [...Array(8)].map((_, i) => weekData(7 - i)), mx = Math.max(10, ...ws.map(w => w.a));
+  const hm = w0.m >= 60 ? `${Math.floor(w0.m / 60)}時間${w0.m % 60}分` : `${w0.m}分`;
+  return `<div class="h-sec" style="margin-top:4px"><h2>${ms('date_range')}今週の振り返り</h2><span class="sp"></span><span class="muted" style="font-weight:500;font-size:.85rem">${w0.mon.getMonth() + 1}/${w0.mon.getDate()}〜${end.getMonth() + 1}/${end.getDate()}</span></div>
+  <div class="card wk"><div class="wk-top"><div><div class="wk-n">${w0.a}<small>ページ</small></div><div class="muted" style="font-weight:500">${msg}</div></div>${g ? `<div class="wk-g"><b>${pct(Math.min(1, w0.a / (g * 7)))}%</b><span>週の目標 ${g * 7}p</span></div>` : ''}</div>
+  ${g ? wave(Math.min(1, w0.a / (g * 7)), 'wkg') : ''}
+  <div class="wk-days">${w0.days.map(x => `<div class="wd ${g ? (x.a >= g ? 'ok' : '') : (x.a > 0 ? 'ok' : '')} ${x.k === td ? 'today' : ''}"><span>${WD[x.d.getDay()]}</span><b>${x.a}</b></div>`).join('')}</div>
+  <div class="wk-st"><div><b>${hm}</b><span>集中した時間</span></div><div><b>${w0.act}<small>/7日</small></b><span>学習した日</span></div><div><b>${w0.fin}<small>件</small></b><span>完了した課題</span></div></div>
+  <div class="lbl" style="margin:20px 0 6px">週ごとのページ数（8週間）</div><div class="bars" style="--n:8">${ws.map((w, i) => `<div class="bcol ${i === 7 ? 'today' : ''}"><div class="bval">${w.a || ''}</div><div class="bar"><i class="o" style="height:${w.a / mx * 100}%"></i></div><div class="blab">${w.mon.getMonth() + 1}/${w.mon.getDate()}</div></div>`).join('')}</div>${g ? `<p class="muted" style="margin:10px 0 0;font-weight:500">色が付いた日は、1日の目標（${g}p）を達成した日です。</p>` : ''}</div>
+`;
+}
 function setDone(t, v) {
   v = Math.max(0, Math.min(t.total, Math.round(Number(v) || 0)));
   const d = v - t.done; if (!d) return false;
-  t.done = v; addLog(d, t); t.doneAt = v >= t.total ? Date.now() : null;
+  t.done = v; syncItems(t); addLog(d, t); t.doneAt = v >= t.total ? Date.now() : null;
   return true;
 }
 function commit() { checkBadges(); save(); render(); }
@@ -836,14 +930,16 @@ function renderNav() {
   $('#nav').innerHTML = items.map(([id, l, i]) => { const b = id === 'home' && bd; return `<button class="ni ${ui.tab === id ? 'on' : ''}" data-act="tab" data-id="${id}" aria-label="${l}${b ? `（考査まで${bd}）` : ''}" ${ui.tab === id ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${ms(i)}</span>${b ? `<b class="nbadge ${d <= 3 ? 'hot' : ''}">${d === 0 ? '今日' : 'あと' + bd}</b>` : ''}</span>${l}</button>`; }).join('');
 }
 function renderFab() {
-  $('#fab').className = ui.fab ? 'open' : '';
-  $('#fab').innerHTML = `<div class="fabm"><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="${ui.fab}">${ms('add', '', 'font-size:34px')}</button>`;
+  const f = $('#fab');
+  if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
+  f.className = ui.fab ? 'open' : '';
+  f.querySelector('.fabb').setAttribute('aria-expanded', String(!!ui.fab));
 }
 
 /* ---------- 共通 ---------- */
 function dueTag(t) {
   if (!t.due) return '';
-  if (isDone(t)) return `<span class="tag plain">${ms('event')}${fmtDate(t.due)}</span>`;
+  if (t.submitted || (!t.subreq && isDone(t))) return `<span class="tag plain">${ms('event')}${fmtDate(t.due)}</span>`;
   const d = daysBetween(today(), t.due);
   if (d < 0) return `<span class="tag warn">${ms('error')}期限切れ ${-d}日</span>`;
   if (d === 0) return `<span class="tag warn">${ms('schedule')}今日まで</span>`;
@@ -878,9 +974,24 @@ function buildPlan() {
   items.sort((a, b) => ((a.doneToday >= a.amt) - (b.doneToday >= b.amt)) || (b.pinned - a.pinned) || ((a.left ?? 999) - (b.left ?? 999)) || (b.t.req - a.t.req));
   return items.slice(0, 8);
 }
+const segsOf = t => (t.segs && t.segs.length) ? t.segs : [[t.start, t.start + t.total - 1]];
+const firstPage = t => segsOf(t)[0][0], lastPage = t => segsOf(t).slice(-1)[0][1];
+function pageOf(t, n) { let r = n; for (const [a, b] of segsOf(t)) { const l = b - a + 1; if (r <= l) return a + r - 1; r -= l; } return lastPage(t); }
+function countTo(t, pg) { let c = 0; for (const [a, b] of segsOf(t)) { if (pg >= b) c += b - a + 1; else if (pg >= a) c += pg - a + 1; } return c; }
+const rangesText = t => segsOf(t).map(([a, b]) => a === b ? `${a}` : `${a}〜${b}`).join('、');
+const rgRow = (a, b) => `<div class="rgrow"><input class="rga" type="number" inputmode="numeric" min="1" max="9999" value="${a}" placeholder="開始" aria-label="開始ページ"><span>〜</span><input class="rgb" type="number" inputmode="numeric" min="1" max="9999" value="${b}" placeholder="終了" aria-label="終了ページ"><button type="button" class="ibtn" data-act="delrg" aria-label="この範囲を削除">${ms('close')}</button></div>`;
+const readSegs = () => [...document.querySelectorAll('#rgs .rgrow')].map(r => [parseInt(r.querySelector('.rga').value, 10), parseInt(r.querySelector('.rgb').value, 10)]).filter(([a, b]) => !(isNaN(a) && isNaN(b)));
+function validSegs(s) {
+  if (!s.length) return '範囲を入力してください';
+  for (const [a, b] of s) { if (!(a >= 1)) return '開始ページは1以上で入力してください'; if (!(b >= a)) return '終了ページは開始ページ以上で入力してください'; }
+  s.sort((x, y) => x[0] - y[0]);
+  for (let i = 1; i < s.length; i++) if (s[i][0] <= s[i - 1][1]) return 'ページ範囲が重なっています';
+  return '';
+}
 function rangeText(it) {
   if (it.t.kind === 'chk') return '完了にする';
-  const a = it.t.start + (it.t.done - it.doneToday), b = a + it.amt - 1;
+  if (it.t.kind === 'list') return '項目を進める';
+  const n0 = it.t.done - it.doneToday, a = pageOf(it.t, n0 + 1), b = pageOf(it.t, n0 + it.amt);
   return a === b ? `p.${a}` : `p.${a}〜${b}`;
 }
 
@@ -901,15 +1012,16 @@ function viewHome() {
   const ex = curExam(), subs = subjects();
   const [gr, gd] = greeting(), lv = level(), st = streak();
   const C = 2 * Math.PI * 13;
+  const urg = examTasks().filter(k => k.subreq && !k.submitted && k.due && daysBetween(today(), k.due) <= 3).length;
   let h = `<div class="greet"><div style="flex:1;min-width:200px"><h1>${gr}<small>${gd}</small></h1></div>
-    ${daysLeft(curExam()) !== null && daysLeft(curExam()) >= 0 ? `<span class="pillchip exam">${ms('event')}考査まで${daysLeft(curExam()) === 0 ? '今日' : 'あと' + daysLeft(curExam()) + '日'}</span>` : ''}
+    ${urg ? `<span class="pillchip warnp">${ms('warning')}提出期限が近い課題 ${urg}件</span>` : ''}
     <span class="pillchip fire">${ms('event_repeat')}${st}日連続</span>
     <button class="pillchip rp" data-act="tab" data-id="stats" aria-label="レベル"><span class="lv"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" style="stroke:color-mix(in srgb,var(--on-sec-c) 18%,transparent)"/><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--primary)" stroke-dasharray="${(C * lv.p).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 16 16)"/></svg>${ms('stars', 'f', 'font-size:16px;color:var(--primary)')}</span>Lv.${lv.L}</button></div>`;
   if (S.exams.length > 1) h += `<div class="chips scroll mb">${S.exams.map(e => `<button class="chip ${e.id === ex.id ? 'on' : ''}" data-act="exam" data-id="${e.id}">${esc(e.name)}</button>`).join('')}</div>`;
   if (!subs.length) return h + emptyHome();
   const all = examTasks(), A = agg(all), R = agg(all.filter(t => t.req)), sc = agg(scoped(all));
   const segs = subs.map(s => ({ v: agg(scoped(tasksOfSub(s.id))).done, color: hc(s.hue) }));
-  const cnt = examCount(ex), size = innerWidth < 620 ? 200 : 232;
+  const cnt = examCount(ex), size = innerWidth < 620 ? 168 : 200;
   h += `<section class="hero"><svg class="deco" viewBox="-50 -50 100 100" aria-hidden="true"><path d="${pathOf(SHAPES[1], 44)}"/></svg>
     <div><div class="ex">${ms('school', '', 'font-size:22px')}${esc(ex.name)}</div><div class="count">${cnt.big}</div><div class="dt">${cnt.dt}</div>
     <div class="tiles"><div class="tile"><div class="v">${cu(R.rem)}<small>p</small></div><div class="k">必須の残り</div></div><div class="tile"><div class="v">${cu(A.rem)}<small>p</small></div><div class="k">全体の残り</div></div><div class="tile"><div class="v">${cu(A.nd)}<small>/ ${A.n}冊</small></div><div class="k">完了した課題</div></div></div>
@@ -917,6 +1029,7 @@ function viewHome() {
     ${donut({ key: 'hero', size, stroke: Math.round(size * .105), segs, total: sc.total, center: pcCenter(sc), sub: S.set.scope === 'req' ? '必須の達成率' : '全体の達成率' })}</section>`;
 
   // 今日のプラン
+  h += `<div class="hgrid"><div class="hcol">`;
   const plan = buildPlan(), lg = dayLog();
   let target, doneN;
   if (S.set.goalMode === 'manual') { target = S.set.goal; doneN = lg.a; }
@@ -927,31 +1040,34 @@ function viewHome() {
   if (plan.length) {
     h += `<div class="stg" style="display:grid;gap:10px">${plan.map(it => {
       const ok = it.doneToday >= it.amt;
-      return `<div class="pitem sc ${ok ? 'ok' : ''}" style="--sh:${it.s.hue}">${avatar(it.s, 46)}<div class="t"><b>${esc(it.t.title)}</b><span>${esc(it.s.name)} ・ ${it.pinned ? '今日やる ・ ' : ''}${it.left ? `あと${it.left}日` : '期限なし'} ・ ${Math.min(it.doneToday, it.amt)}/${it.amt}p</span></div><div class="rg">${rangeText(it)}</div>
+      return `<div class="pitem sc ${ok ? 'ok' : ''}" style="--sh:${it.s.hue}">${avatar(it.s, 46)}<div class="t"><b>${esc(it.t.title)}</b><span>${esc(it.s.name)} ・ ${rangeText(it)}${it.pinned ? ' ' + ms('star', 'f', 'font-size:14px;vertical-align:-2px') : ''}</span></div><div class="rg">${Math.min(it.doneToday, it.amt)}/${it.amt}p</div>
       <button class="b" data-act="timer-task" data-id="${it.t.id}" aria-label="この課題で集中タイマー">${ms('play_arrow')}</button><button class="b go" data-act="planok" data-id="${it.t.id}" data-n="${it.amt}" aria-label="計画ぶんを完了にする">${ms('check')}</button></div>`;
     }).join('')}</div>`;
   } else h += `<div class="card muted" style="text-align:center;font-weight:500">今日のぶんの計画はありません。課題カードの ${ms('star', '', 'font-size:18px;vertical-align:-4px')} で「今日やる」を選べます</div>`;
-  h += `</div>`;
+  h += `</div></div>`;
 
-  const since = (Date.now() - (S.set.lastBackup || 0)) / 864e5;
-  if (S.tasks.length >= 3 && since > 14) h += `<div class="notice">${ms('cloud_download')}<span class="t">データはこのiPad内にのみ保存されています。バックアップを推奨します。</span><button class="btn tonal sm" data-act="export">保存する</button></div>`;
+  const due = all.filter(t => (t.subreq ? !t.submitted : !isDone(t)) && t.due).sort((a, b) => a.due < b.due ? -1 : a.due > b.due ? 1 : (b.req - a.req)).slice(0, 4);
+  h += `<div class="hcol">`;
+  if (due.length) {
+    h += `<div class="h-sec"><h2>${ms('event_upcoming')}期限が近い課題</h2></div><div class="dl stg">`;
+    for (const t of due) { const s = SUB(t.sid); h += `<button class="dli sc ${daysBetween(today(), t.due) <= 3 && (t.subreq || !isDone(t)) ? 'urgent' : ''}" style="--sh:${s.hue}" data-act="edittask" data-id="${t.id}">${avatar(s, 42)}<div class="t"><div>${esc(t.title)}</div><div>${esc(s.name)} ・ ${isDone(t) ? '完了済み・未提出' : t.kind === 'chk' ? '未完了' : '残り ' + (t.total - t.done) + (t.kind === 'list' ? '項目' : 'p')}${t.dest ? ' ・ 提出先 ' + esc(t.dest) : ''}</div></div>${dueTag(t)}${t.subreq ? `<span class="dsub" data-act="submit" data-id="${t.id}">${ms('outbox')}提出済み</span>` : ''}</button>`; }
+    h += `</div>`;
+  } else h += `<div class="h-sec"><h2>${ms('event_upcoming')}期限が近い課題</h2></div><div class="card muted" style="text-align:center;font-weight:500">期限が設定された課題はありません</div>`;
+  h += `</div></div>`;
+
 
   // 教科
   h += `<div class="h-sec"><h2>${ms('donut_large')}教科ごとの進み具合</h2><span class="sp"></span><button class="btn tonal xs" data-act="addsubj">${ms('add')}教科</button></div><div class="grid stg">`;
   for (const s of subs) {
     const ts = tasksOfSub(s.id), a = agg(scoped(ts)), rq = agg(ts.filter(t => t.req));
     h += `<button class="scard sc" style="--sh:${s.hue}" data-act="goto" data-id="${s.id}"><div class="top">${avatar(s, 44)}<div class="nm">${esc(s.name)}</div>${s.exam ? examTag(s) : ''}</div>
-      <div class="body">${donut({ key: 'sd' + s.id, size: 112, stroke: 13, segs: [{ v: a.done, color: 'var(--sc)' }], total: a.total, center: pcCenter(a), fs: 26 })}
-      ${ts.length ? `<dl class="kv"><div><dt>残り</dt><dd>${cu(a.rem)}<small>p</small></dd></div><div><dt>必須の残り</dt><dd>${rq.rem}<small>p</small></dd></div><div><dt>完了</dt><dd>${a.nd}/${a.n}<small>件</small></dd></div></dl>` : `<div class="small">課題はまだありません</div>`}</div>${wave(a.p, 'sw' + s.id)}</button>`;
+      <div class="body">${donut({ key: 'sd' + s.id, size: 96, stroke: 11, segs: [{ v: a.done, color: 'var(--sc)' }], total: a.total, center: pcCenter(a), fs: 26 })}
+      ${ts.length ? `<dl class="kv"><div><dt>残り</dt><dd>${cu(a.rem)}<small>p</small></dd></div><div><dt>必須の残り</dt><dd>${rq.rem}<small>p</small></dd></div><div><dt>完了</dt><dd>${a.nd}/${a.n}<small>件</small></dd></div>${s.goal != null || s.score != null ? `<div><dt>得点</dt><dd>${s.score ?? '—'}<small>目標 ${s.goal ?? '—'}</small></dd></div>` : ''}</dl>` : `<div class="small">課題はまだありません</div>`}</div></button>`;
   }
   h += `</div>`;
 
-  const due = all.filter(t => !isDone(t) && t.due).sort((a, b) => a.due < b.due ? -1 : a.due > b.due ? 1 : (b.req - a.req)).slice(0, 6);
-  if (due.length) {
-    h += `<div class="h-sec"><h2>${ms('event_upcoming')}期限が近い課題</h2></div><div class="dl stg">`;
-    for (const t of due) { const s = SUB(t.sid); h += `<button class="dli sc" style="--sh:${s.hue}" data-act="edittask" data-id="${t.id}">${avatar(s, 42)}<div class="t"><div>${esc(t.title)}</div><div>${esc(s.name)} ・ 残り ${t.total - t.done}p</div></div>${dueTag(t)}</button>`; }
-    h += `</div>`;
-  }
+  const since = (Date.now() - (S.set.lastBackup || 0)) / 864e5;
+  if (S.tasks.length >= 3 && since > 14) h += `<div class="notice">${ms('cloud_download')}<span class="t">データはこのiPad内にのみ保存されています。バックアップを推奨します。</span><button class="btn tonal sm" data-act="export">保存する</button></div>`;
   return h;
 }
 
@@ -1005,16 +1121,17 @@ function taskList() {
   return any ? html : emptyState('search_off', '見つかりませんでした', '絞り込みの条件を変更してください。');
 }
 function taskCard(t, s) {
-  const chk = t.kind === 'chk', rem = t.total - t.done, done = isDone(t), pin = isPinned(t), p = t.total ? t.done / t.total : 0, end = t.start + t.total - 1;
-  const num = chk ? `<b>${done ? '済' : '未'}</b><small>${done ? '完了' : '未完了'}</small>` : `<b>${rem}</b><small>ページ残り</small>`;
-  const trow = chk ? '' : `<div class="trow"><span class="tnext">${done ? '' : `${ms('arrow_forward')}次は p.${t.start + t.done} から`}</span><label class="tcur"><span class="pp">現在 p.</span><input type="number" inputmode="numeric" data-cur="${t.id}" min="${t.start - 1}" max="${end}" value="${t.done ? t.start + t.done - 1 : ''}" placeholder="${t.start - 1}" aria-label="現在のページ（ここまで終わった）"><em>/ ${end}</em></label></div>`;
-  const left = chk ? `<div class="cgroup"><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}">${ms('check')}${done ? '未完了に戻す' : '完了にする'}</button></div>`
+  const chk = t.kind === 'chk' || t.kind === 'list', lst = t.kind === 'list', rem = t.total - t.done, done = isDone(t), pin = isPinned(t), p = t.total ? t.done / t.total : 0, end = lastPage(t);
+  const num = lst ? `<b>${rem}</b><small>項目残り</small>` : chk ? `<b>${done ? '済' : '未'}</b><small>${done ? '完了' : '未完了'}</small>` : `<b>${rem}</b><small>ページ残り</small>`;
+  const trow = chk ? '' : `<div class="trow"><span class="tnext">${done ? '' : `${ms('arrow_forward')}次は p.${pageOf(t, t.done + 1)} から`}</span><label class="tcur"><span class="pp">現在 p.</span><input type="number" inputmode="numeric" data-cur="${t.id}" min="${firstPage(t) - 1}" max="${end}" value="${t.done ? pageOf(t, t.done) : ''}" placeholder="${firstPage(t) - 1}" aria-label="現在のページ（ここまで終わった）"><em>/ ${end}</em></label></div>`;
+  const left = chk ? `<div class="cgroup"><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}">${ms('check')}${done ? '未完了に戻す' : (lst ? 'すべて完了' : '完了にする')}</button></div>`
     : `<div class="cgroup"><button data-act="inc" data-id="${t.id}" data-n="-1" aria-label="1ページ戻す">−1</button><button data-act="inc" data-id="${t.id}" data-n="1">+1</button><button data-act="inc" data-id="${t.id}" data-n="5">+5</button><button data-act="inc" data-id="${t.id}" data-n="10">+10</button></div>`;
-  const right = `<div class="cgroup"><button class="${pin ? 'pinned' : ''}" data-act="pin" data-id="${t.id}" aria-label="今日やる">${ms('star')}</button>${chk ? '' : `<button data-act="quick" data-id="${t.id}" aria-label="ページ数を入力">${ms('edit')}</button><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}" aria-label="${done ? '未完了に戻す' : '完了にする'}">${ms('check')}</button>`}</div>`;
+  const right = `<div class="cgroup">${t.subreq ? `<button class="${t.submitted ? 'undo' : ''}" data-act="submit" data-id="${t.id}" aria-label="${t.submitted ? '未提出に戻す' : '提出済みにする'}">${ms('outbox')}</button>` : ''}<button class="${pin ? 'pinned' : ''}" data-act="pin" data-id="${t.id}" aria-label="今日やる">${ms('star')}</button>${chk ? '' : `<button data-act="quick" data-id="${t.id}" aria-label="ページ数を入力">${ms('edit')}</button><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}" aria-label="${done ? '未完了に戻す' : '完了にする'}">${ms('check')}</button>`}</div>`;
   return `<article class="task sc ${done ? 'is-done' : ''}" style="--sh:${s.hue}" data-id="${t.id}">
-    <button class="thead" data-act="edittask" data-id="${t.id}" aria-label="${esc(t.title)}を編集"><div><div class="tt">${esc(t.title)}</div><div class="tchips"><span class="tag ${t.req ? 'req' : 'opt'}">${ms(t.req ? 'priority_high' : 'low_priority')}${t.req ? '必須' : '任意'}</span>${chk ? `<span class="tag plain">${ms('task_alt')}完了のみ</span>` : ''}${dueTag(t)}${pin ? `<span class="tag soon">${ms('star', 'f')}今日やる</span>` : ''}${done ? `<span class="tag ok">${ms('check')}完了</span>` : ''}</div></div><div class="tnum">${num}</div></button>
+    <button class="thead" data-act="edittask" data-id="${t.id}" aria-label="${esc(t.title)}を編集"><div><div class="tt">${esc(t.title)}</div><div class="tchips"><span class="tag ${t.req ? 'req' : 'opt'}">${ms(t.req ? 'priority_high' : 'low_priority')}${t.req ? '必須' : '任意'}</span>${chk ? `<span class="tag plain">${ms(lst ? 'checklist' : 'task_alt')}${lst ? 'チェックリスト' : '完了のみ'}</span>` : ''}${dueTag(t)}${subTags(t)}${pin ? `<span class="tag soon">${ms('star', 'f')}今日やる</span>` : ''}${done ? `<span class="tag ok">${ms('check')}完了</span>` : ''}</div></div><div class="tnum">${num}</div></button>
     ${t.note ? `<div class="tnote">${esc(t.note)}</div>` : ''}
-    <div class="tprog">${wave(p, 'tw' + t.id)}<span>${pct(p)}%</span>${chk ? '' : `<em>p.${t.start}〜${end}</em>`}</div>
+    ${lst ? clHtml(t) : ''}
+    <div class="tprog">${wave(p, 'tw' + t.id)}<span>${pct(p)}%</span>${chk ? '' : `<em>p.${rangesText(t)}</em>`}</div>
     ${trow}
     <div class="tact">${left}${right}</div>
   </article>`;
@@ -1069,7 +1186,7 @@ function viewStats() {
   const best = days.reduce((b, d) => V(d) > V(b) ? d : b, days[0]), unit = isM ? '分' : 'p';
   const lab = (d, i) => n <= 7 ? WD[d.d.getDay()] : n <= 14 ? d.d.getDate() : (i % 5 === 0 || i === n - 1 ? `${d.d.getMonth() + 1}/${d.d.getDate()}` : '');
   const tt = totals(), lv = level();
-  let h = `<div class="h-sec" style="margin-top:4px"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
+  let h = wkReview() + scoreCard() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
   <div class="chips mb"><div class="seg" role="group">${[7, 14, 30].map(p => `<button class="${ui.period === p ? 'on' : ''}" data-act="period" data-id="${p}">${p}日</button>`).join('')}</div></div>
   <div class="card"><div class="bars" style="--n:${n}">${days.map((d, i) => `<div class="bcol ${d.k === today() ? 'today' : ''}"><div class="bval">${n <= 14 && V(d) ? V(d) : ''}</div><div class="bar">${isM ? `<i class="m" style="height:${V(d) / max * 100}%"></i>` : `<i class="o" style="height:${d.a / max * 100}%"></i><i class="r" style="height:${d.r / max * 100}%"></i>`}</div><div class="blab">${lab(d, i)}</div></div>`).join('')}</div>
   ${isM ? '' : `<div class="chips" style="margin-top:14px"><span class="lg"><i style="background:var(--primary)"></i><span>必須</span></span><span class="lg"><i style="background:var(--ter-c)"></i><span>任意</span></span></div>`}</div>
@@ -1146,6 +1263,8 @@ function viewSettings() {
   <div class="fld"><div class="lbl">文字の大きさ</div><div class="seg">${[['s', '小'], ['m', '標準'], ['l', '大']].map(([v, l]) => `<button class="${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}">${l}</button>`).join('')}</div></div>
   ${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}</div>
 
+  <div class="h-sec"><h2>${ms('system_update')}アプリのアップデート</h2></div>${updCard()}
+
   <div class="h-sec"><h2>${ms('cloud_sync')}アカウントと同期</h2></div>${cloudCard()}
 
   <div class="h-sec"><h2>${ms('database')}データ</h2></div>
@@ -1170,53 +1289,60 @@ function taskDlg(id, sid, dueDef) {
     <div class="fld"><div class="lbl">教科</div><div class="chips">${subs.map(s => `<label class="rchip sc" style="--sh:${s.hue}"><input type="radio" name="sid" value="${s.id}" ${s.id === t.sid ? 'checked' : ''}><span>${ms(s.icon)}${esc(s.name)}</span></label>`).join('')}</div></div>
     <div class="fld"><label for="ti">課題のタイトル</label><input id="ti" name="title" type="text" value="${esc(t.title)}" maxlength="60" placeholder="例：ワーク / 青チャート / 漢字ドリル" ${id ? '' : 'autofocus'}></div>
     <div class="fld"><div class="lbl">区分</div><div class="seg"><input type="radio" id="r1" name="req" value="1" ${t.req ? 'checked' : ''}><label for="r1">${ms('priority_high')}必須</label><input type="radio" id="r0" name="req" value="0" ${t.req ? '' : 'checked'}><label for="r0">${ms('low_priority')}任意</label></div></div>
-    <div class="fld"><div class="lbl">課題の形式</div><div class="seg"><input type="radio" id="k1" name="kind" value="pg" ${t.kind === 'chk' ? '' : 'checked'}><label for="k1">${ms('menu_book')}ページ数あり</label><input type="radio" id="k0" name="kind" value="chk" ${t.kind === 'chk' ? 'checked' : ''}><label for="k0">${ms('task_alt')}完了のみ</label></div></div>
-    <div id="pgf"><div class="fld2"><div class="fld"><label for="st">開始ページ</label><input id="st" name="start" type="number" inputmode="numeric" min="1" max="9999" value="${t.start}"></div>
-    <div class="fld"><label for="en">終了ページ</label><input id="en" name="end" type="number" inputmode="numeric" min="1" max="9999" value="${t.total ? t.start + t.total - 1 : ''}" placeholder="例：80"></div></div>
-    <div class="fld"><label for="cu">現在のページ（ここまで終わった）</label><input id="cu" name="cur" type="number" inputmode="numeric" min="0" max="9999" value="${t.done ? t.start + t.done - 1 : ''}" placeholder="未着手は空欄"></div>
+    <div class="fld"><div class="lbl">課題の形式</div><div class="seg"><input type="radio" id="k1" name="kind" value="pg" ${t.kind === 'chk' || t.kind === 'list' ? '' : 'checked'}><label for="k1">${ms('menu_book')}ページ数あり</label><input type="radio" id="k2" name="kind" value="list" ${t.kind === 'list' ? 'checked' : ''}><label for="k2">${ms('checklist')}チェックリスト</label><input type="radio" id="k0" name="kind" value="chk" ${t.kind === 'chk' ? 'checked' : ''}><label for="k0">${ms('task_alt')}完了のみ</label></div></div>
+    <div id="pgf"><div class="lbl">ページ範囲<small class="hint">途中のページを飛ばす課題は、範囲を分けて追加できます（例：1〜20 と 41〜60）</small></div>
+    <div id="rgs">${(t.total ? segsOf(t) : [[1, '']]).map(([a, b]) => rgRow(a, b)).join('')}</div>
+    <button type="button" class="btn text" data-act="addrg">${ms('add')}範囲を追加</button>
+    <div class="fld"><label for="cu">現在のページ（ここまで終わった）</label><input id="cu" name="cur" type="number" inputmode="numeric" min="0" max="9999" value="${t.done ? pageOf(t, t.done) : ''}" placeholder="未着手は空欄"></div>
     <div class="pv" id="pv"></div></div>
+    <div id="lsf" hidden><div class="lbl">チェックリスト</div><div id="cls">${(t.items && t.items.length ? t.items : [{ text: '', done: false }]).map(clRow).join('')}</div><button type="button" class="btn text" data-act="addcl">${ms('add')}項目を追加</button></div>
     <div class="fld"><label for="du">提出期限</label><input id="du" name="due" type="date" value="${esc(t.due)}"></div>
+    <label class="setrow" style="padding:6px 0 14px"><span class="t">提出が必要な課題<small>提出済みの記録と、期限が近いときの警告が使えます</small></span><span class="sw2"><input type="checkbox" name="subreq" ${(id ? t.subreq : true) ? 'checked' : ''}><span class="tr"><span class="th">${ms('check')}</span></span></span></label>
+    <div class="fld"><label for="dest">提出先</label><input id="dest" name="dest" type="text" maxlength="30" value="${esc(t.dest || '')}" placeholder="例：数学の先生・Classroom・提出箱"></div>
     <div class="fld"><label for="no">メモ</label><textarea id="no" name="note" maxlength="300" placeholder="範囲・提出先・先生の指示など">${esc(t.note)}</textarea></div>
     <div class="err" id="err"></div>
-    <div class="dact">${id ? `<button type="button" class="btn text danger" data-act="deltask" data-id="${id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}保存</button></div>
+    <div class="dact">${id ? `<button type="button" class="btn text danger" data-act="deltask" data-id="${id}">${ms('delete')}削除</button><button type="button" class="btn text" data-act="duptask" data-id="${id}">${ms('content_copy')}複製</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}保存</button></div>
   </form>`);
-  const pv = () => { const a = parseInt($('#st').value, 10), e = parseInt($('#en').value, 10), c = parseInt($('#cu').value, 10); $('#pv').textContent = a >= 1 && e >= a ? (() => { const tot = e - a + 1, d = c >= a ? Math.min(c - a + 1, tot) : 0; return `全${tot}ページ中 ${d}ページ完了（${pct(d / tot)}%）`; })() : ''; };
-  ['st', 'en', 'cu'].forEach(i => $('#' + i).addEventListener('input', pv)); pv();
-  const kd = () => { $('#pgf').hidden = $('#k0').checked; }; $('#k0').onchange = $('#k1').onchange = kd; kd();
+  const pv = () => { const s = readSegs(), c = parseInt($('#cu').value, 10); if (validSegs(s)) { $('#pv').textContent = ''; return; } const tmp = { segs: s, start: s[0][0], total: s.reduce((q, [a, b]) => q + b - a + 1, 0) }, d = c >= 1 ? countTo(tmp, c) : 0; $('#pv').textContent = `全${tmp.total}ページ中 ${d}ページ完了（${pct(d / tmp.total)}%）`; };
+  $('#pgf').addEventListener('input', pv); pv();
+  const kd = () => { $('#pgf').hidden = !$('#k1').checked; $('#lsf').hidden = !$('#k2').checked; }; $('#k0').onchange = $('#k1').onchange = $('#k2').onchange = kd; kd();
   $('#f').onsubmit = ev => {
     ev.preventDefault();
     const fd = new FormData(ev.target), title = (fd.get('title') || '').trim();
     if (!title) return err('タイトルを入力してください');
-    const chk = fd.get('kind') === 'chk'; let start = 1, total = 1, done = (id && isDone(t)) ? 1 : 0;
-    if (!chk) {
-      start = parseInt(fd.get('start'), 10); const end = parseInt(fd.get('end'), 10);
-      if (!(start >= 1)) return err('開始ページは1以上で入力してください');
-      if (!(end >= start)) return err('終了ページは開始ページ以上で入力してください');
-      total = end - start + 1; const cp = parseInt(fd.get('cur'), 10); done = cp >= start ? Math.min(cp - start + 1, total) : 0;
+    const kind = fd.get('kind') || 'pg', chk = kind === 'chk'; let start = 1, total = 1, done = (id && isDone(t)) ? 1 : 0, segs = null, items = null;
+    if (kind === 'list') {
+      items = [...document.querySelectorAll('#cls .clrow')].map(r => ({ text: r.querySelector('.clt').value.trim(), done: r.querySelector('.cld').checked })).filter(x => x.text);
+      if (!items.length) return err('チェックリストの項目を入力してください');
+      total = items.length; done = items.filter(x => x.done).length;
+    } else if (!chk) {
+      const sg = readSegs(), msg = validSegs(sg); if (msg) return err(msg);
+      segs = sg; start = sg[0][0]; total = sg.reduce((q, [a, b]) => q + b - a + 1, 0);
+      const cp = parseInt(fd.get('cur'), 10); done = cp >= 1 ? countTo({ segs: sg, start, total }, cp) : 0;
     }
-    const data = { sid: fd.get('sid'), title, req: fd.get('req') === '1', total, start, kind: chk ? 'chk' : 'pg', due: fd.get('due') || '', note: (fd.get('note') || '').trim() };
+    const data = { sid: fd.get('sid'), title, req: fd.get('req') === '1', total, start, segs: segs && segs.length > 1 ? segs : null, kind, items, subreq: fd.get('subreq') === 'on', dest: (fd.get('dest') || '').trim(), due: fd.get('due') || '', note: (fd.get('note') || '').trim() };
     if (id) { Object.assign(t, data); t.done = done; t.doneAt = done >= total ? (t.doneAt || Date.now()) : null; }
     else S.tasks.push({ id: uid(), ...data, done, pin: '', at: Date.now(), doneAt: done >= total ? Date.now() : null });
     closeDlg(); commit(); toast(id ? '保存しました' : '課題を追加しました');
   };
 }
 function quickDlg(id) {
-  const t = T(id), s = SUB(t.sid), a = t.start, e = a + t.total - 1, cur = a + t.done - 1;
-  openDlg(`<h2>進捗を記録</h2><p class="muted">${esc(s.name)}：${esc(t.title)}（p.${a}〜${e}）</p>
+  const t = T(id), s = SUB(t.sid), a = firstPage(t), e = lastPage(t), cur = t.done ? pageOf(t, t.done) : a - 1; window._qt = t;
+  openDlg(`<h2>進捗を記録</h2><p class="muted">${esc(s.name)}：${esc(t.title)}（p.${rangesText(t)}）</p>
   <form id="f"><div class="lbl" style="text-align:center">現在のページ（ここまで終わった）</div>
   <div class="bignum"><span>p.</span><input id="qn" type="number" inputmode="numeric" min="${a - 1}" max="${e}" value="${t.done ? cur : ''}" placeholder="${a - 1}" aria-label="現在のページ"><span>/ p.${e}</span></div>
   <div class="qpv" id="qpv"></div>
   <input id="qr" type="range" min="${a - 1}" max="${e}" value="${cur}" aria-label="スライダー">
-  <div class="chips" style="margin-bottom:18px"><button type="button" class="chip" data-act="qadd" data-id="1">+1</button><button type="button" class="chip" data-act="qadd" data-id="5">+5</button><button type="button" class="chip" data-act="qadd" data-id="10">+10</button><button type="button" class="chip" data-act="qset" data-id="${Math.floor((a + e) / 2)}">半分</button><button type="button" class="chip" data-act="qset" data-id="${e}">最後まで</button><button type="button" class="chip" data-act="qset" data-id="${a - 1}">未着手</button></div>
+  <div class="chips" style="margin-bottom:18px"><button type="button" class="chip" data-act="qadd" data-id="1">+1</button><button type="button" class="chip" data-act="qadd" data-id="5">+5</button><button type="button" class="chip" data-act="qadd" data-id="10">+10</button><button type="button" class="chip" data-act="qset" data-id="${pageOf(t, Math.ceil(t.total / 2))}">半分</button><button type="button" class="chip" data-act="qset" data-id="${e}">最後まで</button><button type="button" class="chip" data-act="qset" data-id="${a - 1}">未着手</button></div>
   <div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}記録する</button></div></form>`);
   const n = $('#qn'), r = $('#qr'), val = () => { const v = n.value === '' ? a - 1 : parseInt(n.value, 10); return Math.max(a - 1, Math.min(e, isNaN(v) ? a - 1 : v)); };
-  const sync = () => { const d = val() - a + 1; r.style.setProperty('--p', (d / t.total * 100) + '%'); $('#qpv').textContent = `${d}/${t.total}ページ完了（${pct(d / t.total)}%）`; };
+  const sync = () => { const d = countTo(t, val()); r.style.setProperty('--p', (d / t.total * 100) + '%'); $('#qpv').textContent = `${d}/${t.total}ページ完了（${pct(d / t.total)}%）`; };
   n.oninput = () => { r.value = val(); sync(); }; r.oninput = () => { n.value = r.value; sync(); }; sync();
   setTimeout(() => { n.focus(); n.select(); }, 350);
   $('#f').onsubmit = ev => {
     ev.preventDefault();
     const was = isDone(t);
-    setDone(t, val() - a + 1); ui.flash = { id }; closeDlg(); commit();
+    setDone(t, countTo(t, val())); ui.flash = { id }; closeDlg(); commit();
     if (!was && isDone(t)) { confetti(innerWidth / 2, innerHeight / 2.2, 70); toast('完了を記録しました'); }
   };
 }
@@ -1228,6 +1354,8 @@ function subjDlg(id) {
     <div class="fld"><div class="lbl">アイコン</div><div class="icons">${ICONS.map(i => `<label><input type="radio" name="icon" value="${i}" ${i === s.icon ? 'checked' : ''}><span>${ms(i)}</span></label>`).join('')}</div></div>
     <div class="fld"><div class="lbl">カラー</div><div class="swatches">${HUES.map(h => `<label class="sw"><input type="radio" name="hue" value="${h}" ${h === s.hue ? 'checked' : ''}><span style="background:hsl(${h} 68% 50%)"></span></label>`).join('')}</div></div>
     <div class="fld"><label for="ex">この教科のテスト日（なくてもOK）</label><input id="ex" name="exam" type="date" value="${esc(s.exam || '')}"></div>
+    <div class="fld2"><div class="fld"><label for="gs">目標点</label><input id="gs" name="goal" type="number" inputmode="decimal" min="0" max="1000" value="${s.goal ?? ''}" placeholder="例：80"></div><div class="fld"><label for="sc2">結果（考査後）</label><input id="sc2" name="score" type="number" inputmode="decimal" min="0" max="1000" value="${s.score ?? ''}" placeholder="点数"></div></div>
+    <div class="fld"><label for="fl">満点</label><input id="fl" name="full" type="number" inputmode="numeric" min="1" max="1000" value="${s.full || 100}"></div>
     <div class="err" id="err"></div>
     <div class="dact">${id ? `<button type="button" class="btn text danger" data-act="delsubj" data-id="${id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}保存</button></div>
   </form>`);
@@ -1235,7 +1363,9 @@ function subjDlg(id) {
     ev.preventDefault();
     const fd = new FormData(ev.target), name = (fd.get('name') || '').trim();
     if (!name) return err('教科名を入力してください');
-    const data = { name, icon: fd.get('icon') || 'menu_book', hue: +fd.get('hue'), exam: fd.get('exam') || '' };
+    const num = k => { const v = parseFloat(fd.get(k)); return isNaN(v) ? null : v; }, full = num('full') || 100, goal = num('goal'), score = num('score');
+    if ((goal !== null && goal > full) || (score !== null && score > full)) return err('満点より大きい点数は入力できません');
+    const data = { name, icon: fd.get('icon') || 'menu_book', hue: +fd.get('hue'), exam: fd.get('exam') || '', goal, score, full };
     if (id) Object.assign(s, data); else S.subjects.push({ id: uid(), ex: curExam().id, ...data });
     closeDlg(); commit(); toast(id ? '保存しました' : '教科を追加しました');
   };
@@ -1436,7 +1566,13 @@ const ACT = {
   preset() { presetDlg(); },
   close() { closeDlg(); },
   quick(id) { quickDlg(id); },
-  qadd(id) { const n = $('#qn'), r = $('#qr'); ACT.qset(Math.min(+r.max, Math.max(+r.min, (parseInt(n.value, 10) || +r.min) + +id))); },
+  qadd(id) { const t = window._qt, n = $('#qn'), c = countTo(t, parseInt(n.value, 10) || firstPage(t) - 1); ACT.qset(pageOf(t, Math.min(t.total, c + +id))); },
+  duptask(id) { const k = T(id); if (!k) return; closeDlg(); undoable('課題を複製しました', () => { S.tasks.push({ ...k, id: uid(), title: k.title + '（コピー）', done: 0, doneAt: null, submitted: null, pin: '', at: Date.now(), segs: k.segs ? k.segs.map(x => [...x]) : null, items: k.items ? k.items.map(x => ({ text: x.text, done: false })) : null }); }); },
+  submit(id) { const k = T(id); if (!k) return; k.submitted = k.submitted ? null : Date.now(); ui.flash = { id }; commit(); toast(k.submitted ? (isDone(k) ? '提出済みにしました' : '未完了ですが、提出済みにしました') : '未提出に戻しました'); },
+  addcl() { const c = $('#cls'); c.insertAdjacentHTML('beforeend', clRow({ text: '', done: false })); c.lastElementChild.querySelector('.clt').focus(); },
+  delcl(id, el) { const c = $('#cls'); if (c.children.length > 1) el.closest('.clrow').remove(); else el.closest('.clrow').querySelector('.clt').value = ''; },
+  addrg() { const rs = $('#rgs'), l = rs.querySelectorAll('.rgrow'), b = l.length ? parseInt(l[l.length - 1].querySelector('.rgb').value, 10) : 0; rs.insertAdjacentHTML('beforeend', rgRow(isNaN(b) ? '' : b + 1, '')); rs.lastElementChild.querySelector('.rga').focus(); },
+  delrg(id, el) { const rs = $('#rgs'); if (rs.children.length > 1) el.closest('.rgrow').remove(); else el.closest('.rgrow').querySelectorAll('input').forEach(i => i.value = ''); $('#pgf').dispatchEvent(new Event('input')); },
   qset(id) { $('#qn').value = id; $('#qr').value = id; $('#qr').oninput(); },
   padd(id) { const n = $('#qn'); n.value = Math.min(+n.max, (+n.value || 0) + +id); },
   exam(id) { S.cur = id; ui.sid = ''; ui.anim = true; commit(); },
@@ -1489,7 +1625,7 @@ const ACT = {
   acct() { acctDlg(); }, cloudin() { closeDlg(); cloudLogin(); }, cloudout() { closeDlg(); cloudLogout(); }, cloudnow() { cloudPushNow().then(() => toast(CLOUD.status === 'ok' ? '同期しました' : '同期できませんでした')); },
   expsub() { exportSubjects(); }, impsub() { $('#impsub').click(); },
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); ui.sid = ''; ui.tab = 'home'; })); },
-  reload() { updating = true; waiting && waiting.postMessage('skip'); },
+  reload() { startUpdate(); }, upd() { updDlg(); }, updchk() { checkUpdate(); },
   calday(id) { ui.sel = id; const d = parse(id); ui.cal = { y: d.getFullYear(), m: d.getMonth() }; render(); },
   calprev() { const { y, m } = ui.cal; ui.cal = m === 0 ? { y: y - 1, m: 11 } : { y, m: m - 1 }; render(); },
   calnext() { const { y, m } = ui.cal; ui.cal = m === 11 ? { y: y + 1, m: 0 } : { y, m: m + 1 }; render(); },
@@ -1518,11 +1654,12 @@ document.addEventListener('click', e => {
 });
 document.addEventListener('change', e => {
   const t = e.target;
+  if (t.dataset && t.dataset.cl) { const k = T(t.dataset.cl); if (k) { const was = isDone(k), r = t.getBoundingClientRect(); setItem(k, +t.dataset.i, t.checked); if (!was && isDone(k)) celebrate(r, k); } return; }
   if (t.dataset && t.dataset.cur) {
     const k = T(t.dataset.cur);
-    if (k) { const was = isDone(k), v = t.value === '' ? 0 : parseInt(t.value, 10) - k.start + 1, r = t.getBoundingClientRect();
+    if (k) { const was = isDone(k), v = t.value === '' ? 0 : countTo(k, parseInt(t.value, 10)), r = t.getBoundingClientRect();
       if (setDone(k, isNaN(v) ? k.done : v)) { ui.flash = { id: k.id }; commit(); if (!was && isDone(k)) celebrate(r, k); }
-      else t.value = k.done ? k.start + k.done - 1 : ''; }
+      else t.value = k.done ? pageOf(k, k.done) : ''; }
   }
   else if (t.id === 'sort') { ui.sort = t.value; $('#tl').innerHTML = taskList(); postRender(); }
   else if (t.dataset && t.dataset.act === 'hue') ACT.hue(t.dataset.id);
@@ -1546,7 +1683,7 @@ async function exportData() { const ok = await saveFile(`shukudai-backup-${today
 function exportSubjects() {
   const ex = curExam(), subs = subjects();
   if (!subs.length) return toast('書き出す教科がありません');
-  const data = { app: 'kosa-subjects', v: 1, exam: { name: ex.name, date: ex.date || '' }, subjects: subs.map(s => ({ name: s.name, icon: s.icon, hue: s.hue, exam: s.exam || '', tasks: tasksOfSub(s.id).map(k => ({ title: k.title, req: !!k.req, kind: k.kind || 'pg', total: k.total, start: k.start, due: k.due || '', note: k.note || '' })) })) };
+  const data = { app: 'kosa-subjects', v: 1, exam: { name: ex.name, date: ex.date || '' }, subjects: subs.map(s => ({ name: s.name, icon: s.icon, hue: s.hue, exam: s.exam || '', tasks: tasksOfSub(s.id).map(k => ({ title: k.title, req: !!k.req, kind: k.kind || 'pg', total: k.total, start: k.start, segs: k.segs || null, dest: k.dest || '', subreq: !!k.subreq, items: k.items ? k.items.map(x => ({ text: x.text })) : null, due: k.due || '', note: k.note || '' })) })) };
   saveFile(`kadai-subjects-${today()}.json`, 'application/json', JSON.stringify(data, null, 2));
 }
 function importSubjects(input) {
@@ -1564,7 +1701,7 @@ function importSubjects(input) {
           for (const k of x.tasks || []) {
             if (S.tasks.some(v => v.sid === s.id && v.title === k.title)) continue;
             const chk = k.kind === 'chk';
-            S.tasks.push({ id: uid(), sid: s.id, title: String(k.title || '').slice(0, 60), req: !!k.req, kind: chk ? 'chk' : 'pg', total: chk ? 1 : Math.max(1, +k.total || 1), start: chk ? 1 : Math.max(1, +k.start || 1), done: 0, due: k.due || '', note: k.note || '', pin: '', at: Date.now(), doneAt: null });
+            S.tasks.push({ id: uid(), sid: s.id, title: String(k.title || '').slice(0, 60), req: !!k.req, kind: ['chk', 'list'].includes(k.kind) ? k.kind : 'pg', dest: String(k.dest || '').slice(0, 30), subreq: !!k.subreq, items: k.kind === 'list' && Array.isArray(k.items) ? k.items.map(x => ({ text: String(x.text || '').slice(0, 60), done: false })) : null, total: k.kind === 'list' && Array.isArray(k.items) ? Math.max(1, k.items.length) : chk ? 1 : Math.max(1, +k.total || 1), start: chk ? 1 : Math.max(1, +k.start || 1), segs: !chk && Array.isArray(k.segs) && k.segs.length > 1 ? k.segs.map(x => [+x[0], +x[1]]) : null, done: 0, due: k.due || '', note: k.note || '', pin: '', at: Date.now(), doneAt: null });
           }
         }
       }));
@@ -1732,10 +1869,48 @@ document.addEventListener('visibilitychange', () => {
   if (TM.running) { lockOn(); tick(); }
   if (!dlg.open && !TM.open) render();
 });
+const UPD = { state: 'idle', t: 0, reg: null };
+const updTime = () => UPD.t ? `最終確認：${new Date(UPD.t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}` : '';
+const updInfo = () => ({
+  available: ['system_update', '新しいバージョンがあります', '更新すると、アプリが再読み込みされます。入力済みのデータは消えません。'],
+  installing: ['autorenew', '更新しています…', 'まもなく再起動します。そのままお待ちください。'],
+  checking: ['sync', '更新を確認しています…', ''],
+  latest: ['check_circle', 'アプリは最新の状態です', updTime()],
+  error: ['error', '更新を確認できませんでした', '接続を確認して、もう一度お試しください。'],
+  idle: ['system_update', 'アプリのアップデート', '更新を確認できます。']
+}[UPD.state]);
+function updHtml() {
+  const [ic, ti, su] = updInfo(), busy = UPD.state === 'installing' || UPD.state === 'checking', av = UPD.state === 'available';
+  return `<div class="upd-top"><img src="icon-192.png" alt="" width="64" height="64"><div><b>考査課題マネージャー</b><span>${av ? 'アップデートを利用できます' : 'アプリのアップデート'}</span></div></div>
+  <div class="upd-body"><span class="upd-ic ${busy ? 'spin' : ''}">${ms(ic, '', 'font-size:44px')}</span><h2>${ti}</h2><p class="muted">${su}</p>${busy ? '<div class="upd-bar"><i></i></div>' : ''}</div>
+  <div class="dact"><button class="btn text" data-act="close">${av ? 'あとで' : '閉じる'}</button><span class="sp"></span>${av ? `<button class="btn" data-act="reload">${ms('download')}今すぐ更新</button>` : `<button class="btn tonal" data-act="updchk" ${busy ? 'disabled' : ''}>${ms('refresh')}更新を確認</button>`}</div>`;
+}
+function updDlg() { openDlg(updHtml()); dlg.dataset.k = 'upd'; if (UPD.state === 'idle') checkUpdate(); }
+function updCard() { const [, ti, su] = updInfo(), av = UPD.state === 'available'; return `<div class="card"><div class="setrow" style="padding:0"><span class="t">${ti}<small>${su}</small></span><button class="btn ${av ? '' : 'tonal'}" data-act="upd">${ms(av ? 'download' : 'refresh')}${av ? '更新' : '更新を確認'}</button></div></div>`; }
+function updRefresh() {
+  const b = $('#updbar'); b.hidden = UPD.state !== 'available';
+  b.innerHTML = UPD.state === 'available' ? `<button class="updb" data-act="upd">${ms('system_update')}<span><b>アップデートがあります</b><small>タップして更新</small></span><i>更新</i></button>` : '';
+  if (dlg.open && dlg.dataset.k === 'upd') dlg.innerHTML = `<div class="dlg">${updHtml()}</div>`;
+  else if (ui.tab === 'settings' && !dlg.open && !TM.open) render();
+}
+function checkUpdate() {
+  if (UPD.state === 'available' || UPD.state === 'installing') return;
+  if (!UPD.reg) { UPD.state = 'latest'; UPD.t = Date.now(); return updRefresh(); }
+  UPD.state = 'checking'; updRefresh();
+  UPD.reg.update().catch(() => { UPD.state = 'error'; }).finally(() => setTimeout(() => { if (UPD.state === 'checking') { UPD.state = waiting ? 'available' : 'latest'; UPD.t = Date.now(); } updRefresh(); }, 1500));
+}
+function startUpdate() { if (!waiting) return; UPD.state = 'installing'; updRefresh(); updating = true; waiting.postMessage('skip'); setTimeout(() => location.reload(), 8000); }
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').then(reg => {
-    const watch = sw => sw.addEventListener('statechange', () => { if (sw.state === 'installed' && navigator.serviceWorker.controller) { waiting = sw; toast('新しいバージョンがあります', null, '<button data-act="reload">更新</button>'); } });
+    UPD.reg = reg;
+    const mark = sw => {
+      waiting = sw; UPD.state = 'available'; updRefresh();
+      if (!dlg.open && !TM.open && !sessionStorage.getItem('kosa-upd-shown')) { try { sessionStorage.setItem('kosa-upd-shown', '1'); } catch (e) { } updDlg(); }
+    };
+    const watch = sw => sw.addEventListener('statechange', () => { if (sw.state === 'installed' && navigator.serviceWorker.controller) mark(sw); });
+    if (reg.waiting && navigator.serviceWorker.controller) mark(reg.waiting);
     reg.addEventListener('updatefound', () => watch(reg.installing));
+    document.addEventListener('visibilitychange', () => { if (!document.hidden && UPD.state !== 'available' && UPD.state !== 'installing') reg.update().catch(() => { }); });
   }).catch(() => { });
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (updating) location.reload(); });
 }
