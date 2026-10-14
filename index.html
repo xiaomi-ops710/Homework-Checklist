@@ -676,7 +676,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '4.0';
+const APP_VERSION = '4.1';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1963,11 +1963,15 @@ async function aiStart() {
   AI.chat = model.startChat();
 }
 function aiErr(e) {
-  const s = String((e && (e.code || e.message)) || e);
-  if (/429|quota|rate|RESOURCE_EXHAUSTED/i.test(s)) return 'AIの利用上限に達しました。しばらくしてから、もう一度お試しください。';
-  if (/app-?check|403|permission|api-not-enabled|PERMISSION/i.test(s)) return 'AI機能の設定が完了していない可能性があります。Firebaseの「AI Logic」とApp Checkの設定を確認してください。';
-  if (!navigator.onLine || /network|fetch/i.test(s)) return 'インターネットに接続できません。接続を確認してください。';
-  return 'うまく答えを作れませんでした。時間をおいて、もう一度お試しください。';
+  const s = `${(e && e.code) || ''} ${(e && e.message) || ''} ${e || ''}`.replace(/\s+/g, ' ').trim();
+  let m;
+  if (/429|quota|rate|RESOURCE_EXHAUSTED/i.test(s)) m = 'AIの利用上限に達しました。しばらくしてから、もう一度お試しください。';
+  else if (/403|permission|app-?check|not been used|disabled|not enabled/i.test(s)) m = 'AI機能がまだ有効になっていないようです。FirebaseコンソールのAI Logicで、Gemini Developer APIを有効にしてください。';
+  else if (/404|not found|not supported/i.test(s)) m = 'モデル名が正しくない可能性があります。firebase-config.js の AI_MODEL を確認してください。';
+  else if (/400|api key|invalid/i.test(s)) m = '設定の値が正しくない可能性があります。firebase-config.js の内容を確認してください。';
+  else if (!navigator.onLine) m = 'インターネットに接続できません。接続を確認してください。';
+  else m = 'うまく答えを作れませんでした。時間をおいて、もう一度お試しください。';
+  return m + '\n\n（詳細：' + s.slice(0, 220) + '）';
 }
 const mdLite = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/^\s*[*-] /gm, '・').replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\n/g, '<br>');
 function renderAiLog() {
