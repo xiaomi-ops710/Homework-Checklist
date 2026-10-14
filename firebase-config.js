@@ -12,8 +12,8 @@ window.FIREBASE_CONFIG = {
 window.GOOGLE_CLIENT_ID = "909288674254-rdn22g4s7vnnrpaeo95295tjf92cb92q.apps.googleusercontent.com";
 
 // ---- AI質問機能（Firebase AI Logic）----
-// 使うモデル名。「404」や「not found」のエラーが出たら、AI Logicの画面やドキュメントに載っているモデル名に合わせて書き換えてください。
-window.AI_MODEL = "gemini-3.6-flash";
+// 使うモデル名（Firebase AI Logic の対応モデル一覧に載っている名前）。「404」や「not found」が出たら、一覧に合わせて書き換えてください。
+window.AI_MODEL = "gemini-3.5-flash-lite";
 // 1日にAIへ質問できる回数（この端末）
 window.AI_DAILY_LIMIT = 30;
 // App Check を使わないので、空のままにします。
