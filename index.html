@@ -676,7 +676,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '4.1';
+const APP_VERSION = '4.3';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1959,7 +1959,7 @@ async function aiStart() {
   if (!CLOUD.fb) throw new Error('nofb');
   if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
   const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
-  const model = AI.mod.getGenerativeModel(ai, { model: window.AI_MODEL || 'gemini-2.5-flash-lite', systemInstruction: AI_SYS + '\n\n' + aiContext() });
+  const model = AI.mod.getGenerativeModel(ai, { model: window.AI_MODEL || 'gemini-3.5-flash-lite', systemInstruction: AI_SYS + '\n\n' + aiContext() });
   AI.chat = model.startChat();
 }
 function aiErr(e) {
