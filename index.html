@@ -627,6 +627,33 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .scr b{font-weight:600;text-align:right}.scr small{font-weight:500;color:var(--on-v)}
 .scr em{font-style:normal;font-size:.8rem;font-weight:600;color:var(--on-v)}.scr em.ok{color:var(--primary)}.scr em.ng{color:var(--err)}
 @media(max-width:520px){.scr{grid-template-columns:70px 1fr 64px}.scr em{grid-column:1/-1}}
+.pillchip.ver{background:var(--s3);color:var(--on-v);font-weight:500;cursor:pointer}
+.gd-top{display:flex;justify-content:space-between;align-items:center;color:var(--on-v);font-weight:500;min-height:40px}
+.gd-body{display:grid;justify-items:center;align-content:start;text-align:center;gap:12px;padding:16px 4px 8px;min-height:320px;animation:gdfwd .45s var(--spring)}
+.gd-body.back{animation-name:gdback}
+@keyframes gdfwd{from{opacity:0;transform:translateX(36px)}to{opacity:1;transform:none}}
+@keyframes gdback{from{opacity:0;transform:translateX(-36px)}to{opacity:1;transform:none}}
+.gd-ic{width:104px;height:104px;border-radius:34px;display:grid;place-items:center;background:var(--pc);color:var(--on-pc)}
+.gd-body h2{margin:6px 0 0;font-size:1.45rem;font-weight:600}
+.gd-body p{margin:0;max-width:34em;line-height:1.8;color:var(--on-v);font-weight:400;text-align:left}.gd-body b{font-weight:600;color:var(--on)}
+.gd-dots{display:flex;justify-content:center;gap:8px;margin:12px 0 18px}.gd-dots i{width:8px;height:8px;border-radius:4px;background:var(--s3);transition:width .3s}.gd-dots i.on{width:26px;background:var(--primary)}
+.fld textarea{width:100%;border:0;border-radius:14px;background:var(--s3);padding:12px 14px;font:inherit;color:var(--on);resize:vertical}
+.fld textarea:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}
+.scm{grid-column:1/-1;font-size:.85rem;color:var(--on-v);background:var(--s2);border-radius:12px;padding:8px 12px;white-space:pre-wrap}
+#fab.open .fabi:nth-child(4){transition-delay:0ms}#fab.open .fabi:nth-child(3){transition-delay:40ms}#fab.open .fabi:nth-child(2){transition-delay:80ms}#fab.open .fabi:nth-child(1){transition-delay:120ms}
+.ai{display:flex;flex-direction:column;gap:10px;height:min(78vh,660px)}
+.ai-h{display:flex;justify-content:space-between;align-items:center}.ai-h h2{margin:0;display:flex;align-items:center;gap:8px}
+.ai-n{font-size:.8rem;margin:0;line-height:1.6}.ai-c{font-size:.78rem;text-align:right}
+.ai-log{flex:1;overflow:auto;display:grid;align-content:start;gap:10px;padding:4px 2px}
+.ai-b{max-width:88%;padding:10px 14px;border-radius:20px;line-height:1.75;overflow-wrap:anywhere;font-weight:400}
+.ai-b.u{justify-self:end;background:var(--primary);color:var(--on-primary);border-bottom-right-radius:6px}
+.ai-b.m{justify-self:start;background:var(--s2);border-bottom-left-radius:6px}.ai-b b{font-weight:600}
+.ai-b code{background:var(--s3);padding:1px 6px;border-radius:6px;font-size:.9em}
+.ai-in{display:flex;gap:8px;align-items:flex-end}
+.ai-in textarea{flex:1;border:0;border-radius:24px;background:var(--s3);padding:13px 18px;font:inherit;color:var(--on);resize:none;max-height:120px;min-height:48px}
+.ai-in textarea:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}
+.dots{display:inline-flex;gap:5px;padding:4px 0}.dots i{width:8px;height:8px;border-radius:50%;background:var(--on-v);animation:dotb 1s infinite ease-in-out}
+.dots i:nth-child(2){animation-delay:.15s}.dots i:nth-child(3){animation-delay:.3s}@keyframes dotb{0%,80%,100%{transform:scale(.5);opacity:.4}40%{transform:scale(1);opacity:1}}
 </style>
 </head>
 <body>
@@ -648,6 +675,8 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <script src="firebase-config.js"></script>
 <script>
 'use strict';
+// バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
+const APP_VERSION = '4.0';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -773,10 +802,10 @@ const clRow = x => `<div class="rgrow clrow"><input type="checkbox" class="cld" 
 const clHtml = t => `<div class="cl">${(t.items || []).map((x, i) => `<label class="clr ${x.done ? 'on' : ''}"><input type="checkbox" data-cl="${t.id}" data-i="${i}" ${x.done ? 'checked' : ''}><span class="cb">${ms('check')}</span><span class="cx">${esc(x.text)}</span></label>`).join('')}</div>`;
 const subTags = t => !t.subreq ? '' : `${t.dest ? `<span class="tag plain">${ms('send')}${esc(t.dest)}</span>` : ''}${t.submitted ? `<span class="tag ok">${ms('outbox')}提出済み</span>` : (isDone(t) ? `<span class="tag soon">${ms('outbox')}未提出</span>` : '')}`;
 function scoreCard() {
-  const rows = subjects().filter(s => s.goal != null || s.score != null);
+  const rows = subjects().filter(s => s.goal != null || s.score != null || s.memo);
   if (!rows.length) return '';
   const got = rows.filter(s => s.score != null), avg = got.length ? Math.round(got.reduce((q, s) => q + s.score / (s.full || 100) * 100, 0) / got.length) : null;
-  return `<div class="h-sec"><h2>${ms('grade')}成績</h2>${avg !== null ? `<span class="sp"></span><span class="muted" style="font-weight:500">平均 ${avg}%（満点換算）</span>` : ''}</div><div class="card"><div class="sclist">${rows.map(s => { const f = s.full || 100, ok = s.score != null && s.goal != null ? s.score >= s.goal : null; return `<div class="scr sc" style="--sh:${s.hue}"><span class="scn">${esc(s.name)}</span><div class="scb"><i style="width:${s.score != null ? Math.min(100, s.score / f * 100) : 0}%"></i>${s.goal != null ? `<u style="left:${Math.min(100, s.goal / f * 100)}%"></u>` : ''}</div><b>${s.score ?? '—'}<small>/${f}</small></b><em class="${ok === null ? '' : ok ? 'ok' : 'ng'}">${s.goal != null ? '目標 ' + s.goal : ''}${ok === null ? '' : ok ? '（達成）' : '（未達）'}</em></div>`; }).join('')}</div></div>
+  return `<div class="h-sec"><h2>${ms('grade')}成績</h2>${avg !== null ? `<span class="sp"></span><span class="muted" style="font-weight:500">平均 ${avg}%（満点換算）</span>` : ''}</div><div class="card"><div class="sclist">${rows.map(s => { const f = s.full || 100, ok = s.score != null && s.goal != null ? s.score >= s.goal : null; return `<div class="scr sc" style="--sh:${s.hue}"><span class="scn">${esc(s.name)}</span><div class="scb"><i style="width:${s.score != null ? Math.min(100, s.score / f * 100) : 0}%"></i>${s.goal != null ? `<u style="left:${Math.min(100, s.goal / f * 100)}%"></u>` : ''}</div><b>${s.score ?? '—'}<small>/${f}</small></b><em class="${ok === null ? '' : ok ? 'ok' : 'ng'}">${s.goal != null ? '目標 ' + s.goal : ''}${ok === null ? '' : ok ? '（達成）' : '（未達）'}</em>${s.memo ? `<div class="scm">${esc(s.memo)}</div>` : ''}</div>`; }).join('')}</div></div>
 `;
 }
 function weekData(off) {
@@ -931,7 +960,7 @@ function renderNav() {
 }
 function renderFab() {
   const f = $('#fab');
-  if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
+  if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="ai">${ms('auto_awesome')}AIに質問</button><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
   f.className = ui.fab ? 'open' : '';
   f.querySelector('.fabb').setAttribute('aria-expanded', String(!!ui.fab));
 }
@@ -1015,6 +1044,7 @@ function viewHome() {
   const urg = examTasks().filter(k => k.subreq && !k.submitted && k.due && daysBetween(today(), k.due) <= 3).length;
   let h = `<div class="greet"><div style="flex:1;min-width:200px"><h1>${gr}<small>${gd}</small></h1></div>
     ${urg ? `<span class="pillchip warnp">${ms('warning')}提出期限が近い課題 ${urg}件</span>` : ''}
+    <span class="pillchip ver" data-act="upd" role="button" aria-label="バージョン">v${APP_VERSION}</span>
     <span class="pillchip fire">${ms('event_repeat')}${st}日連続</span>
     <button class="pillchip rp" data-act="tab" data-id="stats" aria-label="レベル"><span class="lv"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" style="stroke:color-mix(in srgb,var(--on-sec-c) 18%,transparent)"/><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--primary)" stroke-dasharray="${(C * lv.p).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 16 16)"/></svg>${ms('stars', 'f', 'font-size:16px;color:var(--primary)')}</span>Lv.${lv.L}</button></div>`;
   if (S.exams.length > 1) h += `<div class="chips scroll mb">${S.exams.map(e => `<button class="chip ${e.id === ex.id ? 'on' : ''}" data-act="exam" data-id="${e.id}">${esc(e.name)}</button>`).join('')}</div>`;
@@ -1263,6 +1293,8 @@ function viewSettings() {
   <div class="fld"><div class="lbl">文字の大きさ</div><div class="seg">${[['s', '小'], ['m', '標準'], ['l', '大']].map(([v, l]) => `<button class="${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}">${l}</button>`).join('')}</div></div>
   ${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}</div>
 
+  <div class="h-sec"><h2>${ms('help')}使い方とバージョン</h2></div><div class="card"><div class="setrow" style="padding:0 0 14px"><span class="t">バージョン<small>v${APP_VERSION}</small></span></div><button class="btn tonal" data-act="guide">${ms('help')}使い方を見る</button></div>
+
   <div class="h-sec"><h2>${ms('system_update')}アプリのアップデート</h2></div>${updCard()}
 
   <div class="h-sec"><h2>${ms('cloud_sync')}アカウントと同期</h2></div>${cloudCard()}
@@ -1355,6 +1387,7 @@ function subjDlg(id) {
     <div class="fld"><div class="lbl">カラー</div><div class="swatches">${HUES.map(h => `<label class="sw"><input type="radio" name="hue" value="${h}" ${h === s.hue ? 'checked' : ''}><span style="background:hsl(${h} 68% 50%)"></span></label>`).join('')}</div></div>
     <div class="fld"><label for="ex">この教科のテスト日（なくてもOK）</label><input id="ex" name="exam" type="date" value="${esc(s.exam || '')}"></div>
     <div class="fld2"><div class="fld"><label for="gs">目標点</label><input id="gs" name="goal" type="number" inputmode="decimal" min="0" max="1000" value="${s.goal ?? ''}" placeholder="例：80"></div><div class="fld"><label for="sc2">結果（考査後）</label><input id="sc2" name="score" type="number" inputmode="decimal" min="0" max="1000" value="${s.score ?? ''}" placeholder="点数"></div></div>
+    <div class="fld"><label for="mm">考査後の振り返りメモ</label><textarea id="mm" name="memo" rows="3" maxlength="300" placeholder="例：計算ミスが多かった。次は見直しの時間をとる">${esc(s.memo || '')}</textarea></div>
     <div class="fld"><label for="fl">満点</label><input id="fl" name="full" type="number" inputmode="numeric" min="1" max="1000" value="${s.full || 100}"></div>
     <div class="err" id="err"></div>
     <div class="dact">${id ? `<button type="button" class="btn text danger" data-act="delsubj" data-id="${id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}保存</button></div>
@@ -1365,7 +1398,7 @@ function subjDlg(id) {
     if (!name) return err('教科名を入力してください');
     const num = k => { const v = parseFloat(fd.get(k)); return isNaN(v) ? null : v; }, full = num('full') || 100, goal = num('goal'), score = num('score');
     if ((goal !== null && goal > full) || (score !== null && score > full)) return err('満点より大きい点数は入力できません');
-    const data = { name, icon: fd.get('icon') || 'menu_book', hue: +fd.get('hue'), exam: fd.get('exam') || '', goal, score, full };
+    const data = { name, icon: fd.get('icon') || 'menu_book', hue: +fd.get('hue'), exam: fd.get('exam') || '', goal, score, full, memo: (fd.get('memo') || '').trim() };
     if (id) Object.assign(s, data); else S.subjects.push({ id: uid(), ex: curExam().id, ...data });
     closeDlg(); commit(); toast(id ? '保存しました' : '教科を追加しました');
   };
@@ -1625,7 +1658,7 @@ const ACT = {
   acct() { acctDlg(); }, cloudin() { closeDlg(); cloudLogin(); }, cloudout() { closeDlg(); cloudLogout(); }, cloudnow() { cloudPushNow().then(() => toast(CLOUD.status === 'ok' ? '同期しました' : '同期できませんでした')); },
   expsub() { exportSubjects(); }, impsub() { $('#impsub').click(); },
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); ui.sid = ''; ui.tab = 'home'; })); },
-  reload() { startUpdate(); }, upd() { updDlg(); }, updchk() { checkUpdate(); },
+  reload() { startUpdate(); }, ai() { ui.fab = false; renderFab(); aiDlg(); }, aisend() { aiSend(); }, aisug(id) { aiSend(AI_SUG[+id]); }, aireset() { AI.chat = null; AI.msgs = []; renderAiLog(); }, guide() { guideDlg(); }, gdnext() { guideGo(G.i + 1); }, gdprev() { guideGo(G.i - 1); }, gdskip() { closeDlg(); }, upd() { updDlg(); }, updchk() { checkUpdate(); },
   calday(id) { ui.sel = id; const d = parse(id); ui.cal = { y: d.getFullYear(), m: d.getMonth() }; render(); },
   calprev() { const { y, m } = ui.cal; ui.cal = m === 0 ? { y: y - 1, m: 11 } : { y, m: m - 1 }; render(); },
   calnext() { const { y, m } = ui.cal; ui.cal = m === 11 ? { y: y + 1, m: 0 } : { y, m: m + 1 }; render(); },
@@ -1739,6 +1772,7 @@ function importData(input) {
 
 
 /* ====================== Firebase 同期（Googleログイン + Firestore） ====================== */
+const FB_VER = '12.0.0';
 const CLOUD = { user: null, fb: null, unsub: null, timer: null, status: 'off', first: false };
 const GLOGO = '<svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>';
 const gBtn = () => `<button class="gbtn" data-act="cloudin">${GLOGO}<span>Google でログイン</span></button>`;
@@ -1776,10 +1810,12 @@ async function cloudInit() {
   const cfg = window.FIREBASE_CONFIG;
   if (!cfg || !cfg.apiKey || cfg.apiKey.startsWith('YOUR')) { CLOUD.status = 'unconfigured'; return; }
   try {
-    const B = 'https://www.gstatic.com/firebasejs/10.14.1/';
+    const B = `https://www.gstatic.com/firebasejs/${FB_VER}/`;
     const [app, auth, fs] = await Promise.all([import(B + 'firebase-app.js'), import(B + 'firebase-auth.js'), import(B + 'firebase-firestore.js')]);
-    const a = app.initializeApp(cfg), authI = auth.getAuth(a), db = fs.getFirestore(a);
-    CLOUD.fb = { auth, fs, authI, db }; CLOUD.status = 'out';
+    const a = app.initializeApp(cfg);
+    if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); ac.initializeAppCheck(a, { provider: new ac.ReCaptchaV3Provider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); } catch (e) { } }
+    const authI = auth.getAuth(a), db = fs.getFirestore(a);
+    CLOUD.fb = { auth, fs, authI, db, app: a }; CLOUD.status = 'out';
     auth.onAuthStateChanged(authI, u => { CLOUD.user = u; if (u) cloudStart(); else cloudStop(); cloudRefresh(); });
     cloudResume();
   } catch (e) { CLOUD.status = 'error'; }
@@ -1879,9 +1915,99 @@ const updInfo = () => ({
   error: ['error', '更新を確認できませんでした', '接続を確認して、もう一度お試しください。'],
   idle: ['system_update', 'アプリのアップデート', '更新を確認できます。']
 }[UPD.state]);
+const GUIDE = [
+  ['school', '考査課題マネージャーへようこそ', 'このアプリは、考査（テスト）までに終わらせる課題をまとめて管理するためのものです。<br>どの課題がどれくらい終わっているかが、<b>パーセント</b>ですぐに分かります。使い方を、順番に見ていきましょう。'],
+  ['library_add', 'まず教科を登録します', '画面の<b>＋ボタン</b>を押して、<b>「教科を追加」</b>を選びます。<br>「数学」「英語」のように教科の名前を入れて、保存します。教科ごとにアイコンと色を選べます。テスト日や目標点も入れられます。'],
+  ['add_task', '次に課題を追加します', '<b>＋ボタン → 「課題を追加」</b>を選びます。<br>ワークの名前、ページの<b>範囲（開始〜終了）</b>、提出期限を入れます。途中のページを飛ばす課題は、<b>「範囲を追加」</b>で分けて入力できます（例：1〜20 と 41〜60）。<br>ページがない課題は<b>「完了のみ」</b>、細かく分けたい課題は<b>「チェックリスト」</b>を選びます。'],
+  ['edit_note', '進み具合を記録します', '課題カードの<b>「現在のページ」</b>に、ここまで終わったページ番号を入れます。<br>たとえば p.30 まで終わったら「30」と入れます。パーセントと残りのページ数は、自動で計算されます。<b>+1 / +5 / +10</b> のボタンで進めることもできます。'],
+  ['home', 'ホーム画面の見方', '上の大きな円は、<b>全体の達成率</b>です。<br><b>「今日のプラン」</b>は、考査日までに間に合うように、今日やるページ数を自動で出したものです。<b>「期限が近い課題」</b>と、教科ごとの進み具合も見られます。'],
+  ['outbox', '提出も忘れないようにします', '提出が必要な課題は、終わったら<b>「提出済み」</b>にします。まだ提出していない課題は、期限が近づくと赤く表示されます。<br>課題を追加するときに、<b>「提出先」</b>も入れておけます。'],
+  ['timer', '集中タイマー', '<b>＋ボタン → 「集中タイマー」</b>で、集中する時間を計れます。終わると学習時間として記録され、<b>統計タブの「今週の振り返り」</b>に反映されます。'],
+  ['auto_awesome', 'AIに質問できます', '<b>＋ボタン → 「AIに質問」</b>で、勉強で分からないことを質問できます。ヒントや考え方を教えてくれます。<br>使うには<b>Googleログイン</b>が必要です。質問と、課題の名前・進み具合がAIに送られるので、名前や学校名などの個人情報は入力しないでください。答えが間違っていることもあるので、教科書や先生にも確認しましょう。'],
+  ['cloud_sync', 'データの保存と同期', 'データは、この端末の中に保存されます。<br>右上のアイコンから<b>Googleでログイン</b>すると、同じアカウントでログインした別の端末とも、進み具合が同期されます。<br>この説明は、<b>設定 → 「使い方を見る」</b>からいつでも見られます。']
+];
+const G = { i: 0, dir: 'fwd' };
+function guideHtml(i) {
+  const [ic, ti, tx] = GUIDE[i], last = i === GUIDE.length - 1;
+  return `<div class="gd-top"><span>${i + 1} / ${GUIDE.length}</span>${last ? '' : '<button class="btn text" data-act="gdskip">スキップ</button>'}</div>
+  <div class="gd-body ${G.dir}"><span class="gd-ic">${ms(ic, '', 'font-size:48px')}</span><h2>${ti}</h2><p>${tx}</p></div>
+  <div class="gd-dots">${GUIDE.map((_, k) => `<i class="${k === i ? 'on' : ''}"></i>`).join('')}</div>
+  <div class="dact">${i ? '<button class="btn text" data-act="gdprev">戻る</button>' : ''}<span class="sp"></span><button class="btn" data-act="${last ? 'gdskip' : 'gdnext'}">${last ? 'はじめる' : '次へ'}</button></div>`;
+}
+function guideDlg() { G.i = 0; G.dir = 'fwd'; openDlg(guideHtml(0)); dlg.dataset.k = 'guide'; try { localStorage.setItem('kosa-guide-seen', APP_VERSION); } catch (e) { } }
+function guideGo(n) { G.dir = n > G.i ? 'fwd' : 'back'; G.i = Math.max(0, Math.min(GUIDE.length - 1, n)); dlg.innerHTML = `<div class="dlg">${guideHtml(G.i)}</div>`; }
+/* ====================== AI質問（Firebase AI Logic / Gemini） ====================== */
+const AI = { mod: null, chat: null, busy: false, msgs: [] };
+const AI_SUG = ['今日の勉強の進め方を教えて', '提出期限が近い課題を、どう進めればいい？', '効率のよい暗記のコツを教えて'];
+const AI_SYS = `あなたは日本の中学生の勉強を手伝うAIの先生です。
+- やさしく分かりやすい日本語で、です・ます調で答えます。
+- いきなり答えだけを教えず、考え方やヒントを先に示し、必要なら最後に答えを示します。
+- 長くなりすぎないよう、300字程度を目安にします。難しい言葉は短く説明します。
+- 課題の答えの丸写しを頼まれたときは、答えを書き写すのではなく、解き方を説明します。
+- 勉強と関係のない話や、危険・不適切な内容には答えず、勉強の話題に戻します。
+- 個人情報を聞き出しません。分からないときは、分からないと正直に言います。
+- 以下は生徒の現在の課題の状況です。必要なときだけ参考にしてください。`;
+const aiLimit = () => window.AI_DAILY_LIMIT || 30;
+const aiUsed = () => { try { const o = JSON.parse(localStorage.getItem('kosa-ai-use') || '{}'); return o.d === today() ? o.n : 0; } catch (e) { return 0; } };
+const aiCount = () => { try { localStorage.setItem('kosa-ai-use', JSON.stringify({ d: today(), n: aiUsed() + 1 })); } catch (e) { } };
+function aiContext() {
+  const ex = curExam(), dl = ex && ex.date ? daysLeft(ex) : null;
+  const lines = examTasks().filter(k => !isDone(k)).slice(0, 15).map(k => { const s = SUB(k.sid); return `- ${s ? s.name : ''}：${k.title}（${pct(k.total ? k.done / k.total : 0)}%完了${k.due ? '、期限' + k.due : ''}）`; });
+  return (ex ? `考査：${ex.name}${dl !== null && dl >= 0 ? `（あと${dl}日）` : ''}\n` : '') + (lines.length ? `未完了の課題：\n${lines.join('\n')}` : '未完了の課題はありません。');
+}
+async function aiStart() {
+  if (!CLOUD.fb) throw new Error('nofb');
+  if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
+  const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
+  const model = AI.mod.getGenerativeModel(ai, { model: window.AI_MODEL || 'gemini-2.5-flash-lite', systemInstruction: AI_SYS + '\n\n' + aiContext() });
+  AI.chat = model.startChat();
+}
+function aiErr(e) {
+  const s = String((e && (e.code || e.message)) || e);
+  if (/429|quota|rate|RESOURCE_EXHAUSTED/i.test(s)) return 'AIの利用上限に達しました。しばらくしてから、もう一度お試しください。';
+  if (/app-?check|403|permission|api-not-enabled|PERMISSION/i.test(s)) return 'AI機能の設定が完了していない可能性があります。Firebaseの「AI Logic」とApp Checkの設定を確認してください。';
+  if (!navigator.onLine || /network|fetch/i.test(s)) return 'インターネットに接続できません。接続を確認してください。';
+  return 'うまく答えを作れませんでした。時間をおいて、もう一度お試しください。';
+}
+const mdLite = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/^\s*[*-] /gm, '・').replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\n/g, '<br>');
+function renderAiLog() {
+  const log = $('#ailog'); if (!log || !dlg.open || dlg.dataset.k !== 'ai') return;
+  const bub = (r, h) => `<div class="ai-b ${r}">${h}</div>`;
+  log.innerHTML = bub('m', 'こんにちは。勉強で分からないことがあれば、質問してください。') + AI.msgs.map(m => m.r === 'u' ? bub('u', esc(m.t).replace(/\n/g, '<br>')) : bub('m', m.t ? mdLite(m.t) : '<span class="dots"><i></i><i></i><i></i></span>')).join('');
+  log.scrollTop = log.scrollHeight;
+  $('#aisug').hidden = AI.msgs.length > 0;
+  $('#aicnt').textContent = `今日の質問：${aiUsed()}/${aiLimit()}回`;
+  $('#aisend').disabled = AI.busy;
+}
+function aiDlg() {
+  if (!CLOUD.user) { toast('AI質問は、Googleログイン後に使えます'); return acctDlg(); }
+  openDlg(`<div class="ai"><div class="ai-h"><h2>${ms('auto_awesome')}AIに質問</h2><span><button class="ibtn" data-act="aireset" aria-label="新しい会話">${ms('restart_alt')}</button><button class="ibtn" data-act="close" aria-label="閉じる">${ms('close')}</button></span></div>
+  <p class="muted ai-n">質問と、課題の名前・進み具合がGoogleのAIに送られます。名前や学校名などの個人情報は入力しないでください。AIの答えは間違うことがあります。</p>
+  <div class="ai-log" id="ailog"></div>
+  <div class="chips" id="aisug">${AI_SUG.map((x, i) => `<button class="chip" data-act="aisug" data-id="${i}">${esc(x)}</button>`).join('')}</div>
+  <div class="ai-in"><textarea id="aiq" rows="1" maxlength="600" placeholder="質問を入力"></textarea><button class="btn" id="aisend" data-act="aisend" aria-label="送信">${ms('send')}</button></div>
+  <div class="muted ai-c" id="aicnt"></div></div>`);
+  dlg.dataset.k = 'ai'; renderAiLog();
+  $('#aiq').addEventListener('keydown', e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) { e.preventDefault(); aiSend(); } });
+}
+async function aiSend(text) {
+  const q = $('#aiq'); text = (text || (q && q.value) || '').trim();
+  if (!text || AI.busy) return;
+  if (aiUsed() >= aiLimit()) return toast(`今日の質問は${aiLimit()}回までです`);
+  AI.busy = true; if (q) q.value = '';
+  AI.msgs.push({ r: 'u', t: text }, { r: 'm', t: '' }); const m = AI.msgs[AI.msgs.length - 1]; renderAiLog();
+  try {
+    if (!AI.chat) await aiStart();
+    aiCount();
+    const res = await AI.chat.sendMessageStream(text);
+    for await (const c of res.stream) { m.t += c.text(); renderAiLog(); }
+    if (!m.t) m.t = '回答を作れませんでした。言い方を変えて、もう一度質問してください。';
+  } catch (e) { m.t = aiErr(e); }
+  AI.busy = false; renderAiLog();
+}
 function updHtml() {
   const [ic, ti, su] = updInfo(), busy = UPD.state === 'installing' || UPD.state === 'checking', av = UPD.state === 'available';
-  return `<div class="upd-top"><img src="icon-192.png" alt="" width="64" height="64"><div><b>考査課題マネージャー</b><span>${av ? 'アップデートを利用できます' : 'アプリのアップデート'}</span></div></div>
+  return `<div class="upd-top"><img src="icon-192.png" alt="" width="64" height="64"><div><b>考査課題マネージャー</b><span>${av ? 'アップデートを利用できます' : 'アプリのアップデート'} ・ v${APP_VERSION}${av && UPD.next ? ' → v' + UPD.next : ''}</span></div></div>
   <div class="upd-body"><span class="upd-ic ${busy ? 'spin' : ''}">${ms(ic, '', 'font-size:44px')}</span><h2>${ti}</h2><p class="muted">${su}</p>${busy ? '<div class="upd-bar"><i></i></div>' : ''}</div>
   <div class="dact"><button class="btn text" data-act="close">${av ? 'あとで' : '閉じる'}</button><span class="sp"></span>${av ? `<button class="btn" data-act="reload">${ms('download')}今すぐ更新</button>` : `<button class="btn tonal" data-act="updchk" ${busy ? 'disabled' : ''}>${ms('refresh')}更新を確認</button>`}</div>`;
 }
@@ -1904,7 +2030,9 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').then(reg => {
     UPD.reg = reg;
     const mark = sw => {
-      waiting = sw; UPD.state = 'available'; updRefresh();
+      waiting = sw; UPD.state = 'available';
+      try { const ch = new MessageChannel(); ch.port1.onmessage = ev => { UPD.next = ev.data; updRefresh(); }; sw.postMessage('ver', [ch.port2]); } catch (e) { }
+      updRefresh();
       if (!dlg.open && !TM.open && !sessionStorage.getItem('kosa-upd-shown')) { try { sessionStorage.setItem('kosa-upd-shown', '1'); } catch (e) { } updDlg(); }
     };
     const watch = sw => sw.addEventListener('statechange', () => { if (sw.state === 'installed' && navigator.serviceWorker.controller) mark(sw); });
@@ -1927,6 +2055,7 @@ if (document.fonts && document.fonts.load) {
   document.fonts.load('24px "Material Symbols Rounded"', 'home').then(f => { if (f && f.length) document.documentElement.classList.add('msr'); }).catch(() => { });
 } else document.documentElement.classList.add('msr');
 applyTheme(); checkBadges(true); tmReset('focus'); renderFab(); render(); splash(); renderAcct(); cloudInit();
+try { if (!localStorage.getItem('kosa-guide-seen')) setTimeout(() => { if (!dlg.open) guideDlg(); }, 900); } catch (e) { }
 </script>
 </body>
 </html>
