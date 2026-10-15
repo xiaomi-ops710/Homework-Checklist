@@ -696,6 +696,81 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .mh{margin:0 0 10px;font-size:1rem;font-weight:600}.mres{line-height:1.9;font-weight:400;overflow-wrap:anywhere;min-height:1.4em}.mres b{font-weight:600;color:var(--primary)}
 .mq{display:flex;gap:8px;margin-bottom:8px}.mq input,.mq select,.card .fld input[data-mt]{flex:1;min-width:0;height:50px;border:0;border-radius:14px;background:var(--s3);padding:0 14px;font:inherit;color:var(--on);width:100%}
 .mq input:focus,.fld input[data-mt]:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}
+.mkb{position:fixed;z-index:19;left:0;right:0;bottom:0;background:var(--s2);padding:8px 12px calc(10px + env(safe-area-inset-bottom));border-radius:24px 24px 0 0;box-shadow:0 -4px 18px rgba(0,0,0,.2)}
+@media(min-width:700px){.mkb{left:104px}}
+@media(max-width:699px){.mkb{left:8px;right:8px;bottom:calc(92px + env(safe-area-inset-bottom));padding-bottom:8px;border-radius:24px}}
+.mkb-t{display:flex;align-items:center;gap:4px;margin-bottom:6px}.mkb-t button{padding:6px 14px;border-radius:16px;font-weight:500;color:var(--on-v);display:inline-flex;align-items:center}.mkb-t button.on{background:var(--pc);color:var(--on-pc)}
+.mkb-b{display:grid;grid-template-columns:4fr 5fr;gap:12px;max-width:900px;margin:0 auto}
+.mkb-l{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}.mkb-r{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.mkb-m{grid-column:1/-1;align-self:center;text-align:center;color:var(--on-v);font-size:.85rem;padding:8px;line-height:1.6}
+.mk{height:48px;border-radius:14px;background:var(--s1);font-size:1.1rem;font-weight:500;color:var(--on);transition:background .15s,transform .2s var(--spring)}
+.mk:active{background:var(--pc);transform:scale(.94)}.mk.op,.mk.act{background:var(--s3)}.mk.w2{grid-column:span 2}.mk.it{font-family:'Times New Roman',serif;font-style:italic;font-size:1.25rem}
+.mk sup{font-size:.65em}
+
+.mkb-open{position:fixed;z-index:19;right:16px;bottom:calc(100px + env(safe-area-inset-bottom));height:44px;padding:0 18px;border-radius:22px;background:var(--primary);color:var(--on-primary);display:inline-flex;align-items:center;gap:6px;font-weight:500;box-shadow:var(--shadow)}
+@media(min-width:700px){.mkb-open{bottom:20px}}
+.gkb{padding-bottom:300px}@media(max-width:699px){.gkb{padding-bottom:420px}#plot{height:min(38vh,340px)}}
+@media(min-width:700px){#plot{height:min(46vh,440px)}}
+/* ===== M3 Expressive スイッチ（52×32・アイコン付き） ===== */
+.sw2 .tr{width:52px;height:32px;border-radius:16px}
+.sw2 .th{left:4px;top:4px;width:24px;height:24px;background:var(--out);color:var(--s4)}
+.sw2 .th .ms{position:absolute;left:50%;top:50%;translate:-50% -50%;width:16px;height:16px;font-size:16px;line-height:16px;display:block;opacity:1;scale:1;rotate:0deg;transition:opacity .2s,scale .35s var(--spring),rotate .35s var(--spring)}
+.sw2 .th .ms:nth-child(2){opacity:0;scale:.4;rotate:-45deg}
+.sw2 input:active+.tr .th{width:28px;height:28px;top:2px;left:2px}
+.sw2 input:checked+.tr{background:var(--primary);box-shadow:none}
+.sw2 input:checked+.tr .th{left:24px;width:24px;height:24px;top:4px;background:var(--on-primary);color:var(--primary)}
+.sw2 input:checked+.tr .th .ms:nth-child(1){opacity:0;scale:.4;rotate:45deg}
+.sw2 input:checked+.tr .th .ms:nth-child(2){opacity:1;scale:1;rotate:0deg}
+.sw2 input:checked:active+.tr .th{left:20px;width:28px;height:28px;top:2px}
+/* ===== iPad向けレイアウト：ツール ===== */
+.tside{display:none}.tbody{max-width:none}
+.tool-calc{max-width:820px;margin:0 auto}.tool-card,.tool-sheet{max-width:900px;margin:0 auto}
+@media(min-width:700px){.ck{height:70px;font-size:1.45rem}.cres{font-size:3.4rem}.cd{min-height:140px}.wcard{min-height:340px;font-size:2.6rem}.rsb{font-size:1.3rem}}
+@media(min-width:1000px){
+  .tools-wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start}
+  .tside{display:grid;gap:14px;position:sticky;top:24px}
+  .tside-g{display:grid;gap:6px;background:var(--s1);border-radius:28px;padding:14px 12px}.tside-g .lbl{padding:4px 12px}
+  .tside-b{display:flex;align-items:center;gap:14px;height:54px;padding:0 18px;border-radius:27px;font-weight:500;color:var(--on-v);text-align:left;transition:background .25s,transform .3s var(--spring)}
+  .tside-b:active{transform:scale(.97)}.tside-b.on{background:var(--pc);color:var(--on-pc)}
+  .tmain>.tseg,.tmain>.lbl{display:none}
+  .tool-graph{display:grid;grid-template-columns:310px minmax(0,1fr);gap:16px;align-items:start}.gleft{overflow:auto;display:grid;gap:10px}.tool-graph .plotw{margin-top:0}.gkb{padding-bottom:0}
+  .tools-wrap.tw-c{grid-template-columns:76px minmax(0,1fr)}.tw-c .tside-g .lbl{display:none}.tw-c .tside-g{padding:8px 6px}.tw-c .tside-b{justify-content:center;padding:0;font-size:0}.tw-c .tside-b .ms{font-size:26px}
+  .tool-cur,.tool-tr,.tool-math,.tool-unit{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+  .tool-cur>*,.tool-tr>.card,.tool-math>.card,.tool-unit>.card{margin-top:0!important}
+  .tool-cur>.muted,.tool-cur>.btn,.tool-tr>.cur2,.tool-tr>.muted,.tool-tr>p,.tool-unit>.tseg{grid-column:1/-1}.tool-cur>.btn{justify-self:start}
+  .trta{min-height:220px}.cur2{margin-top:0}
+}
+/* ===== iPad向けレイアウト：AI ===== */
+.ai{max-width:960px}.ai-b{font-size:1.02rem}
+@media(min-width:1000px){
+  .ai{display:grid;grid-template-columns:320px minmax(0,1fr);grid-template-areas:"h log" "n log" "sug log" "cnt log" ". att" ". inp";grid-template-rows:auto auto auto 1fr auto auto;gap:14px 24px;max-width:1280px;height:calc(100dvh - 130px);min-height:520px}
+  .ai-h{grid-area:h;flex-direction:column;align-items:flex-start;gap:12px}.ai-h span{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.ai-h h2{font-size:1.6rem}
+  .ai-n{grid-area:n}.ai #aisug{grid-area:sug;flex-direction:column;align-items:stretch}.ai #aisug[hidden]{display:flex!important}
+  .ai #aisug .chip{height:auto;min-height:48px;text-align:left;justify-content:flex-start;padding:10px 18px;white-space:normal;border-radius:20px;line-height:1.5}
+  .ai-c{grid-area:cnt;align-self:end;text-align:left}.ai-att{grid-area:att}.ai-in{grid-area:inp}
+  .ai-log{grid-area:log;height:auto;min-height:0;background:var(--s1);border-radius:32px;padding:24px;gap:14px}
+  .ai-b{max-width:78%;font-size:1.08rem}.ai-in textarea{min-height:58px;font-size:1.05rem}
+}
+.fnr .ibtn{width:36px;height:36px;flex:none;display:grid;place-items:center}.fnr .ibtn .ms{font-size:20px}
+.tool-graph .card{padding:10px 14px}
+/* ===== ツール：アプリ一覧（ランチャー）と全幅レイアウト ===== */
+.tgrid2{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px}
+@media(max-width:699px){.tgrid2{grid-template-columns:repeat(2,1fr)}}
+.tcard{display:grid;align-content:start;gap:6px;min-height:180px;padding:22px;border-radius:32px;background:var(--scc);color:var(--on-scc);text-align:left;transition:transform .35s var(--spring),border-radius .35s var(--spring)}
+.tcard:active{transform:scale(.96);border-radius:42px}
+.tc-i{width:60px;height:60px;border-radius:22px;display:grid;place-items:center;background:var(--sc);color:#fff;margin-bottom:10px}
+.tcard b{font-size:1.25rem;font-weight:600}.tcard>span:last-child{opacity:.85;font-size:.9rem;font-weight:400;line-height:1.5}
+.tbar{display:flex;align-items:center;gap:10px;margin:4px 0 14px}.tbar h2{margin:0;font-size:1.5rem;font-weight:600;display:flex;align-items:center;gap:10px}
+.tbar .ibtn{width:48px;height:48px;display:grid;place-items:center;border-radius:24px;background:var(--s3)}
+@media(min-width:1000px){
+  .tool-calc{max-width:none;margin:0;display:grid;grid-template-columns:minmax(320px,1fr) 1.4fr;grid-template-areas:"d k" "c k" "h k";grid-template-rows:auto auto 1fr;gap:12px 28px;align-items:start}
+  .tool-calc .cd{grid-area:d;min-height:210px}.tool-calc>.chips{grid-area:c}.tool-calc .cwrap{grid-area:k}.tool-calc .chist{grid-area:h;margin-top:0}
+  .ck{height:84px;font-size:1.6rem}.cres{font-size:4rem}.cexp{font-size:1.4rem}
+  .tool-card,.tool-sheet{max-width:1100px}.wcard{min-height:420px;font-size:3rem}
+}
+.gleft{grid-template-columns:minmax(0,1fr);min-width:0;overflow-x:hidden}.gleft>*{min-width:0}
+.fnr{min-width:0}.fnr input{width:100%;min-width:0}.fnr span{flex:none}
+@media(min-width:1000px){.tool-graph{grid-template-columns:340px minmax(0,1fr)}}
 </style>
 </head>
 <body>
@@ -718,7 +793,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '6.1';
+const APP_VERSION = '6.6';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1321,7 +1396,7 @@ function viewStats() {
 }
 
 /* ---------- 設定 ---------- */
-const swRow = (key, title, sub) => `<label class="setrow"><span class="t">${title}<small>${sub}</small></span><span class="sw2"><input type="checkbox" data-set="${key}" ${S.set[key] ? 'checked' : ''}><span class="tr"><span class="th">${ms('check')}</span></span></span></label>`;
+const swRow = (key, title, sub) => `<label class="setrow"><span class="t">${title}<small>${sub}</small></span><span class="sw2"><input type="checkbox" data-set="${key}" ${S.set[key] ? 'checked' : ''}><span class="tr"><span class="th">${ms('close')}${ms('check')}</span></span></span></label>`;
 const numRow = (key, title, sub, min, max, unit) => `<div class="setrow"><span class="t">${title}<small>${sub}</small></span><input type="number" inputmode="numeric" data-setn="${key}" min="${min}" max="${max}" value="${S.set[key]}" aria-label="${title}"><span class="muted" style="font-weight:600">${unit}</span></div>`;
 function viewSettings() {
   const st = S.set;
@@ -1380,7 +1455,7 @@ function taskDlg(id, sid, dueDef) {
     <div class="pv" id="pv"></div></div>
     <div id="lsf" hidden><div class="lbl">チェックリスト</div><div id="cls">${(t.items && t.items.length ? t.items : [{ text: '', done: false }]).map(clRow).join('')}</div><button type="button" class="btn text" data-act="addcl">${ms('add')}項目を追加</button></div>
     <div class="fld"><label for="du">提出期限</label><input id="du" name="due" type="date" value="${esc(t.due)}"></div>
-    <label class="setrow" style="padding:6px 0 14px"><span class="t">提出が必要な課題<small>提出済みの記録と、期限が近いときの警告が使えます</small></span><span class="sw2"><input type="checkbox" name="subreq" ${(id ? t.subreq : true) ? 'checked' : ''}><span class="tr"><span class="th">${ms('check')}</span></span></span></label>
+    <label class="setrow" style="padding:6px 0 14px"><span class="t">提出が必要な課題<small>提出済みの記録と、期限が近いときの警告が使えます</small></span><span class="sw2"><input type="checkbox" name="subreq" ${(id ? t.subreq : true) ? 'checked' : ''}><span class="tr"><span class="th">${ms('close')}${ms('check')}</span></span></span></label>
     <div class="fld"><label for="dest">提出先</label><input id="dest" name="dest" type="text" maxlength="30" value="${esc(t.dest || '')}" placeholder="例：数学の先生・Classroom・提出箱"></div>
     <div class="fld"><label for="no">メモ</label><textarea id="no" name="note" maxlength="300" placeholder="範囲・提出先・先生の指示など">${esc(t.note)}</textarea></div>
     <div class="err" id="err"></div>
@@ -1637,7 +1712,7 @@ function closeFocus() { TM.open = false; $('#focus').hidden = true; renderMini()
 /* ====================== アクション ====================== */
 let updating = false, waiting = null;
 const ACT = {
-  tab(id) { ui.tab = id; ui.anim = true; ui.fab = false; renderFab(); render(); window.scrollTo(0, 0); },
+  tab(id) { if (id === 'tools' && ui.tab === 'tools') ui.tool = ''; ui.tab = id; ui.anim = true; ui.fab = false; renderFab(); render(); window.scrollTo(0, 0); },
   goto(id) { ui.tab = 'tasks'; ui.sid = id; ui.filter = 'all'; ui.q = ''; ui.anim = true; render(); window.scrollTo(0, 0); },
   fab() { ui.fab = !ui.fab; renderFab(); },
   addtask(id) { ui.fab = false; renderFab(); taskDlg(null, id); },
@@ -1718,7 +1793,10 @@ const ACT = {
   wcbulkok() { const rows = $('#wcbulk').value.split('\n').map(l => l.split(/[\t,，、：]/)).filter(p => p.length >= 2 && p[0].trim() && p[1].trim()); closeDlg(); if (!rows.length) return toast('追加できる行がありませんでした'); undoable(`${rows.length}枚のカードを追加しました`, () => { rows.forEach(p => S.cards.push({ id: uid(), f: p[0].trim(), b: p.slice(1).join(',').trim(), k: 0 })); }); },
   rsmode() { const el = $('#rstxt'); if (el) { S.sheet = el.value; save(); } RS.edit = false; toolsRefresh(); }, rsedit() { RS.edit = true; toolsRefresh(); },
   rsshow(id, el) { el.classList.toggle('show'); }, rsall(id) { document.querySelectorAll('.hid').forEach(e => e.classList.toggle('show', id === '1')); },
-  uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; render(); }, ck(id) { calcKey(id); }, gz(id) { graphZoom(id); }, cswap() { const a = CR.from; CR.from = CR.to; CR.to = a; render(); }, crupd() { crFetch(); },
+  kb(id) { kbKey(id); }, kbtab(id) { FNG.kt = id; FNG.native = id === 'abc'; toolsRefresh(); if (FNG.native) { const el = document.querySelector(`[data-fi="${FNG.act}"]`); el && el.focus(); } }, kbtoggle() { FNG.kbOpen = !FNG.kbOpen; toolsRefresh(); },
+  gadd() { if (FNG.f.length >= 6) return; FNG.f.push(''); FNG.act = FNG.f.length - 1; toolsRefresh(); const el = document.querySelector(`[data-fi="${FNG.act}"]`); el && el.focus({ preventScroll: true }); },
+  gdel(id) { FNG.f.splice(+id, 1); if (!FNG.f.length) FNG.f.push(''); FNG.act = 0; toolsRefresh(); },
+  uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; render(); scrollTo(0, 0); }, toolback() { ui.tool = ''; render(); scrollTo(0, 0); }, ck(id) { calcKey(id); }, gz(id) { graphZoom(id); }, cswap() { const a = CR.from; CR.from = CR.to; CR.to = a; render(); }, crupd() { crFetch(); },
   trswap() { const f = TR.from === 'auto' ? 'ja-JP' : TR.from; TR.from = TR.to; TR.to = f; if (TR.out) { TR.text = TR.out; TR.out = ''; } render(); }, trgo() { trRun(); }, trclr() { TR.text = ''; TR.out = ''; TR.err = ''; render(); },
   trcopy() { navigator.clipboard && navigator.clipboard.writeText(TR.out).then(() => toast('コピーしました')); }, trspeak() { if (!window.speechSynthesis || !TR.out) return; const u = new SpeechSynthesisUtterance(TR.out); u.lang = TR.to; speechSynthesis.cancel(); speechSynthesis.speak(u); }, aisend() { aiSend(); }, aisug(id) { aiSend(AI.sug[+id]); }, aipick() { $('#aifile').click(); }, aiimport() { $('#aiimp').click(); },
   aiexplain() { $('#aiq').value = '写真の問題を、ヒントから順に解説してください。'; $('#aifile').click(); }, aiattrm(id) { AI.att.splice(+id, 1); renderAtt(); },
@@ -2198,8 +2276,8 @@ function calcHtml() {
   <div class="cwrap">${CALC.sci ? `<div class="cgrid csci">${sci.map(k => kb(k, 'fn')).join('')}</div>` : ''}<div class="cgrid">${basic.map(([k, c]) => kb(k, c)).join('')}</div></div>
   <div class="chist" id="chist"></div>`;
 }
-const GCOL = ['#4285f4', '#ea4335', '#34a853'];
-const FNG = { f: ['x^2', '', ''], cx: 0, cy: 0, sc: 40, pt: null };
+const GCOL = ['#4285f4', '#ea4335', '#34a853', '#f9ab00', '#a142f4', '#00acc1'];
+const FNG = { f: ['x^2', '', ''], cx: 0, cy: 0, sc: 40, pt: null, act: 0, kt: 'num', native: false, kbOpen: true };
 const gclamp = v => Math.max(5, Math.min(3000, v));
 function graphFns() { return FNG.f.map(s => { if (!s.trim()) return null; try { return compileExpr(s, { deg: false }); } catch (e) { return 'err'; } }); }
 function plotAll() {
@@ -2239,12 +2317,45 @@ function plotInit() {
   };
   c.onpointerup = c.onpointercancel = e => { if (P.size === 1 && moved < 6) { const r = c.getBoundingClientRect(); FNG.pt = (e.clientX - r.left - r.width / 2) / FNG.sc + FNG.cx; plotAll(); graphRead(); } P.delete(e.pointerId); };
   c.onwheel = e => { e.preventDefault(); FNG.sc = gclamp(FNG.sc * (e.deltaY < 0 ? 1.1 : 1 / 1.1)); plotAll(); };
-  plotAll(); graphRead();
+  fitGraph(); plotAll(); graphRead();
+}
+const KT = { 'x²': ['^2', 0], 'x³': ['^3', 0], 'xⁿ': ['^', 0], '√': ['sqrt()', 1], abs: ['abs()', 1], sin: ['sin()', 1], cos: ['cos()', 1], tan: ['tan()', 1], asin: ['asin()', 1], acos: ['acos()', 1], atan: ['atan()', 1], log: ['log()', 1], ln: ['ln()', 1], exp: ['exp()', 1] };
+function kbKey(k) {
+  if (FNG.act >= FNG.f.length) FNG.act = 0;
+  const el = document.querySelector(`[data-fi="${FNG.act}"]`); if (!el) return;
+  let v = el.value, s = el.selectionStart == null ? v.length : el.selectionStart, e = el.selectionEnd == null ? s : el.selectionEnd;
+  if (k === '⏎') { const nx = document.querySelector(`[data-fi="${FNG.act + 1}"]`); if (nx) nx.focus(); else if (FNG.f.length < 6 && v.trim()) ACT.gadd(); else el.blur(); return; }
+  if (k === '←') s = e = Math.max(0, s - 1);
+  else if (k === '→') s = e = Math.min(v.length, e + 1);
+  else if (k === 'AC') { v = ''; s = e = 0; }
+  else if (k === '⌫') {
+    if (s === e && s > 0) { const m = /(asin|acos|atan|sin|cos|tan|log|ln|exp|sqrt|abs)\($/.exec(v.slice(0, s)), n = m ? m[0].length : 1, cl = m && v[s] === ')' ? 1 : 0; v = v.slice(0, s - n) + v.slice(s + cl); s = e = s - n; }
+    else { v = v.slice(0, s) + v.slice(e); e = s; }
+  } else { const [ins, back] = KT[k] || [k, 0]; v = v.slice(0, s) + ins + v.slice(e); s = e = s + ins.length - back; }
+  el.value = v; FNG.f[FNG.act] = v; plotAll(); graphRead();
+  el.focus({ preventScroll: true }); try { el.setSelectionRange(s, e); } catch (x) { }
+}
+function kbHtml() {
+  const key = (k, c = '', l) => `<button class="mk ${c}" data-act="kb" data-id="${esc(k)}" aria-label="${esc(k)}">${l || esc(k)}</button>`;
+  const NUM = [['x', 'it'], ['π', 'it'], ['e', 'it'], ['abs', '', '|x|'], ['x²', '', 'x<sup>2</sup>'], ['x³', '', 'x<sup>3</sup>'], ['xⁿ', '', 'x<sup>n</sup>'], ['√', '', '√'], ['sin'], ['cos'], ['tan'], ['ln'], ['←', 'act'], ['→', 'act'], ['AC', 'act'], ['log']];
+  const FNK = [['sin'], ['cos'], ['tan'], ['abs', '', '|x|'], ['asin'], ['acos'], ['atan'], ['exp'], ['log'], ['ln'], ['√'], ['π', 'it'], ['x', 'it'], ['←', 'act'], ['→', 'act'], ['AC', 'act']];
+  const RIGHT = [['7'], ['8'], ['9'], ['×', 'op'], ['÷', 'op'], ['4'], ['5'], ['6'], ['+', 'op'], ['−', 'op'], ['1'], ['2'], ['3'], ['.'], ['⌫', 'act'], ['0', 'w2'], ['('], [')'], ['⏎', 'act', '↵']];
+  const left = FNG.kt === 'abc' ? `<div class="mkb-m">iPadのキーボードで、文字を入力できます。</div>` : (FNG.kt === 'fn' ? FNK : NUM).map(([k, c, l]) => key(k, c, l)).join('');
+  return `<div class="mkb"><div class="mkb-t">${[['num', '123'], ['fn', 'f(x)'], ['abc', 'ABC']].map(([id, l]) => `<button class="${FNG.kt === id ? 'on' : ''}" data-act="kbtab" data-id="${id}">${l}</button>`).join('')}<span class="sp"></span><button data-act="kbtoggle" aria-label="キーボードを隠す">${ms('keyboard_arrow_down')}</button></div>
+  <div class="mkb-b"><div class="mkb-l">${left}</div><div class="mkb-r">${RIGHT.map(([k, c, l]) => key(k, c, l)).join('')}</div></div></div>`;
 }
 function graphHtml() {
-  return `<div class="card">${[0, 1, 2].map(i => `<div class="fnr"><i style="background:${GCOL[i]}"></i><span>y${i + 1} =</span><input data-fi="${i}" value="${esc(FNG.f[i])}" placeholder="${['x^2', 'sin(x)', '2x+1'][i]}" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="関数${i + 1}"></div>`).join('')}</div>
+  const rows = FNG.f.map((s, i) => `<div class="fnr"><i style="background:${GCOL[i]}"></i><span>y${i + 1} =</span><input data-fi="${i}" value="${esc(s)}" inputmode="${FNG.native ? 'text' : 'none'}" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="関数${i + 1}">${FNG.f.length > 1 ? `<button class="ibtn" data-act="gdel" data-id="${i}" aria-label="この式を削除">${ms('close')}</button>` : ''}</div>`).join('');
+  return `<div class="gleft"><div class="card">${rows}${FNG.f.length < 6 ? `<button class="btn text" data-act="gadd">${ms('add')}式を追加</button>` : ''}</div>
+  <div class="muted" id="pread" style="font-weight:500;padding:0 6px"></div><p class="muted" style="font-size:.8rem;padding:0 6px;line-height:1.7">使える式：+ − × ÷ ^（べき乗）、sin cos tan、log、ln、sqrt、abs、exp、π、e。「2x」のように × を省いても書けます。</p></div>
   <div class="plotw"><canvas id="plot"></canvas><div class="pbtn"><button data-act="gz" data-id="in" aria-label="拡大">${ms('add')}</button><button data-act="gz" data-id="out" aria-label="縮小">${ms('remove')}</button><button data-act="gz" data-id="reset" aria-label="中心に戻す">${ms('home')}</button></div></div>
-  <div class="muted" id="pread" style="margin-top:8px;font-weight:500"></div><p class="muted" style="font-size:.8rem">使える式：+ − × ÷ ^（べき乗）、sin cos tan、log、ln、sqrt、abs、exp、π、e。「2x」のように × を省いても書けます。</p>`;
+  ${FNG.kbOpen ? kbHtml() : `<button class="mkb-open" data-act="kbtoggle">${ms('keyboard')}キーボードを表示</button>`}`;
+}
+function fitGraph() {
+  const c = $('#plot'); if (!c) return;
+  const kb = $('.mkb'), reserved = kb ? innerHeight - kb.getBoundingClientRect().top : 16, top = c.getBoundingClientRect().top + scrollY;
+  const h = Math.max(260, Math.floor(innerHeight - reserved - top - 14));
+  c.style.height = h + 'px'; const gl = $('.gleft'); if (gl) gl.style.maxHeight = innerWidth >= 1000 ? h + 'px' : '';
 }
 const CUR = [['JPY', '日本円'], ['USD', '米ドル'], ['EUR', 'ユーロ'], ['GBP', '英ポンド'], ['CNY', '中国人民元'], ['KRW', '韓国ウォン'], ['TWD', '台湾ドル'], ['HKD', '香港ドル'], ['SGD', 'シンガポールドル'], ['THB', 'タイバーツ'], ['VND', 'ベトナムドン'], ['PHP', 'フィリピンペソ'], ['IDR', 'インドネシアルピア'], ['INR', 'インドルピー'], ['AUD', '豪ドル'], ['NZD', 'NZドル'], ['CAD', 'カナダドル'], ['CHF', 'スイスフラン'], ['MXN', 'メキシコペソ'], ['BRL', 'ブラジルレアル']];
 const CR = { amt: '1000', from: 'JPY', to: 'USD', rates: null, t: 0, busy: false, err: '', tried: false };
@@ -2298,11 +2409,13 @@ function trHtml() {
   ${TR.out || TR.err ? `<div class="card" style="margin-top:12px">${TR.err ? `<p class="muted">${esc(TR.err)}</p>` : `<div class="trout">${esc(TR.out).replace(/\n/g, '<br>')}</div><div class="dact" style="margin:10px 0 0"><button class="btn text" data-act="trspeak">${ms('volume_up')}読み上げ</button><button class="btn text" data-act="trcopy">${ms('content_copy')}コピー</button></div>`}</div>` : ''}
   <p class="muted" style="font-size:.8rem;margin-top:10px">入力した文章がGoogleのAIに送られます。個人情報は入力しないでください。</p>`;
 }
+const TOOLS = [['calc', '電卓', 'calculate', 'ふつうの電卓と、関数電卓', 222], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280], ['card', '単語帳', 'style', 'カードをめくって暗記', 340], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260]];
 function viewTools() {
-  const tl = ui.tool || 'calc', A = [['calc', '電卓', 'calculate'], ['graph', '関数', 'show_chart'], ['cur', '通貨', 'currency_exchange'], ['tr', '翻訳', 'translate']], B = [['card', '単語帳', 'style'], ['sheet', '暗記シート', 'visibility_off'], ['unit', '単位換算', 'straighten'], ['math', '数学', 'function']];
-  const row = L => `<div class="tseg">${L.map(([id, l, i]) => `<button class="tchip ${tl === id ? 'on' : ''}" data-act="tool" data-id="${id}">${ms(i)}${l}</button>`).join('')}</div>`;
-  const body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml }[tl]();
-  return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div>${row(A)}<div class="lbl" style="margin:2px 4px 8px">勉強</div>${row(B)}<div class="tbody">${body}</div>`;
+  const tl = ui.tool || '';
+  const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
+  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.slice(0, 4).map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.slice(4).map(card).join('')}</div>`;
+  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml }[tl]();
+  return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 const WC = { i: 0, flip: false, only: true };
 function wcMark(k) {
@@ -2377,14 +2490,15 @@ function mathPaint() {
 }
 function toolsRefresh() { if (ui.tab === 'tools') { const y = scrollY; $('#view').innerHTML = viewTools(); toolsPost(); scrollTo(0, y); } }
 function toolsPost() {
-  const tl = ui.tool || 'calc';
+  const tl = ui.tool || '';
   if (tl === 'calc') calcPaint();
   else if (tl === 'graph') plotInit();
   else if (tl === 'unit') unPaint();
   else if (tl === 'math') mathPaint();
   else if (tl === 'cur') { crPaint(); if (!CR.busy && !CR.tried && navigator.onLine && (!CR.rates || Date.now() - CR.t > 6 * 36e5)) crFetch(); }
 }
-addEventListener('resize', () => { if ($('#plot')) plotAll(); });
+addEventListener('resize', () => { if ($('#plot')) { fitGraph(); plotAll(); } });
+document.addEventListener('focusin', e => { const d = e.target.dataset; if (d && d.fi !== undefined) FNG.act = +d.fi; });
 document.addEventListener('input', e => {
   const t = e.target;
   if (t.dataset && t.dataset.fi !== undefined) { FNG.f[+t.dataset.fi] = t.value; plotAll(); graphRead(); }
