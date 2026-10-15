@@ -665,6 +665,37 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .gem{display:inline-block;vertical-align:-4px;flex:none}.pill .gem{vertical-align:middle}
 .nbadge.new{background:linear-gradient(135deg,#4285f4,#9b72cb,#d96570);color:#fff;font-size:.58rem;font-weight:700;padding:1px 6px;letter-spacing:.02em}
 .ai-h h2 .gem{margin-right:8px;vertical-align:-6px}
+.mth{white-space:nowrap}.ai-b sup,.ai-b sub{font-size:.75em}
+.tseg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tchip{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 16px;border-radius:20px;background:var(--s3);color:var(--on-v);font-weight:500;transition:background .25s,transform .3s var(--spring)}
+.tchip:active{transform:scale(.95)}.tchip.on{background:var(--primary);color:var(--on-primary)}.tchip .ms{font-size:20px}
+.tbody{max-width:860px}
+.cd{background:var(--s2);border-radius:28px;padding:18px 22px;text-align:right;min-height:112px;display:grid;align-content:end;gap:4px}
+.cexp{font-size:1.2rem;color:var(--on-v);overflow-wrap:anywhere;font-weight:400}.cres{font-size:2.8rem;font-weight:600;line-height:1.1;overflow-wrap:anywhere;min-height:1.1em}
+.cwrap{display:grid;gap:12px}@media(min-width:760px){.cwrap{grid-template-columns:1fr 1fr}}
+.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-content:start}
+.ck{height:62px;border-radius:22px;background:var(--s3);font-size:1.3rem;font-weight:500;color:var(--on);transition:transform .25s var(--spring),border-radius .25s,background .2s}
+.ck:active{transform:scale(.93);border-radius:30px}.ck.op{background:var(--pc);color:var(--on-pc)}.ck.fn{background:var(--s2);color:var(--primary)}.ck.eq{background:var(--primary);color:var(--on-primary)}
+.chist{margin-top:14px;display:grid;gap:6px}.chist>div{display:flex;justify-content:space-between;gap:12px;color:var(--on-v);font-weight:400;padding:6px 4px}.chist b{font-weight:600;color:var(--on)}
+.fnr{display:flex;align-items:center;gap:10px;margin:6px 0}.fnr i{width:14px;height:14px;border-radius:7px;flex:none}.fnr span{font-weight:500;color:var(--on-v)}
+.fnr input{flex:1;min-width:0;height:48px;border:0;border-radius:14px;background:var(--s3);padding:0 14px;font:inherit;color:var(--on)}
+.fnr input:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}.fnr input.bad{box-shadow:inset 0 0 0 2.5px var(--err)}
+.plotw{position:relative;margin-top:12px}#plot{width:100%;height:min(58vh,480px);touch-action:none;border-radius:24px;background:var(--s1);display:block}
+.pbtn{position:absolute;right:10px;bottom:10px;display:grid;gap:8px}.pbtn button{width:44px;height:44px;border-radius:14px;background:var(--s3);display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.cur2{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin:8px 0 14px}
+.cur2 select{height:52px;border:0;border-radius:14px;background:var(--s3);padding:0 12px;font:inherit;color:var(--on);min-width:0}
+.crres{font-size:2.4rem;font-weight:600;color:var(--primary);margin:6px 0;overflow-wrap:anywhere}
+.trta{width:100%;border:0;border-radius:16px;background:var(--s3);padding:14px 16px;font:inherit;color:var(--on);resize:vertical;min-height:130px}
+.trta:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}.trout{font-size:1.15rem;line-height:1.8;font-weight:400;overflow-wrap:anywhere}
+.wcard{display:grid;place-items:center;align-content:center;gap:8px;width:100%;min-height:230px;padding:20px;border-radius:32px;background:var(--pc);color:var(--on-pc);font-size:1.9rem;font-weight:500;text-align:center;position:relative;animation:wcpop .35s var(--spring)}
+.wcard.back{background:var(--primary);color:var(--on-primary)}.wcard small{position:absolute;top:14px;left:20px;font-size:.85rem;opacity:.8;font-weight:500}
+@keyframes wcpop{from{transform:scale(.95) rotateX(25deg);opacity:.5}to{transform:none;opacity:1}}
+.wcl summary{cursor:pointer;font-weight:500}.wcr{display:grid;grid-template-columns:1fr 1fr auto;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--out-v)}.wcr .ms{font-size:16px;color:var(--primary);margin-right:4px}
+.hid{background:#e53935;color:transparent;border-radius:6px;padding:0 4px;cursor:pointer;user-select:none;transition:background .2s,color .2s}.hid.show{background:transparent;color:#e53935;font-weight:600}
+.rsb{font-size:1.15rem;line-height:2;font-weight:400}
+.mh{margin:0 0 10px;font-size:1rem;font-weight:600}.mres{line-height:1.9;font-weight:400;overflow-wrap:anywhere;min-height:1.4em}.mres b{font-weight:600;color:var(--primary)}
+.mq{display:flex;gap:8px;margin-bottom:8px}.mq input,.mq select,.card .fld input[data-mt]{flex:1;min-width:0;height:50px;border:0;border-radius:14px;background:var(--s3);padding:0 14px;font:inherit;color:var(--on);width:100%}
+.mq input:focus,.fld input[data-mt]:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}
 </style>
 </head>
 <body>
@@ -687,7 +718,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '5.1';
+const APP_VERSION = '6.1';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -954,7 +985,7 @@ function postRender() {
 }
 
 /* ====================== 画面描画 ====================== */
-const VIEWS = { home: viewHome, tasks: viewTasks, cal: viewCal, stats: viewStats, ai: viewAi, settings: viewSettings };
+const VIEWS = { home: viewHome, tasks: viewTasks, cal: viewCal, stats: viewStats, ai: viewAi, tools: viewTools, settings: viewSettings };
 function render() {
   if (ui.tab === 'ai' && !aiOpened()) { try { localStorage.setItem('kosa-ai-opened', '1'); } catch (e) { } }
   const y = window.scrollY, v = $('#view');
@@ -964,6 +995,7 @@ function render() {
   ui.anim = false;
   renderNav(); renderMini(); postRender();
   if (ui.tab === 'ai') { renderAiLog(); renderAtt(); }
+  if (ui.tab === 'tools') toolsPost();
   window.scrollTo(0, y);
 }
 let _gem = 0;
@@ -973,12 +1005,12 @@ function gem(px = 22, grad = false) {
 }
 const aiOpened = () => { try { return !!localStorage.getItem('kosa-ai-opened'); } catch (e) { return true; } };
 function renderNav() {
-  const items = [['home', 'ホーム', 'home'], ['tasks', '課題', 'checklist'], ['cal', '予定', 'calendar_month'], ['stats', '記録', 'insights'], ['ai', 'AI', 'auto_awesome'], ['settings', '設定', 'settings']];
+  const items = [['home', 'ホーム', 'home'], ['tasks', '課題', 'checklist'], ['cal', '予定', 'calendar_month'], ['stats', '記録', 'insights'], ['ai', 'AI', 'auto_awesome'], ['tools', 'ツール', 'build'], ['settings', '設定', 'settings']];
   const d = daysLeft(curExam()), bd = d === null || d < 0 ? '' : d === 0 ? '今日' : d + '日';
   $('#nav').innerHTML = items.map(([id, l, i]) => { const b = id === 'home' && bd; return `<button class="ni ${ui.tab === id ? 'on' : ''}" data-act="tab" data-id="${id}" aria-label="${l}${b ? `（考査まで${bd}）` : ''}" ${ui.tab === id ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24) : ms(i)}</span>${b ? `<b class="nbadge ${d <= 3 ? 'hot' : ''}">${d === 0 ? '今日' : 'あと' + bd}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span>${l}</button>`; }).join('');
 }
 function renderFab() {
-  const f = $('#fab'); f.hidden = ui.tab === 'ai';
+  const f = $('#fab'); f.hidden = ui.tab === 'ai' || ui.tab === 'tools';
   if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="ai">${gem(20)}AIに質問</button><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
   f.className = ui.fab ? 'open' : '';
   f.querySelector('.fabb').setAttribute('aria-expanded', String(!!ui.fab));
@@ -1677,7 +1709,18 @@ const ACT = {
   acct() { acctDlg(); }, cloudin() { closeDlg(); cloudLogin(); }, cloudout() { closeDlg(); cloudLogout(); }, cloudnow() { cloudPushNow().then(() => toast(CLOUD.status === 'ok' ? '同期しました' : '同期できませんでした')); },
   expsub() { exportSubjects(); }, impsub() { $('#impsub').click(); },
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); ui.sid = ''; ui.tab = 'home'; })); },
-  reload() { startUpdate(); }, ai() { ACT.tab('ai'); }, aisend() { aiSend(); }, aisug(id) { aiSend(AI.sug[+id]); }, aipick() { $('#aifile').click(); }, aiimport() { $('#aiimp').click(); },
+  reload() { startUpdate(); }, ai() { ACT.tab('ai'); },
+  wcflip() { WC.flip = !WC.flip; toolsRefresh(); }, wcok() { wcMark(1); }, wcng() { wcMark(0); }, wconly() { WC.only = !WC.only; WC.i = 0; WC.flip = false; toolsRefresh(); },
+  wcreset() { S.cards.forEach(c => c.k = 0); WC.i = 0; save(); toolsRefresh(); }, wcshuf() { const a = S.cards; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } WC.i = 0; WC.flip = false; save(); toolsRefresh(); toast('カードをシャッフルしました'); },
+  wcadd() { const f = $('#wcf').value.trim(), b = $('#wcb').value.trim(); if (!f || !b) return toast('表と裏の両方を入力してください'); S.cards.push({ id: uid(), f, b, k: 0 }); save(); toolsRefresh(); const el = $('#wcf'); el && el.focus(); },
+  wcdel(id) { undoable('カードを削除しました', () => { S.cards = S.cards.filter(c => c.id !== id); }); },
+  wcbulk() { openDlg(`<h2>カードをまとめて追加</h2><p class="muted" style="margin:-8px 0 12px">1行に1枚、「表,裏」の形で入力します（カンマ・タブ・全角コロンで区切れます）。</p><textarea id="wcbulk" class="trta" rows="8" placeholder="apple,りんご\nbook,本"></textarea><div class="dact" style="margin-top:12px"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" data-act="wcbulkok">${ms('check')}追加する</button></div>`); },
+  wcbulkok() { const rows = $('#wcbulk').value.split('\n').map(l => l.split(/[\t,，、：]/)).filter(p => p.length >= 2 && p[0].trim() && p[1].trim()); closeDlg(); if (!rows.length) return toast('追加できる行がありませんでした'); undoable(`${rows.length}枚のカードを追加しました`, () => { rows.forEach(p => S.cards.push({ id: uid(), f: p[0].trim(), b: p.slice(1).join(',').trim(), k: 0 })); }); },
+  rsmode() { const el = $('#rstxt'); if (el) { S.sheet = el.value; save(); } RS.edit = false; toolsRefresh(); }, rsedit() { RS.edit = true; toolsRefresh(); },
+  rsshow(id, el) { el.classList.toggle('show'); }, rsall(id) { document.querySelectorAll('.hid').forEach(e => e.classList.toggle('show', id === '1')); },
+  uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; render(); }, ck(id) { calcKey(id); }, gz(id) { graphZoom(id); }, cswap() { const a = CR.from; CR.from = CR.to; CR.to = a; render(); }, crupd() { crFetch(); },
+  trswap() { const f = TR.from === 'auto' ? 'ja-JP' : TR.from; TR.from = TR.to; TR.to = f; if (TR.out) { TR.text = TR.out; TR.out = ''; } render(); }, trgo() { trRun(); }, trclr() { TR.text = ''; TR.out = ''; TR.err = ''; render(); },
+  trcopy() { navigator.clipboard && navigator.clipboard.writeText(TR.out).then(() => toast('コピーしました')); }, trspeak() { if (!window.speechSynthesis || !TR.out) return; const u = new SpeechSynthesisUtterance(TR.out); u.lang = TR.to; speechSynthesis.cancel(); speechSynthesis.speak(u); }, aisend() { aiSend(); }, aisug(id) { aiSend(AI.sug[+id]); }, aipick() { $('#aifile').click(); }, aiimport() { $('#aiimp').click(); },
   aiexplain() { $('#aiq').value = '写真の問題を、ヒントから順に解説してください。'; $('#aifile').click(); }, aiattrm(id) { AI.att.splice(+id, 1); renderAtt(); },
   aiimpok() { const sel = [...document.querySelectorAll('[data-imp]')].filter(c => c.checked).map(c => AI.imp[+c.dataset.imp]); closeDlg(); if (sel.length) aiAddTasks(sel); },
   aiweek() { if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return acctDlg(); } const w0 = weekData(0), w1 = weekData(1); ACT.tab('ai'); setTimeout(() => aiSend(`今週の学習の振り返りと、来週へのアドバイスをください。今週は${w0.a}ページ（先週は${w1.a}ページ）、学習した日は${w0.act}/7日、完了した課題は${w0.fin}件、集中した時間は${w0.m}分です。`), 50); }, aireset() { AI.chat = null; AI.msgs = []; renderAiLog(); }, guide() { guideDlg(); }, gdnext() { guideGo(G.i + 1); }, gdprev() { guideGo(G.i - 1); }, gdskip() { closeDlg(); }, upd() { updDlg(); }, updchk() { checkUpdate(); },
@@ -1947,6 +1990,7 @@ const GUIDE = [
   ['home', 'ホーム画面の見方', '上の大きな円は、<b>全体の達成率</b>です。<br><b>「今日のプラン」</b>は、考査日までに間に合うように、今日やるページ数を自動で出したものです。<b>「期限が近い課題」</b>と、教科ごとの進み具合も見られます。'],
   ['outbox', '提出も忘れないようにします', '提出が必要な課題は、終わったら<b>「提出済み」</b>にします。まだ提出していない課題は、期限が近づくと赤く表示されます。<br>課題を追加するときに、<b>「提出先」</b>も入れておけます。'],
   ['timer', '集中タイマー', '<b>＋ボタン → 「集中タイマー」</b>で、集中する時間を計れます。終わると学習時間として記録され、<b>統計タブの「今週の振り返り」</b>に反映されます。'],
+  ['build', 'ツールタブ', '<b>「ツール」タブ</b>には、<b>電卓</b>（関数電卓つき）、<b>関数グラフ</b>、<b>通貨計算</b>、<b>翻訳</b>があります。<br>グラフは、指でなぞって動かし、2本の指で拡大・縮小できます。通貨計算の為替レートは、ネットにつながっているときに更新されます。翻訳は、Googleログインが必要です。'],
   ['auto_awesome', 'AIに質問できます', '<b>下のタブの「AI」</b>で、勉強で分からないことを質問できます。ヒントや考え方を教えてくれます。<b>写真も添付</b>できます（問題を撮って質問できます）。<br>プリントを撮ると、課題を読み取って登録することもできます。<br>使うには<b>Googleログイン</b>が必要です。質問と、課題の名前・進み具合がAIに送られるので、名前や学校名などの個人情報は入力しないでください。答えが間違っていることもあるので、教科書や先生にも確認しましょう。'],
   ['cloud_sync', 'データの保存と同期', 'データは、この端末の中に保存されます。<br>右上のアイコンから<b>Googleでログイン</b>すると、同じアカウントでログインした別の端末とも、進み具合が同期されます。<br>この説明は、<b>設定 → 「使い方を見る」</b>からいつでも見られます。']
 ];
@@ -1970,6 +2014,7 @@ const AI_SYS = `あなたは日本の中学生の勉強を手伝うAIの先生�
 - 課題の答えの丸写しを頼まれたときは、答えを書き写すのではなく、解き方を説明します。
 - 勉強と関係のない話や、危険・不適切な内容には答えず、勉強の話題に戻します。
 - 写真が添付されたときは、写っている問題や内容を読み取って答えます。顔や個人情報が写っていても触れません。
+- 数式には LaTeX（$ や \ の記号）を使わず、ふつうの文字で書きます（例：∠ABC、△ABC、x²、1/2、×、÷、°）。空欄は「＿＿」で表します。
 - 個人情報を聞き出しません。分からないときは、分からないと正直に言います。
 - 以下は生徒の現在の課題の状況です。必要なときだけ参考にしてください。`;
 const aiLimit = () => window.AI_DAILY_LIMIT || 30;
@@ -1998,7 +2043,19 @@ function aiErr(e) {
   else m = 'うまく答えを作れませんでした。時間をおいて、もう一度お試しください。';
   return m + '\n\n（詳細：' + s.slice(0, 220) + '）';
 }
-const mdLite = s => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/^\s*[*-] /gm, '・').replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\n/g, '<br>');
+const TEX = { angle: '∠', triangle: '△', times: '×', div: '÷', circ: '°', degree: '°', cdot: '・', pi: 'π', leq: '≦', le: '≦', geq: '≧', ge: '≧', neq: '≠', ne: '≠', parallel: '∥', perp: '⊥', therefore: '∴', because: '∵', alpha: 'α', beta: 'β', gamma: 'γ', theta: 'θ', pm: '±', equiv: '≡', sim: '∽', infty: '∞', rightarrow: '→', to: '→', Rightarrow: '⇒', ldots: '…', dots: '…', cdots: '⋯', quad: '\u00a0\u00a0', qquad: '\u00a0\u00a0\u00a0\u00a0', ',': ' ', ';': ' ', ':': ' ', '!': '', left: '', right: '', displaystyle: '' };
+function tex(m) {
+  const wrap = x => /^[\w.]+$/.test(x.trim()) ? x.trim() : '(' + x.trim() + ')';
+  let s = m;
+  for (let k = 0; k < 3; k++) s = s.replace(/\\(?:text|mathrm|mathbf|operatorname|textbf)\{([^{}]*)\}/g, '$1').replace(/\\underline\{([^{}]*)\}/g, '\u0003$1\u0004').replace(/\\d?frac\{([^{}]*)\}\{([^{}]*)\}/g, (_, a, b) => wrap(a) + '/' + wrap(b)).replace(/\\sqrt\{([^{}]*)\}/g, '√($1)').replace(/\^\{([^{}]*)\}/g, '\u0005$1\u0006').replace(/_\{([^{}]*)\}/g, '\u0007$1\u0008');
+  s = s.replace(/\^([\w])/g, '\u0005$1\u0006').replace(/_([\w])/g, '\u0007$1\u0008').replace(/\\([a-zA-Z]+)\s*|\\([,;:!])/g, (_, k, p) => { k = k || p; return k in TEX ? TEX[k] : k; }).replace(/[{}]/g, '').replace(/\\\\/g, ' ');
+  return esc(s).replace(/\u0003/g, '<u>').replace(/\u0004/g, '</u>').replace(/\u0005/g, '<sup>').replace(/\u0006/g, '</sup>').replace(/\u0007/g, '<sub>').replace(/\u0008/g, '</sub>');
+}
+const mdLite = s => {
+  const tk = [];
+  s = String(s).replace(/\$\$([\s\S]+?)\$\$|\\\[([\s\S]+?)\\\]|\\\(([\s\S]+?)\\\)|\$([^$\n]+?)\$/g, (_, a, b, c, d) => { tk.push(tex(a || b || c || d)); return '\u0001' + (tk.length - 1) + '\u0002'; });
+  return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/^#{1,4}\s*(.+)$/gm, '<b>$1</b>').replace(/^\s*[*-] /gm, '・').replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\n/g, '<br>').replace(/\u0001(\d+)\u0002/g, (_, i) => `<span class="mth">${tk[+i]}</span>`);
+};
 function renderAiLog() {
   const log = $('#ailog'); if (!log) return;
   const bub = (r, h) => `<div class="ai-b ${r}">${h}</div>`;
@@ -2087,6 +2144,262 @@ function aiAddTasks(sel) {
     }
   });
 }
+/* ====================== ツール（電卓・関数・通貨・翻訳） ====================== */
+function compileExpr(src, o = {}) {
+  const s = String(src).replace(/×/g, '*').replace(/÷/g, '/').replace(/[−ー]/g, '-').replace(/π/g, 'pi').replace(/√/g, 'sqrt').replace(/²/g, '^2').replace(/³/g, '^3').replace(/\s+/g, '').toLowerCase();
+  const tk = s.match(/\d*\.?\d+|\d+\.|[a-z]+|[-+*/^()%!]/g) || [];
+  if (tk.join('').length !== s.length) throw new Error('char');
+  const D = o.deg ? Math.PI / 180 : 1, FN = { sin: x => Math.sin(x * D), cos: x => Math.cos(x * D), tan: x => Math.tan(x * D), asin: x => Math.asin(x) / D, acos: x => Math.acos(x) / D, atan: x => Math.atan(x) / D, log: Math.log10, ln: Math.log, sqrt: Math.sqrt, abs: Math.abs, exp: Math.exp };
+  let p = 0; const peek = () => tk[p], next = () => tk[p++];
+  const fact = n => { n = Math.round(n); if (n < 0 || n > 170) return NaN; let r = 1; for (let i = 2; i <= n; i++) r *= i; return r; };
+  function expr() { let l = term(); while (peek() === '+' || peek() === '-') { const op = next(), r = term(), a = l; l = op === '+' ? x => a(x) + r(x) : x => a(x) - r(x); } return l; }
+  function term() { let l = unary(); for (;;) { const k = peek(); if (k === '*' || k === '/') { next(); const r = unary(), a = l; l = k === '*' ? x => a(x) * r(x) : x => a(x) / r(x); } else if (k && (k === '(' || /^[a-z\d.]/.test(k))) { const r = unary(), a = l; l = x => a(x) * r(x); } else return l; } }
+  function unary() { if (peek() === '-') { next(); const a = unary(); return x => -a(x); } if (peek() === '+') { next(); return unary(); } return pw(); }
+  function pw() { const b = post(); if (peek() === '^') { next(); const e = unary(); return x => Math.pow(b(x), e(x)); } return b; }
+  function post() { let a = prim(); for (;;) { if (peek() === '%') { next(); const b = a; a = x => b(x) / 100; } else if (peek() === '!') { next(); const b = a; a = x => fact(b(x)); } else return a; } }
+  function prim() {
+    const k = next(); if (k === undefined) throw new Error('end');
+    if (/^[\d.]/.test(k)) { const v = parseFloat(k); return () => v; }
+    if (k === '(') { const a = expr(); if (peek() === ')') next(); return a; }
+    if (k === 'x') return x => x; if (k === 'pi') return () => Math.PI; if (k === 'e') return () => Math.E; if (k === 'ans') return () => o.ans || 0;
+    if (FN[k]) { if (next() !== '(') throw new Error('fn'); const a = expr(); if (peek() === ')') next(); return x => FN[k](a(x)); }
+    throw new Error('tok');
+  }
+  const f = expr(); if (p < tk.length) throw new Error('rest'); return f;
+}
+const fmtN = v => !isFinite(v) ? 'エラー' : (Math.abs(v) >= 1e15 || (Math.abs(v) < 1e-9 && v !== 0)) ? v.toExponential(8).replace(/\.?0+e/, 'e') : String(+v.toPrecision(12));
+const CALC = { expr: '', res: '', deg: true, sci: false, just: false, ans: 0, hist: [] };
+function calcEval(save) { try { const v = compileExpr(CALC.expr, { deg: CALC.deg, ans: CALC.ans })(0); return isFinite(v) ? v : null; } catch (e) { return null; } }
+function calcKey(k) {
+  const C = CALC, ops = '+−×÷^';
+  if (k === 'sci') C.sci = !C.sci;
+  else if (k === 'DEG') C.deg = !C.deg;
+  else if (k === 'AC') { C.expr = ''; C.res = ''; C.just = false; }
+  else if (k === '⌫') C.expr = C.expr.replace(/(sin|cos|tan|log|ln|√)\($|.$/, '');
+  else if (k === '=') { const v = calcEval(); if (v === null) C.res = 'エラー'; else { C.res = fmtN(v); C.hist.unshift({ e: C.expr, r: C.res }); C.hist = C.hist.slice(0, 6); C.ans = v; C.just = true; } }
+  else {
+    if (C.just) { if (ops.includes(k) || k === '%' || k === 'x²' || k === '!') C.expr = C.res; else C.expr = ''; C.just = false; C.res = ''; }
+    C.expr += { sin: 'sin(', cos: 'cos(', tan: 'tan(', log: 'log(', ln: 'ln(', '√': '√(', 'x²': '^2', Ans: 'Ans' }[k] || k;
+  }
+  if (k === 'sci' || k === 'DEG') render(); else calcPaint();
+}
+function calcPaint() {
+  const a = $('#cexp'), b = $('#cres'); if (!a) return;
+  a.textContent = CALC.expr || '0';
+  if (CALC.just || CALC.res === 'エラー') b.textContent = CALC.res; else { const v = CALC.expr ? calcEval() : null; b.textContent = v === null ? '' : fmtN(v); }
+  const h = $('#chist'); if (h) h.innerHTML = CALC.hist.map(x => `<div><span>${esc(x.e)}</span><b>= ${esc(x.r)}</b></div>`).join('');
+}
+function calcHtml() {
+  const kb = (k, c = '') => `<button class="ck ${c}" data-act="ck" data-id="${esc(k)}">${esc(k)}</button>`;
+  const basic = [['AC', 'fn'], ['⌫', 'fn'], ['%', 'fn'], ['÷', 'op'], ['7'], ['8'], ['9'], ['×', 'op'], ['4'], ['5'], ['6'], ['−', 'op'], ['1'], ['2'], ['3'], ['+', 'op'], ['0'], ['.'], ['Ans', 'fn'], ['=', 'eq']];
+  const sci = ['(', ')', '^', '√', 'sin', 'cos', 'tan', 'π', 'log', 'ln', 'x²', 'e', '!'];
+  return `<div class="cd"><div class="cexp" id="cexp"></div><div class="cres" id="cres"></div></div>
+  <div class="chips" style="margin:10px 0"><button class="tchip ${CALC.sci ? 'on' : ''}" data-act="ck" data-id="sci">関数電卓</button>${CALC.sci ? `<button class="tchip" data-act="ck" data-id="DEG">${CALC.deg ? '角度：度（°）' : '角度：ラジアン'}</button>` : ''}</div>
+  <div class="cwrap">${CALC.sci ? `<div class="cgrid csci">${sci.map(k => kb(k, 'fn')).join('')}</div>` : ''}<div class="cgrid">${basic.map(([k, c]) => kb(k, c)).join('')}</div></div>
+  <div class="chist" id="chist"></div>`;
+}
+const GCOL = ['#4285f4', '#ea4335', '#34a853'];
+const FNG = { f: ['x^2', '', ''], cx: 0, cy: 0, sc: 40, pt: null };
+const gclamp = v => Math.max(5, Math.min(3000, v));
+function graphFns() { return FNG.f.map(s => { if (!s.trim()) return null; try { return compileExpr(s, { deg: false }); } catch (e) { return 'err'; } }); }
+function plotAll() {
+  const c = $('#plot'); if (!c) return;
+  const dpr = devicePixelRatio || 1, w = c.clientWidth, h = c.clientHeight; c.width = w * dpr; c.height = h * dpr;
+  const g = c.getContext('2d'); g.scale(dpr, dpr);
+  const cs = getComputedStyle(document.documentElement), grid = cs.getPropertyValue('--out-v').trim() || '#8884', txt = cs.getPropertyValue('--on-v').trim() || '#888', sc = FNG.sc;
+  const sx = x => (x - FNG.cx) * sc + w / 2, sy = y => h / 2 - (y - FNG.cy) * sc;
+  const steps = []; for (let e = -3; e <= 6; e++) for (const m of [1, 2, 5]) steps.push(m * Math.pow(10, e)); const st = steps.find(s => s * sc >= 56) || 1e6;
+  const x0 = FNG.cx - w / 2 / sc, x1 = FNG.cx + w / 2 / sc, y0 = FNG.cy - h / 2 / sc, y1 = FNG.cy + h / 2 / sc;
+  g.lineWidth = 1; g.font = '11px sans-serif'; g.fillStyle = txt;
+  for (let x = Math.ceil(x0 / st) * st; x <= x1; x += st) { const X = Math.round(sx(x)) + .5; g.strokeStyle = grid; g.globalAlpha = Math.abs(x) < st / 2 ? 1 : .35; g.beginPath(); g.moveTo(X, 0); g.lineTo(X, h); g.stroke(); g.globalAlpha = 1; if (Math.abs(x) > st / 2) g.fillText(+x.toPrecision(6), X + 3, Math.min(h - 4, Math.max(12, sy(0) + 13))); }
+  for (let y = Math.ceil(y0 / st) * st; y <= y1; y += st) { const Y = Math.round(sy(y)) + .5; g.strokeStyle = grid; g.globalAlpha = Math.abs(y) < st / 2 ? 1 : .35; g.beginPath(); g.moveTo(0, Y); g.lineTo(w, Y); g.stroke(); g.globalAlpha = 1; if (Math.abs(y) > st / 2) g.fillText(+y.toPrecision(6), Math.min(w - 30, Math.max(3, sx(0) + 4)), Y - 3); }
+  graphFns().forEach((f, i) => {
+    if (!f || f === 'err') return; g.strokeStyle = GCOL[i]; g.lineWidth = 2.5; g.beginPath(); let on = false, py = 0;
+    for (let px = 0; px <= w; px++) { const y = f((px - w / 2) / sc + FNG.cx), Y = sy(y); if (!isFinite(Y) || Math.abs(Y) > 1e5 || (on && Math.abs(Y - py) > h * 2)) { on = false; continue; } if (!on) { g.moveTo(px, Y); on = true; } else g.lineTo(px, Y); py = Y; }
+    g.stroke();
+  });
+  if (FNG.pt !== null) { const X = sx(FNG.pt); g.strokeStyle = txt; g.setLineDash([4, 4]); g.beginPath(); g.moveTo(X, 0); g.lineTo(X, h); g.stroke(); g.setLineDash([]); graphFns().forEach((f, i) => { if (!f || f === 'err') return; const y = f(FNG.pt); if (isFinite(y)) { g.fillStyle = GCOL[i]; g.beginPath(); g.arc(X, sy(y), 5, 0, 7); g.fill(); } }); }
+  document.querySelectorAll('[data-fi]').forEach((el, i) => el.classList.toggle('bad', graphFns()[i] === 'err'));
+}
+function graphRead() {
+  const el = $('#pread'); if (!el) return;
+  if (FNG.pt === null) { el.textContent = 'グラフをタップすると、その場所の x と y が表示されます。'; return; }
+  el.innerHTML = `x = ${fmtN(+FNG.pt.toFixed(4))}` + graphFns().map((f, i) => f && f !== 'err' ? `　<b style="color:${GCOL[i]}">y${i + 1} = ${fmtN(f(FNG.pt))}</b>` : '').join('');
+}
+function graphZoom(id) { if (id === 'reset') { FNG.cx = 0; FNG.cy = 0; FNG.sc = 40; FNG.pt = null; } else FNG.sc = gclamp(FNG.sc * (id === 'in' ? 1.25 : 1 / 1.25)); plotAll(); graphRead(); }
+function plotInit() {
+  const c = $('#plot'); if (!c) return; const P = new Map(); let moved = 0, d0 = 0;
+  c.onpointerdown = e => { c.setPointerCapture(e.pointerId); P.set(e.pointerId, [e.clientX, e.clientY]); moved = 0; if (P.size === 2) { const [a, b] = [...P.values()]; d0 = Math.hypot(a[0] - b[0], a[1] - b[1]); } };
+  c.onpointermove = e => {
+    const p = P.get(e.pointerId); if (!p) return; const dx = e.clientX - p[0], dy = e.clientY - p[1];
+    if (P.size === 1) { FNG.cx -= dx / FNG.sc; FNG.cy += dy / FNG.sc; moved += Math.abs(dx) + Math.abs(dy); }
+    P.set(e.pointerId, [e.clientX, e.clientY]);
+    if (P.size === 2) { const [a, b] = [...P.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); if (d0) FNG.sc = gclamp(FNG.sc * d / d0); d0 = d; moved = 99; }
+    plotAll();
+  };
+  c.onpointerup = c.onpointercancel = e => { if (P.size === 1 && moved < 6) { const r = c.getBoundingClientRect(); FNG.pt = (e.clientX - r.left - r.width / 2) / FNG.sc + FNG.cx; plotAll(); graphRead(); } P.delete(e.pointerId); };
+  c.onwheel = e => { e.preventDefault(); FNG.sc = gclamp(FNG.sc * (e.deltaY < 0 ? 1.1 : 1 / 1.1)); plotAll(); };
+  plotAll(); graphRead();
+}
+function graphHtml() {
+  return `<div class="card">${[0, 1, 2].map(i => `<div class="fnr"><i style="background:${GCOL[i]}"></i><span>y${i + 1} =</span><input data-fi="${i}" value="${esc(FNG.f[i])}" placeholder="${['x^2', 'sin(x)', '2x+1'][i]}" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="関数${i + 1}"></div>`).join('')}</div>
+  <div class="plotw"><canvas id="plot"></canvas><div class="pbtn"><button data-act="gz" data-id="in" aria-label="拡大">${ms('add')}</button><button data-act="gz" data-id="out" aria-label="縮小">${ms('remove')}</button><button data-act="gz" data-id="reset" aria-label="中心に戻す">${ms('home')}</button></div></div>
+  <div class="muted" id="pread" style="margin-top:8px;font-weight:500"></div><p class="muted" style="font-size:.8rem">使える式：+ − × ÷ ^（べき乗）、sin cos tan、log、ln、sqrt、abs、exp、π、e。「2x」のように × を省いても書けます。</p>`;
+}
+const CUR = [['JPY', '日本円'], ['USD', '米ドル'], ['EUR', 'ユーロ'], ['GBP', '英ポンド'], ['CNY', '中国人民元'], ['KRW', '韓国ウォン'], ['TWD', '台湾ドル'], ['HKD', '香港ドル'], ['SGD', 'シンガポールドル'], ['THB', 'タイバーツ'], ['VND', 'ベトナムドン'], ['PHP', 'フィリピンペソ'], ['IDR', 'インドネシアルピア'], ['INR', 'インドルピー'], ['AUD', '豪ドル'], ['NZD', 'NZドル'], ['CAD', 'カナダドル'], ['CHF', 'スイスフラン'], ['MXN', 'メキシコペソ'], ['BRL', 'ブラジルレアル']];
+const CR = { amt: '1000', from: 'JPY', to: 'USD', rates: null, t: 0, busy: false, err: '', tried: false };
+try { const o = JSON.parse(localStorage.getItem('kosa-rates') || 'null'); if (o) { CR.rates = o.r; CR.t = o.t; } } catch (e) { }
+const crConv = (a, f, t) => CR.rates && CR.rates[f] && CR.rates[t] ? a / CR.rates[f] * CR.rates[t] : null;
+async function crFetch() {
+  CR.busy = true; CR.err = ''; CR.tried = true; toolsRefresh();
+  try { const r = await fetch('https://open.er-api.com/v6/latest/JPY'), j = await r.json(); if (j.result !== 'success' || !j.rates) throw 0; CR.rates = j.rates; CR.t = Date.now(); try { localStorage.setItem('kosa-rates', JSON.stringify({ r: j.rates, t: CR.t })); } catch (e) { } }
+  catch (e) { CR.err = CR.rates ? 'ネットに接続できないため、保存済みのレートを使っています' : 'レートを取得できませんでした。接続を確認してください'; }
+  CR.busy = false; toolsRefresh();
+}
+function crPaint() {
+  const r = $('#crres'); if (!r) return; const a = parseFloat(CR.amt), v = crConv(isNaN(a) ? 0 : a, CR.from, CR.to);
+  r.textContent = v === null ? '—' : `${fmtN(+v.toFixed(v < 1 ? 6 : 2))} ${CR.to}`;
+  const t = $('#crtab'); if (t) t.innerHTML = [1, 10, 100, 1000, 10000].map(n => { const x = crConv(n, CR.from, CR.to); return `<div><span>${n.toLocaleString()} ${CR.from}</span><b>${x === null ? '—' : fmtN(+x.toFixed(x < 1 ? 6 : 2)) + ' ' + CR.to}</b></div>`; }).join('');
+}
+function curHtml() {
+  const opt = v => CUR.map(([c, n]) => `<option value="${c}" ${c === v ? 'selected' : ''}>${c}　${n}</option>`).join('');
+  const rt = crConv(1, CR.from, CR.to);
+  return `<div class="card"><div class="fld"><label for="cramt">金額</label><input id="cramt" type="number" inputmode="decimal" value="${esc(CR.amt)}"></div>
+  <div class="cur2"><select data-cr="from" aria-label="換算元">${opt(CR.from)}</select><button class="ibtn" data-act="cswap" aria-label="入れ替え">${ms('swap_horiz')}</button><select data-cr="to" aria-label="換算先">${opt(CR.to)}</select></div>
+  <div class="crres" id="crres"></div><div class="muted" style="font-weight:500">${rt !== null ? `1 ${CR.from} = ${fmtN(+rt.toPrecision(6))} ${CR.to}` : ''}</div></div>
+  <div class="card chist" id="crtab" style="margin-top:12px"></div>
+  <div class="muted" style="margin-top:10px;font-size:.82rem;line-height:1.7">${CR.t ? `レートの更新：${new Date(CR.t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}` : 'レートは未取得です'}${CR.err ? `<br>${CR.err}` : ''}<br>為替レートは目安です（ExchangeRate-API）。実際の取引レートとは異なります。</div>
+  <button class="btn tonal" data-act="crupd" style="margin-top:10px" ${CR.busy ? 'disabled' : ''}>${ms('refresh')}${CR.busy ? '更新中…' : 'レートを更新'}</button>`;
+}
+const LANGS = [['ja-JP', '日本語'], ['en-US', '英語'], ['zh-CN', '中国語（簡体）'], ['zh-TW', '中国語（繁体）'], ['ko-KR', '韓国語'], ['fr-FR', 'フランス語'], ['de-DE', 'ドイツ語'], ['es-ES', 'スペイン語'], ['it-IT', 'イタリア語'], ['pt-BR', 'ポルトガル語'], ['ru-RU', 'ロシア語'], ['th-TH', 'タイ語'], ['vi-VN', 'ベトナム語'], ['id-ID', 'インドネシア語']];
+const TR = { from: 'auto', to: 'en-US', text: '', out: '', busy: false, err: '' };
+const langName = c => (LANGS.find(x => x[0] === c) || [0, c])[1];
+async function trRun() {
+  if (!CLOUD.user) { toast('翻訳は、Googleログイン後に使えます'); return acctDlg(); }
+  const text = TR.text.trim(); if (!text || TR.busy) return;
+  if (aiUsed() >= aiLimit()) return toast(`今日のAI利用は${aiLimit()}回までです`);
+  TR.busy = true; TR.err = ''; TR.out = ''; toolsRefresh();
+  try {
+    if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
+    const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
+    const model = AI.mod.getGenerativeModel(ai, { model: window.AI_MODEL || 'gemini-3.5-flash-lite', systemInstruction: 'あなたは正確な翻訳者です。指定された言語に翻訳し、翻訳文だけを出力します。説明・引用符・注釈は付けません。' });
+    aiCount();
+    const res = await model.generateContent(`${TR.from === 'auto' ? '' : `原文は${langName(TR.from)}です。`}次の文章を${langName(TR.to)}に翻訳してください。\n\n${text}`);
+    TR.out = res.response.text().trim();
+  } catch (e) { TR.err = aiErr(e).split('\n')[0]; }
+  TR.busy = false; toolsRefresh();
+}
+function trHtml() {
+  const opt = (v, auto) => (auto ? `<option value="auto" ${v === 'auto' ? 'selected' : ''}>言語を自動判定</option>` : '') + LANGS.map(([c, n]) => `<option value="${c}" ${c === v ? 'selected' : ''}>${n}</option>`).join('');
+  if (!CLOUD.user) return `<div class="card"><p class="muted" style="margin-bottom:14px">翻訳には、Googleログインが必要です（AIを使って翻訳します）。</p>${gBtn()}</div>`;
+  return `<div class="cur2"><select data-tr="from" aria-label="翻訳元">${opt(TR.from, true)}</select><button class="ibtn" data-act="trswap" aria-label="入れ替え">${ms('swap_horiz')}</button><select data-tr="to" aria-label="翻訳先">${opt(TR.to)}</select></div>
+  <div class="card" style="margin-top:12px"><textarea id="trtxt" class="trta" rows="5" maxlength="2000" placeholder="翻訳する文章を入力" aria-label="翻訳する文章">${esc(TR.text)}</textarea>
+  <div class="dact" style="margin:10px 0 0"><button class="btn text" data-act="trclr">${ms('close')}クリア</button><span class="sp"></span><button class="btn" data-act="trgo" ${TR.busy ? 'disabled' : ''}>${ms('translate')}${TR.busy ? '翻訳中…' : '翻訳'}</button></div></div>
+  ${TR.out || TR.err ? `<div class="card" style="margin-top:12px">${TR.err ? `<p class="muted">${esc(TR.err)}</p>` : `<div class="trout">${esc(TR.out).replace(/\n/g, '<br>')}</div><div class="dact" style="margin:10px 0 0"><button class="btn text" data-act="trspeak">${ms('volume_up')}読み上げ</button><button class="btn text" data-act="trcopy">${ms('content_copy')}コピー</button></div>`}</div>` : ''}
+  <p class="muted" style="font-size:.8rem;margin-top:10px">入力した文章がGoogleのAIに送られます。個人情報は入力しないでください。</p>`;
+}
+function viewTools() {
+  const tl = ui.tool || 'calc', A = [['calc', '電卓', 'calculate'], ['graph', '関数', 'show_chart'], ['cur', '通貨', 'currency_exchange'], ['tr', '翻訳', 'translate']], B = [['card', '単語帳', 'style'], ['sheet', '暗記シート', 'visibility_off'], ['unit', '単位換算', 'straighten'], ['math', '数学', 'function']];
+  const row = L => `<div class="tseg">${L.map(([id, l, i]) => `<button class="tchip ${tl === id ? 'on' : ''}" data-act="tool" data-id="${id}">${ms(i)}${l}</button>`).join('')}</div>`;
+  const body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml }[tl]();
+  return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div>${row(A)}<div class="lbl" style="margin:2px 4px 8px">勉強</div>${row(B)}<div class="tbody">${body}</div>`;
+}
+const WC = { i: 0, flip: false, only: true };
+function wcMark(k) {
+  S.cards = S.cards || []; const list = S.cards.filter(c => !WC.only || !c.k); if (!list.length) return;
+  const c = list[WC.i % list.length]; c.k = k; if (!k || !WC.only) WC.i++; WC.flip = false; save(); toolsRefresh();
+}
+function cardsHtml() {
+  S.cards = S.cards || [];
+  const all = S.cards, list = all.filter(c => !WC.only || !c.k), known = all.filter(c => c.k).length;
+  let body;
+  if (!all.length) body = `<div class="card"><p class="muted" style="margin:0">まだカードがありません。下のフォームから、英単語や用語を追加してください。</p></div>`;
+  else if (!list.length) body = `<div class="card" style="text-align:center"><p>すべてのカードを覚えました。</p><button class="btn" data-act="wcreset">${ms('restart_alt')}最初からやり直す</button></div>`;
+  else { const n = WC.i % list.length, c = list[n]; body = `<button class="wcard ${WC.flip ? 'back' : ''}" data-act="wcflip" aria-label="カードをめくる"><small>${WC.flip ? '裏' : '表'}　${n + 1}/${list.length}</small><div>${esc(WC.flip ? c.b : c.f).replace(/\n/g, '<br>')}</div></button><div class="dact" style="justify-content:center;gap:12px;margin:14px 0"><button class="btn tonal" data-act="wcng">${ms('close')}まだ</button><button class="btn" data-act="wcok">${ms('check')}覚えた</button></div>`; }
+  return `<div class="chips" style="margin-bottom:12px"><span class="muted" style="font-weight:500;align-self:center">覚えた ${known}/${all.length}枚</span><button class="tchip ${WC.only ? 'on' : ''}" data-act="wconly">覚えていないカードだけ</button><button class="tchip" data-act="wcshuf">${ms('shuffle')}シャッフル</button></div>${body}
+  <div class="card" style="margin-top:12px"><div class="fld"><label for="wcf">表（問題・単語）</label><input id="wcf" autocomplete="off"></div><div class="fld"><label for="wcb">裏（答え・意味）</label><input id="wcb" autocomplete="off"></div><div class="dact" style="margin:0"><button class="btn text" data-act="wcbulk">まとめて追加</button><span class="sp"></span><button class="btn" data-act="wcadd">${ms('add')}追加</button></div></div>
+  ${all.length ? `<details class="card wcl"><summary>カード一覧（${all.length}枚）</summary>${all.slice(0, 150).map(c => `<div class="wcr"><span>${c.k ? ms('check') : ''}${esc(c.f)}</span><span class="muted">${esc(c.b)}</span><button class="ibtn" data-act="wcdel" data-id="${c.id}" aria-label="削除">${ms('close')}</button></div>`).join('')}</details>` : ''}`;
+}
+const RS = { edit: false };
+function sheetHtml() {
+  const txt = S.sheet || '';
+  if (RS.edit || !txt) return `<div class="card"><p class="muted" style="margin-top:0">覚えたい言葉を【　】で囲んで入力します。学習モードでは、囲んだ言葉が赤いシートで隠れ、タップすると見えます。</p><textarea id="rstxt" class="trta" rows="9" placeholder="例：日本の首都は【東京】で、人口がもっとも多い都市です。">${esc(txt)}</textarea><div class="dact" style="margin:10px 0 0"><span class="sp"></span><button class="btn" data-act="rsmode">${ms('visibility_off')}学習モードにする</button></div></div>`;
+  let i = 0; const html = esc(txt).replace(/【([^】]+)】/g, (_, w) => `<span class="hid" data-act="rsshow" data-id="${i++}">${w}</span>`).replace(/\n/g, '<br>');
+  return `<div class="card rsb">${html}</div><div class="dact" style="margin-top:12px"><button class="btn text" data-act="rsedit">${ms('edit')}編集</button><span class="sp"></span><button class="btn tonal" data-act="rsall" data-id="0">すべて隠す</button><button class="btn tonal" data-act="rsall" data-id="1">すべて表示</button></div>`;
+}
+const UNITS = { len: ['長さ', [['km', 1000], ['m', 1], ['cm', .01], ['mm', .001], ['inch', .0254], ['ft', .3048], ['yd', .9144], ['mile', 1609.344]]], mass: ['重さ', [['t', 1e6], ['kg', 1000], ['g', 1], ['mg', .001], ['lb', 453.59237], ['oz', 28.349523]]], area: ['面積', [['km²', 1e6], ['ha', 1e4], ['a', 100], ['m²', 1], ['cm²', 1e-4], ['坪', 3.305785], ['畳', 1.62], ['acre', 4046.8564]]], vol: ['体積', [['m³', 1000], ['L', 1], ['dL', .1], ['mL', .001], ['cm³', .001], ['gallon(US)', 3.785412], ['cup(US)', .2365882]]], spd: ['速さ', [['m/s', 1], ['km/h', 1 / 3.6], ['mph', .44704], ['knot', .514444]]], time: ['時間', [['年', 31536000], ['日', 86400], ['時間', 3600], ['分', 60], ['秒', 1]]], data: ['データ', [['TB', 1e12], ['GB', 1e9], ['MB', 1e6], ['KB', 1e3], ['B', 1]]], temp: ['温度', [['℃'], ['℉'], ['K']]] };
+const UN = { cat: 'len', amt: '1', from: 0, to: 1 };
+function unConv(x, f, t) {
+  if (UN.cat === 'temp') { const c = f === 0 ? x : f === 1 ? (x - 32) * 5 / 9 : x - 273.15; return t === 0 ? c : t === 1 ? c * 9 / 5 + 32 : c + 273.15; }
+  const u = UNITS[UN.cat][1]; return x * u[f][1] / u[t][1];
+}
+function unitHtml() {
+  const us = UNITS[UN.cat][1], opt = v => us.map((u, i) => `<option value="${i}" ${i === v ? 'selected' : ''}>${esc(u[0])}</option>`).join('');
+  return `<div class="tseg">${Object.entries(UNITS).map(([k, [n]]) => `<button class="tchip ${UN.cat === k ? 'on' : ''}" data-act="uncat" data-id="${k}">${n}</button>`).join('')}</div>
+  <div class="card"><div class="fld"><label for="unamt">数値</label><input id="unamt" type="number" inputmode="decimal" value="${esc(UN.amt)}"></div><div class="cur2"><select data-un="from" aria-label="変換前">${opt(UN.from)}</select><span class="muted">→</span><select data-un="to" aria-label="変換後">${opt(UN.to)}</select></div><div class="crres" id="unres"></div></div>
+  <div class="card chist" id="untab" style="margin-top:12px"></div>`;
+}
+function unPaint() {
+  const r = $('#unres'); if (!r) return; const us = UNITS[UN.cat][1], a = parseFloat(UN.amt), f = x => isNaN(a) ? '—' : fmtN(+x.toPrecision(10));
+  r.textContent = isNaN(a) ? '—' : `${f(unConv(a, UN.from, UN.to))} ${us[UN.to][0]}`;
+  $('#untab').innerHTML = us.map((u, i) => `<div><span>${esc(u[0])}</span><b>${isNaN(a) ? '—' : f(unConv(a, UN.from, i))}</b></div>`).join('');
+}
+function mathHtml() {
+  const inp = (id, ph, mode = 'numeric', v = '') => `<input id="${id}" data-mt inputmode="${mode}" placeholder="${ph}" value="${v}" autocomplete="off">`;
+  return `<div class="card"><h3 class="mh">素因数分解・約数・素数判定</h3><div class="fld">${inp('mtn', '例：360')}</div><div class="mres" id="mt1"></div></div>
+  <div class="card" style="margin-top:12px"><h3 class="mh">最大公約数・最小公倍数</h3><div class="fld">${inp('mtg', '例：12 18 30（スペースで区切る）', 'text')}</div><div class="mres" id="mt2"></div></div>
+  <div class="card" style="margin-top:12px"><h3 class="mh">二次方程式　ax² + bx + c = 0</h3><div class="mq">${inp('mqa', 'a', 'decimal')}${inp('mqb', 'b', 'decimal')}${inp('mqc', 'c', 'decimal')}</div><div class="mres" id="mt3"></div></div>
+  <div class="card" style="margin-top:12px"><h3 class="mh">進数変換</h3><div class="mq">${inp('mtb', '数値', 'text')}<select id="mtbr" data-mt aria-label="入力の進数"><option value="10">10進数</option><option value="2">2進数</option><option value="8">8進数</option><option value="16">16進数</option></select></div><div class="mres" id="mt4"></div></div>`;
+}
+function mathPaint() {
+  const v = id => { const e = $('#' + id); return e ? e.value.trim() : ''; }, put = (id, h) => { const e = $('#' + id); if (e) e.innerHTML = h; };
+  const n = parseInt(v('mtn'), 10);
+  if (v('mtn') === '') put('mt1', ''); else if (!(n >= 1) || n > 1e12) put('mt1', '1〜1兆の整数を入力してください');
+  else {
+    const f = []; let m = n; for (let p = 2; p * p <= m; p++) { let c = 0; while (m % p === 0) { m /= p; c++; } if (c) f.push([p, c]); } if (m > 1) f.push([m, 1]);
+    let d = [1]; f.forEach(([p, c]) => { const nd = []; d.forEach(x => { for (let k = 0; k <= c; k++) nd.push(x * Math.pow(p, k)); }); d = nd; }); d.sort((a, b) => a - b);
+    const prime = n > 1 && f.length === 1 && f[0][1] === 1;
+    put('mt1', n === 1 ? '1 は素数でも合成数でもありません。約数：1' : `${n} = ${prime ? n : f.map(([p, c]) => c > 1 ? `${p}<sup>${c}</sup>` : p).join(' × ')}<br>${prime ? '素数です' : '合成数です'}<br>約数（${d.length}個）：${d.slice(0, 120).join('、')}${d.length > 120 ? '…' : ''}`);
+  }
+  const g = v('mtg').split(/[\s,、，]+/).filter(Boolean).map(x => /^\d+$/.test(x) ? BigInt(x) : null);
+  if (!v('mtg')) put('mt2', ''); else if (g.length < 2 || g.length > 6 || g.some(x => x === null || x < 1n)) put('mt2', '2〜6個の正の整数を入力してください');
+  else { const gc = (a, b) => b ? gc(b, a % b) : a; const G = g.reduce(gc), L = g.reduce((a, b) => a / gc(a, b) * b); put('mt2', `最大公約数：<b>${G}</b><br>最小公倍数：<b>${L}</b>`); }
+  const a = parseFloat(v('mqa')), b = parseFloat(v('mqb')), c = parseFloat(v('mqc'));
+  if (isNaN(a) || isNaN(b) || isNaN(c)) put('mt3', '');
+  else if (a === 0) put('mt3', b === 0 ? '解なし、または不定です' : `一次方程式です。x = ${fmtN(-c / b)}`);
+  else {
+    const D = b * b - 4 * a * c, vx = -b / (2 * a), vy = -D / (4 * a), vt = `<br>頂点：(${fmtN(+vx.toPrecision(8))}, ${fmtN(+vy.toPrecision(8))})`;
+    put('mt3', `判別式 D = ${fmtN(+D.toPrecision(10))}<br>` + (D > 0 ? `異なる2つの実数解<br>x = <b>${fmtN(+((-b + Math.sqrt(D)) / (2 * a)).toPrecision(10))}</b>、<b>${fmtN(+((-b - Math.sqrt(D)) / (2 * a)).toPrecision(10))}</b>` : D === 0 ? `重解<br>x = <b>${fmtN(+vx.toPrecision(10))}</b>` : `実数解なし（虚数解）<br>x = ${fmtN(+vx.toPrecision(8))} ± ${fmtN(+(Math.sqrt(-D) / (2 * Math.abs(a))).toPrecision(8))}i`) + vt);
+  }
+  const base = +v('mtbr') || 10, s = v('mtb').toLowerCase().replace(/^0+(?=.)/, ''), num = parseInt(s, base);
+  if (!s) put('mt4', ''); else if (isNaN(num) || num.toString(base) !== s || num > Number.MAX_SAFE_INTEGER) put('mt4', 'この進数では読み取れない数です');
+  else put('mt4', `2進数：<b>${num.toString(2)}</b><br>8進数：<b>${num.toString(8)}</b><br>10進数：<b>${num.toString(10)}</b><br>16進数：<b>${num.toString(16).toUpperCase()}</b>`);
+}
+function toolsRefresh() { if (ui.tab === 'tools') { const y = scrollY; $('#view').innerHTML = viewTools(); toolsPost(); scrollTo(0, y); } }
+function toolsPost() {
+  const tl = ui.tool || 'calc';
+  if (tl === 'calc') calcPaint();
+  else if (tl === 'graph') plotInit();
+  else if (tl === 'unit') unPaint();
+  else if (tl === 'math') mathPaint();
+  else if (tl === 'cur') { crPaint(); if (!CR.busy && !CR.tried && navigator.onLine && (!CR.rates || Date.now() - CR.t > 6 * 36e5)) crFetch(); }
+}
+addEventListener('resize', () => { if ($('#plot')) plotAll(); });
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.fi !== undefined) { FNG.f[+t.dataset.fi] = t.value; plotAll(); graphRead(); }
+  else if (t.id === 'cramt') { CR.amt = t.value; crPaint(); }
+  else if (t.id === 'trtxt') TR.text = t.value;
+  else if (t.id === 'unamt') { UN.amt = t.value; unPaint(); }
+  else if (t.dataset && t.dataset.mt !== undefined) mathPaint();
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.dataset && t.dataset.cr) { CR[t.dataset.cr] = t.value; render(); }
+  else if (t.dataset && t.dataset.tr) TR[t.dataset.tr] = t.value;
+  else if (t.dataset && t.dataset.un) { UN[t.dataset.un] = +t.value; render(); }
+  else if (t.id === 'rstxt') { S.sheet = t.value; save(); }
+});
 function updHtml() {
   const [ic, ti, su] = updInfo(), busy = UPD.state === 'installing' || UPD.state === 'checking', av = UPD.state === 'available';
   return `<div class="upd-top"><img src="icon-192.png" alt="" width="64" height="64"><div><b>考査課題マネージャー</b><span>${av ? 'アップデートを利用できます' : 'アプリのアップデート'} ・ v${APP_VERSION}${av && UPD.next ? ' → v' + UPD.next : ''}</span></div></div>
