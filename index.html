@@ -814,6 +814,18 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .f-sheet.in{animation:fsin .4s var(--spring)}@keyframes fsin{from{transform:translateY(48px);opacity:0}to{transform:none;opacity:1}}
 .fs-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.fs-h h3{margin:0;display:flex;align-items:center;gap:10px;font-size:1.2rem;font-weight:600}
 .fs-list{display:grid;gap:4px}.fs-i{display:flex;align-items:center;gap:12px;min-height:52px;padding:6px 14px;border-radius:16px;text-align:left;font-weight:500;overflow-wrap:anywhere}.fs-i.on{background:var(--pc);color:var(--on-pc)}
+/* ===== 画面移動のアニメーション（控えめ） ===== */
+#view.vin{animation:vin .38s var(--smooth) both}#view.vinf{animation:vinf .3s var(--smooth) both}
+@keyframes vin{from{opacity:0;transform:translateX(var(--dx,24px))}to{opacity:1;transform:none}}
+@keyframes vinf{from{opacity:0}to{opacity:1}}
+/* ===== ツール内の入力欄を大きく ===== */
+.tbody input:not([type=range]):not([type=checkbox]),.tbody select{height:58px;font-size:1.15rem;padding:0 18px;border-radius:18px}
+.tbody textarea{font-size:1.15rem;padding:16px 18px;border-radius:20px;line-height:1.7}
+.tbody .fld label{font-size:.95rem}.tbody .fld{margin-bottom:12px}
+.tbody .fld[style*="min-width"]{min-width:150px!important}
+@media(min-width:700px){.tbody input:not([type=range]):not([type=checkbox]),.tbody select{height:66px;font-size:1.25rem}.tbody textarea{font-size:1.2rem}}
+.frp input{height:76px!important;font-size:1.6rem!important}.eqr input{width:112px!important}
+#drin{height:76px;font-size:1.9rem}
 </style>
 </head>
 <body>
@@ -836,7 +848,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '7.2';
+const APP_VERSION = '7.3';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1108,7 +1120,10 @@ function render() {
   if (ui.tab === 'ai' && !aiOpened()) { try { localStorage.setItem('kosa-ai-opened', '1'); } catch (e) { } }
   const y = window.scrollY, v = $('#view');
   if (ui.anim) ui._cu = true;
-  v.className = ui.anim ? 'anim' : '';
+  const go = (ui.anim || ui.vin) && !reduced(), fade = ui.tab === 'tools' && ui.tool === 'graph';
+  v.className = ''; if (go) void v.offsetWidth;
+  v.className = (ui.anim ? 'anim' : '') + (go ? (fade ? ' vinf' : ' vin') : '');
+  v.style.setProperty('--dx', ((ui.dir || 1) * 24) + 'px'); ui.vin = false;
   v.innerHTML = VIEWS[ui.tab]();
   ui.anim = false;
   renderNav(); renderMini(); postRender();
@@ -1823,15 +1838,24 @@ function openFocus(tid) {
   if (!TM.total) tmReset('focus');
   ui.fab = false; renderFab();
   TM.open = true; TM.sheet = ''; renderFocus();
-  const el = $('#focus'); el.hidden = false; el.classList.remove('in'); void el.offsetWidth; if (!timerReduced()) el.classList.add('in');
+  const el = $('#focus'); el.hidden = false; el.classList.remove('in');
+  if (!timerReduced() && el.animate) { el.style.transformOrigin = `${innerWidth / 2}px ${innerHeight - 136}px`; const a = el.animate([{ transform: 'scale(.04)', opacity: 0, borderRadius: '300px' }, { transform: 'scale(1)', opacity: 1, borderRadius: '0px' }], { duration: 560, easing: 'cubic-bezier(.2,.9,.25,1)' }); a.onfinish = () => { el.style.transformOrigin = ''; }; }
   renderMini(); if (!floop) floop = requestAnimationFrame(fl);
 }
-function closeFocus() { TM.open = false; $('#focus').hidden = true; renderMini(); }
+function closeFocus() {
+  const el = $('#focus'); TM.open = false; TM.sheet = '';
+  if (timerReduced() || el.hidden || !el.animate) { el.hidden = true; renderMini(); return; }
+  el.style.transformOrigin = `${innerWidth / 2}px ${innerHeight - 136}px`; el.style.overflow = 'hidden';
+  const a = el.animate([{ transform: 'scale(1)', opacity: 1, borderRadius: '0px' }, { transform: 'scale(.55)', opacity: .9, borderRadius: '48px', offset: .45 }, { transform: 'scale(.04)', opacity: 0, borderRadius: '300px' }], { duration: 520, easing: 'cubic-bezier(.5,0,.75,.4)' });
+  setTimeout(renderMini, 330);
+  a.onfinish = a.oncancel = () => { if (!TM.open) el.hidden = true; el.style.transformOrigin = ''; el.style.overflow = ''; };
+}
 
 /* ====================== アクション ====================== */
+const TABORDER = ['home', 'tasks', 'cal', 'stats', 'ai', 'tools', 'settings'];
 let updating = false, waiting = null;
 const ACT = {
-  tab(id) { if (id === 'tools' && ui.tab === 'tools') ui.tool = ''; ui.tab = id; ui.anim = true; ui.fab = false; renderFab(); render(); window.scrollTo(0, 0); },
+  tab(id) { if (id === 'tools' && ui.tab === 'tools') ui.tool = ''; ui.dir = id === ui.tab ? -1 : (TABORDER.indexOf(id) >= TABORDER.indexOf(ui.tab) ? 1 : -1); ui.tab = id; ui.anim = true; ui.fab = false; renderFab(); render(); window.scrollTo(0, 0); },
   goto(id) { ui.tab = 'tasks'; ui.sid = id; ui.filter = 'all'; ui.q = ''; ui.anim = true; render(); window.scrollTo(0, 0); },
   fab() { ui.fab = !ui.fab; renderFab(); },
   addtask(id) { ui.fab = false; renderFab(); taskDlg(null, id); },
@@ -1918,7 +1942,7 @@ const ACT = {
   kb(id) { kbKey(id); }, kbtab(id) { FNG.kt = id; FNG.native = id === 'abc'; toolsRefresh(); if (FNG.native) { const el = document.querySelector(`[data-fi="${FNG.act}"]`); el && el.focus(); } }, kbtoggle() { FNG.kbOpen = !FNG.kbOpen; toolsRefresh(); },
   gadd() { if (FNG.f.length >= 6) return; FNG.f.push(''); FNG.act = FNG.f.length - 1; toolsRefresh(); const el = document.querySelector(`[data-fi="${FNG.act}"]`); el && el.focus({ preventScroll: true }); },
   gdel(id) { FNG.f.splice(+id, 1); if (!FNG.f.length) FNG.f.push(''); FNG.act = 0; toolsRefresh(); },
-  uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; render(); scrollTo(0, 0); }, toolback() { ui.tool = ''; render(); scrollTo(0, 0); }, ck(id) { calcKey(id); }, gz(id) { graphZoom(id); }, cswap() { const a = CR.from; CR.from = CR.to; CR.to = a; render(); }, crupd() { crFetch(); },
+  uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; ui.vin = true; ui.dir = 1; render(); scrollTo(0, 0); }, toolback() { ui.tool = ''; ui.vin = true; ui.dir = -1; render(); scrollTo(0, 0); }, ck(id) { calcKey(id); }, gz(id) { graphZoom(id); }, cswap() { const a = CR.from; CR.from = CR.to; CR.to = a; render(); }, crupd() { crFetch(); },
   trswap() { const f = TR.from === 'auto' ? 'ja-JP' : TR.from; TR.from = TR.to; TR.to = f; if (TR.out) { TR.text = TR.out; TR.out = ''; } render(); }, trgo() { trRun(); }, trclr() { TR.text = ''; TR.out = ''; TR.err = ''; render(); },
   trcopy() { navigator.clipboard && navigator.clipboard.writeText(TR.out).then(() => toast('コピーしました')); }, trspeak() { if (!window.speechSynthesis || !TR.out) return; const u = new SpeechSynthesisUtterance(TR.out); u.lang = TR.to; speechSynthesis.cancel(); speechSynthesis.speak(u); }, aisend() { aiSend(); }, aisug(id) { aiSend(AI.sug[+id]); }, aipick() { $('#aifile').click(); }, aiimport() { $('#aiimp').click(); },
   aiexplain() { $('#aiq').value = '写真の問題を、ヒントから順に解説してください。'; $('#aifile').click(); }, aiattrm(id) { AI.att.splice(+id, 1); renderAtt(); },
