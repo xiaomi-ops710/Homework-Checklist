@@ -1,5 +1,5 @@
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。index.html の APP_VERSION も同じ値にする
-const APP_VERSION = '7.1';
+const APP_VERSION = '7.2';
 const V = 'kosa-v' + APP_VERSION;
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'firebase-config.js', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png'];
 const FONT = ['fonts.googleapis.com', 'fonts.gstatic.com', 'www.gstatic.com'];

@@ -803,6 +803,17 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .f-add{display:flex;justify-content:center;gap:10px;margin:2px 0 14px}.f-add .chip{display:inline-flex;align-items:center;gap:4px;min-width:84px;justify-content:center}.f-add .chip .ms{font-size:18px}
 .fcus{display:inline-flex;align-items:center;gap:6px}.fcus input{width:72px;height:40px;border:0;border-radius:20px;background:var(--s3);padding:0 12px;font:inherit;color:var(--on);text-align:center}
 .fcus input:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}
+/* ===== タイマー画面：下のボタンとシート ===== */
+.f-time small{max-width:72%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-inline:auto}
+.f-bar{display:flex;justify-content:center;gap:12px;margin-top:auto;padding-top:16px;flex-wrap:wrap}
+.fb{display:grid;grid-template-columns:auto 1fr;column-gap:10px;align-items:center;min-width:160px;max-width:280px;padding:10px 22px 10px 16px;border-radius:26px;background:var(--s3);color:var(--on);text-align:left;transition:background .25s,transform .3s var(--spring)}
+.fb:active{transform:scale(.96)}.fb .ms{grid-row:1/3;font-size:28px}.fb b{font-weight:600;line-height:1.15}.fb small{opacity:.75;font-size:.8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fb.on{background:var(--pc);color:var(--on-pc)}
+.f-scrim{position:fixed;inset:0;background:rgba(0,0,0,.38);z-index:1}
+.f-sheet{position:fixed;left:0;right:0;bottom:0;margin:0 auto;width:min(100%,720px);max-height:74vh;overflow:auto;z-index:2;background:var(--s2);color:var(--on);border-radius:32px 32px 0 0;padding:18px 22px calc(24px + env(safe-area-inset-bottom));box-shadow:0 -6px 24px rgba(0,0,0,.25)}
+.f-sheet.in{animation:fsin .4s var(--spring)}@keyframes fsin{from{transform:translateY(48px);opacity:0}to{transform:none;opacity:1}}
+.fs-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.fs-h h3{margin:0;display:flex;align-items:center;gap:10px;font-size:1.2rem;font-weight:600}
+.fs-list{display:grid;gap:4px}.fs-i{display:flex;align-items:center;gap:12px;min-height:52px;padding:6px 14px;border-radius:16px;text-align:left;font-weight:500;overflow-wrap:anywhere}.fs-i.on{background:var(--pc);color:var(--on-pc)}
 </style>
 </head>
 <body>
@@ -825,7 +836,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '7.1';
+const APP_VERSION = '7.2';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1755,7 +1766,28 @@ function renderMini() {
   m.innerHTML = `<button class="rp" data-act="fopen" style="display:flex;align-items:center;gap:10px;border-radius:24px;height:48px;padding-right:6px">${ms('timer', 'f')}<b id="mtime">${fmtT(TM.remain)}</b></button><button class="ibtn" data-act="fplay" aria-label="${TM.running ? '一時停止' : '再開'}">${ms(TM.running ? 'pause' : 'play_arrow', 'f')}</button>${NS.kind ? `<button class="ibtn" data-act="natoff" aria-label="自然の音を止める">${ms('music_off')}</button>` : ''}`;
 }
 function updateMini() { const e = $('#mtime'); if (e) e.textContent = fmtT(TM.remain); }
+const flabelText = () => { if (TM.mode !== 'focus') return TM.mode === 'break' ? 'ひと休み' : 'ゆっくり長めの休憩'; const k = T(TM.tid); return k ? esc(k.title) : '集中タイマー'; };
+function fbarHtml() {
+  const btn = (id, ic, l, sub) => `<button class="fb ${TM.sheet === id ? 'on' : ''}" data-act="fsheet" data-id="${id}">${ms(ic)}<b>${l}</b><small>${esc(sub)}</small></button>`, k = T(TM.tid);
+  return `<div class="f-bar">${TM.mode === 'focus' ? btn('task', 'task_alt', '課題', k ? k.title : '選ばない') : ''}${btn('dur', 'timer', '時間', Math.round(TM.total / 60) + '分')}${btn('nat', 'music_note', '音楽', (NAT.find(x => x[0] === NS.kind) || [0, 'なし'])[1])}</div>`;
+}
+function fsheetHtml() {
+  if (!TM.sheet) return '';
+  const head = (ic, ti) => `<div class="fs-h"><h3>${ms(ic)}${ti}</h3><button class="ibtn" data-act="fsheet" data-id="" aria-label="閉じる">${ms('close')}</button></div>`;
+  let body = '';
+  if (TM.sheet === 'task') {
+    const tasks = examTasks().filter(x => !isDone(x));
+    body = head('task_alt', '取り組む課題') + `<div class="fs-list"><button class="fs-i ${TM.tid ? '' : 'on'}" data-act="ftp" data-id="">${ms(TM.tid ? 'radio_button_unchecked' : 'radio_button_checked')}課題を選ばずに集中</button>${subjects().map(s => { const ts = tasks.filter(x => x.sid === s.id); return ts.length ? `<div class="lbl" style="margin:10px 4px 2px">${esc(s.name)}</div>${ts.map(x => `<button class="fs-i ${x.id === TM.tid ? 'on' : ''}" data-act="ftp" data-id="${x.id}">${ms(x.id === TM.tid ? 'radio_button_checked' : 'radio_button_unchecked')}${esc(x.title)}</button>`).join('')}` : ''; }).join('')}</div>`;
+  } else if (TM.sheet === 'dur') {
+    const durs = TM.mode === 'focus' ? [15, 25, 45, 60] : [3, 5, 10, 15, 20], cur = Math.round(TM.total / 60);
+    body = head('timer', (TM.mode === 'focus' ? '集中' : '休憩') + 'の時間') + `<div class="chips" style="margin-bottom:14px">${durs.map(d => `<button class="chip ${d === cur ? 'on' : ''}" data-act="fdur" data-id="${d}">${d}分</button>`).join('')}<span class="fcus"><input id="fcus" type="number" inputmode="numeric" min="1" max="300" placeholder="${cur}" aria-label="時間を自分で設定（分）"><button class="chip" data-act="fcus">${ms('edit')}自分で設定</button></span></div><p class="muted" style="font-size:.85rem;margin:0">いまの時間：${cur}分。計測中でも変えられます（経過した時間は引き継ぎます）。時間をのばすときは、円の下の「＋分」のボタンを使います。</p>`;
+  } else {
+    body = head('music_note', '自然の音') + `<div class="chips" style="margin-bottom:14px">${NAT.map(([k, l, i]) => `<button class="chip ${NS.kind === k ? 'on' : ''}" data-act="nat" data-id="${k}">${ms(i)}${l}</button>`).join('')}${NS.kind ? `<button class="chip" data-act="natoff">${ms('music_off')}止める</button>` : ''}</div>${NS.kind ? `<label class="f-vol" style="width:100%">${ms('volume_up')}<input type="range" id="natvol" min="0" max="100" value="${Math.round(NS.vol * 100)}" aria-label="自然の音の音量"></label>` : '<p class="muted" style="font-size:.85rem;margin:0">好きな音を選ぶと、すぐに流れます。</p>'}`;
+  }
+  return `<div class="f-scrim" data-act="fsheet" data-id=""></div><div class="f-sheet ${TM.sheetAnim ? 'in' : ''}" role="dialog">${body}</div>`;
+}
 function renderFocus() {
+  if (TM.sheet === 'task' && TM.mode !== 'focus') TM.sheet = '';
   const el = $('#focus'), brk = TM.mode !== 'focus';
   el.classList.toggle('brk', brk); el.classList.toggle('noanim', S.set.timerAnim === false);
   const tasks = examTasks().filter(t => !isDone(t));
@@ -1763,12 +1795,11 @@ function renderFocus() {
   const durs = TM.mode === 'focus' ? [15, 25, 45, 60] : [3, 5, 10, 15, 20];
   const cur = TM.mode === 'focus' ? S.set.focus : TM.mode === 'break' ? S.set.brk : S.set.lbrk;
   el.innerHTML = `<div class="f-top"><button class="ibtn tonal" data-act="fclose" aria-label="閉じる">${ms('close')}</button><div class="seg"><button class="${TM.mode === 'focus' ? 'on' : ''}" data-act="fmode" data-id="focus">${ms('bolt')}集中</button><button class="${TM.mode !== 'focus' ? 'on' : ''}" data-act="fmode" data-id="break">${ms('coffee')}休憩</button></div><span class="sp"></span><button class="ibtn tonal" data-act="ftanim" aria-label="アニメーションの切り替え" title="アニメーション">${ms(S.set.timerAnim === false ? 'motion_photos_off' : 'animation')}</button><span class="pillchip">${ms('repeat')}${TM.cycle} / ${S.set.cycles} 回目</span></div>
-  <div class="f-stage"><div class="f-ring"><svg viewBox="0 0 320 320" aria-hidden="true"><circle class="trk" cx="160" cy="160" r="150" fill="none" stroke-width="12"/><circle id="fprg" class="prg" cx="160" cy="160" r="150" fill="none" stroke-width="12" stroke-linecap="round" transform="rotate(-90 160 160)" stroke-dasharray="0.01 943"/><path id="fshape" d=""/></svg><div class="f-time"><b id="ftime">${fmtT(TM.remain)}</b><small id="flabel">${TM.mode === 'focus' ? '集中タイム' : TM.mode === 'break' ? 'ひと休み' : 'ゆっくり長めの休憩'}</small></div></div></div>
+  <div class="f-stage"><div class="f-ring"><svg viewBox="0 0 320 320" aria-hidden="true"><circle class="trk" cx="160" cy="160" r="150" fill="none" stroke-width="12"/><circle id="fprg" class="prg" cx="160" cy="160" r="150" fill="none" stroke-width="12" stroke-linecap="round" transform="rotate(-90 160 160)" stroke-dasharray="0.01 943"/><path id="fshape" d=""/></svg><div class="f-time"><b id="ftime">${fmtT(TM.remain)}</b><small id="flabel">${flabelText()}</small></div></div></div>
   <div class="f-add">${[1, 5, 10].map(n => `<button class="chip" data-act="fadd" data-id="${n}">${ms('add')}${n}分</button>`).join('')}</div>
-  <div class="f-sel">${TM.mode === 'focus' ? `<select id="ftask" aria-label="取り組む課題"><option value="">課題を選ばずに集中</option>${opts}</select>` : ''}<div class="chips" style="justify-content:center">${durs.map(d => `<button class="chip ${d === cur ? 'on' : ''}" data-act="fdur" data-id="${d}">${d}分</button>`).join('')}<span class="fcus"><input id="fcus" type="number" inputmode="numeric" min="1" max="300" placeholder="${Math.round(TM.total / 60)}" aria-label="時間を自分で設定（分）"><button class="chip" data-act="fcus">${ms('edit')}自分で設定</button></span></div></div>
- <div class="f-nat"><div class="chips" style="justify-content:center">${NAT.map(([k, l, i]) => `<button class="chip ${NS.kind === k ? 'on' : ''}" data-act="nat" data-id="${k}">${ms(i)}${l}</button>`).join('')}</div>${NS.kind ? `<label class="f-vol">${ms('volume_up')}<input type="range" id="natvol" min="0" max="100" value="${Math.round(NS.vol * 100)}" aria-label="自然の音の音量"></label>` : ''}</div>
   <div class="f-ctl"><button class="ibtn" data-act="freset" aria-label="リセット">${ms('replay')}</button><button id="fplay" class="f-play rp" data-act="fplay" data-s="" aria-label="開始/一時停止"></button><button class="ibtn" data-act="fskip" aria-label="次へ">${ms('skip_next')}</button></div>
-  <p class="f-sum">今日の集中 ${dayLog().m}分</p>`;
+  <p class="f-sum">今日の集中 ${dayLog().m}分</p>${fbarHtml()}${fsheetHtml()}`;
+  TM.sheetAnim = false;
   updateFocus(true);
 }
 function updateFocus(force) {
@@ -1791,7 +1822,7 @@ function openFocus(tid) {
   if (tid) { const t = T(tid); if (t) { TM.tid = tid; TM.sid = t.sid; if (TM.mode !== 'focus' && !TM.running) tmReset('focus'); } }
   if (!TM.total) tmReset('focus');
   ui.fab = false; renderFab();
-  TM.open = true; renderFocus();
+  TM.open = true; TM.sheet = ''; renderFocus();
   const el = $('#focus'); el.hidden = false; el.classList.remove('in'); void el.offsetWidth; if (!timerReduced()) el.classList.add('in');
   renderMini(); if (!floop) floop = requestAnimationFrame(fl);
 }
@@ -1905,6 +1936,7 @@ const ACT = {
   freset() { tmReset(TM.mode); renderFocus(); renderMini(); },
   fskip() { tmNext(); renderFocus(); renderMini(); },
   fmode(id) { tmReset(id === 'focus' ? 'focus' : 'break'); renderFocus(); renderMini(); },
+  fsheet(id) { TM.sheetAnim = !!id && TM.sheet !== id; TM.sheet = (!id || TM.sheet === id) ? '' : id; renderFocus(); }, ftp(id) { const k = id ? T(id) : null; TM.tid = id || ''; TM.sid = k ? k.sid : ''; TM.sheet = ''; renderFocus(); renderMini(); },
   fdur(id) { setDur(+id); }, fcus() { const v = parseInt(($('#fcus') || {}).value, 10); if (!(v >= 1 && v <= 300)) return toast('1〜300分の間で入力してください'); setDur(v); },
   fadd(id) { const n = +id * 60; TM.total += n; TM.remain += n; if (TM.running) TM.endAt += n * 1000; updateFocus(true); updateMini(); toast(`${id}分、延長しました`); },
 };
