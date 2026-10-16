@@ -771,6 +771,38 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .gleft{grid-template-columns:minmax(0,1fr);min-width:0;overflow-x:hidden}.gleft>*{min-width:0}
 .fnr{min-width:0}.fnr input{width:100%;min-width:0}.fnr span{flex:none}
 @media(min-width:1000px){.tool-graph{grid-template-columns:340px minmax(0,1fr)}}
+.focus.noanim *,.focus.noanim{animation:none!important;transition:none!important}
+.f-nat{display:grid;gap:10px;justify-items:center;margin:0 0 14px}.f-nat .chip{display:inline-flex;align-items:center;gap:6px}.f-nat .chip .ms{font-size:18px}
+.f-vol{display:flex;align-items:center;gap:10px;width:min(360px,80vw)}.f-vol input{flex:1}
+.card input[data-tp],.card select.sel,.frrow select{width:100%;height:50px;border:0;border-radius:14px;background:var(--s3);padding:0 14px;font:inherit;color:var(--on)}
+.card input[data-tp]:focus,.card select.sel:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}
+.frrow{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.frp{display:grid;gap:6px;width:120px}.frp hr{border:0;border-top:3px solid var(--on);margin:0}.frp input{text-align:center}
+.frrow select{width:auto;min-width:76px;text-align:center;font-size:1.4rem}
+.wcb{height:12px;border-radius:6px;background:var(--s3);overflow:hidden}.wcb i{display:block;height:100%;background:var(--primary);border-radius:6px;transition:width .3s}
+.drq{text-align:center}.drt{font-size:3rem;font-weight:600;margin:16px 0;letter-spacing:.02em}
+#drin{height:60px;font-size:1.6rem;text-align:center;border:0;border-radius:16px;background:var(--s3);color:var(--on);flex:1;min-width:0;padding:0 14px}#drin:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}
+.qzo{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px}
+.qzb{min-height:62px;border-radius:20px;background:var(--s3);color:var(--on);font-size:1.15rem;font-weight:500;padding:8px 14px;transition:background .2s,transform .25s var(--spring)}.qzb:active{transform:scale(.96)}.qzb.ok{background:#2e7d32;color:#fff}.qzb.ng{background:var(--err);color:#fff}
+.tool-quiz .tcard{min-height:130px}
+/* ===== iPad：ツール内の余白を減らして画面を活用 ===== */
+.tool-sim,.tool-poly,.tool-stat,.tool-comb,.tool-line,.tool-trig,.tool-sqrt,.tool-seq,.tool-grade,.tool-date{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px;align-items:start}
+.tool-sim>.card,.tool-poly>.card,.tool-stat>.card,.tool-comb>.card,.tool-line>.card,.tool-trig>.card,.tool-sqrt>.card,.tool-seq>.card,.tool-grade>.card,.tool-date>.card,.tool-math>.card,.tool-wc>.card{margin-top:0!important}
+.tool-math{grid-template-columns:repeat(auto-fit,minmax(min(100%,440px),1fr))!important}
+.tool-stat{grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr))}
+.dtban{grid-column:1/-1}
+.eqr{display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}.eqr input{width:88px!important;text-align:center}.eqr span{font-weight:500;font-size:1.15rem}
+.shwide,.frwide{display:grid;gap:20px}.shout .mres{font-size:1.3rem;line-height:2.1}.frwide .mres{font-size:1.5rem}.frp{width:150px}.frp input{height:64px!important;font-size:1.4rem!important}
+@media(min-width:700px){.card input[data-tp],.card select.sel{height:56px;font-size:1.1rem}.mres{font-size:1.12rem;line-height:2}}
+@media(min-width:900px){.shwide{grid-template-columns:1fr 1fr;gap:36px;align-items:start}.frwide{grid-template-columns:auto 1fr;gap:44px;align-items:center}.tool-wc{display:grid;grid-template-columns:2fr 1fr;gap:16px;align-items:start}}
+.tool-drill,.tool-quiz{max-width:1000px;margin:0 auto}
+@media(min-width:1000px){.drt{font-size:4.2rem}.qzb{min-height:84px;font-size:1.3rem}.tool-cur,.tool-tr,.tool-unit{gap:20px}}
+/* ===== タイマー画面：大きな時間表示 ===== */
+.f-ring{--rs:min(88vw,58vh,580px);width:var(--rs)}
+.f-time b{font-size:calc(var(--rs)*.27);letter-spacing:-.03em}
+.f-time small{font-size:max(1.05rem,calc(var(--rs)*.045))}
+.f-add{display:flex;justify-content:center;gap:10px;margin:2px 0 14px}.f-add .chip{display:inline-flex;align-items:center;gap:4px;min-width:84px;justify-content:center}.f-add .chip .ms{font-size:18px}
+.fcus{display:inline-flex;align-items:center;gap:6px}.fcus input{width:72px;height:40px;border:0;border-radius:20px;background:var(--s3);padding:0 12px;font:inherit;color:var(--on);text-align:center}
+.fcus input:focus{outline:0;box-shadow:inset 0 0 0 2.5px var(--primary)}
 </style>
 </head>
 <body>
@@ -793,7 +825,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '6.6';
+const APP_VERSION = '7.1';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -814,7 +846,7 @@ const SEEDS = [[222, 'ブルー'], [205, 'スカイ'], [240, 'インディゴ'],
 const PRESETS = [['国語','menu_book',350],['数学','calculate',205],['英語','translate',258],['理科','science',172],['社会','public',140],['音楽','music_note',312],['美術','palette',24],['保健体育','sports_soccer',46],['技術・家庭','build',24],['情報','computer',205],['物理','bolt',258],['化学','experiment',172],['生物','biotech',140],['歴史','history_edu',46],['地理','map',172],['公民','account_balance',312],['古典','auto_stories',350],['書道','brush',24]];
 const ICONS = ['menu_book','auto_stories','calculate','functions','translate','language','abc','science','experiment','biotech','bolt','public','map','explore','history_edu','castle','temple_buddhist','account_balance','gavel','savings','music_note','piano','headphones','palette','brush','draw','photo_camera','sports_soccer','sports_basketball','sports_tennis','directions_run','fitness_center','build','handyman','architecture','computer','code','psychology','eco','water_drop','wb_sunny','restaurant','theater_comedy','school','edit_note','lightbulb','rocket_launch','local_fire_department'];
 const E2I = {'📖':'menu_book','📐':'calculate','🔤':'translate','🔬':'science','🌏':'public','🎵':'music_note','🎨':'palette','⚽':'sports_soccer','🔧':'build','💻':'computer','⚛️':'bolt','🧪':'experiment','🧬':'biotech','🏯':'castle','📜':'auto_stories','🖌️':'brush','🏛️':'account_balance','🗺️':'map','✏️':'edit_note','📚':'menu_book','🧮':'calculate','🗣️':'translate','🎹':'piano','📘':'menu_book'};
-const DEF_SET = { theme: 'auto', hue: 222, scope: 'all', lastBackup: 0, fs: 'm', anim: true, confetti: false, sound: true, goalMode: 'auto', goal: 30, focus: 25, brk: 5, lbrk: 15, cycles: 4 };
+const DEF_SET = { theme: 'auto', hue: 222, scope: 'all', lastBackup: 0, fs: 'm', anim: true, confetti: false, sound: true, goalMode: 'auto', goal: 30, focus: 25, brk: 5, lbrk: 15, cycles: 4, timerAnim: true, natStop: true };
 const BADGES = [
   ['first', 'flag', 'はじめの一歩', '課題を1つ完了', c => c.done >= 1],
   ['p100', 'menu_book', '100ページ', '累計100ページ', c => c.pages >= 100],
@@ -1417,7 +1449,7 @@ function viewSettings() {
   <div class="card"><div class="fld"><div class="lbl">テーマ</div><div class="seg">${[['auto', '自動', 'brightness_auto'], ['light', 'ライト', 'light_mode'], ['dark', 'ダーク', 'dark_mode']].map(([v, l, i]) => `<button class="${st.theme === v ? 'on' : ''}" data-act="theme" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div></div>
   <div class="fld"><div class="lbl">アプリの色（青系）</div><div class="swatches">${SEEDS.map(([h, n]) => `<label class="sw"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} data-act="hue" data-id="${h}" aria-label="${n}"><span style="background:hsl(${h} 66% 48%)"></span></label>`).join('')}</div></div>
   <div class="fld"><div class="lbl">文字の大きさ</div><div class="seg">${[['s', '小'], ['m', '標準'], ['l', '大']].map(([v, l]) => `<button class="${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}">${l}</button>`).join('')}</div></div>
-  ${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}</div>
+  ${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}${swRow('timerAnim', 'タイマー画面のアニメーション', 'オフにすると、円の動きなどを止めます')}${swRow('natStop', 'タイマー終了で自然の音を止める', '時間が終わると、自然の音を自動で止めます')}</div>
 
   <div class="h-sec"><h2>${ms('help')}使い方とバージョン</h2></div><div class="card"><div class="setrow" style="padding:0 0 14px"><span class="t">バージョン<small>v${APP_VERSION}</small></span></div><button class="btn tonal" data-act="guide">${ms('help')}使い方を見る</button></div>
 
@@ -1633,6 +1665,14 @@ function beep() {
 }
 const durOf = m => (m === 'focus' ? S.set.focus : m === 'break' ? S.set.brk : S.set.lbrk) * 60;
 function tmReset(mode) { flushFocus(true); lockOff(); TM.mode = mode; TM.total = durOf(mode); TM.remain = TM.total; TM.running = false; }
+function tmResync() { if (!TM.running && TM.total - TM.remain <= .5) { TM.total = durOf(TM.mode); TM.remain = TM.total; } }
+function setDur(min) {
+  const key = TM.mode === 'focus' ? 'focus' : TM.mode === 'break' ? 'brk' : 'lbrk', d = min * 60, el = TM.total - TM.remain;
+  if (!TM.running && el <= .5) { S.set[key] = min; save(); TM.total = d; TM.remain = d; }
+  else if (el < d - 1) { S.set[key] = min; save(); TM.total = d; TM.remain = d - el; if (TM.running) TM.endAt = Date.now() + TM.remain * 1000; }
+  else return toast('すでに経過した時間より短くはできません。リセットしてから設定してください');
+  renderFocus(); renderMini();
+}
 function tmNext() { if (TM.mode === 'focus') tmReset(TM.cycle >= S.set.cycles ? 'long' : 'break'); else { TM.cycle = TM.mode === 'long' ? 1 : TM.cycle + 1; tmReset('focus'); } }
 function flushFocus(force) {
   const min = force ? Math.round(TM.fsec / 60) : Math.floor(TM.fsec / 60);
@@ -1642,12 +1682,12 @@ function flushFocus(force) {
 function tmStart() { audio(); if (TM.remain <= 0) TM.remain = TM.total; TM.running = true; TM.last = Date.now(); TM.endAt = Date.now() + TM.remain * 1000; lockOn(); renderMini(); updateFocus(); }
 function tmPause() { tick(); TM.running = false; lockOff(); flushFocus(); renderMini(); updateFocus(); }
 function tmDone() {
-  TM.running = false; lockOff(); const wasFocus = TM.mode === 'focus', t = T(TM.tid);
-  if (wasFocus) { TM.fsec = Math.max(TM.fsec, TM.total - 1); flushFocus(true); S.sessions.push({ ts: Date.now(), min: S.set.focus, sid: TM.sid, tid: TM.tid }); S.sessions = S.sessions.slice(-300); save(); }
-  beep(); confetti(innerWidth / 2, innerHeight / 2.4, wasFocus ? 50 : 0);
+  TM.running = false; lockOff(); const wasFocus = TM.mode === 'focus', t = T(TM.tid), mins = Math.max(1, Math.round(TM.total / 60));
+  if (wasFocus) { TM.fsec = Math.max(TM.fsec, TM.total - 1); flushFocus(true); S.sessions.push({ ts: Date.now(), min: mins, sid: TM.sid, tid: TM.tid }); S.sessions = S.sessions.slice(-300); save(); }
+  beep(); if (S.set.natStop !== false) natStop(); confetti(innerWidth / 2, innerHeight / 2.4, wasFocus ? 50 : 0);
   const was = TM.mode; tmNext(); renderFocus(); renderMini();
   toast(wasFocus ? '集中時間が終了しました。休憩に入ります' : '休憩が終了しました。次の集中を開始します');
-  if (wasFocus && t && !isDone(t)) setTimeout(() => pagesDlg(t, S.set.focus), 500);
+  if (wasFocus && t && !isDone(t)) setTimeout(() => pagesDlg(t, mins), 500);
   if (!TM.open) render();
 }
 function tick() {
@@ -1663,22 +1703,70 @@ function tick() {
 }
 setInterval(tick, 250);
 const fmtT = s => { s = Math.ceil(s); return pad(Math.floor(s / 60)) + ':' + pad(s % 60); };
+/* ====================== 自然の音（Web Audioで合成） ====================== */
+const NAT = [['rain', '雨', 'rainy'], ['wave', '波', 'waves'], ['wind', '風', 'air'], ['river', '川', 'water'], ['fire', '焚き火', 'local_fire_department'], ['birds', '鳥', 'flutter_dash'], ['forest', '森', 'forest']];
+const NS = { kind: '', vol: (() => { try { const v = parseFloat(localStorage.getItem('kosa-nat-vol')); return isNaN(v) ? .5 : v; } catch (e) { return .5; } })(), master: null, nodes: [], bufs: {}, tk: null };
+function natBuf(kind) {
+  if (NS.bufs[kind]) return NS.bufs[kind];
+  const n = AC.sampleRate * 4, b = AC.createBuffer(2, n, AC.sampleRate);
+  for (let c = 0; c < 2; c++) {
+    const d = b.getChannelData(c); let b0 = 0, b1 = 0, b2 = 0, b3 = 0, b4 = 0, b5 = 0, b6 = 0, last = 0;
+    for (let i = 0; i < n; i++) {
+      const w = Math.random() * 2 - 1;
+      if (kind === 'white') d[i] = w;
+      else if (kind === 'pink') { b0 = .99886 * b0 + w * .0555179; b1 = .99332 * b1 + w * .0750759; b2 = .969 * b2 + w * .153852; b3 = .8665 * b3 + w * .3104856; b4 = .55 * b4 + w * .5329522; b5 = -.7616 * b5 - w * .016898; d[i] = (b0 + b1 + b2 + b3 + b4 + b5 + b6 + w * .5362) * .11; b6 = w * .115926; }
+      else { last = (last + .02 * w) / 1.02; d[i] = last * 3.5; }
+    }
+  }
+  return NS.bufs[kind] = b;
+}
+function natStop() {
+  if (!NS.kind || !AC) { NS.kind = ''; return; }
+  const m = NS.master, ns = NS.nodes; NS.kind = ''; NS.tk = null; NS.nodes = [];
+  try { m.gain.cancelScheduledValues(AC.currentTime); m.gain.setTargetAtTime(0, AC.currentTime, .15); } catch (e) { }
+  setTimeout(() => { ns.forEach(n => { try { n.stop && n.stop(); } catch (e) { } try { n.disconnect(); } catch (e) { } }); try { m.disconnect(); } catch (e) { } }, 800);
+}
+function natVol(v) { NS.vol = Math.max(0, Math.min(1, v)); try { localStorage.setItem('kosa-nat-vol', NS.vol); } catch (e) { } if (NS.master) NS.master.gain.setTargetAtTime(NS.vol * .8, AC.currentTime, .05); }
+function natStart(kind) {
+  audio(); if (!AC) return toast('この端末では音を再生できません');
+  natStop();
+  const tk = NS.tk = {}; NS.kind = kind; NS.nodes = [];
+  const m = NS.master = AC.createGain(); m.gain.value = 0; m.connect(AC.destination); m.gain.linearRampToValueAtTime(NS.vol * .8, AC.currentTime + 1.5);
+  const L = (type, fs, g) => { const s = AC.createBufferSource(); s.buffer = natBuf(type); s.loop = true; let n = s; const fl = fs.map(([ft, f, q]) => { const b = AC.createBiquadFilter(); b.type = ft; b.frequency.value = f; if (q) b.Q.value = q; n.connect(b); n = b; NS.nodes.push(b); return b; }); const gn = AC.createGain(); gn.gain.value = g; n.connect(gn); gn.connect(m); s.start(0, Math.random() * 3); NS.nodes.push(s, gn); return { gn, fl }; };
+  const lfo = (param, rate, depth) => { const o = AC.createOscillator(), g = AC.createGain(); o.frequency.value = rate; g.gain.value = depth; o.connect(g); g.connect(param); o.start(); NS.nodes.push(o, g); };
+  const loop = (fn, min, max) => { const run = () => { if (NS.tk !== tk) return; try { fn(); } catch (e) { } setTimeout(run, min + Math.random() * (max - min)); }; run(); };
+  const burst = (f, q, v, dur) => { const t0 = AC.currentTime, s = AC.createBufferSource(), b = AC.createBiquadFilter(), g = AC.createGain(); s.buffer = natBuf('white'); b.type = 'bandpass'; b.frequency.value = f; b.Q.value = q; g.gain.setValueAtTime(v, t0); g.gain.exponentialRampToValueAtTime(.001, t0 + dur); s.connect(b); b.connect(g); g.connect(m); s.start(t0, Math.random() * 3, dur + .03); };
+  const chirp = (f0, f1, dur, v, t0) => { const o = AC.createOscillator(), g = AC.createGain(); o.type = 'sine'; o.frequency.setValueAtTime(f0, t0); o.frequency.exponentialRampToValueAtTime(f1, t0 + dur); g.gain.setValueAtTime(.0001, t0); g.gain.exponentialRampToValueAtTime(v, t0 + dur * .25); g.gain.exponentialRampToValueAtTime(.0001, t0 + dur); o.connect(g); g.connect(m); o.start(t0); o.stop(t0 + dur + .03); };
+  const phrase = () => { const n = 2 + Math.floor(Math.random() * 4), base = 2200 + Math.random() * 2600; let t0 = AC.currentTime + .05; for (let i = 0; i < n; i++) { const f0 = base * (.9 + Math.random() * .4); chirp(f0, Math.random() < .5 ? f0 * 1.5 : f0 * .7, .06 + Math.random() * .08, .06 + Math.random() * .03, t0); t0 += .11 + Math.random() * .08; } };
+  const wind = g => { const w = L('pink', [['bandpass', 450, .8]], g); lfo(w.fl[0].frequency, .17, 250); lfo(w.gn.gain, .11, g * .45); };
+  if (kind === 'rain') { L('pink', [['highpass', 400], ['lowpass', 9000]], .5); L('brown', [['lowpass', 300]], .3); loop(() => burst(1800 + Math.random() * 4500, 1.2, .08 + Math.random() * .1, .025), 30, 90); }
+  else if (kind === 'wave') { const a = L('brown', [['lowpass', 600]], .45); lfo(a.fl[0].frequency, .09, 350); lfo(a.gn.gain, .08, .3); const f = L('pink', [['bandpass', 1500, .5]], .12); lfo(f.gn.gain, .08, .1); }
+  else if (kind === 'wind') wind(.7);
+  else if (kind === 'river') { L('white', [['bandpass', 1800, .5]], .3); L('white', [['bandpass', 3800, .8]], .1); L('brown', [['lowpass', 400]], .25); loop(() => chirp(500 + Math.random() * 500, 1000 + Math.random() * 900, .08, .05, AC.currentTime), 90, 260); }
+  else if (kind === 'fire') { L('brown', [['lowpass', 700]], .5); loop(() => burst(2000 + Math.random() * 4000, .8, .2 + Math.random() * .35, .02 + Math.random() * .04), 50, 450); }
+  else if (kind === 'birds') { L('pink', [['lowpass', 1500]], .04); loop(phrase, 900, 3800); }
+  else if (kind === 'forest') { wind(.35); L('pink', [['lowpass', 1200]], .04); loop(phrase, 1800, 6000); }
+}
+document.addEventListener('input', e => { if (e.target.id === 'natvol') natVol(e.target.value / 100); });
+const timerReduced = () => reduced() || S.set.timerAnim === false;
 function renderMini() {
-  const m = $('#mini'), show = !TM.open && (TM.running || TM.remain < TM.total);
+  const m = $('#mini'), show = !TM.open && (TM.running || TM.remain < TM.total || !!NS.kind);
   m.classList.toggle('show', show);
-  m.innerHTML = `<button class="rp" data-act="fopen" style="display:flex;align-items:center;gap:10px;border-radius:24px;height:48px;padding-right:6px">${ms('timer', 'f')}<b id="mtime">${fmtT(TM.remain)}</b></button><button class="ibtn" data-act="fplay" aria-label="${TM.running ? '一時停止' : '再開'}">${ms(TM.running ? 'pause' : 'play_arrow', 'f')}</button>`;
+  m.innerHTML = `<button class="rp" data-act="fopen" style="display:flex;align-items:center;gap:10px;border-radius:24px;height:48px;padding-right:6px">${ms('timer', 'f')}<b id="mtime">${fmtT(TM.remain)}</b></button><button class="ibtn" data-act="fplay" aria-label="${TM.running ? '一時停止' : '再開'}">${ms(TM.running ? 'pause' : 'play_arrow', 'f')}</button>${NS.kind ? `<button class="ibtn" data-act="natoff" aria-label="自然の音を止める">${ms('music_off')}</button>` : ''}`;
 }
 function updateMini() { const e = $('#mtime'); if (e) e.textContent = fmtT(TM.remain); }
 function renderFocus() {
   const el = $('#focus'), brk = TM.mode !== 'focus';
-  el.classList.toggle('brk', brk);
+  el.classList.toggle('brk', brk); el.classList.toggle('noanim', S.set.timerAnim === false);
   const tasks = examTasks().filter(t => !isDone(t));
   const opts = subjects().map(s => { const ts = tasks.filter(t => t.sid === s.id); return ts.length ? `<optgroup label="${esc(s.name)}">${ts.map(t => `<option value="${t.id}" ${t.id === TM.tid ? 'selected' : ''}>${esc(t.title)}</option>`).join('')}</optgroup>` : ''; }).join('');
   const durs = TM.mode === 'focus' ? [15, 25, 45, 60] : [3, 5, 10, 15, 20];
   const cur = TM.mode === 'focus' ? S.set.focus : TM.mode === 'break' ? S.set.brk : S.set.lbrk;
-  el.innerHTML = `<div class="f-top"><button class="ibtn tonal" data-act="fclose" aria-label="閉じる">${ms('close')}</button><div class="seg"><button class="${TM.mode === 'focus' ? 'on' : ''}" data-act="fmode" data-id="focus">${ms('bolt')}集中</button><button class="${TM.mode !== 'focus' ? 'on' : ''}" data-act="fmode" data-id="break">${ms('coffee')}休憩</button></div><span class="sp"></span><span class="pillchip">${ms('repeat')}${TM.cycle} / ${S.set.cycles} 回目</span></div>
+  el.innerHTML = `<div class="f-top"><button class="ibtn tonal" data-act="fclose" aria-label="閉じる">${ms('close')}</button><div class="seg"><button class="${TM.mode === 'focus' ? 'on' : ''}" data-act="fmode" data-id="focus">${ms('bolt')}集中</button><button class="${TM.mode !== 'focus' ? 'on' : ''}" data-act="fmode" data-id="break">${ms('coffee')}休憩</button></div><span class="sp"></span><button class="ibtn tonal" data-act="ftanim" aria-label="アニメーションの切り替え" title="アニメーション">${ms(S.set.timerAnim === false ? 'motion_photos_off' : 'animation')}</button><span class="pillchip">${ms('repeat')}${TM.cycle} / ${S.set.cycles} 回目</span></div>
   <div class="f-stage"><div class="f-ring"><svg viewBox="0 0 320 320" aria-hidden="true"><circle class="trk" cx="160" cy="160" r="150" fill="none" stroke-width="12"/><circle id="fprg" class="prg" cx="160" cy="160" r="150" fill="none" stroke-width="12" stroke-linecap="round" transform="rotate(-90 160 160)" stroke-dasharray="0.01 943"/><path id="fshape" d=""/></svg><div class="f-time"><b id="ftime">${fmtT(TM.remain)}</b><small id="flabel">${TM.mode === 'focus' ? '集中タイム' : TM.mode === 'break' ? 'ひと休み' : 'ゆっくり長めの休憩'}</small></div></div></div>
-  <div class="f-sel">${TM.mode === 'focus' ? `<select id="ftask" aria-label="取り組む課題"><option value="">課題を選ばずに集中</option>${opts}</select>` : ''}<div class="chips" style="justify-content:center">${durs.map(d => `<button class="chip ${d === cur ? 'on' : ''}" data-act="fdur" data-id="${d}">${d}分</button>`).join('')}</div></div>
+  <div class="f-add">${[1, 5, 10].map(n => `<button class="chip" data-act="fadd" data-id="${n}">${ms('add')}${n}分</button>`).join('')}</div>
+  <div class="f-sel">${TM.mode === 'focus' ? `<select id="ftask" aria-label="取り組む課題"><option value="">課題を選ばずに集中</option>${opts}</select>` : ''}<div class="chips" style="justify-content:center">${durs.map(d => `<button class="chip ${d === cur ? 'on' : ''}" data-act="fdur" data-id="${d}">${d}分</button>`).join('')}<span class="fcus"><input id="fcus" type="number" inputmode="numeric" min="1" max="300" placeholder="${Math.round(TM.total / 60)}" aria-label="時間を自分で設定（分）"><button class="chip" data-act="fcus">${ms('edit')}自分で設定</button></span></div></div>
+ <div class="f-nat"><div class="chips" style="justify-content:center">${NAT.map(([k, l, i]) => `<button class="chip ${NS.kind === k ? 'on' : ''}" data-act="nat" data-id="${k}">${ms(i)}${l}</button>`).join('')}</div>${NS.kind ? `<label class="f-vol">${ms('volume_up')}<input type="range" id="natvol" min="0" max="100" value="${Math.round(NS.vol * 100)}" aria-label="自然の音の音量"></label>` : ''}</div>
   <div class="f-ctl"><button class="ibtn" data-act="freset" aria-label="リセット">${ms('replay')}</button><button id="fplay" class="f-play rp" data-act="fplay" data-s="" aria-label="開始/一時停止"></button><button class="ibtn" data-act="fskip" aria-label="次へ">${ms('skip_next')}</button></div>
   <p class="f-sum">今日の集中 ${dayLog().m}分</p>`;
   updateFocus(true);
@@ -1687,7 +1775,7 @@ function updateFocus(force) {
   if (!TM.open) return;
   const t = $('#ftime'); if (!t) return;
   t.textContent = fmtT(TM.remain);
-  const C = 2 * Math.PI * 150, k = TM.total ? 1 - TM.remain / TM.total : 0;
+  const C = 2 * Math.PI * 150, k = TM.total ? Math.min(1, Math.max(0, 1 - TM.remain / TM.total)) : 0;
   $('#fprg').setAttribute('stroke-dasharray', `${Math.max(.01, C * k).toFixed(1)} ${C.toFixed(1)}`);
   const pl = $('#fplay'), s = TM.running ? '1' : '0';
   if (pl && (force || pl.dataset.s !== s)) { pl.dataset.s = s; pl.classList.toggle('run', TM.running); pl.innerHTML = ms(TM.running ? 'pause' : 'play_arrow', 'f'); }
@@ -1696,7 +1784,7 @@ let floop = 0;
 function fl(now) {
   if (!TM.open) { floop = 0; return; }
   const s = now / 1000, p = $('#fshape');
-  if (p) { const sp = TM.running ? 1 : .3; p.setAttribute('d', reduced() ? pathOf(SHAPES[0], 104, 160, 160) : pathOf(morphAt(s * sp, 2.2), 104, 160, 160, s * sp * .3)); }
+  if (p) { const sp = TM.running ? 1 : .3; p.setAttribute('d', timerReduced() ? pathOf(SHAPES[0], 104, 160, 160) : pathOf(morphAt(s * sp, 2.2), 104, 160, 160, s * sp * .3)); }
   floop = requestAnimationFrame(fl);
 }
 function openFocus(tid) {
@@ -1704,7 +1792,7 @@ function openFocus(tid) {
   if (!TM.total) tmReset('focus');
   ui.fab = false; renderFab();
   TM.open = true; renderFocus();
-  const el = $('#focus'); el.hidden = false; el.classList.remove('in'); void el.offsetWidth; if (!reduced()) el.classList.add('in');
+  const el = $('#focus'); el.hidden = false; el.classList.remove('in'); void el.offsetWidth; if (!timerReduced()) el.classList.add('in');
   renderMini(); if (!floop) floop = requestAnimationFrame(fl);
 }
 function closeFocus() { TM.open = false; $('#focus').hidden = true; renderMini(); }
@@ -1785,6 +1873,9 @@ const ACT = {
   expsub() { exportSubjects(); }, impsub() { $('#impsub').click(); },
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); ui.sid = ''; ui.tab = 'home'; })); },
   reload() { startUpdate(); }, ai() { ACT.tab('ai'); },
+  drmode(id) { DR.mode = id; toolsRefresh(); }, drlv(id) { DR.lv = +id; toolsRefresh(); }, drstart() { DR.q = Array.from({ length: 10 }, drillQ); DR.i = 0; DR.ok = 0; DR.wrong = []; DR.fb = ''; DR.t0 = Date.now(); DR.phase = 'play'; toolsRefresh(); },
+  drans() { const el = $('#drin'); if (!el) return; const v = parseInt(el.value, 10); if (isNaN(v)) return; const q = DR.q[DR.i]; if (v === q.a) { DR.ok++; DR.fb = '前の問題：正解'; } else { DR.wrong.push({ q: q.t, a: q.a, y: v }); DR.fb = '前の問題：不正解（答え ' + q.a + '）'; } DR.i++; if (DR.i >= DR.q.length) { DR.ms = Date.now() - DR.t0; DR.phase = 'done'; } toolsRefresh(); }, drreset() { DR.phase = 'setup'; toolsRefresh(); },
+  simn(id) { SM.n = +id; toolsRefresh(); }, qzset(id) { quizStart(id); }, qzpick(id) { if (QZ.pick >= 0) return; QZ.pick = +id; const q = QZ.q[QZ.i]; if (q.o[QZ.pick] === q.b) QZ.ok++; else QZ.wrong.push(q); toolsRefresh(); }, qznext() { QZ.i++; QZ.pick = -1; if (QZ.i >= QZ.q.length) QZ.phase = 'done'; toolsRefresh(); }, qzreset() { QZ.phase = 'setup'; toolsRefresh(); }, nat(id) { if (NS.kind === id) natStop(); else natStart(id); renderMini(); renderFocus(); }, natoff() { natStop(); renderMini(); if (TM.open) renderFocus(); }, ftanim() { S.set.timerAnim = S.set.timerAnim === false; save(); renderFocus(); },
   wcflip() { WC.flip = !WC.flip; toolsRefresh(); }, wcok() { wcMark(1); }, wcng() { wcMark(0); }, wconly() { WC.only = !WC.only; WC.i = 0; WC.flip = false; toolsRefresh(); },
   wcreset() { S.cards.forEach(c => c.k = 0); WC.i = 0; save(); toolsRefresh(); }, wcshuf() { const a = S.cards; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } WC.i = 0; WC.flip = false; save(); toolsRefresh(); toast('カードをシャッフルしました'); },
   wcadd() { const f = $('#wcf').value.trim(), b = $('#wcb').value.trim(); if (!f || !b) return toast('表と裏の両方を入力してください'); S.cards.push({ id: uid(), f, b, k: 0 }); save(); toolsRefresh(); const el = $('#wcf'); el && el.focus(); },
@@ -1814,7 +1905,8 @@ const ACT = {
   freset() { tmReset(TM.mode); renderFocus(); renderMini(); },
   fskip() { tmNext(); renderFocus(); renderMini(); },
   fmode(id) { tmReset(id === 'focus' ? 'focus' : 'break'); renderFocus(); renderMini(); },
-  fdur(id) { const m = TM.mode === 'focus' ? 'focus' : TM.mode === 'break' ? 'brk' : 'lbrk'; S.set[m] = +id; save(); if (!TM.running) { TM.total = +id * 60; TM.remain = TM.total; } renderFocus(); renderMini(); }
+  fdur(id) { setDur(+id); }, fcus() { const v = parseInt(($('#fcus') || {}).value, 10); if (!(v >= 1 && v <= 300)) return toast('1〜300分の間で入力してください'); setDur(v); },
+  fadd(id) { const n = +id * 60; TM.total += n; TM.remain += n; if (TM.running) TM.endAt += n * 1000; updateFocus(true); updateMini(); toast(`${id}分、延長しました`); },
 };
 function moveSubj(id, dir) {
   const subs = subjects(), i = subs.findIndex(s => s.id === id), j = i + dir;
@@ -1841,7 +1933,7 @@ document.addEventListener('change', e => {
   else if (t.id === 'sort') { ui.sort = t.value; $('#tl').innerHTML = taskList(); postRender(); }
   else if (t.dataset && t.dataset.act === 'hue') ACT.hue(t.dataset.id);
   else if (t.dataset && t.dataset.set) { S.set[t.dataset.set] = t.checked; applyTheme(); save(); }
-  else if (t.dataset && t.dataset.setn) { const mn = +t.min, mx = +t.max; let v = Math.round(+t.value) || mn; v = Math.max(mn, Math.min(mx, v)); t.value = v; S.set[t.dataset.setn] = v; save(); if (!TM.running) tmReset(TM.mode); }
+  else if (t.dataset && t.dataset.setn) { const mn = +t.min, mx = +t.max; let v = Math.round(+t.value) || mn; v = Math.max(mn, Math.min(mx, v)); t.value = v; S.set[t.dataset.setn] = v; save(); tmResync(); if (TM.open) renderFocus(); }
   else if (t.id === 'ftask') { TM.tid = t.value; const k = T(t.value); TM.sid = k ? k.sid : ''; }
   else if (t.id === 'imp') importData(t);
   else if (t.id === 'impsub') importSubjects(t);
@@ -2068,7 +2160,7 @@ const GUIDE = [
   ['home', 'ホーム画面の見方', '上の大きな円は、<b>全体の達成率</b>です。<br><b>「今日のプラン」</b>は、考査日までに間に合うように、今日やるページ数を自動で出したものです。<b>「期限が近い課題」</b>と、教科ごとの進み具合も見られます。'],
   ['outbox', '提出も忘れないようにします', '提出が必要な課題は、終わったら<b>「提出済み」</b>にします。まだ提出していない課題は、期限が近づくと赤く表示されます。<br>課題を追加するときに、<b>「提出先」</b>も入れておけます。'],
   ['timer', '集中タイマー', '<b>＋ボタン → 「集中タイマー」</b>で、集中する時間を計れます。終わると学習時間として記録され、<b>統計タブの「今週の振り返り」</b>に反映されます。'],
-  ['build', 'ツールタブ', '<b>「ツール」タブ</b>には、<b>電卓</b>（関数電卓つき）、<b>関数グラフ</b>、<b>通貨計算</b>、<b>翻訳</b>があります。<br>グラフは、指でなぞって動かし、2本の指で拡大・縮小できます。通貨計算の為替レートは、ネットにつながっているときに更新されます。翻訳は、Googleログインが必要です。'],
+  ['build', 'ツールタブ', '<b>「ツール」タブ</b>には、<b>電卓</b>（関数電卓つき）、<b>関数グラフ</b>、<b>通貨計算</b>、<b>翻訳</b>のほか、<b>単語帳・暗記クイズ・計算ドリル・成績計算・文字数カウント</b>など、勉強に役立つツールがそろっています。<br>グラフは、指でなぞって動かし、2本の指で拡大・縮小できます。通貨計算の為替レートは、ネットにつながっているときに更新されます。翻訳は、Googleログインが必要です。'],
   ['auto_awesome', 'AIに質問できます', '<b>下のタブの「AI」</b>で、勉強で分からないことを質問できます。ヒントや考え方を教えてくれます。<b>写真も添付</b>できます（問題を撮って質問できます）。<br>プリントを撮ると、課題を読み取って登録することもできます。<br>使うには<b>Googleログイン</b>が必要です。質問と、課題の名前・進み具合がAIに送られるので、名前や学校名などの個人情報は入力しないでください。答えが間違っていることもあるので、教科書や先生にも確認しましょう。'],
   ['cloud_sync', 'データの保存と同期', 'データは、この端末の中に保存されます。<br>右上のアイコンから<b>Googleでログイン</b>すると、同じアカウントでログインした別の端末とも、進み具合が同期されます。<br>この説明は、<b>設定 → 「使い方を見る」</b>からいつでも見られます。']
 ];
@@ -2409,12 +2501,14 @@ function trHtml() {
   ${TR.out || TR.err ? `<div class="card" style="margin-top:12px">${TR.err ? `<p class="muted">${esc(TR.err)}</p>` : `<div class="trout">${esc(TR.out).replace(/\n/g, '<br>')}</div><div class="dact" style="margin:10px 0 0"><button class="btn text" data-act="trspeak">${ms('volume_up')}読み上げ</button><button class="btn text" data-act="trcopy">${ms('content_copy')}コピー</button></div>`}</div>` : ''}
   <p class="muted" style="font-size:.8rem;margin-top:10px">入力した文章がGoogleのAIに送られます。個人情報は入力しないでください。</p>`;
 }
-const TOOLS = [['calc', '電卓', 'calculate', 'ふつうの電卓と、関数電卓', 222], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280], ['card', '単語帳', 'style', 'カードをめくって暗記', 340], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260]];
+const TOOLS = [['calc', '電卓', 'calculate', 'ふつうの電卓と、関数電卓', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
+  ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
+  ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['drill', '計算ドリル', 'bolt', '10問の計算をタイム付きで練習', 60, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], ['wc', '文字数カウント', 'edit_note', '作文の文字数と原稿用紙の枚数', 300, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
-  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.slice(0, 4).map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.slice(4).map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml }[tl]();
+  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div>`;
+  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 const WC = { i: 0, flip: false, only: true };
@@ -2488,11 +2582,256 @@ function mathPaint() {
   if (!s) put('mt4', ''); else if (isNaN(num) || num.toString(base) !== s || num > Number.MAX_SAFE_INTEGER) put('mt4', 'この進数では読み取れない数です');
   else put('mt4', `2進数：<b>${num.toString(2)}</b><br>8進数：<b>${num.toString(8)}</b><br>10進数：<b>${num.toString(10)}</b><br>16進数：<b>${num.toString(16).toUpperCase()}</b>`);
 }
+/* ====================== 追加ツール（分数・図形・日付・クイズ・ドリル・成績・文字数） ====================== */
+const TPAINT = {};
+const nv = id => { const e = $('#' + id); return e && e.value.trim() !== '' ? parseFloat(e.value) : NaN; };
+const put = (id, h) => { const e = $('#' + id); if (e) e.innerHTML = h; };
+const pf = x => fmtN(+x.toPrecision(10));
+const TV = {};
+const numIn = (id, tp, ph = '', v = '', step = 'any') => `<input id="${id}" data-tp="${tp}" type="number" inputmode="decimal" step="${step}" placeholder="${ph}" value="${esc(TV[id] !== undefined ? TV[id] : v)}">`;
+const frS = x => { for (let d = 1; d <= 1000; d++) { const n = Math.round(x * d); if (Math.abs(x - n / d) < 1e-9) return d === 1 ? `${n}` : `${n}/${d}`; } return pf(x); };
+const fld1 = (id, l, tp, ph = '') => `<div class="fld" style="flex:1;min-width:110px"><label for="${id}">${l}</label>${numIn(id, tp, ph)}</div>`;
+const mc = (h, body, rid) => `<div class="card"><h3 class="mh">${h}</h3>${body}<div class="mres" id="${rid}"></div></div>`;
+const mqr = (...a) => `<div class="mq" style="flex-wrap:wrap">${a.join('')}</div>`;
+/* 分数 */
+const gcdN = (a, b) => b ? gcdN(b, a % b) : Math.abs(a);
+function fracStr(n, d) {
+  if (d < 0) { n = -n; d = -d; } const g = gcdN(n, d) || 1; n /= g; d /= g;
+  const an = Math.abs(n), w = Math.floor(an / d), r = an % d;
+  return d === 1 ? `${n}` : (w > 0 ? `${n}/${d}（帯分数：${n < 0 ? '-' : ''}${w} と ${r}/${d}）` : `${n}/${d}`);
+}
+const FR = { a: '', b: '', c: '', d: '', op: '+' };
+function fracHtml() {
+  const fp = (n, dn) => `<div class="frp">${numIn('fr' + n, 'frac', '分子', FR[n], '1')}<hr>${numIn('fr' + dn, 'frac', '分母', FR[dn], '1')}</div>`;
+  return `<div class="card frwide"><div><div class="frrow">${fp('a', 'b')}<select id="frop" data-tp="frac" aria-label="計算">${['+', '−', '×', '÷'].map(o => `<option ${o === FR.op ? 'selected' : ''}>${o}</option>`).join('')}</select>${fp('c', 'd')}</div><p class="muted" style="font-size:.85rem;margin:12px 0 0">2つ目の分数を空にすると、1つ目の分数を約分します。</p></div><div class="mres" id="frres"></div></div>`;
+}
+TPAINT.frac = () => {
+  ['a', 'b', 'c', 'd'].forEach(k => FR[k] = ($('#fr' + k) || {}).value || ''); FR.op = ($('#frop') || {}).value || '+';
+  const [a, b, c, d] = ['a', 'b', 'c', 'd'].map(k => parseInt(FR[k], 10));
+  if (isNaN(a) || isNaN(b) || b === 0) return put('frres', FR.a || FR.b ? '分子と分母を整数で入力してください（分母は0にできません）' : '');
+  if (isNaN(c) || isNaN(d)) return put('frres', `約分：${a}/${b} ＝ <b>${fracStr(a, b)}</b><br>小数：${pf(a / b)}`);
+  if (d === 0) return put('frres', '分母は0にできません');
+  let n, m; if (FR.op === '+') { n = a * d + c * b; m = b * d; } else if (FR.op === '−') { n = a * d - c * b; m = b * d; } else if (FR.op === '×') { n = a * c; m = b * d; } else { if (c === 0) return put('frres', '0でわることはできません'); n = a * d; m = b * c; }
+  put('frres', `${a}/${b} ${FR.op} ${c}/${d} ＝ <b>${fracStr(n, m)}</b><br>小数：${pf(n / m)}`);
+};
+/* 図形 */
+const SHP = [
+  ['circle', '円', [['r', '半径']], v => [['面積', Math.PI * v.r * v.r, 1], ['円周', 2 * Math.PI * v.r, 1]], '面積 ＝ 半径 × 半径 × π　円周 ＝ 直径 × π'],
+  ['tri', '三角形', [['b', '底辺'], ['h', '高さ']], v => [['面積', v.b * v.h / 2]], '面積 ＝ 底辺 × 高さ ÷ 2'],
+  ['rect', '長方形', [['a', 'たて'], ['b', 'よこ']], v => [['面積', v.a * v.b], ['周の長さ', 2 * (v.a + v.b)]], '面積 ＝ たて × よこ'],
+  ['para', '平行四辺形', [['b', '底辺'], ['h', '高さ']], v => [['面積', v.b * v.h]], '面積 ＝ 底辺 × 高さ'],
+  ['trap', '台形', [['a', '上底'], ['b', '下底'], ['h', '高さ']], v => [['面積', (v.a + v.b) * v.h / 2]], '面積 ＝ (上底 ＋ 下底) × 高さ ÷ 2'],
+  ['rhomb', 'ひし形', [['a', '対角線①'], ['b', '対角線②']], v => [['面積', v.a * v.b / 2]], '面積 ＝ 対角線 × 対角線 ÷ 2'],
+  ['sector', 'おうぎ形', [['r', '半径'], ['t', '中心角（度）']], v => [['面積', Math.PI * v.r * v.r * v.t / 360, 1], ['弧の長さ', 2 * Math.PI * v.r * v.t / 360, 1]], '面積 ＝ 半径 × 半径 × π × 中心角/360'],
+  ['cub', '直方体', [['a', 'たて'], ['b', 'よこ'], ['c', '高さ']], v => [['体積', v.a * v.b * v.c], ['表面積', 2 * (v.a * v.b + v.b * v.c + v.c * v.a)]], '体積 ＝ たて × よこ × 高さ'],
+  ['cyl', '円柱', [['r', '底面の半径'], ['h', '高さ']], v => [['体積', Math.PI * v.r * v.r * v.h, 1], ['表面積', 2 * Math.PI * v.r * (v.r + v.h), 1]], '体積 ＝ 底面積 × 高さ'],
+  ['cone', '円錐', [['r', '底面の半径'], ['h', '高さ']], v => [['体積', Math.PI * v.r * v.r * v.h / 3, 1], ['母線の長さ', Math.hypot(v.r, v.h)], ['表面積', Math.PI * v.r * (v.r + Math.hypot(v.r, v.h)), 1]], '体積 ＝ 底面積 × 高さ ÷ 3'],
+  ['sph', '球', [['r', '半径']], v => [['体積', 4 / 3 * Math.PI * v.r ** 3, 1], ['表面積', 4 * Math.PI * v.r * v.r, 1]], '体積 ＝ 4/3 × π × 半径³　表面積 ＝ 4 × π × 半径²'],
+  ['pyth', '三平方の定理', [['a', '直角をはさむ辺 a'], ['b', '直角をはさむ辺 b']], v => [['斜辺 c', Math.hypot(v.a, v.b)]], 'a² ＋ b² ＝ c²']
+];
+const SH = { id: 'circle', v: {} };
+function piForm(x) { const k = x / Math.PI; for (let d = 1; d <= 12; d++) { const n = Math.round(k * d); if (n && Math.abs(k * d - n) < 1e-9) return `${n}${d > 1 ? '/' + d : ''}π`; } return ''; }
+function shapeHtml() {
+  const s = SHP.find(x => x[0] === SH.id);
+  return `<div class="card shwide"><div><div class="fld"><label for="shsel">図形</label><select id="shsel" class="sel">${SHP.map(x => `<option value="${x[0]}" ${x[0] === SH.id ? 'selected' : ''}>${x[1]}</option>`).join('')}</select></div>
+  <div class="mq" style="flex-wrap:wrap">${s[2].map(([k, l]) => `<div class="fld" style="flex:1;min-width:150px"><label for="sh_${k}">${l}</label>${numIn('sh_' + k, 'shape', '', SH.v[k] ?? '')}</div>`).join('')}</div></div>
+  <div class="shout"><div class="mres" id="shres"></div><div class="muted" style="font-size:.9rem;margin-top:10px">${s[4]}</div></div></div>`;
+}
+TPAINT.shape = () => {
+  const s = SHP.find(x => x[0] === SH.id), v = {}; let ok = true;
+  s[2].forEach(([k]) => { const x = nv('sh_' + k); SH.v[k] = ($('#sh_' + k) || {}).value; if (isNaN(x) || x < 0) ok = false; v[k] = x; });
+  put('shres', ok ? s[3](v).map(([l, x, p]) => `${l}：<b>${pf(x)}</b>${p && piForm(x) ? `（${piForm(x)}）` : ''}`).join('<br>') : '');
+};
+/* 日付 */
+const WDAY = ['日', '月', '火', '水', '木', '金', '土'];
+const dstr = d => `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日（${WDAY[d.getDay()]}）`;
+const dpar = s => { const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s || ''); return m ? new Date(+m[1], +m[2] - 1, +m[3]) : null; };
+const DT = { d1: '', d2: '', d3: '', n: '30', sign: '1' };
+function dateHtml() {
+  const ex = curExam(), dl = ex && ex.date ? daysLeft(ex) : null, td = today();
+  DT.d1 = DT.d1 || td; DT.d2 = DT.d2 || (ex && ex.date) || td; DT.d3 = DT.d3 || td;
+  return `${dl !== null && dl >= 0 ? `<div class="card dtban"><b>${esc(ex.name)}まで あと ${dl} 日</b>（${dstr(dpar(ex.date))}）</div>` : ''}
+  <div class="card"><h3 class="mh">日数の差</h3><div class="mq"><div class="fld" style="flex:1"><label for="dt1">はじめの日</label><input id="dt1" data-tp="date" type="date" value="${DT.d1}"></div><div class="fld" style="flex:1"><label for="dt2">おわりの日</label><input id="dt2" data-tp="date" type="date" value="${DT.d2}"></div></div><div class="mres" id="dtres1"></div></div>
+  <div class="card" style="margin-top:12px"><h3 class="mh">○日後・○日前の日付</h3><div class="mq" style="flex-wrap:wrap"><div class="fld" style="flex:2;min-width:160px"><label for="dt3">もとになる日</label><input id="dt3" data-tp="date" type="date" value="${DT.d3}"></div><div class="fld" style="flex:1;min-width:100px"><label for="dtn">日数</label>${numIn('dtn', 'date', '', DT.n, '1')}</div><div class="fld" style="flex:1;min-width:100px"><label for="dts">後・前</label><select id="dts" data-tp="date" class="sel"><option value="1" ${DT.sign === '1' ? 'selected' : ''}>後</option><option value="-1" ${DT.sign === '-1' ? 'selected' : ''}>前</option></select></div></div><div class="mres" id="dtres2"></div></div>`;
+}
+TPAINT.date = () => {
+  DT.d1 = ($('#dt1') || {}).value; DT.d2 = ($('#dt2') || {}).value; DT.d3 = ($('#dt3') || {}).value; DT.n = ($('#dtn') || {}).value; DT.sign = ($('#dts') || {}).value || '1';
+  const a = dpar(DT.d1), b = dpar(DT.d2);
+  put('dtres1', a && b ? (() => { const n = Math.round((b - a) / 864e5); return `${Math.abs(n)} 日${n < 0 ? '（おわりの日のほうが前です）' : ''}<br><span class="muted">${Math.floor(Math.abs(n) / 7)}週間と${Math.abs(n) % 7}日</span>`; })() : '');
+  const c = dpar(DT.d3), n = parseInt(DT.n, 10);
+  put('dtres2', c && !isNaN(n) ? `<b>${dstr(new Date(c.getFullYear(), c.getMonth(), c.getDate() + n * +DT.sign))}</b>` : '');
+};
+/* 成績計算 */
+const erf = x => { const s = x < 0 ? -1 : 1; x = Math.abs(x); const t = 1 / (1 + .3275911 * x); return s * (1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - .284496736) * t + .254829592) * t * Math.exp(-x * x)); };
+function gradeHtml() {
+  const c = (h, body, id) => `<div class="card" style="margin-top:12px"><h3 class="mh">${h}</h3>${body}<div class="mres" id="${id}"></div></div>`;
+  const fl = (id, l, ph, tp = 'grade') => `<div class="fld" style="flex:1;min-width:130px"><label for="${id}">${l}</label>${numIn(id, tp, ph)}</div>`;
+  return `<div class="card"><h3 class="mh">合計・平均</h3><div class="fld"><label for="grs">各教科の点数（スペースやカンマで区切る）</label><input id="grs" data-tp="grade" inputmode="decimal" placeholder="例：85 72 90 68 77"></div><div class="fld"><label for="grf">1教科の満点</label>${numIn('grf', 'grade', '', '100')}</div><div class="mres" id="gr1"></div></div>`
+    + c('偏差値', `<div class="mq" style="flex-wrap:wrap">${fl('gx', 'あなたの点数', '例：72')}${fl('ga', '平均点', '例：60')}${fl('gs', '標準偏差', '例：12')}</div>`, 'gr2')
+    + c('目標の平均点までに必要な点数', `<div class="mq" style="flex-wrap:wrap">${fl('gt', 'いまの合計点', '例：250')}${fl('gn', '終わった教科数', '例：3')}${fl('gm', '全部の教科数', '例：5')}${fl('gg', '目標の平均点', '例：75')}</div>`, 'gr3');
+}
+TPAINT.grade = () => {
+  const sc = (($('#grs') || {}).value || '').split(/[\s,、，]+/).filter(Boolean).map(Number), full = nv('grf') || 100;
+  put('gr1', sc.length && sc.every(x => !isNaN(x)) ? `合計：<b>${pf(sc.reduce((a, b) => a + b, 0))}</b>（${sc.length}教科）<br>平均：<b>${pf(sc.reduce((a, b) => a + b, 0) / sc.length)}</b>　得点率：<b>${pf(sc.reduce((a, b) => a + b, 0) / sc.length / full * 100)}%</b><br>最高：${Math.max(...sc)}　最低：${Math.min(...sc)}` : '');
+  const x = nv('gx'), a = nv('ga'), s = nv('gs');
+  put('gr2', [x, a, s].every(v => !isNaN(v)) && s > 0 ? (() => { const z = (x - a) / s, top = (1 - (1 + erf(z / Math.SQRT2)) / 2) * 100; return `偏差値：<b>${pf(50 + 10 * z)}</b><br>上位の目安：約 ${top < .1 ? '0.1' : pf(Math.round(top * 10) / 10)}%`; })() : '');
+  const t = nv('gt'), n = nv('gn'), m = nv('gm'), g = nv('gg');
+  put('gr3', [t, n, m, g].every(v => !isNaN(v)) && m > n && n >= 0 ? (() => { const need = g * m - t, rest = m - n; return `残り${rest}教科の合計：<b>${pf(need)}</b> 点<br>残りの教科の平均：<b>${pf(need / rest)}</b> 点が必要${need / rest > 100 ? '<br><span class="muted">（100点を超えます。目標を見直してみてください）</span>' : ''}`; })() : '');
+};
+/* 文字数カウント */
+const WCV = { text: '', goal: '' };
+function wcHtml() {
+  return `<div class="card"><textarea id="wct" data-tp="wc" class="trta" rows="12" placeholder="ここに文章を入力、または貼り付けます">${esc(WCV.text)}</textarea><div class="fld" style="margin-top:12px;max-width:260px"><label for="wcg">目標の文字数（なくてもOK）</label>${numIn('wcg', 'wc', '例：800', WCV.goal, '1')}</div></div><div class="card"><div class="mres" id="wcres"></div><div id="wcbar" style="margin-top:12px"></div></div>`;
+}
+TPAINT.wc = () => {
+  WCV.text = ($('#wct') || {}).value || ''; WCV.goal = ($('#wcg') || {}).value || '';
+  const ch = Array.from(WCV.text), all = ch.length, ns = ch.filter(c => !/\s/.test(c)).length, lines = WCV.text ? WCV.text.split('\n').length : 0, g = parseInt(WCV.goal, 10);
+  put('wcres', `文字数：<b>${all}</b>　（空白・改行を除く：<b>${ns}</b>）<br>行数：${lines}　原稿用紙（400字詰め）：約 <b>${(ns / 400).toFixed(1)}</b> 枚${g > 0 ? `<br>目標まで：${all >= g ? `<b>達成</b>（${all - g}字オーバー）` : `あと <b>${g - all}</b> 字`}` : ''}`);
+  put('wcbar', g > 0 ? `<div class="wcb"><i style="width:${Math.min(100, all / g * 100)}%"></i></div>` : '');
+};
+/* 計算ドリル */
+const DR = { mode: 'add', lv: 0, phase: 'setup', q: [], i: 0, ok: 0, t0: 0, ms: 0, wrong: [], fb: '' };
+function drillQ() {
+  const r = n => Math.floor(Math.random() * n), m = DR.mode === 'mix' ? ['add', 'sub', 'mul', 'div'][r(4)] : DR.mode, L = DR.lv;
+  if (m === 'add') { const lim = [9, 99, 999][L], a = 1 + r(lim), b = 1 + r(lim); return { t: `${a} + ${b}`, a: a + b }; }
+  if (m === 'sub') { const lim = [9, 99, 999][L], a = 2 + r(lim), b = 1 + r(a - 1); return { t: `${a} − ${b}`, a: a - b }; }
+  if (m === 'mul') { const a = L === 0 ? 1 + r(9) : 10 + r(L === 1 ? 90 : 90), b = L === 2 ? 10 + r(90) : 1 + r(9); return { t: `${a} × ${b}`, a: a * b }; }
+  const b = L === 0 ? 2 + r(8) : L === 1 ? 2 + r(18) : 11 + r(18), q = L === 0 ? 1 + r(9) : L === 1 ? 2 + r(18) : 11 + r(40); return { t: `${b * q} ÷ ${b}`, a: q };
+}
+function drillHtml() {
+  const chip = (g, id, l, cur) => `<button class="tchip ${cur === id ? 'on' : ''}" data-act="${g}" data-id="${id}">${l}</button>`;
+  if (DR.phase === 'setup') return `<div class="card"><div class="lbl" style="margin-bottom:8px">計算の種類</div><div class="tseg">${[['add', 'たし算'], ['sub', 'ひき算'], ['mul', 'かけ算'], ['div', 'わり算'], ['mix', 'まぜる']].map(([id, l]) => chip('drmode', id, l, DR.mode)).join('')}</div><div class="lbl" style="margin:8px 0">むずかしさ</div><div class="tseg">${[['0', 'やさしい'], ['1', 'ふつう'], ['2', 'むずかしい']].map(([id, l]) => chip('drlv', id, l, String(DR.lv))).join('')}</div><button class="btn" data-act="drstart">${ms('play_arrow')}10問はじめる</button></div>`;
+  if (DR.phase === 'play') { const q = DR.q[DR.i]; return `<div class="card drq"><div class="muted" style="font-weight:500">${DR.i + 1} / ${DR.q.length} 問目　${DR.fb}</div><div class="drt">${q.t} ＝ ？</div><div class="mq" style="max-width:420px;margin:0 auto"><input id="drin" type="number" inputmode="numeric" step="1" autocomplete="off" aria-label="答え"><button class="btn" data-act="drans">${ms('check')}答える</button></div></div>`; }
+  const s = Math.round(DR.ms / 100) / 10;
+  return `<div class="card" style="text-align:center"><div class="muted">結果</div><div class="crres" style="font-size:3rem">${DR.ok} / ${DR.q.length}</div><div>タイム：<b>${s}</b> 秒${DR.ok === DR.q.length ? '　全問正解です' : ''}</div>${DR.wrong.length ? `<div class="chist" style="margin-top:14px;text-align:left"><div class="lbl">まちがえた問題</div>${DR.wrong.map(w => `<div><span>${w.q} ＝ ？（あなたの答え：${w.y}）</span><b>答え ${w.a}</b></div>`).join('')}</div>` : ''}<div class="dact" style="justify-content:center;margin-top:16px"><button class="btn tonal" data-act="drreset">設定にもどる</button><button class="btn" data-act="drstart">${ms('replay')}もう一度</button></div></div>`;
+}
+/* 暗記クイズ */
+const QD = {
+  pref: ['都道府県 → 県庁所在地', '北海道,札幌市;青森県,青森市;岩手県,盛岡市;宮城県,仙台市;秋田県,秋田市;山形県,山形市;福島県,福島市;茨城県,水戸市;栃木県,宇都宮市;群馬県,前橋市;埼玉県,さいたま市;千葉県,千葉市;東京都,東京（新宿区）;神奈川県,横浜市;新潟県,新潟市;富山県,富山市;石川県,金沢市;福井県,福井市;山梨県,甲府市;長野県,長野市;岐阜県,岐阜市;静岡県,静岡市;愛知県,名古屋市;三重県,津市;滋賀県,大津市;京都府,京都市;大阪府,大阪市;兵庫県,神戸市;奈良県,奈良市;和歌山県,和歌山市;鳥取県,鳥取市;島根県,松江市;岡山県,岡山市;広島県,広島市;山口県,山口市;徳島県,徳島市;香川県,高松市;愛媛県,松山市;高知県,高知市;福岡県,福岡市;佐賀県,佐賀市;長崎県,長崎市;熊本県,熊本市;大分県,大分市;宮崎県,宮崎市;鹿児島県,鹿児島市;沖縄県,那覇市'],
+  elem: ['元素名 → 元素記号', '水素,H;ヘリウム,He;リチウム,Li;ベリリウム,Be;ホウ素,B;炭素,C;窒素,N;酸素,O;フッ素,F;ネオン,Ne;ナトリウム,Na;マグネシウム,Mg;アルミニウム,Al;ケイ素,Si;リン,P;硫黄,S;塩素,Cl;アルゴン,Ar;カリウム,K;カルシウム,Ca;チタン,Ti;クロム,Cr;マンガン,Mn;鉄,Fe;コバルト,Co;ニッケル,Ni;銅,Cu;亜鉛,Zn;臭素,Br;銀,Ag;スズ,Sn;ヨウ素,I;金,Au;水銀,Hg;鉛,Pb;バリウム,Ba'],
+  verb: ['不規則動詞：原形 → 過去形', 'be,was/were;become,became;begin,began;break,broke;bring,brought;build,built;buy,bought;catch,caught;choose,chose;come,came;do,did;draw,drew;drink,drank;drive,drove;eat,ate;fall,fell;feel,felt;find,found;fly,flew;forget,forgot;get,got;give,gave;go,went;have,had;hear,heard;keep,kept;know,knew;leave,left;make,made;meet,met;read,read;run,ran;say,said;see,saw;sell,sold;send,sent;sing,sang;sit,sat;speak,spoke;take,took;teach,taught;tell,told;think,thought;write,wrote'],
+  cards: ['自分の単語帳（表 → 裏）', '']
+};
+const QZ = { set: '', q: [], i: 0, ok: 0, pick: -1, wrong: [], phase: 'setup' };
+const qpairs = id => id === 'cards' ? (S.cards || []).map(c => [c.f, c.b]) : QD[id][1].split(';').map(x => x.split(','));
+function quizStart(id) {
+  const P = qpairs(id); if (P.length < 4) return toast('4枚以上のカードが必要です。単語帳でカードを追加してください');
+  const pick = P.slice().sort(() => Math.random() - .5).slice(0, 10), all = [...new Set(P.map(p => p[1]))];
+  QZ.set = id; QZ.i = 0; QZ.ok = 0; QZ.pick = -1; QZ.wrong = []; QZ.phase = 'play';
+  QZ.q = pick.map(([f, b]) => { const o = all.filter(x => x !== b).sort(() => Math.random() - .5).slice(0, 3); o.push(b); o.sort(() => Math.random() - .5); return { f, b, o }; });
+  toolsRefresh();
+}
+function quizHtml() {
+  if (QZ.phase === 'setup') return `<div class="tgrid2">${Object.entries(QD).map(([id, [n]]) => `<button class="tcard sc" style="--sh:${{ pref: 200, elem: 150, verb: 260, cards: 340 }[id]}" data-act="qzset" data-id="${id}"><b>${n}</b><span>${id === 'cards' ? `${(S.cards || []).length}枚のカードから出題` : '10問・4択'}</span></button>`).join('')}</div>`;
+  if (QZ.phase === 'play') {
+    const q = QZ.q[QZ.i], done = QZ.pick >= 0;
+    return `<div class="card"><div class="muted" style="font-weight:500">${QD[QZ.set][0]}　${QZ.i + 1} / ${QZ.q.length} 問目</div><div class="drt" style="margin:14px 0">${esc(q.f)}</div><div class="qzo">${q.o.map((o, k) => `<button class="qzb ${done ? (o === q.b ? 'ok' : k === QZ.pick ? 'ng' : '') : ''}" data-act="qzpick" data-id="${k}" ${done ? 'disabled' : ''}>${esc(o)}</button>`).join('')}</div>${done ? `<div class="dact" style="margin-top:14px"><span class="muted" style="font-weight:600">${q.o[QZ.pick] === q.b ? '正解です' : '答えは「' + esc(q.b) + '」です'}</span><span class="sp"></span><button class="btn" data-act="qznext">${QZ.i + 1 >= QZ.q.length ? '結果を見る' : '次の問題'}${ms('arrow_forward')}</button></div>` : ''}</div>`;
+  }
+  return `<div class="card" style="text-align:center"><div class="muted">結果</div><div class="crres" style="font-size:3rem">${QZ.ok} / ${QZ.q.length}</div>${QZ.wrong.length ? `<div class="chist" style="text-align:left"><div class="lbl">まちがえた問題</div>${QZ.wrong.map(w => `<div><span>${esc(w.f)}</span><b>${esc(w.b)}</b></div>`).join('')}</div>` : '<div>全問正解です</div>'}<div class="dact" style="justify-content:center;margin-top:16px"><button class="btn tonal" data-act="qzreset">別のクイズ</button><button class="btn" data-act="qzset" data-id="${QZ.set}">${ms('replay')}もう一度</button></div></div>`;
+}
+document.addEventListener('input', e => { const k = e.target.dataset && e.target.dataset.tp; if (k) { TV[e.target.id] = e.target.value; if (TPAINT[k]) TPAINT[k](); } });
+document.addEventListener('change', e => { if (e.target.id === 'shsel') { SH.id = e.target.value; SH.v = {}; toolsRefresh(); } });
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'drin') ACT.drans(); if (e.key === 'Enter' && e.target.id === 'fcus') ACT.fcus(); });
+/* ===== 数学ツール（連立方程式・展開因数分解・統計・順列組合せ・座標・三角比・平方根・数列） ===== */
+const SM = { n: 2 };
+function gauss(M) { const n = M.length; for (let i = 0; i < n; i++) { let p = i; for (let r = i + 1; r < n; r++) if (Math.abs(M[r][i]) > Math.abs(M[p][i])) p = r; if (Math.abs(M[p][i]) < 1e-12) return null; [M[i], M[p]] = [M[p], M[i]]; for (let r = 0; r < n; r++) if (r !== i) { const f = M[r][i] / M[i][i]; for (let c = i; c <= n; c++) M[r][c] -= f * M[i][c]; } } return M.map((r, i) => r[n] / r[i]); }
+function simHtml() {
+  const N = SM.n, vs = ['x', 'y', 'z'].slice(0, N), row = r => `<div class="eqr">${vs.map((v, c) => `${numIn(`s${r}${c}`, 'sim')}<span>${v}</span>${c < N - 1 ? '<span>＋</span>' : ''}`).join('')}<span>＝</span>${numIn(`s${r}k`, 'sim')}</div>`;
+  return `<div class="card"><div class="tseg" style="margin-bottom:12px"><button class="tchip ${N === 2 ? 'on' : ''}" data-act="simn" data-id="2">2元1次</button><button class="tchip ${N === 3 ? 'on' : ''}" data-act="simn" data-id="3">3元1次</button></div>${[...Array(N).keys()].map(row).join('')}<p class="muted" style="font-size:.85rem">係数を入力します（負の数は − をつけます）。</p></div><div class="card"><h3 class="mh">解</h3><div class="mres" id="simres"></div></div>`;
+}
+TPAINT.sim = () => {
+  const N = SM.n, M = [...Array(N).keys()].map(r => [...Array(N).keys()].map(c => nv(`s${r}${c}`)).concat(nv(`s${r}k`)));
+  if (M.flat().some(isNaN)) return put('simres', '');
+  const x = gauss(M); put('simres', x ? x.map((v, i) => `${['x', 'y', 'z'][i]} ＝ <b>${frS(v)}</b>${frS(v).includes('/') ? `（${pf(v)}）` : ''}`).join('<br>') : '解が1つに決まりません（解なし、または無数にあります）');
+};
+function polyStr(a, b, c) { let out = ''; [[a, 'x<sup>2</sup>'], [b, 'x'], [c, '']].forEach(([co, sy]) => { if (!co) return; const ab = Math.abs(co), body = ab === 1 && sy ? sy : `${ab}${sy}`; out += out ? ` ${co < 0 ? '−' : '＋'} ${body}` : `${co < 0 ? '−' : ''}${body}`; }); return out || '0'; }
+const linF = (d, n) => `${d === 1 ? '' : d}x${n > 0 ? ` − ${n}` : n < 0 ? ` ＋ ${-n}` : ''}`;
+function factor2(a, b, c) {
+  if (!a) return '二次の項（a）が0です';
+  const D = b * b - 4 * a * c; if (D < 0) return `D ＝ ${D}（負）なので、実数の範囲では因数分解できません`;
+  const s = Math.round(Math.sqrt(D)); if (s * s !== D) return `有理数の範囲では因数分解できません（D ＝ ${D}）`;
+  const rf = (n, d) => { if (d < 0) { n = -n; d = -d; } const g = gcdN(n, d) || 1; return [n / g, d / g]; };
+  const [n1, d1] = rf(-b + s, 2 * a), [n2, d2] = rf(-b - s, 2 * a), k = a / (d1 * d2), kk = k === 1 ? '' : k === -1 ? '−' : frS(k);
+  return n1 === n2 && d1 === d2 ? `${kk}(${linF(d1, n1)})<sup>2</sup>` : `${kk}(${linF(d1, n1)})(${linF(d2, n2)})`;
+}
+function polyHtml() {
+  return mc('展開　(ax ＋ b)(cx ＋ d)', mqr(fld1('pa', 'a', 'poly'), fld1('pb', 'b', 'poly'), fld1('pc', 'c', 'poly'), fld1('pd', 'd', 'poly')), 'pl1') + mc('因数分解　ax² ＋ bx ＋ c', mqr(fld1('qa', 'a', 'poly'), fld1('qb', 'b', 'poly'), fld1('qc', 'c', 'poly')) + '<p class="muted" style="font-size:.85rem;margin:0">係数は整数で入力します。</p>', 'pl2');
+}
+TPAINT.poly = () => {
+  const [a, b, c, d] = ['pa', 'pb', 'pc', 'pd'].map(nv);
+  put('pl1', [a, b, c, d].some(isNaN) ? '' : `(${linF2(a, b)})(${linF2(c, d)})<br>＝ <b>${polyStr(a * c, a * d + b * c, b * d)}</b>`);
+  const [p, q, r] = ['qa', 'qb', 'qc'].map(nv);
+  put('pl2', [p, q, r].some(x => isNaN(x) || !Number.isInteger(x)) ? '' : `${polyStr(p, q, r)}<br>＝ <b>${factor2(p, q, r)}</b>`);
+};
+const linF2 = (a, b) => { const ax = a === 0 ? '' : a === 1 ? 'x' : a === -1 ? '−x' : `${a}x`; return ax ? (b === 0 ? ax : `${ax} ${b < 0 ? '−' : '＋'} ${Math.abs(b)}`) : `${b}`; };
+function statHtml() { return `<div class="card"><h3 class="mh">データの分析</h3><div class="fld"><label for="stl">データ（スペースやカンマで区切る）</label><input id="stl" data-tp="stat" inputmode="decimal" placeholder="例：62 75 80 75 90 68" value="${esc(TV.stl || '')}"></div></div><div class="card"><div class="chist" id="stres"></div></div>`; }
+TPAINT.stat = () => {
+  const d = (($('#stl') || {}).value || '').split(/[\s,、，]+/).filter(Boolean).map(Number);
+  if (!d.length || d.some(isNaN)) return put('stres', '<div><span>データを入力してください</span></div>');
+  d.sort((a, b) => a - b); const n = d.length, sum = d.reduce((a, b) => a + b, 0), mean = sum / n, med = a => { const m = a.length >> 1; return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; };
+  const q1 = n > 1 ? med(d.slice(0, n >> 1)) : d[0], q3 = n > 1 ? med(d.slice(n % 2 ? (n >> 1) + 1 : n >> 1)) : d[0], v = d.reduce((a, x) => a + (x - mean) ** 2, 0) / n, cnt = {};
+  d.forEach(x => cnt[x] = (cnt[x] || 0) + 1); const mx = Math.max(...Object.values(cnt)), modes = mx > 1 ? Object.keys(cnt).filter(k => cnt[k] === mx) : [];
+  const rows = [['個数', n], ['合計', pf(sum)], ['平均', pf(mean)], ['中央値', pf(med(d))], ['最頻値', modes.length ? modes.join('、') : 'なし'], ['最大 ／ 最小', `${d[n - 1]} ／ ${d[0]}`], ['範囲', pf(d[n - 1] - d[0])], ['第1四分位数', pf(q1)], ['第3四分位数', pf(q3)], ['四分位範囲', pf(q3 - q1)], ['分散', pf(v)], ['標準偏差', pf(Math.sqrt(v))]];
+  if (n > 1) rows.push(['標本の標準偏差（n−1でわる）', pf(Math.sqrt(v * n / (n - 1)))]);
+  put('stres', rows.map(([k, x]) => `<div><span>${k}</span><b>${x}</b></div>`).join(''));
+};
+const bf = n => { let r = 1n; for (let i = 2n; i <= BigInt(n); i++) r *= i; return r; };
+function combHtml() { return mc('順列・組合せ', mqr(fld1('cn', 'n（全部の数）', 'comb'), fld1('cr', 'r（選ぶ数）', 'comb')), 'cbres'); }
+TPAINT.comb = () => {
+  const n = nv('cn'), r = nv('cr'); if (isNaN(n) || isNaN(r)) return put('cbres', '');
+  if (!Number.isInteger(n) || !Number.isInteger(r) || n < 0 || r < 0 || n > 100 || r > 100) return put('cbres', '0〜100の整数を入力してください');
+  const P = (a, b) => b > a ? 0n : bf(a) / bf(a - b), C = (a, b) => b > a ? 0n : P(a, b) / bf(b);
+  put('cbres', `n! ＝ <b>${bf(n)}</b><br>順列 <sub>n</sub>P<sub>r</sub> ＝ <b>${P(n, r)}</b><br>組合せ <sub>n</sub>C<sub>r</sub> ＝ <b>${C(n, r)}</b><br>重複順列 n<sup>r</sup> ＝ <b>${BigInt(n) ** BigInt(r)}</b><br>重複組合せ <sub>n</sub>H<sub>r</sub> ＝ <b>${n + r - 1 >= r && n > 0 ? C(n + r - 1, r) : (r === 0 ? 1n : 0n)}</b><br>円順列 (n−1)! ＝ <b>${n >= 1 ? bf(n - 1) : '—'}</b>`);
+};
+function lineHtml() { return mc('2点を通る直線', mqr(fld1('lx1', 'x₁', 'line'), fld1('ly1', 'y₁', 'line'), fld1('lx2', 'x₂', 'line'), fld1('ly2', 'y₂', 'line')), 'ln1') + mc('点と直線の距離（任意）', mqr(fld1('lpx', '点の x', 'line'), fld1('lpy', '点の y', 'line')) + '<p class="muted" style="font-size:.85rem;margin:0">上の2点を通る直線と、この点との距離を求めます。</p>', 'ln2'); }
+TPAINT.line = () => {
+  const [x1, y1, x2, y2] = ['lx1', 'ly1', 'lx2', 'ly2'].map(nv);
+  if ([x1, y1, x2, y2].some(isNaN)) return put('ln1', '') || put('ln2', '');
+  if (x1 === x2 && y1 === y2) return put('ln1', '2点が同じ位置です') || put('ln2', '');
+  const dx = x2 - x1, dy = y2 - y1, s2 = dx * dx + dy * dy, A = dy, B = -dx, C = x2 * y1 - x1 * y2;
+  const eq = dx === 0 ? `x ＝ ${frS(x1)}` : dy === 0 ? `y ＝ ${frS(y1)}` : `y ＝ ${frS(dy / dx) === '1' ? '' : frS(dy / dx) === '-1' ? '−' : frS(dy / dx)}x ${y1 - dy / dx * x1 < 0 ? '−' : '＋'} ${frS(Math.abs(y1 - dy / dx * x1))}`.replace(' ＋ 0', '');
+  put('ln1', `距離：<b>${pf(Math.sqrt(s2))}</b>${Number.isInteger(s2) ? `（√${s2}）` : ''}<br>中点：<b>(${frS((x1 + x2) / 2)}, ${frS((y1 + y2) / 2)})</b><br>傾き：<b>${dx === 0 ? 'なし（y軸に平行）' : frS(dy / dx)}</b><br>直線の式：<b>${eq}</b><br>一般形：${pf(A)}x ${B < 0 ? '−' : '＋'} ${pf(Math.abs(B))}y ${C < 0 ? '−' : '＋'} ${pf(Math.abs(C))} ＝ 0`);
+  const px = nv('lpx'), py = nv('lpy'); put('ln2', isNaN(px) || isNaN(py) ? '' : `距離：<b>${pf(Math.abs(A * px + B * py + C) / Math.sqrt(s2))}</b>`);
+};
+const TRX = { 0: ['0', '1', '0'], 30: ['1/2', '√3/2', '√3/3'], 45: ['√2/2', '√2/2', '1'], 60: ['√3/2', '1/2', '√3'], 90: ['1', '0', '定義されません'] };
+function trigHtml() { return mc('角度から三角比', mqr(fld1('ta', '角度（度）', 'trig', '例：30')), 'tr1') + mc('直角三角形の解き方（∠C ＝ 90°）', mqr(fld1('tsa', '辺 a（∠Aの向かい）', 'trig'), fld1('tsb', '辺 b', 'trig'), fld1('tsc', '辺 c（斜辺）', 'trig'), fld1('tsA', '∠A（度）', 'trig')) + '<p class="muted" style="font-size:.85rem;margin:0">わかっている2つの値を入力すると、残りを計算します。</p>', 'tr2'); }
+TPAINT.trig = () => {
+  const A0 = nv('ta'), RAD = Math.PI / 180;
+  put('tr1', isNaN(A0) ? '' : (() => { const x = TRX[A0], f = v => pf(Math.round(v * 1e12) / 1e12); return `sin ${A0}° ＝ <b>${x ? x[0] : f(Math.sin(A0 * RAD))}</b><br>cos ${A0}° ＝ <b>${x ? x[1] : f(Math.cos(A0 * RAD))}</b><br>tan ${A0}° ＝ <b>${x ? x[2] : (Math.abs(Math.cos(A0 * RAD)) < 1e-12 ? '定義されません' : f(Math.tan(A0 * RAD)))}</b>${x && A0 > 0 && A0 < 90 ? `<br><span class="muted">小数では sin ${f(Math.sin(A0 * RAD))}、cos ${f(Math.cos(A0 * RAD))}、tan ${f(Math.tan(A0 * RAD))}</span>` : ''}`; })());
+  let a = nv('tsa'), b = nv('tsb'), c = nv('tsc'), A = nv('tsA'); const have = [a, b, c, A].filter(v => !isNaN(v)).length;
+  if (have < 2) return put('tr2', '');
+  if (have > 2) return put('tr2', '入力は2つだけにしてください');
+  if ([a, b, c].some(v => v <= 0) || (A <= 0 || A >= 90)) return put('tr2', '辺は正の数、角度は0〜90の間で入力してください');
+  if (!isNaN(a) && !isNaN(b)) { c = Math.hypot(a, b); A = Math.atan2(a, b) / RAD; }
+  else if (!isNaN(a) && !isNaN(c)) { if (c <= a) return put('tr2', '斜辺 c は辺 a より長くなります'); b = Math.sqrt(c * c - a * a); A = Math.asin(a / c) / RAD; }
+  else if (!isNaN(b) && !isNaN(c)) { if (c <= b) return put('tr2', '斜辺 c は辺 b より長くなります'); a = Math.sqrt(c * c - b * b); A = Math.asin(a / c) / RAD; }
+  else if (!isNaN(a)) { c = a / Math.sin(A * RAD); b = a / Math.tan(A * RAD); }
+  else if (!isNaN(b)) { a = b * Math.tan(A * RAD); c = b / Math.cos(A * RAD); }
+  else { a = c * Math.sin(A * RAD); b = c * Math.cos(A * RAD); }
+  put('tr2', `a ＝ <b>${pf(a)}</b>　b ＝ <b>${pf(b)}</b>　c ＝ <b>${pf(c)}</b><br>∠A ＝ <b>${pf(A)}°</b>　∠B ＝ <b>${pf(90 - A)}°</b><br>面積 ＝ <b>${pf(a * b / 2)}</b>`);
+};
+function sqrtHtml() { return mc('平方根をかんたんにする', mqr(fld1('sq', '正の整数 n', 'sqrt', '例：72')), 'sq1'); }
+TPAINT.sqrt = () => {
+  const n0 = nv('sq'); if (isNaN(n0)) return put('sq1', '');
+  if (!Number.isInteger(n0) || n0 < 1 || n0 > 1e12) return put('sq1', '1〜1兆の整数を入力してください');
+  let n = n0, a = 1; for (let i = 2; i * i <= n; i++) while (n % (i * i) === 0) { a *= i; n /= i * i; }
+  const sf = n === 1 ? `${a}` : `${a > 1 ? a : ''}√${n}`;
+  put('sq1', `√${n0} ＝ <b>${sf}</b><br>近似値：${pf(Math.sqrt(n0))}${n > 1 ? `<br>分母の有理化：1/√${n0} ＝ <b>√${n}/${a * n}</b>` : ''}`);
+};
+function seqHtml() { return mc('等差数列', mqr(fld1('ea', '初項 a₁', 'seq'), fld1('ed', '公差 d', 'seq'), fld1('en', '項数 n', 'seq')), 'sq2') + mc('等比数列', mqr(fld1('ga', '初項 a₁', 'seq'), fld1('gr', '公比 r', 'seq'), fld1('gn2', '項数 n', 'seq')), 'sq3'); }
+TPAINT.seq = () => {
+  const [a, d, n] = ['ea', 'ed', 'en'].map(nv), lst = f => Array.from({ length: Math.min(8, n) }, (_, i) => pf(f(i))).join('、') + (n > 8 ? '、…' : '');
+  put('sq2', [a, d, n].some(isNaN) || !Number.isInteger(n) || n < 1 ? '' : `第n項：<b>${pf(a + (n - 1) * d)}</b><br>初項から第n項までの和：<b>${pf(n * (2 * a + (n - 1) * d) / 2)}</b><br><span class="muted">${lst(i => a + i * d)}</span>`);
+  const [b, r, m] = ['ga', 'gr', 'gn2'].map(nv);
+  put('sq3', [b, r, m].some(isNaN) || !Number.isInteger(m) || m < 1 ? '' : `第n項：<b>${pf(b * Math.pow(r, m - 1))}</b><br>初項から第n項までの和：<b>${pf(r === 1 ? b * m : b * (Math.pow(r, m) - 1) / (r - 1))}</b>${Math.abs(r) < 1 ? `<br>無限等比級数の和：<b>${pf(b / (1 - r))}</b>` : ''}<br><span class="muted">${Array.from({ length: Math.min(8, m) }, (_, i) => pf(b * Math.pow(r, i))).join('、') + (m > 8 ? '、…' : '')}</span>`);
+};
 function toolsRefresh() { if (ui.tab === 'tools') { const y = scrollY; $('#view').innerHTML = viewTools(); toolsPost(); scrollTo(0, y); } }
 function toolsPost() {
   const tl = ui.tool || '';
   if (tl === 'calc') calcPaint();
   else if (tl === 'graph') plotInit();
+  else if (TPAINT[tl]) TPAINT[tl]();
+  else if (tl === 'drill' && DR.phase === 'play') { const el = $('#drin'); el && el.focus(); }
   else if (tl === 'unit') unPaint();
   else if (tl === 'math') mathPaint();
   else if (tl === 'cur') { crPaint(); if (!CR.busy && !CR.tried && navigator.onLine && (!CR.rates || Date.now() - CR.t > 6 * 36e5)) crFetch(); }
