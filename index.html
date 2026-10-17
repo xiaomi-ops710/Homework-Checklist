@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <title>考査課題マネージャー</title>
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#2f5fd6">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -670,12 +670,6 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .tchip{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 16px;border-radius:20px;background:var(--s3);color:var(--on-v);font-weight:500;transition:background .25s,transform .3s var(--spring)}
 .tchip:active{transform:scale(.95)}.tchip.on{background:var(--primary);color:var(--on-primary)}.tchip .ms{font-size:20px}
 .tbody{max-width:860px}
-.cd{background:var(--s2);border-radius:28px;padding:18px 22px;text-align:right;min-height:112px;display:grid;align-content:end;gap:4px}
-.cexp{font-size:1.2rem;color:var(--on-v);overflow-wrap:anywhere;font-weight:400}.cres{font-size:2.8rem;font-weight:600;line-height:1.1;overflow-wrap:anywhere;min-height:1.1em}
-.cwrap{display:grid;gap:12px}@media(min-width:760px){.cwrap{grid-template-columns:1fr 1fr}}
-.cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-content:start}
-.ck{height:62px;border-radius:22px;background:var(--s3);font-size:1.3rem;font-weight:500;color:var(--on);transition:transform .25s var(--spring),border-radius .25s,background .2s}
-.ck:active{transform:scale(.93);border-radius:30px}.ck.op{background:var(--pc);color:var(--on-pc)}.ck.fn{background:var(--s2);color:var(--primary)}.ck.eq{background:var(--primary);color:var(--on-primary)}
 .chist{margin-top:14px;display:grid;gap:6px}.chist>div{display:flex;justify-content:space-between;gap:12px;color:var(--on-v);font-weight:400;padding:6px 4px}.chist b{font-weight:600;color:var(--on)}
 .fnr{display:flex;align-items:center;gap:10px;margin:6px 0}.fnr i{width:14px;height:14px;border-radius:7px;flex:none}.fnr span{font-weight:500;color:var(--on-v)}
 .fnr input{flex:1;min-width:0;height:48px;border:0;border-radius:14px;background:var(--s3);padding:0 14px;font:inherit;color:var(--on)}
@@ -724,8 +718,8 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .sw2 input:checked:active+.tr .th{left:20px;width:28px;height:28px;top:2px}
 /* ===== iPad向けレイアウト：ツール ===== */
 .tside{display:none}.tbody{max-width:none}
-.tool-calc{max-width:820px;margin:0 auto}.tool-card,.tool-sheet{max-width:900px;margin:0 auto}
-@media(min-width:700px){.ck{height:70px;font-size:1.45rem}.cres{font-size:3.4rem}.cd{min-height:140px}.wcard{min-height:340px;font-size:2.6rem}.rsb{font-size:1.3rem}}
+.tool-card,.tool-sheet{max-width:900px;margin:0 auto}
+@media(min-width:700px){.wcard{min-height:340px;font-size:2.6rem}.rsb{font-size:1.3rem}}
 @media(min-width:1000px){
   .tools-wrap{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;align-items:start}
   .tside{display:grid;gap:14px;position:sticky;top:24px}
@@ -763,9 +757,6 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .tbar{display:flex;align-items:center;gap:10px;margin:4px 0 14px}.tbar h2{margin:0;font-size:1.5rem;font-weight:600;display:flex;align-items:center;gap:10px}
 .tbar .ibtn{width:48px;height:48px;display:grid;place-items:center;border-radius:24px;background:var(--s3)}
 @media(min-width:1000px){
-  .tool-calc{max-width:none;margin:0;display:grid;grid-template-columns:minmax(320px,1fr) 1.4fr;grid-template-areas:"d k" "c k" "h k";grid-template-rows:auto auto 1fr;gap:12px 28px;align-items:start}
-  .tool-calc .cd{grid-area:d;min-height:210px}.tool-calc>.chips{grid-area:c}.tool-calc .cwrap{grid-area:k}.tool-calc .chist{grid-area:h;margin-top:0}
-  .ck{height:84px;font-size:1.6rem}.cres{font-size:4rem}.cexp{font-size:1.4rem}
   .tool-card,.tool-sheet{max-width:1100px}.wcard{min-height:420px;font-size:3rem}
 }
 .gleft{grid-template-columns:minmax(0,1fr);min-width:0;overflow-x:hidden}.gleft>*{min-width:0}
@@ -826,6 +817,143 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 @media(min-width:700px){.tbody input:not([type=range]):not([type=checkbox]),.tbody select{height:66px;font-size:1.25rem}.tbody textarea{font-size:1.2rem}}
 .frp input{height:76px!important;font-size:1.6rem!important}.eqr input{width:112px!important}
 #drin{height:76px;font-size:1.9rem}
+
+/* ===== 電卓（Google電卓 タブレット版風） v7.4 ===== */
+.tb-calc{max-width:none}
+.kc{display:grid;grid-template-columns:minmax(0,1fr);gap:14px;--kh:clamp(50px,8.4vh,64px)}
+.kc-h{display:none}
+.kc-m{display:grid;gap:14px;min-width:0;align-content:start}
+.kc-d{position:relative;background:var(--s2);border-radius:32px;padding:20px 24px 18px;min-height:150px;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-end;gap:6px;overflow:hidden}
+.kc-e{max-width:100%;overflow-wrap:anywhere;text-align:right;font-weight:500;font-size:2.4rem;line-height:1.15;color:var(--on);transition:font-size .25s var(--smooth),color .25s}
+.kc-e.m{font-size:1.9rem}.kc-e.s{font-size:1.5rem}
+.kc-r{max-width:100%;overflow-wrap:anywhere;text-align:right;font-size:1.5rem;font-weight:500;line-height:1.2;min-height:1.2em;color:var(--on-v);transition:font-size .25s var(--smooth),color .25s}
+.kc-d.done .kc-e{font-size:1.25rem;font-weight:400;color:var(--on-v)}
+.kc-d.done .kc-r{font-size:3.4rem;font-weight:600;color:var(--on)}
+.kc-d.done .kc-r.m{font-size:2.6rem}.kc-d.done .kc-r.s{font-size:1.9rem}
+.kc-d.err .kc-r{color:var(--err)}
+.kc-cp{position:absolute;top:12px;left:12px;width:44px;height:44px;border-radius:22px;display:grid;place-items:center;color:var(--on-v);background:transparent;transition:background .2s,transform .3s var(--spring)}
+.kc-cp:active{background:var(--s4);transform:scale(.9)}.kc-cp .ms{font-size:22px}
+.kc-b{display:flex;gap:10px;align-items:stretch}
+.kc-sp{display:flex;gap:8px;flex:3 1 0;min-width:0}.kc-sp.off{flex:0 0 auto}
+.kc-tg{flex:none;width:30px;border-radius:15px;background:var(--s2);color:var(--on-v);display:grid;place-items:center;transition:background .2s,transform .3s var(--spring)}
+.kc-tg:active{background:var(--s4)}.kc-tg .ms{font-size:22px;transition:transform .3s var(--smooth)}
+.kc-sg{flex:1;min-width:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-content:start}
+.kc-sp.off .kc-sg{display:none}
+.kc-pd{flex:5 1 0;min-width:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-content:start}
+.kc-k{height:var(--kh);border-radius:999px;background:var(--s3);color:var(--on);font-size:1.5rem;font-weight:500;display:grid;place-items:center;padding:0;min-width:0;
+ transition:border-radius .22s var(--spring),transform .22s var(--spring),background .2s,color .2s}
+.kc-k:active{border-radius:20px;transform:scale(.95)}
+.kc-k.o{background:var(--pc);color:var(--on-pc);font-size:1.7rem}
+.kc-k.f{background:var(--sec-c);color:var(--on-sec-c);font-size:1.3rem}
+.kc-k.ac{background:var(--ter-c);color:var(--on-ter-c);font-size:1.25rem;font-weight:600}
+.kc-k.eq{background:var(--primary);color:var(--on-primary);font-size:1.8rem}
+.kc-k.sc{background:var(--s2);color:var(--on-v);font-size:1.1rem;font-weight:500}
+.kc-k.sc.on{background:var(--primary);color:var(--on-primary)}
+.kc-k .ms{font-size:28px}
+.kc-k sup{font-size:.65em;line-height:0}
+.kc-hp{background:var(--s2);border-radius:32px;padding:16px 10px 12px 14px;display:flex;flex-direction:column;min-height:0}
+.kc-hh{display:flex;align-items:center;justify-content:space-between;padding:0 6px 8px 4px}
+.kc-hh b{font-size:1.05rem;font-weight:600}
+.kc-hh button{width:44px;height:44px;border-radius:22px;display:grid;place-items:center;color:var(--on-v);transition:background .2s,transform .3s var(--spring)}
+.kc-hh button:active{background:var(--s4);transform:scale(.9)}
+.kc-hl{overflow-y:auto;overscroll-behavior:contain;flex:1;padding-right:4px;scrollbar-width:thin}
+.kc-hd{font-size:.82rem;font-weight:600;color:var(--primary);padding:10px 6px 4px}
+.kc-hi{display:block;width:100%;text-align:right;padding:8px 10px;border-radius:18px;transition:background .2s}
+.kc-hi:active{background:var(--s4)}
+.kc-hi span{display:block;color:var(--on-v);font-size:.9rem;overflow-wrap:anywhere}
+.kc-hi b{display:block;font-size:1.3rem;font-weight:600;overflow-wrap:anywhere}
+.kc-he{color:var(--on-v);text-align:center;padding:28px 10px;font-size:.95rem;line-height:1.7}
+@media(max-width:699px){
+  .kc-b{flex-direction:column}
+  .kc-sp{flex-direction:column;flex:none}
+  .kc-tg{width:100%;height:30px}.kc-tg .ms{transform:rotate(90deg)}
+  .kc-sp.off .kc-tg .ms{transform:rotate(90deg)}
+  .kc-sg{grid-template-columns:repeat(6,minmax(0,1fr))}
+  .kc-d{min-height:140px;border-radius:28px}
+  .kc-k.sc{font-size:.95rem}
+}
+@media(min-width:700px){
+  .kc{grid-template-columns:clamp(200px,28%,300px) minmax(0,1fr);gap:18px;align-items:start;--kh:clamp(54px,10.5vh,88px)}
+  .kc-h{display:block;position:sticky;top:12px}
+  .kc-hp{height:min(calc(100vh - 170px),680px);min-height:380px}
+  .kc-d{min-height:clamp(170px,27vh,250px)}
+  .kc-tg .ms{transform:none}
+}
+@media(min-width:1000px){
+  .kc{grid-template-columns:clamp(260px,26%,320px) minmax(0,1fr);gap:22px}
+  .kc-e{font-size:3rem}.kc-e.m{font-size:2.3rem}.kc-e.s{font-size:1.7rem}
+  .kc-d.done .kc-r{font-size:4.2rem}
+  .kc-k{font-size:1.7rem}.kc-k.o{font-size:1.9rem}.kc-k.sc{font-size:1.2rem}
+}
+
+/* ===== ツールの入力欄・ボタン・カードを Material 3 Expressive に統一 v7.5 ===== */
+.tbody{--fh:64px;--fr:24px}
+@media(min-width:700px){.tbody{--fh:72px;--fr:26px}}
+@media(min-width:1000px){.tbody{--fh:76px;--fr:28px}}
+/* 入力欄：縮まない・大きい・角が大きく丸い。選択中は角がさらに丸くなり、太い枠が出る */
+.tbody input:not([type=range]):not([type=checkbox]):not([type=radio]),.tbody select{
+  flex:none;box-sizing:border-box;height:var(--fh);min-height:var(--fh);width:100%;padding:0 22px;border:0;border-radius:var(--fr);
+  background:var(--s3);color:var(--on);font:inherit;font-size:1.3rem;font-weight:500;line-height:1.2;outline:0;-webkit-appearance:none;appearance:none;
+  transition:box-shadow .25s var(--smooth),border-radius .45s var(--spring),background .2s}
+.tbody input:not([type=range]):not([type=checkbox]):not([type=radio]):focus,.tbody select:focus{background:var(--s2);box-shadow:inset 0 0 0 3px var(--primary);border-radius:calc(var(--fr) + 10px)}
+.tbody input::placeholder,.tbody textarea::placeholder{color:var(--out);font-weight:400;opacity:1}
+.tbody input[type=number]{-moz-appearance:textfield}
+.tbody input[type=number]::-webkit-inner-spin-button,.tbody input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+.tbody input[type=date]{min-width:0;text-align:left}
+.tbody input[type=date]::-webkit-date-and-time-value{text-align:left;min-height:1.4em}
+.tbody input[type=date]::-webkit-calendar-picker-indicator{width:26px;height:26px;padding:6px;border-radius:50%;cursor:pointer;opacity:.7}
+.tbody select{padding-right:56px;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M6 9l6 6 6-6' fill='none' stroke='%237d7a85' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 18px center;background-size:24px}
+.tbody textarea{box-sizing:border-box;width:100%;border:0;border-radius:28px;background:var(--s3);color:var(--on);font:inherit;font-size:1.25rem;font-weight:500;line-height:1.75;padding:20px 24px;min-height:170px;outline:0;resize:vertical;transition:box-shadow .25s var(--smooth),border-radius .45s var(--spring),background .2s}
+.tbody textarea:focus{background:var(--s2);box-shadow:inset 0 0 0 3px var(--primary);border-radius:34px}
+@media(min-width:700px){.tbody textarea{min-height:240px;font-size:1.3rem}}
+/* ラベル：選択中は主色に */
+.tbody .fld{gap:10px;margin-bottom:16px}
+.tbody .fld>label,.tbody .fld>.lbl{font-size:.98rem;font-weight:600;color:var(--on-v);padding-left:10px;transition:color .2s}
+.tbody .fld:focus-within>label{color:var(--primary)}
+/* 特別な並び */
+.tbody .mq{gap:12px;margin-bottom:12px}
+.tbody .cur2{gap:12px}
+.tbody .eqr{gap:12px}.tbody .eqr input{width:128px!important;text-align:center;padding:0 10px}
+.tbody .frp input{height:calc(var(--fh) + 12px)!important;font-size:1.8rem!important;text-align:center;padding:0 10px}
+.tbody #drin{height:88px;font-size:2.2rem;text-align:center}
+/* カード・見出し・ボタン・チップ・結果 */
+.tbody .card{border-radius:32px;padding:24px 26px}
+.tbody .mh{font-size:1.2rem;font-weight:700;margin:0 0 16px}
+.tbody .btn{height:58px;padding:0 30px;border-radius:29px;font-size:1.05rem}
+.tbody .btn.sm{height:50px;padding:0 24px;border-radius:25px}
+.tbody .btn.xs{height:44px;padding:0 20px;border-radius:22px;font-size:.98rem}
+.tbody .btn:active{border-radius:16px}
+.tbody .tchip{height:50px;padding:0 22px;border-radius:25px;font-size:1.02rem}
+.tbody .tchip.on{border-radius:16px}
+.tbody .mres:not(:empty){background:var(--pc);color:var(--on-pc);border-radius:24px;padding:16px 22px;margin-top:16px;font-size:1.1rem}
+.tbody .mres b{color:inherit;font-weight:700}
+.tbody .crres{font-size:2.8rem}
+.tbody select.sel,.tbody .card select.sel{font-size:1.3rem;font-weight:500;height:var(--fh);border-radius:var(--fr);padding:0 56px 0 22px}
+.tbody .frrow{gap:16px}
+.tbody .frrow select{width:auto;min-width:92px;padding:0 22px;text-align:center;font-size:1.9rem;font-weight:600;background-image:none;border-radius:50%;aspect-ratio:1;height:84px;min-height:84px}
+.tbody .frrow select:focus{border-radius:32px}
+.tbody .frp{width:min(170px,100%)}
+.tbody .mres:empty{min-height:0}
+.tbody .mq{flex-wrap:wrap}
+.tbody .mq>input:not([type=range]):not([type=checkbox]):not([type=radio]),.tbody .mq>select{flex:1 1 150px;width:auto;min-width:0}
+.tbody .mq>.fld{flex:1 1 150px!important;min-width:min(100%,150px)!important;margin-bottom:6px}
+
+/* ===== ダブルタップでの拡大を防ぐ／ボタンの文字選択を防ぐ v7.6 ===== */
+html,body{touch-action:manipulation}
+button,[data-act],a,label,summary,select{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+input,textarea{touch-action:manipulation}
+#plot{touch-action:none}
+/* ===== ナビゲーションバー：並べ替え・ツールの配置 ===== */
+.ni .nl{display:block;max-width:92px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#nav{overflow-y:auto;scrollbar-width:none}#nav::-webkit-scrollbar{display:none}
+@media(min-width:700px){#nav.many{gap:8px;padding-bottom:12px}}
+@media(max-width:699px){
+  #nav.many{justify-content:flex-start;overflow-x:auto;overflow-y:hidden;gap:2px;scroll-snap-type:x proximity}
+  #nav.many .ni{flex:0 0 auto;min-width:64px;scroll-snap-align:center}
+}
+.nvr{padding-left:12px}
+.nvi{flex:none;width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:var(--pc);color:var(--on-pc)}
+.nvr .t{font-size:1.05rem}
 </style>
 </head>
 <body>
@@ -848,7 +976,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '7.3';
+const APP_VERSION = '7.6';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -869,7 +997,7 @@ const SEEDS = [[222, 'ブルー'], [205, 'スカイ'], [240, 'インディゴ'],
 const PRESETS = [['国語','menu_book',350],['数学','calculate',205],['英語','translate',258],['理科','science',172],['社会','public',140],['音楽','music_note',312],['美術','palette',24],['保健体育','sports_soccer',46],['技術・家庭','build',24],['情報','computer',205],['物理','bolt',258],['化学','experiment',172],['生物','biotech',140],['歴史','history_edu',46],['地理','map',172],['公民','account_balance',312],['古典','auto_stories',350],['書道','brush',24]];
 const ICONS = ['menu_book','auto_stories','calculate','functions','translate','language','abc','science','experiment','biotech','bolt','public','map','explore','history_edu','castle','temple_buddhist','account_balance','gavel','savings','music_note','piano','headphones','palette','brush','draw','photo_camera','sports_soccer','sports_basketball','sports_tennis','directions_run','fitness_center','build','handyman','architecture','computer','code','psychology','eco','water_drop','wb_sunny','restaurant','theater_comedy','school','edit_note','lightbulb','rocket_launch','local_fire_department'];
 const E2I = {'📖':'menu_book','📐':'calculate','🔤':'translate','🔬':'science','🌏':'public','🎵':'music_note','🎨':'palette','⚽':'sports_soccer','🔧':'build','💻':'computer','⚛️':'bolt','🧪':'experiment','🧬':'biotech','🏯':'castle','📜':'auto_stories','🖌️':'brush','🏛️':'account_balance','🗺️':'map','✏️':'edit_note','📚':'menu_book','🧮':'calculate','🗣️':'translate','🎹':'piano','📘':'menu_book'};
-const DEF_SET = { theme: 'auto', hue: 222, scope: 'all', lastBackup: 0, fs: 'm', anim: true, confetti: false, sound: true, goalMode: 'auto', goal: 30, focus: 25, brk: 5, lbrk: 15, cycles: 4, timerAnim: true, natStop: true };
+const DEF_SET = { theme: 'auto', hue: 222, scope: 'all', lastBackup: 0, fs: 'm', anim: true, confetti: false, sound: true, goalMode: 'auto', goal: 30, focus: 25, brk: 5, lbrk: 15, cycles: 4, timerAnim: true, natStop: true, nav: null };
 const BADGES = [
   ['first', 'flag', 'はじめの一歩', '課題を1つ完了', c => c.done >= 1],
   ['p100', 'menu_book', '100ページ', '累計100ページ', c => c.pages >= 100],
@@ -1137,10 +1265,33 @@ function gem(px = 22, grad = false) {
   return `<svg class="gem" width="${px}" height="${px}" viewBox="0 0 24 24" aria-hidden="true">${grad ? `<defs><linearGradient id="${id}" x1="3" y1="21" x2="21" y2="3" gradientUnits="userSpaceOnUse"><stop stop-color="#4285f4"/><stop offset=".55" stop-color="#9b72cb"/><stop offset="1" stop-color="#d96570"/></linearGradient></defs>` : ''}<path fill="${grad ? `url(#${id})` : 'currentColor'}" d="M12 0C12.6 6.9 17.1 11.4 24 12C17.1 12.6 12.6 17.1 12 24C11.4 17.1 6.9 12.6 0 12C6.9 11.4 11.4 6.9 12 0Z"/></svg>`;
 }
 const aiOpened = () => { try { return !!localStorage.getItem('kosa-ai-opened'); } catch (e) { return true; } };
+const DEF_NAV = ['home', 'tasks', 'cal', 'stats', 'ai', 'tools', 'settings'];
+const NAV_META = { home: ['ホーム', 'home'], tasks: ['課題', 'checklist'], cal: ['予定', 'calendar_month'], stats: ['記録', 'insights'], ai: ['AI', 'auto_awesome'], tools: ['ツール', 'build'], settings: ['設定', 'settings'] };
+const NAV_MAXTOOLS = 3;
+// バーに並べる項目（基本の7つは必ず入る。ツールは "tool:電卓のID" の形で最大3つまで）
+function navList() {
+  const n = S.set && S.set.nav, out = [];
+  if (Array.isArray(n)) n.forEach(id => {
+    if (out.includes(id)) return;
+    if (DEF_NAV.includes(id)) out.push(id);
+    else if (typeof id === 'string' && id.startsWith('tool:') && TOOLS.some(t => t[0] === id.slice(5))) out.push(id);
+  });
+  DEF_NAV.forEach(id => { if (!out.includes(id)) out.push(id); });
+  let c = 0; return out.filter(id => !id.startsWith('tool:') || ++c <= NAV_MAXTOOLS);
+}
+function navInfo(id) {
+  if (id.startsWith('tool:')) { const t = TOOLS.find(x => x[0] === id.slice(5)); return [t[1], t[2]]; }
+  return NAV_META[id];
+}
+const navPinned = () => navList().filter(x => x.startsWith('tool:')).map(x => x.slice(5));
+// いま表示している画面に対応するバーの項目
+function navCur() { return ui.tab === 'tools' && ui.tool && navPinned().includes(ui.tool) ? 'tool:' + ui.tool : ui.tab; }
 function renderNav() {
-  const items = [['home', 'ホーム', 'home'], ['tasks', '課題', 'checklist'], ['cal', '予定', 'calendar_month'], ['stats', '記録', 'insights'], ['ai', 'AI', 'auto_awesome'], ['tools', 'ツール', 'build'], ['settings', '設定', 'settings']];
+  const items = navList();
   const d = daysLeft(curExam()), bd = d === null || d < 0 ? '' : d === 0 ? '今日' : d + '日';
-  $('#nav').innerHTML = items.map(([id, l, i]) => { const b = id === 'home' && bd; return `<button class="ni ${ui.tab === id ? 'on' : ''}" data-act="tab" data-id="${id}" aria-label="${l}${b ? `（考査まで${bd}）` : ''}" ${ui.tab === id ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24) : ms(i)}</span>${b ? `<b class="nbadge ${d <= 3 ? 'hot' : ''}">${d === 0 ? '今日' : 'あと' + bd}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span>${l}</button>`; }).join('');
+  const cur = navCur();
+  const nav = $('#nav'); nav.classList.toggle('many', items.length > 8);
+  nav.innerHTML = items.map(id => { const [l, i] = navInfo(id); const on = cur === id, b = id === 'home' && bd; return `<button class="ni ${on ? 'on' : ''}" data-act="tab" data-id="${id}" aria-label="${l}${b ? `（考査まで${bd}）` : ''}" ${on ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24) : ms(i)}</span>${b ? `<b class="nbadge ${d <= 3 ? 'hot' : ''}">${d === 0 ? '今日' : 'あと' + bd}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span><span class="nl">${l}</span></button>`; }).join('');
 }
 function renderFab() {
   const f = $('#fab'); f.hidden = ui.tab === 'ai' || ui.tab === 'tools';
@@ -1456,6 +1607,12 @@ function viewStats() {
 /* ---------- 設定 ---------- */
 const swRow = (key, title, sub) => `<label class="setrow"><span class="t">${title}<small>${sub}</small></span><span class="sw2"><input type="checkbox" data-set="${key}" ${S.set[key] ? 'checked' : ''}><span class="tr"><span class="th">${ms('close')}${ms('check')}</span></span></span></label>`;
 const numRow = (key, title, sub, min, max, unit) => `<div class="setrow"><span class="t">${title}<small>${sub}</small></span><input type="number" inputmode="numeric" data-setn="${key}" min="${min}" max="${max}" value="${S.set[key]}" aria-label="${title}"><span class="muted" style="font-weight:600">${unit}</span></div>`;
+function navSettings() {
+  const l = navList(), pin = navPinned(), rest = TOOLS.filter(t => !pin.includes(t[0]));
+  const rows = l.map((id, i) => { const [lb, ic] = navInfo(id), tl = id.startsWith('tool:'); return `<div class="srow nvr"><span class="nvi">${ic === 'auto_awesome' ? gem(24) : ms(ic)}</span><div class="t">${esc(lb)}<small>${tl ? 'ツール' : '基本の画面'}</small></div><button class="ibtn" data-act="navup" data-id="${id}" ${i === 0 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を上（左）へ">${ms('keyboard_arrow_up')}</button><button class="ibtn" data-act="navdown" data-id="${id}" ${i === l.length - 1 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を下（右）へ">${ms('keyboard_arrow_down')}</button>${tl ? `<button class="ibtn" data-act="navdel" data-id="${id}" aria-label="${esc(lb)}をバーから外す">${ms('close')}</button>` : '<span style="width:48px;flex:none"></span>'}</div>`; }).join('');
+  const add = pin.length >= NAV_MAXTOOLS ? `<p class="muted" style="margin:14px 4px 0;font-weight:500">ツールは${NAV_MAXTOOLS}つまで置けます。入れ替えるときは、先に × で外してください。</p>` : `<div class="lbl" style="margin:16px 4px 8px">バーに置くツールを選ぶ（あと${NAV_MAXTOOLS - pin.length}つ）</div><div class="tchips" style="margin:0">${rest.map(t => `<button class="tchip" data-act="navadd" data-id="${t[0]}">${ms(t[2])}${esc(t[1])}</button>`).join('')}</div>`;
+  return `<div class="card"><p class="muted" style="margin:0 4px 12px;font-weight:500">上から順に、iPadでは左のバー、スマホでは下のバーに並びます。</p><div class="slist">${rows}</div>${add}</div>`;
+}
 function viewSettings() {
   const st = S.set;
   return `<div class="h-sec" style="margin-top:4px"><h2>${ms('school')}考査</h2><span class="sp"></span><button class="btn tonal xs" data-act="addexam">${ms('add')}考査</button></div>
@@ -1476,6 +1633,9 @@ function viewSettings() {
   <div class="fld"><div class="lbl">アプリの色（青系）</div><div class="swatches">${SEEDS.map(([h, n]) => `<label class="sw"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} data-act="hue" data-id="${h}" aria-label="${n}"><span style="background:hsl(${h} 66% 48%)"></span></label>`).join('')}</div></div>
   <div class="fld"><div class="lbl">文字の大きさ</div><div class="seg">${[['s', '小'], ['m', '標準'], ['l', '大']].map(([v, l]) => `<button class="${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}">${l}</button>`).join('')}</div></div>
   ${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}${swRow('timerAnim', 'タイマー画面のアニメーション', 'オフにすると、円の動きなどを止めます')}${swRow('natStop', 'タイマー終了で自然の音を止める', '時間が終わると、自然の音を自動で止めます')}</div>
+
+  <div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>
+  ${navSettings()}
 
   <div class="h-sec"><h2>${ms('help')}使い方とバージョン</h2></div><div class="card"><div class="setrow" style="padding:0 0 14px"><span class="t">バージョン<small>v${APP_VERSION}</small></span></div><button class="btn tonal" data-act="guide">${ms('help')}使い方を見る</button></div>
 
@@ -1852,10 +2012,20 @@ function closeFocus() {
 }
 
 /* ====================== アクション ====================== */
-const TABORDER = ['home', 'tasks', 'cal', 'stats', 'ai', 'tools', 'settings'];
 let updating = false, waiting = null;
 const ACT = {
-  tab(id) { if (id === 'tools' && ui.tab === 'tools') ui.tool = ''; ui.dir = id === ui.tab ? -1 : (TABORDER.indexOf(id) >= TABORDER.indexOf(ui.tab) ? 1 : -1); ui.tab = id; ui.anim = true; ui.fab = false; renderFab(); render(); window.scrollTo(0, 0); },
+  tab(id) {
+    const ord = navList(), from = navCur(); let tid = '';
+    if (id.startsWith('tool:')) { tid = id.slice(5); if (ui.tab === 'tools' && ui.tool === tid) { window.scrollTo(0, 0); return; } }
+    else if (id === 'tools') { if (ui.tab === 'tools' || navPinned().includes(ui.tool)) ui.tool = ''; }
+    ui.dir = id === from ? -1 : (ord.indexOf(id) >= ord.indexOf(from) ? 1 : -1);
+    if (tid) { ui.tab = 'tools'; ui.tool = tid; ui.vin = true; } else ui.tab = id;
+    ui.anim = true; ui.fab = false; renderFab(); render(); window.scrollTo(0, 0);
+  },
+  navup(id) { moveNav(id, -1); }, navdown(id) { moveNav(id, 1); },
+  navadd(id) { const l = navList(); if (navPinned().length >= NAV_MAXTOOLS || l.includes('tool:' + id)) return; l.push('tool:' + id); S.set.nav = l; commit(); },
+  navdel(id) { S.set.nav = navList().filter(x => x !== id); commit(); },
+  navreset() { S.set.nav = null; commit(); toast('バーの並びを元に戻しました'); },
   goto(id) { ui.tab = 'tasks'; ui.sid = id; ui.filter = 'all'; ui.q = ''; ui.anim = true; render(); window.scrollTo(0, 0); },
   fab() { ui.fab = !ui.fab; renderFab(); },
   addtask(id) { ui.fab = false; renderFab(); taskDlg(null, id); },
@@ -1964,6 +2134,10 @@ const ACT = {
   fdur(id) { setDur(+id); }, fcus() { const v = parseInt(($('#fcus') || {}).value, 10); if (!(v >= 1 && v <= 300)) return toast('1〜300分の間で入力してください'); setDur(v); },
   fadd(id) { const n = +id * 60; TM.total += n; TM.remain += n; if (TM.running) TM.endAt += n * 1000; updateFocus(true); updateMini(); toast(`${id}分、延長しました`); },
 };
+function moveNav(id, dir) {
+  const l = navList(), i = l.indexOf(id), j = i + dir; if (i < 0 || j < 0 || j >= l.length) return;
+  [l[i], l[j]] = [l[j], l[i]]; S.set.nav = l; commit();
+}
 function moveSubj(id, dir) {
   const subs = subjects(), i = subs.findIndex(s => s.id === id), j = i + dir;
   if (j < 0 || j >= subs.length) return;
@@ -2373,7 +2547,7 @@ function aiAddTasks(sel) {
 /* ====================== ツール（電卓・関数・通貨・翻訳） ====================== */
 function compileExpr(src, o = {}) {
   const s = String(src).replace(/×/g, '*').replace(/÷/g, '/').replace(/[−ー]/g, '-').replace(/π/g, 'pi').replace(/√/g, 'sqrt').replace(/²/g, '^2').replace(/³/g, '^3').replace(/\s+/g, '').toLowerCase();
-  const tk = s.match(/\d*\.?\d+|\d+\.|[a-z]+|[-+*/^()%!]/g) || [];
+  const tk = s.match(/\d*\.?\d+|\d+\.|asin|acos|atan|sin|cos|tan|log|ln|sqrt|abs|exp|ans|pi|[a-z]|[-+*/^()%!]/g) || [];
   if (tk.join('').length !== s.length) throw new Error('char');
   const D = o.deg ? Math.PI / 180 : 1, FN = { sin: x => Math.sin(x * D), cos: x => Math.cos(x * D), tan: x => Math.tan(x * D), asin: x => Math.asin(x) / D, acos: x => Math.acos(x) / D, atan: x => Math.atan(x) / D, log: Math.log10, ln: Math.log, sqrt: Math.sqrt, abs: Math.abs, exp: Math.exp };
   let p = 0; const peek = () => tk[p], next = () => tk[p++];
@@ -2394,36 +2568,172 @@ function compileExpr(src, o = {}) {
   const f = expr(); if (p < tk.length) throw new Error('rest'); return f;
 }
 const fmtN = v => !isFinite(v) ? 'エラー' : (Math.abs(v) >= 1e15 || (Math.abs(v) < 1e-9 && v !== 0)) ? v.toExponential(8).replace(/\.?0+e/, 'e') : String(+v.toPrecision(12));
-const CALC = { expr: '', res: '', deg: true, sci: false, just: false, ans: 0, hist: [] };
-function calcEval(save) { try { const v = compileExpr(CALC.expr, { deg: CALC.deg, ans: CALC.ans })(0); return isFinite(v) ? v : null; } catch (e) { return null; } }
-function calcKey(k) {
-  const C = CALC, ops = '+−×÷^';
-  if (k === 'sci') C.sci = !C.sci;
-  else if (k === 'DEG') C.deg = !C.deg;
-  else if (k === 'AC') { C.expr = ''; C.res = ''; C.just = false; }
-  else if (k === '⌫') C.expr = C.expr.replace(/(sin|cos|tan|log|ln|√)\($|.$/, '');
-  else if (k === '=') { const v = calcEval(); if (v === null) C.res = 'エラー'; else { C.res = fmtN(v); C.hist.unshift({ e: C.expr, r: C.res }); C.hist = C.hist.slice(0, 6); C.ans = v; C.just = true; } }
-  else {
-    if (C.just) { if (ops.includes(k) || k === '%' || k === 'x²' || k === '!') C.expr = C.res; else C.expr = ''; C.just = false; C.res = ''; }
-    C.expr += { sin: 'sin(', cos: 'cos(', tan: 'tan(', log: 'log(', ln: 'ln(', '√': '√(', 'x²': '^2', Ans: 'Ans' }[k] || k;
-  }
-  if (k === 'sci' || k === 'DEG') render(); else calcPaint();
+const CALC = { expr: '', res: '', deg: true, sci: innerWidth >= 1000, inv: false, just: false, err: false, ans: 0, hist: [] };
+const CALC_OPS = '+−×÷^', CALC_FN = { sin: 'sin(', cos: 'cos(', tan: 'tan(', ln: 'ln(', log: 'log(', sqrt: '√(' }, CALC_IFN = { sin: 'asin(', cos: 'acos(', tan: 'atan(', ln: 'e^(', log: '10^(', sqrt: '^2' };
+(function calcLoad() {
+  try {
+    const h = JSON.parse(localStorage.getItem('kosa-calc-hist') || '[]');
+    if (Array.isArray(h)) CALC.hist = h.filter(x => x && typeof x.e === 'string' && typeof x.r === 'string' && x.t > 0).slice(0, 100);
+    const u = localStorage.getItem('kosa-calc-sci'); if (u === '1' || u === '0') CALC.sci = u === '1';
+    const d = localStorage.getItem('kosa-calc-deg'); if (d === '1' || d === '0') CALC.deg = d === '1';
+  } catch (e) { }
+})();
+function calcSave() { try { localStorage.setItem('kosa-calc-hist', JSON.stringify(CALC.hist.slice(0, 100))); localStorage.setItem('kosa-calc-sci', CALC.sci ? '1' : '0'); localStorage.setItem('kosa-calc-deg', CALC.deg ? '1' : '0'); } catch (e) { } }
+// 末尾の演算子を取り除き、閉じていない括弧を閉じた式
+function calcSrc() {
+  let e = CALC.expr.replace(/[+−×÷^]+$/, '');
+  const o = (e.match(/\(/g) || []).length, c = (e.match(/\)/g) || []).length;
+  return e + ')'.repeat(Math.max(0, o - c));
 }
-function calcPaint() {
-  const a = $('#cexp'), b = $('#cres'); if (!a) return;
-  a.textContent = CALC.expr || '0';
-  if (CALC.just || CALC.res === 'エラー') b.textContent = CALC.res; else { const v = CALC.expr ? calcEval() : null; b.textContent = v === null ? '' : fmtN(v); }
-  const h = $('#chist'); if (h) h.innerHTML = CALC.hist.map(x => `<div><span>${esc(x.e)}</span><b>= ${esc(x.r)}</b></div>`).join('');
+function calcEval() { const src = calcSrc(); if (!src) return null; try { const v = compileExpr(src, { deg: CALC.deg, ans: CALC.ans })(0); return isFinite(v) ? v : null; } catch (e) { return null; } }
+const calcDisp = e => String(e).replace(/asin\(/g, 'sin⁻¹(').replace(/acos\(/g, 'cos⁻¹(').replace(/atan\(/g, 'tan⁻¹(').replace(/\*/g, '×').replace(/\//g, '÷');
+// 履歴などから数値を式に差し込む形（指数表記や負の数は括弧で包む）
+function calcNum(r) {
+  let t = String(r).replace(/e\+?(-?\d+)$/, '×10^($1)');
+  return /[×]|^-/.test(t) ? '(' + t.replace(/^-/, '−') + ')' : t;
+}
+function calcKey(k) {
+  const C = CALC; let full = false;
+  if (/^h\d+$/.test(k)) {
+    const h = C.hist[+k.slice(1)]; if (!h) return;
+    if (C.just) { C.expr = ''; C.just = false; C.res = ''; C.err = false; }
+    C.expr += calcNum(h.r);
+  }
+  else if (k === 'hclr') {
+    if (!C.hist.length) return;
+    const bak = C.hist; C.hist = []; calcSave(); full = true;
+    toast('計算の履歴を消去しました', () => { CALC.hist = bak; calcSave(); calcPaint(true); });
+  }
+  else if (k === 'copy') { calcCopy(); return; }
+  else if (k === 'sci') { C.sci = !C.sci; full = true; }
+  else if (k === 'deg') { C.deg = !C.deg; full = true; }
+  else if (k === 'inv') { C.inv = !C.inv; full = true; }
+  else if (k === 'AC') { C.expr = ''; C.res = ''; C.just = false; C.err = false; C.inv = false; full = true; }
+  else if (k === '⌫') {
+    if (C.just) { C.just = false; C.res = ''; C.err = false; }
+    else C.expr = C.expr.replace(/(asin|acos|atan|sin|cos|tan|log|ln|√)\($|.$/, '');
+  }
+  else if (k === '=') {
+    const v = calcEval();
+    if (!C.expr) return;
+    if (v === null) { C.res = 'エラー'; C.err = true; C.just = true; }
+    else {
+      const src = calcSrc(), r = fmtN(v);
+      C.res = r; C.err = false; C.ans = v; C.just = true;
+      const last = C.hist[0]; if (!last || last.e !== src || last.r !== r) C.hist.unshift({ e: src, r, t: Date.now() });
+      C.hist = C.hist.slice(0, 100); calcSave();
+    }
+    full = true;
+  }
+  else {
+    // 入力：「＝」の直後に数字を打つと新しい式、演算子なら結果の続きから計算する
+    const isOp = CALC_OPS.includes(k) || k === '%' || k === '!' || k === 'pow2';
+    if (C.just) {
+      if (C.err) { C.expr = ''; }
+      else if (isOp) C.expr = calcNum(C.res);
+      else C.expr = '';
+      C.just = false; C.res = ''; C.err = false; full = true;
+    }
+    const e = C.expr, last = e.slice(-1);
+    if (k === 'paren') {
+      const o = (e.match(/\(/g) || []).length, c = (e.match(/\)/g) || []).length;
+      C.expr += (o > c && /[\d.)πe!%]/.test(last)) ? ')' : '(';
+    }
+    else if (CALC_FN[k]) {
+      if (C.inv) { const t = CALC_IFN[k]; if (t === '^2' && !e) return; C.expr += t; C.inv = false; full = true; }
+      else C.expr += CALC_FN[k];
+    }
+    else if (CALC_OPS.includes(k)) {
+      if (!e) { if (k === '−') C.expr = '−'; return calcPaint(full); }
+      if (CALC_OPS.includes(last) && !(k === '−' && '×÷^'.includes(last))) C.expr = e.slice(0, -1) + k;
+      else if (last === '(' && k !== '−') return calcPaint(full);
+      else C.expr += k;
+    }
+    else if (k === '.') {
+      if (/\d*\.\d*$/.test(e)) return;
+      C.expr += /\d$/.test(last) ? '.' : '0.';
+    }
+    else if (k === '%' || k === '!') { if (/[\d)πe]$/.test(last)) C.expr += k; }
+    else C.expr += k;
+  }
+  calcPaint(full);
+}
+function calcCopy() {
+  const C = CALC, v = C.just ? C.res : (C.expr ? (() => { const x = calcEval(); return x === null ? '' : fmtN(x); })() : '');
+  const txt = v && v !== 'エラー' ? v : C.expr; if (!txt) { toast('コピーする内容がありません'); return; }
+  const ok = () => toast('コピーしました：' + txt), ng = () => { try { const t = document.createElement('textarea'); t.value = txt; t.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); ok(); } catch (e) { toast('コピーできませんでした'); } };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, ng); else ng();
+}
+function calcSci() {
+  const C = CALC, I = C.inv;
+  const K = (id, lab, c = '', on = false, al = '') => `<button class="kc-k sc ${c} ${on ? 'on' : ''}" data-act="ck" data-id="${esc(id)}"${al ? ` aria-label="${al}"` : ''}>${lab}</button>`;
+  return [
+    K(I ? 'sqrt' : 'sqrt', I ? 'x<sup>2</sup>' : '√', '', false, I ? '2乗' : '平方根'), K('deg', C.deg ? 'DEG' : 'RAD', '', false, '角度の単位（度・ラジアン）を切り替え'), K('inv', 'INV', '', I, '逆関数に切り替え'),
+    K('π', 'π'), K('sin', I ? 'sin<sup>−1</sup>' : 'sin'), K('e', 'e'),
+    K('^', '^', '', false, 'べき乗'), K('cos', I ? 'cos<sup>−1</sup>' : 'cos'), K('ln', I ? 'e<sup>x</sup>' : 'ln'),
+    K('!', '!', '', false, '階乗'), K('tan', I ? 'tan<sup>−1</sup>' : 'tan'), K('log', I ? '10<sup>x</sup>' : 'log')
+  ].join('');
+}
+function calcHistHtml() {
+  const H = CALC.hist; if (!H.length) return `<div class="kc-he">計算の履歴は、ここに残ります。<br>「＝」を押すと追加されます。</div>`;
+  const day = t => { const d = new Date(t), n = new Date(), k = x => x.getFullYear() * 1e4 + x.getMonth() * 100 + x.getDate(), y = new Date(n); y.setDate(n.getDate() - 1); return k(d) === k(n) ? '今日' : k(d) === k(y) ? '昨日' : `${d.getFullYear() === n.getFullYear() ? '' : d.getFullYear() + '年'}${d.getMonth() + 1}月${d.getDate()}日`; };
+  let out = '', cur = '';
+  H.forEach((x, i) => { const g = day(x.t); if (g !== cur) { cur = g; out += `<div class="kc-hd">${g}</div>`; } out += `<button class="kc-hi" data-act="ck" data-id="h${i}" aria-label="${esc(x.r)} を式に入れる"><span>${esc(calcDisp(x.e))} =</span><b>${esc(x.r)}</b></button>`; });
+  return out;
+}
+const calcSz = t => t.length > 22 ? 's' : t.length > 12 ? 'm' : '';
+function calcPaint(full) {
+  const d = $('#kcd'); if (!d) return;
+  const C = CALC, ex = $('#kce'), rs = $('#kcr');
+  const et = C.expr ? calcDisp(C.expr) : '0';
+  let rt = '';
+  if (C.just) rt = C.res; else if (C.expr) { const v = calcEval(); rt = v === null ? '' : fmtN(v); }
+  ex.textContent = et; rs.textContent = rt;
+  ex.className = 'kc-e' + (C.just ? '' : ' ' + calcSz(et)); rs.className = 'kc-r' + (C.just ? ' ' + calcSz(rt) : '');
+  d.classList.toggle('done', C.just); d.classList.toggle('err', C.err);
+  if (full) {
+    const sp = $('#kcsp'), sg = $('#kcsg'), tg = $('#kctg'), hl = $('#kchl');
+    if (sp) sp.classList.toggle('off', !C.sci);
+    if (sg) sg.innerHTML = calcSci();
+    if (tg) { tg.setAttribute('aria-label', C.sci ? '関数電卓を閉じる' : '関数電卓を開く'); tg.innerHTML = ms(C.sci ? 'chevron_left' : 'chevron_right'); }
+    if (hl) hl.innerHTML = calcHistHtml();
+    calcSave();
+  }
 }
 function calcHtml() {
-  const kb = (k, c = '') => `<button class="ck ${c}" data-act="ck" data-id="${esc(k)}">${esc(k)}</button>`;
-  const basic = [['AC', 'fn'], ['⌫', 'fn'], ['%', 'fn'], ['÷', 'op'], ['7'], ['8'], ['9'], ['×', 'op'], ['4'], ['5'], ['6'], ['−', 'op'], ['1'], ['2'], ['3'], ['+', 'op'], ['0'], ['.'], ['Ans', 'fn'], ['=', 'eq']];
-  const sci = ['(', ')', '^', '√', 'sin', 'cos', 'tan', 'π', 'log', 'ln', 'x²', 'e', '!'];
-  return `<div class="cd"><div class="cexp" id="cexp"></div><div class="cres" id="cres"></div></div>
-  <div class="chips" style="margin:10px 0"><button class="tchip ${CALC.sci ? 'on' : ''}" data-act="ck" data-id="sci">関数電卓</button>${CALC.sci ? `<button class="tchip" data-act="ck" data-id="DEG">${CALC.deg ? '角度：度（°）' : '角度：ラジアン'}</button>` : ''}</div>
-  <div class="cwrap">${CALC.sci ? `<div class="cgrid csci">${sci.map(k => kb(k, 'fn')).join('')}</div>` : ''}<div class="cgrid">${basic.map(([k, c]) => kb(k, c)).join('')}</div></div>
-  <div class="chist" id="chist"></div>`;
+  const kb = (k, c = '', lab) => `<button class="kc-k ${c}" data-act="ck" data-id="${esc(k)}">${lab || esc(k)}</button>`;
+  const pad = [['7'], ['8'], ['9'], ['÷', 'o'], ['AC', 'ac'], ['4'], ['5'], ['6'], ['×', 'o'], ['paren', 'f', '( )'], ['1'], ['2'], ['3'], ['−', 'o'], ['%', 'f'], ['0'], ['.'], ['⌫', 'f', ms('backspace')], ['+', 'o'], ['=', 'eq']];
+  return `<div class="kc">
+  <aside class="kc-h"><div class="kc-hp"><div class="kc-hh"><b>履歴</b><button data-act="ck" data-id="hclr" aria-label="履歴をすべて消去">${ms('delete')}</button></div><div class="kc-hl" id="kchl"></div></div></aside>
+  <div class="kc-m">
+    <div class="kc-d" id="kcd"><button class="kc-cp" data-act="ck" data-id="copy" aria-label="結果をコピー">${ms('content_copy')}</button><div class="kc-e" id="kce">0</div><div class="kc-r" id="kcr"></div></div>
+    <div class="kc-b">
+      <div class="kc-sp ${CALC.sci ? '' : 'off'}" id="kcsp"><button class="kc-tg" id="kctg" data-act="ck" data-id="sci" aria-label="${CALC.sci ? '関数電卓を閉じる' : '関数電卓を開く'}">${ms(CALC.sci ? 'chevron_left' : 'chevron_right')}</button><div class="kc-sg" id="kcsg">${calcSci()}</div></div>
+      <div class="kc-pd">${pad.map(([k, c, l]) => kb(k, c || '', l)).join('')}</div>
+    </div>
+  </div></div>`;
 }
+// 外付けキーボード・貼り付けへの対応
+document.addEventListener('keydown', e => {
+  if (ui.tab !== 'tools' || ui.tool !== 'calc' || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (document.querySelector('dialog[open]')) return;
+  const t = e.target; if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
+  const k = e.key, map = { '*': '×', '/': '÷', '-': '−', 'x': '×', 'X': '×', ',': '.', 'Enter': '=', '=': '=', 'Backspace': '⌫', 'Escape': 'AC', 'Delete': 'AC', 'p': 'π', 'P': 'π' };
+  let id = map[k] || (/^[0-9.+^%!]$/.test(k) ? k : (k === '(' || k === ')') ? 'raw' + k : '');
+  if (!id) return;
+  e.preventDefault();
+  if (id.startsWith('raw')) { if (CALC.just) { CALC.expr = ''; CALC.just = false; CALC.res = ''; CALC.err = false; } CALC.expr += id[3]; calcPaint(true); return; }
+  calcKey(id);
+});
+document.addEventListener('paste', e => {
+  if (ui.tab !== 'tools' || ui.tool !== 'calc') return;
+  const t = e.target; if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
+  const txt = ((e.clipboardData || window.clipboardData).getData('text') || '').replace(/[\s,]/g, '').replace(/\*/g, '×').replace(/\//g, '÷').replace(/-/g, '−');
+  if (!txt || !/^[0-9.+−×÷^()%!πe]+$/.test(txt)) return;
+  e.preventDefault();
+  if (CALC.just) { CALC.expr = ''; CALC.just = false; CALC.res = ''; CALC.err = false; }
+  CALC.expr += txt; calcPaint(true);
+});
 const GCOL = ['#4285f4', '#ea4335', '#34a853', '#f9ab00', '#a142f4', '#00acc1'];
 const FNG = { f: ['x^2', '', ''], cx: 0, cy: 0, sc: 40, pt: null, act: 0, kt: 'num', native: false, kbOpen: true };
 const gclamp = v => Math.max(5, Math.min(3000, v));
@@ -2557,7 +2867,7 @@ function trHtml() {
   ${TR.out || TR.err ? `<div class="card" style="margin-top:12px">${TR.err ? `<p class="muted">${esc(TR.err)}</p>` : `<div class="trout">${esc(TR.out).replace(/\n/g, '<br>')}</div><div class="dact" style="margin:10px 0 0"><button class="btn text" data-act="trspeak">${ms('volume_up')}読み上げ</button><button class="btn text" data-act="trcopy">${ms('content_copy')}コピー</button></div>`}</div>` : ''}
   <p class="muted" style="font-size:.8rem;margin-top:10px">入力した文章がGoogleのAIに送られます。個人情報は入力しないでください。</p>`;
 }
-const TOOLS = [['calc', '電卓', 'calculate', 'ふつうの電卓と、関数電卓', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
+const TOOLS = [['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
   ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['drill', '計算ドリル', 'bolt', '10問の計算をタイム付きで練習', 60, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], ['wc', '文字数カウント', 'edit_note', '作文の文字数と原稿用紙の枚数', 300, 'b']];
 function viewTools() {
@@ -2565,7 +2875,7 @@ function viewTools() {
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div>`;
   const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml }[tl]();
-  return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
+  return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 const WC = { i: 0, flip: false, only: true };
 function wcMark(k) {
@@ -2884,7 +3194,7 @@ TPAINT.seq = () => {
 function toolsRefresh() { if (ui.tab === 'tools') { const y = scrollY; $('#view').innerHTML = viewTools(); toolsPost(); scrollTo(0, y); } }
 function toolsPost() {
   const tl = ui.tool || '';
-  if (tl === 'calc') calcPaint();
+  if (tl === 'calc') calcPaint(true);
   else if (tl === 'graph') plotInit();
   else if (TPAINT[tl]) TPAINT[tl]();
   else if (tl === 'drill' && DR.phase === 'play') { const el = $('#drin'); el && el.focus(); }
