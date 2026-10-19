@@ -1021,6 +1021,18 @@ input,textarea{touch-action:manipulation}
 .axs>.btn{justify-self:start}
 .axn{margin:0;font-size:.85rem}
 .cgroup .gem{display:block}
+
+/* ===== 考査の点数まとめて入力 v8.1 ===== */
+.scd{display:grid;gap:12px;max-height:min(58vh,540px);overflow-y:auto;padding:2px 4px 2px 0;overscroll-behavior:contain}
+.scdr{background:var(--s2);border-radius:26px;padding:14px 16px 16px;display:grid;gap:10px;border-left:6px solid var(--sc,var(--primary))}
+.scdh{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.scdh b{font-size:1.05rem}.scdh small{margin-left:auto;color:var(--on-v);font-weight:500}
+.scdi{display:flex;align-items:center;gap:10px}.scdi>span{color:var(--on-v);font-weight:600}
+.scin{box-sizing:border-box;height:60px;min-width:0;border:0;border-radius:20px;background:var(--s3);color:var(--on);font:inherit;font-size:1.3rem;font-weight:600;padding:0 18px;outline:0;-webkit-appearance:none;appearance:none;transition:box-shadow .25s var(--smooth),border-radius .4s var(--spring),background .2s}
+.scin:not(.full):not(.memo){flex:1}.scin.full{width:110px;flex:none;text-align:center}
+.scin.memo{width:100%;height:52px;font-size:1rem;font-weight:500}
+.scin:focus{background:var(--s1);box-shadow:inset 0 0 0 3px var(--primary);border-radius:28px}
+.scin::placeholder{color:var(--out);font-weight:400;opacity:1}
+.scin[type=number]{-moz-appearance:textfield}.scin::-webkit-inner-spin-button,.scin::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
 </style>
 </head>
 <body>
@@ -1037,14 +1049,14 @@ input,textarea{touch-action:manipulation}
 <dialog id="dlg"></dialog>
 <div id="toast" role="status" aria-live="polite"></div>
 <canvas id="cv"></canvas>
-<input type="file" id="imp" accept=".json,application/json" hidden>
-<input type="file" id="impsub" accept=".json,application/json" hidden>
+<input type="file" id="imp" accept=".json,.txt,application/json,text/plain" hidden>
+<input type="file" id="impsub" accept=".json,.txt,application/json,text/plain" hidden>
 <input type="file" id="impcards" accept=".json,.csv,.txt,application/json,text/csv,text/plain" hidden>
 <script src="firebase-config.js"></script>
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '8.0';
+const APP_VERSION = '8.2';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1176,10 +1188,12 @@ const clRow = x => `<div class="rgrow clrow"><input type="checkbox" class="cld" 
 const clHtml = t => `<div class="cl">${(t.items || []).map((x, i) => `<label class="clr ${x.done ? 'on' : ''}"><input type="checkbox" data-cl="${t.id}" data-i="${i}" ${x.done ? 'checked' : ''}><span class="cb">${ms('check')}</span><span class="cx">${esc(x.text)}</span></label>`).join('')}</div>`;
 const subTags = t => !t.subreq ? '' : `${t.dest ? `<span class="tag plain">${ms('send')}${esc(t.dest)}</span>` : ''}${t.submitted ? `<span class="tag ok">${ms('outbox')}提出済み</span>` : (isDone(t) ? `<span class="tag soon">${ms('outbox')}未提出</span>` : '')}`;
 function scoreCard() {
+  if (!subjects().length) return '';
   const rows = subjects().filter(s => s.goal != null || s.score != null || s.memo);
-  if (!rows.length) return '';
   const got = rows.filter(s => s.score != null), avg = got.length ? Math.round(got.reduce((q, s) => q + s.score / (s.full || 100) * 100, 0) / got.length) : null;
-  return `<div class="h-sec"><h2>${ms('grade')}成績</h2>${avg !== null ? `<span class="sp"></span><span class="muted" style="font-weight:500">平均 ${avg}%（満点換算）</span>` : ''}</div><div class="card"><div class="sclist">${rows.map(s => { const f = s.full || 100, ok = s.score != null && s.goal != null ? s.score >= s.goal : null; return `<div class="scr sc" style="--sh:${s.hue}"><span class="scn">${esc(s.name)}</span><div class="scb"><i style="width:${s.score != null ? Math.min(100, s.score / f * 100) : 0}%"></i>${s.goal != null ? `<u style="left:${Math.min(100, s.goal / f * 100)}%"></u>` : ''}</div><b>${s.score ?? '—'}<small>/${f}</small></b><em class="${ok === null ? '' : ok ? 'ok' : 'ng'}">${s.goal != null ? '目標 ' + s.goal : ''}${ok === null ? '' : ok ? '（達成）' : '（未達）'}</em>${s.memo ? `<div class="scm">${esc(s.memo)}</div>` : ''}</div>`; }).join('')}</div></div>
+  const head = `<div class="h-sec"><h2>${ms('grade')}成績</h2><span class="sp"></span>${avg !== null ? `<span class="muted" style="font-weight:500">平均 ${avg}%（満点換算）</span>` : ''}<button class="btn tonal xs" data-act="scoredlg">${ms('edit_note')}点数を入力</button></div>`;
+  if (!rows.length) return head + `<div class="card muted" style="font-weight:500;line-height:1.8">テストが終わったら、教科ごとの点数をここに記録できます。</div>`;
+  return head + `<div class="card"><div class="sclist">${rows.map(s => { const f = s.full || 100, ok = s.score != null && s.goal != null ? s.score >= s.goal : null; return `<div class="scr sc" style="--sh:${s.hue}"><span class="scn">${esc(s.name)}</span><div class="scb"><i style="width:${s.score != null ? Math.min(100, s.score / f * 100) : 0}%"></i>${s.goal != null ? `<u style="left:${Math.min(100, s.goal / f * 100)}%"></u>` : ''}</div><b>${s.score ?? '—'}<small>/${f}</small></b><em class="${ok === null ? '' : ok ? 'ok' : 'ng'}">${s.goal != null ? '目標 ' + s.goal : ''}${ok === null ? '' : ok ? '（達成）' : '（未達）'}</em>${s.memo ? `<div class="scm">${esc(s.memo)}</div>` : ''}</div>`; }).join('')}</div></div>
 `;
 }
 function weekData(off) {
@@ -1475,7 +1489,7 @@ function viewHome() {
     <button class="pillchip rp" data-act="tab" data-id="stats" aria-label="レベル"><span class="lv"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" style="stroke:color-mix(in srgb,var(--on-sec-c) 18%,transparent)"/><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--primary)" stroke-dasharray="${(C * lv.p).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 16 16)"/></svg>${ms('stars', 'f', 'font-size:16px;color:var(--primary)')}</span>Lv.${lv.L}</button></div>`;
   { const past = pastExams();
     h += `<div class="chips scroll mb">${activeExams().map(e => `<button class="chip ${e.id === ex.id ? 'on' : ''}" data-act="exam" data-id="${e.id}">${esc(e.name)}</button>`).join('')}${past.length ? `<button class="chip ${ex.arc ? 'on' : ''}" data-act="pastlist">${ms('inventory_2')}${ex.arc ? esc(ex.name) : '保存した考査 ' + past.length}</button>` : ''}<button class="chip" data-act="addexam">${ms('add')}考査を追加</button></div>`;
-    if (ex.arc) h += pastBar(); else if (ex.date && daysLeft(ex) < 0) h += endedBar(ex); }
+    if (ex.arc) h += pastBar(); else if (examEnded(ex) || missingScores().length) h += endedBar(ex); }
   if (!subs.length) return h + emptyHome();
   const all = examTasks(), A = agg(all), R = agg(all.filter(t => t.req)), sc = agg(scoped(all));
   const segs = subs.map(s => ({ v: agg(scoped(tasksOfSub(s.id))).done, color: hc(s.hue) }));
@@ -1869,6 +1883,29 @@ function presetDlg() {
   };
 }
 // ---- 考査の保存フォルダ ----
+function scoreDlg() {
+  const ex = curExam(), miss = new Set(missingScores().map(s => s.id));
+  const subs = subjects().slice().sort((a, b) => (miss.has(b.id) - miss.has(a.id)));
+  if (!subs.length) return toast('先に教科を追加してください');
+  openDlg(`<h2>${ms('edit_note')}考査の点数</h2><p class="muted" style="margin:-8px 0 14px">「${esc(ex.name)}」の点数を、教科ごとに入力します。あとから何度でも直せます。</p>
+  <form id="f" autocomplete="off"><div class="scd">${subs.map(s => `<div class="scdr sc" style="--sh:${s.hue}"><div class="scdh">${avatar(s, 40)}<b>${esc(s.name)}</b>${miss.has(s.id) ? `<span class="tag soon">点数が未入力</span>` : ''}${s.goal != null ? `<small>目標 ${s.goal}点</small>` : ''}</div><div class="scdi"><input class="scin" name="sc_${s.id}" type="number" inputmode="decimal" min="0" max="1000" step="any" value="${s.score ?? ''}" placeholder="点数" aria-label="${esc(s.name)}の点数"><span>／</span><input class="scin full" name="fl_${s.id}" type="number" inputmode="numeric" min="1" max="1000" value="${s.full || 100}" aria-label="${esc(s.name)}の満点"></div><input class="scin memo" name="mm_${s.id}" type="text" maxlength="300" value="${esc(s.memo || '')}" placeholder="ひとことメモ（任意）　例：計算ミスが多かった" aria-label="${esc(s.name)}のメモ"></div>`).join('')}</div>
+  <div class="err" id="err"></div><div class="dact"><button type="button" class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" type="submit">${ms('check')}保存</button></div></form>`);
+  $('#f').onsubmit = ev => {
+    ev.preventDefault();
+    const fd = new FormData(ev.target), upd = [];
+    for (const s of subs) {
+      const fl = parseFloat(fd.get('fl_' + s.id)), full = isNaN(fl) || fl <= 0 ? 100 : fl, v = parseFloat(fd.get('sc_' + s.id)), sc = isNaN(v) ? null : v;
+      if (sc !== null && sc < 0) return err(`「${s.name}」の点数は0以上で入力してください`);
+      if (sc !== null && sc > full) return err(`「${s.name}」の点数が、満点（${full}点）より大きくなっています`);
+      upd.push([s, sc, full, String(fd.get('mm_' + s.id) || '').trim()]);
+    }
+    closeDlg();
+    const n = upd.filter(([s, sc]) => sc !== null && sc !== s.score).length;
+    undoable(n ? `${n}教科の点数を保存しました` : '保存しました', () => { for (const [s, sc, full, m] of upd) { s.score = sc; s.full = full; if (m !== (s.memo || '')) s.memo = m; } });
+    // 全教科の点数がそろい、考査の日程も過ぎていたら、保存フォルダへ移すか聞く
+    if (!ex.arc && examEnded(ex) && subs.every(s => s.score != null)) setTimeout(() => ACT.arcexam(ex.id), 450);
+  };
+}
 function okDlg(title, msg, label, fn) {
   openDlg(`<h2>${esc(title)}</h2><p class="muted" style="margin:-6px 0 20px">${msg}</p><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">やめる</button><button type="button" class="btn" id="ok">${esc(label)}</button></div>`);
   $('#ok').onclick = () => { closeDlg(); fn(); };
@@ -1883,7 +1920,15 @@ function examSub(e) {
   return `${e.date ? fmtDate(e.date) + ' ・ ' : ''}教科 ${st.ns}・課題 ${st.nt}件・達成 ${st.p}%${st.avg !== null ? ` ・ 成績平均 ${st.avg}%` : ''}${sv ? ` ・ ${sv.getMonth() + 1}/${sv.getDate()} に保存` : ''}`;
 }
 const pastBar = () => { const ex = curExam(); return `<div class="notice">${ms('inventory_2')}<span class="t">「${esc(ex.name)}」は保存した考査です。見返し用の表示です。</span><button class="btn tonal sm" data-act="backnow">現在の考査へ</button></div>`; };
-const endedBar = ex => `<div class="notice">${ms('flag')}<span class="t">「${esc(ex.name)}」の日程が過ぎました。終わったら、成績を記録して保存フォルダに移せます。</span><button class="btn tonal sm" data-act="arcexam" data-id="${ex.id}">終了して保存</button></div>`;
+const examEnded = ex => !!(ex.date && daysLeft(ex) < 0);
+// 点数がまだ入っていない教科（考査の日程が過ぎた／その教科のテスト日が過ぎたもの）
+const missingScores = () => { const ex = curExam(), all = examEnded(ex); return subjects().filter(s => s.score == null && (all || (s.exam && daysBetween(today(), s.exam) < 0))); };
+function endedBar(ex) {
+  const miss = missingScores(), ended = examEnded(ex);
+  const names = miss.slice(0, 3).map(s => esc(s.name)).join('・') + (miss.length > 3 ? ` ほか${miss.length - 3}教科` : '');
+  const t = miss.length ? `${names}の点数を記録しましょう。${ended ? '全部そろったら、保存フォルダに移せます。' : ''}` : `「${esc(ex.name)}」の日程が過ぎました。終わったら、保存フォルダに移せます。`;
+  return `<div class="notice">${ms(miss.length ? 'edit_note' : 'flag')}<span class="t">${t}</span>${miss.length ? `<button class="btn tonal sm" data-act="scoredlg">点数を入力</button>` : ''}${ended ? `<button class="btn tonal sm" data-act="arcexam" data-id="${ex.id}">終了して保存</button>` : ''}</div>`;
+}
 function pastDlg() {
   const list = pastExams();
   openDlg(`<h2>${ms('inventory_2')}保存した考査</h2><p class="muted" style="margin:-6px 0 14px">終わった考査は、教科・課題・成績ごとここに残ります。</p>
@@ -2233,6 +2278,7 @@ const ACT = {
   },
   backnow() { S.cur = S.exams.find(x => !x.arc).id; ui.sid = ''; ui.anim = true; commit(); },
   pastlist() { pastDlg(); },
+  scoredlg() { scoreDlg(); },
   pastopen(id) { closeDlg(); S.cur = id; ui.sid = ''; ACT.tab('tasks'); commit(); },
   pastrestore(id) { const e = S.exams.find(x => x.id === id); if (!e) return; closeDlg(); undoable(`「${e.name}」を進行中に戻しました`, () => { e.arc = false; delete e.arcAt; S.cur = id; ui.sid = ''; }); },
   aitask(id) {
@@ -2407,11 +2453,22 @@ document.addEventListener('change', e => {
 document.addEventListener('input', e => { if (e.target.id === 'q') { ui.q = e.target.value; $('#tl').innerHTML = taskList(); postRender(); } });
 
 /* ====================== バックアップ・共有 ====================== */
+// 書き出し：まず共有メニュー（AirDrop・メッセージ・「ファイルに保存」など）を開く。
+// iPad の Safari は JSON などの型を共有に渡せないことがあるため、型を text/plain にして再挑戦し、
+// それでもだめなときだけ、ダウンロード（ファイルとして保存）にする。
 async function saveFile(name, type, text) {
-  const file = new File([text], name, { type });
-  try { if (navigator.canShare && navigator.canShare({ files: [file] })) { await navigator.share({ files: [file], title: name }); return true; } } catch (e) { if (e && e.name === 'AbortError') return false; }
-  const a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = name; document.body.appendChild(a); a.click(); a.remove();
-  setTimeout(() => URL.revokeObjectURL(a.href), 5000); toast('ファイルを保存しました'); return true;
+  const mk = t => new File([text], name, { type: t });
+  if (navigator.share && navigator.canShare) {
+    for (const t of [...new Set([type, 'text/plain'])]) {
+      const file = mk(t); let ok = false;
+      try { ok = navigator.canShare({ files: [file] }); } catch (e) { }
+      if (!ok) continue;
+      try { await navigator.share({ files: [file], title: name }); return true; }
+      catch (e) { if (e && e.name === 'AbortError') return false; }
+    }
+  }
+  const file = mk(type), a = document.createElement('a'); a.href = URL.createObjectURL(file); a.download = name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 5000); toast('共有メニューが使えないため、ファイルとして保存しました'); return true;
 }
 async function exportData() { const ok = await saveFile(`shukudai-backup-${today()}.json`, 'application/json', JSON.stringify(S, null, 2)); if (ok) { S.set.lastBackup = Date.now(); save(); render(); } }
 function exportSubjects() {
