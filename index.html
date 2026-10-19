@@ -954,6 +954,73 @@ input,textarea{touch-action:manipulation}
 .nvr{padding-left:12px}
 .nvi{flex:none;width:48px;height:48px;border-radius:16px;display:grid;place-items:center;background:var(--pc);color:var(--on-pc)}
 .nvr .t{font-size:1.05rem}
+
+/* ===== 勉強ツール追加：復習・公式集・周期表・不規則動詞 v7.7 ===== */
+.rvp{background:var(--pc);color:var(--on-pc)}
+.rvr .t small{display:block}
+.rvr.late{background:color-mix(in srgb,var(--err) 12%,var(--s1))}
+.rvr.late .t small{color:var(--err);font-weight:600}
+.rvd{display:flex;gap:5px;margin-top:6px}
+.rvd i{width:18px;height:6px;border-radius:3px;background:var(--s4)}.rvd i.on{background:var(--primary)}
+.fml{display:grid;gap:10px}
+.fmi{display:block;text-align:left;background:var(--s1);border-radius:26px;padding:16px 22px;transition:background .2s,border-radius .4s var(--spring),transform .3s var(--spring)}
+.fmi:active{background:var(--s3);border-radius:18px;transform:scale(.99)}
+.fmi .fmn{display:block;font-size:.9rem;font-weight:600;color:var(--primary);margin-bottom:6px}
+.fmi b{display:block;font-size:1.3rem;font-weight:600;line-height:1.7;overflow-wrap:anywhere}
+.fmi small{display:block;margin-top:6px;color:var(--on-v);font-size:.92rem;line-height:1.6}
+.ptw{overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.ptg{display:grid;grid-template-columns:repeat(18,minmax(34px,1fr));grid-auto-rows:minmax(48px,auto);gap:4px;min-width:660px}
+.pte2{display:flex;gap:6px;flex-wrap:wrap}.pte2 .pte{width:52px;height:56px}
+.pte{--sh:200;background:hsl(var(--sh) 70% 88%);color:hsl(var(--sh) 60% 18%);border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;padding:2px 0;min-width:0;
+  transition:border-radius .35s var(--spring),transform .3s var(--spring),box-shadow .2s}
+:root[data-theme="dark"] .pte{background:hsl(var(--sh) 32% 26%);color:hsl(var(--sh) 70% 90%)}
+.pte small{font-size:.62rem;font-weight:600;opacity:.75;line-height:1}
+.pte b{font-size:1.15rem;font-weight:700;line-height:1.2}
+.pte:active{border-radius:8px;transform:scale(.92)}
+.pte.on{border-radius:50%;box-shadow:0 0 0 3px var(--primary)}
+.pte.hd b{opacity:.55}
+.ptd{display:flex;align-items:center;gap:20px;background:hsl(var(--sh) 70% 90%);color:hsl(var(--sh) 60% 16%);border-radius:30px;padding:16px 24px}
+:root[data-theme="dark"] .ptd{background:hsl(var(--sh) 32% 24%);color:hsl(var(--sh) 70% 92%)}
+.ptb{flex:none;width:92px;height:92px;border-radius:50%;background:hsl(var(--sh) 70% 80%);display:flex;flex-direction:column;align-items:center;justify-content:center}
+:root[data-theme="dark"] .ptb{background:hsl(var(--sh) 32% 34%)}
+.ptb small{font-size:.8rem;font-weight:600;line-height:1}.ptb b{font-size:2.2rem;line-height:1.1}
+.ptt h3{font-size:1.5rem;font-weight:700}.ptt p{margin:2px 0 8px;font-weight:500}
+.ptc{display:inline-block;padding:3px 12px;border-radius:12px;background:hsl(var(--sh) 70% 80%);font-size:.85rem;font-weight:600}
+:root[data-theme="dark"] .ptc{background:hsl(var(--sh) 32% 34%)}
+.ptk{display:flex;flex-wrap:wrap;gap:8px 14px;margin:16px 4px 0;font-size:.85rem;font-weight:500;color:var(--on-v)}
+.ptk span{display:inline-flex;align-items:center;gap:6px}.ptk i{width:14px;height:14px;border-radius:5px;background:hsl(var(--sh) 70% 70%)}
+.vbt{background:var(--s1);border-radius:28px;padding:8px 8px 10px;overflow:hidden}
+.vbhd,.vbr{display:grid;grid-template-columns:1fr 1fr 1fr 1.1fr;gap:8px;align-items:center;padding:0 14px}
+.vbhd{height:44px;font-size:.82rem;font-weight:600;color:var(--on-v)}
+.vbr{width:100%;min-height:54px;text-align:left;border-radius:18px;font-weight:500;transition:background .2s}
+.vbr:nth-child(odd){background:var(--s2)}.vbr:active{background:var(--s4)}
+.vbr .vb0{font-weight:700;font-size:1.08rem}.vbr .vb3{color:var(--on-v)}
+.vbr span{overflow-wrap:anywhere}
+.vbh{display:inline-block;padding:3px 10px;border-radius:10px;background:var(--s4);color:var(--on-v);font-size:.8rem}
+@media(max-width:699px){.ptd{gap:14px;padding:14px 18px}.ptb{width:76px;height:76px}.ptb b{font-size:1.8rem}.vbhd,.vbr{padding:0 8px;gap:4px;font-size:.92rem}.vbr .vb0{font-size:1rem}}
+#view>.notice:first-child{margin-top:0;margin-bottom:16px}
+.mb+.notice{margin-top:0;margin-bottom:16px}
+
+/* ===== 完了のみの課題：体感の進みスライダー ===== */
+.ppw{display:flex;align-items:center;gap:14px;margin:10px 0 4px;padding:6px 10px 0 4px}
+.ppl{display:flex;align-items:center;gap:6px;flex:none;font-size:.88rem;font-weight:600;color:var(--on-v)}
+.ppl .ms{font-size:20px}
+.ppw input[type=range]{flex:1;min-width:0;margin:0}
+.ppv{flex:none;min-width:3.4em;text-align:right;font-size:1.05rem;font-weight:700;font-variant-numeric:tabular-nums}
+@media(max-width:480px){.ppl{font-size:0}.ppl .ms{font-size:22px}}
+/* バッジがバーからはみ出して切れないようにする v7.9 */
+@media(min-width:700px){.nbadge:not(.new){left:auto;right:-18px;margin-left:0}}
+
+/* ===== AIの活用（ホームのアドバイス・各機能のAIボタン） v8.0 ===== */
+.aitd{margin:20px 0 4px;display:grid;gap:16px}
+.axt{display:flex;align-items:center;gap:10px}.axt h2{margin:0;font-size:1.2rem;font-weight:700}
+.axs{display:grid;gap:10px}
+.axh{display:flex;align-items:center;justify-content:space-between;min-height:48px}
+.axh b{display:flex;align-items:center;gap:8px;font-size:1rem}.axh .ms{color:var(--primary)}
+.axb{background:var(--s1);border-radius:24px;padding:16px 20px;line-height:1.85;font-weight:500;font-size:1.02rem}
+.axs>.btn{justify-self:start}
+.axn{margin:0;font-size:.85rem}
+.cgroup .gem{display:block}
 </style>
 </head>
 <body>
@@ -972,11 +1039,12 @@ input,textarea{touch-action:manipulation}
 <canvas id="cv"></canvas>
 <input type="file" id="imp" accept=".json,application/json" hidden>
 <input type="file" id="impsub" accept=".json,application/json" hidden>
+<input type="file" id="impcards" accept=".json,.csv,.txt,application/json,text/csv,text/plain" hidden>
 <script src="firebase-config.js"></script>
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '7.6';
+const APP_VERSION = '8.0';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1040,7 +1108,8 @@ function migrate(j) {
   j.v = 2;
   for (const s of j.subjects) { if (!s.icon) s.icon = E2I[s.emoji] || 'menu_book'; if (s.exam === undefined) s.exam = ''; }
   for (const t of j.tasks) { if (t.start == null) t.start = 1; t.pin = t.pin || ''; }
-  if (!j.exams.some(e => e.id === j.cur)) j.cur = j.exams[0].id;
+  if (!j.exams.some(e => !e.arc)) j.exams.push({ id: uid(), name: '新しい考査', date: '' });
+  if (!j.exams.some(e => e.id === j.cur)) j.cur = j.exams.find(e => !e.arc).id;
   return j;
 }
 function load() {
@@ -1053,18 +1122,23 @@ let lastUndo = null;
 let _noSync = false;
 function save() { try { if (!_noSync) S.mt = Date.now(); localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('保存に失敗しました。容量を確認してください'); } if (!_noSync) cloudPush(); }
 const snap = () => JSON.stringify(S);
-const curExam = () => S.exams.find(e => e.id === S.cur) || S.exams[0];
+const activeExams = () => S.exams.filter(e => !e.arc);
+const pastExams = () => S.exams.filter(e => e.arc).sort((a, b) => (b.arcAt || 0) - (a.arcAt || 0));
+const curExam = () => S.exams.find(e => e.id === S.cur) || S.exams.find(e => !e.arc) || S.exams[0];
 const subjects = () => S.subjects.filter(s => s.ex === curExam().id);
 const SUB = id => S.subjects.find(s => s.id === id);
 const T = id => S.tasks.find(t => t.id === id);
 const tasksOfSub = sid => S.tasks.filter(t => t.sid === sid);
 const examTasks = () => { const ids = new Set(subjects().map(s => s.id)); return S.tasks.filter(t => ids.has(t.sid)); };
 const isDone = t => t.done >= t.total;
+// 進み具合（0〜1）。「完了のみ」の課題は、自分で入力した体感の％（t.feel）を使う
+const progOf = t => !t.total ? 0 : isDone(t) ? 1 : t.kind === 'chk' ? Math.min(99, Math.max(0, +t.feel || 0)) / 100 : t.done / t.total;
 const isPinned = t => t.pin === today();
 function agg(ts) {
   let total = 0, done = 0, nd = 0;
-  for (const t of ts) { total += t.total; done += t.done; if (isDone(t)) nd++; }
-  return { total, done, rem: total - done, n: ts.length, nd, p: total ? done / total : 0 };
+  let fd = 0;
+  for (const t of ts) { total += t.total; done += t.done; fd += progOf(t) * t.total; if (isDone(t)) nd++; }
+  return { total, done, rem: total - done, n: ts.length, nd, p: total ? fd / total : 0 };
 }
 const scoped = ts => S.set.scope === 'req' ? ts.filter(t => t.req) : ts;
 function dayLog(k = today(), create = false) {
@@ -1252,7 +1326,7 @@ function render() {
   v.className = ''; if (go) void v.offsetWidth;
   v.className = (ui.anim ? 'anim' : '') + (go ? (fade ? ' vinf' : ' vin') : '');
   v.style.setProperty('--dx', ((ui.dir || 1) * 24) + 'px'); ui.vin = false;
-  v.innerHTML = VIEWS[ui.tab]();
+  v.innerHTML = (['tasks', 'cal', 'stats'].includes(ui.tab) && curExam().arc ? pastBar() : '') + VIEWS[ui.tab]();
   ui.anim = false;
   renderNav(); renderMini(); postRender();
   if (ui.tab === 'ai') { renderAiLog(); renderAtt(); }
@@ -1295,7 +1369,7 @@ function renderNav() {
 }
 function renderFab() {
   const f = $('#fab'); f.hidden = ui.tab === 'ai' || ui.tab === 'tools';
-  if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="ai">${gem(20)}AIに質問</button><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
+  if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="ai">${gem(20)}AIに質問</button><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="aitext">${gem(20)}文章から課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
   f.className = ui.fab ? 'open' : '';
   f.querySelector('.fabb').setAttribute('aria-expanded', String(!!ui.fab));
 }
@@ -1320,6 +1394,22 @@ function emptyState(icon, title, text, btns = '') {
 }
 const emptyHome = () => emptyState('menu_book', '教科を登録してください', '教科を追加して、ワークや問題集を入れていくと、進み具合や今日のプランがここに表示されます。', `<button class="btn" data-act="preset">${ms('library_add')}主要教科をまとめて追加</button><button class="btn tonal" data-act="addsubj">${ms('add')}教科を1つ追加</button>`);
 
+/* ---------- ホーム：AIの学習アドバイス ---------- */
+const AX = { busy: '', today: '', week: '' };
+function axLoad() {
+  try { const o = JSON.parse(localStorage.getItem('kosa-ai-home') || '{}'); if (o.d === today() && o.ex === curExam().id) { AX.today = o.today || ''; AX.week = o.week || ''; return; } } catch (e) { }
+  AX.today = ''; AX.week = '';
+}
+function axSave() { try { localStorage.setItem('kosa-ai-home', JSON.stringify({ d: today(), ex: curExam().id, today: AX.today, week: AX.week })); } catch (e) { } }
+function aiTodayInner() {
+  const sec = (k, ic, title, ask) => {
+    const t = AX[k], bz = AX.busy === k;
+    return `<div class="axs"><div class="axh"><b>${ms(ic)}${title}</b>${t && !bz ? `<button class="ibtn" data-act="aihome" data-id="${k}" aria-label="${title}を作り直す">${ms('refresh')}</button>` : ''}</div>${bz ? '<div class="axb"><span class="dots"><i></i><i></i><i></i></span></div>' : t ? `<div class="axb">${mdLite(t)}</div>` : `<button class="btn tonal" data-act="aihome" data-id="${k}" ${AX.busy ? 'disabled' : ''}>${gem(18)}${ask}</button>`}</div>`;
+  };
+  return `<div class="axt">${gem(24, true)}<h2>AIの学習アドバイス</h2></div>${sec('today', 'wb_sunny', '今日のひとこと', '今日の進め方を聞く')}${sec('week', 'date_range', '1週間の計画', '1週間の計画を作る')}<p class="muted axn">課題の名前と進み具合が、GoogleのAIに送られます。答えは参考にしてください。</p>`;
+}
+function aiTodayCard() { if (!CLOUD.user) return ''; axLoad(); return `<section class="card aitd" id="aitd">${aiTodayInner()}</section>`; }
+const aiTodayPaint = () => { const el = $('#aitd'); if (el) el.innerHTML = aiTodayInner(); };
 /* ---------- 今日のプラン ---------- */
 function buildPlan() {
   const ex = curExam(), td = today(), lg = dayLog(td), items = [];
@@ -1379,10 +1469,13 @@ function viewHome() {
   const urg = examTasks().filter(k => k.subreq && !k.submitted && k.due && daysBetween(today(), k.due) <= 3).length;
   let h = `<div class="greet"><div style="flex:1;min-width:200px"><h1>${gr}<small>${gd}</small></h1></div>
     ${urg ? `<span class="pillchip warnp">${ms('warning')}提出期限が近い課題 ${urg}件</span>` : ''}
+    ${revDueCount() ? `<button class="pillchip rvp" data-act="tab" data-id="tool:review">${ms('history')}今日の復習 ${revDueCount()}件</button>` : ''}
     <span class="pillchip ver" data-act="upd" role="button" aria-label="バージョン">v${APP_VERSION}</span>
     <span class="pillchip fire">${ms('event_repeat')}${st}日連続</span>
     <button class="pillchip rp" data-act="tab" data-id="stats" aria-label="レベル"><span class="lv"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" style="stroke:color-mix(in srgb,var(--on-sec-c) 18%,transparent)"/><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--primary)" stroke-dasharray="${(C * lv.p).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 16 16)"/></svg>${ms('stars', 'f', 'font-size:16px;color:var(--primary)')}</span>Lv.${lv.L}</button></div>`;
-  if (S.exams.length > 1) h += `<div class="chips scroll mb">${S.exams.map(e => `<button class="chip ${e.id === ex.id ? 'on' : ''}" data-act="exam" data-id="${e.id}">${esc(e.name)}</button>`).join('')}</div>`;
+  { const past = pastExams();
+    h += `<div class="chips scroll mb">${activeExams().map(e => `<button class="chip ${e.id === ex.id ? 'on' : ''}" data-act="exam" data-id="${e.id}">${esc(e.name)}</button>`).join('')}${past.length ? `<button class="chip ${ex.arc ? 'on' : ''}" data-act="pastlist">${ms('inventory_2')}${ex.arc ? esc(ex.name) : '保存した考査 ' + past.length}</button>` : ''}<button class="chip" data-act="addexam">${ms('add')}考査を追加</button></div>`;
+    if (ex.arc) h += pastBar(); else if (ex.date && daysLeft(ex) < 0) h += endedBar(ex); }
   if (!subs.length) return h + emptyHome();
   const all = examTasks(), A = agg(all), R = agg(all.filter(t => t.req)), sc = agg(scoped(all));
   const segs = subs.map(s => ({ v: agg(scoped(tasksOfSub(s.id))).done, color: hc(s.hue) }));
@@ -1419,7 +1512,7 @@ function viewHome() {
     h += `</div>`;
   } else h += `<div class="h-sec"><h2>${ms('event_upcoming')}期限が近い課題</h2></div><div class="card muted" style="text-align:center;font-weight:500">期限が設定された課題はありません</div>`;
   h += `</div></div>`;
-
+  h += aiTodayCard();
 
   // 教科
   h += `<div class="h-sec"><h2>${ms('donut_large')}教科ごとの進み具合</h2><span class="sp"></span><button class="btn tonal xs" data-act="addsubj">${ms('add')}教科</button></div><div class="grid stg">`;
@@ -1485,18 +1578,23 @@ function taskList() {
   }
   return any ? html : emptyState('search_off', '見つかりませんでした', '絞り込みの条件を変更してください。');
 }
+function feelRow(t, done) {
+  const v = done ? 100 : Math.round(Math.min(99, Math.max(0, +t.feel || 0)) / 5) * 5;
+  return `<div class="ppw"><span class="ppl">${ms('tune')}体感の進み</span><input type="range" min="0" max="100" step="5" value="${v}" style="--p:${v}%" data-feel="${t.id}" aria-label="体感の進み（％）。100％にすると完了になります"><b class="ppv">${v}%</b></div>`;
+}
 function taskCard(t, s) {
-  const chk = t.kind === 'chk' || t.kind === 'list', lst = t.kind === 'list', rem = t.total - t.done, done = isDone(t), pin = isPinned(t), p = t.total ? t.done / t.total : 0, end = lastPage(t);
+  const chk = t.kind === 'chk' || t.kind === 'list', lst = t.kind === 'list', rem = t.total - t.done, done = isDone(t), pin = isPinned(t), p = progOf(t), end = lastPage(t);
   const num = lst ? `<b>${rem}</b><small>項目残り</small>` : chk ? `<b>${done ? '済' : '未'}</b><small>${done ? '完了' : '未完了'}</small>` : `<b>${rem}</b><small>ページ残り</small>`;
   const trow = chk ? '' : `<div class="trow"><span class="tnext">${done ? '' : `${ms('arrow_forward')}次は p.${pageOf(t, t.done + 1)} から`}</span><label class="tcur"><span class="pp">現在 p.</span><input type="number" inputmode="numeric" data-cur="${t.id}" min="${firstPage(t) - 1}" max="${end}" value="${t.done ? pageOf(t, t.done) : ''}" placeholder="${firstPage(t) - 1}" aria-label="現在のページ（ここまで終わった）"><em>/ ${end}</em></label></div>`;
   const left = chk ? `<div class="cgroup"><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}">${ms('check')}${done ? '未完了に戻す' : (lst ? 'すべて完了' : '完了にする')}</button></div>`
     : `<div class="cgroup"><button data-act="inc" data-id="${t.id}" data-n="-1" aria-label="1ページ戻す">−1</button><button data-act="inc" data-id="${t.id}" data-n="1">+1</button><button data-act="inc" data-id="${t.id}" data-n="5">+5</button><button data-act="inc" data-id="${t.id}" data-n="10">+10</button></div>`;
-  const right = `<div class="cgroup">${t.subreq ? `<button class="${t.submitted ? 'undo' : ''}" data-act="submit" data-id="${t.id}" aria-label="${t.submitted ? '未提出に戻す' : '提出済みにする'}">${ms('outbox')}</button>` : ''}<button class="${pin ? 'pinned' : ''}" data-act="pin" data-id="${t.id}" aria-label="今日やる">${ms('star')}</button>${chk ? '' : `<button data-act="quick" data-id="${t.id}" aria-label="ページ数を入力">${ms('edit')}</button><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}" aria-label="${done ? '未完了に戻す' : '完了にする'}">${ms('check')}</button>`}</div>`;
+  const right = `<div class="cgroup">${t.subreq ? `<button class="${t.submitted ? 'undo' : ''}" data-act="submit" data-id="${t.id}" aria-label="${t.submitted ? '未提出に戻す' : '提出済みにする'}">${ms('outbox')}</button>` : ''}<button data-act="aitask" data-id="${t.id}" aria-label="この課題をAIに相談">${gem(20)}</button><button class="${pin ? 'pinned' : ''}" data-act="pin" data-id="${t.id}" aria-label="今日やる">${ms('star')}</button>${chk ? '' : `<button data-act="quick" data-id="${t.id}" aria-label="ページ数を入力">${ms('edit')}</button><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}" aria-label="${done ? '未完了に戻す' : '完了にする'}">${ms('check')}</button>`}</div>`;
   return `<article class="task sc ${done ? 'is-done' : ''}" style="--sh:${s.hue}" data-id="${t.id}">
     <button class="thead" data-act="edittask" data-id="${t.id}" aria-label="${esc(t.title)}を編集"><div><div class="tt">${esc(t.title)}</div><div class="tchips"><span class="tag ${t.req ? 'req' : 'opt'}">${ms(t.req ? 'priority_high' : 'low_priority')}${t.req ? '必須' : '任意'}</span>${chk ? `<span class="tag plain">${ms(lst ? 'checklist' : 'task_alt')}${lst ? 'チェックリスト' : '完了のみ'}</span>` : ''}${dueTag(t)}${subTags(t)}${pin ? `<span class="tag soon">${ms('star', 'f')}今日やる</span>` : ''}${done ? `<span class="tag ok">${ms('check')}完了</span>` : ''}</div></div><div class="tnum">${num}</div></button>
     ${t.note ? `<div class="tnote">${esc(t.note)}</div>` : ''}
     ${lst ? clHtml(t) : ''}
     <div class="tprog">${wave(p, 'tw' + t.id)}<span>${pct(p)}%</span>${chk ? '' : `<em>p.${rangesText(t)}</em>`}</div>
+    ${t.kind === 'chk' ? feelRow(t, done) : ''}
     ${trow}
     <div class="tact">${left}${right}</div>
   </article>`;
@@ -1615,8 +1713,9 @@ function navSettings() {
 }
 function viewSettings() {
   const st = S.set;
-  return `<div class="h-sec" style="margin-top:4px"><h2>${ms('school')}考査</h2><span class="sp"></span><button class="btn tonal xs" data-act="addexam">${ms('add')}考査</button></div>
-  <div class="slist stg">${S.exams.map(e => { const d = e.date ? daysBetween(today(), e.date) : null; return `<div class="srow"><button class="radio ${e.id === S.cur ? 'on' : ''}" data-act="exam" data-id="${e.id}" aria-label="${esc(e.name)}を表示">${ms('check')}</button><div class="t">${esc(e.name)}<small>${e.date ? fmtDate(e.date) + (d >= 0 ? `（あと${d}日）` : '（終了）') : '日付は未設定'} ・ 教科 ${S.subjects.filter(s => s.ex === e.id).length}</small></div><button class="ibtn" data-act="editexam" data-id="${e.id}" aria-label="編集">${ms('edit')}</button></div>`; }).join('')}</div>
+  return `<div class="h-sec" style="margin-top:4px"><h2>${ms('school')}考査</h2><span class="sp"></span>${pastExams().length ? `<button class="btn tonal xs" data-act="pastlist">${ms('inventory_2')}保存した考査 ${pastExams().length}</button>` : ''}<button class="btn tonal xs" data-act="addexam">${ms('add')}考査</button></div>
+  <div class="slist stg">${activeExams().map(e => { const d = e.date ? daysBetween(today(), e.date) : null; return `<div class="srow"><button class="radio ${e.id === S.cur ? 'on' : ''}" data-act="exam" data-id="${e.id}" aria-label="${esc(e.name)}を表示">${ms('check')}</button><div class="t">${esc(e.name)}<small>${e.date ? fmtDate(e.date) + (d >= 0 ? `（あと${d}日）` : '（終了）') : '日付は未設定'} ・ 教科 ${S.subjects.filter(s => s.ex === e.id).length}</small></div><button class="ibtn" data-act="arcexam" data-id="${e.id}" aria-label="${esc(e.name)}を終了して保存">${ms('inventory_2')}</button><button class="ibtn" data-act="editexam" data-id="${e.id}" aria-label="編集">${ms('edit')}</button></div>`; }).join('')}</div>
+  ${pastExams().length ? `<div class="h-sec"><h2>${ms('inventory_2')}保存した考査</h2></div><div class="slist stg">${pastExams().map(e => `<div class="srow"><span class="nvi">${ms('inventory_2')}</span><div class="t">${esc(e.name)}<small>${examSub(e)}</small></div><button class="ibtn" data-act="pastopen" data-id="${e.id}" aria-label="${esc(e.name)}を開く">${ms('visibility')}</button><button class="ibtn" data-act="pastrestore" data-id="${e.id}" aria-label="進行中に戻す">${ms('unarchive')}</button><button class="ibtn" data-act="editexam" data-id="${e.id}" aria-label="編集">${ms('edit')}</button></div>`).join('')}</div>` : ''}
 
   <div class="h-sec"><h2>${ms('menu_book')}教科</h2><span class="sp"></span><button class="btn tonal xs" data-act="preset">まとめて追加</button><button class="btn tonal xs" data-act="addsubj">${ms('add')}教科</button></div>
   <div class="slist stg">${subjects().map((s, i, a) => `<div class="srow sc" style="--sh:${s.hue}">${avatar(s, 48)}<div class="t">${esc(s.name)}<small>課題 ${tasksOfSub(s.id).length}件${s.exam ? ' ・ テスト ' + fmtDate(s.exam) : ''}</small></div><button class="ibtn" data-act="subjup" data-id="${s.id}" ${i === 0 ? 'disabled style="opacity:.3"' : ''} aria-label="上へ">${ms('keyboard_arrow_up')}</button><button class="ibtn" data-act="subjdown" data-id="${s.id}" ${i === a.length - 1 ? 'disabled style="opacity:.3"' : ''} aria-label="下へ">${ms('keyboard_arrow_down')}</button><button class="ibtn" data-act="editsubj" data-id="${s.id}" aria-label="編集">${ms('edit')}</button></div>`).join('') || '<div class="card muted" style="font-weight:500">この考査にはまだ教科がありません</div>'}</div>
@@ -1731,11 +1830,21 @@ function subjDlg(id) {
     <div class="fld"><div class="lbl">カラー</div><div class="swatches">${HUES.map(h => `<label class="sw"><input type="radio" name="hue" value="${h}" ${h === s.hue ? 'checked' : ''}><span style="background:hsl(${h} 68% 50%)"></span></label>`).join('')}</div></div>
     <div class="fld"><label for="ex">この教科のテスト日（なくてもOK）</label><input id="ex" name="exam" type="date" value="${esc(s.exam || '')}"></div>
     <div class="fld2"><div class="fld"><label for="gs">目標点</label><input id="gs" name="goal" type="number" inputmode="decimal" min="0" max="1000" value="${s.goal ?? ''}" placeholder="例：80"></div><div class="fld"><label for="sc2">結果（考査後）</label><input id="sc2" name="score" type="number" inputmode="decimal" min="0" max="1000" value="${s.score ?? ''}" placeholder="点数"></div></div>
-    <div class="fld"><label for="mm">考査後の振り返りメモ</label><textarea id="mm" name="memo" rows="3" maxlength="300" placeholder="例：計算ミスが多かった。次は見直しの時間をとる">${esc(s.memo || '')}</textarea></div>
+    <div class="fld"><label for="mm">考査後の振り返りメモ</label><textarea id="mm" name="memo" rows="3" maxlength="300" placeholder="例：計算ミスが多かった。次は見直しの時間をとる">${esc(s.memo || '')}</textarea>${id ? `<button type="button" class="btn tonal xs" id="aimemo" style="margin-top:10px">${gem(18)}AIで下書き</button>` : ''}</div>
     <div class="fld"><label for="fl">満点</label><input id="fl" name="full" type="number" inputmode="numeric" min="1" max="1000" value="${s.full || 100}"></div>
     <div class="err" id="err"></div>
     <div class="dact">${id ? `<button type="button" class="btn text danger" data-act="delsubj" data-id="${id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}保存</button></div>
   </form>`);
+  const am = $('#aimemo');
+  if (am) am.onclick = async () => {
+    const f = $('#f').elements, g = parseFloat(f.goal.value), sc = parseFloat(f.score.value), full = parseFloat(f.full.value) || 100, cur = f.memo.value.trim(), a = agg(tasksOfSub(s.id));
+    if (isNaN(sc) && !cur) return toast('結果の点数か、メモを少し書いてから押してください');
+    am.disabled = true; am.textContent = '作成中…';
+    const r = await aiRun({ system: AI_MINI, prompt: `教科：${f.name.value || s.name}\n目標点：${isNaN(g) ? '未設定' : g + '点'}\n結果：${isNaN(sc) ? '未入力' : sc + '点（満点' + full + '点）'}\n課題の達成率：${pct(a.p)}%（${a.nd}/${a.n}件完了）\n生徒のメモ：${cur || 'なし'}\n\n考査後の振り返りメモの下書きを、100字以内で書いてください。「よくできた点」と「次にやること」を1つずつ入れます。生徒本人が書いたような、やさしい文体にしてください。メモの本文だけを書いてください。` });
+    if (!document.body.contains(am)) return;
+    am.disabled = false; am.innerHTML = `${gem(18)}AIで下書き`;
+    if (r) { f.memo.value = ((cur ? cur + '\n' : '') + r.replace(/\s+/g, ' ')).slice(0, 300); toast('下書きを入れました。自分の言葉に直してください'); }
+  };
   $('#f').onsubmit = ev => {
     ev.preventDefault();
     const fd = new FormData(ev.target), name = (fd.get('name') || '').trim();
@@ -1759,13 +1868,36 @@ function presetDlg() {
     closeDlg(); commit(); if (picks.length) toast(`${picks.length}教科を追加しました`);
   };
 }
-function examDlg(id) {
+// ---- 考査の保存フォルダ ----
+function okDlg(title, msg, label, fn) {
+  openDlg(`<h2>${esc(title)}</h2><p class="muted" style="margin:-6px 0 20px">${msg}</p><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">やめる</button><button type="button" class="btn" id="ok">${esc(label)}</button></div>`);
+  $('#ok').onclick = () => { closeDlg(); fn(); };
+}
+function examStat(e) {
+  const subs = S.subjects.filter(s => s.ex === e.id), ids = new Set(subs.map(s => s.id)), ts = S.tasks.filter(t => ids.has(t.sid)), a = agg(ts);
+  const got = subs.filter(s => s.score != null), avg = got.length ? Math.round(got.reduce((q, s) => q + s.score / (s.full || 100) * 100, 0) / got.length) : null;
+  return { ns: subs.length, nt: ts.length, p: pct(a.p), avg };
+}
+function examSub(e) {
+  const st = examStat(e), sv = e.arcAt ? new Date(e.arcAt) : null;
+  return `${e.date ? fmtDate(e.date) + ' ・ ' : ''}教科 ${st.ns}・課題 ${st.nt}件・達成 ${st.p}%${st.avg !== null ? ` ・ 成績平均 ${st.avg}%` : ''}${sv ? ` ・ ${sv.getMonth() + 1}/${sv.getDate()} に保存` : ''}`;
+}
+const pastBar = () => { const ex = curExam(); return `<div class="notice">${ms('inventory_2')}<span class="t">「${esc(ex.name)}」は保存した考査です。見返し用の表示です。</span><button class="btn tonal sm" data-act="backnow">現在の考査へ</button></div>`; };
+const endedBar = ex => `<div class="notice">${ms('flag')}<span class="t">「${esc(ex.name)}」の日程が過ぎました。終わったら、成績を記録して保存フォルダに移せます。</span><button class="btn tonal sm" data-act="arcexam" data-id="${ex.id}">終了して保存</button></div>`;
+function pastDlg() {
+  const list = pastExams();
+  openDlg(`<h2>${ms('inventory_2')}保存した考査</h2><p class="muted" style="margin:-6px 0 14px">終わった考査は、教科・課題・成績ごとここに残ります。</p>
+  <div class="slist" style="max-height:min(56vh,520px);overflow-y:auto">${list.length ? list.map(e => `<div class="srow"><span class="nvi">${ms('inventory_2')}</span><div class="t">${esc(e.name)}<small>${examSub(e)}</small></div><button class="ibtn" data-act="pastopen" data-id="${e.id}" aria-label="${esc(e.name)}を開く">${ms('visibility')}</button><button class="ibtn" data-act="pastrestore" data-id="${e.id}" aria-label="進行中に戻す">${ms('unarchive')}</button></div>`).join('') : '<div class="muted" style="padding:18px 6px;font-weight:500">まだ保存した考査はありません。考査が終わったら「終了して保存」を押してください。</div>'}</div>
+  <div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">閉じる</button></div>`);
+}
+function examDlg(id, fresh) {
   const e = id ? S.exams.find(x => x.id === id) : { name: '', date: '' };
-  openDlg(`<h2>${id ? '考査を編集' : '考査を追加'}</h2>
+  openDlg(`<h2>${fresh ? '次の考査を追加' : id ? '考査を編集' : '考査を追加'}</h2>
   <form id="f" autocomplete="off">
-    <div class="fld"><label for="en">考査の名前</label><input id="en" name="name" type="text" value="${esc(e.name)}" maxlength="20" placeholder="例：2学期中間考査" ${id ? '' : 'autofocus'}></div>
+    <div class="fld"><label for="en">考査の名前</label><input id="en" name="name" type="text" value="${fresh ? '' : esc(e.name)}" maxlength="20" placeholder="例：2学期中間考査" ${id && !fresh ? '' : 'autofocus'}></div>
     <div class="fld"><label for="ed">考査の初日（なくてもOK）</label><input id="ed" name="date" type="date" value="${esc(e.date)}"></div>
     <div class="err" id="err"></div>
+    ${id && !e.arc ? `<button type="button" class="btn tonal" style="width:100%;margin-bottom:12px" data-act="arcexam" data-id="${id}">${ms('inventory_2')}この考査を終了して保存</button>` : ''}${id && e.arc ? `<button type="button" class="btn tonal" style="width:100%;margin-bottom:12px" data-act="pastrestore" data-id="${id}">${ms('unarchive')}進行中に戻す</button>` : ''}
     <div class="dact">${id && S.exams.length > 1 ? `<button type="button" class="btn text danger" data-act="delexam" data-id="${id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}保存</button></div>
   </form>`);
   $('#f').onsubmit = ev => {
@@ -2039,7 +2171,7 @@ const ACT = {
   close() { closeDlg(); },
   quick(id) { quickDlg(id); },
   qadd(id) { const t = window._qt, n = $('#qn'), c = countTo(t, parseInt(n.value, 10) || firstPage(t) - 1); ACT.qset(pageOf(t, Math.min(t.total, c + +id))); },
-  duptask(id) { const k = T(id); if (!k) return; closeDlg(); undoable('課題を複製しました', () => { S.tasks.push({ ...k, id: uid(), title: k.title + '（コピー）', done: 0, doneAt: null, submitted: null, pin: '', at: Date.now(), segs: k.segs ? k.segs.map(x => [...x]) : null, items: k.items ? k.items.map(x => ({ text: x.text, done: false })) : null }); }); },
+  duptask(id) { const k = T(id); if (!k) return; closeDlg(); undoable('課題を複製しました', () => { S.tasks.push({ ...k, id: uid(), title: k.title + '（コピー）', done: 0, feel: 0, doneAt: null, submitted: null, pin: '', at: Date.now(), segs: k.segs ? k.segs.map(x => [...x]) : null, items: k.items ? k.items.map(x => ({ text: x.text, done: false })) : null }); }); },
   submit(id) { const k = T(id); if (!k) return; k.submitted = k.submitted ? null : Date.now(); ui.flash = { id }; commit(); toast(k.submitted ? (isDone(k) ? '提出済みにしました' : '未完了ですが、提出済みにしました') : '未提出に戻しました'); },
   addcl() { const c = $('#cls'); c.insertAdjacentHTML('beforeend', clRow({ text: '', done: false })); c.lastElementChild.querySelector('.clt').focus(); },
   delcl(id, el) { const c = $('#cls'); if (c.children.length > 1) el.closest('.clrow').remove(); else el.closest('.clrow').querySelector('.clt').value = ''; },
@@ -2083,8 +2215,86 @@ const ACT = {
       undoable(`「${e.name}」を削除しました`, () => {
         const ids = new Set(subs.map(s => s.id));
         S.subjects = S.subjects.filter(s => s.ex !== id); S.tasks = S.tasks.filter(t => !ids.has(t.sid));
-        S.exams = S.exams.filter(x => x.id !== id); if (S.cur === id) S.cur = S.exams[0].id; ui.sid = '';
+        S.exams = S.exams.filter(x => x.id !== id); if (!S.exams.some(x => !x.arc)) S.exams.push({ id: uid(), name: '新しい考査', date: '' }); if (S.cur === id || !S.exams.some(x => x.id === S.cur)) S.cur = S.exams.find(x => !x.arc).id; ui.sid = '';
       }));
+  },
+  arcexam(id) {
+    const e = S.exams.find(x => x.id === id); if (!e || e.arc) return;
+    okDlg(`「${e.name}」を終了して保存しますか？`, `教科・課題・成績はそのまま「保存した考査」に残り、あとから見返せます。${activeExams().length <= 1 ? '次の考査は、このあと追加します。' : ''}`, '終了して保存', () => {
+      let nid = '';
+      undoable(`「${e.name}」を保存しました`, () => {
+        e.arc = true; e.arcAt = Date.now();
+        let nx = S.exams.find(x => !x.arc);
+        if (!nx) { nx = { id: uid(), name: '新しい考査', date: '' }; S.exams.push(nx); nid = nx.id; }
+        if (S.cur === id) S.cur = nx.id; ui.sid = '';
+      });
+      if (nid) examDlg(nid, true);
+    });
+  },
+  backnow() { S.cur = S.exams.find(x => !x.arc).id; ui.sid = ''; ui.anim = true; commit(); },
+  pastlist() { pastDlg(); },
+  pastopen(id) { closeDlg(); S.cur = id; ui.sid = ''; ACT.tab('tasks'); commit(); },
+  pastrestore(id) { const e = S.exams.find(x => x.id === id); if (!e) return; closeDlg(); undoable(`「${e.name}」を進行中に戻しました`, () => { e.arc = false; delete e.arcAt; S.cur = id; ui.sid = ''; }); },
+  aitask(id) {
+    const t = T(id), s = t && SUB(t.sid); if (!t) return;
+    const q = `「${s ? s.name + '：' : ''}${t.title}」の進め方を教えて。${t.kind === 'pg' ? `ページは${rangesText(t)}で、いま${pct(progOf(t))}%終わっています。` : `いま${pct(progOf(t))}%くらい終わっています。`}${t.due ? `提出期限は${t.due}です。` : ''}`;
+    ACT.tab('ai'); setTimeout(() => aiSend(q), 50);
+  },
+  async aihome(id) {
+    if (AX.busy || (id !== 'today' && id !== 'week')) return;
+    if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
+    const plan = buildPlan().map(it => `- ${it.s.name}：${it.t.title}（${rangeText(it)}${it.left ? `、あと${it.left}日` : ''}）`).join('\n') || '- 今日の予定はありません';
+    const d0 = new Date(), end = new Date(d0.getFullYear(), d0.getMonth(), d0.getDate() + 6), f = d => `${d.getMonth() + 1}/${d.getDate()}(${WD[d.getDay()]})`;
+    const base = `${aiContext()}\n今日は${today()}（${WD[d0.getDay()]}曜日）です。\n今日の予定：\n${plan}\n\n`;
+    const prompt = id === 'today'
+      ? base + '上の状況をもとに、今日の進め方を、優先順位をつけて150字ほどで教えてください。最後に前向きな一言を添えます。箇条書きは使わず、2〜4文で書いてください。'
+      : base + `今日から7日間（${f(d0)}〜${f(end)}）の学習計画を、1日1行で「M/D(曜)：やること」の形で書いてください。期限の近い課題を先にし、1日の量は無理のない範囲にします。完了した課題は入れません。最後に1行、ひとことを添えてください。`;
+    AX.busy = id; aiTodayPaint();
+    const r = await aiRun({ system: AI_MINI, prompt });
+    AX.busy = ''; if (r) { AX[id] = r; axSave(); } aiTodayPaint();
+  },
+  aitext() {
+    openDlg(`<h2>${gem(24, true)}文章から課題を登録</h2><p class="muted" style="margin:-8px 0 12px">先生が言った課題や、メモを、そのまま入力してください。AIが課題に分けて、登録の候補を出します。</p><div class="fld"><textarea id="aitxt" class="trta" rows="5" maxlength="800" placeholder="例：数学ワークp.20〜35を来週の金曜までに提出。英語はプリント1枚、10/28提出。"></textarea></div><div class="dact"><button type="button" class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button type="button" class="btn" id="aitxtgo" data-act="aitextgo">${ms('check')}読み取る</button></div>`);
+  },
+  async aitextgo() {
+    const el = $('#aitxt'), txt = el && el.value.trim(); if (!txt) return toast('文章を入力してください');
+    const b = $('#aitxtgo'); b.disabled = true; b.textContent = '読み取り中…';
+    const d0 = new Date();
+    const r = await aiRun({ json: true, prompt: `次の文章は、学校の課題についてのメモです。書かれている課題を読み取り、JSONの配列だけを返してください。各要素は {"subject":"教科名","title":"課題名","start":開始ページ（数値。なければnull）,"end":終了ページ（数値。なければnull）,"due":"提出期限 YYYY-MM-DD（なければ空文字）","dest":"提出先（なければ空文字）"} の形です。今日は${today()}（${WD[d0.getDay()]}曜日）です。「来週の金曜」などの言い方は、今日の日付から計算して日付にしてください。登録済みの教科：${subjects().map(s => s.name).join('、') || 'なし'}。教科名は、できるだけ登録済みの名前に合わせてください。読み取れない項目は空にしてください。\n\n${txt}` });
+    if (!document.body.contains(b)) return;
+    const items = aiNormTasks(r);
+    if (!items.length) { b.disabled = false; b.innerHTML = `${ms('check')}読み取る`; if (r) toast('課題を読み取れませんでした。書き方を変えてみてください'); return; }
+    AI.imp = items; aiImpDlg(items);
+  },
+  async aicards() {
+    const el = $('#aicth'), txt = el && el.value.trim(); if (!txt) return toast('テーマや、覚えたい内容を入力してください');
+    const n = +($('#aictn') || {}).value || 10;
+    toast('カードを作っています…');
+    const r = await aiRun({ json: true, prompt: `中学生向けの暗記カードを${n}枚作ってください。\nテーマや素材：${txt}\n\nJSONの配列だけを返してください。各要素は {"f":"表（問題・単語・用語）","b":"裏（答え・意味）"} の形で、f は20字以内、b は40字以内にします。素材が文章のときは、その中の重要な語句を選びます。内容は正確にし、中学生に合ったものにしてください。` });
+    const have = new Set((S.cards || []).map(c => c.f + '\u0001' + c.b));
+    const items = (Array.isArray(r) ? r : []).map(x => ({ f: String((x && x.f) || '').trim().slice(0, 60), b: String((x && x.b) || '').trim().slice(0, 120) })).filter(x => x.f && x.b && !have.has(x.f + '\u0001' + x.b));
+    if (!items.length) return r && toast('追加できるカードが作れませんでした。内容を変えてみてください');
+    AI.cimp = items;
+    openDlg(`<h2>${gem(24, true)}作ったカード</h2><p class="muted" style="margin:-8px 0 12px">AIの内容は間違うことがあります。チェックを入れたカードを追加します。</p><div class="cl" style="max-height:min(52vh,460px);overflow-y:auto">${items.map((x, i) => `<label class="clr"><input type="checkbox" checked data-cimp="${i}"><span class="cb">${ms('check')}</span><span class="cx">${esc(x.f)}　<span class="muted">${esc(x.b)}</span></span></label>`).join('')}</div><div class="dact"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" data-act="aicardsok">${ms('check')}追加する</button></div>`);
+  },
+  aicardsok() {
+    const sel = [...document.querySelectorAll('[data-cimp]:checked')].map(e => AI.cimp[+e.dataset.cimp]).filter(Boolean); closeDlg();
+    if (!sel.length) return;
+    undoable(`${sel.length}枚のカードを追加しました`, () => { S.cards = S.cards || []; sel.forEach(c => S.cards.push({ id: uid(), f: c.f, b: c.b, k: 0 })); });
+  },
+  async aihint() {
+    const list = (S.cards || []).filter(c => !WC.only || !c.k); if (!list.length) return;
+    const c = list[WC.i % list.length];
+    toast('ヒントを考えています…');
+    const r = await aiRun({ system: AI_MINI, prompt: `暗記カードです。\n表：${c.f}\n裏：${c.b}\n\n覚えやすくするコツを、語呂合わせ・イメージしやすいたとえ・短い例文のうち、いちばん役に立つものを1つ選んで、80字以内で書いてください。ヒントの本文だけを書いてください。` });
+    if (r) { c.hint = r.replace(/\s+/g, ' ').slice(0, 200); save(); toolsRefresh(); }
+  },
+  async aicheck() {
+    const txt = (WCV.text || '').trim();
+    if (Array.from(txt).length < 20) return toast('チェックするには、20字以上の文章を入力してください');
+    WCV.busy = true; toolsRefresh();
+    const r = await aiRun({ system: 'あなたは、日本の中学生の文章を見る国語の先生です。やさしく前向きな言葉で、です・ます調で書きます。', prompt: `次の文章を読んで、コメントを書いてください。\n- 誤字脱字や、おかしな言い回しがあれば、場所を示して直し方を伝える\n- 読みやすさや、構成のアドバイスを1〜2点\n- 内容で足りないところがあれば、1点\n- よいところも1つ伝える\n3〜5個の短い箇条書きで、全体で300字ほどにしてください。文章を書き直した全文や、模範解答は書かないでください。\n\n${txt.slice(0, 2000)}` });
+    WCV.busy = false; if (r) WCV.ai = r; toolsRefresh();
   },
   subjup(id) { moveSubj(id, -1); }, subjdown(id) { moveSubj(id, 1); },
   theme(id) { S.set.theme = id; applyTheme(); commit(); },
@@ -2096,6 +2306,7 @@ const ACT = {
   import() { $('#imp').click(); },
   acct() { acctDlg(); }, cloudin() { closeDlg(); cloudLogin(); }, cloudout() { closeDlg(); cloudLogout(); }, cloudnow() { cloudPushNow().then(() => toast(CLOUD.status === 'ok' ? '同期しました' : '同期できませんでした')); },
   expsub() { exportSubjects(); }, impsub() { $('#impsub').click(); },
+  expcards() { exportCards(); }, impcards() { $('#impcards').click(); },
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); ui.sid = ''; ui.tab = 'home'; })); },
   reload() { startUpdate(); }, ai() { ACT.tab('ai'); },
   drmode(id) { DR.mode = id; toolsRefresh(); }, drlv(id) { DR.lv = +id; toolsRefresh(); }, drstart() { DR.q = Array.from({ length: 10 }, drillQ); DR.i = 0; DR.ok = 0; DR.wrong = []; DR.fb = ''; DR.t0 = Date.now(); DR.phase = 'play'; toolsRefresh(); },
@@ -2112,6 +2323,13 @@ const ACT = {
   kb(id) { kbKey(id); }, kbtab(id) { FNG.kt = id; FNG.native = id === 'abc'; toolsRefresh(); if (FNG.native) { const el = document.querySelector(`[data-fi="${FNG.act}"]`); el && el.focus(); } }, kbtoggle() { FNG.kbOpen = !FNG.kbOpen; toolsRefresh(); },
   gadd() { if (FNG.f.length >= 6) return; FNG.f.push(''); FNG.act = FNG.f.length - 1; toolsRefresh(); const el = document.querySelector(`[data-fi="${FNG.act}"]`); el && el.focus({ preventScroll: true }); },
   gdel(id) { FNG.f.splice(+id, 1); if (!FNG.f.length) FNG.f.push(''); FNG.act = 0; toolsRefresh(); },
+  revadd() { const t = $('#rvt').value.trim(), d = $('#rvd').value || today(); if (!t) return toast('学習した内容を入力してください'); revList().push({ id: uid(), t, d, done: [] }); save(); toolsRefresh(); const el = $('#rvt'); el && el.focus(); toast('登録しました。復習日が自動で入ります'); },
+  revdone(id) { const e = revList().find(x => x.id === id), n = e && revNext(e); if (!n) return; e.done = [...(e.done || []), n.k]; save(); toolsRefresh(); toast(n.k === REV_STEPS.length - 1 ? 'すべての復習が終わりました' : `${n.k + 1}回目の復習を完了しました`); },
+  revdel(id) { const e = revList().find(x => x.id === id); if (!e) return; undoable('削除しました', () => { S.rev = S.rev.filter(x => x.id !== id); toolsRefresh(); }); },
+  fmcat(id) { FM.cat = id; fmPaint(); }, fmcopy(id) { const d = FM_DATA[+id]; if (d) copyTxt(d[2], '式をコピーしました'); },
+  ptsel(id) { const z = +id; if (PT.hide && PT.sel === z) PT.shown[z] = !PT.shown[z]; PT.sel = z; ptPaint(); },
+  pthide() { PT.hide = !PT.hide; PT.shown = {}; ptPaint(); }, ptreset() { PT.hide = false; PT.shown = {}; PT.sel = 0; ptPaint(); },
+  vbmode(id) { VB.mode = id; VB.rev = {}; vbPaint(); }, vbrev(id) { VB.rev[id] = !VB.rev[id]; vbPaint(); }, vbclear() { VB.rev = {}; vbPaint(); },
   uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; ui.vin = true; ui.dir = 1; render(); scrollTo(0, 0); }, toolback() { ui.tool = ''; ui.vin = true; ui.dir = -1; render(); scrollTo(0, 0); }, ck(id) { calcKey(id); }, gz(id) { graphZoom(id); }, cswap() { const a = CR.from; CR.from = CR.to; CR.to = a; render(); }, crupd() { crFetch(); },
   trswap() { const f = TR.from === 'auto' ? 'ja-JP' : TR.from; TR.from = TR.to; TR.to = f; if (TR.out) { TR.text = TR.out; TR.out = ''; } render(); }, trgo() { trRun(); }, trclr() { TR.text = ''; TR.out = ''; TR.err = ''; render(); },
   trcopy() { navigator.clipboard && navigator.clipboard.writeText(TR.out).then(() => toast('コピーしました')); }, trspeak() { if (!window.speechSynthesis || !TR.out) return; const u = new SpeechSynthesisUtterance(TR.out); u.lang = TR.to; speechSynthesis.cancel(); speechSynthesis.speak(u); }, aisend() { aiSend(); }, aisug(id) { aiSend(AI.sug[+id]); }, aipick() { $('#aifile').click(); }, aiimport() { $('#aiimp').click(); },
@@ -2167,8 +2385,25 @@ document.addEventListener('change', e => {
   else if (t.id === 'ftask') { TM.tid = t.value; const k = T(t.value); TM.sid = k ? k.sid : ''; }
   else if (t.id === 'imp') importData(t);
   else if (t.id === 'impsub') importSubjects(t);
+  else if (t.id === 'impcards') importCards(t);
 });
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.dataset && e.target.dataset.cur) e.target.blur(); });
+// 「体感の進み」スライダー：動かしている間は表示だけ更新し、離したときに保存する
+document.addEventListener('input', e => {
+  const el = e.target; if (!el.dataset || el.dataset.feel === undefined) return;
+  const v = +el.value; el.style.setProperty('--p', v + '%');
+  const w = el.closest('.ppw'), a = el.closest('.task');
+  if (w) w.querySelector('.ppv').textContent = v + '%';
+  if (a) { const sp = a.querySelector('.tprog span'); if (sp) sp.textContent = v + '%'; }
+});
+document.addEventListener('change', e => {
+  const el = e.target, id = el.dataset && el.dataset.feel; if (!id) return;
+  const t = T(id); if (!t) return; const v = +el.value;
+  if (v >= 100) { if (!isDone(t)) ACT.toggle(id, el); return; }
+  const was = isDone(t); if (was) setDone(t, 0);
+  t.feel = v; commit();
+});
+
 document.addEventListener('input', e => { if (e.target.id === 'q') { ui.q = e.target.value; $('#tl').innerHTML = taskList(); postRender(); } });
 
 /* ====================== バックアップ・共有 ====================== */
@@ -2184,6 +2419,38 @@ function exportSubjects() {
   if (!subs.length) return toast('書き出す教科がありません');
   const data = { app: 'kosa-subjects', v: 1, exam: { name: ex.name, date: ex.date || '' }, subjects: subs.map(s => ({ name: s.name, icon: s.icon, hue: s.hue, exam: s.exam || '', tasks: tasksOfSub(s.id).map(k => ({ title: k.title, req: !!k.req, kind: k.kind || 'pg', total: k.total, start: k.start, segs: k.segs || null, dest: k.dest || '', subreq: !!k.subreq, items: k.items ? k.items.map(x => ({ text: x.text })) : null, due: k.due || '', note: k.note || '' })) })) };
   saveFile(`kadai-subjects-${today()}.json`, 'application/json', JSON.stringify(data, null, 2));
+}
+function exportCards() {
+  const all = S.cards || []; if (!all.length) return toast('書き出すカードがありません');
+  const data = { app: 'kosa-cards', v: 1, saved: today(), cards: all.map(c => ({ f: c.f, b: c.b, k: c.k ? 1 : 0, ...(c.hint ? { h: c.hint } : {}) })) };
+  saveFile(`tangocho-${today()}.json`, 'application/json', JSON.stringify(data, null, 2));
+}
+function importCards(input) {
+  const f = input.files && input.files[0]; if (!f) return;
+  const r = new FileReader();
+  r.onload = () => {
+    try {
+      const txt = String(r.result || ''); let rows = [];
+      try {
+        const j = JSON.parse(txt);
+        const arr = j && j.app === 'kosa-cards' && Array.isArray(j.cards) ? j.cards : Array.isArray(j) ? j : null;
+        if (!arr) throw 0;
+        rows = arr.map(c => ({ f: String(c.f ?? c.front ?? '').trim(), b: String(c.b ?? c.back ?? '').trim(), k: c.k ? 1 : 0, h: String(c.h || '').trim().slice(0, 200) }));
+      } catch (e) {
+        rows = txt.split(/\r?\n/).map(l => l.split(/[\t,，、：]/)).filter(p => p.length >= 2).map(p => ({ f: p[0].trim(), b: p.slice(1).join(' ').trim(), k: 0 }));
+      }
+      rows = rows.filter(c => c.f && c.b).map(c => ({ ...c, f: c.f.slice(0, 200), b: c.b.slice(0, 400) }));
+      if (!rows.length) throw 0;
+      const have = new Set((S.cards || []).map(c => c.f + '\u0001' + c.b)), seen = new Set();
+      const fresh = rows.filter(c => { const k = c.f + '\u0001' + c.b; if (have.has(k) || seen.has(k)) return false; seen.add(k); return true; });
+      openDlg(`<h2>単語帳のカードを読み込みますか？</h2><p class="muted" style="margin:-6px 0 20px">ファイルには ${rows.length}枚のカードがあります（新しいカード ${fresh.length}枚、同じ内容 ${rows.length - fresh.length}枚）。<br>「追加する」は、同じ内容のカードを読み飛ばして足します。「置き換える」は、いまの${(S.cards || []).length}枚を消してファイルの内容にします。</p>
+      <div class="dact" style="flex-wrap:wrap;gap:10px"><button type="button" class="btn text" data-act="close">やめる</button><span class="sp"></span><button type="button" class="btn tonal" id="cimr">置き換える</button><button type="button" class="btn" id="cima" ${fresh.length ? '' : 'disabled'}>${ms('add')}追加する</button></div>`);
+      $('#cima').onclick = () => { closeDlg(); undoable(`${fresh.length}枚のカードを追加しました`, () => { S.cards = S.cards || []; fresh.forEach(c => S.cards.push({ id: uid(), f: c.f, b: c.b, k: c.k, ...(c.h ? { hint: c.h } : {}) })); }); };
+      $('#cimr').onclick = () => { closeDlg(); undoable(`カードを${rows.length}枚に置き換えました`, () => { WC.i = 0; S.cards = []; const sn = new Set(); rows.forEach(c => { const k = c.f + '\u0001' + c.b; if (sn.has(k)) return; sn.add(k); S.cards.push({ id: uid(), f: c.f, b: c.b, k: c.k, ...(c.h ? { hint: c.h } : {}) }); }); }); };
+    } catch (e) { toast('カードのファイルを読み込めませんでした'); }
+    input.value = '';
+  };
+  r.readAsText(f);
 }
 function importSubjects(input) {
   const f = input.files && input.files[0]; if (!f) return;
@@ -2212,7 +2479,7 @@ function importSubjects(input) {
 function exportCsv() {
   const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
   const rows = [['考査', '教科', '課題', '区分', '総ページ', '終わった', '残り', '達成率%', '期限', 'メモ']];
-  for (const t of S.tasks) { const s = SUB(t.sid); if (!s) continue; const e = S.exams.find(x => x.id === s.ex); rows.push([e && e.name, s.name, t.title, t.req ? '必須' : '任意', t.total, t.done, t.total - t.done, Math.round(t.done / t.total * 100), t.due, t.note]); }
+  for (const t of S.tasks) { const s = SUB(t.sid); if (!s) continue; const e = S.exams.find(x => x.id === s.ex); rows.push([e && e.name, s.name, t.title, t.req ? '必須' : '任意', t.total, t.done, t.total - t.done, Math.round(progOf(t) * 100), t.due, t.note]); }
   saveFile(`shukudai-${today()}.csv`, 'text/csv', '\ufeff' + rows.map(r => r.map(q).join(',')).join('\r\n'));
 }
 async function shareProgress() {
@@ -2422,7 +2689,7 @@ const aiUsed = () => { try { const o = JSON.parse(localStorage.getItem('kosa-ai-
 const aiCount = () => { try { localStorage.setItem('kosa-ai-use', JSON.stringify({ d: today(), n: aiUsed() + 1 })); } catch (e) { } };
 function aiContext() {
   const ex = curExam(), dl = ex && ex.date ? daysLeft(ex) : null;
-  const lines = examTasks().filter(k => !isDone(k)).slice(0, 15).map(k => { const s = SUB(k.sid); return `- ${s ? s.name : ''}：${k.title}（${pct(k.total ? k.done / k.total : 0)}%完了${k.due ? '、期限' + k.due : ''}）`; });
+  const lines = examTasks().filter(k => !isDone(k)).slice(0, 15).map(k => { const s = SUB(k.sid); return `- ${s ? s.name : ''}：${k.title}（${pct(progOf(k))}%完了${k.due ? '、期限' + k.due : ''}）`; });
   return (ex ? `考査：${ex.name}${dl !== null && dl >= 0 ? `（あと${dl}日）` : ''}\n` : '') + (lines.length ? `未完了の課題：\n${lines.join('\n')}` : '未完了の課題はありません。');
 }
 async function aiStart() {
@@ -2443,6 +2710,26 @@ function aiErr(e) {
   else m = 'うまく答えを作れませんでした。時間をおいて、もう一度お試しください。';
   return m + '\n\n（詳細：' + s.slice(0, 220) + '）';
 }
+/* ---- AIの共通呼び出し（ログイン・1日の回数・エラー表示をまとめる） ---- */
+const AI_MINI = 'あなたは日本の中学生を応援する、学習アドバイザーです。やさしく前向きな日本語で、です・ます調で書きます。難しい言葉は使わず、与えられた情報にないことは作りません。数式にLaTeXは使わず、ふつうの文字で書きます。個人情報は聞き出しません。';
+async function aiRun({ system, prompt, json = false }) {
+  if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return null; }
+  if (aiUsed() >= aiLimit()) { toast(`今日のAI利用は${aiLimit()}回までです`); return null; }
+  try {
+    if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
+    const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
+    const cfg = { model: window.AI_MODEL || 'gemini-3.5-flash-lite' };
+    if (system) cfg.systemInstruction = system;
+    if (json) cfg.generationConfig = { responseMimeType: 'application/json' };
+    const model = AI.mod.getGenerativeModel(ai, cfg);
+    aiCount();
+    const res = await model.generateContent(prompt);
+    const t = String(res.response.text() || '').trim();
+    if (!t) throw new Error('empty');
+    return json ? JSON.parse(t.replace(/```json|```/g, '').trim()) : t;
+  } catch (e) { toast(aiErr(e).split('\n')[0]); return null; }
+}
+const aiNormTasks = arr => (Array.isArray(arr) ? arr : []).filter(x => x && x.title).map(x => ({ subject: String(x.subject || '').trim(), title: String(x.title).trim(), start: parseInt(x.start, 10) || 0, end: parseInt(x.end, 10) || 0, due: String(x.due || ''), dest: String(x.dest || '').trim().slice(0, 30) }));
 const TEX = { angle: '∠', triangle: '△', times: '×', div: '÷', circ: '°', degree: '°', cdot: '・', pi: 'π', leq: '≦', le: '≦', geq: '≧', ge: '≧', neq: '≠', ne: '≠', parallel: '∥', perp: '⊥', therefore: '∴', because: '∵', alpha: 'α', beta: 'β', gamma: 'γ', theta: 'θ', pm: '±', equiv: '≡', sim: '∽', infty: '∞', rightarrow: '→', to: '→', Rightarrow: '⇒', ldots: '…', dots: '…', cdots: '⋯', quad: '\u00a0\u00a0', qquad: '\u00a0\u00a0\u00a0\u00a0', ',': ' ', ';': ' ', ':': ' ', '!': '', left: '', right: '', displaystyle: '' };
 function tex(m) {
   const wrap = x => /^[\w.]+$/.test(x.trim()) ? x.trim() : '(' + x.trim() + ')';
@@ -2486,7 +2773,7 @@ function viewAi() {
   if (!CLOUD.user) return `<div class="h-sec" style="margin-top:4px"><h2>${gem(26, true)}AIに質問</h2></div><div class="card"><p class="muted" style="margin-bottom:14px">AIに質問するには、Googleログインが必要です。</p>${gBtn()}</div>`;
   const urgent = examTasks().filter(k => !isDone(k)).sort((a, b) => (a.due || '9999').localeCompare(b.due || '9999')).slice(0, 2);
   AI.sug = [...urgent.map(k => `「${k.title}」の進め方を教えて`), '今日の勉強の進め方を教えて', '効率のよい暗記のコツを教えて'].slice(0, 4);
-  return `<div class="ai"><div class="ai-h"><h2>${gem(26, true)}AIに質問</h2><span><button class="btn tonal" data-act="aiimport">${ms('document_scanner')}写真から課題を登録</button><button class="ibtn" data-act="aireset" aria-label="新しい会話">${ms('restart_alt')}</button></span></div>
+  return `<div class="ai"><div class="ai-h"><h2>${gem(26, true)}AIに質問</h2><span><button class="btn tonal" data-act="aitext">${ms('edit_note')}文章から課題を登録</button><button class="btn tonal" data-act="aiimport">${ms('document_scanner')}写真から課題を登録</button><button class="ibtn" data-act="aireset" aria-label="新しい会話">${ms('restart_alt')}</button></span></div>
   <p class="muted ai-n">質問・写真・課題の名前と進み具合が、GoogleのAIに送られます。顔や名前、学校名が写らないようにしてください。AIの答えは間違うことがあります。</p>
   <div class="ai-log" id="ailog"></div>
   <div class="chips" id="aisug">${AI.sug.map((x, i) => `<button class="chip" data-act="aisug" data-id="${i}">${esc(x)}</button>`).join('')}<button class="chip" data-act="aiexplain">${ms('photo_camera')}写真の問題を解説</button></div>
@@ -2530,8 +2817,11 @@ async function aiImport(files) {
     const items = (Array.isArray(arr) ? arr : []).filter(x => x && x.title).map(x => ({ subject: String(x.subject || '').trim(), title: String(x.title).trim(), start: parseInt(x.start, 10) || 0, end: parseInt(x.end, 10) || 0, due: String(x.due || ''), dest: String(x.dest || '').trim().slice(0, 30) }));
     if (!items.length) return toast('課題を読み取れませんでした。別の写真でお試しください');
     AI.imp = items;
-    openDlg(`<h2>${ms('document_scanner')}読み取った課題</h2><p class="muted" style="margin:-8px 0 12px">追加する課題にチェックを入れてください。追加したあとで、内容を編集できます。</p><div class="cl">${items.map((x, i) => `<label class="clr"><input type="checkbox" checked data-imp="${i}"><span class="cb">${ms('check')}</span><span class="cx">${esc(x.subject || '（教科なし）')}：${esc(x.title)}${x.start >= 1 && x.end >= x.start ? ` ・ p.${x.start}〜${x.end}` : ''}${/^\d{4}-\d{2}-\d{2}$/.test(x.due) ? ` ・ 期限 ${x.due}` : ''}</span></label>`).join('')}</div><div class="dact"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" data-act="aiimpok">${ms('check')}追加する</button></div>`);
+    aiImpDlg(items);
   } catch (e) { toast(aiErr(e).split('\n')[0]); }
+}
+function aiImpDlg(items) {
+    openDlg(`<h2>${ms('document_scanner')}読み取った課題</h2><p class="muted" style="margin:-8px 0 12px">追加する課題にチェックを入れてください。追加したあとで、内容を編集できます。</p><div class="cl">${items.map((x, i) => `<label class="clr"><input type="checkbox" checked data-imp="${i}"><span class="cb">${ms('check')}</span><span class="cx">${esc(x.subject || '（教科なし）')}：${esc(x.title)}${x.start >= 1 && x.end >= x.start ? ` ・ p.${x.start}〜${x.end}` : ''}${/^\d{4}-\d{2}-\d{2}$/.test(x.due) ? ` ・ 期限 ${x.due}` : ''}</span></label>`).join('')}</div><div class="dact"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" data-act="aiimpok">${ms('check')}追加する</button></div>`);
 }
 function aiAddTasks(sel) {
   undoable(`${sel.length}件の課題を追加しました`, () => {
@@ -2869,12 +3159,13 @@ function trHtml() {
 }
 const TOOLS = [['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
-  ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['drill', '計算ドリル', 'bolt', '10問の計算をタイム付きで練習', 60, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], ['wc', '文字数カウント', 'edit_note', '作文の文字数と原稿用紙の枚数', 300, 'b']];
+  ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['drill', '計算ドリル', 'bolt', '10問の計算をタイム付きで練習', 60, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], ['wc', '文字数カウント', 'edit_note', '作文の文字数と原稿用紙の枚数', 300, 'b'],
+  ['review', '復習リマインダー', 'history', '1・3・7・14・30日後の復習日を自動で管理', 250, 'b'], ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '周期表', 'science', '元素記号を、隠して覚える機能つき', 150, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 const WC = { i: 0, flip: false, only: true };
@@ -2888,10 +3179,12 @@ function cardsHtml() {
   let body;
   if (!all.length) body = `<div class="card"><p class="muted" style="margin:0">まだカードがありません。下のフォームから、英単語や用語を追加してください。</p></div>`;
   else if (!list.length) body = `<div class="card" style="text-align:center"><p>すべてのカードを覚えました。</p><button class="btn" data-act="wcreset">${ms('restart_alt')}最初からやり直す</button></div>`;
-  else { const n = WC.i % list.length, c = list[n]; body = `<button class="wcard ${WC.flip ? 'back' : ''}" data-act="wcflip" aria-label="カードをめくる"><small>${WC.flip ? '裏' : '表'}　${n + 1}/${list.length}</small><div>${esc(WC.flip ? c.b : c.f).replace(/\n/g, '<br>')}</div></button><div class="dact" style="justify-content:center;gap:12px;margin:14px 0"><button class="btn tonal" data-act="wcng">${ms('close')}まだ</button><button class="btn" data-act="wcok">${ms('check')}覚えた</button></div>`; }
+  else { const n = WC.i % list.length, c = list[n]; body = `<button class="wcard ${WC.flip ? 'back' : ''}" data-act="wcflip" aria-label="カードをめくる"><small>${WC.flip ? '裏' : '表'}　${n + 1}/${list.length}</small><div>${esc(WC.flip ? c.b : c.f).replace(/\n/g, '<br>')}</div></button><div class="dact" style="justify-content:center;gap:12px;margin:14px 0"><button class="btn tonal" data-act="wcng">${ms('close')}まだ</button><button class="btn" data-act="wcok">${ms('check')}覚えた</button></div>${c.hint ? `<div class="notice" style="margin:0 0 12px">${gem(20)}<span class="t">${esc(c.hint)}</span></div>` : ''}<div class="dact" style="justify-content:center;margin:0 0 12px"><button class="btn text" data-act="aihint">${gem(18)}${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}</button></div>`; }
   return `<div class="chips" style="margin-bottom:12px"><span class="muted" style="font-weight:500;align-self:center">覚えた ${known}/${all.length}枚</span><button class="tchip ${WC.only ? 'on' : ''}" data-act="wconly">覚えていないカードだけ</button><button class="tchip" data-act="wcshuf">${ms('shuffle')}シャッフル</button></div>${body}
   <div class="card" style="margin-top:12px"><div class="fld"><label for="wcf">表（問題・単語）</label><input id="wcf" autocomplete="off"></div><div class="fld"><label for="wcb">裏（答え・意味）</label><input id="wcb" autocomplete="off"></div><div class="dact" style="margin:0"><button class="btn text" data-act="wcbulk">まとめて追加</button><span class="sp"></span><button class="btn" data-act="wcadd">${ms('add')}追加</button></div></div>
-  ${all.length ? `<details class="card wcl"><summary>カード一覧（${all.length}枚）</summary>${all.slice(0, 150).map(c => `<div class="wcr"><span>${c.k ? ms('check') : ''}${esc(c.f)}</span><span class="muted">${esc(c.b)}</span><button class="ibtn" data-act="wcdel" data-id="${c.id}" aria-label="削除">${ms('close')}</button></div>`).join('')}</details>` : ''}`;
+  ${all.length ? `<details class="card wcl"><summary>カード一覧（${all.length}枚）</summary>${all.slice(0, 150).map(c => `<div class="wcr"><span>${c.k ? ms('check') : ''}${esc(c.f)}</span><span class="muted">${esc(c.b)}</span><button class="ibtn" data-act="wcdel" data-id="${c.id}" aria-label="削除">${ms('close')}</button></div>`).join('')}</details>` : ''}
+  <div class="card" style="margin-top:12px"><div class="mh">${gem(22, true)}AIでカードを作る</div><div class="fld"><label for="aicth">テーマや、覚えたい内容</label><textarea id="aicth" class="trta" rows="2" maxlength="600" style="min-height:96px" placeholder="例：中2英語の不規則動詞 ／ 理科の化学式 ／ 授業のメモを貼り付け"></textarea></div><div class="dact" style="margin:0;justify-content:flex-start;flex-wrap:wrap;gap:10px"><select id="aictn" style="width:auto;min-width:150px;flex:none" aria-label="作る枚数"><option value="10">10枚</option><option value="20">20枚</option><option value="30">30枚</option></select><button class="btn" data-act="aicards">${gem(18)}カードを作る</button></div></div>
+  <div class="card" style="margin-top:12px"><div class="mh">カードのバックアップ</div><p class="muted" style="margin:-6px 0 14px;font-weight:500;line-height:1.7">単語帳のカードだけをファイルに書き出して、ほかの端末で読み込めます。（いま ${all.length}枚）</p><div class="dact" style="margin:0;justify-content:flex-start;flex-wrap:wrap;gap:10px"><button class="btn tonal" data-act="expcards">${ms('upload_file')}書き出す</button><button class="btn tonal" data-act="impcards">${ms('download')}読み込む</button></div></div>`;
 }
 const RS = { edit: false };
 function sheetHtml() {
@@ -2955,6 +3248,163 @@ const put = (id, h) => { const e = $('#' + id); if (e) e.innerHTML = h; };
 const pf = x => fmtN(+x.toPrecision(10));
 const TV = {};
 const numIn = (id, tp, ph = '', v = '', step = 'any') => `<input id="${id}" data-tp="${tp}" type="number" inputmode="decimal" step="${step}" placeholder="${ph}" value="${esc(TV[id] !== undefined ? TV[id] : v)}">`;
+
+/* ====================== 勉強ツール追加（復習・公式集・周期表・不規則動詞） v7.7 ====================== */
+const copyTxt = (txt, msg) => {
+  const ok = () => toast(msg || 'コピーしました'), ng = () => { try { const t = document.createElement('textarea'); t.value = txt; t.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(t); t.select(); document.execCommand('copy'); t.remove(); ok(); } catch (e) { toast('コピーできませんでした'); } };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, ng); else ng();
+};
+const normQ = x => String(x || '').toLowerCase().replace(/\s+/g, '');
+
+/* ---------- 復習リマインダー ---------- */
+const REV_STEPS = [1, 3, 7, 14, 30];
+const addDaysStr = (d, n) => { const x = parse(d); x.setDate(x.getDate() + n); return ymd(x); };
+const revList = () => (S.rev = S.rev || []);
+// 次にやる復習（まだ終えていない最初の回）
+function revNext(e) { const k = REV_STEPS.findIndex((_, i) => !(e.done || []).includes(i)); return k < 0 ? null : { k, due: addDaysStr(e.d, REV_STEPS[k]) }; }
+function revDueCount() { try { const t = today(); return revList().filter(e => { const n = revNext(e); return n && n.due <= t; }).length; } catch (x) { return 0; } }
+function reviewHtml() {
+  const t = today(), L = revList().map(e => ({ e, n: revNext(e) }));
+  const due = L.filter(x => x.n && x.n.due <= t).sort((a, b) => a.n.due.localeCompare(b.n.due));
+  const soon = L.filter(x => x.n && x.n.due > t).sort((a, b) => a.n.due.localeCompare(b.n.due));
+  const fin = L.filter(x => !x.n);
+  const dots = e => `<span class="rvd">${REV_STEPS.map((_, i) => `<i class="${(e.done || []).includes(i) ? 'on' : ''}"></i>`).join('')}</span>`;
+  const row = (x, isDue) => { const { e, n } = x, late = isDue && n.due < t, dd = daysBetween(t, n.due);
+    return `<div class="srow rvr ${late ? 'late' : ''}">${isDue ? `<button class="radio" data-act="revdone" data-id="${e.id}" aria-label="${esc(e.t)}の${n.k + 1}回目の復習を完了">${ms('check')}</button>` : `<span class="nvi" style="width:44px;height:44px">${ms('schedule')}</span>`}<div class="t">${esc(e.t)}<small>${n.k + 1}回目（${REV_STEPS[n.k]}日後）・${isDue ? (late ? `${-dd}日おくれ（${fmtDate(n.due)}）` : '今日') : `${fmtDate(n.due)}（あと${dd}日）`}</small>${dots(e)}</div><button class="ibtn" data-act="revdel" data-id="${e.id}" aria-label="${esc(e.t)}を削除">${ms('delete')}</button></div>`; };
+  const sec = (title, arr, isDue, empty) => `<div class="lbl" style="margin:22px 4px 10px">${title}</div>${arr.length ? `<div class="slist">${arr.map(x => row(x, isDue)).join('')}</div>` : `<div class="card muted" style="font-weight:500">${empty}</div>`}`;
+  return `<div class="card"><p class="muted" style="margin:0 4px 14px;font-weight:500">学習した内容を登録すると、忘れにくい日（1・3・7・14・30日後）に復習日が出ます。復習したらチェックを押します。</p>
+  <div class="fld"><label for="rvt">学習した内容</label><input id="rvt" autocomplete="off" placeholder="例：英語 Unit3 の単語" maxlength="60"></div>
+  <div class="fld"><label for="rvd">学習した日</label><input id="rvd" type="date" value="${t}"></div>
+  <div class="dact" style="margin:0"><span class="sp"></span><button class="btn" data-act="revadd">${ms('add')}登録する</button></div></div>
+  ${sec(`今日の復習${due.length ? `（${due.length}件）` : ''}`, due, true, '今日の復習はありません。')}
+  ${soon.length ? sec('これからの復習', soon, false, '') : ''}
+  ${fin.length ? `<details class="card" style="margin-top:22px"><summary style="font-weight:600;cursor:pointer">5回の復習を終えた内容（${fin.length}件）</summary><div style="margin-top:10px">${fin.map(x => `<div class="wcr"><span>${ms('check')}${esc(x.e.t)}</span><button class="ibtn" data-act="revdel" data-id="${x.e.id}" aria-label="削除">${ms('close')}</button></div>`).join('')}</div></details>` : ''}`;
+}
+
+/* ---------- 公式集 ---------- */
+const FM = { cat: 'all' };
+const FM_CATS = [['all', 'すべて'], ['alg', '式・方程式'], ['fun', '関数'], ['geo', '図形'], ['dat', '確率・データ'], ['sci', '理科']];
+const FM_DATA = [
+  ['alg', '乗法公式①', '(x + a)(x + b) = x² + (a + b)x + ab', '展開の基本。因数分解はこの逆'],
+  ['alg', '乗法公式②', '(x + a)² = x² + 2ax + a²\n(x − a)² = x² − 2ax + a²', '和の平方・差の平方'],
+  ['alg', '乗法公式③', '(x + a)(x − a) = x² − a²', '和と差の積'],
+  ['alg', '因数分解の基本', 'x² + (a + b)x + ab = (x + a)(x + b)', '足して b の係数、かけて定数項になる2数を探す'],
+  ['alg', '二次方程式の解の公式', 'x = (−b ± √(b² − 4ac)) ÷ 2a', 'ax² + bx + c = 0 のとき'],
+  ['alg', '判別式', 'D = b² − 4ac', 'D > 0：異なる2つの解　D = 0：重解　D < 0：実数の解なし'],
+  ['alg', '平方根の性質', '√a × √b = √(ab)　　√(a²b) = a√b', 'a > 0、b > 0 のとき'],
+  ['alg', '分母の有理化', '1 ÷ √a = √a ÷ a', '分母と分子に √a をかける'],
+  ['alg', '食塩水の濃度', '濃度(%) = 食塩の重さ ÷ 食塩水の重さ × 100', '食塩水 = 食塩 + 水'],
+  ['alg', '速さ・時間・道のり', '道のり = 速さ × 時間', '速さ = 道のり ÷ 時間　時間 = 道のり ÷ 速さ'],
+  ['fun', '比例と反比例', '比例　y = ax　　反比例　y = a ÷ x（xy = a）', 'a は比例定数'],
+  ['fun', '一次関数', 'y = ax + b', 'a：傾き（変化の割合）　b：切片'],
+  ['fun', '傾き（変化の割合）', 'a = (y₂ − y₁) ÷ (x₂ − x₁)', '= yの増加量 ÷ xの増加量'],
+  ['fun', '直線の式（1点と傾き）', 'y − y₁ = a(x − x₁)', '点 (x₁, y₁) を通り、傾き a の直線'],
+  ['fun', '二次関数 y = ax²', '変化の割合 = a(p + q)', 'x が p から q まで増加するとき'],
+  ['fun', '2点間の距離', 'd = √((x₂ − x₁)² + (y₂ − y₁)²)', '三平方の定理から'],
+  ['geo', '三角形の面積', '底辺 × 高さ ÷ 2', ''],
+  ['geo', '平行四辺形・台形・ひし形', '平行四辺形：底辺 × 高さ\n台形：(上底 + 下底) × 高さ ÷ 2\nひし形：対角線 × 対角線 ÷ 2', ''],
+  ['geo', '円周と円の面積', '円周 ℓ = 2πr　　面積 S = πr²', 'r：半径'],
+  ['geo', 'おうぎ形', '弧の長さ ℓ = 2πr × (中心角 ÷ 360)\n面積 S = πr² × (中心角 ÷ 360) = ½ℓr', ''],
+  ['geo', '三平方の定理', 'a² + b² = c²', 'c：斜辺（直角の向かい側の辺）'],
+  ['geo', '特別な直角三角形', '45°・45°・90°　　辺の比 1 : 1 : √2\n30°・60°・90°　　辺の比 1 : √3 : 2', '30°の向かいの辺が1、斜辺が2'],
+  ['geo', '角柱・円柱の体積', '体積 = 底面積 × 高さ', ''],
+  ['geo', '角すい・円すいの体積', '体積 = 底面積 × 高さ ÷ 3', '同じ底面・高さの柱の 1/3'],
+  ['geo', '球の体積と表面積', '体積 V = 4/3 × πr³　　表面積 S = 4πr²', ''],
+  ['geo', '円柱の表面積', '表面積 = 側面積 + 底面積 × 2 = 2πrh + 2πr²', '側面は縦 h、横 2πr の長方形'],
+  ['geo', '多角形の角', '内角の和 = 180° × (n − 2)　　外角の和 = 360°', 'n角形'],
+  ['geo', '円周角の定理', '円周角 = 中心角 ÷ 2', '同じ弧に対する円周角はすべて等しい'],
+  ['geo', '相似な図形の比', '面積比 = (相似比)²　　体積比 = (相似比)³', '相似比 a : b なら、面積比 a² : b²、体積比 a³ : b³'],
+  ['geo', '三角比', 'sin θ = 対辺 ÷ 斜辺\ncos θ = 隣辺 ÷ 斜辺\ntan θ = 対辺 ÷ 隣辺', '直角三角形で、角 θ から見た辺'],
+  ['dat', '確率', '確率 = 起こる場合の数 ÷ 全部の場合の数', '0 以上 1 以下'],
+  ['dat', '順列と組合せ', 'nPr = n × (n − 1) × … × (n − r + 1)\nnCr = nPr ÷ r!', '順列は並べ方、組合せは選び方'],
+  ['dat', '代表値', '平均値 = 合計 ÷ 個数\n範囲 = 最大値 − 最小値', '中央値：大きさ順に並べたまん中の値　最頻値：最も多い値'],
+  ['dat', '四分位範囲', '四分位範囲 = 第3四分位数 − 第1四分位数', '箱ひげ図の「箱」の長さ'],
+  ['dat', '相対度数', '相対度数 = その階級の度数 ÷ 度数の合計', ''],
+  ['dat', '分散と標準偏差', '分散 = (偏差²の合計) ÷ 個数\n標準偏差 = √分散', '偏差 = 値 − 平均'],
+  ['sci', '密度', '密度(g/cm³) = 質量(g) ÷ 体積(cm³)', ''],
+  ['sci', '圧力', '圧力(Pa) = 力の大きさ(N) ÷ 力がはたらく面積(m²)', '1 Pa = 1 N/m²'],
+  ['sci', 'オームの法則', 'V = I × R', '電圧(V) = 電流(A) × 抵抗(Ω)'],
+  ['sci', '直列回路', '電流 I = I₁ = I₂\n電圧 V = V₁ + V₂\n抵抗 R = R₁ + R₂', '電流はどこでも同じ'],
+  ['sci', '並列回路', '電圧 V = V₁ = V₂\n電流 I = I₁ + I₂\n1/R = 1/R₁ + 1/R₂', '電圧はどこでも同じ'],
+  ['sci', '電力と電力量・熱量', '電力(W) = 電圧(V) × 電流(A)\n電力量(Wh) = 電力(W) × 時間(h)\n熱量(J) = 電力(W) × 時間(s)', ''],
+  ['sci', '仕事と仕事率', '仕事(J) = 力(N) × 力の向きに動いた距離(m)\n仕事率(W) = 仕事(J) ÷ 時間(s)', ''],
+  ['sci', '速さ', '速さ(m/s) = 移動した距離(m) ÷ 時間(s)', ''],
+  ['sci', '浮力', '浮力 = 空気中でのばねばかりの値 − 水中での値', '単位は N'],
+  ['sci', '質量パーセント濃度', '濃度(%) = 溶質の質量 ÷ (溶質 + 溶媒の質量) × 100', ''],
+  ['sci', '湿度', '湿度(%) = 空気1m³中の水蒸気量 ÷ その温度の飽和水蒸気量 × 100', ''],
+  ['sci', '光合成と呼吸', '光合成：二酸化炭素 + 水 →(光)→ デンプンなど + 酸素\n呼吸：有機物 + 酸素 → 二酸化炭素 + 水 + エネルギー', ''],
+  ['sci', '化学反応式（分解）', '水の電気分解　2H₂O → 2H₂ + O₂\n炭酸水素ナトリウムの熱分解　2NaHCO₃ → Na₂CO₃ + H₂O + CO₂\n塩化銅の電気分解　CuCl₂ → Cu + Cl₂', ''],
+  ['sci', '化学反応式（化合・酸化）', '水素の燃焼　2H₂ + O₂ → 2H₂O\nマグネシウムの燃焼　2Mg + O₂ → 2MgO\n鉄と硫黄　Fe + S → FeS\n銅の酸化　2Cu + O₂ → 2CuO', ''],
+  ['sci', '化学反応式（還元・中和）', '酸化銅の還元　2CuO + C → 2Cu + CO₂\n中和　HCl + NaOH → NaCl + H₂O', '酸 + アルカリ → 塩 + 水']
+];
+function fmPaint() {
+  const q = normQ(TV.fmq);
+  const items = FM_DATA.filter(d => (FM.cat === 'all' || d[0] === FM.cat) && (!q || normQ(d[1] + d[2] + d[3]).includes(q)));
+  put('fmc', FM_CATS.map(([k, n]) => `<button class="tchip ${FM.cat === k ? 'on' : ''}" data-act="fmcat" data-id="${k}">${n}</button>`).join(''));
+  put('fml', items.length ? items.map(d => `<button class="fmi" data-act="fmcopy" data-id="${FM_DATA.indexOf(d)}" aria-label="${esc(d[1])}の公式をコピー"><span class="fmn">${esc(d[1])}</span><b>${esc(d[2]).replace(/\n/g, '<br>')}</b>${d[3] ? `<small>${esc(d[3])}</small>` : ''}</button>`).join('') : '<div class="card muted" style="font-weight:500">見つかりませんでした。別の言葉で探してみてください。</div>');
+  put('fmn', `${items.length}件`);
+}
+TPAINT.formula = fmPaint;
+function formulaHtml() {
+  return `<div class="fld"><label for="fmq">公式を検索</label><input id="fmq" data-tp="formula" autocomplete="off" placeholder="例：円、三平方、オーム" value="${esc(TV.fmq || '')}"></div>
+  <div class="tseg" id="fmc"></div><div class="lbl" id="fmn" style="margin:0 4px 10px"></div><div class="fml" id="fml"></div><p class="muted" style="margin:14px 4px 0;font-weight:500">公式をタップすると、式をコピーできます。</p>`;
+}
+
+/* ---------- 周期表 ---------- */
+// [原子番号, 記号, 名前, 原子量, 分類]
+const PT_T = { alk: ['アルカリ金属', 15], ale: ['アルカリ土類金属', 45], trn: ['遷移金属', 215], pst: ['その他の金属', 95], mtl: ['半金属', 175], nmt: ['非金属', 140], hal: ['ハロゲン', 320], nob: ['貴ガス', 270] };
+const PT_E = [
+  [1, 'H', '水素', 1.0, 'nmt'], [2, 'He', 'ヘリウム', 4.0, 'nob'], [3, 'Li', 'リチウム', 6.9, 'alk'], [4, 'Be', 'ベリリウム', 9.0, 'ale'], [5, 'B', 'ホウ素', 10.8, 'mtl'], [6, 'C', '炭素', 12.0, 'nmt'], [7, 'N', '窒素', 14.0, 'nmt'], [8, 'O', '酸素', 16.0, 'nmt'], [9, 'F', 'フッ素', 19.0, 'hal'], [10, 'Ne', 'ネオン', 20.2, 'nob'],
+  [11, 'Na', 'ナトリウム', 23.0, 'alk'], [12, 'Mg', 'マグネシウム', 24.3, 'ale'], [13, 'Al', 'アルミニウム', 27.0, 'pst'], [14, 'Si', 'ケイ素', 28.1, 'mtl'], [15, 'P', 'リン', 31.0, 'nmt'], [16, 'S', '硫黄', 32.1, 'nmt'], [17, 'Cl', '塩素', 35.5, 'hal'], [18, 'Ar', 'アルゴン', 39.9, 'nob'],
+  [19, 'K', 'カリウム', 39.1, 'alk'], [20, 'Ca', 'カルシウム', 40.1, 'ale'], [21, 'Sc', 'スカンジウム', 45.0, 'trn'], [22, 'Ti', 'チタン', 47.9, 'trn'], [23, 'V', 'バナジウム', 50.9, 'trn'], [24, 'Cr', 'クロム', 52.0, 'trn'], [25, 'Mn', 'マンガン', 54.9, 'trn'], [26, 'Fe', '鉄', 55.8, 'trn'], [27, 'Co', 'コバルト', 58.9, 'trn'], [28, 'Ni', 'ニッケル', 58.7, 'trn'], [29, 'Cu', '銅', 63.5, 'trn'], [30, 'Zn', '亜鉛', 65.4, 'trn'],
+  [31, 'Ga', 'ガリウム', 69.7, 'pst'], [32, 'Ge', 'ゲルマニウム', 72.6, 'mtl'], [33, 'As', 'ヒ素', 74.9, 'mtl'], [34, 'Se', 'セレン', 79.0, 'nmt'], [35, 'Br', '臭素', 79.9, 'hal'], [36, 'Kr', 'クリプトン', 83.8, 'nob'],
+  [47, 'Ag', '銀', 107.9, 'trn'], [50, 'Sn', 'スズ', 118.7, 'pst'], [53, 'I', 'ヨウ素', 126.9, 'hal'], [56, 'Ba', 'バリウム', 137.3, 'ale'], [78, 'Pt', '白金', 195.1, 'trn'], [79, 'Au', '金', 197.0, 'trn'], [80, 'Hg', '水銀', 200.6, 'trn'], [82, 'Pb', '鉛', 207.2, 'pst'], [92, 'U', 'ウラン', 238.0, 'trn']
+];
+const PT = { sel: 0, hide: false, shown: {} };
+const ptCol = z => z === 1 ? 1 : z === 2 ? 18 : z <= 4 ? z - 2 : z <= 10 ? z + 8 : z <= 12 ? z - 10 : z <= 18 ? z : z - 18;
+const ptRow = z => z <= 2 ? 1 : z <= 10 ? 2 : z <= 18 ? 3 : 4;
+function ptCell(e, grid) {
+  const [z, sym, , , t] = e, shown = !PT.hide || PT.shown[z];
+  return `<button class="pte ${PT.sel === z ? 'on' : ''} ${shown ? '' : 'hd'}" style="--sh:${PT_T[t][1]};${grid ? `grid-column:${ptCol(z)};grid-row:${ptRow(z)}` : ''}" data-act="ptsel" data-id="${z}" aria-label="原子番号${z}"><small>${z}</small><b>${shown ? sym : '?'}</b></button>`;
+}
+function ptPaint() {
+  const g = $('#ptg'); if (!g) return;
+  g.innerHTML = PT_E.filter(e => e[0] <= 36).map(e => ptCell(e, true)).join('');
+  put('pte2', PT_E.filter(e => e[0] > 36).map(e => ptCell(e, false)).join(''));
+  const e = PT_E.find(x => x[0] === PT.sel), sh = e && (!PT.hide || PT.shown[e[0]]);
+  put('ptd', e ? `<div class="ptd sc" style="--sh:${PT_T[e[4]][1]}"><div class="ptb"><small>${e[0]}</small><b>${sh ? e[1] : '?'}</b></div><div class="ptt"><h3>${sh ? e[2] : 'この元素は？'}</h3><p>${sh ? `原子量 ${e[3].toFixed(1)}` : 'もう一度タップすると答えが見えます'}</p><span class="ptc">${PT_T[e[4]][0]}</span></div></div>` : `<div class="card muted" style="font-weight:500;margin:0">元素をタップすると、名前や原子量が出ます。</div>`);
+  const hb = $('#pthide'); if (hb) hb.classList.toggle('on', PT.hide);
+}
+TPAINT.ptable = ptPaint;
+function ptableHtml() {
+  return `<div class="tseg"><button class="tchip ${PT.hide ? 'on' : ''}" id="pthide" data-act="pthide">${ms('visibility_off')}記号を隠して覚える</button><button class="tchip" data-act="ptreset">${ms('restart_alt')}元に戻す</button></div>
+  <div id="ptd" style="margin-bottom:14px"></div>
+  <div class="ptw"><div class="ptg" id="ptg"></div></div>
+  <div class="lbl" style="margin:18px 4px 8px">そのほかのよく出る元素</div><div class="pte2" id="pte2"></div>
+  <div class="ptk">${Object.values(PT_T).map(([n, h]) => `<span class="sc" style="--sh:${h}"><i></i>${n}</span>`).join('')}</div>
+  <p class="muted" style="margin:14px 4px 0;font-weight:500">第1〜第4周期の36元素を、実際の周期表の並びで表示しています。</p>`;
+}
+
+/* ---------- 不規則動詞表 ---------- */
+const VB_D = ['be,was / were,been,である', 'become,became,become,なる', 'begin,began,begun,始める', 'break,broke,broken,こわす', 'bring,brought,brought,持ってくる', 'build,built,built,建てる', 'buy,bought,bought,買う', 'catch,caught,caught,つかまえる', 'choose,chose,chosen,選ぶ', 'come,came,come,来る', 'cut,cut,cut,切る', 'do,did,done,する', 'draw,drew,drawn,描く', 'drink,drank,drunk,飲む', 'drive,drove,driven,運転する', 'eat,ate,eaten,食べる', 'fall,fell,fallen,落ちる', 'feel,felt,felt,感じる', 'find,found,found,見つける', 'fly,flew,flown,飛ぶ', 'forget,forgot,forgotten,忘れる', 'get,got,got / gotten,得る', 'give,gave,given,与える', 'go,went,gone,行く', 'grow,grew,grown,成長する', 'have,had,had,持っている', 'hear,heard,heard,聞こえる', 'hit,hit,hit,打つ', 'hold,held,held,持つ', 'keep,kept,kept,保つ', 'know,knew,known,知っている', 'leave,left,left,去る', 'lend,lent,lent,貸す', 'let,let,let,させる', 'lose,lost,lost,失う', 'make,made,made,作る', 'mean,meant,meant,意味する', 'meet,met,met,会う', 'pay,paid,paid,払う', 'put,put,put,置く', 'read,read,read,読む', 'ride,rode,ridden,乗る', 'ring,rang,rung,鳴る', 'rise,rose,risen,のぼる', 'run,ran,run,走る', 'say,said,said,言う', 'see,saw,seen,見る', 'sell,sold,sold,売る', 'send,sent,sent,送る', 'set,set,set,置く', 'show,showed,shown,見せる', 'sing,sang,sung,歌う', 'sit,sat,sat,座る', 'sleep,slept,slept,眠る', 'speak,spoke,spoken,話す', 'spend,spent,spent,過ごす・使う', 'stand,stood,stood,立つ', 'swim,swam,swum,泳ぐ', 'take,took,taken,取る', 'teach,taught,taught,教える', 'tell,told,told,伝える', 'think,thought,thought,思う', 'throw,threw,thrown,投げる', 'understand,understood,understood,理解する', 'wear,wore,worn,着る', 'win,won,won,勝つ', 'write,wrote,written,書く'].map(x => x.split(','));
+const VB = { mode: 'all', rev: {} };
+const VB_MODES = [['all', 'すべて表示'], ['base', '原形だけ見る'], ['mean', '意味だけ見る']];
+function vbPaint() {
+  const q = normQ(TV.vbq);
+  const items = VB_D.filter(v => !q || (/^[a-z]+$/.test(q) ? v.slice(0, 3).join(' ').toLowerCase().split(/[\s/]+/).some(w => w.startsWith(q)) : normQ(v[3]).includes(q)));
+  put('vbc', VB_MODES.map(([k, n]) => `<button class="tchip ${VB.mode === k ? 'on' : ''}" data-act="vbmode" data-id="${k}">${n}</button>`).join(''));
+  const cell = (v, i) => { const hidden = VB.mode === 'all' ? false : VB.mode === 'base' ? i > 0 : (i === 1 || i === 2 || i === 0); return hidden && !VB.rev[v[0]] ? `<span class="vbh">タップ</span>` : esc(v[i]); };
+  put('vbl', items.length ? items.map(v => `<button class="vbr" data-act="vbrev" data-id="${esc(v[0])}" aria-label="${esc(v[0])}の答えを表示"><span class="vb0">${cell(v, 0)}</span><span>${cell(v, 1)}</span><span>${cell(v, 2)}</span><span class="vb3">${VB.mode === 'mean' ? esc(v[3]) : cell(v, 3)}</span></button>`).join('') : '<div class="card muted" style="font-weight:500">見つかりませんでした。</div>');
+  put('vbn', `${items.length}語`);
+}
+TPAINT.verbs = vbPaint;
+function verbsHtml() {
+  return `<div class="fld"><label for="vbq">検索（英語・日本語）</label><input id="vbq" data-tp="verbs" autocomplete="off" placeholder="例：go、食べる" value="${esc(TV.vbq || '')}"></div>
+  <div class="tseg" id="vbc"></div><div class="chips" style="margin:0 4px 10px;align-items:center"><span class="lbl" id="vbn"></span><span class="sp"></span><button class="tchip" data-act="vbclear">${ms('visibility_off')}もう一度隠す</button></div>
+  <div class="vbt"><div class="vbhd"><span>原形</span><span>過去形</span><span>過去分詞</span><span>意味</span></div><div id="vbl"></div></div>
+  <p class="muted" style="margin:14px 4px 0;font-weight:500">「原形だけ見る」で答えを隠し、行をタップして確認します。「意味だけ見る」では、日本語から英語を思い出せるか試せます。</p>`;
+}
+
 const frS = x => { for (let d = 1; d <= 1000; d++) { const n = Math.round(x * d); if (Math.abs(x - n / d) < 1e-9) return d === 1 ? `${n}` : `${n}/${d}`; } return pf(x); };
 const fld1 = (id, l, tp, ph = '') => `<div class="fld" style="flex:1;min-width:110px"><label for="${id}">${l}</label>${numIn(id, tp, ph)}</div>`;
 const mc = (h, body, rid) => `<div class="card"><h3 class="mh">${h}</h3>${body}<div class="mres" id="${rid}"></div></div>`;
@@ -3045,9 +3495,10 @@ TPAINT.grade = () => {
   put('gr3', [t, n, m, g].every(v => !isNaN(v)) && m > n && n >= 0 ? (() => { const need = g * m - t, rest = m - n; return `残り${rest}教科の合計：<b>${pf(need)}</b> 点<br>残りの教科の平均：<b>${pf(need / rest)}</b> 点が必要${need / rest > 100 ? '<br><span class="muted">（100点を超えます。目標を見直してみてください）</span>' : ''}`; })() : '');
 };
 /* 文字数カウント */
-const WCV = { text: '', goal: '' };
+const WCV = { text: '', goal: '', ai: '', busy: false };
 function wcHtml() {
-  return `<div class="card"><textarea id="wct" data-tp="wc" class="trta" rows="12" placeholder="ここに文章を入力、または貼り付けます">${esc(WCV.text)}</textarea><div class="fld" style="margin-top:12px;max-width:260px"><label for="wcg">目標の文字数（なくてもOK）</label>${numIn('wcg', 'wc', '例：800', WCV.goal, '1')}</div></div><div class="card"><div class="mres" id="wcres"></div><div id="wcbar" style="margin-top:12px"></div></div>`;
+  return `<div class="card"><textarea id="wct" data-tp="wc" class="trta" rows="12" placeholder="ここに文章を入力、または貼り付けます">${esc(WCV.text)}</textarea><div class="fld" style="margin-top:12px;max-width:260px"><label for="wcg">目標の文字数（なくてもOK）</label>${numIn('wcg', 'wc', '例：800', WCV.goal, '1')}</div></div><div class="card"><div class="mres" id="wcres"></div><div id="wcbar" style="margin-top:12px"></div></div>
+  <div class="card"><div class="mh">${gem(22, true)}AIで文章チェック</div><p class="muted" style="margin:-6px 0 14px;font-weight:500;line-height:1.7">誤字脱字や、読みやすさ、内容の足りないところをコメントします。文章の書き直しはしません。</p><button class="btn tonal" data-act="aicheck" ${WCV.busy ? 'disabled' : ''}>${gem(18)}${WCV.busy ? 'チェック中…' : 'チェックする'}</button>${WCV.ai ? `<div class="mres" style="margin-top:16px">${mdLite(WCV.ai)}</div>` : ''}</div>`;
 }
 TPAINT.wc = () => {
   WCV.text = ($('#wct') || {}).value || ''; WCV.goal = ($('#wcg') || {}).value || '';
