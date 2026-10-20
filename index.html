@@ -1094,6 +1094,25 @@ input,textarea{touch-action:manipulation}
 .wc-ck .ms{font-size:18px}
 .btn.danger,.btn.text.danger{color:var(--err)}
 @media(prefers-reduced-motion:reduce){.wc-in{transition:none}.wc-card.enter{animation:none}}
+
+/* ===== 写真からカード v9.1 ===== */
+.wp-th{display:flex;gap:10px;flex-wrap:wrap}
+.wp-t{position:relative;width:96px;height:96px;border-radius:20px;overflow:hidden;background:var(--s3)}
+.wp-t img{width:100%;height:100%;object-fit:cover;display:block}
+.wp-t button{position:absolute;top:4px;right:4px;width:30px;height:30px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;display:grid;place-items:center}
+.wp-t button .ms{font-size:18px}
+.wp-add{width:96px;height:96px;border-radius:20px;display:grid;place-items:center;align-content:center;gap:2px;background:transparent;box-shadow:inset 0 0 0 2px var(--out-v);color:var(--primary);font-size:.78rem;font-weight:600;text-align:center;transition:border-radius .4s var(--spring),background .2s}
+.wp-add .ms{font-size:30px}.wp-add:active{background:var(--s3);border-radius:32px}
+.wp-ex{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}.wp-ex .tchip{height:44px;font-size:.9rem}
+.wp-modes{display:grid;gap:10px}
+.wp-m{position:relative;display:block;cursor:pointer}
+.wp-m input{position:absolute;opacity:0;inset:0;margin:0}
+.wp-m>span{display:grid;grid-template-columns:34px 1fr;column-gap:12px;align-items:center;padding:12px 16px;border-radius:22px;background:var(--s2);transition:background .2s,border-radius .4s var(--spring),box-shadow .2s}
+.wp-m .ms{grid-row:1/3;font-size:26px;color:var(--on-v)}
+.wp-m b{font-size:1rem}.wp-m small{color:var(--on-v);font-size:.82rem;font-weight:500}
+.wp-m input:checked+span{background:var(--pc);color:var(--on-pc);border-radius:14px;box-shadow:inset 0 0 0 2px var(--primary)}
+.wp-m input:checked+span .ms{color:var(--primary)}.wp-m input:checked+span small{color:inherit;opacity:.8}
+.wc-ir.warn{box-shadow:inset 4px 0 0 #e0a100}
 </style>
 </head>
 <body>
@@ -1118,7 +1137,7 @@ input,textarea{touch-action:manipulation}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '9.0';
+const APP_VERSION = '9.1';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2452,7 +2471,28 @@ const ACT = {
     const d = S.decks.find(x => x.id === id); if (!d || S.decks.length < 2) return; closeDlg();
     confirmDlg(`「${d.name}」を削除しますか？`, `この単語帳の${S.cards.filter(c => c.d === id).length}枚のカードも、いっしょに消えます。`, '削除', () => undoable('単語帳を削除しました', () => { S.cards = S.cards.filter(c => c.d !== id); S.decks = S.decks.filter(x => x.id !== id); WC.deck = ''; WC.i = 0; WC.flip = false; wcSave(); }));
   },
-  wcphoto() { $('#wcphoto').click(); },
+  wcphoto() { wcPhotoDlg(); },
+  wpadd() { $('#wcphoto').click(); },
+  wprm(id) { WP.imgs.splice(+id, 1); wpPaint(); },
+  wpex(id) { const t = $('#wpi'), x = WP.exs[+id]; if (t && x) { t.value = x; t.focus(); } },
+  async wpgo() {
+    if (WP.busy || !WP.imgs.length) return;
+    if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
+    const instr = ($('#wpi').value || '').trim(), mode = (document.querySelector('input[name=wpm]:checked') || {}).value || 'auto';
+    try { localStorage.setItem('kosa-wc-instr', instr); localStorage.setItem('kosa-wc-mode', mode); } catch (e) { }
+    WP.busy = true; const g = $('#wpgo'); g.disabled = true; g.textContent = '読み取り中…';
+    const imgs = WP.imgs.slice();
+    const r = await aiRun({ json: true, imgs, prompt: wcPhotoPrompt(mode, instr) });
+    WP.busy = false;
+    const g2 = $('#wpgo'); if (!g2) return;
+    g2.innerHTML = `${gem(18)}カードを作る`; g2.disabled = !WP.imgs.length;
+    const arr = Array.isArray(r) ? r : (r && Array.isArray(r.cards) ? r.cards : []);
+    const have = new Set(wcAll().map(wcKey)), seen = new Set(), cl = t => String(t || '').replace(/\$/g, '').trim();
+    const items = arr.map(x => ({ f: cl(x && (x.f ?? x.front)).slice(0, 80), b: cl(x && (x.b ?? x.back)).slice(0, 160) })).filter(x => { if (!x.f || !x.b) return false; const k = wcKey(x); if (have.has(k) || seen.has(k)) return false; seen.add(k); return true; }).slice(0, 80);
+    if (!items.length) return r && toast('カードを作れませんでした。写真や指定を変えてお試しください');
+    const chk = items.filter(x => /要確認/.test(x.b)).length;
+    wcImpDlg(items, `写真から作ったカード（${items.length}枚）`, imgs, chk ? `「要確認」の${chk}枚は、AIが自信のない答えです。確かめてから追加してください。` : '');
+  },
   wcbulk() { openDlg(`<h2>カードをまとめて追加</h2><p class="muted" style="margin:-8px 0 12px">「${esc(wcDeck().name)}」に追加します。1行に1枚、「表,裏」の形で入力します（カンマ・タブ・全角コロンで区切れます）。</p><textarea id="wcbulk" class="trta" rows="8" placeholder="apple,りんご\nbook,本"></textarea><div class="dact" style="margin-top:12px"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" data-act="wcbulkok">${ms('check')}追加する</button></div>`); },
   wcbulkok() {
     const rows = $('#wcbulk').value.split('\n').map(l => l.split(/[\t,，、：]/)).filter(p => p.length >= 2 && p[0].trim() && p[1].trim()); closeDlg(); if (!rows.length) return toast('追加できる行がありませんでした');
@@ -3410,7 +3450,7 @@ function cardsHtml() {
   <div class="wc-opts"><button class="tchip ${WC.only ? 'on' : ''}" data-act="wconly">覚えていないカードだけ</button><button class="tchip" data-act="wcshuf">${ms('shuffle')}シャッフル</button><button class="tchip ${WC.rev ? 'on' : ''}" data-act="wcrev">${ms('swap_horiz')}裏から出す</button></div>
   <div id="wcstage">${wcStageHtml()}</div>
   <div class="card" style="margin-top:16px"><div class="mh">カードを追加</div><div class="fld"><label for="wcf">表（問題・単語）</label><input id="wcf" autocomplete="off"></div><div class="fld"><label for="wcb">裏（答え・意味）</label><input id="wcb" autocomplete="off"></div><div class="dact" style="margin:0"><button class="btn text" data-act="wcbulk">${ms('playlist_add')}まとめて追加</button><span class="sp"></span><button class="btn" data-act="wcadd">${ms('add')}追加</button></div></div>
-  <div class="card" style="margin-top:12px"><div class="mh">${ms('photo_camera')}写真から追加</div><p class="muted" style="margin:-6px 0 14px;font-weight:500;line-height:1.7">単語帳・教科書・プリント・ノートの写真から、単語と意味を自動で読み取ります（写真は3枚まで）。${CLOUD.user ? '' : '<br>Googleログイン後に使えます。'}</p><button class="btn" data-act="wcphoto">${gem(18)}写真を選ぶ・撮る</button></div>
+  <div class="card" style="margin-top:12px"><div class="mh">${ms('photo_camera')}写真から追加</div><p class="muted" style="margin:-6px 0 14px;font-weight:500;line-height:1.7">写真を選んで、どんなカードにするかを指定できます（例：表は過去分詞、裏は過去形）。答えが空欄のプリントは、AIが解いてカードにします。${CLOUD.user ? '' : '<br>Googleログイン後に使えます。'}</p><button class="btn" data-act="wcphoto">${gem(18)}写真を選ぶ・撮る</button></div>
   <div class="card" style="margin-top:12px"><div class="mh">${gem(22, true)}AIでカードを作る</div><div class="fld"><label for="aicth">テーマや、覚えたい内容</label><textarea id="aicth" class="trta" rows="2" maxlength="600" style="min-height:96px" placeholder="例：中2英語の不規則動詞 ／ 理科の化学式 ／ 授業のメモを貼り付け"></textarea></div><div class="dact" style="margin:0;justify-content:flex-start;flex-wrap:wrap;gap:10px"><select id="aictn" style="width:auto;min-width:150px;flex:none" aria-label="作る枚数"><option value="10">10枚</option><option value="20">20枚</option><option value="30">30枚</option></select><button class="btn" data-act="aicards">${gem(18)}カードを作る</button></div></div>
   ${all.length ? `<details class="card wcl" style="margin-top:12px" ${WC.q ? 'open' : ''}><summary>カード一覧（${all.length}枚）</summary><input id="wcq" type="search" placeholder="カードを検索" value="${esc(WC.q)}" style="margin:12px 0 6px"><div id="wclist">${wcRows()}</div></details>` : ''}
   <div class="card" style="margin-top:12px"><div class="mh">単語帳のバックアップ</div><p class="muted" style="margin:-6px 0 14px;font-weight:500;line-height:1.7">単語帳をファイルに書き出して、ほかの端末で読み込めます。（単語帳 ${S.decks.length}冊・カード ${S.cards.length}枚）</p><div class="dact" style="margin:0;justify-content:flex-start;flex-wrap:wrap;gap:10px"><button class="btn tonal" data-act="expcards">${ms('upload_file')}この単語帳を書き出す</button><button class="btn tonal" data-act="expcardsall">${ms('folder_zip')}すべて書き出す</button><button class="btn tonal" data-act="impcards">${ms('download')}読み込む</button></div></div>`;
@@ -3426,26 +3466,50 @@ function deckDlg(id) {
   };
 }
 // 読み取ったカード（写真・AI）の確認ダイアログ：直して、追加先を選んで、追加する
-function wcImpDlg(items, title, thumbs = []) {
+function wcImpDlg(items, title, thumbs = [], note = '') {
   const d = wcDeck();
-  openDlg(`<h2>${gem(24, true)}${esc(title)}</h2><p class="muted" style="margin:-8px 0 12px">読み取りや作成は、間違うことがあります。直したいところは、そのまま書き換えられます。チェックを外したカードは追加されません。</p>
+  openDlg(`<h2>${gem(24, true)}${esc(title)}</h2><p class="muted" style="margin:-8px 0 12px">読み取りや作成は、間違うことがあります。直したいところは、そのまま書き換えられます。チェックを外したカードは追加されません。</p>${note ? `<div class="notice" style="margin:0 0 12px">${ms('error')}<span class="t">${esc(note)}</span></div>` : ''}
   ${thumbs.length ? `<div class="wc-th">${thumbs.map(a => `<img src="${a.url}" alt="">`).join('')}</div>` : ''}
   <div class="fld"><label for="wcds">追加する単語帳</label><select id="wcds" class="scin" style="width:100%">${S.decks.map(x => `<option value="${x.id}" ${x.id === d.id ? 'selected' : ''}>${esc(x.name)}</option>`).join('')}<option value="__new">＋ 新しい単語帳を作る</option></select><input id="wcdn" class="scin" style="width:100%;margin-top:10px;display:none" maxlength="20" placeholder="新しい単語帳のタイトル"></div>
-  <div class="wc-imp">${items.map((x, i) => `<div class="wc-ir"><label class="wc-ck"><input type="checkbox" checked data-wi="${i}"><span>${ms('check')}</span></label><div><input class="scin memo" data-wf="${i}" value="${esc(x.f)}" aria-label="表"><input class="scin memo" data-wb="${i}" value="${esc(x.b)}" aria-label="裏"></div></div>`).join('')}</div>
+  <div class="wc-imp">${items.map((x, i) => `<div class="wc-ir ${/要確認/.test(x.b) ? 'warn' : ''}"><label class="wc-ck"><input type="checkbox" checked data-wi="${i}"><span>${ms('check')}</span></label><div><input class="scin memo" data-wf="${i}" value="${esc(x.f)}" aria-label="表"><input class="scin memo" data-wb="${i}" value="${esc(x.b)}" aria-label="裏"></div></div>`).join('')}</div>
   <div class="dact"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" data-act="wcimpok">${ms('check')}追加する</button></div>`);
   $('#wcds').onchange = e => { $('#wcdn').style.display = e.target.value === '__new' ? '' : 'none'; };
 }
-async function wcPhoto(input) {
-  const files = [...(input.files || [])]; input.value = ''; if (!files.length) return;
-  if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
-  toast('写真から、単語と意味を読み取っています…');
-  let imgs; try { imgs = await Promise.all(files.slice(0, 3).map(f => aiResize(f, 1600))); } catch (e) { return toast('写真を読み込めませんでした'); }
-  const r = await aiRun({ json: true, imgs, prompt: `この画像は、単語帳・教科書・プリント・ノートなどの写真です。覚えるための単語や用語と、その意味（答え）の組を読み取り、JSONの配列だけを返してください。各要素は {"f":"表（単語・用語・問題）","b":"裏（意味・答え）"} の形で、f は30字以内、b は60字以内にします。\n- 英単語の横に日本語の意味が書かれていれば、それをそのまま使います。\n- 意味が書かれていない単語は、中学生向けの短い意味を補います。\n- ことわざ・用語集などは、「ことわざ→意味」のように、見出しと説明の組にします。\n- 写っていない内容は作らず、読み取れない部分は飛ばします。最大60個まで。` });
-  const arr = Array.isArray(r) ? r : (r && Array.isArray(r.cards) ? r.cards : []);
-  const have = new Set(wcAll().map(wcKey)), seen = new Set();
-  const items = arr.map(x => ({ f: String((x && (x.f ?? x.front)) || '').trim().slice(0, 60), b: String((x && (x.b ?? x.back)) || '').trim().slice(0, 120) })).filter(x => { if (!x.f || !x.b) return false; const k = wcKey(x); if (have.has(k) || seen.has(k)) return false; seen.add(k); return true; }).slice(0, 80);
-  if (!items.length) return r && toast('単語を読み取れませんでした。文字がはっきり写る写真でお試しください');
-  wcImpDlg(items, `写真から読み取ったカード（${items.length}枚）`, imgs);
+/* ---- 写真からカード：カードの作り方の指定／空欄の問題を解く ---- */
+const WP = { imgs: [], busy: false, exs: [] };
+const WP_MODES = [['auto', 'auto_awesome', '自動で判断', '答えがあれば読み取り、空欄なら解きます'], ['read', 'document_scanner', '書かれている内容を読み取る', '単語と意味の一覧などを、カードにします'], ['solve', 'edit_note', '空欄の問題を解く', '答えのないプリントを、AIが解いてカードにします']];
+const WP_EX = ['表：英単語　裏：日本語の意味', '表：過去分詞　裏：過去形', '表：問題　裏：答え', '表：用語　裏：説明'];
+function wpThumbs() {
+  return WP.imgs.map((a, i) => `<span class="wp-t"><img src="${a.url}" alt=""><button type="button" data-act="wprm" data-id="${i}" aria-label="写真を外す">${ms('close')}</button></span>`).join('')
+    + (WP.imgs.length < 3 ? `<button type="button" class="wp-add" data-act="wpadd">${ms('add_a_photo')}<span>写真を${WP.imgs.length ? '追加' : '選ぶ・撮る'}</span></button>` : '');
+}
+function wpPaint() { const t = $('#wpth'), g = $('#wpgo'); if (t) t.innerHTML = wpThumbs(); if (g) g.disabled = WP.busy || !WP.imgs.length; }
+function wcPhotoDlg() {
+  WP.imgs = []; WP.busy = false;
+  let last = '', mode = 'auto'; try { last = localStorage.getItem('kosa-wc-instr') || ''; mode = localStorage.getItem('kosa-wc-mode') || 'auto'; } catch (e) { }
+  if (!WP_MODES.some(m => m[0] === mode)) mode = 'auto';
+  WP.exs = [...(last && !WP_EX.includes(last) ? [last] : []), ...WP_EX];
+  openDlg(`<h2>${gem(24, true)}写真からカードを作る</h2>
+  <div class="fld"><label>写真（3枚まで）</label><div class="wp-th" id="wpth">${wpThumbs()}</div></div>
+  <div class="fld"><label for="wpi">どんなカードにする？（任意）</label><textarea id="wpi" class="trta" rows="2" maxlength="200" style="min-height:84px" placeholder="例：表は過去分詞、裏は過去形"></textarea><div class="wp-ex">${WP.exs.map((x, i) => `<button type="button" class="tchip" data-act="wpex" data-id="${i}">${esc(x)}</button>`).join('')}</div></div>
+  <div class="fld"><label>写真の内容</label><div class="wp-modes">${WP_MODES.map(([v, ic, t, d]) => `<label class="wp-m"><input type="radio" name="wpm" value="${v}" ${v === mode ? 'checked' : ''}><span>${ms(ic)}<b>${t}</b><small>${d}</small></span></label>`).join('')}</div></div>
+  <p class="muted" style="margin:0 0 4px;font-size:.88rem;line-height:1.7">AIの読み取りや答えは、間違うことがあります。必ず確認してから追加してください。${CLOUD.user ? '' : '<br>Googleログイン後に使えます。'}</p>
+  <div class="dact"><button type="button" class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button type="button" class="btn" id="wpgo" data-act="wpgo" disabled>${gem(18)}カードを作る</button></div>`);
+}
+async function wcPhoto(input) {   // 写真が選ばれたとき（ダイアログに追加）
+  const files = [...(input.files || [])]; input.value = '';
+  if (!files.length || !$('#wpth')) return;
+  for (const f of files) { if (WP.imgs.length >= 3) { toast('写真は3枚までです'); break; } try { WP.imgs.push(await aiResize(f, 1600)); } catch (e) { toast('写真を読み込めませんでした'); } }
+  wpPaint();
+}
+function wcPhotoPrompt(mode, instr) {
+  const head = {
+    read: 'この画像は、単語帳・教科書・プリント・ノートなどの写真です。覚えるための単語や用語と、その意味（答え）の組を読み取って、カードにします。\n- 英単語の横に日本語の意味が書かれていれば、それをそのまま使います。\n- 意味が書かれていない単語は、中学生向けの短い意味を補います。\n- ことわざ・用語集などは、「見出し→説明」の組にします。',
+    solve: 'この画像は、答えが空欄になっている問題プリントです。写っている問題を、あなたが解いて、「問題」と「答え」の組をカードにします。\n- f には問題文（短くまとめてよい）、b には答えを書きます。問題の番号があれば、f の先頭に付けます。\n- 計算問題は、途中式を省いて答えだけを書きます。記述問題は、短い模範解答にします。\n- すでに答えが書き込まれている問題は、その答えが正しいか確かめて使います。\n- 自信がない問題は、b の末尾に「（要確認）」と付けます。読み取れない問題は飛ばします。',
+    auto: 'この画像は、学校のプリント・教科書・ノート・単語帳などの写真です。内容を見て、次のように判断してカードにします。\n- 答えや意味がすでに書かれていれば、それを読み取ります。\n- 問題の答えが空欄なら、あなたが解いて、問題と答えの組にします。\n- 意味が書かれていない単語は、中学生向けの短い意味を補います。\n- 自信がない答えは、b の末尾に「（要確認）」と付けます。'
+  }[mode] || '';
+  const ins = instr ? `\n\n【カードの作り方の指定】${instr}\nこの指定に合わせて、f（表）と b（裏）に入れる内容を決めてください。写真に書かれていない情報は、確かなものだけを、あなたの知識で補ってください。` : '';
+  return `${head}${ins}\n\nJSONの配列だけを返してください。各要素は {"f":"表","b":"裏"} の形で、f は60字以内、b は100字以内にします。数式は、LaTeXや$記号を使わず、ふつうの文字で書きます（例：x^2、1/2、√3）。写っていない内容は作りません。最大60個まで。`;
 }
 // ---- めくる・スワイプ ----
 let wcDrag = null;
