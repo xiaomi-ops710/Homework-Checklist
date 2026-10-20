@@ -1113,6 +1113,40 @@ input,textarea{touch-action:manipulation}
 .wp-m input:checked+span{background:var(--pc);color:var(--on-pc);border-radius:14px;box-shadow:inset 0 0 0 2px var(--primary)}
 .wp-m input:checked+span .ms{color:var(--primary)}.wp-m input:checked+span small{color:inherit;opacity:.8}
 .wc-ir.warn{box-shadow:inset 4px 0 0 #e0a100}
+
+/* ===== ナビゲーションバーを「下に固定」（タブレットでも下のバーにする） v9.2 ===== */
+@media(min-width:700px){
+  html[data-nav=bottom] #app{padding-left:0}
+  html[data-nav=bottom] #main{padding:28px 36px 140px}
+  html[data-nav=bottom] #nav{top:auto;left:max(12px,calc(50% - 400px));right:max(12px,calc(50% - 400px));bottom:calc(12px + env(safe-area-inset-bottom));width:auto;flex-direction:row;justify-content:space-around;align-items:stretch;gap:0;padding:10px 6px 8px;border-radius:36px;box-shadow:var(--shadow);background:var(--s3)}
+  html[data-nav=bottom] #nav.many{justify-content:flex-start;overflow-x:auto;overflow-y:hidden;gap:4px;padding-bottom:8px;scroll-snap-type:x proximity}
+  html[data-nav=bottom] #nav.many .ni{flex:0 0 auto;min-width:64px;scroll-snap-align:center}
+  html[data-nav=bottom] #nav.many .ni:first-child{margin-left:auto}html[data-nav=bottom] #nav.many .ni:last-child{margin-right:auto}
+  html[data-nav=bottom] .nbadge{box-shadow:0 0 0 2.5px var(--s3)}
+  html[data-nav=bottom] .nbadge:not(.new){left:50%;right:auto;margin-left:6px}
+  html[data-nav=bottom] #fab{left:auto;top:auto;right:24px;bottom:calc(112px + env(safe-area-inset-bottom))}
+  html[data-nav=bottom] .fabm{top:auto;left:auto;bottom:84px;right:0;align-items:flex-end}
+  html[data-nav=bottom] #toast{bottom:calc(122px + env(safe-area-inset-bottom))}
+  html[data-nav=bottom] #mini{left:50%;bottom:calc(112px + env(safe-area-inset-bottom))}
+  html[data-nav=bottom] .mkb{left:8px;right:8px;bottom:calc(92px + env(safe-area-inset-bottom));padding-bottom:8px;border-radius:24px}
+  html[data-nav=bottom] .mkb-open{bottom:calc(100px + env(safe-area-inset-bottom))}
+  html[data-nav=bottom] .ai-log{height:calc(100dvh - 380px)}
+}
+/* ===== ホームのよく使うツール ===== */
+.hq{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:12px;margin-bottom:6px}
+.hqi{display:grid;justify-items:center;gap:8px;padding:16px 8px 14px;border-radius:28px;background:var(--scc);color:var(--on-scc);font-weight:600;font-size:.92rem;text-align:center;min-width:0;transition:border-radius .45s var(--spring),transform .3s var(--spring)}
+.hqi:active{border-radius:16px;transform:scale(.95)}
+.hqe{width:52px;height:52px;border-radius:18px;background:var(--sc);color:#fff;display:grid;place-items:center}.hqe .ms{font-size:28px}
+.hqi b{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hq-empty{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:20px;border-radius:28px;color:var(--primary);font-weight:600;box-shadow:inset 0 0 2px 2px var(--out-v);background:transparent;margin-bottom:6px}
+.hq-pick{display:flex;flex-wrap:wrap;gap:10px;max-height:min(52vh,460px);overflow-y:auto}
+.hq-pick .tchip.on{background:var(--scc);color:var(--on-scc)}
+/* ===== 単語帳の下部ボタン・選択シート ===== */
+.wc-bar{display:flex;gap:12px;margin-top:20px;flex-wrap:wrap}.wc-bar .btn{flex:1;min-width:160px;height:60px;font-size:1.05rem}
+.wc-opt{display:grid;gap:12px;margin-bottom:6px}
+.wc-o{display:grid;grid-template-columns:44px 1fr;column-gap:14px;align-items:center;text-align:left;padding:16px 18px;border-radius:26px;background:var(--s2);transition:border-radius .45s var(--spring),background .2s,transform .3s var(--spring)}
+.wc-o .ms{grid-row:1/3;font-size:32px;color:var(--primary)}.wc-o b{font-size:1.05rem}.wc-o small{color:var(--on-v);font-weight:500;line-height:1.5}
+.wc-o:active{border-radius:16px;transform:scale(.98);background:var(--s3)}
 </style>
 </head>
 <body>
@@ -1137,7 +1171,7 @@ input,textarea{touch-action:manipulation}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '9.1';
+const APP_VERSION = '9.2';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1158,7 +1192,7 @@ const SEEDS = [[222, 'ブルー'], [205, 'スカイ'], [240, 'インディゴ'],
 const PRESETS = [['国語','menu_book',350],['数学','calculate',205],['英語','translate',258],['理科','science',172],['社会','public',140],['音楽','music_note',312],['美術','palette',24],['保健体育','sports_soccer',46],['技術・家庭','build',24],['情報','computer',205],['物理','bolt',258],['化学','experiment',172],['生物','biotech',140],['歴史','history_edu',46],['地理','map',172],['公民','account_balance',312],['古典','auto_stories',350],['書道','brush',24]];
 const ICONS = ['menu_book','auto_stories','calculate','functions','translate','language','abc','science','experiment','biotech','bolt','public','map','explore','history_edu','castle','temple_buddhist','account_balance','gavel','savings','music_note','piano','headphones','palette','brush','draw','photo_camera','sports_soccer','sports_basketball','sports_tennis','directions_run','fitness_center','build','handyman','architecture','computer','code','psychology','eco','water_drop','wb_sunny','restaurant','theater_comedy','school','edit_note','lightbulb','rocket_launch','local_fire_department'];
 const E2I = {'📖':'menu_book','📐':'calculate','🔤':'translate','🔬':'science','🌏':'public','🎵':'music_note','🎨':'palette','⚽':'sports_soccer','🔧':'build','💻':'computer','⚛️':'bolt','🧪':'experiment','🧬':'biotech','🏯':'castle','📜':'auto_stories','🖌️':'brush','🏛️':'account_balance','🗺️':'map','✏️':'edit_note','📚':'menu_book','🧮':'calculate','🗣️':'translate','🎹':'piano','📘':'menu_book'};
-const DEF_SET = { theme: 'auto', hue: 222, scope: 'all', lastBackup: 0, fs: 'm', anim: true, confetti: false, sound: true, goalMode: 'auto', goal: 30, focus: 25, brk: 5, lbrk: 15, cycles: 4, timerAnim: true, natStop: true, nav: null };
+const DEF_SET = { theme: 'auto', hue: 222, scope: 'all', lastBackup: 0, fs: 'm', anim: true, confetti: false, sound: true, goalMode: 'auto', goal: 30, focus: 25, brk: 5, lbrk: 15, cycles: 4, timerAnim: true, natStop: true, nav: null, navPos: 'auto', homeTools: [] };
 const BADGES = [
   ['first', 'flag', 'はじめの一歩', '課題を1つ完了', c => c.done >= 1],
   ['p100', 'menu_book', '100ページ', '累計100ページ', c => c.pages >= 100],
@@ -1506,6 +1540,19 @@ function aiTodayInner() {
 }
 function aiTodayCard() { if (!CLOUD.user) return ''; axLoad(); return `<section class="card aitd" id="aitd">${aiTodayInner()}</section>`; }
 const aiTodayPaint = () => { const el = $('#aitd'); if (el) el.innerHTML = aiTodayInner(); };
+/* ---------- ホーム：よく使うツール ---------- */
+const HOME_MAX = 8;
+const homeToolIds = () => (Array.isArray(S.set.homeTools) ? S.set.homeTools : []).filter((id, i, a) => a.indexOf(id) === i && TOOLS.some(t => t[0] === id)).slice(0, HOME_MAX);
+function homeTools() {
+  const ids = homeToolIds();
+  const head = `<div class="h-sec"><h2>${ms('apps')}よく使うツール</h2><span class="sp"></span><button class="btn tonal xs" data-act="hometools">${ms(ids.length ? 'edit' : 'add')}${ids.length ? '編集' : '追加'}</button></div>`;
+  if (!ids.length) return head + `<button class="hq-empty" data-act="hometools">${ms('add_circle')}よく使うツールを、ここに置けます</button>`;
+  return head + `<div class="hq stg">${ids.map(id => { const t = TOOLS.find(x => x[0] === id); return `<button class="hqi sc" style="--sh:${t[4]}" data-act="tab" data-id="tool:${id}"><span class="hqe">${ms(t[2])}</span><b>${esc(t[1])}</b></button>`; }).join('')}</div>`;
+}
+const hqChips = () => { const on = homeToolIds(); return TOOLS.map(t => `<button type="button" class="tchip sc ${on.includes(t[0]) ? 'on' : ''}" style="--sh:${t[4]}" data-act="hqtog" data-id="${t[0]}">${ms(on.includes(t[0]) ? 'check' : t[2])}${esc(t[1])}</button>`).join(''); };
+function homeToolsDlg() {
+  openDlg(`<h2>${ms('apps')}よく使うツール</h2><p class="muted" style="margin:-8px 0 14px">ホームに置くツールを、${HOME_MAX}つまで選べます。選んだ順に並びます。</p><div class="hq-pick" id="hqp">${hqChips()}</div><div class="dact"><button type="button" class="btn text" data-act="hqreset">すべて外す</button><span class="sp"></span><button type="button" class="btn" data-act="close">${ms('check')}完了</button></div>`);
+}
 /* ---------- 今日のプラン ---------- */
 function buildPlan() {
   const ex = curExam(), td = today(), lg = dayLog(td), items = [];
@@ -1572,7 +1619,7 @@ function viewHome() {
   { const past = pastExams();
     h += `<div class="chips scroll mb">${activeExams().map(e => `<button class="chip ${e.id === ex.id ? 'on' : ''}" data-act="exam" data-id="${e.id}">${esc(e.name)}</button>`).join('')}${past.length ? `<button class="chip ${ex.arc ? 'on' : ''}" data-act="pastlist">${ms('inventory_2')}${ex.arc ? esc(ex.name) : '保存した考査 ' + past.length}</button>` : ''}<button class="chip" data-act="addexam">${ms('add')}考査を追加</button></div>`;
     if (ex.arc) h += pastBar(); else if (examEnded(ex) || missingScores().length) h += endedBar(ex); }
-  if (!subs.length) return h + emptyHome();
+  if (!subs.length) return h + homeTools() + emptyHome();
   const all = examTasks(), A = agg(all), R = agg(all.filter(t => t.req)), sc = agg(scoped(all));
   const segs = subs.map(s => ({ v: agg(scoped(tasksOfSub(s.id))).done, color: hc(s.hue) }));
   const cnt = examCount(ex), size = innerWidth < 620 ? 168 : 200;
@@ -1581,6 +1628,7 @@ function viewHome() {
     <div class="tiles"><div class="tile"><div class="v">${cu(R.rem)}<small>p</small></div><div class="k">必須の残り</div></div><div class="tile"><div class="v">${cu(A.rem)}<small>p</small></div><div class="k">全体の残り</div></div><div class="tile"><div class="v">${cu(A.nd)}<small>/ ${A.n}冊</small></div><div class="k">完了した課題</div></div></div>
     <div class="seg" role="group" aria-label="集計の対象"><button class="${S.set.scope === 'all' ? 'on' : ''}" data-act="scope" data-id="all">すべて</button><button class="${S.set.scope === 'req' ? 'on' : ''}" data-act="scope" data-id="req">必須のみ</button></div></div>
     ${donut({ key: 'hero', size, stroke: Math.round(size * .105), segs, total: sc.total, center: pcCenter(sc), sub: S.set.scope === 'req' ? '必須の達成率' : '全体の達成率' })}</section>`;
+  h += homeTools();
 
   // 今日のプラン
   h += `<div class="hgrid"><div class="hcol">`;
@@ -1805,7 +1853,7 @@ function navSettings() {
   const l = navList(), pin = navPinned(), rest = TOOLS.filter(t => !pin.includes(t[0]));
   const rows = l.map((id, i) => { const [lb, ic] = navInfo(id), tl = id.startsWith('tool:'); return `<div class="srow nvr"><span class="nvi">${ic === 'auto_awesome' ? gem(24) : ms(ic)}</span><div class="t">${esc(lb)}<small>${tl ? 'ツール' : '基本の画面'}</small></div><button class="ibtn" data-act="navup" data-id="${id}" ${i === 0 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を上（左）へ">${ms('keyboard_arrow_up')}</button><button class="ibtn" data-act="navdown" data-id="${id}" ${i === l.length - 1 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を下（右）へ">${ms('keyboard_arrow_down')}</button>${tl ? `<button class="ibtn" data-act="navdel" data-id="${id}" aria-label="${esc(lb)}をバーから外す">${ms('close')}</button>` : '<span style="width:48px;flex:none"></span>'}</div>`; }).join('');
   const add = pin.length >= NAV_MAXTOOLS ? `<p class="muted" style="margin:14px 4px 0;font-weight:500">ツールは${NAV_MAXTOOLS}つまで置けます。入れ替えるときは、先に × で外してください。</p>` : `<div class="lbl" style="margin:16px 4px 8px">バーに置くツールを選ぶ（あと${NAV_MAXTOOLS - pin.length}つ）</div><div class="tchips" style="margin:0">${rest.map(t => `<button class="tchip" data-act="navadd" data-id="${t[0]}">${ms(t[2])}${esc(t[1])}</button>`).join('')}</div>`;
-  return `<div class="card"><p class="muted" style="margin:0 4px 12px;font-weight:500">上から順に、iPadでは左のバー、スマホでは下のバーに並びます。</p><div class="slist">${rows}</div>${add}</div>`;
+  return `<div class="card"><div class="fld"><div class="lbl">バーの位置</div><div class="seg">${[['auto', '自動', 'devices'], ['bottom', '下に固定', 'dock_to_bottom']].map(([v, l, i]) => `<button class="${(S.set.navPos || 'auto') === v ? 'on' : ''}" data-act="navpos" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div><p class="muted" style="margin:6px 4px 0;font-weight:500;font-size:.88rem">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div><p class="muted" style="margin:14px 4px 12px;font-weight:500">上から順に、バーに並びます。</p><div class="slist">${rows}</div>${add}<div class="dact" style="margin:18px 0 0;justify-content:flex-start"><button class="btn tonal" data-act="hometools">${ms('apps')}ホームによく使うツールを選ぶ</button></div></div>`;
 }
 function viewSettings() {
   const st = S.set;
@@ -2396,9 +2444,11 @@ const ACT = {
   },
   async aicards() {
     const el = $('#aicth'), txt = el && el.value.trim(); if (!txt) return toast('テーマや、覚えたい内容を入力してください');
-    const n = +($('#aictn') || {}).value || 10;
-    toast('カードを作っています…');
-    const r = await aiRun({ json: true, prompt: `中学生向けの暗記カードを${n}枚作ってください。\nテーマや素材：${txt}\n\nJSONの配列だけを返してください。各要素は {"f":"表（問題・単語・用語）","b":"裏（答え・意味）"} の形で、f は20字以内、b は40字以内にします。素材が文章のときは、その中の重要な語句を選びます。内容は正確にし、中学生に合ったものにしてください。` });
+    const n = +($('#aictn') || {}).value || 10, instr = (($('#aici') || {}).value || '').trim(), g = $('#aicgo');
+    try { localStorage.setItem('kosa-wc-instr', instr); } catch (e) { }
+    if (g) { g.disabled = true; g.textContent = '作成中…'; } else toast('カードを作っています…');
+    const r = await aiRun({ json: true, prompt: `中学生向けの暗記カードを${n}枚作ってください。\nテーマや素材：${txt}${instr ? `\n\n【カードの作り方の指定】${instr}\nこの指定に合わせて、f（表）と b（裏）に入れる内容を決めてください。` : ''}\n\nJSONの配列だけを返してください。各要素は {"f":"表（問題・単語・用語）","b":"裏（答え・意味）"} の形で、f は20字以内、b は40字以内にします。素材が文章のときは、その中の重要な語句を選びます。内容は正確にし、中学生に合ったものにしてください。` });
+    const g2 = $('#aicgo'); if (g2) { g2.disabled = false; g2.innerHTML = `${gem(18)}カードを作る`; }
     const have = new Set(wcAll().map(c => c.f + '\u0001' + c.b));
     const items = (Array.isArray(r) ? r : []).map(x => ({ f: String((x && x.f) || '').trim().slice(0, 60), b: String((x && x.b) || '').trim().slice(0, 120) })).filter(x => x.f && x.b && !have.has(x.f + '\u0001' + x.b));
     if (!items.length) return r && toast('追加できるカードが作れませんでした。内容を変えてみてください');
@@ -2419,6 +2469,7 @@ const ACT = {
   },
   subjup(id) { moveSubj(id, -1); }, subjdown(id) { moveSubj(id, 1); },
   theme(id) { S.set.theme = id; applyTheme(); commit(); },
+  navpos(id) { S.set.navPos = id === 'bottom' ? 'bottom' : 'auto'; applyTheme(); commit(); },
   hue(id) { S.set.hue = +id; applyTheme(); save(); },
   fs(id) { S.set.fs = id; applyTheme(); commit(); },
   goalmode(id) { S.set.goalMode = id; commit(); },
@@ -2427,7 +2478,7 @@ const ACT = {
   import() { $('#imp').click(); },
   acct() { acctDlg(); }, cloudin() { closeDlg(); cloudLogin(); }, cloudout() { closeDlg(); cloudLogout(); }, cloudnow() { cloudPushNow().then(() => toast(CLOUD.status === 'ok' ? '同期しました' : '同期できませんでした')); },
   expsub() { exportSubjects(); }, impsub() { $('#impsub').click(); },
-  expcards() { exportCards(false); }, expcardsall() { exportCards(true); }, impcards() { $('#impcards').click(); },
+  expcards() { closeDlg(); exportCards(false); }, expcardsall() { closeDlg(); exportCards(true); }, impcards() { closeDlg(); $('#impcards').click(); },
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); ui.sid = ''; ui.tab = 'home'; })); },
   reload() { startUpdate(); },
   hardrefresh() { okDlg('最新版を読み込み直しますか？', 'アプリの保存済みファイルを消して、最新版を読み込み直します。課題や成績などのデータは消えません。ネットにつながっている状態で行ってください。', '読み込み直す', hardRefresh); }, ai() { ACT.tab('ai'); },
@@ -2451,7 +2502,7 @@ const ACT = {
   },
   wcadd() {
     const f = $('#wcf').value.trim(), b = $('#wcb').value.trim(); if (!f || !b) return toast('表と裏の両方を入力してください');
-    S.cards.push({ id: uid(), f, b, k: 0, d: wcDeck().id }); save(); toolsRefresh(); const el = $('#wcf'); el && el.focus();
+    S.cards.push({ id: uid(), f, b, k: 0, d: wcDeck().id }); save(); $('#wcf').value = ''; $('#wcb').value = ''; toolsRefresh(); toast(`追加しました（${wcAll().length}枚）`); const el = $('#wcf'); el && el.focus();
   },
   wcdel(id) { undoable('カードを削除しました', () => { S.cards = S.cards.filter(c => c.id !== id); }); },
   wcdelc(id) { closeDlg(); ACT.wcdel(id); },
@@ -2471,10 +2522,43 @@ const ACT = {
     const d = S.decks.find(x => x.id === id); if (!d || S.decks.length < 2) return; closeDlg();
     confirmDlg(`「${d.name}」を削除しますか？`, `この単語帳の${S.cards.filter(c => c.d === id).length}枚のカードも、いっしょに消えます。`, '削除', () => undoable('単語帳を削除しました', () => { S.cards = S.cards.filter(c => c.d !== id); S.decks = S.decks.filter(x => x.id !== id); WC.deck = ''; WC.i = 0; WC.flip = false; wcSave(); }));
   },
+  hometools() { homeToolsDlg(); },
+  hqtog(id) {
+    const cur = homeToolIds(), i = cur.indexOf(id);
+    if (i >= 0) cur.splice(i, 1); else { if (cur.length >= HOME_MAX) return toast(`ホームに置けるのは${HOME_MAX}つまでです`); cur.push(id); }
+    S.set.homeTools = cur; commit(); const el = $('#hqp'); if (el) el.innerHTML = hqChips();
+  },
+  hqreset() { S.set.homeTools = []; commit(); const el = $('#hqp'); if (el) el.innerHTML = hqChips(); },
+  wcaiadd() {
+    openDlg(`<h2>${gem(24, true)}AIでカードを追加</h2><p class="muted" style="margin:-8px 0 14px">「${esc(wcDeck().name)}」にカードを追加します。${CLOUD.user ? '' : '<br>Googleログイン後に使えます。'}</p>
+    <div class="wc-opt"><button class="wc-o" data-act="wcaitext">${ms('keyboard')}<b>文字入力で追加</b><small>テーマや授業メモを入れると、AIがカードを作ります</small></button><button class="wc-o" data-act="wcphoto">${ms('photo_camera')}<b>写真から追加</b><small>プリントや単語帳の写真から、読み取り・解答してカードにします</small></button></div>
+    <div class="dact"><button class="btn text" data-act="wcmanual">${ms('edit')}自分で入力して追加</button><span class="sp"></span><button class="btn text" data-act="close">閉じる</button></div>`);
+  },
+  wcaitext() {
+    let last = ''; try { last = localStorage.getItem('kosa-wc-instr') || ''; } catch (e) { }
+    WP.exs = [...(last && !WP_EX.includes(last) ? [last] : []), ...WP_EX];
+    openDlg(`<h2>${gem(24, true)}文字入力でカードを追加</h2>
+    <div class="fld"><label for="aicth">テーマや、覚えたい内容</label><textarea id="aicth" class="trta" rows="3" maxlength="800" style="min-height:110px" placeholder="例：中2英語の不規則動詞 ／ 理科の化学式 ／ 授業のメモを貼り付け"></textarea></div>
+    <div class="fld"><label for="aici">どんなカードにする？（任意）</label><textarea id="aici" class="trta" rows="2" maxlength="200" style="min-height:84px" placeholder="例：表は過去分詞、裏は過去形"></textarea><div class="wp-ex">${WP.exs.map((x, i) => `<button type="button" class="tchip" data-act="wpex" data-id="${i}">${esc(x)}</button>`).join('')}</div></div>
+    <div class="fld"><label for="aictn">作る枚数</label><select id="aictn" class="scin" style="width:100%"><option value="10">10枚</option><option value="20">20枚</option><option value="30">30枚</option></select></div>
+    <div class="dact"><button type="button" class="btn text" data-act="wcaiadd">戻る</button><span class="sp"></span><button type="button" class="btn" id="aicgo" data-act="aicards">${gem(18)}カードを作る</button></div>`);
+  },
+  wcmanual() {
+    openDlg(`<h2>カードを追加</h2><p class="muted" style="margin:-8px 0 12px">「${esc(wcDeck().name)}」に追加します。続けて何枚でも入力できます。</p>
+    <div class="fld"><label for="wcf">表（問題・単語）</label><input id="wcf" class="scin" style="width:100%" autocomplete="off"></div>
+    <div class="fld"><label for="wcb">裏（答え・意味）</label><input id="wcb" class="scin" style="width:100%" autocomplete="off"></div>
+    <div class="dact"><button type="button" class="btn text" data-act="wcbulk">${ms('playlist_add')}まとめて入力</button><span class="sp"></span><button type="button" class="btn text" data-act="close">閉じる</button><button type="button" class="btn" data-act="wcadd">${ms('add')}追加</button></div>`);
+    setTimeout(() => { const el = $('#wcf'); el && el.focus(); }, 60);
+  },
+  wcbackup() {
+    openDlg(`<h2>${ms('backup')}単語帳のバックアップ</h2><p class="muted" style="margin:-8px 0 14px;line-height:1.7">単語帳をファイルに書き出して、ほかの端末で読み込めます。（単語帳 ${S.decks.length}冊・カード ${S.cards.length}枚）</p>
+    <div class="wc-opt"><button class="wc-o" data-act="expcards">${ms('upload_file')}<b>この単語帳を書き出す</b><small>「${esc(wcDeck().name)}」だけをファイルにします</small></button><button class="wc-o" data-act="expcardsall">${ms('folder_zip')}<b>すべて書き出す</b><small>すべての単語帳を、1つのファイルにします</small></button><button class="wc-o" data-act="impcards">${ms('download')}<b>ファイルから読み込む</b><small>書き出したファイルや、CSVを読み込みます</small></button></div>
+    <div class="dact"><span class="sp"></span><button class="btn text" data-act="close">閉じる</button></div>`);
+  },
   wcphoto() { wcPhotoDlg(); },
   wpadd() { $('#wcphoto').click(); },
   wprm(id) { WP.imgs.splice(+id, 1); wpPaint(); },
-  wpex(id) { const t = $('#wpi'), x = WP.exs[+id]; if (t && x) { t.value = x; t.focus(); } },
+  wpex(id) { const t = $('#wpi') || $('#aici'), x = WP.exs[+id]; if (t && x) { t.value = x; t.focus(); } },
   async wpgo() {
     if (WP.busy || !WP.imgs.length) return;
     if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
@@ -2845,6 +2929,7 @@ function cloudCard() {
 function applyTheme() {
   const mode = S.set.theme, dark = mode === 'dark' || (mode === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches), r = document.documentElement;
   r.dataset.theme = dark ? 'dark' : 'light';
+  r.dataset.nav = S.set.navPos === 'bottom' ? 'bottom' : '';
   r.style.setProperty('--h', S.set.hue);
   r.style.setProperty('--fs', { s: .92, m: 1, l: 1.12 }[S.set.fs] || 1);
   r.classList.toggle('noanim', !S.set.anim);
@@ -3405,7 +3490,7 @@ const wcKey = c => c.f + '\u0001' + c.b;
 
 function wcStageHtml() {
   const d = wcDeck(), all = wcAll(), list = wcList(), sc = `style="--sh:${d.hue}"`;
-  if (!all.length) return `<div class="card wc-empty sc" ${sc}><span class="wc-eic">${ms('style')}</span><h3>「${esc(d.name)}」にカードを追加しましょう</h3><p class="muted" style="margin:0">写真から読み取ったり、AIに作ってもらったり、自分で入力したりできます。</p><div class="dact" style="justify-content:center;gap:10px;flex-wrap:wrap;margin:6px 0 0"><button class="btn" data-act="wcphoto">${ms('photo_camera')}写真から追加</button><button class="btn tonal" data-act="wcbulk">${ms('playlist_add')}まとめて追加</button></div></div>`;
+  if (!all.length) return `<div class="card wc-empty sc" ${sc}><span class="wc-eic">${ms('style')}</span><h3>「${esc(d.name)}」にカードを追加しましょう</h3><p class="muted" style="margin:0">写真から読み取ったり、AIに作ってもらったり、自分で入力したりできます。</p><div class="dact" style="justify-content:center;gap:10px;flex-wrap:wrap;margin:6px 0 0"><button class="btn" data-act="wcaiadd">${gem(18)}AIで追加</button><button class="btn tonal" data-act="wcmanual">${ms('edit')}自分で入力</button></div></div>`;
   if (!list.length) return `<div class="card wc-done sc" ${sc}><span class="wc-eic">${ms('celebration')}</span><h3>全部覚えました！</h3><p class="muted" style="margin:0">「${esc(d.name)}」の${all.length}枚を、すべて覚えました。</p><div class="dact" style="justify-content:center;gap:10px;margin:6px 0 0"><button class="btn" data-act="wcreset">${ms('restart_alt')}最初からやり直す</button></div></div>`;
   const n = WC.i % list.length, c = list[n], f = WC.rev ? c.b : c.f, b = WC.rev ? c.f : c.b;
   return `<div class="wc-wrap sc" ${sc}><div class="wc-stack">${list.length > 2 ? '<i class="wc-gh g2"></i>' : ''}${list.length > 1 ? '<i class="wc-gh g1"></i>' : ''}
@@ -3449,11 +3534,8 @@ function cardsHtml() {
   <div class="wc-prog"><i id="wcprog" style="width:${all.length ? known / all.length * 100 : 0}%"></i></div>
   <div class="wc-opts"><button class="tchip ${WC.only ? 'on' : ''}" data-act="wconly">覚えていないカードだけ</button><button class="tchip" data-act="wcshuf">${ms('shuffle')}シャッフル</button><button class="tchip ${WC.rev ? 'on' : ''}" data-act="wcrev">${ms('swap_horiz')}裏から出す</button></div>
   <div id="wcstage">${wcStageHtml()}</div>
-  <div class="card" style="margin-top:16px"><div class="mh">カードを追加</div><div class="fld"><label for="wcf">表（問題・単語）</label><input id="wcf" autocomplete="off"></div><div class="fld"><label for="wcb">裏（答え・意味）</label><input id="wcb" autocomplete="off"></div><div class="dact" style="margin:0"><button class="btn text" data-act="wcbulk">${ms('playlist_add')}まとめて追加</button><span class="sp"></span><button class="btn" data-act="wcadd">${ms('add')}追加</button></div></div>
-  <div class="card" style="margin-top:12px"><div class="mh">${ms('photo_camera')}写真から追加</div><p class="muted" style="margin:-6px 0 14px;font-weight:500;line-height:1.7">写真を選んで、どんなカードにするかを指定できます（例：表は過去分詞、裏は過去形）。答えが空欄のプリントは、AIが解いてカードにします。${CLOUD.user ? '' : '<br>Googleログイン後に使えます。'}</p><button class="btn" data-act="wcphoto">${gem(18)}写真を選ぶ・撮る</button></div>
-  <div class="card" style="margin-top:12px"><div class="mh">${gem(22, true)}AIでカードを作る</div><div class="fld"><label for="aicth">テーマや、覚えたい内容</label><textarea id="aicth" class="trta" rows="2" maxlength="600" style="min-height:96px" placeholder="例：中2英語の不規則動詞 ／ 理科の化学式 ／ 授業のメモを貼り付け"></textarea></div><div class="dact" style="margin:0;justify-content:flex-start;flex-wrap:wrap;gap:10px"><select id="aictn" style="width:auto;min-width:150px;flex:none" aria-label="作る枚数"><option value="10">10枚</option><option value="20">20枚</option><option value="30">30枚</option></select><button class="btn" data-act="aicards">${gem(18)}カードを作る</button></div></div>
-  ${all.length ? `<details class="card wcl" style="margin-top:12px" ${WC.q ? 'open' : ''}><summary>カード一覧（${all.length}枚）</summary><input id="wcq" type="search" placeholder="カードを検索" value="${esc(WC.q)}" style="margin:12px 0 6px"><div id="wclist">${wcRows()}</div></details>` : ''}
-  <div class="card" style="margin-top:12px"><div class="mh">単語帳のバックアップ</div><p class="muted" style="margin:-6px 0 14px;font-weight:500;line-height:1.7">単語帳をファイルに書き出して、ほかの端末で読み込めます。（単語帳 ${S.decks.length}冊・カード ${S.cards.length}枚）</p><div class="dact" style="margin:0;justify-content:flex-start;flex-wrap:wrap;gap:10px"><button class="btn tonal" data-act="expcards">${ms('upload_file')}この単語帳を書き出す</button><button class="btn tonal" data-act="expcardsall">${ms('folder_zip')}すべて書き出す</button><button class="btn tonal" data-act="impcards">${ms('download')}読み込む</button></div></div>`;
+  ${all.length ? `<details class="card wcl" style="margin-top:12px" ${WC.q ? 'open' : ''}><summary>カード一覧（${all.length}枚）</summary><div class="dact" style="margin:10px 0 0;justify-content:flex-start"><button class="btn tonal sm" data-act="wcmanual">${ms('edit')}自分で入力して追加</button></div><input id="wcq" type="search" placeholder="カードを検索" value="${esc(WC.q)}" style="margin:12px 0 6px"><div id="wclist">${wcRows()}</div></details>` : ''}
+  <div class="wc-bar"><button class="btn" data-act="wcaiadd">${gem(18)}AIで追加</button><button class="btn tonal" data-act="wcbackup">${ms('backup')}バックアップ</button></div>`;
 }
 function deckDlg(id) {
   ensureDecks(); const d = id ? S.decks.find(x => x.id === id) : { name: '', hue: WC_HUES[S.decks.length % WC_HUES.length] }; if (!d) return;
