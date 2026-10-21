@@ -1147,6 +1147,36 @@ input,textarea{touch-action:manipulation}
 .wc-o{display:grid;grid-template-columns:44px 1fr;column-gap:14px;align-items:center;text-align:left;padding:16px 18px;border-radius:26px;background:var(--s2);transition:border-radius .45s var(--spring),background .2s,transform .3s var(--spring)}
 .wc-o .ms{grid-row:1/3;font-size:32px;color:var(--primary)}.wc-o b{font-size:1.05rem}.wc-o small{color:var(--on-v);font-weight:500;line-height:1.5}
 .wc-o:active{border-radius:16px;transform:scale(.98);background:var(--s3)}
+
+/* ===== ふだん（考査なし）でも使う：提出日管理・今週の勉強 v9.3 ===== */
+.tile.hot .v{color:var(--err)}
+.dgl{display:flex;align-items:center;gap:8px;margin:16px 4px 8px;font-weight:700;font-size:.98rem;color:var(--on-v)}
+.dgl .ms{font-size:22px}.dgl span{margin-left:2px;padding:1px 10px;border-radius:12px;background:var(--s3);font-size:.8rem}
+.dl>.dgl:first-child{margin-top:4px}
+.dg-over,.dg-today{color:var(--err)}.dg-tom{color:#b25e00}.dg-week{color:var(--primary)}
+.dgrp{margin-bottom:6px}.dgrp summary{list-style:none;cursor:pointer}.dgrp summary::-webkit-details-marker{display:none}
+.dgrp:not([open]) summary .dgl::after{content:'';}
+.seg.tv{margin-bottom:12px;align-self:flex-start}
+.wkc{margin-top:20px}
+.wkb{display:flex;align-items:flex-end;gap:10px;height:96px}
+.wkc1{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:6px;height:100%}
+.wkc1 i{display:block;width:100%;max-width:46px;height:var(--h);border-radius:12px;background:var(--pc);transition:height .6s var(--spring)}
+.wkc1.now i{background:var(--primary)}
+.wkc1 span{font-size:.78rem;color:var(--on-v);font-weight:600}.wkc1.now span{color:var(--primary)}
+.wks{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin-top:14px}
+.wks b{font-size:1.35rem;font-variant-numeric:tabular-nums}.wks span{color:var(--on-v);font-size:.85rem;margin-right:10px}
+.wks em{margin-left:auto;font-style:normal;font-weight:600;font-size:.85rem}.wks em.up{color:#1b873f}.wks em.dn{color:var(--on-v)}
+
+/* ===== 更新内容・更新履歴 v9.4 ===== */
+.vchip{margin-left:10px;padding:2px 12px;border-radius:14px;background:var(--pc);color:var(--on-pc);font-size:.8rem;font-weight:700;vertical-align:4px}
+.cll{outline:0;display:grid;gap:12px;max-height:min(58vh,540px);overflow-y:auto;overscroll-behavior:contain;margin-bottom:6px;padding-right:2px}
+.clv{background:var(--s2);border-radius:24px;padding:14px 18px 14px}
+.clh{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.clh b{font-size:1.05rem;color:var(--primary);font-variant-numeric:tabular-nums}.clh span{font-weight:600}
+.cll:focus,.cll:focus-visible{outline:0}
+.clv ul{margin:10px 0 0;padding-left:1.2em;display:grid;gap:6px;line-height:1.7;font-weight:500;font-size:.95rem}
+details.clv summary{list-style:none;cursor:pointer}details.clv summary::-webkit-details-marker{display:none}
+details.clv summary{display:flex;align-items:center;justify-content:space-between;gap:10px}details.clv summary::after{content:'＋';color:var(--on-v);font-weight:700;flex:none}details.clv[open] summary::after{content:'−'}
 </style>
 </head>
 <body>
@@ -1171,7 +1201,7 @@ input,textarea{touch-action:manipulation}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '9.2';
+const APP_VERSION = '9.4';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1492,10 +1522,12 @@ const navPinned = () => navList().filter(x => x.startsWith('tool:')).map(x => x.
 function navCur() { return ui.tab === 'tools' && ui.tool && navPinned().includes(ui.tool) ? 'tool:' + ui.tool : ui.tab; }
 function renderNav() {
   const items = navList();
-  const d = daysLeft(curExam()), bd = d === null || d < 0 ? '' : d === 0 ? '今日' : d + '日';
+  const dl0 = daysLeft(curExam()); let bt = '', bhot = false;
+  if (dl0 !== null && dl0 >= 0) { bt = dl0 === 0 ? '今日' : 'あと' + dl0 + '日'; bhot = dl0 <= 3; }
+  else if (dl0 === null) { const D = dueStats(); if (D.over) { bt = '期限切れ'; bhot = true; } else if (D.next) { const n = daysBetween(today(), D.next.due); bt = n === 0 ? '提出は今日' : '提出あと' + n + '日'; bhot = n <= 1; } }
   const cur = navCur();
   const nav = $('#nav'); nav.classList.toggle('many', items.length > 8);
-  nav.innerHTML = items.map(id => { const [l, i] = navInfo(id); const on = cur === id, b = id === 'home' && bd; return `<button class="ni ${on ? 'on' : ''}" data-act="tab" data-id="${id}" aria-label="${l}${b ? `（考査まで${bd}）` : ''}" ${on ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24) : ms(i)}</span>${b ? `<b class="nbadge ${d <= 3 ? 'hot' : ''}">${d === 0 ? '今日' : 'あと' + bd}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span><span class="nl">${l}</span></button>`; }).join('');
+  nav.innerHTML = items.map(id => { const [l, i] = navInfo(id); const on = cur === id, b = id === 'home' && bt; return `<button class="ni ${on ? 'on' : ''}" data-act="tab" data-id="${id}" aria-label="${l}${b ? `（${bt}）` : ''}" ${on ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24) : ms(i)}</span>${b ? `<b class="nbadge ${bhot ? 'hot' : ''}">${bt}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span><span class="nl">${l}</span></button>`; }).join('');
 }
 function renderFab() {
   const f = $('#fab'); f.hidden = ui.tab === 'ai' || ui.tab === 'tools';
@@ -1592,6 +1624,90 @@ function rangeText(it) {
   return a === b ? `p.${a}` : `p.${a}〜${b}`;
 }
 
+/* ---------- ふだん（考査なし）でも使うための補助 ---------- */
+const isOpen = t => t.subreq ? !t.submitted : !isDone(t);
+const tview = () => { if (ui.tview === undefined) { try { ui.tview = localStorage.getItem('kosa-tview') || ''; } catch (e) { ui.tview = ''; } } return ui.tview || (curExam().date ? 'subj' : 'due'); };
+const dueTasks = () => examTasks().filter(t => isOpen(t) && t.due).sort((a, b) => a.due < b.due ? -1 : a.due > b.due ? 1 : (b.req - a.req));
+function dueStats() {
+  const td = today(), ts = dueTasks(); let over = 0, tod = 0, week = 0;
+  ts.forEach(t => { const d = daysBetween(td, t.due); if (d < 0) over++; else { if (d === 0) tod++; if (d <= 6) week++; } });
+  return { ts, over, today: tod, week, next: ts[0] || null };
+}
+function dailyCount() {
+  const n = dueStats().next;
+  if (!n) return { big: `<small>提出の予定は</small>なし`, dt: '課題に提出期限を入れると、次の提出日がここに出ます' };
+  const d = daysBetween(today(), n.due), s = SUB(n.sid), dt = `${esc(s.name)}「${esc(n.title)}」 ${fmtDate(n.due)}`;
+  if (d < 0) return { big: `<small>期限切れ</small>${cu(-d)}<small>日</small>`, dt };
+  if (d === 0) return { big: `<small>今日が</small>提出日`, dt };
+  return { big: `<small>次の提出まで</small>${cu(d)}<small>日</small>`, dt };
+}
+const dailyTiles = D => `<div class="tiles">${[[D.today, '今日が期限', ''], [D.week, '7日以内の期限', ''], [D.over, '期限切れ', D.over ? ' hot' : '']].map(([n, k, c]) => `<div class="tile${c}"><div class="v">${cu(n)}<small>件</small></div><div class="k">${k}</div></div>`).join('')}</div>`;
+const DUE_B = { over: ['error', '期限切れ'], today: ['schedule', '今日が期限'], tom: ['event_upcoming', '明日が期限'], week: ['date_range', '7日以内'], later: ['event', 'それ以降'], none: ['event_busy', '期限なし'], fin: ['task_alt', '完了・提出済み'] };
+function dueBucket(t) {
+  if (!isOpen(t)) return 'fin'; if (!t.due) return 'none';
+  const d = daysBetween(today(), t.due); return d < 0 ? 'over' : d === 0 ? 'today' : d === 1 ? 'tom' : d <= 7 ? 'week' : 'later';
+}
+const dliHtml = t => { const s = SUB(t.sid); return `<button class="dli sc ${daysBetween(today(), t.due) <= 3 && (t.subreq || !isDone(t)) ? 'urgent' : ''}" style="--sh:${s.hue}" data-act="edittask" data-id="${t.id}">${avatar(s, 42)}<div class="t"><div>${esc(t.title)}</div><div>${esc(s.name)} ・ ${isDone(t) ? '完了済み・未提出' : t.kind === 'chk' ? '未完了' : '残り ' + (t.total - t.done) + (t.kind === 'list' ? '項目' : 'p')}${t.dest ? ' ・ 提出先 ' + esc(t.dest) : ''}</div></div>${dueTag(t)}${t.subreq ? `<span class="dsub" data-act="submit" data-id="${t.id}">${ms('outbox')}提出済み</span>` : ''}</button>`; };
+function weekCard() {
+  const d14 = lastDays(14), cur = d14.slice(7), prev = d14.slice(0, 7), sum = (a, k) => a.reduce((n, x) => n + (x[k] || 0), 0);
+  const m = sum(cur, 'm'), p = sum(cur, 'a'), pm = sum(prev, 'm'), pp = sum(prev, 'a');
+  if (!m && !p && !pm && !pp) return '';
+  const days = cur.filter(x => x.a > 0 || x.m > 0).length, useM = m > 0 || pm > 0, key = useM ? 'm' : 'a', max = Math.max(1, ...cur.map(x => x[key]));
+  const diff = useM ? m - pm : p - pp, fmtM = n => n >= 60 ? `${Math.floor(n / 60)}時間${n % 60 ? n % 60 + '分' : ''}` : `${n}分`;
+  return `<section class="card wkc"><div class="h-sec" style="margin:0 0 12px"><h2>${ms('bar_chart')}今週の勉強</h2><span class="sp"></span><button class="btn tonal xs" data-act="tab" data-id="stats">${ms('insights')}記録</button></div>
+  <div class="wkb">${cur.map(x => `<div class="wkc1 ${x.k === today() ? 'now' : ''}"><i style="--h:${(x[key] ? 8 : 3) + Math.round(x[key] / max * 56)}px"></i><span>${WD[x.d.getDay()]}</span></div>`).join('')}</div>
+  <div class="wks"><b>${fmtM(m)}</b><span>集中</span><b>${p}</b><span>ページ</span><b>${days}</b><span>日勉強</span>${(pm || pp) ? `<em class="${diff >= 0 ? 'up' : 'dn'}">先週より ${diff >= 0 ? '+' : '−'}${useM ? fmtM(Math.abs(diff)) : Math.abs(diff) + 'ページ'}</em>` : ''}</div></section>`;
+}
+function dueListView() {
+  const q = ui.q.trim().toLowerCase(), rows = [];
+  for (const s of subjects()) {
+    if (ui.sid && ui.sid !== s.id) continue;
+    for (const t of tasksOfSub(s.id)) {
+      if (ui.filter === 'req' && !t.req) continue; if (ui.filter === 'opt' && t.req) continue;
+      if (ui.filter === 'todo' && isDone(t)) continue; if (ui.filter === 'done' && !isDone(t)) continue; if (ui.filter === 'pin' && !isPinned(t)) continue;
+      if (q && !(t.title + ' ' + (t.note || '') + ' ' + s.name).toLowerCase().includes(q)) continue;
+      rows.push([t, s]);
+    }
+  }
+  if (!rows.length) return emptyState('search_off', '見つかりませんでした', '絞り込みの条件を変更してください。');
+  const order = Object.keys(DUE_B), dk = t => t.due || '9999';
+  rows.sort((x, y) => order.indexOf(dueBucket(x[0])) - order.indexOf(dueBucket(y[0])) || (dk(x[0]) < dk(y[0]) ? -1 : dk(x[0]) > dk(y[0]) ? 1 : 0) || (y[0].req - x[0].req) || (x[0].at - y[0].at));
+  let html = '';
+  for (const k of order) {
+    const g = rows.filter(([t]) => dueBucket(t) === k); if (!g.length) continue;
+    const head = `<div class="dgl dg-${k}">${ms(DUE_B[k][0])}<b>${DUE_B[k][1]}</b><span>${g.length}</span></div>`, cards = `<div class="tgrid stg">${g.map(([t, s]) => taskCard(t, s)).join('')}</div>`;
+    html += k === 'fin' ? `<details class="dgrp" ${ui.filter === 'done' || q ? 'open' : ''}><summary>${head}</summary>${cards}</details>` : `<section class="dgrp">${head}${cards}</section>`;
+  }
+  return html;
+}
+/* ---------- 更新履歴・更新内容の表示 ---------- */
+const CHANGELOG = [
+  { v: '9.4', t: '更新内容の表示と、更新履歴', n: ['アップデートのあとに、新しくなった点を表示します', '設定の「使い方とバージョン」から、更新履歴をいつでも見られます'] },
+  { v: '9.3', t: '考査がない時期の、提出日管理・勉強管理', n: ['考査の初日を空欄にすると、「ふだんの課題」として使えます', 'ホームに、次の提出日までの日数・今日や7日以内の期限・期限切れの件数を表示します', '期限が近い課題を、「期限切れ・今日・明日・7日以内」に分けて一覧にしました', '課題タブに「期限順」の表示を追加しました（教科をまたいで期限順に並びます）', '課題の追加で、「今日・明日・1週間後」などを押して期限を入れられます', 'ホームに、1週間の集中時間・ページ数・先週との差を出す「今週の勉強」を追加しました'] },
+  { v: '9.2', t: '下部タブバー、単語帳の整理、ホームのツール', n: ['設定から、iPadでも下部のタブバーにできます', '単語帳の下部を「AIで追加」と「バックアップ」の2つに整理しました', 'ホームに、よく使うツールを8つまで固定できます'] },
+  { v: '9.1', t: '写真からカードを作る機能を強化', n: ['写真を選ぶ前に、「表は過去分詞、裏は過去形」のように、カードの作り方を指定できます', '答えが空欄のプリントを、AIが解いてカードにできます（自信のない答えには「要確認」が付きます）'] },
+  { v: '9.0', t: '単語帳を大幅に強化', n: ['「英単語」「ことわざ」など、複数の単語帳を作って切り替えられます', 'カードをめくる動き、左右のスワイプで「覚えた」「まだ」を選ぶ操作を追加しました', '写真から、単語と意味を自動でカードにできます', '単語帳ごと、またはまとめて、書き出し・読み込みができます', '暗記クイズを、単語帳ごとに出題できます'] },
+  { v: '8.3', t: 'アップデートが反映されない問題を修正', n: ['更新したのに古い画面が残ることがあった問題を直しました', '更新画面に、うまくいかないときの「読み込み直し」を追加しました'] },
+  { v: '8.2', t: '書き出しで共有メニューを使えるように', n: ['単語帳・教科などの書き出しで、AirDropなどの共有メニューが開きやすくなりました'] },
+  { v: '8.1', t: '考査の点数をまとめて入力', n: ['テストが終わった教科の点数を、全教科まとめて入力できます', '点数がそろうと、考査を保存フォルダに移すか確認します'] },
+  { v: '8.0', t: 'AIをいろいろな機能に追加', n: ['ホームに、今日の進め方と1週間の計画を出すAIアドバイスを追加しました', '課題カードからAIに相談したり、文章から課題を登録したりできます', '教科の振り返りメモの下書き、単語帳のカード作成・覚え方ヒント、文章のチェックにもAIを使えます'] },
+  { v: '7.9', t: '表示の修正', n: ['左のバーの「あと◯日」の表示が、右側で切れる問題を直しました'] },
+  { v: '7.8', t: '「完了のみ」の課題に、体感の進み', n: ['ページ指定のない課題に、体感で何%終わったかを入れるスライダーを追加しました'] },
+  { v: '7.7', t: '終わった考査の保存フォルダ', n: ['「終了して保存」で、考査を教科・課題・成績ごと保存し、あとから見返せます', '単語帳のカードだけを、バックアップして別の端末に読み込めます'] },
+  { v: '7.6', t: 'ダブルタップの拡大防止、タブの並べ替え', n: ['同じボタンを2回押しても、画面が拡大しないようにしました', '設定から、タブの順番を変えたり、ツールをタブバーに置いたりできます'] },
+  { v: '7.5', t: 'ツールの入力欄を大きく', n: ['すべてのツールの入力欄・ボタンを、押しやすい大きさと、新しいデザインに統一しました'] },
+  { v: '7.4', t: '電卓を作り直し', n: ['Googleの電卓のように、計算の履歴・関数電卓・外付けキーボードに対応しました'] }
+];
+const verCmp = (a, b) => { const x = String(a).split('.').map(Number), y = String(b).split('.').map(Number); for (let i = 0; i < Math.max(x.length, y.length); i++) { const d = (x[i] || 0) - (y[i] || 0); if (d) return d; } return 0; };
+const clBlock = e => `<section class="clv"><div class="clh"><b>v${e.v}</b><span>${esc(e.t)}</span></div><ul>${e.n.map(x => `<li>${esc(x)}</li>`).join('')}</ul></section>`;
+function whatsNewDlg(last) {
+  const all = CHANGELOG.filter(e => verCmp(e.v, last) > 0 && verCmp(e.v, APP_VERSION) <= 0), list = all.slice(0, 4);
+  if (!list.length) return;
+  openDlg(`<h2>${ms('celebration')}更新しました<span class="vchip">v${APP_VERSION}</span></h2><p class="muted" style="margin:-8px 0 14px">${list.length > 1 ? '前回から、次の点が新しくなりました。' : '次の点が新しくなりました。'}</p><div class="cll">${list.map(clBlock).join('')}${all.length > list.length ? `<p class="muted" style="margin:6px 4px 0;font-size:.88rem">ほか${all.length - list.length}件の更新は、更新履歴で見られます。</p>` : ''}</div><div class="dact"><button type="button" class="btn text" data-act="chlog">${ms('history')}更新履歴をすべて見る</button><span class="sp"></span><button type="button" class="btn" data-act="close">${ms('check')}閉じる</button></div>`);
+}
+function historyDlg() {
+  openDlg(`<h2>${ms('history')}更新履歴<span class="vchip">v${APP_VERSION}</span></h2><div class="cll">${CHANGELOG.map((e, i) => `<details class="clv" ${i === 0 ? 'open' : ''}><summary><div class="clh"><b>v${e.v}</b><span>${esc(e.t)}</span></div></summary><ul>${e.n.map(x => `<li>${esc(x)}</li>`).join('')}</ul></details>`).join('')}</div><div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">${ms('check')}閉じる</button></div>`);
+}
 /* ---------- ホーム ---------- */
 function examCount(ex) {
   const d = daysLeft(ex);
@@ -1622,10 +1738,10 @@ function viewHome() {
   if (!subs.length) return h + homeTools() + emptyHome();
   const all = examTasks(), A = agg(all), R = agg(all.filter(t => t.req)), sc = agg(scoped(all));
   const segs = subs.map(s => ({ v: agg(scoped(tasksOfSub(s.id))).done, color: hc(s.hue) }));
-  const cnt = examCount(ex), size = innerWidth < 620 ? 168 : 200;
+  const dly = !ex.date, DS = dly ? dueStats() : null, cnt = dly ? dailyCount() : examCount(ex), size = innerWidth < 620 ? 168 : 200;
   h += `<section class="hero"><svg class="deco" viewBox="-50 -50 100 100" aria-hidden="true"><path d="${pathOf(SHAPES[1], 44)}"/></svg>
-    <div><div class="ex">${ms('school', '', 'font-size:22px')}${esc(ex.name)}</div><div class="count">${cnt.big}</div><div class="dt">${cnt.dt}</div>
-    <div class="tiles"><div class="tile"><div class="v">${cu(R.rem)}<small>p</small></div><div class="k">必須の残り</div></div><div class="tile"><div class="v">${cu(A.rem)}<small>p</small></div><div class="k">全体の残り</div></div><div class="tile"><div class="v">${cu(A.nd)}<small>/ ${A.n}冊</small></div><div class="k">完了した課題</div></div></div>
+    <div><div class="ex">${ms(dly ? 'event_available' : 'school', '', 'font-size:22px')}${dly ? '提出日の管理' : esc(ex.name)}</div><div class="count">${cnt.big}</div><div class="dt">${cnt.dt}</div>
+    ${dly ? dailyTiles(DS) : `<div class="tiles"><div class="tile"><div class="v">${cu(R.rem)}<small>p</small></div><div class="k">必須の残り</div></div><div class="tile"><div class="v">${cu(A.rem)}<small>p</small></div><div class="k">全体の残り</div></div><div class="tile"><div class="v">${cu(A.nd)}<small>/ ${A.n}冊</small></div><div class="k">完了した課題</div></div></div>`}
     <div class="seg" role="group" aria-label="集計の対象"><button class="${S.set.scope === 'all' ? 'on' : ''}" data-act="scope" data-id="all">すべて</button><button class="${S.set.scope === 'req' ? 'on' : ''}" data-act="scope" data-id="req">必須のみ</button></div></div>
     ${donut({ key: 'hero', size, stroke: Math.round(size * .105), segs, total: sc.total, center: pcCenter(sc), sub: S.set.scope === 'req' ? '必須の達成率' : '全体の達成率' })}</section>`;
   h += homeTools();
@@ -1638,7 +1754,7 @@ function viewHome() {
   else { target = plan.reduce((a, i) => a + i.amt, 0); doneN = plan.reduce((a, i) => a + Math.min(i.doneToday, i.amt), 0); }
   const left = daysLeft(ex);
   h += `<div class="h-sec"><h2>${ms('today')}今日のプラン</h2><span class="sp"></span><button class="btn tonal xs" data-act="focus">${ms('timer')}集中する</button></div><div class="plan">
-    <div class="plan-h"><div><div class="sub">${S.set.goalMode === 'manual' ? '今日の目標' : '今日のノルマ'}</div><div class="big">${doneN}<small>/ ${target} ページ</small></div></div>${wave(target ? doneN / target : 1, 'tp')}<div class="sub" style="flex:1 1 100%">${target && doneN >= target ? '本日の計画を達成しました' : `集中 ${lg.m}分${left !== null && left >= 0 ? `　考査まで${left}日` : ''}`}</div></div>`;
+    <div class="plan-h"><div><div class="sub">${S.set.goalMode === 'manual' ? '今日の目標' : '今日のノルマ'}</div><div class="big">${doneN}<small>/ ${target} ページ</small></div></div>${wave(target ? doneN / target : 1, 'tp')}<div class="sub" style="flex:1 1 100%">${target && doneN >= target ? '本日の計画を達成しました' : `集中 ${lg.m}分${left !== null && left >= 0 ? `　考査まで${left}日` : (DS && DS.next ? `　次の提出まで${Math.max(0, daysBetween(today(), DS.next.due))}日` : '')}`}</div></div>`;
   if (plan.length) {
     h += `<div class="stg" style="display:grid;gap:10px">${plan.map(it => {
       const ok = it.doneToday >= it.amt;
@@ -1648,14 +1764,19 @@ function viewHome() {
   } else h += `<div class="card muted" style="text-align:center;font-weight:500">今日のぶんの計画はありません。課題カードの ${ms('star', '', 'font-size:18px;vertical-align:-4px')} で「今日やる」を選べます</div>`;
   h += `</div></div>`;
 
-  const due = all.filter(t => (t.subreq ? !t.submitted : !isDone(t)) && t.due).sort((a, b) => a.due < b.due ? -1 : a.due > b.due ? 1 : (b.req - a.req)).slice(0, 4);
+  const dts = dueTasks(), dn = dly ? 6 : 4, due = dts.slice(0, dn);
   h += `<div class="hcol">`;
   if (due.length) {
-    h += `<div class="h-sec"><h2>${ms('event_upcoming')}期限が近い課題</h2></div><div class="dl stg">`;
-    for (const t of due) { const s = SUB(t.sid); h += `<button class="dli sc ${daysBetween(today(), t.due) <= 3 && (t.subreq || !isDone(t)) ? 'urgent' : ''}" style="--sh:${s.hue}" data-act="edittask" data-id="${t.id}">${avatar(s, 42)}<div class="t"><div>${esc(t.title)}</div><div>${esc(s.name)} ・ ${isDone(t) ? '完了済み・未提出' : t.kind === 'chk' ? '未完了' : '残り ' + (t.total - t.done) + (t.kind === 'list' ? '項目' : 'p')}${t.dest ? ' ・ 提出先 ' + esc(t.dest) : ''}</div></div>${dueTag(t)}${t.subreq ? `<span class="dsub" data-act="submit" data-id="${t.id}">${ms('outbox')}提出済み</span>` : ''}</button>`; }
+    h += `<div class="h-sec"><h2>${ms('event_upcoming')}${dly ? '提出スケジュール' : '期限が近い課題'}</h2>${dly || dts.length > dn ? `<span class="sp"></span><button class="btn tonal xs" data-act="duelist">${ms('list')}すべて見る</button>` : ''}</div><div class="dl stg">`;
+    let lastB = '';
+    for (const t of due) {
+      if (dly) { const bk = dueBucket(t); if (bk !== lastB) { lastB = bk; h += `<div class="dgl dg-${bk}">${ms(DUE_B[bk][0])}<b>${DUE_B[bk][1]}</b></div>`; } }
+      h += dliHtml(t);
+    }
     h += `</div>`;
-  } else h += `<div class="h-sec"><h2>${ms('event_upcoming')}期限が近い課題</h2></div><div class="card muted" style="text-align:center;font-weight:500">期限が設定された課題はありません</div>`;
+  } else h += `<div class="h-sec"><h2>${ms('event_upcoming')}${dly ? '提出スケジュール' : '期限が近い課題'}</h2></div><div class="card muted" style="text-align:center;font-weight:500;line-height:1.8">期限が設定された課題はありません${dly ? '<br>課題に提出期限を入れると、ここで提出日を管理できます' : ''}</div>`;
   h += `</div></div>`;
+  h += weekCard();
   h += aiTodayCard();
 
   // 教科
@@ -1682,11 +1803,13 @@ function viewTasks() {
   const subs = subjects();
   if (!subs.length) return emptyHome();
   const F = [['all', 'すべて'], ['pin', '今日やる'], ['req', '必須'], ['opt', '任意'], ['todo', '未完了'], ['done', '完了']];
+  const tv = tview();
   return ov() + `<div class="toolbar">
+    <div class="seg tv" role="group" aria-label="表示の切り替え"><button class="${tv === 'subj' ? 'on' : ''}" data-act="tview" data-id="subj">${ms('menu_book')}教科別</button><button class="${tv === 'due' ? 'on' : ''}" data-act="tview" data-id="due">${ms('event_upcoming')}期限順</button></div>
     <div class="search">${ms('search')}<input id="q" type="search" placeholder="課題名・メモで検索" value="${esc(ui.q)}" enterkeyhint="search"></div>
     <div class="chips scroll">${F.map(([id, l]) => `<button class="chip ${ui.filter === id ? 'on' : ''}" data-act="filter" data-id="${id}">${id === 'pin' ? ms('star', 'f') : ''}${l}</button>`).join('')}</div>
     <div class="chips scroll"><button class="chip ${!ui.sid ? 'on' : ''}" data-act="sid" data-id="">全教科</button>${subs.map(s => `<button class="chip sc ${ui.sid === s.id ? 'on' : ''}" style="--sh:${s.hue}" data-act="sid" data-id="${s.id}">${ms(s.icon)}${esc(s.name)}</button>`).join('')}</div>
-    <div class="tbar"><label class="muted" for="sort" style="font-weight:600;font-size:.8rem">並び順</label><select id="sort">${[['due', '期限が近い順'], ['rem', '残りが多い順'], ['req', '必須を先に'], ['new', '登録順']].map(([v, l]) => `<option value="${v}" ${ui.sort === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
+    <div class="tbar" ${tv === 'due' ? 'hidden' : ''}><label class="muted" for="sort" style="font-weight:600;font-size:.8rem">並び順</label><select id="sort">${[['due', '期限が近い順'], ['rem', '残りが多い順'], ['req', '必須を先に'], ['new', '登録順']].map(([v, l]) => `<option value="${v}" ${ui.sort === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
   </div><div id="tl">${taskList()}</div>`;
 }
 function cmp(a, b) {
@@ -1699,6 +1822,7 @@ function cmp(a, b) {
   return a.at - b.at;
 }
 function taskList() {
+  if (tview() === 'due') return dueListView();
   const q = ui.q.trim().toLowerCase(), filtering = ui.filter !== 'all' || !!q;
   let html = '', any = false;
   for (const s of subjects()) {
@@ -1858,7 +1982,7 @@ function navSettings() {
 function viewSettings() {
   const st = S.set;
   return `<div class="h-sec" style="margin-top:4px"><h2>${ms('school')}考査</h2><span class="sp"></span>${pastExams().length ? `<button class="btn tonal xs" data-act="pastlist">${ms('inventory_2')}保存した考査 ${pastExams().length}</button>` : ''}<button class="btn tonal xs" data-act="addexam">${ms('add')}考査</button></div>
-  <div class="slist stg">${activeExams().map(e => { const d = e.date ? daysBetween(today(), e.date) : null; return `<div class="srow"><button class="radio ${e.id === S.cur ? 'on' : ''}" data-act="exam" data-id="${e.id}" aria-label="${esc(e.name)}を表示">${ms('check')}</button><div class="t">${esc(e.name)}<small>${e.date ? fmtDate(e.date) + (d >= 0 ? `（あと${d}日）` : '（終了）') : '日付は未設定'} ・ 教科 ${S.subjects.filter(s => s.ex === e.id).length}</small></div><button class="ibtn" data-act="arcexam" data-id="${e.id}" aria-label="${esc(e.name)}を終了して保存">${ms('inventory_2')}</button><button class="ibtn" data-act="editexam" data-id="${e.id}" aria-label="編集">${ms('edit')}</button></div>`; }).join('')}</div>
+  <div class="slist stg">${activeExams().map(e => { const d = e.date ? daysBetween(today(), e.date) : null; return `<div class="srow"><button class="radio ${e.id === S.cur ? 'on' : ''}" data-act="exam" data-id="${e.id}" aria-label="${esc(e.name)}を表示">${ms('check')}</button><div class="t">${esc(e.name)}<small>${e.date ? fmtDate(e.date) + (d >= 0 ? `（あと${d}日）` : '（終了）') : '考査日なし（ふだんの課題として使用中）'} ・ 教科 ${S.subjects.filter(s => s.ex === e.id).length}</small></div><button class="ibtn" data-act="arcexam" data-id="${e.id}" aria-label="${esc(e.name)}を終了して保存">${ms('inventory_2')}</button><button class="ibtn" data-act="editexam" data-id="${e.id}" aria-label="編集">${ms('edit')}</button></div>`; }).join('')}</div>
   ${pastExams().length ? `<div class="h-sec"><h2>${ms('inventory_2')}保存した考査</h2></div><div class="slist stg">${pastExams().map(e => `<div class="srow"><span class="nvi">${ms('inventory_2')}</span><div class="t">${esc(e.name)}<small>${examSub(e)}</small></div><button class="ibtn" data-act="pastopen" data-id="${e.id}" aria-label="${esc(e.name)}を開く">${ms('visibility')}</button><button class="ibtn" data-act="pastrestore" data-id="${e.id}" aria-label="進行中に戻す">${ms('unarchive')}</button><button class="ibtn" data-act="editexam" data-id="${e.id}" aria-label="編集">${ms('edit')}</button></div>`).join('')}</div>` : ''}
 
   <div class="h-sec"><h2>${ms('menu_book')}教科</h2><span class="sp"></span><button class="btn tonal xs" data-act="preset">まとめて追加</button><button class="btn tonal xs" data-act="addsubj">${ms('add')}教科</button></div>
@@ -1880,7 +2004,7 @@ function viewSettings() {
   <div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>
   ${navSettings()}
 
-  <div class="h-sec"><h2>${ms('help')}使い方とバージョン</h2></div><div class="card"><div class="setrow" style="padding:0 0 14px"><span class="t">バージョン<small>v${APP_VERSION}</small></span></div><button class="btn tonal" data-act="guide">${ms('help')}使い方を見る</button></div>
+  <div class="h-sec"><h2>${ms('help')}使い方とバージョン</h2></div><div class="card"><div class="setrow" style="padding:0 0 14px"><span class="t">バージョン<small>v${APP_VERSION}</small></span></div><div class="chips"><button class="btn tonal" data-act="guide">${ms('help')}使い方を見る</button><button class="btn tonal" data-act="chlog">${ms('history')}更新履歴</button></div></div>
 
   <div class="h-sec"><h2>${ms('system_update')}アプリのアップデート</h2></div>${updCard()}
 
@@ -1915,7 +2039,7 @@ function taskDlg(id, sid, dueDef) {
     <div class="fld"><label for="cu">現在のページ（ここまで終わった）</label><input id="cu" name="cur" type="number" inputmode="numeric" min="0" max="9999" value="${t.done ? pageOf(t, t.done) : ''}" placeholder="未着手は空欄"></div>
     <div class="pv" id="pv"></div></div>
     <div id="lsf" hidden><div class="lbl">チェックリスト</div><div id="cls">${(t.items && t.items.length ? t.items : [{ text: '', done: false }]).map(clRow).join('')}</div><button type="button" class="btn text" data-act="addcl">${ms('add')}項目を追加</button></div>
-    <div class="fld"><label for="du">提出期限</label><input id="du" name="due" type="date" value="${esc(t.due)}"></div>
+    <div class="fld"><label for="du">提出期限</label><input id="du" name="due" type="date" value="${esc(t.due)}"><div class="wp-ex" id="duq">${[['0', '今日'], ['1', '明日'], ['3', '3日後'], ['7', '1週間後'], ['mon', '来週の月曜'], ['', '期限なし']].map(([v, l]) => `<button type="button" class="tchip" data-act="dueq" data-id="${v}">${l}</button>`).join('')}</div></div>
     <label class="setrow" style="padding:6px 0 14px"><span class="t">提出が必要な課題<small>提出済みの記録と、期限が近いときの警告が使えます</small></span><span class="sw2"><input type="checkbox" name="subreq" ${(id ? t.subreq : true) ? 'checked' : ''}><span class="tr"><span class="th">${ms('close')}${ms('check')}</span></span></span></label>
     <div class="fld"><label for="dest">提出先</label><input id="dest" name="dest" type="text" maxlength="30" value="${esc(t.dest || '')}" placeholder="例：数学の先生・Classroom・提出箱"></div>
     <div class="fld"><label for="no">メモ</label><textarea id="no" name="note" maxlength="300" placeholder="範囲・提出先・先生の指示など">${esc(t.note)}</textarea></div>
@@ -2070,7 +2194,7 @@ function examDlg(id, fresh) {
   openDlg(`<h2>${fresh ? '次の考査を追加' : id ? '考査を編集' : '考査を追加'}</h2>
   <form id="f" autocomplete="off">
     <div class="fld"><label for="en">考査の名前</label><input id="en" name="name" type="text" value="${fresh ? '' : esc(e.name)}" maxlength="20" placeholder="例：2学期中間考査" ${id && !fresh ? '' : 'autofocus'}></div>
-    <div class="fld"><label for="ed">考査の初日（なくてもOK）</label><input id="ed" name="date" type="date" value="${esc(e.date)}"></div>
+    <div class="fld"><label for="ed">考査の初日（なくてもOK）</label><input id="ed" name="date" type="date" value="${esc(e.date)}"><p class="muted" style="margin:8px 4px 0;font-size:.88rem;line-height:1.6">日付を入れないと、考査のない時期の「ふだんの課題・提出日の管理」として使えます。</p></div>
     <div class="err" id="err"></div>
     ${id && !e.arc ? `<button type="button" class="btn tonal" style="width:100%;margin-bottom:12px" data-act="arcexam" data-id="${id}">${ms('inventory_2')}この考査を終了して保存</button>` : ''}${id && e.arc ? `<button type="button" class="btn tonal" style="width:100%;margin-bottom:12px" data-act="pastrestore" data-id="${id}">${ms('unarchive')}進行中に戻す</button>` : ''}
     <div class="dact">${id && S.exams.length > 1 ? `<button type="button" class="btn text danger" data-act="delexam" data-id="${id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}保存</button></div>
@@ -2467,6 +2591,15 @@ const ACT = {
     const r = await aiRun({ system: 'あなたは、日本の中学生の文章を見る国語の先生です。やさしく前向きな言葉で、です・ます調で書きます。', prompt: `次の文章を読んで、コメントを書いてください。\n- 誤字脱字や、おかしな言い回しがあれば、場所を示して直し方を伝える\n- 読みやすさや、構成のアドバイスを1〜2点\n- 内容で足りないところがあれば、1点\n- よいところも1つ伝える\n3〜5個の短い箇条書きで、全体で300字ほどにしてください。文章を書き直した全文や、模範解答は書かないでください。\n\n${txt.slice(0, 2000)}` });
     WCV.busy = false; if (r) WCV.ai = r; toolsRefresh();
   },
+  tview(id) { ui.tview = id === 'due' ? 'due' : 'subj'; try { localStorage.setItem('kosa-tview', ui.tview); } catch (e) { } render(); },
+  duelist() { ui.tview = 'due'; ui.filter = 'all'; ui.sid = ''; ui.q = ''; ACT.tab('tasks'); },
+  dueq(id) {
+    const el = $('#du'); if (!el) return; if (id === '') { el.value = ''; return; }
+    const d = new Date(); d.setHours(0, 0, 0, 0);
+    if (id === 'mon') d.setDate(d.getDate() + (((8 - d.getDay()) % 7) || 7)); else d.setDate(d.getDate() + (+id));
+    el.value = ymd(d);
+  },
+  chlog() { historyDlg(); },
   subjup(id) { moveSubj(id, -1); }, subjdown(id) { moveSubj(id, 1); },
   theme(id) { S.set.theme = id; applyTheme(); commit(); },
   navpos(id) { S.set.navPos = id === 'bottom' ? 'bottom' : 'auto'; applyTheme(); commit(); },
@@ -2992,7 +3125,7 @@ const aiCount = () => { try { localStorage.setItem('kosa-ai-use', JSON.stringify
 function aiContext() {
   const ex = curExam(), dl = ex && ex.date ? daysLeft(ex) : null;
   const lines = examTasks().filter(k => !isDone(k)).slice(0, 15).map(k => { const s = SUB(k.sid); return `- ${s ? s.name : ''}：${k.title}（${pct(progOf(k))}%完了${k.due ? '、期限' + k.due : ''}）`; });
-  return (ex ? `考査：${ex.name}${dl !== null && dl >= 0 ? `（あと${dl}日）` : ''}\n` : '') + (lines.length ? `未完了の課題：\n${lines.join('\n')}` : '未完了の課題はありません。');
+  return (ex ? (ex.date ? `考査：${ex.name}${dl !== null && dl >= 0 ? `（あと${dl}日）` : ''}\n` : `考査はありません（ふだんの課題・提出日の管理）\n`) : '') + (lines.length ? `未完了の課題：\n${lines.join('\n')}` : '未完了の課題はありません。');
 }
 async function aiStart() {
   if (!CLOUD.fb) throw new Error('nofb');
@@ -4189,6 +4322,11 @@ if (document.fonts && document.fonts.load) {
 } else document.documentElement.classList.add('msr');
 applyTheme(); checkBadges(true); tmReset('focus'); renderFab(); render(); splash(); renderAcct(); cloudInit();
 try { if (!localStorage.getItem('kosa-guide-seen')) setTimeout(() => { if (!dlg.open) guideDlg(); }, 900); } catch (e) { }
+// アップデートのあと最初に開いたとき、新しくなった点を表示する（初めて使うときは表示しない）
+try {
+  const seen = localStorage.getItem('kosa-seen-ver'), gs = localStorage.getItem('kosa-guide-seen'), last = seen || (gs && /^\d+(\.\d+)*$/.test(gs) ? gs : null);
+  if (seen !== APP_VERSION) { localStorage.setItem('kosa-seen-ver', APP_VERSION); if (last && verCmp(APP_VERSION, last) > 0) setTimeout(() => { if (!dlg.open) whatsNewDlg(last); }, 1100); }
+} catch (e) { }
 </script>
 </body>
 </html>
