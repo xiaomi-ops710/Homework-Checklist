@@ -1337,6 +1337,20 @@ details.clv summary{display:flex;align-items:center;justify-content:space-betwee
 .sub-pk{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:18px;background:var(--s2);margin-bottom:8px}
 .sub-pk input{width:22px;height:22px;accent-color:var(--primary);flex:none}.sub-pk span{flex:1;font-weight:600}.sub-pk small{color:var(--on-v)}
 .sub-sent{display:flex;align-items:center;gap:10px;padding:6px 4px}.sub-sent span{flex:1;display:grid;min-width:0}.sub-sent b{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em}.sub-sent small{color:var(--on-v)}
+
+/* 元素ラボ：加熱する装置 */
+.lab-stage{display:grid;grid-template-columns:minmax(0,1fr) 176px;gap:12px;align-items:stretch}
+.lab-stage .lab-field{transition:box-shadow .5s}
+.lab-stage.hot .lab-field{box-shadow:inset 0 0 70px #ff6d0038}
+.lab-dev{background:var(--s1);border-radius:28px;padding:14px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center;transition:box-shadow .4s}
+.lab-dev.on{box-shadow:0 0 0 2px #ff9100 inset,0 0 26px #ff910040}
+.lab-devt{display:grid;gap:2px}.lab-devt small{color:var(--on-v)}
+.lab-dev .flame{opacity:0;transform-origin:50px 56px;transition:opacity .3s}
+.lab-dev.on .flame{opacity:1;animation:labflk .45s ease-in-out infinite alternate}
+@keyframes labflk{from{transform:scale(.94,.9) skewX(-3deg)}to{transform:scale(1.04,1.08) skewX(3deg)}}
+.lab-fire{height:48px;padding:0 18px}
+@media(max-width:760px){.lab-stage{grid-template-columns:1fr}.lab-dev{flex-direction:row;justify-content:flex-start;padding:10px 16px;gap:12px;text-align:left}.lab-dev svg{width:56px;height:74px;flex:none}.lab-devt{flex:1}}
+@media(prefers-reduced-motion:reduce){.lab-dev.on .flame{animation:none}}
 </style>
 </head>
 <body>
@@ -1361,7 +1375,7 @@ details.clv summary{display:flex;align-items:center;justify-content:space-betwee
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '9.9';
+const APP_VERSION = '10.0';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1842,6 +1856,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '10.0', t: '元素ラボに加熱装置。バックアップのページ', n: ['元素ラボの実験場の横に、加熱する装置（アルコールランプ）を追加しました。火をつけると、加熱や点火が必要な反応を起こせます', '設定のバックアップ関連の項目を、専用の「バックアップと共有」ページにまとめました'] },
   { v: '9.9', t: '共有コードを数字に。教科と課題も、コードで送れます', n: ['共有コードを、数字9けた（例：123-456-789）に変えました', '教科と課題も、コードで送れるようになりました。「設定」の「教科をコードで送る」「コードで受け取る」から使います', '「コードで受け取る」は、単語帳にも教科と課題にも使えます'] },
   { v: '9.8', t: '単語帳を、コードで共有', n: ['単語帳を、コードで共有できるようになりました。ファイルを送らなくても、ほかの端末や友だちに、同じ単語帳を渡せます', '共有するにはGoogleログインが必要です。受け取るだけなら、ログインなしでも使えます', '「共有・バックアップ」から、「コードで共有する」「コードで受け取る」を選びます'] },
   { v: '9.7', t: '元素ラボに、AIへの質問と「くっつける」ボタン', n: ['物質を選び終わってから「くっつける」ボタンを押して、反応を見る方法に変えました（選んだだけでは、反応しません）', '元素ラボで、AIに「どうなるか」や、反応のしくみについて質問できるようになりました'] },
@@ -2146,6 +2161,7 @@ function navSettings() {
 }
 function viewSettings() {
   const st = S.set;
+  if (ui.setPage === 'backup') return backupPage();
   return `<div class="h-sec" style="margin-top:4px"><h2>${ms('school')}考査</h2><span class="sp"></span>${pastExams().length ? `<button class="btn tonal xs" data-act="pastlist">${ms('inventory_2')}保存した考査 ${pastExams().length}</button>` : ''}<button class="btn tonal xs" data-act="addexam">${ms('add')}考査</button></div>
   <div class="slist stg">${activeExams().map(e => { const d = e.date ? daysBetween(today(), e.date) : null; return `<div class="srow"><button class="radio ${e.id === S.cur ? 'on' : ''}" data-act="exam" data-id="${e.id}" aria-label="${esc(e.name)}を表示">${ms('check')}</button><div class="t">${esc(e.name)}<small>${e.date ? fmtDate(e.date) + (d >= 0 ? `（あと${d}日）` : '（終了）') : '考査日なし（ふだんの課題として使用中）'} ・ 教科 ${S.subjects.filter(s => s.ex === e.id).length}</small></div><button class="ibtn" data-act="arcexam" data-id="${e.id}" aria-label="${esc(e.name)}を終了して保存">${ms('inventory_2')}</button><button class="ibtn" data-act="editexam" data-id="${e.id}" aria-label="編集">${ms('edit')}</button></div>`; }).join('')}</div>
   ${pastExams().length ? `<div class="h-sec"><h2>${ms('inventory_2')}保存した考査</h2></div><div class="slist stg">${pastExams().map(e => `<div class="srow"><span class="nvi">${ms('inventory_2')}</span><div class="t">${esc(e.name)}<small>${examSub(e)}</small></div><button class="ibtn" data-act="pastopen" data-id="${e.id}" aria-label="${esc(e.name)}を開く">${ms('visibility')}</button><button class="ibtn" data-act="pastrestore" data-id="${e.id}" aria-label="進行中に戻す">${ms('unarchive')}</button><button class="ibtn" data-act="editexam" data-id="${e.id}" aria-label="編集">${ms('edit')}</button></div>`).join('')}</div>` : ''}
@@ -2177,8 +2193,27 @@ function viewSettings() {
 
   <div class="h-sec"><h2>${ms('database')}データ</h2></div>
   <div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">データはこのiPad内にのみ保存されます。機種変更や万一に備えて、定期的にバックアップしてください。${st.lastBackup ? `<br>最後のバックアップ：${new Date(st.lastBackup).toLocaleDateString('ja-JP')}` : ''}</p>
-  <div class="chips"><button class="btn tonal" data-act="export">${ms('download')}バックアップ</button><button class="btn tonal" data-act="import">${ms('upload')}復元する</button><button class="btn tonal" data-act="expsub">${ms('ios_share')}教科を書き出す</button><button class="btn tonal" data-act="impsub">${ms('library_add')}教科を読み込む</button><button class="btn tonal" data-act="subshare">${ms('send')}教科をコードで送る</button><button class="btn tonal" data-act="wcrecv">${ms('key')}コードで受け取る</button><button class="btn tonal" data-act="csv">${ms('table_view')}CSVで書き出す</button><button class="btn outlined danger" data-act="reset">${ms('delete')}すべて削除</button></div></div>
+  <div class="chips"><button class="btn tonal" data-act="bkopen">${ms('backup')}バックアップと共有を開く${ms('chevron_right')}</button></div></div>
   <p class="about">考査課題マネージャー v3.0</p>`;
+}
+
+function backupPage() {
+  const st = S.set;
+  return `<div class="h-sec" style="margin-top:4px"><button class="ibtn" data-act="bkclose" aria-label="設定にもどる">${ms('arrow_back')}</button><h2>バックアップと共有</h2></div>
+  <div class="h-sec"><h2>${ms('backup')}アプリ全体のバックアップ</h2></div>
+  <div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">課題・成績・記録・単語帳など、すべてのデータをファイルに保存します。機種変更や万一に備えて、定期的に保存してください。${st.lastBackup ? `<br>最後のバックアップ：${new Date(st.lastBackup).toLocaleDateString('ja-JP')}` : ''}</p>
+  <div class="chips"><button class="btn tonal" data-act="export">${ms('download')}バックアップを保存</button><button class="btn tonal" data-act="import">${ms('upload')}ファイルから復元</button></div></div>
+  <div class="h-sec"><h2>${ms('menu_book')}教科と課題</h2></div>
+  <div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">いま開いている考査の教科と課題を、ファイルやコードで、ほかの端末や友だちに渡せます。進み具合は含まれません。</p>
+  <div class="chips"><button class="btn tonal" data-act="expsub">${ms('ios_share')}ファイルに書き出す</button><button class="btn tonal" data-act="impsub">${ms('library_add')}ファイルを読み込む</button><button class="btn tonal" data-act="subshare">${ms('send')}コードで送る</button><button class="btn tonal" data-act="wcrecv">${ms('key')}コードで受け取る</button></div></div>
+  <div class="h-sec"><h2>${ms('style')}単語帳</h2></div>
+  <div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">単語帳の書き出し・読み込み・コード共有は、ツールの「単語帳」にある「共有・バックアップ」から行います。「コードで受け取る」は、単語帳のコードにも使えます。</p>
+  <div class="chips"><button class="btn tonal" data-act="tab" data-id="tool:card">${ms('style')}単語帳を開く</button></div></div>
+  <div class="h-sec"><h2>${ms('table_view')}そのほか</h2></div>
+  <div class="card"><div class="chips"><button class="btn tonal" data-act="csv">${ms('table_view')}CSVで書き出す</button></div></div>
+  <div class="h-sec"><h2>${ms('warning')}注意が必要な操作</h2></div>
+  <div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">このアプリのデータを、すべて消します。必要なら、先にバックアップを保存してください。</p>
+  <div class="chips"><button class="btn outlined danger" data-act="reset">${ms('delete')}すべて削除</button></div></div>`;
 }
 
 /* ====================== ダイアログ ====================== */
@@ -2616,8 +2651,10 @@ const ACT = {
     else if (id === 'tools') { if (ui.tab === 'tools' || navPinned().includes(ui.tool)) ui.tool = ''; }
     ui.dir = id === from ? -1 : (ord.indexOf(id) >= ord.indexOf(from) ? 1 : -1);
     if (tid) { ui.tab = 'tools'; ui.tool = tid; ui.vin = true; } else ui.tab = id;
-    ui.anim = true; ui.fab = false; renderFab(); render(); window.scrollTo(0, 0);
+    ui.anim = true; ui.fab = false; ui.setPage = ''; renderFab(); render(); window.scrollTo(0, 0);
   },
+  bkopen() { ui.setPage = 'backup'; ui.anim = true; render(); window.scrollTo(0, 0); },
+  bkclose() { ui.setPage = ''; ui.anim = true; render(); window.scrollTo(0, 0); },
   navup(id) { moveNav(id, -1); }, navdown(id) { moveNav(id, 1); },
   navadd(id) { const l = navList(); if (navPinned().length >= NAV_MAXTOOLS || l.includes('tool:' + id)) return; l.push('tool:' + id); S.set.nav = l; commit(); },
   navdel(id) { S.set.nav = navList().filter(x => x !== id); commit(); },
@@ -2937,7 +2974,8 @@ const ACT = {
   labaigo() { const el = $('#labaq'), q = el && el.value.trim(); if (!q) return toast('質問を入力してください'); el.value = ''; el.blur(); labAiAsk(q); },
   labclear() { if (LAB.busy) return; LAB.blobs = []; LAB.sel = 0; LAB.last = null; labPaint(); },
   labdel() { if (LAB.busy) return; LAB.blobs = LAB.blobs.filter(b => b.id !== LAB.sel); LAB.sel = 0; labPaint(); },
-  labdec(id) { const b = LAB.blobs.find(x => x.id === LAB.sel), d = b && DXL.find(x => x.k === b.k && x.m === id); if (d) labDecomp(b, d); },
+  labdec(id) { const b = LAB.blobs.find(x => x.id === LAB.sel), d = b && DXL.find(x => x.k === b.k && x.m === id); if (!d) return; if (d.m === 'heat' && !LAB.heat) return toast('加熱する装置に、火をつけてください'); labDecomp(b, d); },
+  labheat() { LAB.heat = !LAB.heat; labDevSync(); put('laba', labActs()); if (LAB.last && LAB.last.need && LAB.heat) { LAB.last = null; put('labres', labResHtml()); } },
   labreplay(id) {
     if (LAB.busy) return; LAB.blobs = []; LAB.sel = 0;
     if (id.startsWith('dec:')) { const [, k, m] = id.split(':'), d = DXL.find(x => x.k === k && x.m === m); if (!d) return; const b = labAdd(k, 50, 52); labPaint(); setTimeout(() => labDecomp(b, d), 350); }
@@ -4377,9 +4415,22 @@ const DXL = [
 const rxId = r => [r.a, r.b].sort().join('+'), dxId = d => 'dec:' + d.k + ':' + d.m;
 const RXMAP = {}; RXL.forEach(r => { RXMAP[rxId(r)] = r; });
 const LAB_IDS = new Set([...RXL.map(rxId), ...DXL.map(dxId)]);
-const LAB = { blobs: [], sel: 0, busy: false, last: null, n: 0, found: new Set() };
+const LAB = { blobs: [], sel: 0, busy: false, last: null, n: 0, found: new Set(), heat: false };
 try { JSON.parse(localStorage.getItem('kosa-lab-found') || '[]').forEach(x => LAB.found.add(x)); } catch (e) { }
 const labSaveFound = () => { try { localStorage.setItem('kosa-lab-found', JSON.stringify([...LAB.found])); } catch (e) { } };
+const LAB_HEAT = new Set([['H', 'O'], ['C', 'O'], ['Mg', 'O'], ['Fe', 'O'], ['Cu', 'O'], ['Fe', 'S'], ['Cu', 'S'], ['S', 'Zn'], ['O', 'S'], ['O', 'P'], ['O', 'Zn'], ['Ca', 'Cl'], ['H', 'S'], ['C', 'CuO'], ['CuO', 'H'], ['CO2', 'Mg'], ['H', 'N'], ['N', 'O'], ['O', 'Si']].map(p => p.slice().sort().join('+')));
+function labDevHtml() {
+  return `<div class="lab-dev ${LAB.heat ? 'on' : ''}" id="labdev"><svg viewBox="0 0 100 130" width="84" height="110" aria-hidden="true"><g class="flame"><path d="M50 6C60 22 69 33 63 50C60 57 40 57 37 50C31 33 43 22 50 6Z" fill="#ff9100"/><path d="M50 26C56 36 58 42 54 50C52 54 46 54 46 50C42 42 48 36 50 26Z" fill="#ffe082"/></g><rect x="47" y="50" width="6" height="14" rx="2" fill="#6d4c41"/><path d="M38 64h24l4 8H34z" fill="#90a4ae"/><path d="M32 72h36C88 80 92 108 84 118C80 124 20 124 16 118C8 108 12 80 32 72Z" fill="rgba(120,190,255,.3)" stroke="#78909c" stroke-width="3"/><path d="M20 108C30 114 70 114 80 108C80 114 76 120 70 120H30C24 120 20 114 20 108Z" fill="#4fc3f7" opacity=".55"/></svg>
+  <div class="lab-devt"><b>加熱する装置</b><small id="labdevt">${LAB.heat ? '火がついています' : '火は消えています'}</small></div>
+  <button type="button" class="btn ${LAB.heat ? 'tonal' : ''} lab-fire" id="labfire" data-act="labheat">${LAB.heat ? `${ms('block')}火を消す` : `${ms('local_fire_department')}火をつける`}</button></div>`;
+}
+function labDevSync() {
+  const st = $('#labst'), d = $('#labdev'); if (!st || !d) return;
+  st.classList.toggle('hot', !!LAB.heat); d.classList.toggle('on', !!LAB.heat);
+  const t = $('#labdevt'), b = $('#labfire');
+  if (t) t.textContent = LAB.heat ? '火がついています' : '火は消えています';
+  if (b) { b.className = 'btn lab-fire' + (LAB.heat ? ' tonal' : ''); b.innerHTML = LAB.heat ? `${ms('block')}火を消す` : `${ms('local_fire_department')}火をつける`; }
+}
 const labItem = k => LI[k] || ['?', k, 'p', 180, 18];
 const FK = { H2: 'H', O2: 'O', N2: 'N', Cl2: 'Cl', 'Ca(OH)2': 'CaOH2' };
 function labKeyFor(f, nm) { const k = FK[f] || f; if (LI[k]) return k; const kk = 'p:' + f; if (!LI[kk]) LI[kk] = [f, nm, 'p', 170, 18]; return kk; }
@@ -4431,7 +4482,7 @@ const labTrayItem = k => { const [sym, name, kind, h, sa] = labItem(k); return `
 const labBlobHtml = b => { const [sym, name, kind, h, sa] = labItem(b.k); return `<div class="lab-b ${kind === 'e' ? 'el' : 'cp'} ${LAB.sel === b.id ? 'sel' : ''} ${b.pop ? 'pop' : ''}" data-bid="${b.id}" style="left:${b.x}%;top:${b.y}%;--h:${h};--sa:${sa}%"><span class="lb-s">${fm(sym)}</span><small>${esc(name)}</small></div>`; };
 function labHtml() {
   return `<div class="lab-head"><div class="lab-cnt"><b id="labcnt"></b><div class="wc-prog" style="margin:6px 0 0"><i id="labprog"></i></div></div><button class="btn tonal xs" data-act="labclear">${ms('delete_sweep')}片づける</button></div>
-  <div class="lab-field" id="labf"><div class="lab-hint" id="labhint">${ms('touch_app')}<span>下の元素や物質を、ここまでドラッグするか、タップして選んでください。<br>2つ以上選んだら、「くっつける」ボタンを押します。</span></div><div class="labb" id="labb"></div><div class="fxl" id="fxl"></div></div>
+  <div class="lab-stage ${LAB.heat ? 'hot' : ''}" id="labst"><div class="lab-field" id="labf"><div class="lab-hint" id="labhint">${ms('touch_app')}<span>下の元素や物質を、ここまでドラッグするか、タップして選んでください。<br>2つ以上選んだら、「くっつける」ボタンを押します。</span></div><div class="labb" id="labb"></div><div class="fxl" id="fxl"></div></div>${labDevHtml()}</div>
   <div id="laba" class="lab-acts"></div>
   <div id="labres"></div>
   <div class="card lab-ai"><div class="lab-ai-h">${gem(20, true)}<b>AIに聞いてみよう</b></div><div class="lab-aic" id="labaic"></div><div class="lab-aiin"><input id="labaq" type="text" maxlength="120" placeholder="例：なぜ金は反応しないの？" enterkeyhint="send" autocomplete="off"><button type="button" class="btn" data-act="labaigo">${ms('send')}質問</button></div><div id="labaans"></div><p class="muted lab-ainote" id="labainote"></p></div>
@@ -4444,6 +4495,7 @@ function labEq(e) { const [l, r] = e.split(' → '); return `<span>${fm(l)}</spa
 function labResHtml() {
   const L = LAB.last;
   if (!L) return `<div class="card lab-first muted">${ms('lightbulb')}<span>元素や物質を2つ以上選んで、「くっつける」を押してみましょう。<br>反応するものと、しないものがあります。いろいろ試して、図鑑を完成させてください。</span></div>`;
+  if (L.need) return `<div class="lab-res none"><div class="lr-h"><span class="lr-ty">${ms('local_fire_department')}加熱が必要です</span>${L.n ? `<span class="muted" style="font-size:.85rem;font-weight:600">${esc(L.n[0])}＋${esc(L.n[1])}</span>` : ''}</div><p>この組み合わせは、火をつけたり、加熱したりすると、反応が起こります。加熱する装置に火をつけてから、もう一度「くっつける」を押してください。</p><button type="button" class="btn tonal sm" data-act="labheat">${ms('local_fire_department')}火をつける</button></div>`;
   if (L.none) return `<div class="lab-res none"><div class="lr-h"><span class="lr-ty">${ms('block')}反応しません</span>${L.n ? `<span class="muted" style="font-size:.85rem;font-weight:600">${esc(L.n[0])}＋${esc(L.n[1])}</span>` : ''}</div><p>${esc(L.why)}</p><button type="button" class="btn tonal sm" data-act="labaiq" data-id="why">${gem(18, true)}AIにくわしく聞く</button></div>`;
   const r = L.r, hue = labItem(labKeyFor(r.o[0][0], r.o[0][1]))[3];
   return `<div class="lab-res sc" style="--sh:${hue}"><div class="lr-h"><span class="lr-ty">${esc(r.t)}</span>${L.fresh ? '<span class="lr-new">NEW</span>' : ''}</div>
@@ -4455,7 +4507,7 @@ function labResHtml() {
 }
 function labActs() {
   const n = LAB.blobs.length, b = LAB.blobs.find(x => x.id === LAB.sel);
-  let h = n >= 2 ? `<div class="lab-gor"><button type="button" class="btn lab-go" data-act="labgo">${ms('merge')}くっつける</button><span class="muted">選んだ ${n} つを、くっつけます</span></div>` : n === 1 ? `<p class="muted" style="margin:8px 4px 0;font-size:.88rem;font-weight:500">${ms('info')} もう1つ選ぶと、「くっつける」ボタンが出ます。</p>` : '';
+  let h = n >= 2 ? `<div class="lab-gor"><button type="button" class="btn lab-go" data-act="labgo">${LAB.heat ? ms('local_fire_department') + '加熱して、くっつける' : ms('merge') + 'くっつける'}</button><span class="muted">選んだ ${n} つを、くっつけます</span></div>` : n === 1 ? `<p class="muted" style="margin:8px 4px 0;font-size:.88rem;font-weight:500">${ms('info')} もう1つ選ぶと、「くっつける」ボタンが出ます。</p>` : '';
   if (!b) return h + (LAB.blobs.some(x => DXL.some(d => d.k === x.k)) ? `<p class="muted" style="margin:8px 4px 0;font-size:.88rem;font-weight:500">${ms('info')} 物質をタップして選ぶと、分解などの操作が出ます。</p>` : '');
   const ds = DXL.filter(d => d.k === b.k);
   return h + `<div class="lab-ab"><b>${esc(labItem(b.k)[1])}</b>${ds.map(d => `<button class="btn tonal sm" data-act="labdec" data-id="${d.m}">${ms('local_fire_department')}${d.btn}</button>`).join('')}<button class="btn text sm" data-act="labdel">${ms('close')}取り除く</button></div>`;
@@ -4466,7 +4518,8 @@ const LAB_AI = { log: [], busy: '' };
 function labAiCtx() {
   const bl = LAB.blobs.map(b => { const [sym, name] = labItem(b.k); return `${name}（${sym}）`; }), L = LAB.last;
   let s = bl.length ? `いま実験場にあるもの：${bl.join('、')}\n` : 'いま実験場には、何もありません。\n';
-  if (L) s += L.none ? `直前の結果：${L.n ? L.n.join('と') + 'は、' : ''}反応しませんでした。\n` : `直前の結果：${L.r.t}（反応式：${L.r.e}）\n`;
+  s += `加熱する装置：${LAB.heat ? '火がついています' : '火は消えています'}\n`;
+  if (L) s += L.need ? `直前の結果：${L.n ? L.n.join('と') + 'は、' : ''}加熱が必要で、まだ反応していません。\n` : L.none ? `直前の結果：${L.n ? L.n.join('と') + 'は、' : ''}反応しませんでした。\n` : `直前の結果：${L.r.t}（反応式：${L.r.e}）\n`;
   return s;
 }
 function labAiPaint() {
@@ -4497,7 +4550,7 @@ function labPaint() {
   put('laba', labActs()); put('labres', labResHtml()); put('labbook', labBook());
   const made = [...new Set(LAB.blobs.map(b => b.k).concat(Object.keys(LI).filter(k => k.startsWith('p:'))))].filter(k => k.startsWith('p:'));
   put('labmade', made.length ? `<div class="lbl" style="margin:6px 4px 6px">つくった物質</div><div class="lab-tray">${made.map(labTrayItem).join('')}</div>` : '');
-  labCount(); labAiPaint();
+  labCount(); labAiPaint(); labDevSync();
 }
 function labFx(type, x, y) {
   const L = $('#fxl'), F = $('#labf'); if (!L || reduced()) return;
@@ -4523,15 +4576,20 @@ function labDone(r, id) {
 }
 async function labReact(b1, b2) {
   if (LAB.busy) return; const f = $('#labf'); if (!f) return; LAB.busy = true;
-  const el1 = f.querySelector(`[data-bid="${b1.id}"]`), el2 = f.querySelector(`[data-bid="${b2.id}"]`), mx = (b1.x + b2.x) / 2, my = (b1.y + b2.y) / 2, res = labFind(b1.k, b2.k);
+  const el1 = f.querySelector(`[data-bid="${b1.id}"]`), el2 = f.querySelector(`[data-bid="${b2.id}"]`), mx = (b1.x + b2.x) / 2, my = (b1.y + b2.y) / 2, res = labFind(b1.k, b2.k), need = !!(res.r && LAB_HEAT.has(rxId(res.r)) && !LAB.heat);
   if (el1 && el2) { el1.classList.add('mv'); el2.classList.add('mv'); el1.style.left = (mx - 5) + '%'; el1.style.top = my + '%'; el2.style.left = (mx + 5) + '%'; el2.style.top = my + '%'; }
   await labWait(380);
   if (!$('#labf')) { LAB.busy = false; return; }
-  if (res.r) {
+  if (res.r && !need) {
     el1 && el1.classList.add('merge'); el2 && el2.classList.add('merge');
-    const r = f.getBoundingClientRect(); labFx(res.r.x, mx / 100 * r.width, my / 100 * r.height);
+    const r = f.getBoundingClientRect();
+    if (LAB.heat && LAB_HEAT.has(rxId(res.r))) { labFx('heat', mx / 100 * r.width, my / 100 * r.height); await labWait(420); }
+    labFx(res.r.x, mx / 100 * r.width, my / 100 * r.height);
     await labWait(430);
     LAB.blobs = LAB.blobs.filter(b => b !== b1 && b !== b2); labSpawn(res.r.o, mx, my); labDone(res.r, rxId(res.r));
+  } else if (need) {
+    el1 && el1.classList.add('nope'); el2 && el2.classList.add('nope'); await labWait(520);
+    b1.x = Math.max(12, b1.x - 10); b2.x = Math.min(88, b2.x + 10); LAB.last = { need: true, n: [labItem(b1.k)[1], labItem(b2.k)[1]] }; LAB.sel = 0;
   } else {
     el1 && el1.classList.add('nope'); el2 && el2.classList.add('nope'); await labWait(520);
     b1.x = Math.max(12, b1.x - 10); b2.x = Math.min(88, b2.x + 10); LAB.last = { none: true, why: res.why, n: [labItem(b1.k)[1], labItem(b2.k)[1]] }; LAB.sel = 0;
