@@ -1315,6 +1315,28 @@ details.clv summary{display:flex;align-items:center;justify-content:space-betwee
 .yx-x{display:none;position:absolute;top:calc(12px + env(safe-area-inset-top));right:14px;z-index:3;width:44px;height:44px;border:0;border-radius:50%;background:#0009;color:#fff;place-items:center}
 #yxp.m-fs .yx-x{display:grid}
 @media(prefers-reduced-motion:reduce){#yxp{transition:none}#yxui:not([hidden]){animation:none}}
+
+/* 元素ラボ：くっつけるボタンとAI */
+.lab-gor{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:12px 0 4px}
+.lab-go{height:56px;padding:0 28px;font-size:1.05rem}
+.lab-ai{margin-top:14px;padding:16px;display:grid;gap:10px}
+.lab-ai-h{display:flex;align-items:center;gap:8px;font-size:1.02rem}
+.lab-aic{display:flex;gap:8px;flex-wrap:wrap}.lab-aic:empty{display:none}
+.lab-aiin{display:flex;gap:8px}
+.lab-aiin input{flex:1;min-width:0;height:52px;border:0;border-radius:26px;padding:0 20px;background:var(--s2);color:var(--on);font:inherit;font-size:16px;outline:none}
+.lab-aiin .btn{height:52px;padding:0 22px}
+.lab-aq{justify-self:end;max-width:88%;background:var(--pc);color:var(--on-pc);padding:10px 14px;border-radius:20px 20px 6px 20px;font-size:.92rem;margin-top:6px}
+#labaans{display:grid;gap:8px}
+.lab-ainote{font-size:.78rem;margin:0}
+
+/* 単語帳の共有 */
+.sh-code{font:800 2.3rem/1.2 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.12em;text-align:center;padding:18px 8px;border-radius:24px;background:var(--s2);margin-bottom:14px;-webkit-user-select:all;user-select:all}
+.sh-in{width:100%;box-sizing:border-box;height:64px;border:0;border-radius:22px;padding:0 16px;background:var(--s2);color:var(--on);font:700 1.6rem ui-monospace,Menlo,Consolas,monospace;letter-spacing:.14em;text-align:center;text-transform:uppercase;outline:none}
+.sh-smp{margin:0 0 16px;padding-left:22px;font-size:.92rem;line-height:1.8}
+
+.sub-pk{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:18px;background:var(--s2);margin-bottom:8px}
+.sub-pk input{width:22px;height:22px;accent-color:var(--primary);flex:none}.sub-pk span{flex:1;font-weight:600}.sub-pk small{color:var(--on-v)}
+.sub-sent{display:flex;align-items:center;gap:10px;padding:6px 4px}.sub-sent span{flex:1;display:grid;min-width:0}.sub-sent b{font-family:ui-monospace,Menlo,Consolas,monospace;letter-spacing:.06em}.sub-sent small{color:var(--on-v)}
 </style>
 </head>
 <body>
@@ -1339,7 +1361,7 @@ details.clv summary{display:flex;align-items:center;justify-content:space-betwee
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '9.6';
+const APP_VERSION = '9.9';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1820,6 +1842,9 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '9.9', t: '共有コードを数字に。教科と課題も、コードで送れます', n: ['共有コードを、数字9けた（例：123-456-789）に変えました', '教科と課題も、コードで送れるようになりました。「設定」の「教科をコードで送る」「コードで受け取る」から使います', '「コードで受け取る」は、単語帳にも教科と課題にも使えます'] },
+  { v: '9.8', t: '単語帳を、コードで共有', n: ['単語帳を、コードで共有できるようになりました。ファイルを送らなくても、ほかの端末や友だちに、同じ単語帳を渡せます', '共有するにはGoogleログインが必要です。受け取るだけなら、ログインなしでも使えます', '「共有・バックアップ」から、「コードで共有する」「コードで受け取る」を選びます'] },
+  { v: '9.7', t: '元素ラボに、AIへの質問と「くっつける」ボタン', n: ['物質を選び終わってから「くっつける」ボタンを押して、反応を見る方法に変えました（選んだだけでは、反応しません）', '元素ラボで、AIに「どうなるか」や、反応のしくみについて質問できるようになりました'] },
   { v: '9.6', t: '細かな調整', n: ['いくつかの動作を整えました'] },
   { v: '9.5', t: '周期表を118元素に。くっつけて反応を見る「元素ラボ」', n: ['周期表を、全118元素に増やしました（ランタノイド・アクチノイドも表示します）', '元素名・記号・原子番号で探したり、色の仲間をタップして、その仲間だけを目立たせたりできます', '元素の詳細に、周期・族・常温での状態・使われ方・原子のつくり（最初の20元素）を出します', '「くっつけてみよう」で、元素や物質をドラッグして重ねると、何ができるかを、動きと光で見られます', '化学反応式・目に見える変化・しくみ・身近な例と、粒のイメージ図を表示します（反応46種類・分解4種類）', '暗記クイズに、元素記号→元素名、原子番号→元素名、全118元素のクイズを追加しました'] },
   { v: '9.4', t: '更新内容の表示と、更新履歴', n: ['アップデートのあとに、新しくなった点を表示します', '設定の「使い方とバージョン」から、更新履歴をいつでも見られます'] },
@@ -2152,7 +2177,7 @@ function viewSettings() {
 
   <div class="h-sec"><h2>${ms('database')}データ</h2></div>
   <div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">データはこのiPad内にのみ保存されます。機種変更や万一に備えて、定期的にバックアップしてください。${st.lastBackup ? `<br>最後のバックアップ：${new Date(st.lastBackup).toLocaleDateString('ja-JP')}` : ''}</p>
-  <div class="chips"><button class="btn tonal" data-act="export">${ms('download')}バックアップ</button><button class="btn tonal" data-act="import">${ms('upload')}復元する</button><button class="btn tonal" data-act="expsub">${ms('ios_share')}教科を書き出す</button><button class="btn tonal" data-act="impsub">${ms('library_add')}教科を読み込む</button><button class="btn tonal" data-act="csv">${ms('table_view')}CSVで書き出す</button><button class="btn outlined danger" data-act="reset">${ms('delete')}すべて削除</button></div></div>
+  <div class="chips"><button class="btn tonal" data-act="export">${ms('download')}バックアップ</button><button class="btn tonal" data-act="import">${ms('upload')}復元する</button><button class="btn tonal" data-act="expsub">${ms('ios_share')}教科を書き出す</button><button class="btn tonal" data-act="impsub">${ms('library_add')}教科を読み込む</button><button class="btn tonal" data-act="subshare">${ms('send')}教科をコードで送る</button><button class="btn tonal" data-act="wcrecv">${ms('key')}コードで受け取る</button><button class="btn tonal" data-act="csv">${ms('table_view')}CSVで書き出す</button><button class="btn outlined danger" data-act="reset">${ms('delete')}すべて削除</button></div></div>
   <p class="about">考査課題マネージャー v3.0</p>`;
 }
 
@@ -2824,10 +2849,24 @@ const ACT = {
     setTimeout(() => { const el = $('#wcf'); el && el.focus(); }, 60);
   },
   wcbackup() {
-    openDlg(`<h2>${ms('backup')}単語帳のバックアップ</h2><p class="muted" style="margin:-8px 0 14px;line-height:1.7">単語帳をファイルに書き出して、ほかの端末で読み込めます。（単語帳 ${S.decks.length}冊・カード ${S.cards.length}枚）</p>
-    <div class="wc-opt"><button class="wc-o" data-act="expcards">${ms('upload_file')}<b>この単語帳を書き出す</b><small>「${esc(wcDeck().name)}」だけをファイルにします</small></button><button class="wc-o" data-act="expcardsall">${ms('folder_zip')}<b>すべて書き出す</b><small>すべての単語帳を、1つのファイルにします</small></button><button class="wc-o" data-act="impcards">${ms('download')}<b>ファイルから読み込む</b><small>書き出したファイルや、CSVを読み込みます</small></button></div>
-    <div class="dact"><span class="sp"></span><button class="btn text" data-act="close">閉じる</button></div>`);
+    { const cd = wcDeck(); openDlg(`<h2>${ms('share')}単語帳の共有とバックアップ</h2><p class="muted" style="margin:-8px 0 14px;line-height:1.7">コードで共有するか、ファイルに書き出して、ほかの端末で使えます。（単語帳 ${S.decks.length}冊・カード ${S.cards.length}枚）</p>
+    <div class="wc-opt"><button class="wc-o" data-act="wcshare">${ms('share')}<b>コードで共有する</b><small>${cd.share ? `「${esc(cd.name)}」は共有中です（コード ${shFmt(cd.share)}）` : `「${esc(cd.name)}」を、コードで共有します`}</small></button><button class="wc-o" data-act="wcrecv">${ms('key')}<b>コードで受け取る</b><small>共有されたコードを入力して、単語帳を取り込みます</small></button>${cd.from ? `<button class="wc-o" data-act="wcpull">${ms('sync')}<b>共有元の最新を取り込む</b><small>「${esc(cd.name)}」の元の単語帳から、新しいカードを取り込みます</small></button>` : ''}<button class="wc-o" data-act="expcards">${ms('upload_file')}<b>この単語帳を書き出す</b><small>「${esc(wcDeck().name)}」だけをファイルにします</small></button><button class="wc-o" data-act="expcardsall">${ms('folder_zip')}<b>すべて書き出す</b><small>すべての単語帳を、1つのファイルにします</small></button><button class="wc-o" data-act="impcards">${ms('download')}<b>ファイルから読み込む</b><small>書き出したファイルや、CSVを読み込みます</small></button></div>
+    <div class="dact"><span class="sp"></span><button class="btn text" data-act="close">閉じる</button></div>`); }
   },
+  wcshare() { const d = wcDeck(); SHD.deck = d.id; if (d.share) shCodeDlg(d, false); else okDlg(`「${d.name}」を共有しますか？`, `${S.cards.filter(c => c.d === d.id).length}枚のカードを、クラウドに置きます。コードを知っている人は、カードを読み取れます（編集はできません）。あとから、いつでも共有をやめられます。`, '共有する', () => shStart(d)); },
+  shupd() { const d = S.decks.find(x => x.id === SHD.deck); if (d) shStart(d, true); },
+  shcopy() { if (!SHD.code) return; const t = shFmt(SHD.code); if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => toast('コードをコピーしました'), () => toast(t)); else toast(t); },
+  shsend() { if (!SHD.code) return; const t = `${SHD.label}を共有します。\n考査課題マネージャーの${SHD.how}に、次のコードを入力してください。\n${shFmt(SHD.code)}`; if (navigator.share) navigator.share({ text: t }).catch(() => { }); else if (navigator.clipboard) navigator.clipboard.writeText(t).then(() => toast('案内の文章をコピーしました')); },
+  shoff() { const d = S.decks.find(x => x.id === SHD.deck); if (d && d.share) confirmDlg('共有をやめますか？', 'コードを入力しても、取り込めなくなります。すでに取り込んだ人の単語帳は、そのまま残ります。', '共有をやめる', () => shStop(d)); },
+  wcrecv() {
+    openDlg(`<h2>${ms('key')}コードで受け取る</h2><p class="muted" style="margin:-6px 0 14px;line-height:1.7">共有されたコード（数字9けた）を入力してください。単語帳も、教科と課題も、受け取れます。ログインしなくても、受け取れます。</p><form id="shf" autocomplete="off"><div class="fld"><input id="shin" class="sh-in" maxlength="13" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="123-456-789" aria-label="共有コード"></div><div class="dact"><button type="button" class="btn text" data-act="close">やめる</button><span class="sp"></span><button class="btn" type="submit">${ms('search')}確認する</button></div></form>`);
+    $('#shf').onsubmit = ev => { ev.preventDefault(); shLook($('#shin').value); };
+    setTimeout(() => { const el = $('#shin'); el && el.focus(); }, 80);
+  },
+  subshare() { subShareDlg(); },
+  subgo() { const ids = [...dlg.querySelectorAll('[data-sp]')].filter(c => c.checked).map(c => c.dataset.sp); if (!ids.length) return toast('教科を1つ以上、選んでください'); shSendSubjects(ids); },
+  substop(id) { confirmDlg('送るのをやめますか？', 'このコードでは、受け取れなくなります。すでに受け取った人の教科と課題は、そのまま残ります。', 'やめる', () => shUnsend(id)); },
+  wcpull() { const d = wcDeck(); if (d.from) shLook(d.from, true); },
   wcphoto() { wcPhotoDlg(); },
   wpadd() { $('#wcphoto').click(); },
   wprm(id) { WP.imgs.splice(+id, 1); wpPaint(); },
@@ -2883,6 +2922,19 @@ const ACT = {
     const [a, b] = id.split('|'); PT.mode = 'lab'; LAB.blobs = []; LAB.sel = 0; LAB.last = null; toolsRefresh(); window.scrollTo(0, 0);
     setTimeout(() => { const A = labAdd(a, 28, 52), B = b ? labAdd(b, 72, 52) : null; labPaint(); if (B) setTimeout(() => labReact(A, B), 450); }, 150);
   },
+  labgo() {
+    if (LAB.busy) return; const bs = LAB.blobs; if (bs.length < 2) return toast('2つ以上選んでください');
+    let pair = null;
+    for (let i = bs.length - 1; i > 0 && !pair; i--) for (let j = i - 1; j >= 0; j--) if (labFind(bs[i].k, bs[j].k).r) { pair = [bs[j], bs[i]]; break; }
+    if (!pair) pair = [bs[bs.length - 2], bs[bs.length - 1]];
+    labReact(pair[0], pair[1]);
+  },
+  labaiq(id) {
+    const names = LAB.blobs.map(b => labItem(b.k)[1]);
+    const q = id === 'combo' ? `${names.join('と')}をくっつけると、どうなりますか？` : id === 'ex' ? 'この反応は、身のまわりのどんなところで見られますか？' : 'どうして、こうなるのですか？くわしく教えてください。';
+    labAiAsk(q);
+  },
+  labaigo() { const el = $('#labaq'), q = el && el.value.trim(); if (!q) return toast('質問を入力してください'); el.value = ''; el.blur(); labAiAsk(q); },
   labclear() { if (LAB.busy) return; LAB.blobs = []; LAB.sel = 0; LAB.last = null; labPaint(); },
   labdel() { if (LAB.busy) return; LAB.blobs = LAB.blobs.filter(b => b.id !== LAB.sel); LAB.sel = 0; labPaint(); },
   labdec(id) { const b = LAB.blobs.find(x => x.id === LAB.sel), d = b && DXL.find(x => x.k === b.k && x.m === id); if (d) labDecomp(b, d); },
@@ -2989,11 +3041,85 @@ async function saveFile(name, type, text) {
   setTimeout(() => URL.revokeObjectURL(a.href), 5000); toast('共有メニューが使えないため、ファイルとして保存しました'); return true;
 }
 async function exportData() { const ok = await saveFile(`shukudai-backup-${today()}.json`, 'application/json', JSON.stringify(S, null, 2)); if (ok) { S.set.lastBackup = Date.now(); save(); render(); } }
+function subjPack(ids) {
+  const ex = curExam(), subs = subjects().filter(s => !ids || ids.includes(s.id));
+  return { app: 'kosa-subjects', v: 1, exam: { name: ex.name, date: ex.date || '' }, subjects: subs.map(s => ({ name: s.name, icon: s.icon, hue: s.hue, exam: s.exam || '', tasks: tasksOfSub(s.id).map(k => ({ title: k.title, req: !!k.req, kind: k.kind || 'pg', total: k.total, start: k.start, segs: k.segs || null, dest: k.dest || '', subreq: !!k.subreq, items: k.items ? k.items.map(x => ({ text: x.text })) : null, due: k.due || '', note: k.note || '' })) })) };
+}
 function exportSubjects() {
-  const ex = curExam(), subs = subjects();
-  if (!subs.length) return toast('書き出す教科がありません');
-  const data = { app: 'kosa-subjects', v: 1, exam: { name: ex.name, date: ex.date || '' }, subjects: subs.map(s => ({ name: s.name, icon: s.icon, hue: s.hue, exam: s.exam || '', tasks: tasksOfSub(s.id).map(k => ({ title: k.title, req: !!k.req, kind: k.kind || 'pg', total: k.total, start: k.start, segs: k.segs || null, dest: k.dest || '', subreq: !!k.subreq, items: k.items ? k.items.map(x => ({ text: x.text })) : null, due: k.due || '', note: k.note || '' })) })) };
-  saveFile(`kadai-subjects-${today()}.json`, 'application/json', JSON.stringify(data, null, 2));
+  if (!subjects().length) return toast('書き出す教科がありません');
+  saveFile(`kadai-subjects-${today()}.json`, 'application/json', JSON.stringify(subjPack(null), null, 2));
+}
+/* ---------- 単語帳のコード共有（Firestore: shares/{コード}） ---------- */
+const SHD = { deck: '', code: '', label: '', how: '' };
+const shGen = () => [...crypto.getRandomValues(new Uint8Array(9))].map(x => x % 10).join('');
+const shFmt = c => { c = String(c); return /^\d{9}$/.test(c) ? c.slice(0, 3) + '-' + c.slice(3, 6) + '-' + c.slice(6) : c.slice(0, 4) + '-' + c.slice(4); };
+const shNorm = x => String(x || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+const shBusy = m => openDlg(`<h2>${esc(m)}</h2><p class="muted"><span class="dots"><i></i><i></i><i></i></span></p>`);
+function shFail(e) {
+  const c = String((e && (e.code || e.message)) || e);
+  const m = /permission/i.test(c) ? '共有の設定（Firestoreのルール）が、まだ追加されていないようです。引き継ぎメモの手順で、ルールに shares を追加してください。' : (!navigator.onLine || /unavailable|network|offline/i.test(c)) ? 'インターネットに接続できません。接続を確認してください。' : '共有に失敗しました。時間をおいて、もう一度お試しください。';
+  openDlg(`<h2>うまくいきませんでした</h2><p class="muted" style="margin:-6px 0 20px;line-height:1.7">${esc(m)}</p><div class="dact"><span class="sp"></span><button class="btn text" data-act="close">閉じる</button></div>`);
+}
+function shCodeDlg(d, fresh) {
+  SHD.code = d.share; SHD.label = `単語帳「${d.name}」`; SHD.how = '「単語帳」→「共有・バックアップ」→「コードで受け取る」';
+  const n = S.cards.filter(x => x.d === d.id).length;
+  openDlg(`<h2>${ms('share')}「${esc(d.name)}」を共有中</h2><p class="muted" style="margin:-6px 0 14px;line-height:1.7">${fresh ? '共有を始めました。' : ''}このコードを、ほかの端末や友だちに伝えてください。「コードで受け取る」に入力すると、この単語帳を取り込めます。</p><div class="sh-code">${shFmt(d.share)}</div>
+  <div class="wc-opt"><button class="wc-o" data-act="shcopy">${ms('content_copy')}<b>コードをコピー</b><small>コードだけをコピーします</small></button><button class="wc-o" data-act="shsend">${ms('send')}<b>案内つきで送る</b><small>使い方の説明といっしょに、送ります</small></button><button class="wc-o" data-act="shupd">${ms('cloud_upload')}<b>いまの内容に更新する</b><small>カードを足したり直したりしたら、押してください（${n}枚）</small></button></div>
+  <div class="dact"><button class="btn text danger" data-act="shoff">共有をやめる</button><span class="sp"></span><button class="btn text" data-act="close">閉じる</button></div>`);
+}
+async function shStart(d, upd) {
+  if (!CLOUD.user) { toast('共有するには、Googleログインが必要です'); acctDlg(); return; }
+  if (!CLOUD.fb) return toast('同期サービスに接続できません');
+  const cards = S.cards.filter(c => c.d === d.id).map(c => ({ f: c.f, b: c.b, ...(c.hint ? { h: c.hint } : {}) }));
+  if (!cards.length) return toast('カードがない単語帳は、共有できません');
+  const json = JSON.stringify(cards); if (new Blob([json]).size > 850000) return toast('カードが多すぎて、共有できません');
+  const { fs, db } = CLOUD.fb; shBusy(upd ? '更新しています…' : '共有しています…');
+  try {
+    let code = d.share;
+    if (!code) { for (let i = 0; i < 5 && !code; i++) { const c = shGen(); if (!(await fs.getDoc(fs.doc(db, 'shares', c))).exists()) code = c; } if (!code) throw new Error('code'); }
+    await fs.setDoc(fs.doc(db, 'shares', code), { owner: CLOUD.user.uid, name: d.name, hue: +d.hue || 0, n: cards.length, json, mt: Date.now() });
+    if (d.share !== code) { d.share = code; save(); }
+    SHD.deck = d.id; shCodeDlg(d, !upd); if (upd) toast('共有の内容を更新しました');
+  } catch (e) { shFail(e); }
+}
+async function shStop(d) {
+  if (!CLOUD.fb) return toast('同期サービスに接続できません');
+  const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shares', d.share);
+  try { if ((await fs.getDoc(ref)).exists()) await fs.deleteDoc(ref); delete d.share; save(); render(); toast('共有をやめました'); }
+  catch (e) { shFail(e); }
+}
+async function shLook(raw, pull) {
+  const code = shNorm(raw);
+  if (code.length !== 9 && code.length !== 8) return toast('コードは、数字9けたです（例：123-456-789）');
+  if (!pull && (S.decks || []).some(d => d.share === code)) return toast('これは、自分で共有している単語帳です');
+  if (!CLOUD.fb) return toast('同期サービスに接続できません。接続を確認してください');
+  shBusy('確認しています…');
+  try {
+    const sn = await CLOUD.fb.fs.getDoc(CLOUD.fb.fs.doc(CLOUD.fb.db, 'shares', code));
+    if (!sn.exists()) { closeDlg(); return toast('そのコードは、見つかりませんでした。入力を確認してください'); }
+    const x = sn.data(), arr = JSON.parse(x.json);
+    if (arr && !Array.isArray(arr) && arr.app === 'kosa-subjects' && Array.isArray(arr.subjects)) { arr.subjects = arr.subjects.slice(0, 30).map(v => ({ ...v, tasks: (Array.isArray(v.tasks) ? v.tasks : []).slice(0, 300) })); closeDlg(); return subjImportDlg(arr); }
+    const cards = (Array.isArray(arr) ? arr : []).map(c => ({ f: String((c && c.f) || '').trim().slice(0, 200), b: String((c && c.b) || '').trim().slice(0, 400), h: String((c && c.h) || '').trim().slice(0, 200) })).filter(c => c.f && c.b).slice(0, 3000);
+    if (!cards.length) { closeDlg(); return toast('この単語帳には、カードがありませんでした'); }
+    shPreview({ code, name: String(x.name || '単語帳').slice(0, 20), hue: +x.hue || 0, cards });
+  } catch (e) { shFail(e); }
+}
+function shPreview(x) {
+  const ex = (S.decks || []).find(d => d.from === x.code), have = new Set(ex ? S.cards.filter(c => c.d === ex.id).map(wcKey) : []), fresh = x.cards.filter(c => !have.has(wcKey(c))).length;
+  const smp = x.cards.slice(0, 3).map(c => `<li>${esc(c.f)}<span class="muted"> → ${esc(c.b)}</span></li>`).join('');
+  openDlg(`<h2>${ms('download')}「${esc(x.name)}」を取り込みますか？</h2><p class="muted" style="margin:-6px 0 10px;line-height:1.7">カードは ${x.cards.length}枚です。${ex ? `すでに取り込んだ単語帳「${esc(ex.name)}」があります（新しいカード ${fresh}枚）。「追加する」は新しいカードだけを足し、「置き換える」は中身を共有元と同じにします（覚えた印は、同じカードなら残ります）。` : '新しい単語帳として、追加します。'}</p><ul class="sh-smp">${smp}</ul>
+  <div class="dact" style="flex-wrap:wrap;gap:10px"><button type="button" class="btn text" data-act="close">やめる</button><span class="sp"></span>${ex ? `<button type="button" class="btn tonal" id="shr">置き換える</button><button type="button" class="btn" id="sha" ${fresh ? '' : 'disabled'}>${ms('add')}追加する</button>` : `<button type="button" class="btn" id="shn">${ms('download')}取り込む</button>`}</div>`);
+  const go = (mode) => { closeDlg(); undoable(`「${x.name}」を取り込みました`, () => shApply(x, mode, ex)); };
+  if (ex) { $('#shr').onclick = () => go('rep'); $('#sha').onclick = () => go('add'); } else $('#shn').onclick = () => go('new');
+}
+function shApply(x, mode, ex) {
+  ensureDecks(); let d = ex;
+  if (!d) { d = { id: uid(), name: x.name, hue: x.hue || WC_HUES[S.decks.length % WC_HUES.length], from: x.code }; S.decks.push(d); }
+  const known = new Map(S.cards.filter(c => c.d === d.id).map(c => [wcKey(c), c.k]));
+  if (mode === 'rep') S.cards = S.cards.filter(c => c.d !== d.id);
+  const have = new Set(S.cards.filter(c => c.d === d.id).map(wcKey));
+  x.cards.forEach(c => { const k = wcKey(c); if (have.has(k)) return; have.add(k); S.cards.push({ id: uid(), f: c.f, b: c.b, k: known.get(k) ? 1 : 0, d: d.id, ...(c.h ? { hint: c.h } : {}) }); });
+  WC.deck = d.id; WC.i = 0; WC.flip = false; wcSave();
 }
 function exportCards(all) {
   ensureDecks();
@@ -3048,23 +3174,60 @@ function importSubjects(input) {
   r.onload = () => {
     try {
       const j = JSON.parse(r.result); if (!j || j.app !== 'kosa-subjects' || !Array.isArray(j.subjects)) throw 0;
-      const nt = j.subjects.reduce((a, s) => a + (s.tasks || []).length, 0);
-      confirmDlg('教科と課題を読み込みますか？', `教科 ${j.subjects.length} 件・課題 ${nt} 件を「${curExam().name}」に追加します。進捗は含まれず、0からはじまります。同名の教科には課題を追加し、同じタイトルの課題は読み飛ばします。`, '読み込む', () => undoable('教科と課題を読み込みました', () => {
-        const exId = curExam().id;
-        for (const x of j.subjects) {
-          let s = S.subjects.find(v => v.ex === exId && v.name === x.name);
-          if (!s) { s = { id: uid(), ex: exId, name: String(x.name || '').slice(0, 30), icon: x.icon || 'menu_book', hue: +x.hue || 222, exam: x.exam || '' }; S.subjects.push(s); }
-          for (const k of x.tasks || []) {
-            if (S.tasks.some(v => v.sid === s.id && v.title === k.title)) continue;
-            const chk = k.kind === 'chk';
-            S.tasks.push({ id: uid(), sid: s.id, title: String(k.title || '').slice(0, 60), req: !!k.req, kind: ['chk', 'list'].includes(k.kind) ? k.kind : 'pg', dest: String(k.dest || '').slice(0, 30), subreq: !!k.subreq, items: k.kind === 'list' && Array.isArray(k.items) ? k.items.map(x => ({ text: String(x.text || '').slice(0, 60), done: false })) : null, total: k.kind === 'list' && Array.isArray(k.items) ? Math.max(1, k.items.length) : chk ? 1 : Math.max(1, +k.total || 1), start: chk ? 1 : Math.max(1, +k.start || 1), segs: !chk && Array.isArray(k.segs) && k.segs.length > 1 ? k.segs.map(x => [+x[0], +x[1]]) : null, done: 0, due: k.due || '', note: k.note || '', pin: '', at: Date.now(), doneAt: null });
-          }
-        }
-      }));
+      subjImportDlg(j);
     } catch (e) { toast('教科のファイルを読み込めませんでした'); }
     input.value = '';
   };
   r.readAsText(f);
+}
+function subjImportDlg(j) {
+  const nt = j.subjects.reduce((a, s) => a + (s.tasks || []).length, 0);
+  confirmDlg('教科と課題を読み込みますか？', `教科 ${j.subjects.length} 件・課題 ${nt} 件を「${curExam().name}」に追加します。進捗は含まれず、0からはじまります。同名の教科には課題を追加し、同じタイトルの課題は読み飛ばします。`, '読み込む', () => undoable('教科と課題を読み込みました', () => {
+    const exId = curExam().id;
+    for (const x of j.subjects) {
+      let s = S.subjects.find(v => v.ex === exId && v.name === x.name);
+      if (!s) { s = { id: uid(), ex: exId, name: String(x.name || '').slice(0, 30), icon: x.icon || 'menu_book', hue: +x.hue || 222, exam: x.exam || '' }; S.subjects.push(s); }
+      for (const k of x.tasks || []) {
+        if (S.tasks.some(v => v.sid === s.id && v.title === k.title)) continue;
+        const chk = k.kind === 'chk';
+        S.tasks.push({ id: uid(), sid: s.id, title: String(k.title || '').slice(0, 60), req: !!k.req, kind: ['chk', 'list'].includes(k.kind) ? k.kind : 'pg', dest: String(k.dest || '').slice(0, 30), subreq: !!k.subreq, items: k.kind === 'list' && Array.isArray(k.items) ? k.items.map(x => ({ text: String(x.text || '').slice(0, 60), done: false })) : null, total: k.kind === 'list' && Array.isArray(k.items) ? Math.max(1, k.items.length) : chk ? 1 : Math.max(1, +k.total || 1), start: chk ? 1 : Math.max(1, +k.start || 1), segs: !chk && Array.isArray(k.segs) && k.segs.length > 1 ? k.segs.map(x => [+x[0], +x[1]]) : null, done: 0, due: k.due || '', note: k.note || '', pin: '', at: Date.now(), doneAt: null });
+      }
+    }
+  }));
+}
+/* ---------- 教科と課題を、コードで送る ---------- */
+const shSent = () => { try { return JSON.parse(localStorage.getItem('kosa-sent') || '[]'); } catch (e) { return []; } };
+const shSentSet = a => { try { localStorage.setItem('kosa-sent', JSON.stringify(a.slice(0, 10))); } catch (e) { } };
+function subShareDlg() {
+  const subs = subjects(); if (!subs.length) return toast('送る教科がありません');
+  const sent = shSent();
+  openDlg(`<h2>${ms('send')}教科と課題をコードで送る</h2><p class="muted" style="margin:-6px 0 14px;line-height:1.7">送る教科を選んでください。教科・課題の内容だけを送ります（進み具合は含みません）。</p>
+  <div>${subs.map(x => `<label class="sub-pk"><input type="checkbox" data-sp="${x.id}" checked><span>${esc(x.name)}</span><small>課題 ${tasksOfSub(x.id).length}件</small></label>`).join('')}</div>
+  ${sent.length ? `<div class="lbl" style="margin:14px 4px 4px">送ったコード</div>${sent.map(x => `<div class="sub-sent"><span><b>${shFmt(x.code)}</b><small>${esc(x.name)}</small></span><button type="button" class="btn text sm danger" data-act="substop" data-id="${x.code}">やめる</button></div>`).join('')}` : ''}
+  <div class="dact"><button type="button" class="btn text" data-act="close">閉じる</button><span class="sp"></span><button type="button" class="btn" data-act="subgo">${ms('key')}コードをつくる</button></div>`);
+}
+async function shSendSubjects(ids) {
+  if (!CLOUD.user) { toast('送るには、Googleログインが必要です'); acctDlg(); return; }
+  if (!CLOUD.fb) return toast('同期サービスに接続できません');
+  const data = subjPack(ids), nt = data.subjects.reduce((a, v) => a + v.tasks.length, 0), json = JSON.stringify(data);
+  if (new Blob([json]).size > 850000) return toast('内容が多すぎて、送れません');
+  const { fs, db } = CLOUD.fb; shBusy('コードをつくっています…');
+  try {
+    let code = null; for (let i = 0; i < 5 && !code; i++) { const c = shGen(); if (!(await fs.getDoc(fs.doc(db, 'shares', c))).exists()) code = c; } if (!code) throw new Error('code');
+    const name = `${data.exam.name}・教科${data.subjects.length}件`.slice(0, 40);
+    await fs.setDoc(fs.doc(db, 'shares', code), { owner: CLOUD.user.uid, name, hue: 0, n: nt, json, mt: Date.now() });
+    shSentSet([{ code, name, at: Date.now() }, ...shSent()]);
+    SHD.code = code; SHD.label = `教科と課題（${name}）`; SHD.how = '「設定」→「コードで受け取る」';
+    openDlg(`<h2>${ms('send')}コードをつくりました</h2><p class="muted" style="margin:-6px 0 14px;line-height:1.7">教科 ${data.subjects.length}件・課題 ${nt}件です。このコードを伝えてください。「コードで受け取る」に入力すると、取り込めます。</p><div class="sh-code">${shFmt(code)}</div>
+    <div class="wc-opt"><button class="wc-o" data-act="shcopy">${ms('content_copy')}<b>コードをコピー</b><small>コードだけをコピーします</small></button><button class="wc-o" data-act="shsend">${ms('send')}<b>案内つきで送る</b><small>使い方の説明といっしょに、送ります</small></button></div>
+    <div class="dact"><button type="button" class="btn text" data-act="subshare">送ったコードの管理</button><span class="sp"></span><button class="btn text" data-act="close">閉じる</button></div>`);
+  } catch (e) { shFail(e); }
+}
+async function shUnsend(code) {
+  if (!CLOUD.fb) return toast('同期サービスに接続できません');
+  const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shares', code);
+  try { if ((await fs.getDoc(ref)).exists()) await fs.deleteDoc(ref); shSentSet(shSent().filter(x => x.code !== code)); toast('送るのをやめました'); subShareDlg(); }
+  catch (e) { shFail(e); }
 }
 function exportCsv() {
   const q = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
@@ -3824,7 +3987,7 @@ function cardsHtml() {
   <div class="wc-opts"><button class="tchip ${WC.only ? 'on' : ''}" data-act="wconly">覚えていないカードだけ</button><button class="tchip" data-act="wcshuf">${ms('shuffle')}シャッフル</button><button class="tchip ${WC.rev ? 'on' : ''}" data-act="wcrev">${ms('swap_horiz')}裏から出す</button></div>
   <div id="wcstage">${wcStageHtml()}</div>
   ${all.length ? `<details class="card wcl" style="margin-top:12px" ${WC.q ? 'open' : ''}><summary>カード一覧（${all.length}枚）</summary><div class="dact" style="margin:10px 0 0;justify-content:flex-start"><button class="btn tonal sm" data-act="wcmanual">${ms('edit')}自分で入力して追加</button></div><input id="wcq" type="search" placeholder="カードを検索" value="${esc(WC.q)}" style="margin:12px 0 6px"><div id="wclist">${wcRows()}</div></details>` : ''}
-  <div class="wc-bar"><button class="btn" data-act="wcaiadd">${gem(18)}AIで追加</button><button class="btn tonal" data-act="wcbackup">${ms('backup')}バックアップ</button></div>`;
+  <div class="wc-bar"><button class="btn" data-act="wcaiadd">${gem(18)}AIで追加</button><button class="btn tonal" data-act="wcbackup">${ms('share')}共有・バックアップ</button></div>`;
 }
 function deckDlg(id) {
   ensureDecks(); const d = id ? S.decks.find(x => x.id === id) : { name: '', hue: WC_HUES[S.decks.length % WC_HUES.length] }; if (!d) return;
@@ -4268,9 +4431,10 @@ const labTrayItem = k => { const [sym, name, kind, h, sa] = labItem(k); return `
 const labBlobHtml = b => { const [sym, name, kind, h, sa] = labItem(b.k); return `<div class="lab-b ${kind === 'e' ? 'el' : 'cp'} ${LAB.sel === b.id ? 'sel' : ''} ${b.pop ? 'pop' : ''}" data-bid="${b.id}" style="left:${b.x}%;top:${b.y}%;--h:${h};--sa:${sa}%"><span class="lb-s">${fm(sym)}</span><small>${esc(name)}</small></div>`; };
 function labHtml() {
   return `<div class="lab-head"><div class="lab-cnt"><b id="labcnt"></b><div class="wc-prog" style="margin:6px 0 0"><i id="labprog"></i></div></div><button class="btn tonal xs" data-act="labclear">${ms('delete_sweep')}片づける</button></div>
-  <div class="lab-field" id="labf"><div class="lab-hint" id="labhint">${ms('touch_app')}<span>下の元素や物質を、ここまでドラッグしてください。<br>別の物質に重ねると、くっつきます。<br>（下の物質を、続けて2回タップしても、くっつきます）</span></div><div class="labb" id="labb"></div><div class="fxl" id="fxl"></div></div>
+  <div class="lab-field" id="labf"><div class="lab-hint" id="labhint">${ms('touch_app')}<span>下の元素や物質を、ここまでドラッグするか、タップして選んでください。<br>2つ以上選んだら、「くっつける」ボタンを押します。</span></div><div class="labb" id="labb"></div><div class="fxl" id="fxl"></div></div>
   <div id="laba" class="lab-acts"></div>
   <div id="labres"></div>
+  <div class="card lab-ai"><div class="lab-ai-h">${gem(20, true)}<b>AIに聞いてみよう</b></div><div class="lab-aic" id="labaic"></div><div class="lab-aiin"><input id="labaq" type="text" maxlength="120" placeholder="例：なぜ金は反応しないの？" enterkeyhint="send" autocomplete="off"><button type="button" class="btn" data-act="labaigo">${ms('send')}質問</button></div><div id="labaans"></div><p class="muted lab-ainote" id="labainote"></p></div>
   <div class="lbl" style="margin:16px 4px 6px">元素</div><div class="lab-tray">${LI_E.map(labTrayItem).join('')}</div>
   <div class="lbl" style="margin:6px 4px 6px">物質</div><div class="lab-tray">${LI_C.map(labTrayItem).join('')}</div>
   <div id="labmade"></div>
@@ -4279,8 +4443,8 @@ function labHtml() {
 function labEq(e) { const [l, r] = e.split(' → '); return `<span>${fm(l)}</span>${ms('arrow_forward')}<span>${fm(r)}</span>`; }
 function labResHtml() {
   const L = LAB.last;
-  if (!L) return `<div class="card lab-first muted">${ms('lightbulb')}<span>元素や物質をくっつけて、何ができるか調べましょう。<br>反応するものと、しないものがあります。いろいろ試して、図鑑を完成させてください。</span></div>`;
-  if (L.none) return `<div class="lab-res none"><div class="lr-h"><span class="lr-ty">${ms('block')}反応しません</span></div><p>${esc(L.why)}</p></div>`;
+  if (!L) return `<div class="card lab-first muted">${ms('lightbulb')}<span>元素や物質を2つ以上選んで、「くっつける」を押してみましょう。<br>反応するものと、しないものがあります。いろいろ試して、図鑑を完成させてください。</span></div>`;
+  if (L.none) return `<div class="lab-res none"><div class="lr-h"><span class="lr-ty">${ms('block')}反応しません</span>${L.n ? `<span class="muted" style="font-size:.85rem;font-weight:600">${esc(L.n[0])}＋${esc(L.n[1])}</span>` : ''}</div><p>${esc(L.why)}</p><button type="button" class="btn tonal sm" data-act="labaiq" data-id="why">${gem(18, true)}AIにくわしく聞く</button></div>`;
   const r = L.r, hue = labItem(labKeyFor(r.o[0][0], r.o[0][1]))[3];
   return `<div class="lab-res sc" style="--sh:${hue}"><div class="lr-h"><span class="lr-ty">${esc(r.t)}</span>${L.fresh ? '<span class="lr-new">NEW</span>' : ''}</div>
   <div class="lr-eq">${labEq(r.e)}</div>
@@ -4290,9 +4454,33 @@ function labResHtml() {
   <div class="lr-s"><b>${ms('home')}身近な例</b><p>${esc(r.u)}</p></div></div>`;
 }
 function labActs() {
-  const b = LAB.blobs.find(x => x.id === LAB.sel); if (!b) return LAB.blobs.some(x => DXL.some(d => d.k === x.k)) ? `<p class="muted" style="margin:8px 4px 0;font-size:.88rem;font-weight:500">${ms('info')} 物質をタップして選ぶと、分解などの操作が出ます。</p>` : '';
+  const n = LAB.blobs.length, b = LAB.blobs.find(x => x.id === LAB.sel);
+  let h = n >= 2 ? `<div class="lab-gor"><button type="button" class="btn lab-go" data-act="labgo">${ms('merge')}くっつける</button><span class="muted">選んだ ${n} つを、くっつけます</span></div>` : n === 1 ? `<p class="muted" style="margin:8px 4px 0;font-size:.88rem;font-weight:500">${ms('info')} もう1つ選ぶと、「くっつける」ボタンが出ます。</p>` : '';
+  if (!b) return h + (LAB.blobs.some(x => DXL.some(d => d.k === x.k)) ? `<p class="muted" style="margin:8px 4px 0;font-size:.88rem;font-weight:500">${ms('info')} 物質をタップして選ぶと、分解などの操作が出ます。</p>` : '');
   const ds = DXL.filter(d => d.k === b.k);
-  return `<div class="lab-ab"><b>${esc(labItem(b.k)[1])}</b>${ds.map(d => `<button class="btn tonal sm" data-act="labdec" data-id="${d.m}">${ms('local_fire_department')}${d.btn}</button>`).join('')}<button class="btn text sm" data-act="labdel">${ms('close')}取り除く</button></div>`;
+  return h + `<div class="lab-ab"><b>${esc(labItem(b.k)[1])}</b>${ds.map(d => `<button class="btn tonal sm" data-act="labdec" data-id="${d.m}">${ms('local_fire_department')}${d.btn}</button>`).join('')}<button class="btn text sm" data-act="labdel">${ms('close')}取り除く</button></div>`;
+}
+/* ---- 元素ラボのAI ---- */
+const LAB_AI_SYS = 'あなたは、日本の中学生に化学を教える、やさしい理科の先生です。仮想の実験アプリ「元素ラボ」で、元素や物質を組み合わせたときの質問に答えます。です・ます調で、中学理科の範囲を中心に、3〜5文・200字ほどで書きます。反応が起こるなら、何ができるか・どんな変化が見えるか・なぜ起こるかを説明し、起こらないなら、その理由を説明します。化学反応式は H2O や 2H2 + O2 → 2H2O のように、ふつうの文字で書き、LaTeXは使いません。爆発や有毒ガスなど危険なものについては、しくみだけを説明し、作り方・分量・手順は書きません。そのときは「実際に勝手に試してはいけません」と一言添えます。化学と関係のない質問には、「元素ラボの質問をしてください」と答えます。';
+const LAB_AI = { log: [], busy: '' };
+function labAiCtx() {
+  const bl = LAB.blobs.map(b => { const [sym, name] = labItem(b.k); return `${name}（${sym}）`; }), L = LAB.last;
+  let s = bl.length ? `いま実験場にあるもの：${bl.join('、')}\n` : 'いま実験場には、何もありません。\n';
+  if (L) s += L.none ? `直前の結果：${L.n ? L.n.join('と') + 'は、' : ''}反応しませんでした。\n` : `直前の結果：${L.r.t}（反応式：${L.r.e}）\n`;
+  return s;
+}
+function labAiPaint() {
+  const c = $('#labaic'), a = $('#labaans'); if (!c || !a) return;
+  const n = LAB.blobs.length;
+  c.innerHTML = (n >= 2 ? `<button type="button" class="tchip" data-act="labaiq" data-id="combo">いま選んだものを、くっつけると？</button>` : '') + (LAB.last ? `<button type="button" class="tchip" data-act="labaiq" data-id="why">なぜ、こうなるの？</button><button type="button" class="tchip" data-act="labaiq" data-id="ex">身近な例は？</button>` : '');
+  a.innerHTML = (LAB_AI.busy ? `<div class="lab-aq">${esc(LAB_AI.busy)}</div><div class="ai-b m"><span class="dots"><i></i><i></i><i></i></span></div>` : '') + LAB_AI.log.map(m => `<div class="lab-aq">${esc(m.q)}</div><div class="ai-b m">${mdLite(m.a)}</div>`).join('');
+  const nt = $('#labainote'); if (nt) nt.textContent = CLOUD.user ? 'AIの利用回数（1日の上限）に含まれます。まちがうこともあるので、教科書でも確かめましょう。' : 'AIは、Googleログイン後に使えます。';
+}
+async function labAiAsk(q) {
+  if (LAB_AI.busy || !q) return; LAB_AI.busy = q; labAiPaint();
+  const r = await aiRun({ system: LAB_AI_SYS, prompt: `${labAiCtx()}\n質問：${q.slice(0, 200)}` });
+  LAB_AI.busy = ''; if (r) { LAB_AI.log.unshift({ q, a: r }); LAB_AI.log.length = Math.min(LAB_AI.log.length, 3); }
+  labAiPaint();
 }
 function labBook() {
   const chip = (id, txt) => LAB.found.has(id) ? `<button class="tchip" data-act="labreplay" data-id="${id}">${txt}</button>` : `<span class="tchip q">？</span>`;
@@ -4309,7 +4497,7 @@ function labPaint() {
   put('laba', labActs()); put('labres', labResHtml()); put('labbook', labBook());
   const made = [...new Set(LAB.blobs.map(b => b.k).concat(Object.keys(LI).filter(k => k.startsWith('p:'))))].filter(k => k.startsWith('p:'));
   put('labmade', made.length ? `<div class="lbl" style="margin:6px 4px 6px">つくった物質</div><div class="lab-tray">${made.map(labTrayItem).join('')}</div>` : '');
-  labCount();
+  labCount(); labAiPaint();
 }
 function labFx(type, x, y) {
   const L = $('#fxl'), F = $('#labf'); if (!L || reduced()) return;
@@ -4346,7 +4534,7 @@ async function labReact(b1, b2) {
     LAB.blobs = LAB.blobs.filter(b => b !== b1 && b !== b2); labSpawn(res.r.o, mx, my); labDone(res.r, rxId(res.r));
   } else {
     el1 && el1.classList.add('nope'); el2 && el2.classList.add('nope'); await labWait(520);
-    b1.x = Math.max(12, b1.x - 10); b2.x = Math.min(88, b2.x + 10); LAB.last = { none: true, why: res.why }; LAB.sel = 0;
+    b1.x = Math.max(12, b1.x - 10); b2.x = Math.min(88, b2.x + 10); LAB.last = { none: true, why: res.why, n: [labItem(b1.k)[1], labItem(b2.k)[1]] }; LAB.sel = 0;
   }
   LAB.busy = false; if (!$('#labf')) return; labPaint();
   const rs = $('#labres'); if (rs && rs.scrollIntoView) rs.scrollIntoView({ behavior: reduced() ? 'auto' : 'smooth', block: 'nearest' });
@@ -4367,8 +4555,7 @@ function labAdd(k, x, y) {
 function labTap(k) {
   if (LAB.busy) return;
   const slot = LAB.blobs.length === 0 ? [28, 52] : LAB.blobs.length === 1 ? [72, 52] : [20 + Math.random() * 60, 28 + Math.random() * 40];
-  const nb = labAdd(k, slot[0], slot[1]); labPaint();
-  if (LAB.blobs.length >= 2) labReact(LAB.blobs[LAB.blobs.length - 2], nb);
+  labAdd(k, slot[0], slot[1]); labPaint();
 }
 // ---- タッチ・マウスのドラッグ ----
 let LD = null;
@@ -4398,7 +4585,7 @@ document.addEventListener('pointermove', e => {
   $('#labf').classList.toggle('over', inside);
   if (d.ghost) { d.ghost.style.left = e.clientX + 'px'; d.ghost.style.top = e.clientY + 'px'; }
   else { d.t.style.left = Math.min(100, Math.max(0, x)) + '%'; d.t.style.top = Math.min(100, Math.max(0, y)) + '%'; }
-  labMark(inside ? labNear(x, y, d.bid) : null);
+  labMark(null);
 });
 function labDragEnd(e, cancel) {
   const d = LD; if (!d || e.pointerId !== d.id) return; LD = null;
@@ -4410,16 +4597,17 @@ function labDragEnd(e, cancel) {
   const [x, y] = labPos(e), inside = x >= 0 && x <= 100 && y >= 0 && y <= 100;
   if (d.tray) {
     if (!inside) return;
-    const tg = labNear(x, y, 0), nb = labAdd(d.k, x, y); labPaint(); if (tg) labReact(tg, nb);
+    labAdd(d.k, x, y); labPaint();
   } else {
     const b = LAB.blobs.find(z => z.id === d.bid); if (!b) { labPaint(); return; }
     if (!inside) { LAB.blobs = LAB.blobs.filter(z => z !== b); if (LAB.sel === b.id) LAB.sel = 0; labPaint(); return; }
     b.x = Math.min(92, Math.max(8, x)); b.y = Math.min(90, Math.max(10, y));
-    const tg = labNear(b.x, b.y, b.id); if (tg) { labPaint(); labReact(b, tg); } else labPaint();
+    labPaint();
   }
 }
 document.addEventListener('pointerup', e => labDragEnd(e, false));
 document.addEventListener('pointercancel', e => labDragEnd(e, true));
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'labaq') { e.preventDefault(); ACT.labaigo(); } });
 document.addEventListener('input', e => { if (e.target.id === 'ptq') { PT.q = e.target.value; ptPaint(); } });
 TPAINT.ptable = ptPaint;
 
