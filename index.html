@@ -1262,6 +1262,59 @@ details.clv summary{display:flex;align-items:center;justify-content:space-betwee
 .lab-bk{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.lab-bk .tchip{height:44px;font-size:.88rem}
 .tchip.q{opacity:.45;pointer-events:none;justify-content:center;min-width:48px}
 @media(prefers-reduced-motion:reduce){.lab-b.pop,.lab-res,.molsvg .mat{animation:none}}
+/* 動画ビューア */
+#yxui,#yxp{display:none}
+#yxui[hidden],#yxp[hidden]{display:none!important}
+#yxui:not([hidden]){display:flex;position:fixed;inset:0;z-index:70;background:var(--bg);color:var(--on);padding-top:env(safe-area-inset-top);animation:yxin .3s ease}
+@keyframes yxin{from{opacity:0}}
+.yx-in{flex:1;min-height:0;width:min(100%,1040px);margin:0 auto;padding:0 16px;box-sizing:border-box;display:flex;flex-direction:column}
+.yx-hd{display:flex;align-items:center;gap:8px;height:64px;flex:none;font-size:1.15rem;font-weight:700}
+.yx-hd b{display:flex;align-items:center;gap:8px;flex:1}
+.yx-ib{flex:none;width:48px;height:48px;border:0;border-radius:50%;display:inline-grid;place-items:center;background:var(--sec-c);color:var(--on-sec-c);transition:border-radius .4s var(--spring),transform .4s var(--spring),background .2s}
+.yx-ib:active{border-radius:16px;transform:scale(.94)}
+.yx-ib.big{width:64px;border-radius:24px;background:var(--primary);color:var(--on-primary)}
+.yx-ib.on{background:var(--pc);color:var(--on-pc)}
+.yx-sr{display:flex;gap:8px;margin-bottom:12px;flex:none}
+#yxq{flex:1;min-width:0;height:52px;border:0;border-radius:26px;padding:0 22px;background:var(--s2);color:var(--on);font:inherit;font-size:16px;outline:none}
+.yx-sr .btn{height:52px;padding:0 22px}
+.yx-np{display:none;flex:none;margin-bottom:8px}
+.yx-np.on{display:block}
+.yx-slot{width:min(100%,calc((100dvh - 360px)*16/9),960px);aspect-ratio:16/9;margin:0 auto;background:#000;border-radius:20px;min-width:240px}
+.yx-meta{margin:10px 4px 0;min-width:0}
+.yx-meta b{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-size:1rem;line-height:1.35}
+.yx-meta small{color:var(--on-v)}
+.yx-err{color:var(--on-v);font-size:.88rem;margin-top:4px}.yx-err:empty{display:none}
+.yx-lk{border:0;background:none;color:var(--primary);font-weight:700;padding:6px 4px}
+.yx-ctl{display:flex;align-items:center;gap:6px;margin-top:8px;flex-wrap:wrap}
+.yx-ctl .fl{flex:1}
+.yx-tabs{display:flex;gap:8px;overflow-x:auto;flex:none;padding:4px 0 10px}
+.yx-tab{flex:none;height:40px;padding:0 18px;border:0;border-radius:20px;background:var(--s2);color:var(--on);font-weight:600}
+.yx-tab.on{background:var(--primary);color:var(--on-primary)}
+.yx-list{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;padding-bottom:calc(24px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:12px;align-content:start}
+.yx-it{display:flex;gap:12px;align-items:flex-start;text-align:left;padding:8px;border:0;border-radius:20px;background:var(--s1);color:inherit;transition:border-radius .4s var(--spring),transform .4s var(--spring)}
+.yx-it:active{transform:scale(.97);border-radius:28px}
+.yx-th{position:relative;flex:none;width:44%;max-width:170px;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:var(--s3)}
+.yx-th img{width:100%;height:100%;object-fit:cover;display:block}
+.yx-th em{position:absolute;right:6px;bottom:6px;background:#000c;color:#fff;font-style:normal;font-size:.72rem;padding:1px 6px;border-radius:8px}
+.yx-tx{min-width:0;display:grid;gap:2px}
+.yx-tx b{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-size:.92rem;line-height:1.35}
+.yx-tx small{color:var(--on-v);font-size:.78rem}
+.yx-empty{grid-column:1/-1;text-align:center;padding:36px 12px;color:var(--on-v);display:grid;justify-items:center;gap:8px}
+.yx-empty .ms{font-size:36px}
+#yxp{position:fixed;z-index:72;left:0;top:0;width:0;height:0;background:#000;overflow:hidden;border-radius:20px;transition:left .32s cubic-bezier(.2,.8,.2,1),top .32s cubic-bezier(.2,.8,.2,1),width .32s cubic-bezier(.2,.8,.2,1),height .32s cubic-bezier(.2,.8,.2,1),border-radius .3s}
+#yxp:not([hidden]){display:block}
+#yxp.drag{transition:none}
+#yxp.m-pip{border-radius:18px;box-shadow:0 10px 30px rgba(0,0,0,.4),0 0 0 1px rgba(255,255,255,.14)}
+#yxp.m-fs{left:0!important;top:0!important;width:100%!important;height:100%!important;border-radius:0;z-index:9000}
+#yxpl{position:absolute;left:0;top:0;width:100%;height:100%;border:0}
+.yx-bar{display:none;position:absolute;left:0;right:0;top:0;height:40px;align-items:center;gap:0;padding:0 4px;background:linear-gradient(#000b,#0000);touch-action:none;cursor:grab;z-index:2}
+#yxp.m-pip .yx-bar{display:flex}
+.yx-bar button{flex:none;width:34px;height:34px;border:0;border-radius:50%;display:grid;place-items:center;background:none;color:#fff}
+.yx-bar .ms{font-size:20px}
+.yx-gr{flex:1;display:flex;align-items:center;padding-left:4px;color:#fffc}
+.yx-x{display:none;position:absolute;top:calc(12px + env(safe-area-inset-top));right:14px;z-index:3;width:44px;height:44px;border:0;border-radius:50%;background:#0009;color:#fff;place-items:center}
+#yxp.m-fs .yx-x{display:grid}
+@media(prefers-reduced-motion:reduce){#yxp{transition:none}#yxui:not([hidden]){animation:none}}
 </style>
 </head>
 <body>
@@ -1286,7 +1339,7 @@ details.clv summary{display:flex;align-items:center;justify-content:space-betwee
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '9.5';
+const APP_VERSION = '9.6';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1767,6 +1820,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '9.6', t: '細かな調整', n: ['いくつかの動作を整えました'] },
   { v: '9.5', t: '周期表を118元素に。くっつけて反応を見る「元素ラボ」', n: ['周期表を、全118元素に増やしました（ランタノイド・アクチノイドも表示します）', '元素名・記号・原子番号で探したり、色の仲間をタップして、その仲間だけを目立たせたりできます', '元素の詳細に、周期・族・常温での状態・使われ方・原子のつくり（最初の20元素）を出します', '「くっつけてみよう」で、元素や物質をドラッグして重ねると、何ができるかを、動きと光で見られます', '化学反応式・目に見える変化・しくみ・身近な例と、粒のイメージ図を表示します（反応46種類・分解4種類）', '暗記クイズに、元素記号→元素名、原子番号→元素名、全118元素のクイズを追加しました'] },
   { v: '9.4', t: '更新内容の表示と、更新履歴', n: ['アップデートのあとに、新しくなった点を表示します', '設定の「使い方とバージョン」から、更新履歴をいつでも見られます'] },
   { v: '9.3', t: '考査がない時期の、提出日管理・勉強管理', n: ['考査の初日を空欄にすると、「ふだんの課題」として使えます', 'ホームに、次の提出日までの日数・今日や7日以内の期限・期限切れの件数を表示します', '期限が近い課題を、「期限切れ・今日・明日・7日以内」に分けて一覧にしました', '課題タブに「期限順」の表示を追加しました（教科をまたいで期限順に並びます）', '課題の追加で、「今日・明日・1週間後」などを押して期限を入れられます', 'ホームに、1週間の集中時間・ページ数・先週との差を出す「今週の勉強」を追加しました'] },
@@ -2090,7 +2144,7 @@ function viewSettings() {
   <div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>
   ${navSettings()}
 
-  <div class="h-sec"><h2>${ms('help')}使い方とバージョン</h2></div><div class="card"><div class="setrow" style="padding:0 0 14px"><span class="t">バージョン<small>v${APP_VERSION}</small></span></div><div class="chips"><button class="btn tonal" data-act="guide">${ms('help')}使い方を見る</button><button class="btn tonal" data-act="chlog">${ms('history')}更新履歴</button></div></div>
+  <div class="h-sec"><h2>${ms('help')}使い方とバージョン</h2></div><div class="card"><div class="setrow" style="padding:0 0 14px"><span class="t">バージョン<small data-ytk style="display:block;width:fit-content;padding:8px 24px 8px 0;margin:-8px 0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation">v${APP_VERSION}</small></span></div><div class="chips"><button class="btn tonal" data-act="guide">${ms('help')}使い方を見る</button><button class="btn tonal" data-act="chlog">${ms('history')}更新履歴</button></div></div>
 
   <div class="h-sec"><h2>${ms('system_update')}アプリのアップデート</h2></div>${updCard()}
 
@@ -4735,6 +4789,231 @@ try {
   const seen = localStorage.getItem('kosa-seen-ver'), gs = localStorage.getItem('kosa-guide-seen'), last = seen || (gs && /^\d+(\.\d+)*$/.test(gs) ? gs : null);
   if (seen !== APP_VERSION) { localStorage.setItem('kosa-seen-ver', APP_VERSION); if (last && verCmp(APP_VERSION, last) > 0) setTimeout(() => { if (!dlg.open) whatsNewDlg(last); }, 1100); }
 } catch (e) { }
+
+/* ===== 動画ビューア（設定のバージョン表記を5回タップで開く） ===== */
+const YXS = (() => { try { return JSON.parse(localStorage.getItem('kosa-yx') || '{}') || {}; } catch (e) { return {}; } })();
+YXS.hist = YXS.hist || []; YXS.fav = YXS.fav || [];
+const yxSave = () => { try { localStorage.setItem('kosa-yx', JSON.stringify(YXS)); } catch (e) { } };
+/* 公開サーバー（APIキー不要）。つながらなくなったら、ここを書き換える */
+const yx = {
+  ui: null, box: null, mode: 'off', pl: null, ready: false, fb: false, cur: null, q: [], qi: -1, tab: 'home', playing: false, err: '', prev: 'page',
+  lists: { home: [], search: [], hist: YXS.hist, fav: YXS.fav }, busy: {}, fail: {}, lastQ: '', apiP: null, disc: false, homeTried: false, drag: null, good: YXS.good || null,
+  inv: ['https://inv.nadeko.net', 'https://yewtu.be', 'https://invidious.nerdvpn.de', 'https://invidious.privacyredirect.com', 'https://invidious.fdn.fr', 'https://iv.ggtyler.dev'],
+  pip: ['https://pipedapi.kavin.rocks', 'https://pipedapi.adminforge.de', 'https://pipedapi.leptons.xyz', 'https://api.piped.private.coffee', 'https://pipedapi.nosebs.ru']
+};
+const yxAct = {};
+async function yxJson(url, ms = 5000) { const c = new AbortController(), t = setTimeout(() => c.abort(), ms); try { const r = await fetch(url, { signal: c.signal }); if (!r.ok) throw new Error('http'); return await r.json(); } finally { clearTimeout(t); } }
+function yxDiscover() {
+  if (yx.disc) return; yx.disc = true;
+  yxJson('https://api.invidious.io/instances.json?sort_by=health').then(a => { if (!Array.isArray(a)) return; const f = []; a.forEach(x => { const o = x && x[1]; if (o && o.api && o.cors && o.type === 'https' && o.uri) f.push(String(o.uri).replace(/\/$/, '')); }); yx.inv = [...f.slice(0, 8), ...yx.inv]; }).catch(() => { });
+  yxJson('https://piped-instances.kavin.rocks/').then(a => { if (!Array.isArray(a)) return; const f = []; a.forEach(x => { if (x && x.api_url) f.push(String(x.api_url).replace(/\/$/, '')); }); yx.pip = [...f.slice(0, 8), ...yx.pip]; }).catch(() => { });
+}
+function yxCands() {
+  const out = [], seen = new Set(), add = (t, u) => { const k = t + u; if (!seen.has(k)) { seen.add(k); out.push({ t, u }); } };
+  if (yx.good && yx.good.u) add(yx.good.t, yx.good.u);
+  const n = Math.max(yx.inv.length, yx.pip.length);
+  for (let i = 0; i < n; i++) { if (yx.inv[i]) add('i', yx.inv[i]); if (yx.pip[i]) add('p', yx.pip[i]); }
+  return out;
+}
+const yxViews = n => { n = +n; if (!n) return ''; return n >= 1e8 ? (n / 1e8).toFixed(1) + '億回視聴' : n >= 1e4 ? Math.round(n / 1e4) + '万回視聴' : n + '回視聴'; };
+const yxLen = s => { s = +s; if (!s || s < 0) return ''; const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), r = s % 60; return (h ? h + ':' + String(m).padStart(2, '0') : m) + ':' + String(r).padStart(2, '0'); };
+function yxNorm(t, j) {
+  let a = [];
+  if (t === 'i') a = (Array.isArray(j) ? j : []).filter(x => x && x.videoId && (!x.type || x.type === 'video')).map(x => ({ id: x.videoId, title: x.title, author: x.author, len: x.lengthSeconds, views: yxViews(x.viewCount) }));
+  else { const l = Array.isArray(j) ? j : (j && j.items) || []; a = l.filter(x => x && typeof x.url === 'string' && x.url.includes('watch?v=')).map(x => ({ id: new URLSearchParams(x.url.split('?')[1]).get('v'), title: x.title, author: x.uploaderName, len: x.duration, views: yxViews(x.views) })); }
+  return a.filter(x => x.id && /^[\w-]{11}$/.test(x.id) && x.title);
+}
+async function yxQuery(kind, arg) {
+  const one = c => {
+    const q = encodeURIComponent(arg || '');
+    const url = c.t === 'i' ? (kind === 'search' ? `${c.u}/api/v1/search?q=${q}&type=video&region=JP&hl=ja` : `${c.u}/api/v1/trending?region=JP`) : (kind === 'search' ? `${c.u}/search?q=${q}&filter=videos` : `${c.u}/trending?region=JP`);
+    return yxJson(url).then(j => { const l = yxNorm(c.t, j); if (!l.length) throw new Error('empty'); yx.good = c; YXS.good = c; yxSave(); return l; });
+  };
+  const c = yxCands();
+  for (let i = 0; i < c.length && i < 25; i += 5) { try { return await Promise.any(c.slice(i, i + 5).map(one)); } catch (e) { } }
+  throw new Error('fail');
+}
+function yxParse(s) {
+  s = (s || '').trim(); if (!s) return null;
+  if (/^[\w-]{11}$/.test(s) && /[\d_-]/.test(s)) return { id: s };
+  try {
+    const u = new URL(/^https?:\/\//i.test(s) ? s : 'https://' + s), h = u.hostname.replace(/^www\.|^m\./, ''), v = u.searchParams.get('v'), l = u.searchParams.get('list');
+    if (h === 'youtu.be') { const id = u.pathname.slice(1, 12); if (/^[\w-]{11}$/.test(id)) return { id }; }
+    if (/(^|\.)youtube(-nocookie)?\.com$/.test(h)) {
+      if (v && /^[\w-]{11}$/.test(v)) return { id: v };
+      const m = u.pathname.match(/^\/(shorts|embed|live|v)\/([\w-]{11})/); if (m) return { id: m[2] };
+      if (l) return { list: l };
+    }
+  } catch (e) { }
+  return null;
+}
+function yxApi() {
+  if (yx.apiP) return yx.apiP;
+  yx.apiP = new Promise((res, rej) => {
+    if (window.YT && window.YT.Player) return res();
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => { try { prev && prev(); } catch (e) { } res(); };
+    const s = document.createElement('script'); s.src = 'https://www.youtube.com/iframe_api'; s.onerror = () => { yx.apiP = null; rej(new Error('api')); };
+    document.head.appendChild(s);
+    setTimeout(() => { if (!(window.YT && window.YT.Player)) { yx.apiP = null; rej(new Error('timeout')); } }, 8000);
+  });
+  return yx.apiP;
+}
+const yxIsFav = id => YXS.fav.some(x => x.id === id);
+function yxHist(v) {
+  if (!v || !v.id) return;
+  const i = YXS.hist.findIndex(x => x.id === v.id); if (i >= 0) YXS.hist.splice(i, 1);
+  YXS.hist.unshift({ id: v.id, title: v.title || '', author: v.author || '' }); YXS.hist.length = Math.min(YXS.hist.length, 40);
+  yx.lists.hist = YXS.hist; yxSave(); if (yx.tab === 'hist') yxList();
+}
+/* ---------- 画面 ---------- */
+function yxDom() {
+  if (yx.ui) return;
+  const ui = document.createElement('div'); ui.id = 'yxui'; ui.hidden = true;
+  ui.innerHTML = `<div class="yx-in">
+    <div class="yx-hd"><b>${ms('smart_display')}動画</b><button type="button" class="yx-ib" data-yx="pip" aria-label="小さな画面で見る">${ms('picture_in_picture_alt')}</button><button type="button" class="yx-ib" data-yx="stop" aria-label="閉じる">${ms('close')}</button></div>
+    <div class="yx-sr"><input id="yxq" type="search" placeholder="キーワード、または動画のURL" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false"><button type="button" class="btn" data-yx="go">${ms('search')}検索</button></div>
+    <div class="yx-np" id="yxnp"><div class="yx-slot" id="yxslot"></div><div class="yx-meta"><b id="yxti"></b><small id="yxau"></small><div class="yx-err" id="yxerr"></div></div><div class="yx-ctl" id="yxctl"></div></div>
+    <div class="yx-tabs" id="yxtabs"></div><div class="yx-list" id="yxlist"></div></div>`;
+  document.body.appendChild(ui);
+  const box = document.createElement('div'); box.id = 'yxp'; box.hidden = true; box.className = 'm-off';
+  box.innerHTML = `<div id="yxpl"></div><div class="yx-bar" id="yxbar"></div><button type="button" class="yx-x" data-yx="unfs" aria-label="全画面を終了">${ms('fullscreen_exit')}</button>`;
+  document.body.appendChild(box);
+  yx.ui = ui; yx.box = box;
+  const bar = $('#yxbar', box);
+  bar.addEventListener('pointerdown', e => { if (e.target.closest('button') || yx.mode !== 'pip') return; const r = box.getBoundingClientRect(); yx.drag = { dx: e.clientX - r.left, dy: e.clientY - r.top }; try { bar.setPointerCapture(e.pointerId); } catch (x) { } box.classList.add('drag'); });
+  bar.addEventListener('pointermove', e => { if (!yx.drag) return; const r = box.getBoundingClientRect(), p = yxClamp(e.clientX - yx.drag.dx, e.clientY - yx.drag.dy, r.width, r.height); YXS.px = p[0]; YXS.py = p[1]; yxPlace(); });
+  const up = () => { if (!yx.drag) return; yx.drag = null; box.classList.remove('drag'); yxSave(); };
+  bar.addEventListener('pointerup', up); bar.addEventListener('pointercancel', up);
+  $('#yxq').addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); yxAct.go(); } });
+}
+function yxClamp(l, t, w, h) {
+  const top = (parseInt(getComputedStyle(document.body).paddingTop) || 0) + 8;
+  return [Math.max(8, Math.min(innerWidth - w - 8, l)), Math.max(top, Math.min(innerHeight - h - 8, t))];
+}
+const yxPw = () => YXS.pw || (innerWidth < 700 ? 240 : 340);
+function yxPlace() {
+  const b = yx.box; if (!b || b.hidden) return;
+  let l, t, w, h;
+  if (yx.mode === 'page') { const r = $('#yxslot').getBoundingClientRect(); l = r.left; t = r.top; w = r.width; h = r.height; }
+  else if (yx.mode === 'pip') {
+    w = Math.min(yxPw(), innerWidth - 16); h = Math.round(w * 9 / 16);
+    const off = (innerWidth < 700 || document.documentElement.dataset.nav === 'bottom') ? 176 : 28;
+    [l, t] = yxClamp(YXS.px == null ? innerWidth - w - 16 : YXS.px, YXS.py == null ? innerHeight - h - off : YXS.py, w, h);
+  } else return;
+  Object.assign(b.style, { left: l + 'px', top: t + 'px', width: w + 'px', height: h + 'px' });
+}
+function yxMode(m) {
+  yx.mode = m; yx.box.className = 'm-' + m; yx.ui.hidden = m !== 'page'; yx.box.hidden = !(yx.cur && m !== 'off');
+  requestAnimationFrame(yxPlace); yxSync();
+}
+function yxSync() {
+  if (!yx.ui) return;
+  const c = yx.cur; $('#yxnp').classList.toggle('on', !!c);
+  if (c) { $('#yxti').textContent = c.title || '読み込み中…'; $('#yxau').textContent = c.author || ''; }
+  $('#yxerr').innerHTML = yx.err ? `${esc(yx.err)} <button type="button" class="yx-lk" data-yx="ext">YouTubeで開く</button>` : '';
+  const f = c && yxIsFav(c.id);
+  $('#yxctl').innerHTML = `<button type="button" class="yx-ib" data-yx="prev" aria-label="前へ">${ms('skip_previous')}</button><button type="button" class="yx-ib big" data-yx="pp" aria-label="再生・一時停止">${ms(yx.playing ? 'pause' : 'play_arrow')}</button><button type="button" class="yx-ib" data-yx="next" aria-label="次へ">${ms('skip_next')}</button><span class="fl"></span><button type="button" class="yx-ib ${f ? 'on' : ''}" data-yx="fav" aria-label="お気に入り">${ms('favorite')}</button><button type="button" class="yx-ib" data-yx="pip" aria-label="小さな画面">${ms('picture_in_picture_alt')}</button><button type="button" class="yx-ib" data-yx="fs" aria-label="全画面">${ms('fullscreen')}</button><button type="button" class="yx-ib" data-yx="ext" aria-label="YouTubeで開く">${ms('open_in_new')}</button>`;
+  $('#yxbar').innerHTML = `<span class="yx-gr">${ms('drag_indicator')}</span><button type="button" data-yx="pp" aria-label="再生・一時停止">${ms(yx.playing ? 'pause' : 'play_arrow')}</button><button type="button" data-yx="size" aria-label="大きさ">${ms('zoom_out_map')}</button><button type="button" data-yx="fs" aria-label="全画面">${ms('fullscreen')}</button><button type="button" data-yx="page" aria-label="開く">${ms('open_in_full')}</button><button type="button" data-yx="stop" aria-label="閉じる">${ms('close')}</button>`;
+}
+function yxItem(v, i) {
+  return `<button type="button" class="yx-it" data-yx="play" data-i="${i}"><span class="yx-th"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg">${v.len ? `<em>${yxLen(v.len)}</em>` : ''}</span><span class="yx-tx"><b>${esc(v.title || v.id)}</b><small>${esc(v.author || '')}${v.views ? ' ・ ' + esc(v.views) : ''}</small></span></button>`;
+}
+function yxList() {
+  if (!yx.ui) return;
+  $('#yxtabs').innerHTML = [['home', 'おすすめ'], ['search', '検索結果'], ['hist', '履歴'], ['fav', 'お気に入り']].map(([k, t]) => `<button type="button" class="yx-tab ${yx.tab === k ? 'on' : ''}" data-yx="tab" data-i="${k}">${t}</button>`).join('');
+  const k = yx.tab, items = yx.lists[k] || [];
+  let h;
+  if (yx.busy[k]) h = `<div class="yx-empty">${ms('hourglass_top')}<p>探しています…</p></div>`;
+  else if (yx.fail[k] && !items.length) h = `<div class="yx-empty">${ms('cloud_off')}<p>検索サーバーにつながりませんでした。<br>動画のURLを貼り付けて、再生することもできます。</p><button type="button" class="btn tonal" data-yx="retry">${ms('refresh')}もう一度試す</button></div>`;
+  else if (!items.length) h = `<div class="yx-empty"><p>${{ home: '読み込み中です。', search: 'キーワードを入れて検索してください。', hist: 'まだ履歴がありません。', fav: 'お気に入りはまだありません。' }[k]}</p></div>`;
+  else h = items.map(yxItem).join('');
+  $('#yxlist').innerHTML = h;
+}
+async function yxHome() { yx.homeTried = true; yx.busy.home = true; yx.fail.home = false; yxList(); try { yx.lists.home = await yxQuery('trending'); } catch (e) { yx.fail.home = true; } yx.busy.home = false; yxList(); }
+async function yxSearch(q) { yx.tab = 'search'; yx.lastQ = q; yx.busy.search = true; yx.fail.search = false; yxList(); try { yx.lists.search = await yxQuery('search', q); } catch (e) { yx.lists.search = []; yx.fail.search = true; } yx.busy.search = false; yxList(); }
+/* ---------- 再生 ---------- */
+const yxEmbed = v => v.id ? `https://www.youtube-nocookie.com/embed/${v.id}?playsinline=1&autoplay=1&rel=0` : `https://www.youtube-nocookie.com/embed/videoseries?list=${encodeURIComponent(v.list)}&playsinline=1&autoplay=1`;
+function yxFallback(v) {
+  const host = $('#yxpl'); const f = document.createElement('iframe'); f.id = 'yxpl';
+  f.src = yxEmbed(v); f.allow = 'autoplay; fullscreen; picture-in-picture; encrypted-media'; f.allowFullscreen = true; host.replaceWith(f); yx.fb = true; yx.pl = null; yx.ready = false;
+}
+function yxLoadCur() {
+  const v = yx.cur; if (!yx.ready || !v) return;
+  try { if (v.id) yx.pl.loadVideoById(v.id); else yx.pl.loadPlaylist({ list: v.list, listType: 'playlist' }); } catch (e) { }
+}
+async function yxPlay(v) {
+  yx.cur = v; yx.err = ''; yx.playing = false; yxMode(yx.mode === 'off' ? 'page' : yx.mode);
+  if (yx.fb) { $('#yxpl').src = yxEmbed(v); return; }
+  try { await yxApi(); } catch (e) { return yxFallback(v); }
+  if (yx.pl) { yxLoadCur(); return; }
+  const po = { playsinline: 1, autoplay: 1, rel: 0, modestbranding: 1, fs: 1 }; if (/^https?:$/.test(location.protocol)) po.origin = location.origin;
+  yx.pl = new YT.Player('yxpl', { width: '100%', height: '100%', host: 'https://www.youtube-nocookie.com', playerVars: po, events: {
+    onReady: () => { yx.ready = true; yxLoadCur(); },
+    onStateChange: e => {
+      const s = e.data;
+      if (s === 1) { yx.playing = true; yx.err = ''; try { const d = yx.pl.getVideoData(); if (d && d.video_id) { if (!yx.cur || yx.cur.id !== d.video_id) yx.cur = { id: d.video_id, title: d.title || '', author: d.author || '' }; else { if (d.title) yx.cur.title = d.title; if (d.author && !yx.cur.author) yx.cur.author = d.author; } yxHist(yx.cur); } } catch (x) { } }
+      else if (s === 2) yx.playing = false;
+      else if (s === 0) { yx.playing = false; if (yx.qi >= 0 && yx.qi + 1 < yx.q.length) yxAct.next(); }
+      yxSync();
+    },
+    onError: e => {
+      const c = e.data; yx.playing = false;
+      yx.err = [101, 150, 153].includes(c) ? 'この動画は、埋め込み再生が許可されていません。' : c === 100 ? 'この動画は見つかりませんでした（削除または非公開です）。' : '再生できませんでした。';
+      yxSync(); if (yx.mode !== 'page') toast(yx.err);
+      if ([100, 101, 150].includes(c) && yx.qi >= 0 && yx.qi + 1 < yx.q.length) setTimeout(() => { if (yx.err) yxAct.next(); }, 2200);
+    } } });
+}
+function yxOpen() {
+  yxDom(); yxDiscover(); yxApi().catch(() => { });
+  yxMode('page'); yxList();
+  if (!yx.lists.home.length && !yx.homeTried) yxHome();
+  try { navigator.vibrate && navigator.vibrate(12); } catch (e) { }
+}
+/* ---------- 操作 ---------- */
+const yxV = v => ({ id: v.id, title: v.title, author: v.author });
+Object.assign(yxAct, {
+  go() { const el = $('#yxq'), q = el.value.trim(); if (!q) return; const p = yxParse(q); el.blur(); if (p) { el.value = ''; yx.q = []; yx.qi = -1; yxPlay(p); } else yxSearch(q); },
+  tab(k) { yx.tab = k; yxList(); if (k === 'home' && !yx.lists.home.length && !yx.busy.home) yxHome(); },
+  retry() { if (yx.tab === 'search' && yx.lastQ) yxSearch(yx.lastQ); else { yx.tab = 'home'; yxHome(); } },
+  play(i) { const items = yx.lists[yx.tab] || [], v = items[+i]; if (!v) return; yx.q = items.slice(); yx.qi = +i; yxPlay(yxV(v)); },
+  next() { if (yx.qi >= 0 && yx.qi + 1 < yx.q.length) { yx.qi++; yxPlay(yxV(yx.q[yx.qi])); } else if (yx.pl && yx.pl.nextVideo && !yx.q.length) { try { yx.pl.nextVideo(); } catch (e) { } } },
+  prev() { if (yx.qi > 0) { yx.qi--; yxPlay(yxV(yx.q[yx.qi])); } else if (yx.pl && yx.pl.previousVideo && !yx.q.length) { try { yx.pl.previousVideo(); } catch (e) { } } },
+  pp() { if (!yx.pl || !yx.ready) return; try { yx.playing ? yx.pl.pauseVideo() : yx.pl.playVideo(); } catch (e) { } },
+  fav() { const c = yx.cur; if (!c || !c.id) return; const i = YXS.fav.findIndex(x => x.id === c.id); if (i >= 0) YXS.fav.splice(i, 1); else YXS.fav.unshift({ id: c.id, title: c.title || '', author: c.author || '' }); yx.lists.fav = YXS.fav; yxSave(); yxSync(); if (yx.tab === 'fav') yxList(); },
+  ext() { const c = yx.cur; if (c) window.open(c.id ? 'https://www.youtube.com/watch?v=' + c.id : 'https://www.youtube.com/playlist?list=' + c.list, '_blank', 'noopener'); },
+  pip() { if (yx.cur) yxMode('pip'); else yxAct.stop(); },
+  page() { yxMode('page'); },
+  size() { const L = innerWidth < 700 ? [200, 260, 320] : [280, 400, 560], cur = yxPw(), n = L.find(x => x > cur + 4) || L[0]; YXS.pw = n; yxSave(); yxPlace(); },
+  fs() {
+    if (yx.mode === 'fs') return yxAct.unfs();
+    yx.prev = yx.mode === 'pip' ? 'pip' : 'page'; yxMode('fs');
+    const el = yx.box, rq = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (rq) { try { const p = rq.call(el); if (p && p.catch) p.catch(() => { }); } catch (e) { } }
+  },
+  unfs() {
+    if (document.fullscreenElement || document.webkitFullscreenElement) { try { (document.exitFullscreen || document.webkitExitFullscreen).call(document); } catch (e) { } }
+    if (yx.mode === 'fs') yxMode(yx.prev || 'page');
+  },
+  stop() {
+    if (yx.mode === 'fs') yxAct.unfs();
+    try { yx.pl && yx.pl.stopVideo && yx.pl.stopVideo(); } catch (e) { }
+    if (yx.fb) { const f = $('#yxpl'); if (f) f.src = 'about:blank'; }
+    yx.cur = null; yx.playing = false; yx.q = []; yx.qi = -1; yx.err = ''; yxMode('off');
+  }
+});
+document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-yx]'); if (b) yxAct[b.dataset.yx]?.(b.dataset.i, b, e); });
+const yxFsChg = () => { const on = !!(document.fullscreenElement || document.webkitFullscreenElement); if (on) yx.fsNative = true; else if (yx.mode === 'fs' && yx.fsNative) { yx.fsNative = false; yxMode(yx.prev || 'page'); } };
+document.addEventListener('fullscreenchange', yxFsChg); document.addEventListener('webkitfullscreenchange', yxFsChg);
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && yx.mode === 'fs') yxAct.unfs(); });
+window.addEventListener('resize', () => requestAnimationFrame(yxPlace)); window.addEventListener('orientationchange', () => setTimeout(yxPlace, 300));
+/* 設定の「バージョン」の数字を、5回続けてタップすると開く */
+let yxkN = 0, yxkT = 0;
+document.addEventListener('click', e => {
+  const k = e.target.closest && e.target.closest('[data-ytk]'); if (!k) return;
+  const n = Date.now(); yxkN = (n - yxkT < 1500) ? yxkN + 1 : 1; yxkT = n;
+  if (yxkN >= 5) { yxkN = 0; yxOpen(); }
+});
 </script>
 </body>
 </html>
