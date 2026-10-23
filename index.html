@@ -1402,6 +1402,31 @@ details.clv summary{display:flex;align-items:center;justify-content:space-betwee
   #nav:not(.many) .ni{font-size:10px}
   .card{padding-left:16px;padding-right:16px}
 }
+
+/* 追加ボタン（＋）をどの画面でも */
+#fab .fabb{touch-action:none}
+#fab.drag .fabb{box-shadow:0 14px 34px rgba(0,0,0,.35)}
+html[data-tab=tools] .fabb{width:54px;height:54px;border-radius:20px}
+@media(max-width:699px){html[data-tab=ai] #fab{bottom:calc(190px + env(safe-area-inset-bottom))}}
+/* 受け取りの演出（AirDrop風） */
+#airfx{position:fixed;inset:0;z-index:9500;pointer-events:none;display:grid;place-items:center;overflow:hidden;transition:opacity .55s}
+#airfx.out{opacity:0}
+.af-glow{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(98,130,255,.42) 0,rgba(98,130,255,0) 58%),radial-gradient(circle at 50% 56%,rgba(179,136,255,.34) 0,rgba(179,136,255,0) 72%);opacity:0;animation:afg 2.7s ease-out forwards}
+@keyframes afg{0%{opacity:0}16%{opacity:1}100%{opacity:0}}
+.af-rings{position:absolute;left:50%;top:50%;width:0;height:0}
+.af-rings i{position:absolute;left:-80px;top:-80px;width:160px;height:160px;border-radius:50%;border:3px solid var(--primary);box-shadow:0 0 26px var(--primary),inset 0 0 26px var(--primary);opacity:0;animation:afr 1.9s cubic-bezier(.15,.7,.3,1) both}
+.af-rings i:nth-child(2){animation-delay:.28s}.af-rings i:nth-child(3){animation-delay:.56s}.af-rings i:nth-child(4){animation-delay:.84s}
+@keyframes afr{0%{transform:scale(.35);opacity:.95}100%{transform:scale(4);opacity:0}}
+.af-core{position:relative;width:104px;height:104px;border-radius:50%;display:grid;place-items:center;color:#fff;background:linear-gradient(140deg,var(--primary),#7c4dff 62%,#29b6f6);box-shadow:0 0 36px var(--primary),0 0 96px rgba(124,77,255,.55);animation:afc 2.7s cubic-bezier(.2,1.25,.3,1) both}
+.af-core .ms{font-size:50px;position:relative}
+@keyframes afc{0%{transform:scale(0);opacity:0}15%{transform:scale(1.2);opacity:1}26%{transform:scale(1)}86%{transform:scale(1);opacity:1}100%{transform:scale(.82);opacity:0}}
+.af-ring{position:absolute;inset:-9px;border-radius:50%;background:conic-gradient(from 0deg,rgba(255,255,255,0),#fff,rgba(255,255,255,0) 45%);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));animation:afs 1.2s linear infinite}
+@keyframes afs{to{transform:rotate(360deg)}}
+.af-txt{position:absolute;left:0;right:0;top:calc(50% + 86px);display:flex;justify-content:center;animation:aft 2.7s ease both}
+.af-pill{display:grid;gap:2px;text-align:center;max-width:82%;padding:12px 22px;border-radius:22px;background:var(--s2);color:var(--on);box-shadow:0 8px 30px rgba(60,40,160,.25)}
+.af-pill b{font-size:1.1rem}.af-pill small{color:var(--on-v)}
+@keyframes aft{0%,22%{opacity:0;transform:translateY(14px)}38%{opacity:1;transform:none}86%{opacity:1}100%{opacity:0}}
+@media(prefers-reduced-motion:reduce){#airfx{display:none}}
 </style>
 </head>
 <body>
@@ -1426,7 +1451,7 @@ details.clv summary{display:flex;align-items:center;justify-content:space-betwee
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '10.2';
+const APP_VERSION = '10.3';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1755,7 +1780,7 @@ function renderNav() {
   nav.innerHTML = items.map(id => { const [l, i] = navInfo(id); const on = cur === id, b = id === 'home' && bt; return `<button class="ni ${on ? 'on' : ''}" data-act="tab" data-id="${id}" aria-label="${l}${b ? `（${bt}）` : ''}" ${on ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24) : ms(i)}</span>${b ? `<b class="nbadge ${bhot ? 'hot' : ''}">${bt}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span><span class="nl">${l}</span></button>`; }).join('');
 }
 function renderFab() {
-  const f = $('#fab'); f.hidden = ui.tab === 'ai' || ui.tab === 'tools';
+  const f = $('#fab'); f.hidden = false; document.documentElement.dataset.tab = ui.tab;
   if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="ai">${gem(20)}AIに質問</button><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="aitext">${gem(20)}文章から課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
   f.className = ui.fab ? 'open' : '';
   f.querySelector('.fabb').setAttribute('aria-expanded', String(!!ui.fab));
@@ -1907,6 +1932,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '10.3', t: '受け取りの演出、追加ボタン、写真は10枚まで', n: ['単語帳や教科と課題を、コードで受け取ったときに、光が広がる演出が出るようになりました', '追加ボタン（＋）が、どの画面でも出るようになりました。ドラッグして、好きな場所に動かせます', '写真から単語帳のカードを作るとき、写真を10枚まで使えるようになりました（これまでは3枚まで）'] },
   { v: '10.2', t: 'スマホ向けの表示を調整', n: ['下のタブバーが、スマホの画面に収まるようにしました（右端の「設定」が見えなくなる問題を直しました）', '画面が横にはみ出す問題を直しました（ホーム・課題・元素ラボ）', '単語帳・元素ラボを、スマホで使いやすい配置にしました。元素ラボは、元素や物質を選ぶ場所を、実験場のすぐ下に移しました', '押しにくかった小さなボタンを、大きくしました'] },
   { v: '10.1', t: '単語帳の番号と範囲。ログイン・同期の安全対策', n: ['単語帳のカードに番号をつけました。「番号で絞る」で、1〜50番など、決めた範囲だけを勉強できます（暗記クイズにも使われます）', 'シャッフルしても、「順番にもどす」で番号の順番にもどせるようにしました', 'ログアウトして、もう一度ログインしたときに、データが消えることがある問題を直しました。空の状態でクラウドを上書きしない・別のアカウントのときは選んでもらう・入れ替わる前に自動でバックアップを残す、という仕組みを入れました', '設定の「バックアップと共有」に、自動バックアップから戻す項目を足しました'] },
   { v: '10.0', t: '元素ラボに加熱装置。バックアップのページ', n: ['元素ラボの実験場の横に、加熱する装置（アルコールランプ）を追加しました。火をつけると、加熱や点火が必要な反応を起こせます', '設定のバックアップ関連の項目を、専用の「バックアップと共有」ページにまとめました'] },
@@ -2991,7 +3017,7 @@ const ACT = {
     g2.innerHTML = `${gem(18)}カードを作る`; g2.disabled = !WP.imgs.length;
     const arr = Array.isArray(r) ? r : (r && Array.isArray(r.cards) ? r.cards : []);
     const have = new Set(wcAll().map(wcKey)), seen = new Set(), cl = t => String(t || '').replace(/\$/g, '').trim();
-    const items = arr.map(x => ({ f: cl(x && (x.f ?? x.front)).slice(0, 80), b: cl(x && (x.b ?? x.back)).slice(0, 160) })).filter(x => { if (!x.f || !x.b) return false; const k = wcKey(x); if (have.has(k) || seen.has(k)) return false; seen.add(k); return true; }).slice(0, 80);
+    const items = arr.map(x => ({ f: cl(x && (x.f ?? x.front)).slice(0, 80), b: cl(x && (x.b ?? x.back)).slice(0, 160) })).filter(x => { if (!x.f || !x.b) return false; const k = wcKey(x); if (have.has(k) || seen.has(k)) return false; seen.add(k); return true; }).slice(0, 150);
     if (!items.length) return r && toast('カードを作れませんでした。写真や指定を変えてお試しください');
     const chk = items.filter(x => /要確認/.test(x.b)).length;
     wcImpDlg(items, `写真から作ったカード（${items.length}枚）`, imgs, chk ? `「要確認」の${chk}枚は、AIが自信のない答えです。確かめてから追加してください。` : '');
@@ -3157,6 +3183,16 @@ function exportSubjects() {
   if (!subjects().length) return toast('書き出す教科がありません');
   saveFile(`kadai-subjects-${today()}.json`, 'application/json', JSON.stringify(subjPack(null), null, 2));
 }
+/* 受け取りの演出（AirDrop風） */
+function airFx(title, sub, icon) {
+  try { navigator.vibrate && navigator.vibrate([14, 50, 22]); } catch (x) { }
+  if (matchMedia('(prefers-reduced-motion:reduce)').matches) return;
+  const old = $('#airfx'); old && old.remove();
+  const e = document.createElement('div'); e.id = 'airfx';
+  e.innerHTML = `<div class="af-glow"></div><div class="af-rings"><i></i><i></i><i></i><i></i></div><div class="af-core"><div class="af-ring"></div>${ms(icon || 'download')}</div><div class="af-txt"><div class="af-pill"><b>${esc(title)}</b><small>${esc(sub)}</small></div></div>`;
+  document.body.appendChild(e);
+  setTimeout(() => e.classList.add('out'), 2500); setTimeout(() => e.remove(), 3100);
+}
 /* ---------- 単語帳のコード共有（Firestore: shares/{コード}） ---------- */
 const SHD = { deck: '', code: '', label: '', how: '' };
 const shGen = () => [...crypto.getRandomValues(new Uint8Array(9))].map(x => x % 10).join('');
@@ -3206,7 +3242,7 @@ async function shLook(raw, pull) {
     const sn = await CLOUD.fb.fs.getDoc(CLOUD.fb.fs.doc(CLOUD.fb.db, 'shares', code));
     if (!sn.exists()) { closeDlg(); return toast('そのコードは、見つかりませんでした。入力を確認してください'); }
     const x = sn.data(), arr = JSON.parse(x.json);
-    if (arr && !Array.isArray(arr) && arr.app === 'kosa-subjects' && Array.isArray(arr.subjects)) { arr.subjects = arr.subjects.slice(0, 30).map(v => ({ ...v, tasks: (Array.isArray(v.tasks) ? v.tasks : []).slice(0, 300) })); closeDlg(); return subjImportDlg(arr); }
+    if (arr && !Array.isArray(arr) && arr.app === 'kosa-subjects' && Array.isArray(arr.subjects)) { arr.subjects = arr.subjects.slice(0, 30).map(v => ({ ...v, tasks: (Array.isArray(v.tasks) ? v.tasks : []).slice(0, 300) })); closeDlg(); return subjImportDlg(arr, true); }
     const cards = (Array.isArray(arr) ? arr : []).map(c => ({ f: String((c && c.f) || '').trim().slice(0, 200), b: String((c && c.b) || '').trim().slice(0, 400), h: String((c && c.h) || '').trim().slice(0, 200) })).filter(c => c.f && c.b).slice(0, 3000);
     if (!cards.length) { closeDlg(); return toast('この単語帳には、カードがありませんでした'); }
     shPreview({ code, name: String(x.name || '単語帳').slice(0, 20), hue: +x.hue || 0, cards });
@@ -3217,7 +3253,7 @@ function shPreview(x) {
   const smp = x.cards.slice(0, 3).map(c => `<li>${esc(c.f)}<span class="muted"> → ${esc(c.b)}</span></li>`).join('');
   openDlg(`<h2>${ms('download')}「${esc(x.name)}」を取り込みますか？</h2><p class="muted" style="margin:-6px 0 10px;line-height:1.7">カードは ${x.cards.length}枚です。${ex ? `すでに取り込んだ単語帳「${esc(ex.name)}」があります（新しいカード ${fresh}枚）。「追加する」は新しいカードだけを足し、「置き換える」は中身を共有元と同じにします（覚えた印は、同じカードなら残ります）。` : '新しい単語帳として、追加します。'}</p><ul class="sh-smp">${smp}</ul>
   <div class="dact" style="flex-wrap:wrap;gap:10px"><button type="button" class="btn text" data-act="close">やめる</button><span class="sp"></span>${ex ? `<button type="button" class="btn tonal" id="shr">置き換える</button><button type="button" class="btn" id="sha" ${fresh ? '' : 'disabled'}>${ms('add')}追加する</button>` : `<button type="button" class="btn" id="shn">${ms('download')}取り込む</button>`}</div>`);
-  const go = (mode) => { closeDlg(); undoable(`「${x.name}」を取り込みました`, () => shApply(x, mode, ex)); };
+  const go = (mode) => { closeDlg(); undoable(`「${x.name}」を取り込みました`, () => shApply(x, mode, ex)); airFx(`「${x.name}」を受け取りました`, `カード ${x.cards.length}枚`, 'style'); };
   if (ex) { $('#shr').onclick = () => go('rep'); $('#sha').onclick = () => go('add'); } else $('#shn').onclick = () => go('new');
 }
 function shApply(x, mode, ex) {
@@ -3288,9 +3324,9 @@ function importSubjects(input) {
   };
   r.readAsText(f);
 }
-function subjImportDlg(j) {
+function subjImportDlg(j, viaCode) {
   const nt = j.subjects.reduce((a, s) => a + (s.tasks || []).length, 0);
-  confirmDlg('教科と課題を読み込みますか？', `教科 ${j.subjects.length} 件・課題 ${nt} 件を「${curExam().name}」に追加します。進捗は含まれず、0からはじまります。同名の教科には課題を追加し、同じタイトルの課題は読み飛ばします。`, '読み込む', () => undoable('教科と課題を読み込みました', () => {
+  confirmDlg('教科と課題を読み込みますか？', `教科 ${j.subjects.length} 件・課題 ${nt} 件を「${curExam().name}」に追加します。進捗は含まれず、0からはじまります。同名の教科には課題を追加し、同じタイトルの課題は読み飛ばします。`, '読み込む', () => { if (viaCode) airFx('教科と課題を受け取りました', `教科 ${j.subjects.length}件・課題 ${nt}件`, 'menu_book'); undoable('教科と課題を読み込みました', () => {
     const exId = curExam().id;
     for (const x of j.subjects) {
       let s = S.subjects.find(v => v.ex === exId && v.name === x.name);
@@ -3301,7 +3337,7 @@ function subjImportDlg(j) {
         S.tasks.push({ id: uid(), sid: s.id, title: String(k.title || '').slice(0, 60), req: !!k.req, kind: ['chk', 'list'].includes(k.kind) ? k.kind : 'pg', dest: String(k.dest || '').slice(0, 30), subreq: !!k.subreq, items: k.kind === 'list' && Array.isArray(k.items) ? k.items.map(x => ({ text: String(x.text || '').slice(0, 60), done: false })) : null, total: k.kind === 'list' && Array.isArray(k.items) ? Math.max(1, k.items.length) : chk ? 1 : Math.max(1, +k.total || 1), start: chk ? 1 : Math.max(1, +k.start || 1), segs: !chk && Array.isArray(k.segs) && k.segs.length > 1 ? k.segs.map(x => [+x[0], +x[1]]) : null, done: 0, due: k.due || '', note: k.note || '', pin: '', at: Date.now(), doneAt: null });
       }
     }
-  }));
+  }); });
 }
 /* ---------- 教科と課題を、コードで送る ---------- */
 const shSent = () => { try { return JSON.parse(localStorage.getItem('kosa-sent') || '[]'); } catch (e) { return []; } };
@@ -4174,9 +4210,10 @@ function wcImpDlg(items, title, thumbs = [], note = '') {
 const WP = { imgs: [], busy: false, exs: [] };
 const WP_MODES = [['auto', 'auto_awesome', '自動で判断', '答えがあれば読み取り、空欄なら解きます'], ['read', 'document_scanner', '書かれている内容を読み取る', '単語と意味の一覧などを、カードにします'], ['solve', 'edit_note', '空欄の問題を解く', '答えのないプリントを、AIが解いてカードにします']];
 const WP_EX = ['表：英単語　裏：日本語の意味', '表：過去分詞　裏：過去形', '表：問題　裏：答え', '表：用語　裏：説明'];
+const WP_MAX = 10;
 function wpThumbs() {
   return WP.imgs.map((a, i) => `<span class="wp-t"><img src="${a.url}" alt=""><button type="button" data-act="wprm" data-id="${i}" aria-label="写真を外す">${ms('close')}</button></span>`).join('')
-    + (WP.imgs.length < 3 ? `<button type="button" class="wp-add" data-act="wpadd">${ms('add_a_photo')}<span>写真を${WP.imgs.length ? '追加' : '選ぶ・撮る'}</span></button>` : '');
+    + (WP.imgs.length < WP_MAX ? `<button type="button" class="wp-add" data-act="wpadd">${ms('add_a_photo')}<span>写真を${WP.imgs.length ? '追加' : '選ぶ・撮る'}</span></button>` : '');
 }
 function wpPaint() { const t = $('#wpth'), g = $('#wpgo'); if (t) t.innerHTML = wpThumbs(); if (g) g.disabled = WP.busy || !WP.imgs.length; }
 function wcPhotoDlg() {
@@ -4185,7 +4222,7 @@ function wcPhotoDlg() {
   if (!WP_MODES.some(m => m[0] === mode)) mode = 'auto';
   WP.exs = [...(last && !WP_EX.includes(last) ? [last] : []), ...WP_EX];
   openDlg(`<h2>${gem(24, true)}写真からカードを作る</h2>
-  <div class="fld"><label>写真（3枚まで）</label><div class="wp-th" id="wpth">${wpThumbs()}</div></div>
+  <div class="fld"><label>写真（${WP_MAX}枚まで）</label><div class="wp-th" id="wpth">${wpThumbs()}</div></div>
   <div class="fld"><label for="wpi">どんなカードにする？（任意）</label><textarea id="wpi" class="trta" rows="2" maxlength="200" style="min-height:84px" placeholder="例：表は過去分詞、裏は過去形"></textarea><div class="wp-ex">${WP.exs.map((x, i) => `<button type="button" class="tchip" data-act="wpex" data-id="${i}">${esc(x)}</button>`).join('')}</div></div>
   <div class="fld"><label>写真の内容</label><div class="wp-modes">${WP_MODES.map(([v, ic, t, d]) => `<label class="wp-m"><input type="radio" name="wpm" value="${v}" ${v === mode ? 'checked' : ''}><span>${ms(ic)}<b>${t}</b><small>${d}</small></span></label>`).join('')}</div></div>
   <p class="muted" style="margin:0 0 4px;font-size:.88rem;line-height:1.7">AIの読み取りや答えは、間違うことがあります。必ず確認してから追加してください。${CLOUD.user ? '' : '<br>Googleログイン後に使えます。'}</p>
@@ -4194,7 +4231,7 @@ function wcPhotoDlg() {
 async function wcPhoto(input) {   // 写真が選ばれたとき（ダイアログに追加）
   const files = [...(input.files || [])]; input.value = '';
   if (!files.length || !$('#wpth')) return;
-  for (const f of files) { if (WP.imgs.length >= 3) { toast('写真は3枚までです'); break; } try { WP.imgs.push(await aiResize(f, 1600)); } catch (e) { toast('写真を読み込めませんでした'); } }
+  for (const f of files) { if (WP.imgs.length >= WP_MAX) { toast(`写真は${WP_MAX}枚までです`); break; } try { WP.imgs.push(await aiResize(f, WP.imgs.length < 3 ? 1600 : 1280)); } catch (e) { toast('写真を読み込めませんでした'); } wpPaint(); }
   wpPaint();
 }
 function wcPhotoPrompt(mode, instr) {
@@ -4203,8 +4240,9 @@ function wcPhotoPrompt(mode, instr) {
     solve: 'この画像は、答えが空欄になっている問題プリントです。写っている問題を、あなたが解いて、「問題」と「答え」の組をカードにします。\n- f には問題文（短くまとめてよい）、b には答えを書きます。問題の番号があれば、f の先頭に付けます。\n- 計算問題は、途中式を省いて答えだけを書きます。記述問題は、短い模範解答にします。\n- すでに答えが書き込まれている問題は、その答えが正しいか確かめて使います。\n- 自信がない問題は、b の末尾に「（要確認）」と付けます。読み取れない問題は飛ばします。',
     auto: 'この画像は、学校のプリント・教科書・ノート・単語帳などの写真です。内容を見て、次のように判断してカードにします。\n- 答えや意味がすでに書かれていれば、それを読み取ります。\n- 問題の答えが空欄なら、あなたが解いて、問題と答えの組にします。\n- 意味が書かれていない単語は、中学生向けの短い意味を補います。\n- 自信がない答えは、b の末尾に「（要確認）」と付けます。'
   }[mode] || '';
+  const nI = WP.imgs.length, multi = nI > 1 ? `写真は全部で${nI}枚あります。すべての写真から読み取り、同じ内容は重複させずに、1つのJSON配列にまとめてください。\n\n` : '';
   const ins = instr ? `\n\n【カードの作り方の指定】${instr}\nこの指定に合わせて、f（表）と b（裏）に入れる内容を決めてください。写真に書かれていない情報は、確かなものだけを、あなたの知識で補ってください。` : '';
-  return `${head}${ins}\n\nJSONの配列だけを返してください。各要素は {"f":"表","b":"裏"} の形で、f は60字以内、b は100字以内にします。数式は、LaTeXや$記号を使わず、ふつうの文字で書きます（例：x^2、1/2、√3）。写っていない内容は作りません。最大60個まで。`;
+  return `${multi}${head}${ins}\n\nJSONの配列だけを返してください。各要素は {"f":"表","b":"裏"} の形で、f は60字以内、b は100字以内にします。数式は、LaTeXや$記号を使わず、ふつうの文字で書きます（例：x^2、1/2、√3）。写っていない内容は作りません。最大${nI > 3 ? 150 : 60}個まで。`;
 }
 // ---- めくる・スワイプ ----
 let wcDrag = null;
@@ -5158,6 +5196,32 @@ try {
   const seen = localStorage.getItem('kosa-seen-ver'), gs = localStorage.getItem('kosa-guide-seen'), last = seen || (gs && /^\d+(\.\d+)*$/.test(gs) ? gs : null);
   if (seen !== APP_VERSION) { localStorage.setItem('kosa-seen-ver', APP_VERSION); if (last && verCmp(APP_VERSION, last) > 0) setTimeout(() => { if (!dlg.open) whatsNewDlg(last); }, 1100); }
 } catch (e) { }
+
+/* 追加ボタン（＋）：ドラッグで好きな場所に動かせる */
+let fabDrag = null, fabMoved = false;
+function fabApply() {
+  let o = null; try { o = JSON.parse(localStorage.getItem('kosa-fab') || 'null'); } catch (e) { }
+  const f = $('#fab'); if (!f) return;
+  if (!o) { ['left', 'top', 'right', 'bottom'].forEach(k => f.style.removeProperty(k)); return; }
+  const w = 64, x = Math.max(8, Math.min(innerWidth - w - 8, o.x)), y = Math.max(Math.min(300, innerHeight - w - 8), Math.min(innerHeight - w - 8, o.y));
+  f.style.left = x + 'px'; f.style.top = y + 'px'; f.style.right = 'auto'; f.style.bottom = 'auto';
+}
+document.addEventListener('pointerdown', e => {
+  const b = e.target.closest && e.target.closest('.fabb'); if (!b || e.button > 0 || ui.fab) return;
+  const f = $('#fab'), r = f.getBoundingClientRect(); fabDrag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: r.left, oy: r.top, on: false };
+});
+document.addEventListener('pointermove', e => {
+  const d = fabDrag; if (!d || e.pointerId !== d.id) return;
+  const dx = e.clientX - d.sx, dy = e.clientY - d.sy;
+  if (!d.on) { if (Math.hypot(dx, dy) < 10) return; d.on = true; $('#fab').classList.add('drag'); }
+  const x = d.ox + dx, y = d.oy + dy; try { localStorage.setItem('kosa-fab', JSON.stringify({ x, y })); } catch (_) { } fabApply();
+  e.preventDefault();
+}, { passive: false });
+const fabUp = () => { const d = fabDrag; fabDrag = null; if (d && d.on) { fabMoved = true; setTimeout(() => { fabMoved = false; }, 350); const f = $('#fab'); f && f.classList.remove('drag'); } };
+document.addEventListener('pointerup', fabUp); document.addEventListener('pointercancel', fabUp);
+document.addEventListener('click', e => { if (fabMoved && e.target.closest && e.target.closest('#fab')) { e.stopPropagation(); e.preventDefault(); fabMoved = false; } }, true);
+window.addEventListener('resize', fabApply); window.addEventListener('orientationchange', () => setTimeout(fabApply, 300));
+setTimeout(fabApply, 0);
 
 /* ===== 動画ビューア（設定のバージョン表記を5回タップで開く） ===== */
 const YXS = (() => { try { return JSON.parse(localStorage.getItem('kosa-yx') || '{}') || {}; } catch (e) { return {}; } })();
