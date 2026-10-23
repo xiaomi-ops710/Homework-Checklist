@@ -1427,6 +1427,109 @@ html[data-tab=tools] .fabb{width:54px;height:54px;border-radius:20px}
 .af-pill b{font-size:1.1rem}.af-pill small{color:var(--on-v)}
 @keyframes aft{0%,22%{opacity:0;transform:translateY(14px)}38%{opacity:1;transform:none}86%{opacity:1}100%{opacity:0}}
 @media(prefers-reduced-motion:reduce){#airfx{display:none}}
+
+/* ===== 単語帳 11.0 ===== */
+.tchip:disabled{opacity:.4;pointer-events:none}
+.tchip small{opacity:.75;font-weight:700;margin-left:2px}
+.wx{display:block}
+.wx-sh,.wx-sbtn{display:none}
+.wx-top{display:flex;align-items:center;gap:12px;margin:2px 0 10px}
+.wx-t{flex:1;min-width:0}
+.wx-t h3{margin:0;font-size:1.5rem;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wx-t span{color:var(--on-v);font-size:.92rem;font-weight:500}
+.wx-acts{display:flex;align-items:center;gap:8px;flex:none}
+.wx-tabs{display:flex;gap:6px;background:var(--s2);padding:6px;border-radius:28px;margin:14px 0 16px}
+.wx-tab{flex:1;height:52px;border:0;border-radius:22px;background:none;color:var(--on-v);font-weight:700;font-size:1.02rem;display:flex;align-items:center;justify-content:center;gap:8px;transition:background .25s,border-radius .4s var(--spring)}
+.wx-tab.on{background:var(--primary);color:var(--on-primary)}
+.wx-seg{display:flex;gap:6px;background:var(--s2);padding:5px;border-radius:24px;margin-bottom:12px}
+.wx-seg.sm{margin:0;padding:4px}
+.wx-sg{flex:1;min-width:0;height:46px;border:0;border-radius:19px;background:none;color:var(--on-v);font-weight:700;display:flex;align-items:center;justify-content:center;gap:6px;font-size:.98rem;transition:background .25s}
+.wx-seg.sm .wx-sg{height:38px;padding:0 12px;font-size:.88rem;flex:none}
+.wx-sg.on{background:var(--scc,var(--pc));color:var(--on-scc,var(--on-pc))}
+.wx-sg small{opacity:.75;font-weight:600}
+#wxbody #wcstage{max-width:760px;margin:0 auto}
+#wxbody .wc-opts{justify-content:center}
+.wc-btns .btn{flex:1;height:60px;font-size:1.1rem}
+.wc-tools{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px}
+.wx-ls input{width:100%;box-sizing:border-box;height:54px;border:0;border-radius:27px;padding:0 22px;background:var(--s2);color:var(--on);font:inherit;font-size:16px;outline:none;margin-bottom:10px}
+.wx-hint{display:flex;gap:8px;align-items:flex-start;margin:4px 4px 12px;font-size:.88rem;line-height:1.6}
+.wx-hint .ms{font-size:20px;flex:none}
+.wx-list{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(340px,1fr))}
+.wx-r{display:grid;grid-template-columns:2.2em 44px 44px minmax(0,1fr) 28px;align-items:center;gap:6px;padding:6px 8px;border-radius:20px;background:var(--s1)}
+.wx-ck,.wx-st{width:44px;height:44px;border:0;border-radius:15px;background:var(--s3);color:var(--on-v);display:grid;place-items:center;transition:background .2s,border-radius .35s var(--spring)}
+.wx-ck:active,.wx-st:active{border-radius:22px}
+.wx-ck.on{background:var(--primary);color:var(--on-primary)}
+.wx-st{background:none}.wx-st.on{color:#f5a300;background:rgba(245,163,0,.14)}
+.wx-tx{border:0;background:none;color:inherit;text-align:left;min-width:0;display:grid;gap:1px;padding:8px 4px}
+.wx-tx b{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wx-tx span{color:var(--on-v);font-size:.88rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.wx-w{color:#d84315;display:grid;place-items:center;font-style:normal}.wx-w .ms{font-size:20px}
+.wx-bulk{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.wx-tg{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.wx-tc{display:grid;justify-items:start;align-content:start;gap:8px;text-align:left;min-height:160px;padding:22px;border:0;border-radius:30px;background:var(--scc,var(--s2));color:var(--on-scc,var(--on));transition:border-radius .45s var(--spring),transform .4s var(--spring)}
+.wx-tc:active{transform:scale(.97);border-radius:40px}
+.wx-tc:disabled{opacity:.45;pointer-events:none}
+.wx-tc b{font-size:1.25rem}.wx-tc small{opacity:.8;line-height:1.55;font-size:.92rem}
+.wx-ti{width:52px;height:52px;border-radius:18px;background:var(--sc,var(--primary));color:#fff;display:grid;place-items:center}.wx-ti .ms{font-size:28px}
+.tt-h{display:grid;gap:8px;margin-bottom:12px}.tt-h small{color:var(--on-v);font-weight:600}
+.tt-q{font-size:1.9rem;font-weight:800;text-align:center;padding:26px 6px 22px;line-height:1.4;word-break:break-word}
+.tt-in{width:100%;box-sizing:border-box;height:62px;border:0;border-radius:22px;padding:0 20px;background:var(--s2);color:var(--on);font:inherit;font-size:20px;outline:none;margin-bottom:6px}
+.tt-r{display:flex;align-items:center;justify-content:center;gap:10px;font-size:1.5rem;padding:16px 0 8px}.tt-r .ms{font-size:40px}
+.tt-r.ok{color:#2e7d32}.tt-r.ng{color:#c62828}
+.tt-a{display:grid;gap:3px;text-align:center;padding:6px 0 18px}.tt-a small{color:var(--on-v);margin-top:8px}.tt-a span{font-size:1.2rem;font-weight:600;word-break:break-word}.tt-ok{font-size:1.6rem!important;font-weight:800!important}
+.tt-score{text-align:center;padding:6px 0 14px}.tt-score b{font-size:3.4rem;line-height:1}.tt-score span{color:var(--on-v);font-weight:600}
+.tt-ng{display:grid;gap:6px;max-height:34vh;overflow:auto;margin-bottom:12px}.tt-ng div{display:flex;gap:12px;justify-content:space-between;padding:10px 14px;border-radius:16px;background:var(--s2)}.tt-ng span{color:var(--on-v);text-align:right}
+#wca{position:fixed;inset:0;z-index:80;display:flex;flex-direction:column;background:var(--bg);color:var(--on);padding:calc(10px + env(safe-area-inset-top)) 20px calc(20px + env(safe-area-inset-bottom));animation:yxin .3s ease}
+.wca-top{display:flex;align-items:center;gap:12px;flex:none}
+.wca-c{flex:1;display:grid;place-content:center;text-align:center;padding:0 8px}
+.wca-t{font-size:clamp(2.2rem,8vw,4.6rem);font-weight:800;line-height:1.3;word-break:break-word}
+.wca-t.in{animation:wcafade .4s ease}
+@keyframes wcafade{from{opacity:0}}
+.wca-m{color:var(--on-v);font-weight:600;margin-bottom:14px}
+.wca-ctl{display:flex;justify-content:center;align-items:center;gap:14px;flex:none}
+.wca-ctl .ibtn{width:56px;height:56px}.wca-ctl .ibtn.big{width:76px;height:76px;border-radius:28px;background:var(--primary);color:var(--on-primary)}
+.wca-ctl .ibtn.on{background:var(--pc);color:var(--on-pc)}
+@media(min-width:1000px){
+  .wx{display:grid;grid-template-columns:272px minmax(0,1fr);gap:28px;align-items:start}
+  .wx-side{position:sticky;top:12px;display:block}
+  .wx-sh{display:block;font-weight:700;color:var(--on-v);margin:6px 8px 10px;font-size:.92rem}
+  .wx-side .wc-decks{flex-direction:column;overflow:visible;padding:0 0 12px;margin:0;gap:8px;scroll-snap-type:none}
+  .wx-side .wc-dk{width:100%;height:60px;border-radius:22px;padding:0 18px 0 16px}
+  .wx-side .wc-dk b{max-width:none;flex:1;text-align:left}
+  .wx-side .wc-dk.on{border-radius:22px}
+  .wx-sbtn{display:block}.wx-sbtn .btn{width:100%}
+  .wx-t h3{font-size:1.8rem}
+  .wx-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media(max-width:699px){
+  .wx-tab{height:48px;font-size:.96rem;gap:6px}
+  .wx-sg{height:44px;font-size:.92rem}
+  .wx-list{grid-template-columns:1fr}
+  .wx-top .btn{padding:0 16px}
+  .wx-t h3{font-size:1.3rem}
+  #wca{padding-left:14px;padding-right:14px}
+  .wca-top .wx-sg{padding:0 8px;font-size:.8rem}
+}
+
+@media(min-width:700px){
+  #wxbody .wc-wrap{--wch:clamp(220px,28dvh,340px)}
+  #wxbody .wc-opts{gap:8px;margin-bottom:14px}
+  #wxbody .tchip{height:40px;padding:0 16px;font-size:.88rem}
+  .wx-tab{height:48px}
+  .wx-seg{margin-bottom:10px}
+}
+@media(min-width:700px) and (min-height:1000px){#wxbody .wc-wrap{--wch:clamp(300px,36dvh,440px)}}
+
+@media(max-width:699px){
+  #wxbody .wc-wrap{--wch:clamp(190px,27dvh,280px)}
+  .wx-tabs{margin:10px 0 12px}.wx-tab{height:44px}
+  .wx-sg{height:40px}
+  #wxbody .tchip{height:40px;padding:0 14px;font-size:.86rem}
+  #wxbody .wc-btns{position:sticky;bottom:calc(96px + env(safe-area-inset-bottom));z-index:6;margin:0 -4px;padding:10px 4px 6px;background:linear-gradient(rgba(255,255,255,0),var(--bg) 38%)}
+  #wxbody .wc-btns .btn{height:56px}
+}
+
+@media(max-width:699px){html[data-tab=tools] #fab{bottom:calc(172px + env(safe-area-inset-bottom))}}
 </style>
 </head>
 <body>
@@ -1451,7 +1554,7 @@ html[data-tab=tools] .fabb{width:54px;height:54px;border-radius:20px}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '10.3';
+const APP_VERSION = '11.0';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1932,6 +2035,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '11.0', t: '単語帳を、使いやすく大きくリニューアル', n: ['画面を「学習」「一覧」「テスト」の3つに分けて、わかりやすくしました。iPadの横向きでは、左に単語帳の一覧が出ます', '覚えた単語も、「覚えた」の一覧から、いつでも見直せるようになりました。ひとつ前のカードに戻る操作も追加しました', 'カードに★をつけて、あとから見直せるようになりました。「まだ」を何度も押したカードは、苦手なカードとして集められます', '新しいテストを追加しました：意味を見て単語を入力する「入力テスト」と、自動でめくって読み上げる「聞き流し」', '一覧から、覚えたの切り替えや★を、すばやく付けられます。今日の学習枚数も出ます'] },
   { v: '10.3', t: '受け取りの演出、追加ボタン、写真は10枚まで', n: ['単語帳や教科と課題を、コードで受け取ったときに、光が広がる演出が出るようになりました', '追加ボタン（＋）が、どの画面でも出るようになりました。ドラッグして、好きな場所に動かせます', '写真から単語帳のカードを作るとき、写真を10枚まで使えるようになりました（これまでは3枚まで）'] },
   { v: '10.2', t: 'スマホ向けの表示を調整', n: ['下のタブバーが、スマホの画面に収まるようにしました（右端の「設定」が見えなくなる問題を直しました）', '画面が横にはみ出す問題を直しました（ホーム・課題・元素ラボ）', '単語帳・元素ラボを、スマホで使いやすい配置にしました。元素ラボは、元素や物質を選ぶ場所を、実験場のすぐ下に移しました', '押しにくかった小さなボタンを、大きくしました'] },
   { v: '10.1', t: '単語帳の番号と範囲。ログイン・同期の安全対策', n: ['単語帳のカードに番号をつけました。「番号で絞る」で、1〜50番など、決めた範囲だけを勉強できます（暗記クイズにも使われます）', 'シャッフルしても、「順番にもどす」で番号の順番にもどせるようにしました', 'ログアウトして、もう一度ログインしたときに、データが消えることがある問題を直しました。空の状態でクラウドを上書きしない・別のアカウントのときは選んでもらう・入れ替わる前に自動でバックアップを残す、という仕組みを入れました', '設定の「バックアップと共有」に、自動バックアップから戻す項目を足しました'] },
@@ -2916,7 +3020,30 @@ const ACT = {
   simn(id) { SM.n = +id; toolsRefresh(); }, qzset(id) { quizStart(id); }, qzpick(id) { if (QZ.pick >= 0) return; QZ.pick = +id; const q = QZ.q[QZ.i]; if (q.o[QZ.pick] === q.b) QZ.ok++; else QZ.wrong.push(q); toolsRefresh(); }, qznext() { QZ.i++; QZ.pick = -1; if (QZ.i >= QZ.q.length) QZ.phase = 'done'; toolsRefresh(); }, qzreset() { QZ.phase = 'setup'; toolsRefresh(); }, nat(id) { if (NS.kind === id) natStop(); else natStart(id); renderMini(); renderFocus(); }, natoff() { natStop(); renderMini(); if (TM.open) renderFocus(); }, ftanim() { S.set.timerAnim = S.set.timerAnim === false; save(); renderFocus(); },
   wcflip() { const c = $('#wcc'); if (!c || WC.busy) return; WC.flip = !WC.flip; c.classList.toggle('flip', WC.flip); },
   wcok() { wcMark(1); }, wcng() { wcMark(0); },
-  wconly() { WC.only = !WC.only; WC.i = 0; WC.flip = false; wcSave(); toolsRefresh(); },
+  wcfilt(id) { WC.filt = id; WC.i = 0; WC.flip = false; WC.tab = 'study'; wcSave(); toolsRefresh(); },
+  wcsel(id) { WC.sel = id; WC.i = 0; WC.flip = false; toolsRefresh(); },
+  wctab(id) { WC.tab = id; toolsRefresh(); },
+  wcsort(id) { WC.sort = id; wcSave(); toolsRefresh(); },
+  wcundo() { const u = WC.undo.pop(); if (!u) return; const c = S.cards.find(x => x.id === u.id); if (!c) return ACT.wcundo(); c.k = u.k; c.m = u.m; const ix = wcList().indexOf(c); if (ix >= 0) WC.i = ix; WC.flip = false; save(); wcPaint(true); },
+  wcstar() { const c = wcCur(); if (!c) return; c.s = c.s ? 0 : 1; save(); wcPaint(false); wcHeadPaint(); },
+  wclk(id) { const c = S.cards.find(x => x.id === id); if (!c) return; c.k = c.k ? 0 : 1; if (c.k) c.m = 0; save(); put('wclist', wcRows()); wcHeadPaint(); },
+  wcls(id) { const c = S.cards.find(x => x.id === id); if (!c) return; c.s = c.s ? 0 : 1; save(); put('wclist', wcRows()); },
+  wcsetall(id) { const v = +id; confirmDlg(v ? 'すべて「覚えた」にしますか？' : 'すべて「覚えていない」にしますか？', `番号の範囲内の${wcAll().filter(wcInRange).length}枚が対象です。`, 'する', () => { wcAll().filter(wcInRange).forEach(c => { c.k = v; if (v) c.m = 0; }); WC.i = 0; save(); toolsRefresh(); }); },
+  wcquiz() { ui.tool = 'quiz'; ui.vin = true; quizStart('cards:' + wcDeck().id); },
+  wctype() { wcType(); },
+  ttopt(id, el) { const [k, v] = id.split(':'); if (k === 'cnt') TT.cnt = +v; else TT.dir = v; el.parentElement.querySelectorAll('.wx-sg').forEach(b => b.classList.toggle('on', b === el)); },
+  ttgo() { const pool = wcShuffled(wcTestPool(), 1 + Math.floor(Math.random() * 2147483646)); TT.list = pool.slice(0, TT.cnt || pool.length); TT.i = 0; TT.ok = []; TT.ng = []; if (TT.list.length) ttAsk(); },
+  ttnext() { TT.i++; if (TT.i >= TT.list.length) ttResult(); else ttAsk(); },
+  ttquit() { if (TT.ok.length + TT.ng.length) ttResult(); else closeDlg(); },
+  ttstar() { TT.ng.forEach(c => { c.s = 1; }); save(); toast('★をつけました'); toolsRefresh(); },
+  ttretry() { TT.list = wcShuffled(TT.ng.slice(), 7 + Math.floor(Math.random() * 1e6)); TT.i = 0; TT.ok = []; TT.ng = []; ttAsk(); },
+  wcauto() { wcAuto(); },
+  auclose() { auClose(); },
+  aupp() { if (AU.on) { AU.on = false; clearTimeout(AU.t); try { speechSynthesis.cancel(); } catch (e) { } $('#wcapp').innerHTML = ms('play_arrow'); } else { if (AU.i + 1 >= AU.list.length && AU.ph) { AU.i = 0; AU.ph = 0; } AU.on = true; $('#wcapp').innerHTML = ms('pause'); auShow(); auRun(); } },
+  aunext() { if (AU.i + 1 < AU.list.length) { AU.i++; AU.ph = 0; AU.on = true; $('#wcapp').innerHTML = ms('pause'); auShow(); auRun(); } },
+  auprev() { if (AU.i > 0) { AU.i--; AU.ph = 0; AU.on = true; $('#wcapp').innerHTML = ms('pause'); auShow(); auRun(); } },
+  auvoice() { AU.voice = !AU.voice; const b = $('#wcavo'); if (b) { b.classList.toggle('on', AU.voice); b.innerHTML = ms(AU.voice ? 'volume_up' : 'volume_off'); } if (!AU.voice) try { speechSynthesis.cancel(); } catch (e) { } },
+  ausp(id, el) { AU.sp = +id; el.parentElement.querySelectorAll('.wx-sg').forEach(b => b.classList.toggle('on', b === el)); if (AU.on) auRun(); },
   wcrev() { WC.rev = !WC.rev; WC.flip = false; wcSave(); toolsRefresh(); },
   wcreset() { wcAll().filter(wcInRange).forEach(c => c.k = 0); WC.i = 0; WC.flip = false; save(); toolsRefresh(); },
   wcshuf() { const d = wcDeck(); WC.seed[d.id] = 1 + Math.floor(Math.random() * 2147483646); WC.i = 0; WC.flip = false; wcSave(); toolsRefresh(); toast('シャッフルしました。「順番にもどす」で、番号の順番にもどせます'); },
@@ -2946,7 +3073,7 @@ const ACT = {
       c.f = f; c.b = b; c.d = $('#ed').value; save(); closeDlg(); toolsRefresh();
     };
   },
-  wcdeck(id) { WC.deck = id; WC.i = 0; WC.flip = false; wcSave(); toolsRefresh(); },
+  wcdeck(id) { WC.deck = id; WC.i = 0; WC.flip = false; WC.undo = []; WC.sel = 'all'; wcSave(); toolsRefresh(); },
   wcdeckadd() { deckDlg(''); },
   wcdeckedit() { deckDlg(wcDeck().id); },
   wcdeckdel(id) {
@@ -4101,9 +4228,9 @@ function ensureDecks(j = S) {
   j.cards.forEach(c => { if (!j.decks.some(d => d.id === c.d)) c.d = j.decks[0].id; });
   return j;
 }
-const WC = { i: 0, flip: false, only: true, rev: false, deck: '', busy: false, q: '', rng: {}, seed: {} };
-try { const o = JSON.parse(localStorage.getItem('kosa-wc') || '{}'); WC.deck = o.deck || ''; WC.only = o.only !== false; WC.rev = !!o.rev; WC.rng = o.rng || {}; WC.seed = o.seed || {}; } catch (e) { }
-const wcSave = () => { try { localStorage.setItem('kosa-wc', JSON.stringify({ deck: WC.deck, only: WC.only, rev: WC.rev, rng: WC.rng, seed: WC.seed })); } catch (e) { } };
+const WC = { i: 0, flip: false, filt: 'new', rev: false, deck: '', busy: false, q: '', rng: {}, seed: {}, tab: 'study', sel: 'all', sort: 'n', undo: [] };
+try { const o = JSON.parse(localStorage.getItem('kosa-wc') || '{}'); WC.deck = o.deck || ''; WC.filt = o.filt || (o.only === false ? 'all' : 'new'); WC.rev = !!o.rev; WC.rng = o.rng || {}; WC.seed = o.seed || {}; WC.sort = o.sort || 'n'; } catch (e) { }
+const wcSave = () => { try { localStorage.setItem('kosa-wc', JSON.stringify({ deck: WC.deck, filt: WC.filt, rev: WC.rev, rng: WC.rng, seed: WC.seed, sort: WC.sort })); } catch (e) { } };
 const wcDeck = () => { ensureDecks(); return S.decks.find(d => d.id === WC.deck) || S.decks[0]; };
 // カードの番号（c.n）：単語帳ごとに 1,2,3… 。足りないカードには、あとから順にふる
 function wcNums(did) { let mx = 0; const cs = S.cards.filter(c => c.d === did); cs.forEach(c => { if (c.n > mx) mx = c.n; }); cs.forEach(c => { if (!(c.n > 0)) c.n = ++mx; }); }
@@ -4114,29 +4241,45 @@ const wcRangeOf = did => WC.rng[did] || null;
 const wcInRange = c => { const r = wcRangeOf(c.d); return !r || (c.n >= r[0] && c.n <= r[1]); };
 // 勉強する順番：範囲で絞って、シャッフル中なら入れ替える（元のカードの並びは変えない）
 const wcStudy = () => { const d = wcDeck(); let l = wcAll().filter(wcInRange); if (WC.seed[d.id]) l = wcShuffled(l, WC.seed[d.id]); return l; };
-const wcList = () => wcStudy().filter(c => !WC.only || !c.k);
+const wcFilt = c => WC.filt === 'all' || (WC.filt === 'known' ? !!c.k : !c.k);
+const wcSelOk = c => WC.sel === 'star' ? !!c.s : WC.sel === 'weak' ? (c.m || 0) >= 2 : true;
+const wcList = () => wcStudy().filter(c => wcFilt(c) && wcSelOk(c));
+const wcTestPool = () => wcStudy().filter(wcSelOk);
+function wcCounts() { const all = wcAll(), rg = all.filter(wcInRange); return { all: rg.length, known: rg.filter(c => c.k).length, nw: rg.filter(c => !c.k).length, star: all.filter(c => c.s).length, weak: all.filter(c => (c.m || 0) >= 2).length }; }
+const wcDayKey = 'kosa-wc-day';
+function wcDayN() { try { const o = JSON.parse(localStorage.getItem(wcDayKey) || '{}'); return o.d === today() ? o.n || 0 : 0; } catch (e) { return 0; } }
+function wcDayAdd(n) { try { localStorage.setItem(wcDayKey, JSON.stringify({ d: today(), n: wcDayN() + (n || 1) })); } catch (e) { } }
+function wcStatText() { const all = wcAll(), k = all.filter(c => c.k).length, t = wcDayN(); return `覚えた ${k} / ${all.length}枚${t ? ` ・ 今日 ${t}枚 学習` : ''}`; }
+function wcSay(t) { if (!window.speechSynthesis) return false; const u = new SpeechSynthesisUtterance(t); u.lang = /[A-Za-z]/.test(t) && !/[ぁ-んァ-ン一-龥]/.test(t) ? 'en-US' : 'ja-JP'; u.rate = .92; speechSynthesis.cancel(); speechSynthesis.speak(u); return true; }
 const wcCur = () => { const l = wcList(); return l.length ? l[WC.i % l.length] : null; };
 const wcNl = t => esc(t).replace(/\n/g, '<br>');
 const wcKey = c => c.f + '\u0001' + c.b;
 
+function wcEmptyHtml(d, all, study, rg, sc) {
+  const box = (ic, h, p, btns) => `<div class="card wc-empty sc" ${sc}><span class="wc-eic">${ms(ic)}</span><h3>${h}</h3><p class="muted" style="margin:0">${p}</p><div class="dact" style="justify-content:center;gap:10px;flex-wrap:wrap;margin:10px 0 0">${btns}</div></div>`;
+  if (!all.length) return box('style', `「${esc(d.name)}」にカードを追加しましょう`, '写真から読み取ったり、AIに作ってもらったり、自分で入力したりできます。', `<button class="btn" data-act="wcaiadd">${ms('add')}カードを追加</button>`);
+  if (!study.length) return box('pin', 'この番号の範囲には、カードがありません', '範囲を変えるか、解除してください。', `<button class="btn" data-act="wcrng">${ms('pin')}範囲を変える</button><button class="btn tonal" data-act="wcrngclr">範囲を解除</button>`);
+  if (WC.sel !== 'all') return box('star', WC.sel === 'star' ? '★をつけたカードは、ありません' : '苦手なカードは、ありません', WC.sel === 'star' ? 'カードの「★をつける」で、あとで見直したいカードに印をつけられます。' : '「まだ」を2回以上押したカードが、苦手なカードとして集まります。', `<button class="btn tonal" data-act="wcsel" data-id="all">${ms('close')}絞り込みを解除</button>`);
+  if (WC.filt === 'new') return box('celebration', '全部覚えました！', `「${esc(d.name)}」の${rg ? `番号 ${rg[0]}〜${rg[1]} の${study.length}枚` : `${all.length}枚`}を、すべて覚えました。`, `<button class="btn" data-act="wcfilt" data-id="known">${ms('visibility')}覚えた単語を見直す</button><button class="btn tonal" data-act="wcreset">${ms('restart_alt')}最初からやり直す</button>`);
+  return box('hourglass_empty', '覚えたカードは、まだありません', '「覚えた」を押したカードが、ここに集まります。', `<button class="btn tonal" data-act="wcfilt" data-id="new">${ms('arrow_back')}覚えていないカードにもどる</button>`);
+}
 function wcStageHtml() {
   const d = wcDeck(), all = wcAll(), study = wcStudy(), list = wcList(), rg = wcRangeOf(d.id), sc = `style="--sh:${d.hue}"`;
-  if (!all.length) return `<div class="card wc-empty sc" ${sc}><span class="wc-eic">${ms('style')}</span><h3>「${esc(d.name)}」にカードを追加しましょう</h3><p class="muted" style="margin:0">写真から読み取ったり、AIに作ってもらったり、自分で入力したりできます。</p><div class="dact" style="justify-content:center;gap:10px;flex-wrap:wrap;margin:6px 0 0"><button class="btn" data-act="wcaiadd">${gem(18)}AIで追加</button><button class="btn tonal" data-act="wcmanual">${ms('edit')}自分で入力</button></div></div>`;
-  if (!study.length) return `<div class="card wc-empty sc" ${sc}><span class="wc-eic">${ms('pin')}</span><h3>この番号の範囲には、カードがありません</h3><p class="muted" style="margin:0">範囲を変えるか、解除してください。</p><div class="dact" style="justify-content:center;gap:10px;flex-wrap:wrap;margin:6px 0 0"><button class="btn" data-act="wcrng">${ms('pin')}範囲を変える</button><button class="btn tonal" data-act="wcrngclr">範囲を解除</button></div></div>`;
-  if (!list.length) return `<div class="card wc-done sc" ${sc}><span class="wc-eic">${ms('celebration')}</span><h3>全部覚えました！</h3><p class="muted" style="margin:0">「${esc(d.name)}」の${rg ? `番号 ${rg[0]}〜${rg[1]} の${study.length}枚` : `${all.length}枚`}を、すべて覚えました。</p><div class="dact" style="justify-content:center;gap:10px;margin:6px 0 0"><button class="btn" data-act="wcreset">${ms('restart_alt')}最初からやり直す</button></div></div>`;
+  if (!list.length) return wcEmptyHtml(d, all, study, rg, sc);
   const n = WC.i % list.length, c = list[n], f = WC.rev ? c.b : c.f, b = WC.rev ? c.f : c.b;
   return `<div class="wc-wrap sc" ${sc}><div class="wc-stack">${list.length > 2 ? '<i class="wc-gh g2"></i>' : ''}${list.length > 1 ? '<i class="wc-gh g1"></i>' : ''}
     <button class="wc-card ${WC.flip ? 'flip' : ''}" id="wcc" aria-label="カードをめくる。右にスワイプで覚えた、左にスワイプでまだ">
       <span class="wc-stamp ok">覚えた</span><span class="wc-stamp ng">まだ</span>
-      <span class="wc-in"><span class="wc-face wc-front"><small>${WC.rev ? '裏' : '表'}　No.${c.n}　${n + 1}/${list.length}</small><span class="wc-t">${wcNl(f)}</span><em>タップでめくる ／ 左右にスワイプ</em></span><span class="wc-face wc-back"><small>${WC.rev ? '表' : '裏'}</small><span class="wc-t">${wcNl(b)}</span></span></span>
+      <span class="wc-in"><span class="wc-face wc-front"><small>${c.s ? '★ ' : ''}${WC.rev ? '裏' : '表'}　No.${c.n}　${n + 1}/${list.length}</small><span class="wc-t">${wcNl(f)}</span><em>タップでめくる ／ 左右にスワイプ</em></span><span class="wc-face wc-back"><small>${c.s ? '★ ' : ''}${WC.rev ? '表' : '裏'}</small><span class="wc-t">${wcNl(b)}</span></span></span>
     </button></div>
-    <div class="wc-btns"><button class="btn tonal" data-act="wcng">${ms('close')}まだ</button><button class="ibtn" data-act="wcspeak" aria-label="読み上げ">${ms('volume_up')}</button><button class="btn" data-act="wcok">${ms('check')}覚えた</button></div>
-    ${c.hint ? `<div class="notice" style="margin:16px 0 0">${gem(20)}<span class="t">${esc(c.hint)}</span></div>` : ''}
-    <div class="dact" style="justify-content:center;margin:6px 0 0"><button class="btn text" data-act="aihint">${gem(18)}${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}</button></div></div>`;
+    <div class="wc-btns"><button class="btn tonal" data-act="wcng">${ms('close')}まだ</button><button class="btn" data-act="wcok">${ms('check')}覚えた</button></div>
+    <div class="wc-tools"><button class="tchip" data-act="wcundo" ${WC.undo.length ? '' : 'disabled'}>${ms('undo')}ひとつ前にもどる</button><button class="tchip ${c.s ? 'on' : ''}" data-act="wcstar">${ms('star')}${c.s ? '★をはずす' : '★をつける'}</button><button class="tchip" data-act="wcspeak">${ms('volume_up')}読み上げ</button><button class="tchip" data-act="aihint">${gem(16)}${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}</button></div>
+    ${c.hint ? `<div class="notice" style="margin:14px 0 0">${gem(20)}<span class="t">${esc(c.hint)}</span></div>` : ''}</div>`;
 }
 function wcHeadPaint() {
-  const all = wcAll(), k = all.filter(c => c.k).length, st = $('#wcstat'), pr = $('#wcprog');
-  if (st) st.textContent = `覚えた ${k} / ${all.length}枚`; if (pr) pr.style.width = (all.length ? k / all.length * 100 : 0) + '%';
+  const all = wcAll(), k = all.filter(c => c.k).length, st = $('#wcstat'), pr = $('#wcprog'), cn = wcCounts();
+  if (st) st.textContent = wcStatText(); if (pr) pr.style.width = (all.length ? k / all.length * 100 : 0) + '%';
+  [['new', 'nw'], ['all', 'all'], ['known', 'known']].forEach(([a, b]) => { const e = $('#wcn-' + a); if (e) e.textContent = cn[b]; });
   S.decks.forEach(dk => { const el = document.querySelector(`.wc-dk[data-id="${dk.id}"] small`); if (el) el.textContent = S.cards.filter(c => c.d === dk.id).length; });
 }
 function wcPaint(enter) {
@@ -4148,26 +4291,114 @@ function wcPaint(enter) {
 function wcMark(k) {
   const c = wcCur(), el = $('#wcc'); if (!c || WC.busy) return; WC.busy = true;
   const fin = () => {
-    c.k = k; if (!k || !WC.only) WC.i++; WC.flip = false; save(); WC.busy = false; wcPaint(true);
-    if (k && !wcList().length) { const st = $('#wcstage'); if (st) { const r = st.getBoundingClientRect(); confetti(r.left + r.width / 2, r.top + 90, 60); } }
+    WC.undo.push({ id: c.id, k: c.k || 0, m: c.m || 0 }); if (WC.undo.length > 30) WC.undo.shift();
+    c.k = k; c.m = k ? 0 : (c.m || 0) + 1; wcDayAdd(1);
+    if (wcList().includes(c)) WC.i++;
+    WC.flip = false; save(); WC.busy = false; wcPaint(true);
+    if (k && WC.filt === 'new' && !wcList().length) { const st = $('#wcstage'); if (st) { const r = st.getBoundingClientRect(); confetti(r.left + r.width / 2, r.top + 90, 60); } }
   };
   if (el && !reduced()) { el.classList.remove('drag'); el.classList.add('fly'); el.style.transform = `translateX(${k ? 130 : -130}%) rotate(${k ? 16 : -16}deg)`; el.style.opacity = '0'; setTimeout(fin, 300); } else fin();
 }
 function wcRows() {
-  const q = WC.q.trim().toLowerCase(), rows = wcAll().filter(c => !q || (c.f + ' ' + c.b).toLowerCase().includes(q) || String(c.n) === q);
-  if (!rows.length) return `<p class="muted" style="padding:10px 4px;margin:0">該当するカードがありません。</p>`;
-  return rows.slice(0, 200).map(c => `<button class="wc-r" data-act="wcedit" data-id="${c.id}"><span class="wc-rn">${c.n}</span><span class="wc-rk ${c.k ? 'on' : ''}">${c.k ? ms('check') : ''}</span><span class="wc-rf">${esc(c.f)}</span><span class="wc-rb">${esc(c.b)}</span>${ms('edit')}</button>`).join('') + (rows.length > 200 ? `<p class="muted" style="padding:8px 4px;margin:0">ほか${rows.length - 200}枚あります。検索で絞り込めます。</p>` : '');
+  const q = WC.q.trim().toLowerCase(), key = { n: c => c.n, new: c => (c.k ? 1e6 : 0) + c.n, star: c => (c.s ? 0 : 1e6) + c.n, weak: c => -(c.m || 0) * 1e3 + c.n }[WC.sort] || (c => c.n);
+  const rows = wcAll().filter(c => !q || (c.f + ' ' + c.b).toLowerCase().includes(q) || String(c.n) === q).sort((a, b) => key(a) - key(b));
+  if (!rows.length) return '<p class="muted" style="grid-column:1/-1;text-align:center;padding:24px 0">見つかりませんでした</p>';
+  return rows.map(c => `<div class="wx-r"><span class="wc-rn">${c.n}</span><button type="button" class="wx-ck ${c.k ? 'on' : ''}" data-act="wclk" data-id="${c.id}" aria-label="覚えたの切り替え" aria-pressed="${!!c.k}">${ms(c.k ? 'check' : 'radio_button_unchecked')}</button><button type="button" class="wx-st ${c.s ? 'on' : ''}" data-act="wcls" data-id="${c.id}" aria-label="★の切り替え" aria-pressed="${!!c.s}">${ms('star')}</button><button type="button" class="wx-tx" data-act="wcedit" data-id="${c.id}"><b>${esc(c.f)}</b><span>${esc(c.b)}</span></button>${(c.m || 0) >= 2 ? `<em class="wx-w" title="苦手">${ms('priority_high')}</em>` : '<i></i>'}</div>`).join('');
 }
+function wcStudyTab() {
+  const c = wcCounts(), d = wcDeck();
+  return `<div class="wx-seg" role="radiogroup" aria-label="出すカード">${[['new', '覚えていない', c.nw], ['all', 'すべて', c.all], ['known', '覚えた', c.known]].map(([k, t, n]) => `<button type="button" role="radio" aria-checked="${WC.filt === k}" class="wx-sg ${WC.filt === k ? 'on' : ''}" data-act="wcfilt" data-id="${k}">${t}<small id="wcn-${k}">${n}</small></button>`).join('')}</div>
+  <div class="wc-opts"><button class="tchip ${WC.seed[d.id] ? 'on' : ''}" data-act="wcshuf">${ms('shuffle')}${WC.seed[d.id] ? 'もう一度シャッフル' : 'シャッフル'}</button>${WC.seed[d.id] ? `<button class="tchip" data-act="wcunshuf">${ms('format_list_numbered')}順番にもどす</button>` : ''}<button class="tchip ${wcRangeOf(d.id) ? 'on' : ''}" data-act="wcrng">${ms('pin')}${wcRangeOf(d.id) ? `番号 ${wcRangeOf(d.id)[0]}〜${wcRangeOf(d.id)[1]}` : '番号で絞る'}</button><button class="tchip ${WC.sel === 'star' ? 'on' : ''}" data-act="wcsel" data-id="${WC.sel === 'star' ? 'all' : 'star'}">${ms('star')}★だけ<small>${c.star}</small></button><button class="tchip ${WC.sel === 'weak' ? 'on' : ''}" data-act="wcsel" data-id="${WC.sel === 'weak' ? 'all' : 'weak'}">${ms('priority_high')}苦手だけ<small>${c.weak}</small></button><button class="tchip ${WC.rev ? 'on' : ''}" data-act="wcrev">${ms('swap_horiz')}裏から出す</button></div>
+  <div id="wcstage">${wcStageHtml()}</div>`;
+}
+function wcListTab() {
+  if (!wcAll().length) return `<div id="wcstage">${wcStageHtml()}</div>`;
+  return `<div class="wx-ls"><input id="wcq" type="search" placeholder="単語・意味・番号で検索" value="${esc(WC.q)}" autocomplete="off" enterkeyhint="search">
+  <div class="wc-opts">${[['n', '番号順'], ['new', '覚えていない順'], ['star', '★が先'], ['weak', '苦手が先']].map(([k, t]) => `<button class="tchip ${WC.sort === k ? 'on' : ''}" data-act="wcsort" data-id="${k}">${t}</button>`).join('')}</div>
+  <p class="muted wx-hint">${ms('touch_app')} 左のチェックで「覚えた」、★で「あとで見直す」を切り替えられます。文字をタップすると、編集できます。</p>
+  <div id="wclist" class="wx-list">${wcRows()}</div>
+  <div class="wx-bulk"><button class="btn tonal sm" data-act="wcsetall" data-id="1">${ms('done_all')}範囲内を、すべて「覚えた」に</button><button class="btn tonal sm" data-act="wcsetall" data-id="0">${ms('restart_alt')}範囲内を、すべて「覚えていない」に</button></div></div>`;
+}
+function wcTestTab() {
+  const c = wcCounts(), d = wcDeck(), rg = wcRangeOf(d.id), pool = wcTestPool().length;
+  const card = (ic, t, desc, act, dis) => `<button type="button" class="wx-tc sc" style="--sh:${d.hue}" data-act="${act}" ${dis ? 'disabled' : ''}><span class="wx-ti">${ms(ic)}</span><b>${t}</b><small>${desc}</small></button>`;
+  return `<p class="muted" style="margin:0 4px 14px;line-height:1.7">テストするカード：${rg ? `番号 ${rg[0]}〜${rg[1]}` : '全部'}${WC.sel === 'star' ? ' の★' : WC.sel === 'weak' ? ' の苦手なカード' : ''}（${pool}枚）。範囲や絞り込みは、「学習」の画面で変えられます。</p>
+  <div class="wx-tg">${card('quiz', '4択クイズ', '4つの選択肢から、正しい意味を選びます', 'wcquiz', c.all < 4)}${card('keyboard', '入力テスト', '意味を見て、単語を自分で入力します', 'wctype', pool < 1)}${card('headphones', '聞き流し', 'カードを自動でめくって、読み上げます', 'wcauto', pool < 1)}</div>`;
+}
+const wcTabHtml = () => WC.tab === 'list' ? wcListTab() : WC.tab === 'test' ? wcTestTab() : wcStudyTab();
 function cardsHtml() {
-  ensureDecks();
-  const d = wcDeck(), all = wcAll(), known = all.filter(c => c.k).length;
-  return `<div class="wc-decks">${S.decks.map(dk => `<button class="wc-dk sc ${dk.id === d.id ? 'on' : ''}" style="--sh:${dk.hue}" data-act="wcdeck" data-id="${dk.id}"><i></i><b>${esc(dk.name)}</b><small>${S.cards.filter(c => c.d === dk.id).length}</small></button>`).join('')}<button class="wc-dk add" data-act="wcdeckadd">${ms('add')}<b>新しい単語帳</b></button></div>
-  <div class="wc-head"><div><h3>${esc(d.name)}</h3><span id="wcstat">覚えた ${known} / ${all.length}枚</span></div><button class="ibtn" data-act="wcdeckedit" aria-label="この単語帳を編集">${ms('edit')}</button></div>
-  <div class="wc-prog"><i id="wcprog" style="width:${all.length ? known / all.length * 100 : 0}%"></i></div>
-  <div class="wc-opts"><button class="tchip ${WC.only ? 'on' : ''}" data-act="wconly">覚えていないカードだけ</button><button class="tchip ${WC.seed[d.id] ? 'on' : ''}" data-act="wcshuf">${ms('shuffle')}${WC.seed[d.id] ? 'もう一度シャッフル' : 'シャッフル'}</button>${WC.seed[d.id] ? `<button class="tchip" data-act="wcunshuf">${ms('format_list_numbered')}順番にもどす</button>` : ''}<button class="tchip ${wcRangeOf(d.id) ? 'on' : ''}" data-act="wcrng">${ms('pin')}${wcRangeOf(d.id) ? `番号 ${wcRangeOf(d.id)[0]}〜${wcRangeOf(d.id)[1]}` : '番号で絞る'}</button><button class="tchip ${WC.rev ? 'on' : ''}" data-act="wcrev">${ms('swap_horiz')}裏から出す</button></div>
-  <div id="wcstage">${wcStageHtml()}</div>
-  ${all.length ? `<details class="card wcl" style="margin-top:12px" ${WC.q ? 'open' : ''}><summary>カード一覧（${all.length}枚）</summary><div class="dact" style="margin:10px 0 0;justify-content:flex-start"><button class="btn tonal sm" data-act="wcmanual">${ms('edit')}自分で入力して追加</button></div><input id="wcq" type="search" placeholder="カードを検索" value="${esc(WC.q)}" style="margin:12px 0 6px"><div id="wclist">${wcRows()}</div></details>` : ''}
-  <div class="wc-bar"><button class="btn" data-act="wcaiadd">${gem(18)}AIで追加</button><button class="btn tonal" data-act="wcbackup">${ms('share')}共有・バックアップ</button></div>`;
+  ensureDecks(); const d = wcDeck(), all = wcAll(), k = all.filter(c => c.k).length;
+  return `<div class="wx"><aside class="wx-side"><div class="wx-sh">単語帳</div><div class="wc-decks">${S.decks.map(dk => `<button class="wc-dk sc ${dk.id === d.id ? 'on' : ''}" style="--sh:${dk.hue}" data-act="wcdeck" data-id="${dk.id}"><i></i><b>${esc(dk.name)}</b><small>${S.cards.filter(c => c.d === dk.id).length}</small></button>`).join('')}<button class="wc-dk add" data-act="wcdeckadd">${ms('add')}<b>新しい単語帳</b></button></div><div class="wx-sbtn"><button class="btn tonal" data-act="wcbackup">${ms('share')}共有・バックアップ</button></div></aside>
+  <section class="wx-main"><div class="wx-top"><div class="wx-t"><h3>${esc(d.name)}</h3><span id="wcstat">${wcStatText()}</span></div><div class="wx-acts"><button class="btn" data-act="wcaiadd">${ms('add')}カードを追加</button><button class="ibtn" data-act="wcdeckedit" aria-label="この単語帳を編集">${ms('edit')}</button></div></div>
+  <div class="wc-prog"><i id="wcprog" style="width:${all.length ? k / all.length * 100 : 0}%"></i></div>
+  <div class="wx-tabs" role="tablist">${[['study', 'style', '学習'], ['list', 'list', '一覧'], ['test', 'quiz', 'テスト']].map(([t, ic, l]) => `<button type="button" role="tab" aria-selected="${WC.tab === t}" class="wx-tab ${WC.tab === t ? 'on' : ''}" data-act="wctab" data-id="${t}">${ms(ic)}${l}</button>`).join('')}</div>
+  <div id="wxbody" class="sc" style="--sh:${d.hue}">${wcTabHtml()}</div></section></div>`;
+}
+/* ---- 入力テスト ---- */
+const TT = { list: [], i: 0, ok: [], ng: [], cnt: 10, dir: 'f' };
+const ttNorm = x => String(x || '').normalize('NFKC').toLowerCase().replace(/[\s]+/g, ' ').replace(/[。.!?！？]+$/, '').trim();
+function ttOk(v, ans) {
+  const n = ttNorm(v); if (!n) return false;
+  const base = String(ans), alts = [base, base.replace(/[（(][^）)]*[）)]/g, ''), ...base.split(/[\/／;；、,，]|\sor\s/)].map(ttNorm).filter(Boolean);
+  return alts.includes(n);
+}
+function wcType() {
+  const pool = wcTestPool(); if (!pool.length) return toast('カードがありません');
+  openDlg(`<h2>${ms('keyboard')}入力テスト</h2><p class="muted" style="margin:-6px 0 16px;line-height:1.7">問題を見て、答えを入力します。${pool.length}枚のカードから出します。まちがえたカードは、「覚えていない」にもどり、苦手のカウントが増えます。</p>
+  <div class="fld"><label>問題の数</label><div class="wx-seg">${[[10, '10問'], [20, '20問'], [0, '全部']].map(([v, t]) => `<button type="button" class="wx-sg ${TT.cnt === v ? 'on' : ''}" data-act="ttopt" data-id="cnt:${v}">${t}</button>`).join('')}</div></div>
+  <div class="fld"><label>答えるもの</label><div class="wx-seg">${[['f', '表（単語）を答える'], ['b', '裏（意味）を答える']].map(([v, t]) => `<button type="button" class="wx-sg ${TT.dir === v ? 'on' : ''}" data-act="ttopt" data-id="dir:${v}">${t}</button>`).join('')}</div></div>
+  <div class="dact"><button type="button" class="btn text" data-act="close">やめる</button><span class="sp"></span><button type="button" class="btn" data-act="ttgo">${ms('play_arrow')}はじめる</button></div>`);
+}
+function ttAsk() {
+  const q = TT.list[TT.i], ask = TT.dir === 'f' ? q.b : q.f;
+  openDlg(`<div class="tt-h"><small>${TT.i + 1} / ${TT.list.length}</small><div class="wc-prog"><i style="width:${TT.i / TT.list.length * 100}%"></i></div></div><p class="muted" style="margin:0;text-align:center">${TT.dir === 'f' ? '意味' : '単語'}を見て、${TT.dir === 'f' ? '単語' : '意味'}を入力してください</p><div class="tt-q">${wcNl(ask)}</div>
+  <form id="ttf" autocomplete="off"><input id="tta" class="tt-in" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" placeholder="ここに入力" enterkeyhint="done"><div class="dact"><button type="button" class="btn text" data-act="ttquit">やめる</button><span class="sp"></span><button class="btn" type="submit">${ms('check')}こたえる</button></div></form>`);
+  $('#ttf').onsubmit = ev => { ev.preventDefault(); ttCheck(); };
+  setTimeout(() => { const el = $('#tta'); el && el.focus(); }, 120);
+}
+function ttCheck() {
+  const q = TT.list[TT.i], ans = TT.dir === 'f' ? q.f : q.b, v = $('#tta') ? $('#tta').value : '', ok = ttOk(v, ans);
+  (ok ? TT.ok : TT.ng).push(q); if (ok) q.m = Math.max(0, (q.m || 0) - 1); else { q.k = 0; q.m = (q.m || 0) + 1; } save(); wcDayAdd(1);
+  const last = TT.i + 1 >= TT.list.length;
+  openDlg(`<div class="tt-h"><small>${TT.i + 1} / ${TT.list.length}</small><div class="wc-prog"><i style="width:${(TT.i + 1) / TT.list.length * 100}%"></i></div></div>
+  <div class="tt-r ${ok ? 'ok' : 'ng'}">${ms(ok ? 'check_circle' : 'cancel')}<b>${ok ? '正解！' : 'ちがいます'}</b></div>
+  <div class="tt-a">${ok ? '' : `<small>あなたの答え</small><span>${esc(v) || '（空）'}</span>`}<small>正しい答え</small><span class="tt-ok">${wcNl(ans)}</span></div>
+  <div class="dact"><span class="sp"></span><button type="button" class="btn" id="ttn" data-act="ttnext">${last ? '結果を見る' : 'つぎへ'}${ms('arrow_forward')}</button></div>`);
+  setTimeout(() => { const b = $('#ttn'); b && b.focus(); }, 120);
+}
+function ttResult() {
+  const n = TT.list.length, ok = TT.ok.length, pc = Math.round(ok / n * 100);
+  openDlg(`<h2>${ms(pc >= 80 ? 'emoji_events' : 'task_alt')}結果</h2><div class="tt-score"><b>${ok}</b><span> / ${n}問 正解（${pc}%）</span></div>
+  ${TT.ng.length ? `<div class="lbl" style="margin:6px 4px">まちがえたカード</div><div class="tt-ng">${TT.ng.map(c => `<div><b>${esc(c.f)}</b><span>${esc(c.b)}</span></div>`).join('')}</div>` : '<p class="muted" style="text-align:center">全問正解です！</p>'}
+  <div class="dact" style="flex-wrap:wrap;gap:10px"><button type="button" class="btn text" data-act="close">閉じる</button><span class="sp"></span>${TT.ng.length ? `<button type="button" class="btn tonal" data-act="ttstar">${ms('star')}まちがえたものに★</button><button type="button" class="btn" data-act="ttretry">${ms('replay')}まちがえたものを、もう一度</button>` : ''}</div>`);
+  toolsRefresh();
+}
+/* ---- 聞き流し ---- */
+const AU = { list: [], i: 0, ph: 0, on: false, sp: 3, voice: true, t: 0 };
+function auDom() {
+  if ($('#wca')) return;
+  const e = document.createElement('div'); e.id = 'wca'; e.className = 'sc'; e.style.setProperty('--sh', wcDeck().hue);
+  e.innerHTML = `<div class="wca-top"><button type="button" class="ibtn" data-act="auclose" aria-label="とじる">${ms('close')}</button><b id="wcap"></b><span class="sp" style="flex:1"></span><div class="wx-seg sm">${[[2, 'はやい'], [3, 'ふつう'], [5, 'ゆっくり']].map(([v, t]) => `<button type="button" class="wx-sg ${AU.sp === v ? 'on' : ''}" data-act="ausp" data-id="${v}">${t}</button>`).join('')}</div></div><div class="wca-c" id="wcac"></div><div class="wca-ctl"><button type="button" class="ibtn" data-act="auprev" aria-label="前へ">${ms('skip_previous')}</button><button type="button" class="ibtn big" id="wcapp" data-act="aupp" aria-label="一時停止・再生">${ms('pause')}</button><button type="button" class="ibtn" data-act="aunext" aria-label="次へ">${ms('skip_next')}</button><button type="button" class="ibtn ${AU.voice ? 'on' : ''}" id="wcavo" data-act="auvoice" aria-label="読み上げ">${ms(AU.voice ? 'volume_up' : 'volume_off')}</button></div>`;
+  document.body.appendChild(e);
+}
+function auShow() {
+  const c = AU.list[AU.i], el = $('#wcac'); if (!c || !el) return;
+  const front = WC.rev ? c.b : c.f, back = WC.rev ? c.f : c.b, txt = AU.ph ? back : front;
+  el.innerHTML = `<div class="wca-m">${AU.ph ? (WC.rev ? '表' : '裏') : (WC.rev ? '裏' : '表')}　No.${c.n}${c.s ? '　★' : ''}</div><div class="wca-t in">${wcNl(txt)}</div>${AU.ph ? '' : '<div class="wca-m" style="margin-top:18px">…</div>'}`;
+  $('#wcap').textContent = `${AU.i + 1} / ${AU.list.length}`;
+  if (AU.voice) wcSay(String(txt).replace(/\n/g, ' '));
+}
+function auRun() { clearTimeout(AU.t); if (!AU.on) return; AU.t = setTimeout(auStep, AU.sp * 1000 + (AU.voice ? 600 : 0)); }
+function auStep() {
+  if (!AU.on) return;
+  if (!AU.ph) { AU.ph = 1; auShow(); auRun(); return; }
+  if (AU.i + 1 >= AU.list.length) { AU.on = false; $('#wcac').innerHTML = `<div class="wca-t in">おわり</div><div class="wca-m" style="margin-top:14px">${AU.list.length}枚を、聞き終えました</div>`; $('#wcapp').innerHTML = ms('replay'); return; }
+  AU.i++; AU.ph = 0; auShow(); auRun();
+}
+function auClose() { clearTimeout(AU.t); AU.on = false; try { speechSynthesis.cancel(); } catch (e) { } const e = $('#wca'); e && e.remove(); toolsRefresh(); }
+function wcAuto() {
+  const pool = wcTestPool(); if (!pool.length) return toast('カードがありません');
+  AU.list = pool.slice(); AU.i = 0; AU.ph = 0; AU.on = true; $('#wca') && $('#wca').remove(); auDom(); auShow(); auRun();
 }
 function wcRngDlg() {
   const d = wcDeck(), all = wcAll(); if (!all.length) return toast('カードがありません');
