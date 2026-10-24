@@ -1623,6 +1623,35 @@ html[data-nav=bottom] #nav.ionly .ni{flex:1 1 0;min-width:0}
 .memo-n b{font-size:1.05rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.memo-n span{opacity:.85;font-size:.92rem;line-height:1.55;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap}.memo-n small{opacity:.65;margin-top:auto}
 .memo-c{width:40px;height:40px;border:0;border-radius:50%;background:var(--sc,var(--primary));box-shadow:0 0 0 2px transparent;transition:box-shadow .2s,transform .3s var(--spring)}.memo-c.on{box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--sc,var(--primary));transform:scale(1.05)}
 .dlg textarea{width:100%;box-sizing:border-box;border:0;border-radius:18px;padding:14px 16px;background:var(--s2);color:var(--on);font:inherit;font-size:16px;line-height:1.6;resize:vertical;outline:none}
+
+/* ===== 12.0：ホームの配置・iPad縦バー ===== */
+html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
+@media(min-width:700px){html:not([data-nav=bottom]) #nav{height:calc(100vh + 120px);height:calc(100lvh + 120px)}}
+.hlay{display:grid;grid-template-columns:minmax(0,1fr)}
+@media(min-width:900px){.hlay{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}.hsec{grid-column:1/-1}.hsec.half{grid-column:auto}}
+.hsec{min-width:0}
+.hlay-f{display:flex;justify-content:center;margin:26px 0 8px}
+.hed-top{position:sticky;top:calc(8px + env(safe-area-inset-top));z-index:15;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px;margin:10px 0 16px;border-radius:26px;background:var(--pc);color:var(--on-pc);box-shadow:var(--shadow)}
+.hed-top b{display:flex;align-items:center;gap:8px}.hed-top small{display:block;opacity:.8;margin-top:2px}
+.hed .hsec{border:2px dashed color-mix(in srgb,var(--on-v) 45%,transparent);border-radius:28px;margin:0 0 16px;background:color-mix(in srgb,var(--s1) 60%,transparent);transition:opacity .3s,box-shadow .3s,outline-color .2s}
+.hed .hsec.half{margin-bottom:16px}
+.hed-bar{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 10px;border-radius:26px 26px 0 0;background:var(--s2)}
+.hed-bar>b{display:flex;align-items:center;gap:6px;font-size:.95rem}
+.hed-grip{width:44px;height:44px;display:grid;place-items:center;border-radius:14px;background:var(--s3);cursor:grab;touch-action:none;flex:none}
+.hed-body{padding:10px 12px 14px;pointer-events:none}
+.hed .hsec.off .hed-body{opacity:.4;filter:grayscale(.7)}
+.hsec.hdrag{z-index:40;opacity:.92;box-shadow:0 18px 46px rgba(0,0,0,.35);transition:none;position:relative}
+.hed .hsec.hover{outline:3px solid var(--primary);outline-offset:3px}
+.scomp{display:grid;gap:8px}
+.srow{display:grid;grid-template-columns:40px minmax(0,1fr) minmax(70px,1.3fr) 3.2em auto;align-items:center;gap:12px;padding:10px 16px;border:0;border-radius:22px;background:var(--scc,var(--s2));color:var(--on-scc,var(--on));text-align:left;transition:border-radius .45s var(--spring),transform .4s var(--spring)}
+.srow:active{transform:scale(.98);border-radius:30px}
+.srow b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sbar{height:10px;border-radius:5px;background:rgba(0,0,0,.12);overflow:hidden}.sbar i{display:block;height:100%;border-radius:5px;background:var(--sc,var(--primary));transition:width .8s var(--spring)}
+.srow em{font-style:normal;font-weight:700;text-align:right}.srow small{opacity:.75;white-space:nowrap}
+@media(max-width:699px){.srow{grid-template-columns:40px minmax(0,1fr) 3.2em;grid-template-areas:"a b e" "a c c"}.srow>:nth-child(1){grid-area:a}.srow>b{grid-area:b}.srow>em{grid-area:e}.srow>.sbar{grid-area:c}.srow>small{display:none}}
+.htt{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:8px}
+.htt div{display:grid;justify-items:center;gap:2px;padding:10px 6px;border-radius:18px;background:var(--s2)}.htt span{color:var(--on-v);font-size:.78rem}.htt b{font-size:.98rem}
+.pillchip.hedit{border:0;cursor:pointer}
 </style>
 </head>
 <body>
@@ -1647,7 +1676,7 @@ html[data-nav=bottom] #nav.ionly .ni{flex:1 1 0;min-width:0}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '11.3';
+const APP_VERSION = '12.0';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2144,6 +2173,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '12.0', t: 'ホームの配置を、自由に編集できるように', n: ['ホームの部分（達成率・よく使うツール・今日のプラン・期限が近い課題・今週の勉強・AIのアドバイス・教科ごとの進み具合）を、上下に並べ替えたり、表示・非表示を切り替えたり、幅を半分にしたりできます。ホームの「配置」ボタン、または設定から編集します', '教科ごとの進み具合を、「カード」と「コンパクト」から選べるようになりました', 'ホームに、「あしたの時間割」と「ふせんメモ」の部分を追加しました', 'iPadで、縦バーの下が途中で切れて見える問題を、さらに直しました'] },
   { v: '11.3', t: '単語帳の集中モード、新しいツール、iPad表示の調整', n: ['単語帳に「集中モード」を追加しました。カードと「まだ」「覚えた」ボタンだけを、画面いっぱいに表示します', 'データを受け取るときなどの読み込み表示を、Googleのような回転アニメーションに変えました', '新しいツールを4つ追加しました：割合・パーセント、ストップウォッチ、時間割、ふせんメモ', 'iPadで、左の縦バーの高さが画面によって変わる問題と、追加ボタンの位置のずれを直しました'] },
   { v: '11.2', t: '単語帳のテスト範囲、追加ボタン、動作の安定化', n: ['単語帳のテストで、番号の範囲と、「覚えていない／覚えた／★／苦手」の対象を、決められるようになりました（4択クイズ・入力テスト・聞き流しに使われます）', 'iPadの追加ボタン（＋）を、元の左上にもどしました。スマホでは、すべての画面で同じ高さにそろえました', '追加ボタンのメニューが、置いた場所に合わせて、上下左右どちらにも開くようになりました', '画面の切り替えのアニメーションを、整えました', '安定化：データを読み込めなかったときの自動復元、毎日の自動バックアップ、アプリを閉じる前の同期、不具合の記録を追加しました'] },
   { v: '11.1', t: 'スマホ向けの表示を、さらに調整', n: ['追加ボタン（＋）の大きさと位置を、すべての画面でそろえました', 'スマホの下のタブバーが、10個まで画面に収まるようになりました。文字が入りきらないときは、アイコンだけになります', '画面を引っぱったときに、下のタブバーが動かないようにしました', 'AIの画面の見出しを、スマホで見やすくしました'] },
@@ -2197,14 +2227,14 @@ function greeting() {
   return [h < 5 ? 'お疲れさまです' : h < 11 ? 'おはようございます' : h < 18 ? 'こんにちは' : 'こんばんは', `${d.getMonth() + 1}月${d.getDate()}日（${WD[d.getDay()]}）`];
 }
 function viewHome() {
-  const ex = curExam(), subs = subjects();
+  const ex = curExam(), subs = subjects(), P = {};
   const [gr, gd] = greeting(), lv = level(), st = streak();
   const C = 2 * Math.PI * 13;
   const urg = examTasks().filter(k => k.subreq && !k.submitted && k.due && daysBetween(today(), k.due) <= 3).length;
   let h = `<div class="greet"><div style="flex:1;min-width:200px"><h1>${gr}<small>${gd}</small></h1></div>
     ${urg ? `<span class="pillchip warnp">${ms('warning')}提出期限が近い課題 ${urg}件</span>` : ''}
     ${revDueCount() ? `<button class="pillchip rvp" data-act="tab" data-id="tool:review">${ms('history')}今日の復習 ${revDueCount()}件</button>` : ''}
-    <span class="pillchip ver" data-act="upd" role="button" aria-label="バージョン">v${APP_VERSION}</span>
+    <button class="pillchip hedit" data-act="homeedit" aria-label="ホームの配置を編集" title="ホームの配置を編集">${ms('dashboard_customize')}配置</button><span class="pillchip ver" data-act="upd" role="button" aria-label="バージョン">v${APP_VERSION}</span>
     <span class="pillchip fire">${ms('event_repeat')}${st}日連続</span>
     <button class="pillchip rp" data-act="tab" data-id="stats" aria-label="レベル"><span class="lv"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" style="stroke:color-mix(in srgb,var(--on-sec-c) 18%,transparent)"/><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--primary)" stroke-dasharray="${(C * lv.p).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 16 16)"/></svg>${ms('stars', 'f', 'font-size:16px;color:var(--primary)')}</span>Lv.${lv.L}</button></div>`;
   { const past = pastExams();
@@ -2214,15 +2244,15 @@ function viewHome() {
   const all = examTasks(), A = agg(all), R = agg(all.filter(t => t.req)), sc = agg(scoped(all));
   const segs = subs.map(s => ({ v: agg(scoped(tasksOfSub(s.id))).done, color: hc(s.hue) }));
   const dly = !ex.date, DS = dly ? dueStats() : null, cnt = dly ? dailyCount() : examCount(ex), size = innerWidth < 620 ? 168 : 200;
-  h += `<section class="hero"><svg class="deco" viewBox="-50 -50 100 100" aria-hidden="true"><path d="${pathOf(SHAPES[1], 44)}"/></svg>
+  P.hero = `<section class="hero"><svg class="deco" viewBox="-50 -50 100 100" aria-hidden="true"><path d="${pathOf(SHAPES[1], 44)}"/></svg>
     <div><div class="ex">${ms(dly ? 'event_available' : 'school', '', 'font-size:22px')}${dly ? '提出日の管理' : esc(ex.name)}</div><div class="count">${cnt.big}</div><div class="dt">${cnt.dt}</div>
     ${dly ? dailyTiles(DS) : `<div class="tiles"><div class="tile"><div class="v">${cu(R.rem)}<small>p</small></div><div class="k">必須の残り</div></div><div class="tile"><div class="v">${cu(A.rem)}<small>p</small></div><div class="k">全体の残り</div></div><div class="tile"><div class="v">${cu(A.nd)}<small>/ ${A.n}冊</small></div><div class="k">完了した課題</div></div></div>`}
     <div class="seg" role="group" aria-label="集計の対象"><button class="${S.set.scope === 'all' ? 'on' : ''}" data-act="scope" data-id="all">すべて</button><button class="${S.set.scope === 'req' ? 'on' : ''}" data-act="scope" data-id="req">必須のみ</button></div></div>
     ${donut({ key: 'hero', size, stroke: Math.round(size * .105), segs, total: sc.total, center: pcCenter(sc), sub: S.set.scope === 'req' ? '必須の達成率' : '全体の達成率' })}</section>`;
-  h += homeTools();
+  P.tools = homeTools();
 
   // 今日のプラン
-  h += `<div class="hgrid"><div class="hcol">`;
+  P.__h = h; h = '';
   const plan = buildPlan(), lg = dayLog();
   let target, doneN;
   if (S.set.goalMode === 'manual') { target = S.set.goal; doneN = lg.a; }
@@ -2237,10 +2267,9 @@ function viewHome() {
       <button class="b" data-act="timer-task" data-id="${it.t.id}" aria-label="この課題で集中タイマー">${ms('play_arrow')}</button><button class="b go" data-act="planok" data-id="${it.t.id}" data-n="${it.amt}" aria-label="計画ぶんを完了にする">${ms('check')}</button></div>`;
     }).join('')}</div>`;
   } else h += `<div class="card muted" style="text-align:center;font-weight:500">今日のぶんの計画はありません。課題カードの ${ms('star', '', 'font-size:18px;vertical-align:-4px')} で「今日やる」を選べます</div>`;
-  h += `</div></div>`;
+  P.plan = h + '</div>'; h = '';   // 「今日のプラン」の枠を閉じる
 
   const dts = dueTasks(), dn = dly ? 6 : 4, due = dts.slice(0, dn);
-  h += `<div class="hcol">`;
   if (due.length) {
     h += `<div class="h-sec"><h2>${ms('event_upcoming')}${dly ? '提出スケジュール' : '期限が近い課題'}</h2>${dly || dts.length > dn ? `<span class="sp"></span><button class="btn tonal xs" data-act="duelist">${ms('list')}すべて見る</button>` : ''}</div><div class="dl stg">`;
     let lastB = '';
@@ -2250,24 +2279,80 @@ function viewHome() {
     }
     h += `</div>`;
   } else h += `<div class="h-sec"><h2>${ms('event_upcoming')}${dly ? '提出スケジュール' : '期限が近い課題'}</h2></div><div class="card muted" style="text-align:center;font-weight:500;line-height:1.8">期限が設定された課題はありません${dly ? '<br>課題に提出期限を入れると、ここで提出日を管理できます' : ''}</div>`;
-  h += `</div></div>`;
-  h += weekCard();
-  h += aiTodayCard();
+  P.due = h; h = '';
+  P.week = weekCard(); P.ai = aiTodayCard(); P.tt = homeTtCard(); P.memo = homeMemoCard();
 
   // 教科
-  h += `<div class="h-sec"><h2>${ms('donut_large')}教科ごとの進み具合</h2><span class="sp"></span><button class="btn tonal xs" data-act="addsubj">${ms('add')}教科</button></div><div class="grid stg">`;
-  for (const s of subs) {
+  h += `<div class="h-sec"><h2>${ms('donut_large')}教科ごとの進み具合</h2><span class="sp"></span><button class="btn tonal xs" data-act="addsubj">${ms('add')}教科</button></div>`;
+  const csv = homeLay().sv === 'compact';
+  if (csv) h += subjCompact(subs); else h += `<div class="grid stg">`;
+  if (!csv) for (const s of subs) {
     const ts = tasksOfSub(s.id), a = agg(scoped(ts)), rq = agg(ts.filter(t => t.req));
     h += `<button class="scard sc" style="--sh:${s.hue}" data-act="goto" data-id="${s.id}"><div class="top">${avatar(s, 44)}<div class="nm">${esc(s.name)}</div>${s.exam ? examTag(s) : ''}</div>
       <div class="body">${donut({ key: 'sd' + s.id, size: 96, stroke: 11, segs: [{ v: a.done, color: 'var(--sc)' }], total: a.total, center: pcCenter(a), fs: 26 })}
       ${ts.length ? `<dl class="kv"><div><dt>残り</dt><dd>${cu(a.rem)}<small>p</small></dd></div><div><dt>必須の残り</dt><dd>${rq.rem}<small>p</small></dd></div><div><dt>完了</dt><dd>${a.nd}/${a.n}<small>件</small></dd></div>${s.goal != null || s.score != null ? `<div><dt>得点</dt><dd>${s.score ?? '—'}<small>目標 ${s.goal ?? '—'}</small></dd></div>` : ''}</dl>` : `<div class="small">課題はまだありません</div>`}</div></button>`;
   }
-  h += `</div>`;
+  if (!csv) h += `</div>`;
+  P.subj = h; h = P.__h; h += homeAssemble(P);
 
   const since = (Date.now() - (S.set.lastBackup || 0)) / 864e5;
   if (S.tasks.length >= 3 && since > 14) h += `<div class="notice">${ms('cloud_download')}<span class="t">データはこのiPad内にのみ保存されています。バックアップを推奨します。</span><button class="btn tonal sm" data-act="export">保存する</button></div>`;
   return h;
 }
+
+/* ===== ホームの配置の編集 ===== */
+const HOME_SECS = [['hero', '達成率', 'donut_large'], ['tools', 'よく使うツール', 'apps'], ['plan', '今日のプラン', 'today'], ['due', '期限が近い課題・提出スケジュール', 'event_upcoming'], ['week', '今週の勉強', 'insights'], ['ai', 'AIの学習アドバイス', 'auto_awesome'], ['tt', 'あしたの時間割', 'calendar_view_week'], ['memo', 'ふせんメモ', 'sticky_note_2'], ['subj', '教科ごとの進み具合', 'donut_large']];
+function homeLay() {
+  const o = (S.set && S.set.home) || {}, ids = HOME_SECS.map(x => x[0]), order = (Array.isArray(o.order) ? o.order : ids).filter(i => ids.includes(i));
+  ids.forEach(i => { if (!order.includes(i)) order.push(i); });
+  return { order, half: o.half || { plan: 1, due: 1 }, hide: o.hide || {}, sv: o.sv || 'card' };
+}
+function homeSave(L) { S.set.home = { order: L.order, half: L.half, hide: L.hide, sv: L.sv }; save(); render(); }
+function homeMove(id, d) { const L = homeLay(), i = L.order.indexOf(id), j = i + d; if (j < 0 || j >= L.order.length) return; [L.order[i], L.order[j]] = [L.order[j], L.order[i]]; homeSave(L); }
+function homeAssemble(P) {
+  const L = homeLay(), ed = !!ui.homeEdit;
+  let out = ed ? `<div class="hed-top"><div><b>${ms('dashboard_customize')}ホームの配置を編集中</b><small>つまみをドラッグするか、矢印で並べ替えます</small></div><span class="sp" style="flex:1"></span><button class="btn text" data-act="homereset">${ms('restart_alt')}もとにもどす</button><button class="btn" data-act="homedone">${ms('check')}完了</button></div>` : '';
+  out += `<div class="hlay ${ed ? 'hed' : ''}">` + L.order.map((id, i) => {
+    const body = P[id] || '', hid = !!L.hide[id], half = !!L.half[id], meta = HOME_SECS.find(x => x[0] === id);
+    if (!ed) return hid || !body ? '' : `<div class="hsec ${half ? 'half' : ''}" data-sec="${id}">${body}</div>`;
+    return `<div class="hsec ${half ? 'half' : ''} ${hid ? 'off' : ''}" data-sec="${id}"><div class="hed-bar"><span class="hed-grip" aria-label="ドラッグして並べ替え" title="ドラッグして並べ替え">${ms('drag_indicator')}</span><b>${ms(meta[2])}${esc(meta[1])}</b><span class="sp" style="flex:1"></span><button type="button" class="ibtn" data-act="homeup" data-id="${id}" ${i === 0 ? 'disabled' : ''} aria-label="上へ">${ms('arrow_upward')}</button><button type="button" class="ibtn" data-act="homedown" data-id="${id}" ${i === L.order.length - 1 ? 'disabled' : ''} aria-label="下へ">${ms('arrow_downward')}</button><button type="button" class="tchip ${half ? 'on' : ''}" data-act="homehalf" data-id="${id}">${ms(half ? 'view_column' : 'view_stream')}${half ? '半分の幅' : '全体の幅'}</button>${id === 'subj' ? `<button type="button" class="tchip" data-act="homesv">${ms('view_list')}${L.sv === 'compact' ? 'コンパクト' : 'カード'}</button>` : ''}<button type="button" class="tchip ${hid ? '' : 'on'}" data-act="homehide" data-id="${id}">${ms(hid ? 'visibility_off' : 'visibility')}${hid ? '非表示' : '表示'}</button></div><div class="hed-body">${body || '<div class="card muted" style="text-align:center;font-weight:500">いまは、表示するものがありません（データがたまると出ます）</div>'}</div></div>`;
+  }).join('') + '</div>';
+  if (!ed) out += `<div class="hlay-f"><button class="btn tonal sm" data-act="homeedit">${ms('dashboard_customize')}ホームの配置を編集</button></div>`;
+  return out;
+}
+function subjCompact(subs) {
+  return `<div class="scomp stg">${subs.map(s => { const a = agg(scoped(tasksOfSub(s.id))), pc = a.total ? Math.round(a.done / a.total * 100) : 0; return `<button class="srow sc" style="--sh:${s.hue}" data-act="goto" data-id="${s.id}">${avatar(s, 40)}<b>${esc(s.name)}</b><span class="sbar"><i style="width:${pc}%"></i></span><em>${pc}%</em><small>残り${cu(a.rem)}p</small></button>`; }).join('')}</div>`;
+}
+function homeTtCard() {
+  const t = S.tt; if (!t || !t.c || !Object.keys(t.c).length) return '';
+  const wd = new Date().getDay(), nx = wd >= 1 && wd <= 4 ? wd : 0, items = Array.from({ length: t.p || 6 }, (_, p) => t.c[nx + '-' + p] || '—');
+  return `<div class="h-sec"><h2>${ms('calendar_view_week')}${wd >= 0 && wd <= 4 ? 'あした' : 'つぎの登校日'}の時間割（${TBL_DAYS[nx]}）</h2><span class="sp"></span><button class="btn tonal xs" data-act="tab" data-id="tool:tbl">${ms('edit')}編集</button></div><div class="card htt">${items.map((v, i) => `<div><span>${i + 1}</span><b>${esc(v)}</b></div>`).join('')}</div>`;
+}
+function homeMemoCard() {
+  const m = (S.memos || []).slice().sort((a, b) => (b.at || 0) - (a.at || 0)).slice(0, 3); if (!m.length) return '';
+  return `<div class="h-sec"><h2>${ms('sticky_note_2')}ふせんメモ</h2><span class="sp"></span><button class="btn tonal xs" data-act="tab" data-id="tool:memo">${ms('list')}すべて見る</button></div><div class="memo-g">${m.map(x => `<button type="button" class="memo-n sc" style="--sh:${x.h}" data-act="memoedit" data-id="${x.id}"><b>${esc(x.t || '（タイトルなし）')}</b><span>${esc((x.b || '').slice(0, 100))}</span></button>`).join('')}</div>`;
+}
+// 並べ替えのドラッグ
+let HD = null;
+document.addEventListener('pointerdown', e => {
+  const g = e.target.closest && e.target.closest('.hed-grip'); if (!g) return;
+  const sec = g.closest('.hsec'); HD = { id: sec.dataset.sec, sec, sx: e.clientX, sy: e.clientY, tg: null, pid: e.pointerId };
+  sec.classList.add('hdrag'); try { g.setPointerCapture(e.pointerId); } catch (x) { } e.preventDefault();
+});
+document.addEventListener('pointermove', e => {
+  if (!HD || e.pointerId !== HD.pid) return;
+  HD.sec.style.transform = `translate(${e.clientX - HD.sx}px,${e.clientY - HD.sy}px)`;
+  const prev = document.querySelector('.hsec.hover'); prev && prev.classList.remove('hover'); HD.tg = null;
+  HD.sec.style.visibility = 'hidden'; const el = document.elementFromPoint(e.clientX, e.clientY); HD.sec.style.visibility = '';
+  const t = el && el.closest && el.closest('.hsec'); if (t && t !== HD.sec) { t.classList.add('hover'); HD.tg = { id: t.dataset.sec, before: e.clientY < t.getBoundingClientRect().top + t.getBoundingClientRect().height / 2 }; }
+  e.preventDefault();
+}, { passive: false });
+const hdEnd = e => {
+  if (!HD || (e && e.pointerId !== HD.pid)) return; const d = HD; HD = null;
+  d.sec.classList.remove('hdrag'); d.sec.style.transform = ''; const h = document.querySelector('.hsec.hover'); h && h.classList.remove('hover');
+  if (d.tg) { const L = homeLay(); L.order = L.order.filter(i => i !== d.id); const k = L.order.indexOf(d.tg.id); L.order.splice(d.tg.before ? k : k + 1, 0, d.id); homeSave(L); }
+};
+document.addEventListener('pointerup', hdEnd); document.addEventListener('pointercancel', hdEnd);
 
 /* ---------- 課題一覧 ---------- */
 function ov() {
@@ -2452,7 +2537,7 @@ function navSettings() {
   const l = navList(), pin = navPinned(), rest = TOOLS.filter(t => !pin.includes(t[0]));
   const rows = l.map((id, i) => { const [lb, ic] = navInfo(id), tl = id.startsWith('tool:'); return `<div class="srow nvr"><span class="nvi">${ic === 'auto_awesome' ? gem(24) : ms(ic)}</span><div class="t">${esc(lb)}<small>${tl ? 'ツール' : '基本の画面'}</small></div><button class="ibtn" data-act="navup" data-id="${id}" ${i === 0 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を上（左）へ">${ms('keyboard_arrow_up')}</button><button class="ibtn" data-act="navdown" data-id="${id}" ${i === l.length - 1 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を下（右）へ">${ms('keyboard_arrow_down')}</button>${tl ? `<button class="ibtn" data-act="navdel" data-id="${id}" aria-label="${esc(lb)}をバーから外す">${ms('close')}</button>` : '<span style="width:48px;flex:none"></span>'}</div>`; }).join('');
   const add = pin.length >= NAV_MAXTOOLS ? `<p class="muted" style="margin:14px 4px 0;font-weight:500">ツールは${NAV_MAXTOOLS}つまで置けます。入れ替えるときは、先に × で外してください。</p>` : `<div class="lbl" style="margin:16px 4px 8px">バーに置くツールを選ぶ（あと${NAV_MAXTOOLS - pin.length}つ）</div><div class="tchips" style="margin:0">${rest.map(t => `<button class="tchip" data-act="navadd" data-id="${t[0]}">${ms(t[2])}${esc(t[1])}</button>`).join('')}</div>`;
-  return `<div class="card"><div class="fld"><div class="lbl">バーの位置</div><div class="seg">${[['auto', '自動', 'devices'], ['bottom', '下に固定', 'dock_to_bottom']].map(([v, l, i]) => `<button class="${(S.set.navPos || 'auto') === v ? 'on' : ''}" data-act="navpos" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div><p class="muted" style="margin:6px 4px 0;font-weight:500;font-size:.88rem">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div><p class="muted" style="margin:14px 4px 12px;font-weight:500">上から順に、バーに並びます。</p><div class="slist">${rows}</div>${add}<div class="dact" style="margin:18px 0 0;justify-content:flex-start"><button class="btn tonal" data-act="hometools">${ms('apps')}ホームによく使うツールを選ぶ</button></div></div>`;
+  return `<div class="card"><div class="fld"><div class="lbl">バーの位置</div><div class="seg">${[['auto', '自動', 'devices'], ['bottom', '下に固定', 'dock_to_bottom']].map(([v, l, i]) => `<button class="${(S.set.navPos || 'auto') === v ? 'on' : ''}" data-act="navpos" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div><p class="muted" style="margin:6px 4px 0;font-weight:500;font-size:.88rem">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div><p class="muted" style="margin:14px 4px 12px;font-weight:500">上から順に、バーに並びます。</p><div class="slist">${rows}</div>${add}<div class="dact" style="margin:18px 0 0;justify-content:flex-start"><button class="btn tonal" data-act="hometools">${ms('apps')}ホームによく使うツールを選ぶ</button><button class="btn tonal" data-act="homeedit">${ms('dashboard_customize')}ホームの配置を編集</button></div></div>`;
 }
 function viewSettings() {
   const st = S.set;
@@ -2950,7 +3035,7 @@ const ACT = {
     else if (id === 'tools') { if (ui.tab === 'tools' || navPinned().includes(ui.tool)) ui.tool = ''; }
     ui.dir = id === from ? -1 : (ord.indexOf(id) >= ord.indexOf(from) ? 1 : -1);
     if (tid) { ui.tab = 'tools'; ui.tool = tid; ui.vin = true; } else ui.tab = id;
-    ui.anim = true; ui.fab = false; ui.setPage = ''; renderFab(); render(); window.scrollTo(0, 0);
+    ui.anim = true; ui.fab = false; ui.setPage = ''; ui.homeEdit = false; renderFab(); render(); window.scrollTo(0, 0);
   },
   errcopy() { let t = '(記録はありません)'; try { const a = JSON.parse(localStorage.getItem(ERRK) || '[]'); if (a.length) t = a.map(x => `${x.t} v${x.v} [${x.tab || ''}] ${x.m}`).join('\n'); } catch (e) { } if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => toast('記録をコピーしました'), () => toast('コピーできませんでした')); else toast('コピーできませんでした'); },
   errclear() { try { localStorage.removeItem(ERRK); } catch (e) { } toast('記録を消しました'); },
@@ -2967,10 +3052,18 @@ const ACT = {
   memoadd() { memoDlg(''); },
   memoedit(id) { memoDlg(id); },
   memohue(id, el) { MEMOS.h = +id; el.parentElement.querySelectorAll('.memo-c').forEach(b => b.classList.toggle('on', b === el)); },
-  memodel(id) { S.memos = (S.memos || []).filter(v => v.id !== id); save(); closeDlg(); toolsRefresh(); toast('削除しました'); },
+  memodel(id) { S.memos = (S.memos || []).filter(v => v.id !== id); save(); closeDlg(); if (ui.tab === 'tools') toolsRefresh(); else render(); toast('削除しました'); },
   wcfocus() { WC.focus = true; WC.tab = 'study'; toolsRefresh(); wcFocusDom(); },
   wcfexit() { const e = $('#wcf'); e && e.remove(); WC.focus = false; toolsRefresh(); },
   wcffilt(id) { WC.filt = id; WC.i = 0; WC.flip = false; wcSave(); wcFocusSeg(); wcPaint(true); },
+  homeedit() { ui.tab = 'home'; ui.homeEdit = true; ui.anim = true; renderFab(); render(); window.scrollTo(0, 0); },
+  homedone() { ui.homeEdit = false; render(); },
+  homeup(id) { homeMove(id, -1); },
+  homedown(id) { homeMove(id, 1); },
+  homehide(id) { const L = homeLay(); L.hide[id] = !L.hide[id]; homeSave(L); },
+  homehalf(id) { const L = homeLay(); L.half[id] = L.half[id] ? 0 : 1; homeSave(L); },
+  homesv() { const L = homeLay(); L.sv = L.sv === 'compact' ? 'card' : 'compact'; homeSave(L); },
+  homereset() { confirmDlg('ホームの配置をもとにもどしますか？', '並び順・表示・幅を、初期の状態にもどします。', 'もどす', () => { delete S.set.home; save(); render(); }); },
   syncchoice() { syncChoiceDlg(); },
   syncuse(id) {
     const P = CLOUD.pend; if (!P) return closeDlg();
@@ -5285,7 +5378,7 @@ function memoDlg(id) {
     ev.preventDefault(); const t = $('#mmt').value.trim(), b = $('#mmb').value.trim(); if (!t && !b) return err('タイトルか内容を入力してください');
     S.memos = S.memos || [];
     if (MEMOS.id) { const v = S.memos.find(z => z.id === MEMOS.id); if (v) { v.t = t; v.b = b; v.h = MEMOS.h; v.at = Date.now(); } } else S.memos.push({ id: uid(), t, b, h: MEMOS.h, at: Date.now() });
-    save(); closeDlg(); toolsRefresh();
+    save(); closeDlg(); if (ui.tab === 'tools') toolsRefresh(); else render();
   };
 }
 /* 分数 */
