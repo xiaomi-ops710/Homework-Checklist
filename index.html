@@ -1578,6 +1578,51 @@ html[data-nav=bottom] #nav.ionly .ni{flex:1 1 0;min-width:0}
 .wx-tsel{margin:0;flex-wrap:wrap}
 .wx-tsel .wx-sg{flex:1 1 auto;min-width:72px;padding:0 10px}
 @media(prefers-reduced-motion:reduce){.wxin,.wxin .stg>*,.wx-tab.on,.wx-sg.on{animation:none}}
+
+/* ===== 11.3：iPadの縦バー・追加ボタン・Googleふうの読み込み・集中モード・新ツール ===== */
+@media(min-width:700px){
+  html:not([data-nav=bottom]) #nav{bottom:auto;height:100vh;height:max(100vh,100lvh)}
+  html:not([data-nav=bottom]) #fab{left:20px}
+}
+.gsp{display:block;animation:gsprot 1.4s linear infinite}
+.gsp-c{stroke-linecap:round;stroke-dasharray:1,125;stroke-dashoffset:0;stroke:#4285f4;animation:gspdash 1.4s ease-in-out infinite,gspcol 5.6s ease-in-out infinite}
+@keyframes gsprot{to{transform:rotate(360deg)}}
+@keyframes gspdash{0%{stroke-dasharray:1,125;stroke-dashoffset:0}50%{stroke-dasharray:90,125;stroke-dashoffset:-35}100%{stroke-dasharray:90,125;stroke-dashoffset:-124}}
+@keyframes gspcol{0%,100%{stroke:#4285f4}25%{stroke:#ea4335}50%{stroke:#fbbc05}75%{stroke:#34a853}}
+.busy{display:grid;justify-items:center;gap:18px;padding:22px 0 12px;text-align:center}
+.busy h2{margin:0;font-size:1.2rem}
+@media(prefers-reduced-motion:reduce){.gsp{animation-duration:3s}.gsp-c{animation:none;stroke-dasharray:70,125}}
+#wcf{position:fixed;inset:0;z-index:75;display:flex;flex-direction:column;background:var(--bg);color:var(--on);padding:calc(10px + env(safe-area-inset-top)) 20px calc(16px + env(safe-area-inset-bottom));animation:yxin .3s ease}
+.wcf-top{display:flex;align-items:center;gap:12px;flex:none;margin-bottom:10px}
+.wcf-m{flex:1;min-width:0;display:grid}.wcf-m b{font-size:1.15rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.wcf-m span{color:var(--on-v);font-size:.85rem}
+.wcf-c{flex:1;min-height:0;display:grid;place-items:center;overflow:auto}
+#wcf #wcstage{width:min(100%,860px)}
+#wcf .wc-wrap{--wch:clamp(260px,50dvh,560px)}
+#wcf .wc-btns{position:static;margin:0;padding:6px 0;background:none}
+#wcf .wc-btns .btn{height:68px;font-size:1.2rem}
+#wcf .wc-tools .tchip{font-size:0;width:52px;height:52px;padding:0;justify-content:center;gap:0}
+#wcf .wc-tools .tchip .ms{font-size:24px}
+#wcf .notice{display:none}
+.sw-c{display:grid;justify-items:center;gap:22px;padding:34px 16px}
+.sw-t{font:800 clamp(2.6rem,12vw,5.2rem)/1 ui-monospace,Menlo,Consolas,monospace;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.sw-b{display:flex;gap:12px;align-items:center;flex-wrap:wrap;justify-content:center}
+.sw-g{height:64px;padding:0 34px;font-size:1.1rem}.sw-g.on{background:var(--err);color:#fff}
+.sw-s{height:56px}
+.sw-l{display:grid;gap:4px}.sw-l div{display:grid;grid-template-columns:1fr auto auto;gap:14px;align-items:center;padding:10px 6px;border-bottom:1px solid var(--s3)}.sw-l div:last-child{border:0}
+.sw-l b{font-family:ui-monospace,Menlo,monospace;font-variant-numeric:tabular-nums}.sw-l em{font-style:normal;color:var(--on-v);font-size:.88rem;font-family:ui-monospace,Menlo,monospace}
+.tbl-nx{margin-bottom:14px}.tbl-nx b{display:flex;align-items:center;gap:8px}.tbl-nx p{margin:8px 0 0;line-height:1.8}
+.tbl{display:grid;grid-template-columns:2.2em repeat(5,minmax(0,1fr));gap:6px;align-items:stretch}
+.tbl-h,.tbl-p{display:grid;place-items:center;font-weight:700;color:var(--on-v);padding:6px 0}.tbl-h.tod{color:var(--primary)}
+.tbl-c{min-height:54px;border:0;border-radius:16px;background:var(--s2);color:var(--on);font:inherit;font-weight:600;font-size:.92rem;padding:4px;word-break:break-all;line-height:1.3;transition:background .25s,transform .35s var(--spring)}
+.tbl-c:active{transform:scale(.93)}.tbl-c.emp{color:var(--on-v);font-weight:400;background:var(--s1)}.tbl-c.tod{background:var(--pc);color:var(--on-pc)}.tbl-c.emp.tod{background:var(--s2);color:var(--on-v)}
+.tbl-f{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.memo-bar{margin:0 0 14px}
+.memo-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.memo-n{display:grid;align-content:start;gap:6px;text-align:left;min-height:150px;padding:18px;border:0;border-radius:26px;background:var(--scc,var(--s2));color:var(--on-scc,var(--on));transition:border-radius .45s var(--spring),transform .4s var(--spring)}
+.memo-n:active{transform:scale(.97);border-radius:36px}
+.memo-n b{font-size:1.05rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.memo-n span{opacity:.85;font-size:.92rem;line-height:1.55;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;white-space:pre-wrap}.memo-n small{opacity:.65;margin-top:auto}
+.memo-c{width:40px;height:40px;border:0;border-radius:50%;background:var(--sc,var(--primary));box-shadow:0 0 0 2px transparent;transition:box-shadow .2s,transform .3s var(--spring)}.memo-c.on{box-shadow:0 0 0 3px var(--bg),0 0 0 6px var(--sc,var(--primary));transform:scale(1.05)}
+.dlg textarea{width:100%;box-sizing:border-box;border:0;border-radius:18px;padding:14px 16px;background:var(--s2);color:var(--on);font:inherit;font-size:16px;line-height:1.6;resize:vertical;outline:none}
 </style>
 </head>
 <body>
@@ -1602,7 +1647,7 @@ html[data-nav=bottom] #nav.ionly .ni{flex:1 1 0;min-width:0}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '11.2';
+const APP_VERSION = '11.3';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2099,6 +2144,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '11.3', t: '単語帳の集中モード、新しいツール、iPad表示の調整', n: ['単語帳に「集中モード」を追加しました。カードと「まだ」「覚えた」ボタンだけを、画面いっぱいに表示します', 'データを受け取るときなどの読み込み表示を、Googleのような回転アニメーションに変えました', '新しいツールを4つ追加しました：割合・パーセント、ストップウォッチ、時間割、ふせんメモ', 'iPadで、左の縦バーの高さが画面によって変わる問題と、追加ボタンの位置のずれを直しました'] },
   { v: '11.2', t: '単語帳のテスト範囲、追加ボタン、動作の安定化', n: ['単語帳のテストで、番号の範囲と、「覚えていない／覚えた／★／苦手」の対象を、決められるようになりました（4択クイズ・入力テスト・聞き流しに使われます）', 'iPadの追加ボタン（＋）を、元の左上にもどしました。スマホでは、すべての画面で同じ高さにそろえました', '追加ボタンのメニューが、置いた場所に合わせて、上下左右どちらにも開くようになりました', '画面の切り替えのアニメーションを、整えました', '安定化：データを読み込めなかったときの自動復元、毎日の自動バックアップ、アプリを閉じる前の同期、不具合の記録を追加しました'] },
   { v: '11.1', t: 'スマホ向けの表示を、さらに調整', n: ['追加ボタン（＋）の大きさと位置を、すべての画面でそろえました', 'スマホの下のタブバーが、10個まで画面に収まるようになりました。文字が入りきらないときは、アイコンだけになります', '画面を引っぱったときに、下のタブバーが動かないようにしました', 'AIの画面の見出しを、スマホで見やすくしました'] },
   { v: '11.0', t: '単語帳を、使いやすく大きくリニューアル', n: ['画面を「学習」「一覧」「テスト」の3つに分けて、わかりやすくしました。iPadの横向きでは、左に単語帳の一覧が出ます', '覚えた単語も、「覚えた」の一覧から、いつでも見直せるようになりました。ひとつ前のカードに戻る操作も追加しました', 'カードに★をつけて、あとから見直せるようになりました。「まだ」を何度も押したカードは、苦手なカードとして集められます', '新しいテストを追加しました：意味を見て単語を入力する「入力テスト」と、自動でめくって読み上げる「聞き流し」', '一覧から、覚えたの切り替えや★を、すばやく付けられます。今日の学習枚数も出ます'] },
@@ -2908,6 +2954,23 @@ const ACT = {
   },
   errcopy() { let t = '(記録はありません)'; try { const a = JSON.parse(localStorage.getItem(ERRK) || '[]'); if (a.length) t = a.map(x => `${x.t} v${x.v} [${x.tab || ''}] ${x.m}`).join('\n'); } catch (e) { } if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(() => toast('記録をコピーしました'), () => toast('コピーできませんでした')); else toast('コピーできませんでした'); },
   errclear() { try { localStorage.removeItem(ERRK); } catch (e) { } toast('記録を消しました'); },
+  swgo() { if (SWS.run) { SWS.acc = swNow(); SWS.run = false; } else { SWS.t0 = performance.now(); SWS.run = true; } toolsRefresh(); },
+  swlap() { if (!SWS.run) return; SWS.laps.unshift(swNow()); toolsRefresh(); },
+  swreset() { SWS.run = false; SWS.acc = 0; SWS.laps = []; toolsRefresh(); },
+  tblcell(id) {
+    const [d, p] = id.split('-').map(Number), cur = tblData().c[id] || '', subs = [...new Set([...S.subjects.map(x => x.name), ...TBL_PRE])]; TBLK = id;
+    openDlg(`<h2>${TBL_DAYS[d]}曜日　${p + 1}時間目</h2><div class="chips" style="margin:8px 0 14px">${subs.map(n => `<button type="button" class="tchip ${n === cur ? 'on' : ''}" data-act="tblset" data-id="${esc(n)}">${esc(n)}</button>`).join('')}</div><form id="tblf" autocomplete="off"><div class="fld"><label for="tblin">そのほか（自分で入力）</label><input id="tblin" maxlength="12" value="${esc(cur && !subs.includes(cur) ? cur : '')}" placeholder="例：選択数学"></div><div class="dact"><button type="button" class="btn text danger" data-act="tblset" data-id="">空にする</button><span class="sp"></span><button type="button" class="btn text" data-act="close">やめる</button><button class="btn" type="submit">決定</button></div></form>`);
+    $('#tblf').onsubmit = ev => { ev.preventDefault(); ACT.tblset($('#tblin').value.trim()); };
+  },
+  tblset(v) { const t = tblData(); if (v) t.c[TBLK] = v; else delete t.c[TBLK]; save(); closeDlg(); toolsRefresh(); },
+  tblp(id) { const t = tblData(); t.p = Math.max(4, Math.min(8, t.p + (+id))); save(); toolsRefresh(); },
+  memoadd() { memoDlg(''); },
+  memoedit(id) { memoDlg(id); },
+  memohue(id, el) { MEMOS.h = +id; el.parentElement.querySelectorAll('.memo-c').forEach(b => b.classList.toggle('on', b === el)); },
+  memodel(id) { S.memos = (S.memos || []).filter(v => v.id !== id); save(); closeDlg(); toolsRefresh(); toast('削除しました'); },
+  wcfocus() { WC.focus = true; WC.tab = 'study'; toolsRefresh(); wcFocusDom(); },
+  wcfexit() { const e = $('#wcf'); e && e.remove(); WC.focus = false; toolsRefresh(); },
+  wcffilt(id) { WC.filt = id; WC.i = 0; WC.flip = false; wcSave(); wcFocusSeg(); wcPaint(true); },
   syncchoice() { syncChoiceDlg(); },
   syncuse(id) {
     const P = CLOUD.pend; if (!P) return closeDlg();
@@ -3398,7 +3461,8 @@ const SHD = { deck: '', code: '', label: '', how: '' };
 const shGen = () => [...crypto.getRandomValues(new Uint8Array(9))].map(x => x % 10).join('');
 const shFmt = c => { c = String(c); return /^\d{9}$/.test(c) ? c.slice(0, 3) + '-' + c.slice(3, 6) + '-' + c.slice(6) : c.slice(0, 4) + '-' + c.slice(4); };
 const shNorm = x => String(x || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
-const shBusy = m => openDlg(`<h2>${esc(m)}</h2><p class="muted"><span class="dots"><i></i><i></i><i></i></span></p>`);
+const gspin = (px = 48) => `<svg class="gsp" viewBox="0 0 50 50" width="${px}" height="${px}" role="progressbar" aria-label="読み込み中"><circle class="gsp-c" cx="25" cy="25" r="20" fill="none" stroke-width="4.5"/></svg>`;
+const shBusy = m => openDlg(`<div class="busy">${gspin(56)}<h2>${esc(m)}</h2></div>`);
 function shFail(e) {
   const c = String((e && (e.code || e.message)) || e);
   const m = /permission/i.test(c) ? '共有の設定（Firestoreのルール）が、まだ追加されていないようです。引き継ぎメモの手順で、ルールに shares を追加してください。' : (!navigator.onLine || /unavailable|network|offline/i.test(c)) ? 'インターネットに接続できません。接続を確認してください。' : '共有に失敗しました。時間をおいて、もう一度お試しください。';
@@ -4286,12 +4350,12 @@ function trHtml() {
 const TOOLS = [['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
   ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['drill', '計算ドリル', 'bolt', '10問の計算をタイム付きで練習', 60, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], ['wc', '文字数カウント', 'edit_note', '作文の文字数と原稿用紙の枚数', 300, 'b'],
-  ['review', '復習リマインダー', 'history', '1・3・7・14・30日後の復習日を自動で管理', 250, 'b'], ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '周期表・元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
+  ['review', '復習リマインダー', 'history', '1・3・7・14・30日後の復習日を自動で管理', 250, 'b'], ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '周期表・元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -4302,7 +4366,7 @@ function ensureDecks(j = S) {
   j.cards.forEach(c => { if (!j.decks.some(d => d.id === c.d)) c.d = j.decks[0].id; });
   return j;
 }
-const WC = { i: 0, flip: false, filt: 'new', rev: false, deck: '', busy: false, q: '', rng: {}, seed: {}, tab: 'study', sel: 'all', sort: 'n', undo: [], trng: {}, tsel: 'all' };
+const WC = { focus: false, i: 0, flip: false, filt: 'new', rev: false, deck: '', busy: false, q: '', rng: {}, seed: {}, tab: 'study', sel: 'all', sort: 'n', undo: [], trng: {}, tsel: 'all' };
 try { const o = JSON.parse(localStorage.getItem('kosa-wc') || '{}'); WC.deck = o.deck || ''; WC.filt = o.filt || (o.only === false ? 'all' : 'new'); WC.rev = !!o.rev; WC.rng = o.rng || {}; WC.seed = o.seed || {}; WC.sort = o.sort || 'n'; WC.trng = o.trng || {}; WC.tsel = o.tsel || 'all'; } catch (e) { }
 const wcSave = () => { try { localStorage.setItem('kosa-wc', JSON.stringify({ deck: WC.deck, filt: WC.filt, rev: WC.rev, rng: WC.rng, seed: WC.seed, sort: WC.sort, trng: WC.trng, tsel: WC.tsel })); } catch (e) { } };
 const wcDeck = () => { ensureDecks(); return S.decks.find(d => d.id === WC.deck) || S.decks[0]; };
@@ -4377,6 +4441,14 @@ function wcMark(k) {
   };
   if (el && !reduced()) { el.classList.remove('drag'); el.classList.add('fly'); el.style.transform = `translateX(${k ? 130 : -130}%) rotate(${k ? 16 : -16}deg)`; el.style.opacity = '0'; setTimeout(fin, 300); } else fin();
 }
+function wcFocusSeg() { const c = wcCounts(), el = $('#wcfseg'); if (el) el.innerHTML = [['new', '覚えていない', c.nw], ['all', 'すべて', c.all], ['known', '覚えた', c.known]].map(([k, t, n]) => `<button type="button" class="wx-sg ${WC.filt === k ? 'on' : ''}" data-act="wcffilt" data-id="${k}">${t}<small id="wcn-${k}">${n}</small></button>`).join(''); }
+// 集中モード：カードと「まだ」「覚えた」ボタンだけを、画面いっぱいに出す
+function wcFocusDom() {
+  const o = $('#wcf'); o && o.remove(); const d = wcDeck(), all = wcAll(), k = all.filter(c => c.k).length, e = document.createElement('div'); e.id = 'wcf'; e.className = 'sc'; e.style.setProperty('--sh', d.hue);
+  e.innerHTML = `<div class="wcf-top"><button type="button" class="ibtn" data-act="wcfexit" aria-label="集中モードを終わる">${ms('close')}</button><div class="wcf-m"><b>${esc(d.name)}</b><span id="wcstat">${wcStatText()}</span></div><div class="wx-seg sm" id="wcfseg"></div></div><div class="wc-prog"><i id="wcprog" style="width:${all.length ? k / all.length * 100 : 0}%"></i></div><div class="wcf-c"><div id="wcstage"></div></div>`;
+  document.body.appendChild(e); wcFocusSeg(); wcPaint(false);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && WC.focus && $('#wcf') && !dlg.open) ACT.wcfexit(); });
 function wcRows() {
   const q = WC.q.trim().toLowerCase(), key = { n: c => c.n, new: c => (c.k ? 1e6 : 0) + c.n, star: c => (c.s ? 0 : 1e6) + c.n, weak: c => -(c.m || 0) * 1e3 + c.n }[WC.sort] || (c => c.n);
   const rows = wcAll().filter(c => !q || (c.f + ' ' + c.b).toLowerCase().includes(q) || String(c.n) === q).sort((a, b) => key(a) - key(b));
@@ -4384,9 +4456,10 @@ function wcRows() {
   return rows.map(c => `<div class="wx-r"><span class="wc-rn">${c.n}</span><button type="button" class="wx-ck ${c.k ? 'on' : ''}" data-act="wclk" data-id="${c.id}" aria-label="覚えたの切り替え" aria-pressed="${!!c.k}">${ms(c.k ? 'check' : 'radio_button_unchecked')}</button><button type="button" class="wx-st ${c.s ? 'on' : ''}" data-act="wcls" data-id="${c.id}" aria-label="★の切り替え" aria-pressed="${!!c.s}">${ms('star')}</button><button type="button" class="wx-tx" data-act="wcedit" data-id="${c.id}"><b>${esc(c.f)}</b><span>${esc(c.b)}</span></button>${(c.m || 0) >= 2 ? `<em class="wx-w" title="苦手">${ms('priority_high')}</em>` : '<i></i>'}</div>`).join('');
 }
 function wcStudyTab() {
+  if (WC.focus) return '<div class="card" style="text-align:center;padding:30px"><p class="muted" style="margin:0">集中モードで学習中です</p></div>';
   const c = wcCounts(), d = wcDeck();
   return `<div class="wx-seg" role="radiogroup" aria-label="出すカード">${[['new', '覚えていない', c.nw], ['all', 'すべて', c.all], ['known', '覚えた', c.known]].map(([k, t, n]) => `<button type="button" role="radio" aria-checked="${WC.filt === k}" class="wx-sg ${WC.filt === k ? 'on' : ''}" data-act="wcfilt" data-id="${k}">${t}<small id="wcn-${k}">${n}</small></button>`).join('')}</div>
-  <div class="wc-opts"><button class="tchip ${WC.seed[d.id] ? 'on' : ''}" data-act="wcshuf">${ms('shuffle')}${WC.seed[d.id] ? 'もう一度シャッフル' : 'シャッフル'}</button>${WC.seed[d.id] ? `<button class="tchip" data-act="wcunshuf">${ms('format_list_numbered')}順番にもどす</button>` : ''}<button class="tchip ${wcRangeOf(d.id) ? 'on' : ''}" data-act="wcrng">${ms('pin')}${wcRangeOf(d.id) ? `番号 ${wcRangeOf(d.id)[0]}〜${wcRangeOf(d.id)[1]}` : '番号で絞る'}</button><button class="tchip ${WC.sel === 'star' ? 'on' : ''}" data-act="wcsel" data-id="${WC.sel === 'star' ? 'all' : 'star'}">${ms('star')}★だけ<small>${c.star}</small></button><button class="tchip ${WC.sel === 'weak' ? 'on' : ''}" data-act="wcsel" data-id="${WC.sel === 'weak' ? 'all' : 'weak'}">${ms('priority_high')}苦手だけ<small>${c.weak}</small></button><button class="tchip ${WC.rev ? 'on' : ''}" data-act="wcrev">${ms('swap_horiz')}裏から出す</button></div>
+  <div class="wc-opts"><button class="tchip" data-act="wcfocus">${ms('fullscreen')}集中モード</button><button class="tchip ${WC.seed[d.id] ? 'on' : ''}" data-act="wcshuf">${ms('shuffle')}${WC.seed[d.id] ? 'もう一度シャッフル' : 'シャッフル'}</button>${WC.seed[d.id] ? `<button class="tchip" data-act="wcunshuf">${ms('format_list_numbered')}順番にもどす</button>` : ''}<button class="tchip ${wcRangeOf(d.id) ? 'on' : ''}" data-act="wcrng">${ms('pin')}${wcRangeOf(d.id) ? `番号 ${wcRangeOf(d.id)[0]}〜${wcRangeOf(d.id)[1]}` : '番号で絞る'}</button><button class="tchip ${WC.sel === 'star' ? 'on' : ''}" data-act="wcsel" data-id="${WC.sel === 'star' ? 'all' : 'star'}">${ms('star')}★だけ<small>${c.star}</small></button><button class="tchip ${WC.sel === 'weak' ? 'on' : ''}" data-act="wcsel" data-id="${WC.sel === 'weak' ? 'all' : 'weak'}">${ms('priority_high')}苦手だけ<small>${c.weak}</small></button><button class="tchip ${WC.rev ? 'on' : ''}" data-act="wcrev">${ms('swap_horiz')}裏から出す</button></div>
   <div id="wcstage">${wcStageHtml()}</div>`;
 }
 function wcListTab() {
@@ -5000,7 +5073,7 @@ function labAiPaint() {
   const c = $('#labaic'), a = $('#labaans'); if (!c || !a) return;
   const n = LAB.blobs.length;
   c.innerHTML = (n >= 2 ? `<button type="button" class="tchip" data-act="labaiq" data-id="combo">いま選んだものを、くっつけると？</button>` : '') + (LAB.last ? `<button type="button" class="tchip" data-act="labaiq" data-id="why">なぜ、こうなるの？</button><button type="button" class="tchip" data-act="labaiq" data-id="ex">身近な例は？</button>` : '');
-  a.innerHTML = (LAB_AI.busy ? `<div class="lab-aq">${esc(LAB_AI.busy)}</div><div class="ai-b m"><span class="dots"><i></i><i></i><i></i></span></div>` : '') + LAB_AI.log.map(m => `<div class="lab-aq">${esc(m.q)}</div><div class="ai-b m">${mdLite(m.a)}</div>`).join('');
+  a.innerHTML = (LAB_AI.busy ? `<div class="lab-aq">${esc(LAB_AI.busy)}</div><div class="ai-b m" style="display:flex;align-items:center;gap:12px">${gspin(26)}<span class="muted">考えています…</span></div>` : '') + LAB_AI.log.map(m => `<div class="lab-aq">${esc(m.q)}</div><div class="ai-b m">${mdLite(m.a)}</div>`).join('');
   const nt = $('#labainote'); if (nt) nt.textContent = CLOUD.user ? 'AIの利用回数（1日の上限）に含まれます。まちがうこともあるので、教科書でも確かめましょう。' : 'AIは、Googleログイン後に使えます。';
 }
 async function labAiAsk(q) {
@@ -5167,6 +5240,54 @@ const frS = x => { for (let d = 1; d <= 1000; d++) { const n = Math.round(x * d)
 const fld1 = (id, l, tp, ph = '') => `<div class="fld" style="flex:1;min-width:110px"><label for="${id}">${l}</label>${numIn(id, tp, ph)}</div>`;
 const mc = (h, body, rid) => `<div class="card"><h3 class="mh">${h}</h3>${body}<div class="mres" id="${rid}"></div></div>`;
 const mqr = (...a) => `<div class="mq" style="flex-wrap:wrap">${a.join('')}</div>`;
+/* ===== 新しいツール：割合・ストップウォッチ・時間割・ふせんメモ ===== */
+function pctHtml() {
+  return mc('A は B の何％？', mqr(fld1('pa1', 'A', 'pct', '例：18'), fld1('pb1', 'B', 'pct', '例：60')), 'pr1')
+    + mc('B の A％ は、いくつ？', mqr(fld1('pa2', 'A（％）', 'pct', '例：35'), fld1('pb2', 'B', 'pct', '例：2400')), 'pr2')
+    + mc('A から B へ、何％変わった？', mqr(fld1('pa3', 'もとの数 A', 'pct', '例：80'), fld1('pb3', 'あとの数 B', 'pct', '例：100')), 'pr3')
+    + mc('○％引き・○％増し', mqr(fld1('pa4', 'ねだん・もとの数', 'pct', '例：3000'), fld1('pb4', '％', 'pct', '例：20')), 'pr4');
+}
+TPAINT.pct = () => {
+  const [a1, b1, a2, b2, a3, b3, a4, b4] = ['pa1', 'pb1', 'pa2', 'pb2', 'pa3', 'pb3', 'pa4', 'pb4'].map(nv);
+  put('pr1', isNaN(a1) || isNaN(b1) || b1 === 0 ? '' : `A ÷ B × 100 ＝ <b>${pf(a1 / b1 * 100)}％</b>`);
+  put('pr2', isNaN(a2) || isNaN(b2) ? '' : `B × A ÷ 100 ＝ <b>${pf(b2 * a2 / 100)}</b>`);
+  put('pr3', isNaN(a3) || isNaN(b3) || a3 === 0 ? '' : (() => { const r = (b3 - a3) / Math.abs(a3) * 100; return `${r >= 0 ? '増えた' : '減った'}割合：<b>${pf(Math.abs(r))}％</b>（${r >= 0 ? '＋' : '−'}${pf(Math.abs(b3 - a3))}）<br><span class="muted">あとの数 ÷ もとの数 ＝ ${pf(b3 / a3)} 倍</span>`; })());
+  put('pr4', isNaN(a4) || isNaN(b4) ? '' : `${pf(b4)}％引き：<b>${pf(a4 * (100 - b4) / 100)}</b>（${pf(a4 * b4 / 100)} 安くなる）<br>${pf(b4)}％増し：<b>${pf(a4 * (100 + b4) / 100)}</b>（${pf(a4 * b4 / 100)} 高くなる）`);
+};
+const SWS = { run: false, t0: 0, acc: 0, laps: [], raf: 0 };
+const swNow = () => SWS.acc + (SWS.run ? performance.now() - SWS.t0 : 0);
+const swFmt = ms => { const t = Math.floor(ms / 10), cs = t % 100, sec = Math.floor(t / 100) % 60, m = Math.floor(t / 6000); return `${String(m).padStart(2, '0')}:${String(sec).padStart(2, '0')}.${String(cs).padStart(2, '0')}`; };
+function swHtml() {
+  const L = SWS.laps;
+  return `<div class="card sw-c"><div class="sw-t" id="swt">${swFmt(swNow())}</div><div class="sw-b"><button class="btn tonal sw-s" data-act="swlap" ${SWS.run ? '' : 'disabled'}>${ms('flag')}ラップ</button><button class="btn sw-g ${SWS.run ? 'on' : ''}" data-act="swgo">${ms(SWS.run ? 'pause' : 'play_arrow')}${SWS.run ? 'ストップ' : (SWS.acc ? 'つづける' : 'スタート')}</button><button class="btn text" data-act="swreset" ${SWS.acc || SWS.run ? '' : 'disabled'}>${ms('restart_alt')}リセット</button></div></div>${L.length ? `<div class="card"><div class="sw-l">${L.map((t, i) => `<div><span>ラップ ${L.length - i}</span><b>${swFmt(t)}</b><em>+${swFmt(t - (L[i + 1] || 0))}</em></div>`).join('')}</div></div>` : ''}`;
+}
+TPAINT.sw = () => { cancelAnimationFrame(SWS.raf); const loop = () => { const el = $('#swt'); if (!el || ui.tool !== 'sw') return; el.textContent = swFmt(swNow()); if (SWS.run) SWS.raf = requestAnimationFrame(loop); }; loop(); };
+const TBL_DAYS = ['月', '火', '水', '木', '金'], TBL_PRE = ['国語', '数学', '英語', '理科', '社会', '音楽', '美術', '保体', '技術', '家庭', '道徳', '総合', '学活'];
+let TBLK = '';
+const tblData = () => { if (!S.tt || typeof S.tt !== 'object') S.tt = { p: 6, c: {} }; S.tt.c = S.tt.c || {}; S.tt.p = S.tt.p || 6; return S.tt; };
+function tblHtml() {
+  const t = tblData(), wd = new Date().getDay(), today = wd >= 1 && wd <= 5 ? wd - 1 : -1, nx = wd >= 1 && wd <= 4 ? wd : 0;
+  const nxt = Array.from({ length: t.p }, (_, p) => t.c[nx + '-' + p]).filter(Boolean);
+  let g = '<span></span>' + TBL_DAYS.map((d, i) => `<b class="tbl-h ${i === today ? 'tod' : ''}">${d}</b>`).join('');
+  for (let p = 0; p < t.p; p++) { g += `<b class="tbl-p">${p + 1}</b>`; for (let d = 0; d < 5; d++) { const v = t.c[d + '-' + p]; g += `<button type="button" class="tbl-c ${d === today ? 'tod' : ''} ${v ? '' : 'emp'}" data-act="tblcell" data-id="${d}-${p}">${v ? esc(v) : '＋'}</button>`; } }
+  return `<div class="card tbl-nx"><b>${ms('event_upcoming')}${(wd >= 0 && wd <= 4) ? 'あした' : 'つぎの登校日'}の時間割（${TBL_DAYS[nx]}曜日）</b><p>${nxt.length ? nxt.map(esc).join('　/　') : '<span class="muted">まだ入力されていません</span>'}</p></div>
+  <div class="card"><div class="tbl" style="--cols:6">${g}</div><div class="tbl-f"><span class="muted">マスをタップして、教科を選びます</span><span class="sp" style="flex:1"></span><button class="btn tonal sm" data-act="tblp" data-id="-1" ${t.p <= 4 ? 'disabled' : ''}>${ms('remove')}</button><b>${t.p}時間</b><button class="btn tonal sm" data-act="tblp" data-id="1" ${t.p >= 8 ? 'disabled' : ''}>${ms('add')}</button></div></div>`;
+}
+const MEMO_HUES = [50, 150, 200, 340, 280, 20], MEMOS = { id: '', h: 50 };
+function memoHtml() {
+  const m = (S.memos || []).slice().sort((a, b) => (b.at || 0) - (a.at || 0));
+  return `<div class="memo-bar"><button class="btn" data-act="memoadd">${ms('add')}メモを書く</button></div>${m.length ? `<div class="memo-g stg">${m.map(x => `<button type="button" class="memo-n sc" style="--sh:${x.h}" data-act="memoedit" data-id="${x.id}"><b>${esc(x.t || '（タイトルなし）')}</b><span>${esc((x.b || '').slice(0, 120))}</span><small>${new Date(x.at).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' })}</small></button>`).join('')}</div>` : `<div class="card" style="text-align:center;padding:36px 16px"><p class="muted" style="margin:0">思いついたことや、先生からの連絡を、すぐ書き留められます。</p></div>`}`;
+}
+function memoDlg(id) {
+  const x = id ? (S.memos || []).find(v => v.id === id) : null; MEMOS.id = id || ''; MEMOS.h = x ? x.h : MEMO_HUES[0];
+  openDlg(`<h2>${ms('sticky_note_2')}${x ? 'メモを編集' : 'メモを書く'}</h2><form id="mmf" autocomplete="off"><div class="fld"><label for="mmt">タイトル</label><input id="mmt" maxlength="30" value="${esc(x ? x.t : '')}" placeholder="例：提出物のこと"></div><div class="fld"><label for="mmb">内容</label><textarea id="mmb" rows="6" maxlength="1000" placeholder="ここに書きます">${esc(x ? x.b : '')}</textarea></div><div class="chips" id="mmh" style="margin:6px 0 14px">${MEMO_HUES.map(h => `<button type="button" class="memo-c sc ${MEMOS.h === h ? 'on' : ''}" style="--sh:${h}" data-act="memohue" data-id="${h}" aria-label="色"></button>`).join('')}</div><div class="err" id="err"></div><div class="dact">${x ? `<button type="button" class="btn text danger" data-act="memodel" data-id="${x.id}">削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">やめる</button><button class="btn" type="submit">${ms('check')}保存</button></div></form>`);
+  $('#mmf').onsubmit = ev => {
+    ev.preventDefault(); const t = $('#mmt').value.trim(), b = $('#mmb').value.trim(); if (!t && !b) return err('タイトルか内容を入力してください');
+    S.memos = S.memos || [];
+    if (MEMOS.id) { const v = S.memos.find(z => z.id === MEMOS.id); if (v) { v.t = t; v.b = b; v.h = MEMOS.h; v.at = Date.now(); } } else S.memos.push({ id: uid(), t, b, h: MEMOS.h, at: Date.now() });
+    save(); closeDlg(); toolsRefresh();
+  };
+}
 /* 分数 */
 const gcdN = (a, b) => b ? gcdN(b, a % b) : Math.abs(a);
 function fracStr(n, d) {
@@ -5707,7 +5828,7 @@ function yxList() {
   $('#yxtabs').innerHTML = [['home', 'おすすめ'], ['search', '検索結果'], ['hist', '履歴'], ['fav', 'お気に入り']].map(([k, t]) => `<button type="button" class="yx-tab ${yx.tab === k ? 'on' : ''}" data-yx="tab" data-i="${k}">${t}</button>`).join('');
   const k = yx.tab, items = yx.lists[k] || [];
   let h;
-  if (yx.busy[k]) h = `<div class="yx-empty">${ms('hourglass_top')}<p>探しています…</p></div>`;
+  if (yx.busy[k]) h = `<div class="yx-empty">${gspin(44)}<p>探しています…</p></div>`;
   else if (yx.fail[k] && !items.length) h = `<div class="yx-empty">${ms('cloud_off')}<p>検索サーバーにつながりませんでした。<br>動画のURLを貼り付けて、再生することもできます。</p><button type="button" class="btn tonal" data-yx="retry">${ms('refresh')}もう一度試す</button></div>`;
   else if (!items.length) h = `<div class="yx-empty"><p>${{ home: '読み込み中です。', search: 'キーワードを入れて検索してください。', hist: 'まだ履歴がありません。', fav: 'お気に入りはまだありません。' }[k]}</p></div>`;
   else h = items.map(yxItem).join('');
