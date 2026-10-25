@@ -1673,6 +1673,76 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 .dr-ol{margin:0;padding-left:2em;display:grid;gap:6px;font-size:1.15rem;font-weight:600}
 .dr-gs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
 .dr-gc{display:grid;gap:4px;padding:14px;border-radius:20px;background:var(--s2)}.dr-gc b{color:var(--primary);margin-bottom:2px}
+
+/* ===== 13.1：AIチャット（Material 3 Expressive）／フィードバック ===== */
+.acct-fb{display:flex;justify-content:center;margin:2px 0 14px}.acct-fb .btn{width:100%}
+.fbi-l{max-height:60vh;overflow:auto;display:grid;gap:10px;align-content:start;padding-bottom:6px}
+.fbi{display:grid;gap:6px;padding:14px 16px;border-radius:22px;background:var(--s2)}
+.fbi-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.fbi-h small{flex:1;color:var(--on-v);min-width:0}
+.fbi-c{display:inline-flex;align-items:center;gap:4px;height:30px;padding:0 12px 0 8px;border-radius:15px;background:var(--pc);color:var(--on-pc);font-weight:700;font-size:.82rem}.fbi-c .ms{font-size:18px}
+.fbi p{margin:0;line-height:1.7;overflow-wrap:anywhere}
+.axw{display:grid;gap:12px;grid-template-columns:minmax(0,1fr);grid-template-areas:"h" "n" "log" "sug" "att" "inp";grid-template-rows:auto auto minmax(0,1fr) auto auto auto;height:calc(100dvh - 196px - env(safe-area-inset-bottom));min-height:440px;max-width:1280px;margin:0 auto;position:relative}
+.axw::before{content:"";position:absolute;left:0;right:0;top:-80px;height:260px;background:radial-gradient(60% 70% at 25% 30%,rgba(66,133,244,.16),transparent 70%),radial-gradient(50% 60% at 78% 20%,rgba(217,101,112,.13),transparent 70%);pointer-events:none;z-index:-1}
+.ax-h{grid-area:h;display:flex;align-items:center;flex-wrap:wrap;gap:10px 12px}
+.ax-t{display:flex;align-items:center;gap:14px;flex:1;min-width:0}
+.ax-t h2{margin:0;font-size:1.65rem;font-weight:800;letter-spacing:-.01em;line-height:1.15}
+.ax-t small{display:block;color:var(--on-v);font-size:.84rem;margin-top:3px}
+.ax-av{position:relative;width:58px;height:58px;flex:none;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,#4285f4,#9b72cb 55%,#d96570);border-radius:42% 58% 55% 45%/48% 44% 56% 52%;animation:axmorph 9s ease-in-out infinite;box-shadow:0 10px 26px rgba(155,114,203,.38)}
+.ax-av.sm{width:36px;height:36px;box-shadow:none;animation:none}
+@keyframes axmorph{0%,100%{border-radius:42% 58% 55% 45%/48% 44% 56% 52%}33%{border-radius:58% 42% 40% 60%/55% 55% 45% 45%;transform:rotate(6deg)}66%{border-radius:46% 54% 60% 40%/42% 58% 42% 58%;transform:rotate(-5deg)}}
+.ax-q{display:inline-flex;align-items:center;gap:8px;height:42px;padding:0 16px 0 8px;border-radius:21px;background:var(--s2);font-weight:600;font-size:.88rem;white-space:nowrap}
+.ax-ring{width:28px;height:28px;border-radius:50%;background:conic-gradient(var(--primary) calc(var(--p)*1%),var(--s4) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));mask:radial-gradient(farthest-side,transparent calc(100% - 5px),#000 calc(100% - 4px));transition:background .6s}
+.ax-tools{display:flex;gap:8px;align-items:center;overflow-x:auto;scrollbar-width:none;width:100%}.ax-tools::-webkit-scrollbar{display:none}
+.ax-tools .btn{flex:none;height:48px;padding:0 20px;border-radius:18px;transition:border-radius .45s var(--spring),transform .4s var(--spring),background .25s}
+.ax-tools .btn:active{border-radius:26px;transform:scale(.96)}
+.ax-tools .ibtn{flex:none;width:48px;height:48px;border-radius:50%;background:var(--s2);transition:border-radius .45s var(--spring)}.ax-tools .ibtn:active{border-radius:16px}
+.ax-n{grid-area:n;border-radius:22px;background:var(--s1);padding:0 16px}
+.ax-n summary{list-style:none;display:flex;align-items:center;gap:8px;min-height:42px;color:var(--on-v);font-size:.82rem;font-weight:600;cursor:pointer}.ax-n summary::-webkit-details-marker{display:none}.ax-n summary .ms{font-size:20px}
+.ax-n p{margin:0 0 12px;font-size:.8rem;line-height:1.75;color:var(--on-v)}
+.ax-log{grid-area:log;min-height:0;overflow:auto;display:flex;flex-direction:column;gap:14px;padding:14px 2px 10px;overscroll-behavior:contain}
+.ax-m{display:flex;gap:10px;align-items:flex-end;min-width:0}
+.ax-m.u{justify-content:flex-end}
+.ax-bb{max-width:min(86%,680px);padding:13px 19px;line-height:1.78;overflow-wrap:anywhere;font-size:1.02rem;min-width:0}
+.ax-m.m .ax-bb{background:var(--s2);border-radius:30px 30px 30px 8px}
+.ax-m.u .ax-bb{background:var(--primary);color:var(--on-primary);border-radius:30px 30px 8px 30px}
+.ax-bb b{font-weight:700}.ax-bb code{background:var(--s3);padding:1px 6px;border-radius:6px;font-size:.9em}.ax-bb sup,.ax-bb sub{font-size:.75em}
+.ax-m.new{animation:axin .6s var(--spring) both}
+@keyframes axin{from{opacity:0;transform:translateY(20px) scale(.92)}}
+.ax-act{display:flex;justify-content:flex-end;margin:4px -10px -8px 0}
+.ax-cp{width:38px;height:38px;border:0;border-radius:13px;background:none;color:var(--on-v);display:grid;place-items:center;transition:background .2s,border-radius .4s var(--spring)}.ax-cp:active{background:var(--s4);border-radius:19px}.ax-cp .ms{font-size:19px}
+.ax-dots{display:inline-flex;gap:7px;align-items:center;height:30px}
+.ax-dots i{width:11px;height:11px;background:var(--primary);border-radius:50%;animation:axdot 1.2s ease-in-out infinite}
+.ax-dots i:nth-child(2){animation-delay:.15s;background:#9b72cb}.ax-dots i:nth-child(3){animation-delay:.3s;background:#d96570}
+@keyframes axdot{0%,100%{border-radius:50%;transform:scale(.75);opacity:.55}50%{border-radius:3px;transform:scale(1.25) rotate(90deg);opacity:1}}
+.ax-sug{grid-area:sug;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.ax-sug[hidden]{display:none}
+.ax-pc{display:flex;gap:10px;align-items:flex-start;text-align:left;min-height:84px;padding:14px;border:0;border-radius:26px;background:var(--s2);color:var(--on);font:inherit;font-weight:600;font-size:.9rem;line-height:1.5;animation:axpc .65s var(--spring) both;animation-delay:calc(var(--i,0)*70ms);transition:border-radius .45s var(--spring),transform .4s var(--spring),background .25s}
+.ax-pc:active{transform:scale(.96);border-radius:38px;background:var(--s3)}
+@keyframes axpc{from{opacity:0;transform:translateY(16px) scale(.94)}}
+.ax-pi{flex:none;width:36px;height:36px;border-radius:13px;background:var(--pc);color:var(--on-pc);display:grid;place-items:center}
+.ax-pc:nth-child(2n) .ax-pi{border-radius:50%}.ax-pc:nth-child(3n) .ax-pi{background:var(--sec-c);color:var(--on-sec-c);border-radius:16px 8px 16px 8px}
+.ax-in{grid-area:inp;display:flex;align-items:flex-end;gap:8px;padding:8px;border-radius:36px;background:var(--s3);box-shadow:0 6px 24px rgba(0,0,0,.08);transition:box-shadow .3s}
+.ax-in:focus-within{box-shadow:0 0 0 2.5px var(--primary),0 12px 32px rgba(0,0,0,.12)}
+.ax-in textarea{flex:1;min-width:0;border:0;background:none;padding:14px 6px;font:inherit;font-size:16px;color:var(--on);resize:none;max-height:140px;min-height:48px;outline:none;box-sizing:border-box}
+.ax-at{width:48px;height:48px;border:0;border-radius:18px;background:var(--s2);color:var(--on-v);display:grid;place-items:center;flex:none;transition:border-radius .45s var(--spring),transform .35s var(--spring)}.ax-at:active{border-radius:24px;transform:scale(.9)}
+.ax-sd{width:52px;height:52px;border:0;border-radius:18px;background:var(--s4);color:var(--on-v);display:grid;place-items:center;flex:none;transition:background .3s,color .3s,border-radius .55s var(--spring),transform .4s var(--spring)}
+.ax-sd .ms{transition:transform .5s var(--spring)}.ax-sd:not(.ready) .ms{transform:rotate(90deg)}
+.ax-sd.ready{background:var(--primary);color:var(--on-primary);border-radius:26px}.ax-sd.ready:active{transform:scale(.88)}.ax-sd:disabled{opacity:.6}
+@media(min-width:1000px){
+  .axw{grid-template-columns:340px minmax(0,1fr);grid-template-areas:"h log" "n log" "sug log" ". log" ". att" ". inp";grid-template-rows:auto auto auto 1fr auto auto;gap:14px 26px;height:calc(100dvh - 96px);min-height:520px}
+  .ax-h{flex-direction:column;align-items:flex-start;gap:14px}
+  .ax-sug{grid-template-columns:1fr}.ax-sug[hidden]{display:grid!important}
+  .ax-pc{min-height:68px}
+  .ax-log{background:var(--s1);border-radius:36px;padding:26px 24px;gap:16px}
+  .ax-bb{max-width:min(80%,680px)}
+  .ax-t h2{font-size:1.9rem}
+}
+@media(max-width:699px){
+  .ax-in{margin-right:76px}
+  .ax-t h2{font-size:1.5rem}.ax-av{width:50px;height:50px}
+  .ax-bb{max-width:90%;padding:12px 17px}
+}
+@media(prefers-reduced-motion:reduce){.ax-av,.ax-dots i,.ax-m.new,.ax-pc{animation:none}}
 </style>
 </head>
 <body>
@@ -1697,7 +1767,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '13.0';
+const APP_VERSION = '13.1';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2194,6 +2264,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '13.1', t: 'フィードバック機能と、AI画面のリニューアル', n: ['フィードバック（新機能の要望・不具合・感想など）を送れるようになりました', 'AIの画面を、Material 3 Expressive のデザインに刷新しました'] },
   { v: '13.0', t: '「さがす」・くり返しの課題・持ち物・単語帳の見直しなど', n: ['「さがす」を追加しました。課題・教科・単語・メモ・ツールを、まとめて検索できます（追加ボタンのメニュー、または外付けキーボードの / キー）', '毎週きまった曜日に出る課題を、自動で追加する「くり返しの課題」を追加しました', '時間割に、「あしたの持ち物」を追加しました。教科ごとの持ち物を決めておくと、チェックしながらそろえられます', '単語帳に「見直し」を追加しました。覚えて1週間たったカードが、もう一度出ます', '新しいツール「くじ引き・順番決め」（ひとり選ぶ・順番・グループ分け）を追加しました', '外付けキーボードで、単語帳の Z（ひとつ前にもどる）と S（★）が使えるようになりました'] },
   { v: '12.0', t: 'ホームの配置を、自由に編集できるように', n: ['ホームの部分（達成率・よく使うツール・今日のプラン・期限が近い課題・今週の勉強・AIのアドバイス・教科ごとの進み具合）を、上下に並べ替えたり、表示・非表示を切り替えたり、幅を半分にしたりできます。ホームの「配置」ボタン、または設定から編集します', '教科ごとの進み具合を、「カード」と「コンパクト」から選べるようになりました', 'ホームに、「あしたの時間割」と「ふせんメモ」の部分を追加しました', 'iPadで、縦バーの下が途中で切れて見える問題を、さらに直しました'] },
   { v: '11.3', t: '単語帳の集中モード、新しいツール、iPad表示の調整', n: ['単語帳に「集中モード」を追加しました。カードと「まだ」「覚えた」ボタンだけを、画面いっぱいに表示します', 'データを受け取るときなどの読み込み表示を、Googleのような回転アニメーションに変えました', '新しいツールを4つ追加しました：割合・パーセント、ストップウォッチ、時間割、ふせんメモ', 'iPadで、左の縦バーの高さが画面によって変わる問題と、追加ボタンの位置のずれを直しました'] },
@@ -2594,7 +2665,7 @@ function viewSettings() {
 
   <div class="h-sec"><h2>${ms('cloud_sync')}アカウントと同期</h2></div>${cloudCard()}
 
-  <div class="h-sec"><h2>${ms('database')}データ</h2></div>
+  <div class="h-sec"><h2 data-fbk style="-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent">${ms('database')}データ</h2></div>
   <div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">データはこのiPad内にのみ保存されます。機種変更や万一に備えて、定期的にバックアップしてください。${st.lastBackup ? `<br>最後のバックアップ：${new Date(st.lastBackup).toLocaleDateString('ja-JP')}` : ''}</p>
   <div class="chips"><button class="btn tonal" data-act="bkopen">${ms('backup')}バックアップと共有を開く${ms('chevron_right')}</button></div></div>
   <p class="about">考査課題マネージャー v3.0</p>`;
@@ -3111,6 +3182,9 @@ const ACT = {
     const bk = Array.from({ length: g }, () => []); drShuf(n).forEach((x, i) => bk[i % g].push(x));
     $('#drr').innerHTML = `<div class="dr-gs stg">${bk.map((b, i) => `<div class="dr-gc"><b>グループ ${i + 1}</b>${b.map(x => `<span>${esc(x)}</span>`).join('')}</div>`).join('')}</div>`;
   },
+  fbopen() { closeDlg(); fbDlg(); },
+  fbreload() { fbInbox(); },
+  fbdel(id) { if (!CLOUD.fb) return; const { fs, db } = CLOUD.fb; confirmDlg('このフィードバックを消しますか？', '消すと、元にもどせません。', '消す', async () => { try { await fs.deleteDoc(fs.doc(db, 'feedback', id)); } catch (e) { toast('消せませんでした'); } fbInbox(); }); },
   syncchoice() { syncChoiceDlg(); },
   syncuse(id) {
     const P = CLOUD.pend; if (!P) return closeDlg();
@@ -3487,7 +3561,7 @@ const ACT = {
   trcopy() { navigator.clipboard && navigator.clipboard.writeText(TR.out).then(() => toast('コピーしました')); }, trspeak() { if (!window.speechSynthesis || !TR.out) return; const u = new SpeechSynthesisUtterance(TR.out); u.lang = TR.to; speechSynthesis.cancel(); speechSynthesis.speak(u); }, aisend() { aiSend(); }, aisug(id) { aiSend(AI.sug[+id]); }, aipick() { $('#aifile').click(); }, aiimport() { $('#aiimp').click(); },
   aiexplain() { $('#aiq').value = '写真の問題を、ヒントから順に解説してください。'; $('#aifile').click(); }, aiattrm(id) { AI.att.splice(+id, 1); renderAtt(); },
   aiimpok() { const sel = [...document.querySelectorAll('[data-imp]')].filter(c => c.checked).map(c => AI.imp[+c.dataset.imp]); closeDlg(); if (sel.length) aiAddTasks(sel); },
-  aiweek() { if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return acctDlg(); } const w0 = weekData(0), w1 = weekData(1); ACT.tab('ai'); setTimeout(() => aiSend(`今週の学習の振り返りと、来週へのアドバイスをください。今週は${w0.a}ページ（先週は${w1.a}ページ）、学習した日は${w0.act}/7日、完了した課題は${w0.fin}件、集中した時間は${w0.m}分です。`), 50); }, aireset() { AI.chat = null; AI.msgs = []; renderAiLog(); }, guide() { guideDlg(); }, gdnext() { guideGo(G.i + 1); }, gdprev() { guideGo(G.i - 1); }, gdskip() { closeDlg(); }, upd() { updDlg(); }, updchk() { checkUpdate(); },
+  aiweek() { if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return acctDlg(); } const w0 = weekData(0), w1 = weekData(1); ACT.tab('ai'); setTimeout(() => aiSend(`今週の学習の振り返りと、来週へのアドバイスをください。今週は${w0.a}ページ（先週は${w1.a}ページ）、学習した日は${w0.act}/7日、完了した課題は${w0.fin}件、集中した時間は${w0.m}分です。`), 50); }, aireset() { AI.chat = null; AI.msgs = []; AI._n = 0; renderAiLog(); }, aicopy(id) { const m = AI.msgs[+id]; if (m && m.t && navigator.clipboard) navigator.clipboard.writeText(m.t).then(() => toast('コピーしました'), () => toast('コピーできませんでした')); }, guide() { guideDlg(); }, gdnext() { guideGo(G.i + 1); }, gdprev() { guideGo(G.i - 1); }, gdskip() { closeDlg(); }, upd() { updDlg(); }, updchk() { checkUpdate(); },
   calday(id) { ui.sel = id; const d = parse(id); ui.cal = { y: d.getFullYear(), m: d.getMonth() }; render(); },
   calprev() { const { y, m } = ui.cal; ui.cal = m === 0 ? { y: y - 1, m: 11 } : { y, m: m - 1 }; render(); },
   calnext() { const { y, m } = ui.cal; ui.cal = m === 11 ? { y: y + 1, m: 0 } : { y, m: m + 1 }; render(); },
@@ -3825,17 +3899,19 @@ function acctHtml() {
   if (!u) {
     if (st === 'unconfigured') return `<h2>ログインできません</h2><p class="muted">Firebase の設定が未入力です。firebase-config.js を確認してください。</p>${close}`;
     if (!CLOUD.fb) return `<h2>ログインできません</h2><p class="muted">同期サービスに接続できません。接続を確認して、もう一度お試しください。</p>${close}`;
-    return `<h2>Google アカウントでログイン</h2><p class="muted" style="margin:-8px 0 22px">ログインすると、進捗・考査日・課題・設定が、同じアカウントでログインしたすべての端末で同期されます。ログインしなくても、この端末だけで使えます。</p><div class="dact"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span>${gBtn()}</div>`;
+    return `<h2>Google アカウントでログイン</h2><p class="muted" style="margin:-8px 0 22px">ログインすると、進捗・考査日・課題・設定が、同じアカウントでログインしたすべての端末で同期されます。ログインしなくても、この端末だけで使えます。</p><div class="dact"><button class="btn text" data-act="close">キャンセル</button><button class="btn text" data-act="fbopen">${ms('rate_review')}フィードバック</button><span class="sp"></span>${gBtn()}</div>`;
   }
   const label = { sync: '同期しています…', ok: '同期済み', error: '同期できません。接続を確認してください' }[st] || '—';
   const last = CLOUD.last ? new Date(CLOUD.last).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
   return `<div class="acct-h">${userAv(56)}<div class="t"><b>${esc(u.displayName || 'Google アカウント')}</b><span>${esc(u.email || '')}</span></div></div>
   <div class="kv2"><div><span>状態</span><b>${label}</b></div><div><span>最終同期</span><b>${last}</b></div></div>
+  <div class="acct-fb"><button class="btn tonal" data-act="fbopen">${ms('rate_review')}フィードバックを送る</button></div>
   <div class="dact"><button class="btn text danger" data-act="cloudout">ログアウト</button><span class="sp"></span><button class="btn tonal" data-act="close">閉じる</button><button class="btn" data-act="cloudnow">${ms('sync')}今すぐ同期</button></div>`;
 }
 function acctDlg() { openDlg(acctHtml()); dlg.dataset.k = 'acct'; }
 dlg.addEventListener('close', () => { delete dlg.dataset.k; });
 function cloudRefresh() {
+  fbFlush();
   renderAcct();
   if (dlg.open && dlg.dataset.k === 'acct') dlg.innerHTML = `<div class="dlg">${acctHtml()}</div>`;
   if (ui.tab === 'settings' && !dlg.open && !TM.open) render();
@@ -4074,16 +4150,26 @@ const mdLite = s => {
   return esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/^#{1,4}\s*(.+)$/gm, '<b>$1</b>').replace(/^\s*[*-] /gm, '・').replace(/`([^`]+)`/g, '<code>$1</code>').replace(/\n/g, '<br>').replace(/\u0001(\d+)\u0002/g, (_, i) => `<span class="mth">${tk[+i]}</span>`);
 };
 function renderAiLog() {
-  const log = $('#ailog'); if (!log) return;
-  const bub = (r, h) => `<div class="ai-b ${r}">${h}</div>`;
-  log.innerHTML = bub('m', 'こんにちは。勉強で分からないことがあれば、質問してください。問題の写真も送れます。') + AI.msgs.map(m => m.r === 'u' ? bub('u', (m.imgs && m.imgs.length ? `<div class="ai-imgs">${m.imgs.map(u => `<img src="${u}" alt="">`).join('')}</div>` : '') + esc(m.t).replace(/\n/g, '<br>')) : bub('m', m.t ? mdLite(m.t) : '<span class="dots"><i></i><i></i><i></i></span>')).join('');
-  log.scrollTop = log.scrollHeight;
-  const sg = $('#aisug'), c = $('#aicnt'), b = $('#aisend');
+  const log = $('#ailog'); if (!log) return; const prev = AI._n || 0, av = `<span class="ax-av sm">${gem(20)}</span>`;
+  const greet = `<div class="ax-m m">${av}<div class="ax-bb">こんにちは。勉強で分からないことがあれば、質問してください。問題の写真も送れます。</div></div>`;
+  log.innerHTML = greet + AI.msgs.map((m, i) => {
+    const nw = i >= prev ? ' new' : '';
+    if (m.r === 'u') return `<div class="ax-m u${nw}"><div class="ax-bb">${m.imgs && m.imgs.length ? `<div class="ai-imgs">${m.imgs.map(u => `<img src="${u}" alt="">`).join('')}</div>` : ''}${esc(m.t).replace(/\n/g, '<br>')}</div></div>`;
+    const last = i === AI.msgs.length - 1;
+    return `<div class="ax-m m${nw}">${av}<div class="ax-bb">${m.t ? mdLite(m.t) : '<span class="ax-dots"><i></i><i></i><i></i></span>'}${m.t && !(AI.busy && last) ? `<div class="ax-act"><button type="button" class="ax-cp" data-act="aicopy" data-id="${i}" aria-label="コピー" title="コピー">${ms('content_copy')}</button></div>` : ''}</div></div>`;
+  }).join('');
+  AI._n = AI.msgs.length; log.scrollTop = log.scrollHeight;
+  const sg = $('#aisug'), c = $('#aicnt'), b = $('#aisend'), q = $('#aiq');
   if (sg) sg.hidden = AI.msgs.length > 0;
-  if (c) c.textContent = `今日の質問：${aiUsed()}/${aiLimit()}回`;
-  if (b) b.disabled = AI.busy;
+  if (c) { const u = aiUsed(), L = aiLimit(); c.innerHTML = `<span class="ax-ring" style="--p:${Math.min(100, Math.round(u / L * 100))}"></span><span><b>${u}</b> / ${L}</span>`; }
+  if (b) { b.disabled = AI.busy; const bz = AI.busy ? '1' : ''; if (b.dataset.bz !== bz) { b.dataset.bz = bz; b.innerHTML = AI.busy ? gspin(26) : ms('arrow_upward'); } }
+  if (q && !q.value) q.style.height = '';
+  axReady();
 }
-function renderAtt() { const a = $('#aiatt'); if (a) a.innerHTML = AI.att.map((x, i) => `<span class="ai-th"><img src="${x.url}" alt=""><button data-act="aiattrm" data-id="${i}" aria-label="削除">${ms('close')}</button></span>`).join(''); }
+function axReady() { const b = $('#aisend'), q = $('#aiq'); if (b && q) b.classList.toggle('ready', !!(q.value.trim() || AI.att.length)); }
+document.addEventListener('input', e => { if (e.target.id === 'aiq') { const q = e.target; q.style.height = 'auto'; q.style.height = Math.min(140, q.scrollHeight) + 'px'; axReady(); } });
+document.addEventListener('keydown', e => { if (e.target.id === 'aiq' && e.key === 'Enter' && !e.isComposing && (e.metaKey || e.ctrlKey || (!e.shiftKey && matchMedia('(pointer:fine)').matches))) { e.preventDefault(); aiSend(); } });
+function renderAtt() { axReady(); const a = $('#aiatt'); if (a) a.innerHTML = AI.att.map((x, i) => `<span class="ai-th"><img src="${x.url}" alt=""><button data-act="aiattrm" data-id="${i}" aria-label="削除">${ms('close')}</button></span>`).join(''); }
 function aiResize(file, max = 1280) {
   return new Promise((res, rej) => {
     const img = new Image(), u = URL.createObjectURL(file);
@@ -4103,13 +4189,14 @@ function viewAi() {
   if (!CLOUD.user) return `<div class="h-sec" style="margin-top:4px"><h2>${gem(26, true)}AIに質問</h2></div><div class="card"><p class="muted" style="margin-bottom:14px">AIに質問するには、Googleログインが必要です。</p>${gBtn()}</div>`;
   const urgent = examTasks().filter(k => !isDone(k)).sort((a, b) => (a.due || '9999').localeCompare(b.due || '9999')).slice(0, 2);
   AI.sug = [...urgent.map(k => `「${k.title}」の進め方を教えて`), '今日の勉強の進め方を教えて', '効率のよい暗記のコツを教えて'].slice(0, 4);
-  return `<div class="ai"><div class="ai-h"><h2>${gem(26, true)}AIに質問</h2><span data-fit><button class="btn tonal" data-act="aitext" aria-label="文章から課題を登録" title="文章から課題を登録">${ms('edit_note')}<span class="bl">文章から課題を登録</span></button><button class="btn tonal" data-act="aiimport" aria-label="写真から課題を登録" title="写真から課題を登録">${ms('document_scanner')}<span class="bl">写真から課題を登録</span></button><button class="ibtn" data-act="aireset" aria-label="新しい会話" title="新しい会話">${ms('restart_alt')}</button></span></div>
-  <p class="muted ai-n">質問・写真・課題の名前と進み具合が、GoogleのAIに送られます。顔や名前、学校名が写らないようにしてください。AIの答えは間違うことがあります。</p>
-  <div class="ai-log" id="ailog"></div>
-  <div class="chips" id="aisug">${AI.sug.map((x, i) => `<button class="chip" data-act="aisug" data-id="${i}">${esc(x)}</button>`).join('')}<button class="chip" data-act="aiexplain">${ms('photo_camera')}写真の問題を解説</button></div>
+  const ico = ['trending_up', 'today', 'psychology', 'lightbulb'];
+  return `<div class="axw" id="axw"><header class="ax-h"><div class="ax-t"><span class="ax-av">${gem(28)}</span><div><h2>AIに質問</h2><small>勉強のこと、何でも聞いてください</small></div></div><span class="ax-q" id="aicnt" title="今日の質問の回数"></span>
+  <div class="ax-tools" data-fit><button class="btn tonal" data-act="aitext" aria-label="文章から課題を登録" title="文章から課題を登録">${ms('edit_note')}<span class="bl">文章から課題を登録</span></button><button class="btn tonal" data-act="aiimport" aria-label="写真から課題を登録" title="写真から課題を登録">${ms('document_scanner')}<span class="bl">写真から課題を登録</span></button><button class="ibtn ax-rs" data-act="aireset" aria-label="新しい会話" title="新しい会話">${ms('restart_alt')}</button></div></header>
+  <details class="ax-n"><summary>${ms('shield')}AIに送られる情報について</summary><p>質問・写真・課題の名前と進み具合が、GoogleのAIに送られます。顔や名前、学校名が写らないようにしてください。AIの答えは間違うことがあります。</p></details>
+  <div class="ax-log" id="ailog"></div>
+  <div class="ax-sug" id="aisug">${AI.sug.map((x, i) => `<button class="ax-pc" style="--i:${i}" data-act="aisug" data-id="${i}"><span class="ax-pi">${ms(ico[i % ico.length])}</span><span>${esc(x)}</span></button>`).join('')}<button class="ax-pc" style="--i:${AI.sug.length}" data-act="aiexplain"><span class="ax-pi">${ms('photo_camera')}</span><span>写真の問題を解説</span></button></div>
   <div class="ai-att" id="aiatt"></div>
-  <div class="ai-in"><button class="ibtn" data-act="aipick" aria-label="写真を添付">${ms('add_photo_alternate')}</button><textarea id="aiq" rows="1" maxlength="600" placeholder="質問を入力"></textarea><button class="btn" id="aisend" data-act="aisend" aria-label="送信">${ms('send')}</button></div>
-  <div class="muted ai-c" id="aicnt"></div>
+  <div class="ax-in"><button class="ax-at" data-act="aipick" aria-label="写真を添付">${ms('add_photo_alternate')}</button><textarea id="aiq" rows="1" maxlength="600" placeholder="質問を入力"></textarea><button class="ax-sd" id="aisend" data-act="aisend" aria-label="送信">${ms('arrow_upward')}</button></div>
   <input type="file" id="aifile" accept="image/*" multiple hidden><input type="file" id="aiimp" accept="image/*" multiple hidden></div>`;
 }
 async function aiSend(text) {
@@ -5930,6 +6017,59 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('visibilitychange', () => { if (!document.hidden) recGen(); });
 setTimeout(() => { try { recGen(); } catch (e) { } }, 1500);
+
+/* ===== フィードバック（送信は、アカウント画面から。受け取りは、持ち主だけが見られる） ===== */
+const FB_KEY = 'kosa-fbq', FB_CATS = [['want', '新機能の要望', 'lightbulb'], ['bug', '不具合', 'bug_report'], ['ui', '使いにくいところ', 'touch_app'], ['like', '感想・ほめ言葉', 'favorite']];
+const fbQ = () => { try { const a = JSON.parse(localStorage.getItem(FB_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } };
+const fbQSet = a => { try { localStorage.setItem(FB_KEY, JSON.stringify(a.slice(0, 30))); } catch (e) { } };
+const fbEnv = () => `v${APP_VERSION} / ${/iPhone/.test(navigator.userAgent) ? 'iPhone' : /iPad|Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1 ? 'iPad' : 'その他'} / ${innerWidth}×${innerHeight} / ${matchMedia('(display-mode: standalone)').matches ? 'アプリ' : 'ブラウザ'}`;
+function fbDlg() {
+  openDlg(`<h2>${ms('rate_review')}フィードバック</h2><p class="muted" style="margin:-6px 0 14px;line-height:1.7">「こんな機能がほしい」「ここが使いにくい」など、何でも送ってください。アカウントの名前・アプリのバージョン・端末の種類が、いっしょに送られます。</p>
+  <form id="fbf" autocomplete="off"><div class="fld"><div class="lbl">どんな内容ですか？</div><div class="chips">${FB_CATS.map(([v, l, i], k) => `<label class="rchip"><input type="radio" name="fbc" value="${v}" ${k === 0 ? 'checked' : ''}><span>${ms(i)}${l}</span></label>`).join('')}</div></div>
+  <div class="fld"><label for="fbt">内容</label><textarea id="fbt" rows="6" maxlength="1000" placeholder="できるだけ、くわしく書いてください"></textarea><small class="hint" id="fbn" style="text-align:right">0 / 1000</small></div>
+  <div class="err" id="err"></div><div class="dact"><button type="button" class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" type="submit">${ms('send')}送信</button></div></form>`);
+  const t = $('#fbt'); t.addEventListener('input', () => { $('#fbn').textContent = t.value.length + ' / 1000'; });
+  $('#fbf').onsubmit = async ev => {
+    ev.preventDefault(); const text = t.value.trim(); if (text.length < 3) return err('内容を入力してください');
+    const it = { id: uid(), cat: new FormData(ev.target).get('fbc') || 'want', text, t: Date.now(), ver: APP_VERSION, env: fbEnv() };
+    fbQSet([it, ...fbQ()]); closeDlg();
+    const n = await fbFlush();
+    toast(n ? 'フィードバックを送りました。ありがとうございます！' : (CLOUD.user ? '送信できませんでした。あとで、もう一度送ります' : 'ログインすると、送られます（それまで、この端末に保存します）'));
+  };
+}
+async function fbFlush() {
+  const q = fbQ(); if (!q.length || !CLOUD.user || !CLOUD.fb || fbFlush.busy) return 0; fbFlush.busy = true; let sent = 0; const { fs, db } = CLOUD.fb;
+  try {
+    for (const it of q.slice().reverse()) {
+      await fs.setDoc(fs.doc(db, 'feedback', it.id), { uid: CLOUD.user.uid, name: String(CLOUD.user.displayName || '').slice(0, 60), cat: it.cat, text: String(it.text).slice(0, 1000), ver: it.ver, env: String(it.env || '').slice(0, 120), t: it.t });
+      fbQSet(fbQ().filter(x => x.id !== it.id)); sent++;
+    }
+  } catch (e) { fbFlush.err = e; }
+  fbFlush.busy = false; return sent;
+}
+const FBI = { rows: [], err: null };
+async function fbInbox() {
+  openDlg(`<div class="busy">${gspin(52)}<h2>読み込んでいます…</h2></div>`);
+  let rows = [], err = null;
+  if (CLOUD.user && CLOUD.fb) { try { const { fs, db } = CLOUD.fb; const sn = await fs.getDocs(fs.query(fs.collection(db, 'feedback'), fs.orderBy('t', 'desc'), fs.limit(100))); rows = sn.docs.map(d => ({ id: d.id, ...d.data() })); } catch (e) { err = e; } } else err = new Error('login');
+  FBI.rows = rows; FBI.err = err; fbInboxPaint();
+}
+function fbInboxPaint() {
+  const rows = FBI.rows, err = FBI.err, lq = fbQ(), cat = v => (FB_CATS.find(c => c[0] === v) || FB_CATS[0]), when = t => new Date(t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+  const item = (x, local) => { const c = cat(x.cat); return `<div class="fbi"><div class="fbi-h"><span class="fbi-c">${ms(c[2])}${c[1]}</span><small>${when(x.t)}${x.name ? ' ・ ' + esc(x.name) : ''}${x.ver ? ' ・ v' + esc(x.ver) : ''}${local ? ' ・ 未送信' : ''}</small>${local ? '' : `<button type="button" class="ibtn" data-act="fbdel" data-id="${x.id}" aria-label="削除">${ms('delete')}</button>`}</div><p>${esc(x.text).replace(/\n/g, '<br>')}</p>${x.env ? `<small class="muted">${esc(x.env)}</small>` : ''}</div>`; };
+  let body = '';
+  if (err) {
+    const perm = /permission/i.test(String(err.code || err.message)), uid = CLOUD.user ? CLOUD.user.uid : '';
+    body = `<div class="notice" style="margin:0 0 12px">${ms('lock')}<span class="t">${err.message === 'login' ? 'ログインすると、送られたフィードバックを読み込めます。' : perm ? 'このアカウントには、読み取りの許可がありません。Firestore のルールの <b>feedback</b> に、次の UID を書いてください。' : '読み込めませんでした。接続を確認してください。'}</span></div>${uid && perm ? `<div class="fbi"><small class="muted">このアカウントの UID</small><p style="font-family:ui-monospace,Menlo,monospace;word-break:break-all;user-select:all">${esc(uid)}</p></div>` : ''}`;
+  } else body = rows.length ? rows.map(x => item(x, false)).join('') : '<p class="muted" style="text-align:center;padding:20px 0">まだ、フィードバックはありません</p>';
+  openDlg(`<h2>${ms('inbox')}フィードバック <small style="font-weight:500;color:var(--on-v)">${err ? '' : rows.length + '件'}</small></h2><div class="fbi-l">${lq.length ? `<div class="gs-h">${ms('schedule_send')}この端末の、未送信（${lq.length}件）</div>${lq.map(x => item(x, true)).join('')}` : ''}${body}</div><div class="dact"><button type="button" class="btn text" data-act="close">閉じる</button><span class="sp"></span><button type="button" class="btn tonal" data-act="fbreload">${ms('refresh')}読み込み直す</button></div>`);
+}
+// 設定の「データ」の文字を、5回続けてタップすると開く
+let fbkN = 0, fbkT = 0;
+document.addEventListener('click', e => {
+  const k = e.target.closest && e.target.closest('[data-fbk]'); if (!k) return;
+  const n = Date.now(); fbkN = (n - fbkT < 1500) ? fbkN + 1 : 1; fbkT = n; if (fbkN >= 5) { fbkN = 0; fbInbox(); }
+});
 
 /* ---- 安定化：不具合の記録・毎日の自動バックアップ・閉じる前の同期 ---- */
 const ERRK = 'kosa-errlog'; let errLast = 0;
