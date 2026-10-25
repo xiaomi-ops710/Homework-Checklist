@@ -1805,16 +1805,26 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 #splash svg{opacity:.9}
 
 /* ===== AI先生（14.0） ===== */
-.snw{display:flex;flex-direction:column;gap:12px;max-width:860px;margin:0 auto}
+.tbody.tb-sensei{max-width:1280px}
+.snw{display:grid;gap:12px;grid-template-columns:minmax(0,1fr);grid-template-areas:"h" "n" "log" "chips" "subs" "inp";grid-template-rows:auto auto minmax(0,1fr) auto auto auto;height:calc(100dvh - 196px - env(safe-area-inset-bottom));min-height:440px;margin:0 auto;position:relative}
+#view:has(.tb-sensei) .tbar{display:none}
+.sn-ac{display:flex;align-items:center;gap:8px;margin-left:auto;flex:none}
+@media(min-width:700px){.snw{height:calc(100dvh - 92px - env(safe-area-inset-bottom))}#main:has(.snw){padding-bottom:calc(16px + env(safe-area-inset-bottom))}}
+.snw .sn-h{grid-area:h}.snw .sn-chips{grid-area:chips;min-width:0}.snw .sn-subs{grid-area:subs;min-width:0}
+.snw .ax-bb{max-width:min(88%,860px)}
+.sn-att{flex:none;align-self:center;display:flex;flex-wrap:nowrap;gap:6px}
+.sn-att .ai-th{width:44px;height:44px;border-radius:12px}
+.sn-att .ai-th button{width:20px;height:20px;top:1px;right:1px;border-radius:10px}.sn-att .ai-th .ms{font-size:14px}
+.snw .ax-in textarea{min-height:0!important;height:auto;flex:1;min-width:60px}
 .sn-h{display:flex;align-items:center;gap:10px 12px;flex-wrap:wrap;padding:14px 16px;border-radius:32px;background:var(--s1)}
 .sn-t{flex:1;min-width:150px}
 .sn-t h3{margin:0;font-size:1.35rem;font-weight:700;line-height:1.2;overflow-wrap:anywhere}
 .sn-t small{display:block;color:var(--on-v);font-size:.82rem;margin-top:3px}
 .sn-h .ibtn{width:44px;height:44px;border-radius:50%;background:var(--s2);display:grid;place-items:center;flex:none}
+.sn-h .ibtn:first-child{background:var(--s3)}
 .sn-av{position:relative;width:56px;height:56px;flex:none;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,hsl(var(--snh) 72% 48%),hsl(var(--snh2) 66% 52%));border-radius:42% 58% 55% 45%/48% 44% 56% 52%;box-shadow:0 8px 22px hsl(var(--snh) 70% 50%/.32);animation:axmorph 9s ease-in-out infinite}
 .sn-av.sm{width:36px;height:36px;box-shadow:none;animation:none}
 .sn-n summary .ms{font-size:20px}
-.sn-log{height:clamp(280px,calc(100dvh - 560px),860px);min-height:0}
 .sn-hint{display:inline-block;margin-top:6px;font-size:.88em;color:var(--on-v)}
 .sn-err{background:var(--err-c,var(--s3))!important}
 .sn-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
@@ -1833,7 +1843,18 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 .sn-pv{display:flex;gap:10px;align-items:flex-end;margin:0 0 18px}
 .sn-pv .ax-bb{background:var(--s2);border-radius:26px 26px 26px 8px;font-size:.95rem;padding:11px 16px;line-height:1.65}
 #snf .fld small{font-size:.8rem;line-height:1.5}
-@media(max-width:699px){.sn-chips.start .ax-pc{min-height:80px;font-size:.92rem}.sn-t h3{font-size:1.2rem}}
+@media(max-width:699px){.sn-chips.start .ax-pc{min-height:76px;font-size:.92rem}.sn-t h3{font-size:1.2rem}.snw{gap:8px}.snw .sn-n{display:none}
+  .snw .ax-in{position:relative}.sn-att{position:absolute;left:8px;bottom:calc(100% + 8px);padding:6px;background:var(--s2);border-radius:18px;box-shadow:0 4px 16px rgba(0,0,0,.15);z-index:2}.sn-att:empty{display:none}.sn-att .ai-th{width:56px;height:56px}.sn-att .ai-th button{width:24px;height:24px}}
+@media(min-width:1000px){
+  .snw{grid-template-columns:244px minmax(0,1fr);grid-template-areas:"h log" "n log" "chips log" "subs inp";grid-template-rows:auto auto minmax(0,1fr) auto;column-gap:14px}
+  .snw .sn-h{padding:14px 12px;gap:8px}.sn-t{min-width:0;flex:1 1 90px}.snw .sn-h>.ibtn:first-child{width:38px;height:38px}.snw .sn-h .sn-av:not(.sm){width:46px;height:46px}.snw .sn-h .sn-av .ms{font-size:24px!important}.snw .sn-t h3{font-size:1.1rem}.snw .sn-ac{flex:1 1 100%;margin-left:0;justify-content:space-between}.snw .sn-ac .ax-q{margin-right:auto}
+  .snw .sn-chips{flex-direction:column;align-items:stretch;overflow:auto;align-content:start}
+  .snw .sn-chips.start{display:grid;grid-template-columns:1fr;align-content:start}
+  .snw .sn-chips.start .ax-pc{min-height:96px}
+  .snw .sn-fc{width:100%;justify-content:flex-start;height:46px;border-radius:23px}
+  .snw .sn-subs{flex-wrap:wrap;align-self:end;overflow:visible}
+  .snw .ax-bb{max-width:min(90%,900px)}
+}
 @media(prefers-reduced-motion:reduce){.sn-av{animation:none}}
 </style>
 </head>
@@ -1859,7 +1880,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '14.0';
+const APP_VERSION = '14.1';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2356,6 +2377,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '14.1', t: 'AI先生の画面を、大きな画面に合わせて広げました', n: ['iPadなど大きな画面で、会話の部分を広く表示しました。上の余白を減らし、横向きでは、左に操作・右に会話の2列になります', '写真を添付しても、入力欄の位置が動かないようにしました（写真は入力欄の中に表示されます）', '答えが出たら、答えの最初から読めるようにしました'] },
   { v: '14.0', t: 'AI先生の追加と、更新後に画面が表示されない問題の修正', n: ['ツールに「AI先生」を追加しました。分からない問題の写真を送ると、問題を読み取って、解き方をやさしく説明します', '先生の名前・口調・教え方・学年・アイコンの色などを、自由に決められます。追加の指示も書けます', '答えを聞いたあとも、「もっとくわしく」「ヒントだけ」「似た問題を出して」などで、続けて質問できます', '更新のあとに、画面が真っ白のままになることがある問題を修正しました。通信が不安定なときでも、アプリが開くようにしました', 'もしうまく開かないときは、自動で直したり、画面のボタンで入れ直したりできるしくみを追加しました（課題などのデータは消えません）'] },
   { v: '13.1', t: 'フィードバック機能と、AI画面のリニューアル', n: ['フィードバック（新機能の要望・不具合・感想など）を送れるようになりました', 'AIの画面を、Material 3 Expressive のデザインに刷新しました'] },
   { v: '13.0', t: '「さがす」・くり返しの課題・持ち物・単語帳の見直しなど', n: ['「さがす」を追加しました。課題・教科・単語・メモ・ツールを、まとめて検索できます（追加ボタンのメニュー、または外付けキーボードの / キー）', '毎週きまった曜日に出る課題を、自動で追加する「くり返しの課題」を追加しました', '時間割に、「あしたの持ち物」を追加しました。教科ごとの持ち物を決めておくと、チェックしながらそろえられます', '単語帳に「見直し」を追加しました。覚えて1週間たったカードが、もう一度出ます', '新しいツール「くじ引き・順番決め」（ひとり選ぶ・順番・グループ分け）を追加しました', '外付けキーボードで、単語帳の Z（ひとつ前にもどる）と S（★）が使えるようになりました'] },
@@ -5931,7 +5953,7 @@ async function snStart() {
 }
 const snAv = (c, sm) => `<span class="sn-av ${sm ? 'sm' : ''}" style="--snh:${c.hue};--snh2:${(c.hue + 40) % 360}">${ms(c.icon, '', `font-size:${sm ? 20 : 30}px`)}</span>`;
 function snHtml() {
-  const c = snCfg(), gr = snGrade(c), head = `<div class="sn-h">${snAv(c)}<div class="sn-t"><h3>${esc(c.name)}</h3><small>${esc(snTone(c)[1])} ・ ${esc(gr[1])}向け</small></div><span class="ax-q" id="sncnt" title="今日のAI利用回数"></span><button type="button" class="ibtn" data-act="sncfg" aria-label="先生の設定" title="先生の設定">${ms('tune')}</button><button type="button" class="ibtn" data-act="snreset" aria-label="新しい問題" title="新しい問題">${ms('restart_alt')}</button></div>`;
+  const c = snCfg(), gr = snGrade(c), head = `<div class="sn-h"><button type="button" class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る" title="ツール一覧へ戻る">${ms('arrow_back')}</button>${snAv(c)}<div class="sn-t"><h3>${esc(c.name)}</h3><small>${esc(snTone(c)[1])} ・ ${esc(gr[1])}向け</small></div><div class="sn-ac"><span class="ax-q" id="sncnt" title="今日のAI利用回数"></span><button type="button" class="ibtn" data-act="sncfg" aria-label="先生の設定" title="先生の設定">${ms('tune')}</button><button type="button" class="ibtn" data-act="snreset" aria-label="新しい問題" title="新しい問題">${ms('restart_alt')}</button></div></div>`;
   SN.rendered = !!CLOUD.user;
   if (!CLOUD.user) return `<div class="snw" style="--snh:${c.hue};--snh2:${(c.hue + 40) % 360}">${head}<div class="card"><p class="muted" style="margin-bottom:14px">AI先生を使うには、Googleログインが必要です。先生の名前や口調は、ログインしなくても設定できます。</p>${gBtn()}</div></div>`;
   return `<div class="snw" style="--snh:${c.hue};--snh2:${(c.hue + 40) % 360}">${head}
@@ -5939,8 +5961,7 @@ function snHtml() {
   <div class="ax-log sn-log" id="snlog"></div>
   <div class="sn-chips" id="snchips"></div>
   <div class="sn-subs" id="snsubs"></div>
-  <div class="ai-att" id="snatt"></div>
-  <div class="ax-in sn-in"><button type="button" class="ax-at" data-act="sncam" aria-label="写真を撮る" title="写真を撮る">${ms('photo_camera')}</button><button type="button" class="ax-at" data-act="snpick" aria-label="写真を選ぶ" title="写真を選ぶ">${ms('add_photo_alternate')}</button><textarea id="snq" rows="1" maxlength="600" placeholder="どこが分からないか書いてもOK（空でもOK）" aria-label="質問"></textarea><button type="button" class="ax-sd" id="snsend" data-act="snsend" aria-label="送信">${ms('arrow_upward')}</button></div>
+  <div class="ax-in sn-in"><button type="button" class="ax-at" data-act="sncam" aria-label="写真を撮る" title="写真を撮る">${ms('photo_camera')}</button><button type="button" class="ax-at" data-act="snpick" aria-label="写真を選ぶ" title="写真を選ぶ">${ms('add_photo_alternate')}</button><div class="ai-att sn-att" id="snatt"></div><textarea id="snq" rows="1" maxlength="600" placeholder="どこが分からないか書いてもOK（空でもOK）" aria-label="質問"></textarea><button type="button" class="ax-sd" id="snsend" data-act="snsend" aria-label="送信">${ms('arrow_upward')}</button></div>
   <input type="file" id="sncamf" accept="image/*" capture="environment" hidden><input type="file" id="snfile" accept="image/*" multiple hidden></div>`;
 }
 function snRenderLog(still) {
@@ -6012,6 +6033,8 @@ async function snSend(text) {
     if (!m.t.trim()) { m.t = '答えを作れませんでした。写真を撮りなおすか、言い方を変えて、もう一度送ってください。'; m.err = true; SN.chat = null; }
   } catch (e) { m.t = aiErr(e); m.err = true; SN.chat = null; }
   SN.busy = false; snRenderLog(); snRenderChips(); snBusyUi();
+  const lg = $('#snlog'), el = lg && [...lg.querySelectorAll('.ax-m.m')].pop();
+  if (el && !m.err) lg.scrollTop += el.getBoundingClientRect().top - lg.getBoundingClientRect().top - 12;   // 答えの先頭へ
 }
 const SN_Q = { detail: 'もう少しくわしく、やさしい言葉で説明してください。', hint: '答えは言わずに、ヒントだけ教えてください。', ans: '答えまで、手順を追って教えてください。', alt: '別の解き方があれば、教えてください。', similar: '似た問題を1問出してください。答えは、私が答えてから教えてください。', next: '次の問題を教えてください。（新しい写真を送ります）' };
 function snCfgDlg() {
@@ -6027,7 +6050,7 @@ function snCfgDlg() {
   <div class="fld"><label for="snx">追加の指示（口調や性格についてだけ）</label><textarea id="snx" name="snx" rows="3" maxlength="120" placeholder="例：たとえ話を多めに／語尾に「ぞ」をつける／最後に応援の一言を">${esc(c.custom)}</textarea></div>
   <div class="fld"><div class="lbl">アイコン</div><div class="chips">${rd('snicon', SN_ICONS, c.icon, x => ms(x[0]) + x[1])}</div></div>
   <div class="fld"><div class="lbl">色</div><div class="chips">${rd('snhue', SN_HUES, c.hue, x => ms('circle', '', `color:hsl(${x[0]} 70% 50%);font-variation-settings:'FILL' 1`) + x[1])}</div></div>
-  <p class="muted" style="font-size:.8rem;margin:0 0 4px">ここで決めた内容は、AIへの指示として送られます。名前や学校名など、個人が分かる情報は入れないでください。</p>
+  <p class="muted" style="font-size:.8rem;margin:0 0 4px">ここで決めた内容は、AIへの指示として送られます。名前や学校名など、個人が分かる情報は入れないでください。写真と質問は、GoogleのAIに送られます。顔や名前が写らないように撮り、AIの答えは間違うこともあるので、大事な内容は教科書や先生にも確認しましょう。</p>
   </form>
   <div class="dact"><button type="button" class="btn text" data-act="snrst">${ms('restart_alt')}もとにもどす</button><span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="snsave">${ms('check')}保存</button></div>`);
   dlg.dataset.k = 'sncfg'; snPv();
