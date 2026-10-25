@@ -4,6 +4,59 @@
 <meta charset="utf-8">
 <title>考査課題マネージャー</title>
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<script>
+/* 起動の見まもり：画面が出ないときに、自動で直すか、直すためのボタンを出す（保存データには触れません） */
+(function () {
+  var W = window, LS = null; try { LS = W.localStorage; } catch (e) { }
+  W.__kosaBooted = false;
+  function log(m) { try { var a = JSON.parse(LS.getItem('kosa-errlog') || '[]'); a.unshift({ t: new Date().toISOString().slice(0, 16), v: W.__kosaV || '?', tab: 'boot', m: String(m).slice(0, 300) }); LS.setItem('kosa-errlog', JSON.stringify(a.slice(0, 20))); } catch (e) { } }
+  W.__kosaLog = log;
+  W.addEventListener('error', function (e) { if (!W.__kosaBooted && !/ResizeObserver|Script error/i.test(e.message || '')) log('起動中: ' + (e.message || 'error') + (e.lineno ? ' @' + e.lineno : '')); });
+  /* アプリのファイルのキャッシュを消して、読み込み直す（課題などのデータは消えません） */
+  function reset() {
+    var done = false, go = function () { if (done) return; done = true; location.replace(location.pathname + '?r=' + Date.now()); };
+    try {
+      var p = navigator.serviceWorker ? navigator.serviceWorker.getRegistrations().then(function (rs) { return Promise.all(rs.map(function (r) { return r.unregister(); })); }) : Promise.resolve();
+      p.then(function () { return W.caches ? caches.keys().then(function (ks) { return Promise.all(ks.map(function (k) { return caches.delete(k); })); }) : 0; }).then(go, go);
+    } catch (e) { go(); }
+    setTimeout(go, 4000);
+  }
+  function backup() {
+    try {
+      var o = {}; for (var i = 0; i < LS.length; i++) { var k = LS.key(i); if (/^kosa-/.test(k)) o[k] = LS.getItem(k); }
+      var a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(o)], { type: 'application/json' }));
+      a.download = 'kosa-backup-' + new Date().toISOString().slice(0, 10) + '.json'; document.body.appendChild(a); a.click(); setTimeout(function () { a.remove(); }, 1000);
+    } catch (e) { alert('バックアップを保存できませんでした'); }
+  }
+  function rescue(auto) {
+    if (document.getElementById('kosa-rescue') || !document.body) return;
+    var dark = W.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches, bg = dark ? '#121318' : '#f6f8ff', fg = dark ? '#e3e2e9' : '#1b1b1f', bt = dark ? '#2a2d3a' : '#dde3f7', pr = dark ? '#aec6ff' : '#2f5fd6', pf = dark ? '#002d6e' : '#fff';
+    var d = document.createElement('div'); d.id = 'kosa-rescue';
+    d.style.cssText = 'position:fixed;left:0;top:0;right:0;bottom:0;z-index:2147483000;display:flex;align-items:center;justify-content:center;padding:24px;overflow:auto;background:' + bg + ';color:' + fg + ';font:16px/1.75 -apple-system,"Hiragino Sans","Noto Sans JP",sans-serif';
+    var bs = 'display:block;width:100%;box-sizing:border-box;margin:10px 0 0;padding:15px 18px;border:0;border-radius:18px;font:inherit;font-weight:600;background:' + bt + ';color:' + fg;
+    var errs = ''; try { errs = JSON.parse(LS.getItem('kosa-errlog') || '[]').slice(0, 5).map(function (x) { return x.t + ' v' + x.v + ' ' + x.m; }).join('\n'); } catch (e) { }
+    d.innerHTML = '<div style="max-width:440px;width:100%"><h2 style="margin:0 0 8px;font-size:1.4rem">アプリをうまく開けませんでした</h2>' +
+      '<p style="margin:0 0 6px;opacity:.85">' + (auto ? 'アプリのファイルを、自動で入れ直しています。しばらくお待ちください…' : '更新のあとなどに、アプリのファイルが古いまま残っていることがあります。下のボタンをお試しください。課題などの保存データは消えません。') + '</p>' +
+      '<button type="button" id="kr1" style="' + bs.replace(bt, pr).replace('color:' + fg, 'color:' + pf) + '">アプリを最新の状態に入れ直す</button>' +
+      '<button type="button" id="kr2" style="' + bs + '">もう一度読み込む</button>' +
+      '<button type="button" id="kr3" style="' + bs + '">データのバックアップを保存</button>' +
+      '<details style="margin-top:16px;opacity:.75;font-size:.85rem"><summary>くわしい情報</summary><pre style="white-space:pre-wrap;word-break:break-all;margin:8px 0 0">' + String(errs || '（記録なし）').replace(/[<&]/g, function (c) { return c === '<' ? '&lt;' : '&amp;'; }) + '</pre></details></div>';
+    document.body.appendChild(d);
+    d.querySelector('#kr1').onclick = reset; d.querySelector('#kr2').onclick = function () { location.reload(); }; d.querySelector('#kr3').onclick = backup;
+  }
+  /* アプリ本体が、最後まで起動できたときに呼ぶ */
+  W.__kosaOk = function () { W.__kosaBooted = true; try { LS.removeItem('kosa-autoheal'); } catch (e) { } var r = document.getElementById('kosa-rescue'); if (r) r.remove(); };
+  setTimeout(function () {
+    if (W.__kosaBooted) return;
+    log('7秒たっても、画面が表示されませんでした');
+    var last = 0; try { last = +LS.getItem('kosa-autoheal') || 0; } catch (e) { }
+    if (!last || Date.now() - last > 30 * 60 * 1000) { try { LS.setItem('kosa-autoheal', String(Date.now())); } catch (e) { } rescue(true); reset(); }
+    else rescue(false);
+  }, 7000);
+  /* 起動はできたのに、画面が空のままのとき */
+  setTimeout(function () { var v = document.getElementById('view'); if (W.__kosaBooted && v && !v.children.length && !(v.textContent || '').trim()) { log('起動後も、画面が空でした'); rescue(false); } }, 9000);
+})();
+</script>
 <meta name="theme-color" content="#2f5fd6">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
@@ -14,8 +67,10 @@
 <link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&family=Noto+Sans+JP:wght@100..900&display=swap">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&family=Noto+Sans+JP:wght@100..900&display=swap" media="print" onload="this.onload=null;this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&family=Noto+Sans+JP:wght@100..900&display=swap"></noscript>
+<link id="msl" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block" media="print" onload="this.onload=null;this.media='all';window.__fl&&__fl()">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block"></noscript>
 <style>
 /* ================= Design tokens: Material 3 Expressive ================= */
 :root{
@@ -1743,10 +1798,47 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
   .ax-bb{max-width:90%;padding:12px 17px}
 }
 @media(prefers-reduced-motion:reduce){.ax-av,.ax-dots i,.ax-m.new,.ax-pc{animation:none}}
+
+/* ===== 起動の安全対策（14.0）：スクリプトが動かなくても、読み込み画面は必ず消える ===== */
+#splash{animation:splashFail .01s linear 4s forwards}
+@keyframes splashFail{to{opacity:0;visibility:hidden;pointer-events:none}}
+#splash svg{opacity:.9}
+
+/* ===== AI先生（14.0） ===== */
+.snw{display:flex;flex-direction:column;gap:12px;max-width:860px;margin:0 auto}
+.sn-h{display:flex;align-items:center;gap:10px 12px;flex-wrap:wrap;padding:14px 16px;border-radius:32px;background:var(--s1)}
+.sn-t{flex:1;min-width:150px}
+.sn-t h3{margin:0;font-size:1.35rem;font-weight:700;line-height:1.2;overflow-wrap:anywhere}
+.sn-t small{display:block;color:var(--on-v);font-size:.82rem;margin-top:3px}
+.sn-h .ibtn{width:44px;height:44px;border-radius:50%;background:var(--s2);display:grid;place-items:center;flex:none}
+.sn-av{position:relative;width:56px;height:56px;flex:none;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,hsl(var(--snh) 72% 48%),hsl(var(--snh2) 66% 52%));border-radius:42% 58% 55% 45%/48% 44% 56% 52%;box-shadow:0 8px 22px hsl(var(--snh) 70% 50%/.32);animation:axmorph 9s ease-in-out infinite}
+.sn-av.sm{width:36px;height:36px;box-shadow:none;animation:none}
+.sn-n summary .ms{font-size:20px}
+.sn-log{height:clamp(280px,calc(100dvh - 560px),860px);min-height:0}
+.sn-hint{display:inline-block;margin-top:6px;font-size:.88em;color:var(--on-v)}
+.sn-err{background:var(--err-c,var(--s3))!important}
+.sn-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.sn-chips::-webkit-scrollbar{display:none}
+.sn-chips:empty{display:none}
+.sn-chips.start{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;overflow:visible}
+.sn-chips.start .ax-pc{min-height:92px;align-items:center;font-size:1rem}
+.sn-fc{flex:none;display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 16px;border:0;border-radius:20px;background:var(--s3);color:var(--on-v);font:inherit;font-weight:600;font-size:.88rem;white-space:nowrap;transition:background .25s,transform .3s var(--spring),border-radius .4s var(--spring)}
+.sn-fc:active{transform:scale(.95);border-radius:14px;background:var(--s4)}
+.sn-fc .ms{font-size:19px}
+.sn-subs{display:flex;gap:6px;align-items:center;overflow-x:auto;scrollbar-width:none}
+.sn-subs::-webkit-scrollbar{display:none}
+.sn-subs .lbl{flex:none;margin:0 4px 0 2px}
+.sn-sc{flex:none;height:34px;padding:0 14px;border:0;border-radius:17px;background:var(--s2);color:var(--on-v);font:inherit;font-weight:600;font-size:.84rem;transition:background .25s,border-radius .35s var(--spring)}
+.sn-sc.on{background:var(--sec-c);color:var(--on-sec-c);border-radius:12px}
+.sn-pv{display:flex;gap:10px;align-items:flex-end;margin:0 0 18px}
+.sn-pv .ax-bb{background:var(--s2);border-radius:26px 26px 26px 8px;font-size:.95rem;padding:11px 16px;line-height:1.65}
+#snf .fld small{font-size:.8rem;line-height:1.5}
+@media(max-width:699px){.sn-chips.start .ax-pc{min-height:80px;font-size:.92rem}.sn-t h3{font-size:1.2rem}}
+@media(prefers-reduced-motion:reduce){.sn-av{animation:none}}
 </style>
 </head>
 <body>
-<div id="splash"><svg viewBox="-60 -60 120 120" aria-label="読み込み中"><path id="spath" d=""/></svg></div>
+<div id="splash"><svg viewBox="-60 -60 120 120" aria-label="読み込み中"><path id="spath" d="M40 0A40 40 0 1 1 -40 0A40 40 0 1 1 40 0Z"/></svg></div>
 <div id="app">
   <nav id="nav" aria-label="メインメニュー"></nav>
   <main id="main"><div id="view"></div></main>
@@ -1767,7 +1859,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '13.1';
+const APP_VERSION = '14.0';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2264,6 +2356,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '14.0', t: 'AI先生の追加と、更新後に画面が表示されない問題の修正', n: ['ツールに「AI先生」を追加しました。分からない問題の写真を送ると、問題を読み取って、解き方をやさしく説明します', '先生の名前・口調・教え方・学年・アイコンの色などを、自由に決められます。追加の指示も書けます', '答えを聞いたあとも、「もっとくわしく」「ヒントだけ」「似た問題を出して」などで、続けて質問できます', '更新のあとに、画面が真っ白のままになることがある問題を修正しました。通信が不安定なときでも、アプリが開くようにしました', 'もしうまく開かないときは、自動で直したり、画面のボタンで入れ直したりできるしくみを追加しました（課題などのデータは消えません）'] },
   { v: '13.1', t: 'フィードバック機能と、AI画面のリニューアル', n: ['フィードバック（新機能の要望・不具合・感想など）を送れるようになりました', 'AIの画面を、Material 3 Expressive のデザインに刷新しました'] },
   { v: '13.0', t: '「さがす」・くり返しの課題・持ち物・単語帳の見直しなど', n: ['「さがす」を追加しました。課題・教科・単語・メモ・ツールを、まとめて検索できます（追加ボタンのメニュー、または外付けキーボードの / キー）', '毎週きまった曜日に出る課題を、自動で追加する「くり返しの課題」を追加しました', '時間割に、「あしたの持ち物」を追加しました。教科ごとの持ち物を決めておくと、チェックしながらそろえられます', '単語帳に「見直し」を追加しました。覚えて1週間たったカードが、もう一度出ます', '新しいツール「くじ引き・順番決め」（ひとり選ぶ・順番・グループ分け）を追加しました', '外付けキーボードで、単語帳の Z（ひとつ前にもどる）と S（★）が使えるようになりました'] },
   { v: '12.0', t: 'ホームの配置を、自由に編集できるように', n: ['ホームの部分（達成率・よく使うツール・今日のプラン・期限が近い課題・今週の勉強・AIのアドバイス・教科ごとの進み具合）を、上下に並べ替えたり、表示・非表示を切り替えたり、幅を半分にしたりできます。ホームの「配置」ボタン、または設定から編集します', '教科ごとの進み具合を、「カード」と「コンパクト」から選べるようになりました', 'ホームに、「あしたの時間割」と「ふせんメモ」の部分を追加しました', 'iPadで、縦バーの下が途中で切れて見える問題を、さらに直しました'] },
@@ -3916,6 +4009,7 @@ function cloudRefresh() {
   if (dlg.open && dlg.dataset.k === 'acct') dlg.innerHTML = `<div class="dlg">${acctHtml()}</div>`;
   if (ui.tab === 'settings' && !dlg.open && !TM.open) render();
   else if (ui.tab === 'ai' && AI.rendered !== !!CLOUD.user && !dlg.open) render();
+  else if (ui.tab === 'tools' && ui.tool === 'sensei' && SN.rendered !== !!CLOUD.user && !dlg.open) render();
 }
 async function cloudInit() {
   const cfg = window.FIREBASE_CONFIG;
@@ -4574,15 +4668,15 @@ function trHtml() {
   ${TR.out || TR.err ? `<div class="card" style="margin-top:12px">${TR.err ? `<p class="muted">${esc(TR.err)}</p>` : `<div class="trout">${esc(TR.out).replace(/\n/g, '<br>')}</div><div class="dact" style="margin:10px 0 0"><button class="btn text" data-act="trspeak">${ms('volume_up')}読み上げ</button><button class="btn text" data-act="trcopy">${ms('content_copy')}コピー</button></div>`}</div>` : ''}
   <p class="muted" style="font-size:.8rem;margin-top:10px">入力した文章がGoogleのAIに送られます。個人情報は入力しないでください。</p>`;
 }
-const TOOLS = [['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
+const TOOLS = [['sensei', 'AI先生', 'school', '問題の写真を送ると、解き方を教えてくれる', 250, 'd'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
   ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['drill', '計算ドリル', 'bolt', '10問の計算をタイム付きで練習', 60, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], ['wc', '文字数カウント', 'edit_note', '作文の文字数と原稿用紙の枚数', 300, 'b'],
   ['review', '復習リマインダー', 'history', '1・3・7・14・30日後の復習日を自動で管理', 250, 'b'], ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '周期表・元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['draw', 'くじ引き・順番決め', 'casino', '名前から、ひとり選ぶ・順番・グループ分け', 330, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
-  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, draw: drawHtml }[tl]();
+  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">AI</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'd').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div>`;
+  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, draw: drawHtml, sensei: snHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -5756,6 +5850,231 @@ TPAINT.seq = () => {
   put('sq3', [b, r, m].some(isNaN) || !Number.isInteger(m) || m < 1 ? '' : `第n項：<b>${pf(b * Math.pow(r, m - 1))}</b><br>初項から第n項までの和：<b>${pf(r === 1 ? b * m : b * (Math.pow(r, m) - 1) / (r - 1))}</b>${Math.abs(r) < 1 ? `<br>無限等比級数の和：<b>${pf(b / (1 - r))}</b>` : ''}<br><span class="muted">${Array.from({ length: Math.min(8, m) }, (_, i) => pf(b * Math.pow(r, i))).join('、') + (m > 8 ? '、…' : '')}</span>`);
 };
 function toolsRefresh() { if (ui.tab === 'tools') { const y = scrollY; $('#view').innerHTML = viewTools(); toolsPost(); scrollTo(0, y); } }
+/* ====================== AI先生（写真の問題を読み取って、解き方を教える） ====================== */
+const SN_DEF = { name: 'ミライ先生', call: '', tone: 'gentle', style: 'step', grade: 'm2', custom: '', icon: 'school', hue: 222 };
+// [id, 名前, アイコン, 説明, AIへの指示, あいさつ（{n}＝先生の名前）]
+const SN_TONES = [
+  ['gentle', 'やさしい先生', 'favorite', 'おだやかで、安心させてくれる', 'やさしく穏やかな口調で、です・ます調で話します。生徒ががんばっていることを認め、分からなくても大丈夫だと安心させます。', 'こんにちは。{n}です。分からない問題の写真を送ってください。いっしょに考えていきましょう。'],
+  ['cheer', '元気な先輩', 'sentiment_very_satisfied', '明るくて、ほめ上手', '明るく元気で親しみやすい口調で話します（「〜だよ」「〜してみよう！」など）。ほめ上手で、小さな進歩もいっしょに喜びます。ふざけすぎず、説明は正確にします。', 'やっほー！{n}だよ。分からない問題、写真で送ってね。いっしょに解いていこう！'],
+  ['coach', 'きびしめのコーチ', 'sports', '引き締まった口調で、考える力を鍛える', '簡潔で引き締まった口調で話します。甘やかさず、考え方の理由までしっかり確かめさせます。ただし、人格を否定したり、傷つけたりする言い方は決してしません。最後は、前向きな一言で終えます。', '{n}です。問題を見せてください。答えよりも、考え方を鍛えましょう。'],
+  ['polite', 'ていねいな家庭教師', 'workspace_premium', '落ち着いて、順序立てて教える', '落ち着いた、ていねいな言葉づかいで話します。理由と根拠を大切にして、順序立てて説明します。', 'はじめまして。家庭教師の{n}です。分からない問題の写真を、お送りください。順を追って、ご説明します。'],
+  ['kansai', '関西弁の先生', 'emoji_emotions', 'ノリがよくて、親しみやすい', '関西弁でフレンドリーに話します（「〜やで」「〜してみよか」など）。ノリはよくても、説明は正確で分かりやすくします。', 'どーも、{n}やで！ 分からん問題があったら、写真で送ってや。いっしょに解いてこ！'],
+  ['custom', 'じぶんで決める', 'tune', '下の「追加の指示」だけで決める', '特別な口調は決まっていません。基本は、やさしい、です・ます調で話します。', 'こんにちは。{n}です。分からない問題の写真を送ってください。']
+];
+const SN_STYLES = [
+  ['hint', 'ヒントから順に', 'lightbulb', 'まず考え方のヒント。答えは聞いたら', 'いきなり答えを言わず、まず問題の読み取りと、着眼点（どこに注目するか）、最初の一歩のヒントを示して、生徒が自分で考えられるようにします。生徒が「答えも教えて」「全部教えて」と求めたら、手順と答えまで示します。長さは300字程度を目安にします。'],
+  ['step', '手順つきで解説', 'format_list_numbered', '手順ごとに分けて、最後に答え', '解き方を、手順ごとに番号を付けて説明し、最後に答えを示します。各手順には、なぜそうするのかをひとこと添えます。長さは500字程度を目安にします。'],
+  ['quick', '答えと要点', 'bolt', '答えを先に、要点を短く', '答えを先に示して、そのあと、考え方の要点を短く説明します。長さは250字程度を目安にします。'],
+  ['deep', 'くわしく原理から', 'menu_book', 'なぜそうなるかまで、じっくり', '答えまでの手順に加えて、なぜそうなるのかという理由や、使う公式・考え方のもとを、たとえ話も使いながらくわしく説明します。長さは700字程度まで使ってよいです。']
+];
+const SN_GRADES = [['e', '小学生', '日本の小学生（高学年）'], ['m1', '中1', '日本の中学1年生'], ['m2', '中2', '日本の中学2年生'], ['m3', '中3', '日本の中学3年生（高校受験をひかえています）'], ['h', '高校生', '日本の高校生']];
+const SN_ICONS = [['school', '先生'], ['face', '顔'], ['psychology', 'ひらめき'], ['auto_stories', '本'], ['emoji_objects', '電球'], ['workspace_premium', 'メダル']];
+const SN_HUES = [[222, 'あお'], [190, 'みずいろ'], [150, 'みどり'], [95, 'きみどり'], [40, 'オレンジ'], [20, 'あか'], [340, 'ピンク'], [280, 'むらさき']];
+const SN_SUBS = ['', '国語', '数学', '英語', '理科', '社会'];
+const SN_MAX = 3;
+const SN = { msgs: [], att: [], busy: false, chat: null, sig: '', sub: '', draft: '', _n: 0, rendered: false };
+const snOne = s => String(s == null ? '' : s).replace(/[\r\n\t]+/g, ' ').replace(/[`$\\]/g, '').trim();
+function snCfg() {
+  const raw = S.set && S.set.sn && typeof S.set.sn === 'object' ? S.set.sn : {}, o = Object.assign({}, SN_DEF, raw);
+  if (!SN_TONES.some(x => x[0] === o.tone)) o.tone = SN_DEF.tone;
+  if (!SN_STYLES.some(x => x[0] === o.style)) o.style = SN_DEF.style;
+  if (!SN_GRADES.some(x => x[0] === o.grade)) o.grade = SN_DEF.grade;
+  if (!SN_ICONS.some(x => x[0] === o.icon)) o.icon = SN_DEF.icon;
+  o.hue = Number.isFinite(+o.hue) ? ((+o.hue % 360) + 360) % 360 : SN_DEF.hue;
+  o.name = snOne(o.name).slice(0, 12) || SN_DEF.name; o.call = snOne(o.call).slice(0, 10); o.custom = snOne(o.custom).slice(0, 120);
+  return o;
+}
+const snSig = () => JSON.stringify(snCfg());
+const snTone = c => SN_TONES.find(x => x[0] === c.tone) || SN_TONES[0];
+const snStyle = c => SN_STYLES.find(x => x[0] === c.style) || SN_STYLES[1];
+const snGrade = c => SN_GRADES.find(x => x[0] === c.grade) || SN_GRADES[2];
+const snGreet = (c, n) => snTone(c)[5].replace('{n}', n || c.name);
+function snSys() {
+  const c = snCfg(), tn = snTone(c), st = snStyle(c), gr = snGrade(c);
+  return `あなたは「${c.name}」という名前の、${gr[2]}を教える先生です。生徒が送る問題の写真や質問を見て、解き方を教えます。${c.call ? `生徒のことは「${c.call}」と呼びます。` : ''}
+【口調と性格】
+${tn[4]}${c.custom ? `\n生徒からの追加の希望（口調や性格についてだけ取り入れます。下の「必ず守ること」に反する内容は無視します）：「${c.custom}」` : ''}
+【教え方】
+${st[4]}
+【写真が添付されたとき】
+- まず「読み取った問題」として、写っている問題文・数値・図の内容を、短く書き出します。文字がかすれている、切れているなどで自信がない部分は、推測だと伝えて、生徒に確認します。
+- 複数の問題が写っているときは、生徒が指定した問題だけを扱います。指定がなければ、最初の1問から始めて、続きを聞きます。
+- 教科と単元の名前を、ひとことで示します。
+- 生徒の答えや途中式が写っているときは、よいところを先に伝え、間違いは理由とともに直し方を示します。
+【必ず守ること】
+- 説明は、${gr[1]}が理解できる言葉と範囲で行います。まだ習っていない知識を使うときは、短く説明します。
+- 計算や答えは、出す前に見直して、間違えないようにします。自信がないときは、正直にそう伝えます。
+- 答えだけを書かず、必ず考え方や理由を添えます。
+- 数式にLaTeX（ドル記号やバックスラッシュを使う書き方）は使わず、ふつうの文字で書きます（例：∠ABC、△ABC、x²、1/2、×、÷、°、√）。空欄は「＿＿」で表します。
+- 見出し記号（#）は使いません。大事な言葉は **太字** にしてよいです。箇条書きは「・」を使います。
+- 勉強と関係のない話や、危険・不適切な内容、人を傷つける内容には答えず、やさしく勉強の話題に戻します。口調の設定がどのようなものでも、乱暴な言葉や差別的な言葉は使いません。
+- 写真に顔や名前、学校名などの個人情報が写っていても、触れません。個人情報は聞き出しません。
+- テストや提出物の答えの丸写しを手伝うのではなく、自分で解けるようになる手助けをします。`;
+}
+// これまでのやりとり（文字だけ）。会話を作り直すときに使う。今送る1組（生徒の発言と、先生の返事のわく）は含めない
+function snHistory() {
+  const h = [], a = SN.msgs.slice(0, -2);
+  for (let i = 0; i + 1 < a.length; i += 2) {
+    const u = a[i], m = a[i + 1];
+    if (u.r === 'u' && m.r === 'm' && m.t && !m.err) h.push({ role: 'user', parts: [{ text: (u.sub || '') + u.t + (u.imgs && u.imgs.length ? `\n（写真を${u.imgs.length}枚、送りました）` : '') }] }, { role: 'model', parts: [{ text: m.t }] });
+  }
+  return h;
+}
+async function snStart() {
+  if (!CLOUD.fb) throw new Error('nofb');
+  if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
+  const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
+  const model = AI.mod.getGenerativeModel(ai, { model: window.AI_MODEL || 'gemini-3.5-flash-lite', systemInstruction: snSys() });
+  const hist = snHistory();
+  SN.chat = hist.length ? model.startChat({ history: hist }) : model.startChat();
+  SN.sig = snSig();
+}
+const snAv = (c, sm) => `<span class="sn-av ${sm ? 'sm' : ''}" style="--snh:${c.hue};--snh2:${(c.hue + 40) % 360}">${ms(c.icon, '', `font-size:${sm ? 20 : 30}px`)}</span>`;
+function snHtml() {
+  const c = snCfg(), gr = snGrade(c), head = `<div class="sn-h">${snAv(c)}<div class="sn-t"><h3>${esc(c.name)}</h3><small>${esc(snTone(c)[1])} ・ ${esc(gr[1])}向け</small></div><span class="ax-q" id="sncnt" title="今日のAI利用回数"></span><button type="button" class="ibtn" data-act="sncfg" aria-label="先生の設定" title="先生の設定">${ms('tune')}</button><button type="button" class="ibtn" data-act="snreset" aria-label="新しい問題" title="新しい問題">${ms('restart_alt')}</button></div>`;
+  SN.rendered = !!CLOUD.user;
+  if (!CLOUD.user) return `<div class="snw" style="--snh:${c.hue};--snh2:${(c.hue + 40) % 360}">${head}<div class="card"><p class="muted" style="margin-bottom:14px">AI先生を使うには、Googleログインが必要です。先生の名前や口調は、ログインしなくても設定できます。</p>${gBtn()}</div></div>`;
+  return `<div class="snw" style="--snh:${c.hue};--snh2:${(c.hue + 40) % 360}">${head}
+  <details class="ax-n sn-n"><summary>${ms('photo_camera')}きれいに読み取ってもらうコツと、AIに送られる情報</summary><p>問題が大きく写るように、明るい場所で、ピントを合わせて撮ってください。影や、ななめの角度は、できるだけ避けると、読み取りやすくなります。写真は${SN_MAX}枚まで送れます。<br>質問と写真は、GoogleのAIに送られます。顔や名前、学校名が写らないようにしてください。AIの答えは、間違うことがあります。大事な内容は、教科書や先生にも確認しましょう。</p></details>
+  <div class="ax-log sn-log" id="snlog"></div>
+  <div class="sn-chips" id="snchips"></div>
+  <div class="sn-subs" id="snsubs"></div>
+  <div class="ai-att" id="snatt"></div>
+  <div class="ax-in sn-in"><button type="button" class="ax-at" data-act="sncam" aria-label="写真を撮る" title="写真を撮る">${ms('photo_camera')}</button><button type="button" class="ax-at" data-act="snpick" aria-label="写真を選ぶ" title="写真を選ぶ">${ms('add_photo_alternate')}</button><textarea id="snq" rows="1" maxlength="600" placeholder="どこが分からないか書いてもOK（空でもOK）" aria-label="質問"></textarea><button type="button" class="ax-sd" id="snsend" data-act="snsend" aria-label="送信">${ms('arrow_upward')}</button></div>
+  <input type="file" id="sncamf" accept="image/*" capture="environment" hidden><input type="file" id="snfile" accept="image/*" multiple hidden></div>`;
+}
+function snRenderLog(still) {
+  const log = $('#snlog'); if (!log) return;
+  const c = snCfg(), prev = still ? SN.msgs.length : SN._n, av = snAv(c, true);
+  const greet = `<div class="ax-m m">${av}<div class="ax-bb">${esc(snGreet(c))}<br><span class="sn-hint">下のカメラ ${ms('photo_camera', '', 'font-size:17px;vertical-align:-3px')} で撮影するか、${ms('add_photo_alternate', '', 'font-size:17px;vertical-align:-3px')} で写真を選んでください。</span></div></div>`;
+  log.innerHTML = greet + SN.msgs.map((m, i) => {
+    const nw = i >= prev ? ' new' : '';
+    if (m.r === 'u') return `<div class="ax-m u${nw}"><div class="ax-bb">${m.imgs && m.imgs.length ? `<div class="ai-imgs">${m.imgs.map(u => `<img src="${u}" alt="">`).join('')}</div>` : ''}${esc(m.t).replace(/\n/g, '<br>')}</div></div>`;
+    const last = i === SN.msgs.length - 1;
+    return `<div class="ax-m m${nw}">${av}<div class="ax-bb ${m.err ? 'sn-err' : ''}">${m.t ? mdLite(m.t) : '<span class="ax-dots"><i></i><i></i><i></i></span>'}${m.t && !m.err && !(SN.busy && last) ? `<div class="ax-act"><button type="button" class="ax-cp" data-act="sncopy" data-id="${i}" aria-label="コピー" title="コピー">${ms('content_copy')}</button></div>` : ''}</div></div>`;
+  }).join('');
+  SN._n = SN.msgs.length; log.scrollTop = log.scrollHeight;
+}
+function snRenderChips() {
+  const el = $('#snchips'); if (!el) return;
+  if (SN.busy) { el.className = 'sn-chips'; el.innerHTML = ''; return; }
+  if (!SN.msgs.length) {
+    el.className = 'sn-chips start';
+    el.innerHTML = `<button type="button" class="ax-pc" style="--i:0" data-act="sncam"><span class="ax-pi">${ms('photo_camera')}</span><span>問題を撮影する</span></button><button type="button" class="ax-pc" style="--i:1" data-act="snpick"><span class="ax-pi">${ms('add_photo_alternate')}</span><span>写真から選ぶ</span></button>`;
+    return;
+  }
+  const last = SN.msgs[SN.msgs.length - 1], L = last && last.err ? [['retry', 'もう一度送る', 'refresh']] : [['detail', 'もっとくわしく', 'zoom_in'], ['hint', 'ヒントだけ', 'lightbulb'], ['ans', '答えまで教えて', 'task_alt'], ['alt', '別の解き方', 'alt_route'], ['similar', '似た問題を出して', 'autorenew'], ['check', '私の答えを見て', 'fact_check'], ['next', '次の問題', 'skip_next']];
+  el.className = 'sn-chips'; el.innerHTML = L.map(([k, l, i]) => `<button type="button" class="sn-fc" data-act="snq" data-id="${k}">${ms(i)}${l}</button>`).join('');
+}
+function snRenderSubs() {
+  const el = $('#snsubs'); if (!el) return;
+  el.innerHTML = `<span class="lbl">教科</span>` + SN_SUBS.map(s => `<button type="button" class="sn-sc ${SN.sub === s ? 'on' : ''}" data-act="snsub" data-id="${s}">${s || '自動'}</button>`).join('');
+}
+function snRenderAtt() {
+  const a = $('#snatt'); if (a) a.innerHTML = SN.att.map((x, i) => `<span class="ai-th"><img src="${x.url}" alt=""><button type="button" data-act="snattrm" data-id="${i}" aria-label="削除">${ms('close')}</button></span>`).join('');
+  snReady();
+}
+function snReady() { const b = $('#snsend'), q = $('#snq'); if (b && q) b.classList.toggle('ready', !!(q.value.trim() || SN.att.length)); }
+function snBusyUi() {
+  const b = $('#snsend'); if (b) { b.disabled = SN.busy; const bz = SN.busy ? '1' : ''; if (b.dataset.bz !== bz) { b.dataset.bz = bz; b.innerHTML = SN.busy ? gspin(26) : ms('arrow_upward'); } }
+  const c = $('#sncnt'); if (c) { const u = aiUsed(), L = aiLimit(); c.innerHTML = `<span class="ax-ring" style="--p:${Math.min(100, Math.round(u / L * 100))}"></span><span><b>${u}</b> / ${L}</span>`; }
+  snReady();
+}
+function snPaint() {
+  if (!$('#snlog')) return;
+  const q = $('#snq'); if (q && SN.draft) { q.value = SN.draft; q.style.height = 'auto'; q.style.height = Math.min(140, q.scrollHeight) + 'px'; }
+  snRenderLog(true); snRenderChips(); snRenderSubs(); snRenderAtt(); snBusyUi();
+}
+TPAINT.sensei = snPaint;
+async function snAdd(files) {
+  for (const f of files) {
+    if (SN.att.length >= SN_MAX) { toast(`添付できる写真は${SN_MAX}枚までです`); break; }
+    try { SN.att.push(await aiResize(f, 1600)); } catch (e) { toast('この写真は読み込めませんでした'); }
+  }
+  snRenderAtt();
+}
+async function snSend(text) {
+  const q = $('#snq'); text = String(text != null ? text : (q ? q.value : '')).trim();
+  const atts = SN.att.slice();
+  if ((!text && !atts.length) || SN.busy) return;
+  if (!CLOUD.user) { toast('AI先生は、Googleログイン後に使えます'); return acctDlg(); }
+  if (aiUsed() >= aiLimit()) return toast(`今日のAI利用は${aiLimit()}回までです`);
+  const shown = text || '写真の問題を教えてください。', sub = SN.sub ? `【教科：${SN.sub}】\n` : '';
+  SN.busy = true; SN.draft = ''; if (q) { q.value = ''; q.style.height = ''; } SN.att = []; snRenderAtt();
+  SN.msgs.forEach(m => { delete m.raw; });   // 古い写真のデータは手放す（もう一度送るために使うのは、直前の1組だけ）
+  SN.msgs.push({ r: 'u', t: shown, imgs: atts.map(a => a.url), raw: atts, sub }, { r: 'm', t: '' });
+  const m = SN.msgs[SN.msgs.length - 1]; snRenderLog(); snRenderChips(); snBusyUi();
+  try {
+    if (!SN.chat || SN.sig !== snSig()) await snStart();
+    aiCount();
+    const res = await SN.chat.sendMessageStream([sub + shown, ...atts.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))]);
+    for await (const c of res.stream) { m.t += c.text(); snRenderLog(); }
+    if (!m.t.trim()) { m.t = '答えを作れませんでした。写真を撮りなおすか、言い方を変えて、もう一度送ってください。'; m.err = true; SN.chat = null; }
+  } catch (e) { m.t = aiErr(e); m.err = true; SN.chat = null; }
+  SN.busy = false; snRenderLog(); snRenderChips(); snBusyUi();
+}
+const SN_Q = { detail: 'もう少しくわしく、やさしい言葉で説明してください。', hint: '答えは言わずに、ヒントだけ教えてください。', ans: '答えまで、手順を追って教えてください。', alt: '別の解き方があれば、教えてください。', similar: '似た問題を1問出してください。答えは、私が答えてから教えてください。', next: '次の問題を教えてください。（新しい写真を送ります）' };
+function snCfgDlg() {
+  const c = snCfg(), rd = (nm, arr, cur, f) => arr.map(x => `<label class="rchip"><input type="radio" name="${nm}" value="${x[0]}" ${String(x[0]) === String(cur) ? 'checked' : ''}><span>${f(x)}</span></label>`).join('');
+  openDlg(`<h2>${ms('tune')}先生の設定</h2>
+  <div class="sn-pv" id="snpv"></div>
+  <form id="snf" autocomplete="off" onsubmit="return false">
+  <div class="fld"><label for="snn">先生の名前</label><input id="snn" name="snn" type="text" maxlength="12" value="${esc(c.name)}" placeholder="例：ミライ先生"></div>
+  <div class="fld"><label for="snc">先生があなたを呼ぶ名前（なくてもOK）</label><input id="snc" name="snc" type="text" maxlength="10" value="${esc(c.call)}" placeholder="例：ニックネーム"></div>
+  <div class="fld"><div class="lbl">口調・キャラクター</div><div class="chips">${rd('sntone', SN_TONES, c.tone, x => ms(x[2]) + x[1])}</div><small class="muted" id="sntd"></small></div>
+  <div class="fld"><div class="lbl">教え方</div><div class="chips">${rd('snstyle', SN_STYLES, c.style, x => ms(x[2]) + x[1])}</div><small class="muted" id="snsd"></small></div>
+  <div class="fld"><div class="lbl">学年</div><div class="chips">${rd('sngrade', SN_GRADES, c.grade, x => x[1])}</div></div>
+  <div class="fld"><label for="snx">追加の指示（口調や性格についてだけ）</label><textarea id="snx" name="snx" rows="3" maxlength="120" placeholder="例：たとえ話を多めに／語尾に「ぞ」をつける／最後に応援の一言を">${esc(c.custom)}</textarea></div>
+  <div class="fld"><div class="lbl">アイコン</div><div class="chips">${rd('snicon', SN_ICONS, c.icon, x => ms(x[0]) + x[1])}</div></div>
+  <div class="fld"><div class="lbl">色</div><div class="chips">${rd('snhue', SN_HUES, c.hue, x => ms('circle', '', `color:hsl(${x[0]} 70% 50%);font-variation-settings:'FILL' 1`) + x[1])}</div></div>
+  <p class="muted" style="font-size:.8rem;margin:0 0 4px">ここで決めた内容は、AIへの指示として送られます。名前や学校名など、個人が分かる情報は入れないでください。</p>
+  </form>
+  <div class="dact"><button type="button" class="btn text" data-act="snrst">${ms('restart_alt')}もとにもどす</button><span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="snsave">${ms('check')}保存</button></div>`);
+  dlg.dataset.k = 'sncfg'; snPv();
+}
+function snPv() {
+  const f = $('#snf'), pv = $('#snpv'); if (!f || !pv) return;
+  const g = n => (f.elements[n] ? f.elements[n].value : ''), tn = SN_TONES.find(x => x[0] === g('sntone')) || SN_TONES[0], st = SN_STYLES.find(x => x[0] === g('snstyle')) || SN_STYLES[1];
+  const c = { hue: +g('snhue') || SN_DEF.hue, icon: g('snicon') || SN_DEF.icon }, nm = snOne(g('snn')).slice(0, 12) || SN_DEF.name;
+  pv.innerHTML = `${snAv(c, true)}<div class="ax-bb"><b>${esc(nm)}</b><br>${esc(tn[5].replace('{n}', nm))}</div>`;
+  const a = $('#sntd'), b = $('#snsd'); if (a) a.textContent = tn[3]; if (b) b.textContent = st[3];
+}
+document.addEventListener('input', e => {
+  const t = e.target;
+  if (t.id === 'snq') { SN.draft = t.value; t.style.height = 'auto'; t.style.height = Math.min(140, t.scrollHeight) + 'px'; snReady(); }
+  else if (t.closest && t.closest('#snf')) snPv();
+});
+document.addEventListener('change', e => {
+  const t = e.target;
+  if (t.id === 'snfile' || t.id === 'sncamf') { const fl = [...t.files]; t.value = ''; snAdd(fl); }
+  else if (t.closest && t.closest('#snf')) snPv();
+});
+document.addEventListener('keydown', e => { if (e.target.id === 'snq' && e.key === 'Enter' && !e.isComposing && (e.metaKey || e.ctrlKey || (!e.shiftKey && matchMedia('(pointer:fine)').matches))) { e.preventDefault(); snSend(); } });
+Object.assign(ACT, {
+  sncfg() { snCfgDlg(); },
+  snsave() {
+    const f = $('#snf'); if (!f) return; const g = n => (f.elements[n] ? f.elements[n].value : '');
+    const o = { name: snOne(g('snn')).slice(0, 12) || SN_DEF.name, call: snOne(g('snc')).slice(0, 10), tone: g('sntone'), style: g('snstyle'), grade: g('sngrade'), custom: snOne(g('snx')).slice(0, 120), icon: g('snicon'), hue: +g('snhue') };
+    S.set.sn = o; save(); closeDlg(); SN.chat = null;
+    if (ui.tab === 'tools' && ui.tool === 'sensei') toolsRefresh();
+    toast(`「${snCfg().name}」の設定を保存しました`);
+  },
+  snrst() { confirmDlg('先生の設定をもとにもどしますか？', '名前・口調・教え方などが、最初の設定にもどります。', 'もとにもどす', () => { delete S.set.sn; save(); SN.chat = null; if (ui.tab === 'tools' && ui.tool === 'sensei') toolsRefresh(); toast('もとにもどしました'); }); },
+  snreset() { if (SN.busy) return toast('先生が答えている途中です'); SN.msgs = []; SN.att = []; SN.chat = null; SN._n = 0; SN.draft = ''; SN.sub = ''; toolsRefresh(); },
+  snsend() { snSend(); },
+  sncam() { const i = $('#sncamf'); if (i) i.click(); },
+  snpick() { const i = $('#snfile'); if (i) i.click(); },
+  snattrm(id) { SN.att.splice(+id, 1); snRenderAtt(); },
+  snsub(id) { SN.sub = id || ''; snRenderSubs(); },
+  sncopy(id) { const m = SN.msgs[+id]; if (m && m.t && navigator.clipboard) navigator.clipboard.writeText(m.t).then(() => toast('コピーしました'), () => toast('コピーできませんでした')); },
+  snq(id) {
+    if (SN.busy) return;
+    if (id === 'retry') { const u = SN.msgs[SN.msgs.length - 2]; if (!u || u.r !== 'u') return; SN.msgs.splice(-2, 2); SN.att = u.raw || []; snRenderLog(true); snRenderAtt(); snSend(u.t === '写真の問題を教えてください。' ? '' : u.t); return; }
+    if (id === 'check') { const q = $('#snq'); if (q) { q.value = SN.draft = '私の答えが合っているか、見てください。'; snReady(); } const i = $('#sncamf'); if (i) i.click(); return; }
+    if (id === 'next') { SN.chat = null; const i = $('#sncamf'); if (i) i.click(); return; }
+    if (SN_Q[id]) snSend(SN_Q[id]);
+  }
+});
 function toolsPost() {
   const tl = ui.tool || '';
   if (tl === 'calc') calcPaint(true);
@@ -5843,17 +6162,26 @@ if ('serviceWorker' in navigator) {
 }
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => { });
 function splash() {
-  const sp = $('#splash'), p = $('#spath');
+  const sp = $('#splash'), p = $('#spath'); if (!sp) return;
   if (reduced()) { sp.classList.add('hide'); return; }
-  const t0 = performance.now();
-  const f = now => { const s = (now - t0) / 1000; p.setAttribute('d', pathOf(morphAt(s, .4), 44, 0, 0, s * 1.4)); if (s < 1.1) requestAnimationFrame(f); else sp.classList.add('hide'); };
-  requestAnimationFrame(f);
+  const t0 = performance.now(), hide = () => sp.classList.add('hide');
+  const f = now => { try { const s = (now - t0) / 1000; p.setAttribute('d', pathOf(morphAt(s, .4), 44, 0, 0, s * 1.4)); if (s < 1.1) { requestAnimationFrame(f); return; } } catch (e) { } hide(); };
+  requestAnimationFrame(f); setTimeout(hide, 2500);   // 画面の描画が止まっていても、2.5秒で必ず消す
 }
-// アイコンフォントが読み込まれたらアイコンを表示
-if (document.fonts && document.fonts.load) {
-  document.fonts.load('24px "Material Symbols Rounded"', 'home').then(f => { if (f && f.length) document.documentElement.classList.add('msr'); }).catch(() => { });
-} else document.documentElement.classList.add('msr');
-applyTheme(); checkBadges(true); tmReset('focus'); renderFab(); render(); splash(); renderAcct(); cloudInit();
+// アイコンフォントが読み込まれたらアイコンを表示（フォントのCSSは、画面の表示をじゃましないよう、あとから読み込む）
+function msrCheck() {
+  const h = document.documentElement; if (h.classList.contains('msr')) return;
+  if (document.fonts && document.fonts.load) document.fonts.load('24px "Material Symbols Rounded"', 'home').then(f => { if (f && f.length) h.classList.add('msr'); }).catch(() => { });
+  else h.classList.add('msr');
+}
+window.__fl = msrCheck; msrCheck(); addEventListener('load', msrCheck); [1500, 4000, 10000, 25000].forEach(t => setTimeout(msrCheck, t));
+window.__kosaV = APP_VERSION;
+const bootStep = (n, f) => { try { f(); return true; } catch (e) { try { window.__kosaLog && __kosaLog('起動(' + n + '): ' + ((e && e.message) || e)); } catch (x) { } return false; } };
+bootStep('theme', applyTheme); bootStep('badges', () => checkBadges(true)); bootStep('timer', () => tmReset('focus')); bootStep('fab', renderFab);
+let booted = bootStep('render', render);
+if (!booted) booted = bootStep('render-safe', () => { const hm = S.set.home; delete S.set.home; try { ui.tab = 'home'; render(); } finally { if (hm !== undefined) S.set.home = hm; } });   // ホームの配置データが原因のときは、この回だけ標準の配置で表示する
+bootStep('splash', splash); bootStep('acct', renderAcct); bootStep('cloud', cloudInit);
+if (booted) { try { window.__kosaOk && __kosaOk(); } catch (e) { } }
 try { if (!localStorage.getItem('kosa-guide-seen')) setTimeout(() => { if (!dlg.open) guideDlg(); }, 900); } catch (e) { }
 // アップデートのあと最初に開いたとき、新しくなった点を表示する（初めて使うときは表示しない）
 try {
