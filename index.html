@@ -1652,6 +1652,27 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 .htt{display:grid;grid-template-columns:repeat(auto-fit,minmax(86px,1fr));gap:8px}
 .htt div{display:grid;justify-items:center;gap:2px;padding:10px 6px;border-radius:18px;background:var(--s2)}.htt span{color:var(--on-v);font-size:.78rem}.htt b{font-size:.98rem}
 .pillchip.hedit{border:0;cursor:pointer}
+
+/* ===== 13.0 ===== */
+.rec-r{display:flex;align-items:center;gap:8px;padding:10px 6px;border-bottom:1px solid var(--s3)}.rec-r:last-of-type{border:0}
+.rec-t{flex:1;min-width:0;display:grid;gap:2px}.rec-t b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rec-t small{color:var(--on-v);line-height:1.5}
+.gs-in{width:100%;box-sizing:border-box;height:56px;border:0;border-radius:28px;padding:0 24px;background:var(--s2);color:var(--on);font:inherit;font-size:16px;outline:none;margin-bottom:10px}
+.gs-r{max-height:52vh;overflow:auto;display:grid;gap:4px;align-content:start;padding-bottom:6px}
+.gs-h{display:flex;align-items:center;gap:6px;color:var(--on-v);font-weight:700;font-size:.85rem;margin:10px 4px 2px}.gs-h .ms{font-size:18px}
+.gs-i{display:grid;gap:1px;text-align:left;padding:10px 14px;border:0;border-radius:16px;background:var(--s1);color:inherit}.gs-i:active{background:var(--s3)}
+.gs-i b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.gs-i small{color:var(--on-v);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tbl-bag{margin-bottom:14px}.bag-h{display:flex;align-items:center;gap:8px}.bag-h b{display:flex;align-items:center;gap:8px}
+.bag-c{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.bag-i{display:inline-flex;align-items:center;gap:6px;height:44px;padding:0 16px 0 12px;border:0;border-radius:22px;background:var(--s2);color:var(--on);font:inherit;font-weight:600;transition:background .25s,transform .35s var(--spring)}
+.bag-i:active{transform:scale(.94)}.bag-i.on{background:var(--pc);color:var(--on-pc);text-decoration:line-through;text-decoration-color:color-mix(in srgb,var(--on-pc) 50%,transparent)}.bag-i .ms{font-size:22px}
+.bag-n{margin:10px 4px 0;font-size:.88rem}
+.dr-b{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.dr-g{display:inline-flex;gap:8px;align-items:center}.dr-g input{width:64px;height:48px;border:0;border-radius:16px;background:var(--s2);color:var(--on);font:inherit;font-size:18px;text-align:center}
+.dr-r{min-height:140px;display:grid;align-content:center}
+.dr-big{text-align:center;font-size:clamp(2.2rem,9vw,4rem);font-weight:800;line-height:1.3;word-break:break-all}.dr-big.spin{opacity:.55}.dr-big.fin{animation:wxpop .6s var(--spring);color:var(--primary)}
+.dr-ol{margin:0;padding-left:2em;display:grid;gap:6px;font-size:1.15rem;font-weight:600}
+.dr-gs{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.dr-gc{display:grid;gap:4px;padding:14px;border-radius:20px;background:var(--s2)}.dr-gc b{color:var(--primary);margin-bottom:2px}
 </style>
 </head>
 <body>
@@ -1676,7 +1697,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '12.0';
+const APP_VERSION = '13.0';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2022,7 +2043,7 @@ function fitIcons() { document.querySelectorAll('[data-fit]').forEach(c => { c.c
 window.addEventListener('resize', () => { navFit(); fitIcons(); }); window.addEventListener('orientationchange', () => setTimeout(() => { navFit(); fitIcons(); }, 300));
 function renderFab() {
   const f = $('#fab'); f.hidden = false; document.documentElement.dataset.tab = ui.tab;
-  if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="ai">${gem(20)}AIに質問</button><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="aitext">${gem(20)}文章から課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
+  if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="ai">${gem(20)}AIに質問</button><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="aitext">${gem(20)}文章から課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button><button class="fabi" data-act="recmgr">${ms('event_repeat')}くり返しの課題</button><button class="fabi" data-act="gsearch">${ms('search')}さがす</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
   f.classList.toggle('open', !!ui.fab); fabDir();
   f.querySelector('.fabb').setAttribute('aria-expanded', String(!!ui.fab));
 }
@@ -2173,6 +2194,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '13.0', t: '「さがす」・くり返しの課題・持ち物・単語帳の見直しなど', n: ['「さがす」を追加しました。課題・教科・単語・メモ・ツールを、まとめて検索できます（追加ボタンのメニュー、または外付けキーボードの / キー）', '毎週きまった曜日に出る課題を、自動で追加する「くり返しの課題」を追加しました', '時間割に、「あしたの持ち物」を追加しました。教科ごとの持ち物を決めておくと、チェックしながらそろえられます', '単語帳に「見直し」を追加しました。覚えて1週間たったカードが、もう一度出ます', '新しいツール「くじ引き・順番決め」（ひとり選ぶ・順番・グループ分け）を追加しました', '外付けキーボードで、単語帳の Z（ひとつ前にもどる）と S（★）が使えるようになりました'] },
   { v: '12.0', t: 'ホームの配置を、自由に編集できるように', n: ['ホームの部分（達成率・よく使うツール・今日のプラン・期限が近い課題・今週の勉強・AIのアドバイス・教科ごとの進み具合）を、上下に並べ替えたり、表示・非表示を切り替えたり、幅を半分にしたりできます。ホームの「配置」ボタン、または設定から編集します', '教科ごとの進み具合を、「カード」と「コンパクト」から選べるようになりました', 'ホームに、「あしたの時間割」と「ふせんメモ」の部分を追加しました', 'iPadで、縦バーの下が途中で切れて見える問題を、さらに直しました'] },
   { v: '11.3', t: '単語帳の集中モード、新しいツール、iPad表示の調整', n: ['単語帳に「集中モード」を追加しました。カードと「まだ」「覚えた」ボタンだけを、画面いっぱいに表示します', 'データを受け取るときなどの読み込み表示を、Googleのような回転アニメーションに変えました', '新しいツールを4つ追加しました：割合・パーセント、ストップウォッチ、時間割、ふせんメモ', 'iPadで、左の縦バーの高さが画面によって変わる問題と、追加ボタンの位置のずれを直しました'] },
   { v: '11.2', t: '単語帳のテスト範囲、追加ボタン、動作の安定化', n: ['単語帳のテストで、番号の範囲と、「覚えていない／覚えた／★／苦手」の対象を、決められるようになりました（4択クイズ・入力テスト・聞き流しに使われます）', 'iPadの追加ボタン（＋）を、元の左上にもどしました。スマホでは、すべての画面で同じ高さにそろえました', '追加ボタンのメニューが、置いた場所に合わせて、上下左右どちらにも開くようになりました', '画面の切り替えのアニメーションを、整えました', '安定化：データを読み込めなかったときの自動復元、毎日の自動バックアップ、アプリを閉じる前の同期、不具合の記録を追加しました'] },
@@ -2326,7 +2348,8 @@ function subjCompact(subs) {
 function homeTtCard() {
   const t = S.tt; if (!t || !t.c || !Object.keys(t.c).length) return '';
   const wd = new Date().getDay(), nx = wd >= 1 && wd <= 4 ? wd : 0, items = Array.from({ length: t.p || 6 }, (_, p) => t.c[nx + '-' + p] || '—');
-  return `<div class="h-sec"><h2>${ms('calendar_view_week')}${wd >= 0 && wd <= 4 ? 'あした' : 'つぎの登校日'}の時間割（${TBL_DAYS[nx]}）</h2><span class="sp"></span><button class="btn tonal xs" data-act="tab" data-id="tool:tbl">${ms('edit')}編集</button></div><div class="card htt">${items.map((v, i) => `<div><span>${i + 1}</span><b>${esc(v)}</b></div>`).join('')}</div>`;
+  const bag = bagItems(), bc = t.chk && t.chk.d === tblNext().date ? t.chk.v : [];
+  return `<div class="h-sec"><h2>${ms('calendar_view_week')}${wd >= 0 && wd <= 4 ? 'あした' : 'つぎの登校日'}の時間割（${TBL_DAYS[nx]}）</h2><span class="sp"></span><button class="btn tonal xs" data-act="tab" data-id="tool:tbl">${ms('edit')}編集</button></div><div class="card htt">${items.map((v, i) => `<div><span>${i + 1}</span><b>${esc(v)}</b></div>`).join('')}</div>${bag.length ? `<div class="bag-c" style="margin-top:10px">${bag.map(x => `<button type="button" class="bag-i ${bc.includes(x) ? 'on' : ''}" data-act="bagtoggle" data-id="${esc(x)}">${ms(bc.includes(x) ? 'check_circle' : 'radio_button_unchecked')}${esc(x)}</button>`).join('')}</div>` : ''}`;
 }
 function homeMemoCard() {
   const m = (S.memos || []).slice().sort((a, b) => (b.at || 0) - (a.at || 0)).slice(0, 3); if (!m.length) return '';
@@ -2537,7 +2560,7 @@ function navSettings() {
   const l = navList(), pin = navPinned(), rest = TOOLS.filter(t => !pin.includes(t[0]));
   const rows = l.map((id, i) => { const [lb, ic] = navInfo(id), tl = id.startsWith('tool:'); return `<div class="srow nvr"><span class="nvi">${ic === 'auto_awesome' ? gem(24) : ms(ic)}</span><div class="t">${esc(lb)}<small>${tl ? 'ツール' : '基本の画面'}</small></div><button class="ibtn" data-act="navup" data-id="${id}" ${i === 0 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を上（左）へ">${ms('keyboard_arrow_up')}</button><button class="ibtn" data-act="navdown" data-id="${id}" ${i === l.length - 1 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を下（右）へ">${ms('keyboard_arrow_down')}</button>${tl ? `<button class="ibtn" data-act="navdel" data-id="${id}" aria-label="${esc(lb)}をバーから外す">${ms('close')}</button>` : '<span style="width:48px;flex:none"></span>'}</div>`; }).join('');
   const add = pin.length >= NAV_MAXTOOLS ? `<p class="muted" style="margin:14px 4px 0;font-weight:500">ツールは${NAV_MAXTOOLS}つまで置けます。入れ替えるときは、先に × で外してください。</p>` : `<div class="lbl" style="margin:16px 4px 8px">バーに置くツールを選ぶ（あと${NAV_MAXTOOLS - pin.length}つ）</div><div class="tchips" style="margin:0">${rest.map(t => `<button class="tchip" data-act="navadd" data-id="${t[0]}">${ms(t[2])}${esc(t[1])}</button>`).join('')}</div>`;
-  return `<div class="card"><div class="fld"><div class="lbl">バーの位置</div><div class="seg">${[['auto', '自動', 'devices'], ['bottom', '下に固定', 'dock_to_bottom']].map(([v, l, i]) => `<button class="${(S.set.navPos || 'auto') === v ? 'on' : ''}" data-act="navpos" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div><p class="muted" style="margin:6px 4px 0;font-weight:500;font-size:.88rem">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div><p class="muted" style="margin:14px 4px 12px;font-weight:500">上から順に、バーに並びます。</p><div class="slist">${rows}</div>${add}<div class="dact" style="margin:18px 0 0;justify-content:flex-start"><button class="btn tonal" data-act="hometools">${ms('apps')}ホームによく使うツールを選ぶ</button><button class="btn tonal" data-act="homeedit">${ms('dashboard_customize')}ホームの配置を編集</button></div></div>`;
+  return `<div class="card"><div class="fld"><div class="lbl">バーの位置</div><div class="seg">${[['auto', '自動', 'devices'], ['bottom', '下に固定', 'dock_to_bottom']].map(([v, l, i]) => `<button class="${(S.set.navPos || 'auto') === v ? 'on' : ''}" data-act="navpos" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div><p class="muted" style="margin:6px 4px 0;font-weight:500;font-size:.88rem">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div><p class="muted" style="margin:14px 4px 12px;font-weight:500">上から順に、バーに並びます。</p><div class="slist">${rows}</div>${add}<div class="dact" style="margin:18px 0 0;justify-content:flex-start"><button class="btn tonal" data-act="hometools">${ms('apps')}ホームによく使うツールを選ぶ</button><button class="btn tonal" data-act="homeedit">${ms('dashboard_customize')}ホームの配置を編集</button><button class="btn tonal" data-act="recmgr">${ms('event_repeat')}くり返しの課題</button></div></div>`;
 }
 function viewSettings() {
   const st = S.set;
@@ -3064,6 +3087,30 @@ const ACT = {
   homehalf(id) { const L = homeLay(); L.half[id] = L.half[id] ? 0 : 1; homeSave(L); },
   homesv() { const L = homeLay(); L.sv = L.sv === 'compact' ? 'card' : 'compact'; homeSave(L); },
   homereset() { confirmDlg('ホームの配置をもとにもどしますか？', '並び順・表示・幅を、初期の状態にもどします。', 'もどす', () => { delete S.set.home; save(); render(); }); },
+  recmgr() { recMgr(); },
+  recadd() { recDlg(''); },
+  recedit(id) { recDlg(id); },
+  recdel(id) { S.rec = recRules().filter(r => r.id !== id); save(); recMgr(); toast('くり返しを削除しました（すでに追加された課題は、そのまま残ります）'); },
+  gsearch() { ui.fab = false; renderFab(); searchDlg(); },
+  gsopen(id) {
+    const [k, v] = [id.slice(0, id.indexOf(':')), id.slice(id.indexOf(':') + 1)]; closeDlg();
+    if (k === 'task') taskDlg(v); else if (k === 'subj') ACT.goto(v);
+    else if (k === 'card') { const c = S.cards.find(x => x.id === v); if (c) { WC.deck = c.d; WC.tab = 'list'; WC.q = String(c.f); wcSave(); ui.tab = 'tools'; ui.tool = 'card'; ui.vin = true; ui.anim = true; renderFab(); render(); } }
+    else if (k === 'memo') memoDlg(v); else if (k === 'tool') { ui.tool = ''; ACT.tab('tool:' + v); }
+  },
+  bagset() { bagDlg(); },
+  bagtoggle(id) { const t = tblData(), nx = tblNext(); if (!t.chk || t.chk.d !== nx.date) t.chk = { d: nx.date, v: [] }; const i = t.chk.v.indexOf(id); if (i >= 0) t.chk.v.splice(i, 1); else t.chk.v.push(id); save(); bagRefresh(); },
+  drpick() {
+    const n = drNames(), el = $('#drr'); if (n.length < 2) return toast('名前を2つ以上、入力してください');
+    const fin = n[Math.floor(Math.random() * n.length)]; let k = 0; clearInterval(window._drT);
+    window._drT = setInterval(() => { el.innerHTML = `<div class="dr-big spin">${esc(n[Math.floor(Math.random() * n.length)])}</div>`; if (++k > 16) { clearInterval(window._drT); el.innerHTML = `<div class="dr-big fin">${esc(fin)}</div><p class="muted" style="margin:6px 0 0;text-align:center">に決まりました</p>`; const r = el.getBoundingClientRect(); try { confetti(r.left + r.width / 2, r.top + 40, 70); } catch (e) { } } }, 85);
+  },
+  drorder() { const n = drNames(); if (n.length < 2) return toast('名前を2つ以上、入力してください'); $('#drr').innerHTML = `<ol class="dr-ol stg">${drShuf(n).map(x => `<li>${esc(x)}</li>`).join('')}</ol>`; },
+  drgroup() {
+    const n = drNames(); let g = parseInt($('#drg').value, 10) || 2; g = Math.max(2, Math.min(10, g, n.length)); if (n.length < 2) return toast('名前を2つ以上、入力してください');
+    const bk = Array.from({ length: g }, () => []); drShuf(n).forEach((x, i) => bk[i % g].push(x));
+    $('#drr').innerHTML = `<div class="dr-gs stg">${bk.map((b, i) => `<div class="dr-gc"><b>グループ ${i + 1}</b>${b.map(x => `<span>${esc(x)}</span>`).join('')}</div>`).join('')}</div>`;
+  },
   syncchoice() { syncChoiceDlg(); },
   syncuse(id) {
     const P = CLOUD.pend; if (!P) return closeDlg();
@@ -3252,9 +3299,9 @@ const ACT = {
   wcsort(id) { WC.sort = id; wcSave(); toolsRefresh(); },
   wcundo() { const u = WC.undo.pop(); if (!u) return; const c = S.cards.find(x => x.id === u.id); if (!c) return ACT.wcundo(); c.k = u.k; c.m = u.m; const ix = wcList().indexOf(c); if (ix >= 0) WC.i = ix; WC.flip = false; save(); wcPaint(true); },
   wcstar() { const c = wcCur(); if (!c) return; c.s = c.s ? 0 : 1; save(); wcPaint(false); wcHeadPaint(); },
-  wclk(id) { const c = S.cards.find(x => x.id === id); if (!c) return; c.k = c.k ? 0 : 1; if (c.k) c.m = 0; save(); put('wclist', wcRows()); wcHeadPaint(); },
+  wclk(id) { const c = S.cards.find(x => x.id === id); if (!c) return; c.k = c.k ? 0 : 1; if (c.k) { c.m = 0; c.kt = Date.now(); } save(); put('wclist', wcRows()); wcHeadPaint(); },
   wcls(id) { const c = S.cards.find(x => x.id === id); if (!c) return; c.s = c.s ? 0 : 1; save(); put('wclist', wcRows()); },
-  wcsetall(id) { const v = +id; confirmDlg(v ? 'すべて「覚えた」にしますか？' : 'すべて「覚えていない」にしますか？', `番号の範囲内の${wcAll().filter(wcInRange).length}枚が対象です。`, 'する', () => { wcAll().filter(wcInRange).forEach(c => { c.k = v; if (v) c.m = 0; }); WC.i = 0; save(); toolsRefresh(); }); },
+  wcsetall(id) { const v = +id; confirmDlg(v ? 'すべて「覚えた」にしますか？' : 'すべて「覚えていない」にしますか？', `番号の範囲内の${wcAll().filter(wcInRange).length}枚が対象です。`, 'する', () => { wcAll().filter(wcInRange).forEach(c => { c.k = v; if (v) { c.m = 0; c.kt = Date.now(); } }); WC.i = 0; save(); toolsRefresh(); }); },
   wcquiz() { ui.tool = 'quiz'; ui.vin = true; quizStart('cards:' + wcDeck().id); },
   wctype() { wcType(); },
   ttopt(id, el) { const [k, v] = id.split(':'); if (k === 'cnt') TT.cnt = +v; else TT.dir = v; el.parentElement.querySelectorAll('.wx-sg').forEach(b => b.classList.toggle('on', b === el)); },
@@ -4443,12 +4490,12 @@ function trHtml() {
 const TOOLS = [['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
   ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['drill', '計算ドリル', 'bolt', '10問の計算をタイム付きで練習', 60, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], ['wc', '文字数カウント', 'edit_note', '作文の文字数と原稿用紙の枚数', 300, 'b'],
-  ['review', '復習リマインダー', 'history', '1・3・7・14・30日後の復習日を自動で管理', 250, 'b'], ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '周期表・元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
+  ['review', '復習リマインダー', 'history', '1・3・7・14・30日後の復習日を自動で管理', 250, 'b'], ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '周期表・元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['draw', 'くじ引き・順番決め', 'casino', '名前から、ひとり選ぶ・順番・グループ分け', 330, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, draw: drawHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -4472,7 +4519,8 @@ const wcRangeOf = did => WC.rng[did] || null;
 const wcInRange = c => { const r = wcRangeOf(c.d); return !r || (c.n >= r[0] && c.n <= r[1]); };
 // 勉強する順番：範囲で絞って、シャッフル中なら入れ替える（元のカードの並びは変えない）
 const wcStudy = () => { const d = wcDeck(); let l = wcAll().filter(wcInRange); if (WC.seed[d.id]) l = wcShuffled(l, WC.seed[d.id]); return l; };
-const wcFilt = c => WC.filt === 'all' || (WC.filt === 'known' ? !!c.k : !c.k);
+const WC_REV_MS = 7 * 864e5, wcRevDue = c => !!c.k && (!c.kt || Date.now() - c.kt > WC_REV_MS);
+const wcFilt = c => WC.filt === 'all' || (WC.filt === 'known' ? !!c.k : WC.filt === 'rev' ? wcRevDue(c) : !c.k);
 const wcSelOk = c => WC.sel === 'star' ? !!c.s : WC.sel === 'weak' ? (c.m || 0) >= 2 : true;
 const wcList = () => wcStudy().filter(c => wcFilt(c) && wcSelOk(c));
 const wcTSelOk = c => WC.tsel === 'new' ? !c.k : WC.tsel === 'known' ? !!c.k : WC.tsel === 'star' ? !!c.s : WC.tsel === 'weak' ? (c.m || 0) >= 2 : true;
@@ -4480,7 +4528,7 @@ const wcTInRange = (c, did) => { const r = WC.trng[did]; return !r || (c.n >= r[
 // テストに出すカード：テスト用の番号の範囲 ＋ 対象（覚えていない／覚えた／★／苦手）
 function wcTestCards(did) { wcNums(did); return S.cards.filter(c => c.d === did && wcTInRange(c, did) && wcTSelOk(c)).sort((a, b) => a.n - b.n); }
 const wcTestPool = () => wcTestCards(wcDeck().id);
-function wcCounts() { const all = wcAll(), rg = all.filter(wcInRange); return { all: rg.length, known: rg.filter(c => c.k).length, nw: rg.filter(c => !c.k).length, star: all.filter(c => c.s).length, weak: all.filter(c => (c.m || 0) >= 2).length }; }
+function wcCounts() { const all = wcAll(), rg = all.filter(wcInRange); return { all: rg.length, known: rg.filter(c => c.k).length, rev: rg.filter(wcRevDue).length, nw: rg.filter(c => !c.k).length, star: all.filter(c => c.s).length, weak: all.filter(c => (c.m || 0) >= 2).length }; }
 const wcDayKey = 'kosa-wc-day';
 function wcDayN() { try { const o = JSON.parse(localStorage.getItem(wcDayKey) || '{}'); return o.d === today() ? o.n || 0 : 0; } catch (e) { return 0; } }
 function wcDayAdd(n) { try { localStorage.setItem(wcDayKey, JSON.stringify({ d: today(), n: wcDayN() + (n || 1) })); } catch (e) { } }
@@ -4495,6 +4543,7 @@ function wcEmptyHtml(d, all, study, rg, sc) {
   if (!all.length) return box('style', `「${esc(d.name)}」にカードを追加しましょう`, '写真から読み取ったり、AIに作ってもらったり、自分で入力したりできます。', `<button class="btn" data-act="wcaiadd">${ms('add')}カードを追加</button>`);
   if (!study.length) return box('pin', 'この番号の範囲には、カードがありません', '範囲を変えるか、解除してください。', `<button class="btn" data-act="wcrng">${ms('pin')}範囲を変える</button><button class="btn tonal" data-act="wcrngclr">範囲を解除</button>`);
   if (WC.sel !== 'all') return box('star', WC.sel === 'star' ? '★をつけたカードは、ありません' : '苦手なカードは、ありません', WC.sel === 'star' ? 'カードの「★をつける」で、あとで見直したいカードに印をつけられます。' : '「まだ」を2回以上押したカードが、苦手なカードとして集まります。', `<button class="btn tonal" data-act="wcsel" data-id="all">${ms('close')}絞り込みを解除</button>`);
+  if (WC.filt === 'rev') return box('task_alt', '見直すカードは、ありません', '覚えてから1週間たったカードが、ここに出ます。', `<button class="btn tonal" data-act="wcfilt" data-id="new">${ms('arrow_back')}覚えていないカードにもどる</button>`);
   if (WC.filt === 'new') return box('celebration', '全部覚えました！', `「${esc(d.name)}」の${rg ? `番号 ${rg[0]}〜${rg[1]} の${study.length}枚` : `${all.length}枚`}を、すべて覚えました。`, `<button class="btn" data-act="wcfilt" data-id="known">${ms('visibility')}覚えた単語を見直す</button><button class="btn tonal" data-act="wcreset">${ms('restart_alt')}最初からやり直す</button>`);
   return box('hourglass_empty', '覚えたカードは、まだありません', '「覚えた」を押したカードが、ここに集まります。', `<button class="btn tonal" data-act="wcfilt" data-id="new">${ms('arrow_back')}覚えていないカードにもどる</button>`);
 }
@@ -4514,7 +4563,7 @@ function wcStageHtml() {
 function wcHeadPaint() {
   const all = wcAll(), k = all.filter(c => c.k).length, st = $('#wcstat'), pr = $('#wcprog'), cn = wcCounts();
   if (st) st.textContent = wcStatText(); if (pr) pr.style.width = (all.length ? k / all.length * 100 : 0) + '%';
-  [['new', 'nw'], ['all', 'all'], ['known', 'known']].forEach(([a, b]) => { const e = $('#wcn-' + a); if (e) e.textContent = cn[b]; });
+  [['new', 'nw'], ['all', 'all'], ['known', 'known'], ['rev', 'rev']].forEach(([a, b]) => { const e = $('#wcn-' + a); if (e) e.textContent = cn[b]; });
   S.decks.forEach(dk => { const el = document.querySelector(`.wc-dk[data-id="${dk.id}"] small`); if (el) el.textContent = S.cards.filter(c => c.d === dk.id).length; });
 }
 function wcPaint(enter) {
@@ -4527,14 +4576,14 @@ function wcMark(k) {
   const c = wcCur(), el = $('#wcc'); if (!c || WC.busy) return; WC.busy = true;
   const fin = () => {
     WC.undo.push({ id: c.id, k: c.k || 0, m: c.m || 0 }); if (WC.undo.length > 30) WC.undo.shift();
-    c.k = k; c.m = k ? 0 : (c.m || 0) + 1; wcDayAdd(1);
+    c.k = k; c.m = k ? 0 : (c.m || 0) + 1; if (k) c.kt = Date.now(); wcDayAdd(1);
     if (wcList().includes(c)) WC.i++;
     WC.flip = false; save(); WC.busy = false; wcPaint(true);
     if (k && WC.filt === 'new' && !wcList().length) { const st = $('#wcstage'); if (st) { const r = st.getBoundingClientRect(); confetti(r.left + r.width / 2, r.top + 90, 60); } }
   };
   if (el && !reduced()) { el.classList.remove('drag'); el.classList.add('fly'); el.style.transform = `translateX(${k ? 130 : -130}%) rotate(${k ? 16 : -16}deg)`; el.style.opacity = '0'; setTimeout(fin, 300); } else fin();
 }
-function wcFocusSeg() { const c = wcCounts(), el = $('#wcfseg'); if (el) el.innerHTML = [['new', '覚えていない', c.nw], ['all', 'すべて', c.all], ['known', '覚えた', c.known]].map(([k, t, n]) => `<button type="button" class="wx-sg ${WC.filt === k ? 'on' : ''}" data-act="wcffilt" data-id="${k}">${t}<small id="wcn-${k}">${n}</small></button>`).join(''); }
+function wcFocusSeg() { const c = wcCounts(), el = $('#wcfseg'); if (el) el.innerHTML = [['new', '覚えていない', c.nw], ['all', 'すべて', c.all], ['known', '覚えた', c.known], ['rev', '見直し', c.rev]].map(([k, t, n]) => `<button type="button" class="wx-sg ${WC.filt === k ? 'on' : ''}" data-act="wcffilt" data-id="${k}">${t}<small id="wcn-${k}">${n}</small></button>`).join(''); }
 // 集中モード：カードと「まだ」「覚えた」ボタンだけを、画面いっぱいに出す
 function wcFocusDom() {
   const o = $('#wcf'); o && o.remove(); const d = wcDeck(), all = wcAll(), k = all.filter(c => c.k).length, e = document.createElement('div'); e.id = 'wcf'; e.className = 'sc'; e.style.setProperty('--sh', d.hue);
@@ -4551,7 +4600,7 @@ function wcRows() {
 function wcStudyTab() {
   if (WC.focus) return '<div class="card" style="text-align:center;padding:30px"><p class="muted" style="margin:0">集中モードで学習中です</p></div>';
   const c = wcCounts(), d = wcDeck();
-  return `<div class="wx-seg" role="radiogroup" aria-label="出すカード">${[['new', '覚えていない', c.nw], ['all', 'すべて', c.all], ['known', '覚えた', c.known]].map(([k, t, n]) => `<button type="button" role="radio" aria-checked="${WC.filt === k}" class="wx-sg ${WC.filt === k ? 'on' : ''}" data-act="wcfilt" data-id="${k}">${t}<small id="wcn-${k}">${n}</small></button>`).join('')}</div>
+  return `<div class="wx-seg" role="radiogroup" aria-label="出すカード">${[['new', '覚えていない', c.nw], ['all', 'すべて', c.all], ['known', '覚えた', c.known], ['rev', '見直し', c.rev]].map(([k, t, n]) => `<button type="button" role="radio" aria-checked="${WC.filt === k}" class="wx-sg ${WC.filt === k ? 'on' : ''}" data-act="wcfilt" data-id="${k}">${t}<small id="wcn-${k}">${n}</small></button>`).join('')}</div>
   <div class="wc-opts"><button class="tchip" data-act="wcfocus">${ms('fullscreen')}集中モード</button><button class="tchip ${WC.seed[d.id] ? 'on' : ''}" data-act="wcshuf">${ms('shuffle')}${WC.seed[d.id] ? 'もう一度シャッフル' : 'シャッフル'}</button>${WC.seed[d.id] ? `<button class="tchip" data-act="wcunshuf">${ms('format_list_numbered')}順番にもどす</button>` : ''}<button class="tchip ${wcRangeOf(d.id) ? 'on' : ''}" data-act="wcrng">${ms('pin')}${wcRangeOf(d.id) ? `番号 ${wcRangeOf(d.id)[0]}〜${wcRangeOf(d.id)[1]}` : '番号で絞る'}</button><button class="tchip ${WC.sel === 'star' ? 'on' : ''}" data-act="wcsel" data-id="${WC.sel === 'star' ? 'all' : 'star'}">${ms('star')}★だけ<small>${c.star}</small></button><button class="tchip ${WC.sel === 'weak' ? 'on' : ''}" data-act="wcsel" data-id="${WC.sel === 'weak' ? 'all' : 'weak'}">${ms('priority_high')}苦手だけ<small>${c.weak}</small></button><button class="tchip ${WC.rev ? 'on' : ''}" data-act="wcrev">${ms('swap_horiz')}裏から出す</button></div>
   <div id="wcstage">${wcStageHtml()}</div>`;
 }
@@ -5364,6 +5413,7 @@ function tblHtml() {
   let g = '<span></span>' + TBL_DAYS.map((d, i) => `<b class="tbl-h ${i === today ? 'tod' : ''}">${d}</b>`).join('');
   for (let p = 0; p < t.p; p++) { g += `<b class="tbl-p">${p + 1}</b>`; for (let d = 0; d < 5; d++) { const v = t.c[d + '-' + p]; g += `<button type="button" class="tbl-c ${d === today ? 'tod' : ''} ${v ? '' : 'emp'}" data-act="tblcell" data-id="${d}-${p}">${v ? esc(v) : '＋'}</button>`; } }
   return `<div class="card tbl-nx"><b>${ms('event_upcoming')}${(wd >= 0 && wd <= 4) ? 'あした' : 'つぎの登校日'}の時間割（${TBL_DAYS[nx]}曜日）</b><p>${nxt.length ? nxt.map(esc).join('　/　') : '<span class="muted">まだ入力されていません</span>'}</p></div>
+  <div class="card tbl-bag" id="tblbag">${bagHtml()}</div>
   <div class="card"><div class="tbl" style="--cols:6">${g}</div><div class="tbl-f"><span class="muted">マスをタップして、教科を選びます</span><span class="sp" style="flex:1"></span><button class="btn tonal sm" data-act="tblp" data-id="-1" ${t.p <= 4 ? 'disabled' : ''}>${ms('remove')}</button><b>${t.p}時間</b><button class="btn tonal sm" data-act="tblp" data-id="1" ${t.p >= 8 ? 'disabled' : ''}>${ms('add')}</button></div></div>`;
 }
 const MEMO_HUES = [50, 150, 200, 340, 280, 20], MEMOS = { id: '', h: 50 };
@@ -5776,6 +5826,110 @@ document.addEventListener('pointerup', fabUp); document.addEventListener('pointe
 document.addEventListener('click', e => { if (fabMoved && e.target.closest && e.target.closest('#fab')) { e.stopPropagation(); e.preventDefault(); fabMoved = false; } }, true);
 window.addEventListener('resize', fabApply); window.addEventListener('orientationchange', () => setTimeout(fabApply, 300));
 setTimeout(fabApply, 0);
+
+/* ===== 13.0：さがす／くり返しの課題／持ち物／くじ引き ===== */
+const ymdOf = d => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+const WDN = ['日', '月', '火', '水', '木', '金', '土'];
+// --- くり返しの課題 ---
+const recRules = () => (S.rec = Array.isArray(S.rec) ? S.rec : []);
+function recGen(quiet) {
+  const rules = recRules(); if (!rules.length) return 0; let made = 0; const today0 = new Date(); today0.setHours(0, 0, 0, 0);
+  rules.forEach(r => {
+    if (!SUB(r.sid)) return;
+    const from = new Date((r.from || ymdOf(today0)) + 'T00:00:00'), start = new Date(Math.max(from, today0 - 13 * 864e5));
+    for (let d = new Date(start); d <= today0; d.setDate(d.getDate() + 1)) {
+      if (!(r.days || []).includes(d.getDay())) continue;
+      const key = ymdOf(d); if (S.tasks.some(t => t.rid === r.id && t.rdate === key)) continue;
+      let due = ''; if (r.dueIn >= 0) { const x = new Date(d); x.setDate(x.getDate() + r.dueIn); due = ymdOf(x); }
+      S.tasks.push({ id: uid(), sid: r.sid, title: r.title, req: !!r.req, total: 1, start: 1, segs: null, kind: 'chk', items: null, subreq: !!r.subreq, dest: r.dest || '', due, note: r.note || '', done: 0, pin: '', at: Date.now(), doneAt: null, rid: r.id, rdate: key });
+      made++;
+    }
+    r.last = ymdOf(today0);
+  });
+  if (made) { save(); if (!dlg.open) render(); if (!quiet) toast(`くり返しの課題を ${made} 件、追加しました`); }
+  return made;
+}
+function recMgr() {
+  const L = recRules(), rows = L.map(r => { const s = SUB(r.sid); return `<div class="rec-r"><div class="rec-t"><b>${esc(r.title)}</b><small>${s ? esc(s.name) : '（教科なし）'} ・ 毎週 ${(r.days || []).slice().sort().map(d => WDN[d]).join('・')} ・ ${r.dueIn >= 0 ? (r.dueIn === 0 ? '当日が期限' : r.dueIn + '日後が期限') : '期限なし'}</small></div><button type="button" class="ibtn" data-act="recedit" data-id="${r.id}" aria-label="編集">${ms('edit')}</button><button type="button" class="ibtn" data-act="recdel" data-id="${r.id}" aria-label="削除">${ms('delete')}</button></div>`; }).join('');
+  openDlg(`<h2>${ms('event_repeat')}くり返しの課題</h2><p class="muted" style="margin:-6px 0 14px;line-height:1.7">毎週きまった曜日に出る課題（例：英語の宿題）を、その曜日になると、自動で追加します。</p>${rows || '<p class="muted" style="text-align:center;padding:16px 0">まだありません</p>'}<div class="dact"><button type="button" class="btn text" data-act="close">閉じる</button><span class="sp"></span><button type="button" class="btn" data-act="recadd">${ms('add')}くり返しを追加</button></div>`);
+}
+function recDlg(id) {
+  const subs = subjects(); if (!subs.length) { toast('先に教科を追加してください'); return; }
+  const r = id ? recRules().find(x => x.id === id) : null, cur = r || { sid: ui.sid || subs[0].id, title: '', req: true, days: [1], dueIn: 7, subreq: true, dest: '' };
+  openDlg(`<h2>${ms('event_repeat')}${r ? 'くり返しを編集' : 'くり返しを追加'}</h2><form id="rcf" autocomplete="off">
+  <div class="fld"><div class="lbl">教科</div><div class="chips">${subs.map(s => `<label class="rchip sc" style="--sh:${s.hue}"><input type="radio" name="rsid" value="${s.id}" ${s.id === cur.sid ? 'checked' : ''}><span>${ms(s.icon)}${esc(s.name)}</span></label>`).join('')}</div></div>
+  <div class="fld"><label for="rti">課題のタイトル</label><input id="rti" type="text" maxlength="60" value="${esc(cur.title)}" placeholder="例：英語の宿題プリント"></div>
+  <div class="fld"><div class="lbl">課題が出る曜日（いくつでも）</div><div class="chips">${[1, 2, 3, 4, 5, 6, 0].map(d => `<label class="rchip"><input type="checkbox" name="rd" value="${d}" ${cur.days.includes(d) ? 'checked' : ''}><span>${WDN[d]}</span></label>`).join('')}</div></div>
+  <div class="fld"><div class="lbl">提出まで</div><div class="chips">${[['0', '当日'], ['1', '翌日'], ['3', '3日後'], ['7', '1週間後'], ['-1', '期限なし']].map(([v, l]) => `<label class="rchip"><input type="radio" name="rdue" value="${v}" ${String(cur.dueIn) === v ? 'checked' : ''}><span>${l}</span></label>`).join('')}</div></div>
+  <div class="fld"><div class="lbl">区分</div><div class="chips"><label class="rchip"><input type="radio" name="rreq" value="1" ${cur.req ? 'checked' : ''}><span>必須</span></label><label class="rchip"><input type="radio" name="rreq" value="0" ${cur.req ? '' : 'checked'}><span>任意</span></label></div></div>
+  <div class="fld"><label for="rde">提出先（なくてもよい）</label><input id="rde" type="text" maxlength="30" value="${esc(cur.dest || '')}" placeholder="例：英語の先生"></div>
+  <div class="err" id="err"></div><div class="dact"><button type="button" class="btn text" data-act="recmgr">もどる</button><span class="sp"></span><button class="btn" type="submit">${ms('check')}保存</button></div></form>`);
+  $('#rcf').onsubmit = ev => {
+    ev.preventDefault(); const fd = new FormData(ev.target), title = $('#rti').value.trim(), days = fd.getAll('rd').map(Number);
+    if (!title) return err('タイトルを入力してください'); if (!days.length) return err('曜日を1つ以上、選んでください');
+    const data = { sid: fd.get('rsid'), title, req: fd.get('rreq') === '1', days, dueIn: parseInt(fd.get('rdue'), 10), subreq: true, dest: $('#rde').value.trim() };
+    if (r) Object.assign(r, data); else recRules().push({ id: uid(), from: ymdOf(new Date()), last: '', ...data });
+    save(); const n = recGen(true); toast(n ? `保存して、課題を ${n} 件 追加しました` : '保存しました'); recMgr();
+  };
+}
+// --- あしたの持ち物 ---
+const bagSplit = t => String(t || '').split(/[、,，\n]+/).map(x => x.trim()).filter(Boolean);
+function tblNext() { const now = new Date(), wd = now.getDay(), add = wd >= 1 && wd <= 4 ? 1 : wd === 0 ? 1 : wd === 5 ? 3 : 2, d = new Date(now); d.setDate(d.getDate() + add); const idx = (d.getDay() + 6) % 7; return { idx, date: ymdOf(d), tomorrow: add === 1 }; }
+function bagItems() {
+  const t = tblData(), nx = tblNext(), subj = [...new Set(Array.from({ length: t.p }, (_, p) => t.c[nx.idx + '-' + p]).filter(Boolean))], items = [];
+  bagSplit(t.daily).forEach(x => items.push(x)); subj.forEach(sn => bagSplit((t.items || {})[sn]).forEach(x => items.push(x)));
+  return [...new Set(items)];
+}
+function bagHtml() {
+  const t = tblData(), nx = tblNext(), items = bagItems(), chk = t.chk && t.chk.d === nx.date ? t.chk.v : [];
+  return `<div class="bag-h"><b>${ms('backpack')}${nx.tomorrow ? 'あした' : 'つぎの登校日'}の持ち物</b><span class="sp" style="flex:1"></span><button type="button" class="btn tonal xs" data-act="bagset">${ms('edit')}設定</button></div>${items.length ? `<div class="bag-c">${items.map(x => `<button type="button" class="bag-i ${chk.includes(x) ? 'on' : ''}" data-act="bagtoggle" data-id="${esc(x)}" aria-pressed="${chk.includes(x)}">${ms(chk.includes(x) ? 'check_circle' : 'radio_button_unchecked')}${esc(x)}</button>`).join('')}</div><p class="muted bag-n">${chk.length} / ${items.length} そろいました</p>` : `<p class="muted" style="margin:6px 0 0;line-height:1.7">教科ごとの持ち物を「設定」で決めると、ここにチェックリストが出ます。</p>`}`;
+}
+function bagDlg() {
+  const t = tblData(), names = [...new Set(Object.values(t.c))];
+  openDlg(`<h2>${ms('backpack')}持ち物の設定</h2><p class="muted" style="margin:-6px 0 14px;line-height:1.7">「、」で区切って入力します。時間割に入れた教科が、ここに出ます。</p><form id="bgf" autocomplete="off"><div class="fld"><label for="bgd">毎日の持ち物</label><input id="bgd" maxlength="80" value="${esc(t.daily || '')}" placeholder="例：筆箱、水筒、ハンカチ"></div>${names.map(n => `<div class="fld"><label>${esc(n)}</label><input class="bgi" data-n="${esc(n)}" maxlength="80" value="${esc((t.items || {})[n] || '')}" placeholder="例：教科書、ノート、ワーク"></div>`).join('') || '<p class="muted">先に時間割に教科を入れてください。</p>'}<div class="dact"><button type="button" class="btn text" data-act="close">やめる</button><span class="sp"></span><button class="btn" type="submit">${ms('check')}保存</button></div></form>`);
+  $('#bgf').onsubmit = ev => { ev.preventDefault(); const t2 = tblData(); t2.daily = $('#bgd').value.trim(); t2.items = t2.items || {}; document.querySelectorAll('.bgi').forEach(i => { t2.items[i.dataset.n] = i.value.trim(); }); save(); closeDlg(); bagRefresh(); };
+}
+function bagRefresh() { if (ui.tab === 'tools') toolsRefresh(); else render(); }
+// --- さがす ---
+function searchHtml(q) {
+  q = q.trim().toLowerCase(); if (!q) return '<p class="muted" style="text-align:center;padding:22px 0;margin:0">キーワードを入力してください</p>';
+  const has = (...a) => a.join(' ').toLowerCase().includes(q), sec = (ic, t, rows) => rows.length ? `<div class="gs-h">${ms(ic)}${t}</div>${rows.join('')}` : '';
+  const row = (id, a, b) => `<button type="button" class="gs-i" data-act="gsopen" data-id="${esc(id)}"><b>${esc(a)}</b><small>${esc(b || '')}</small></button>`;
+  const tk = S.tasks.filter(t => has(t.title, t.note || '', t.dest || '', (SUB(t.sid) || {}).name || '')).slice(0, 8).map(t => row('task:' + t.id, t.title, `${(SUB(t.sid) || {}).name || ''}${t.due ? ' ・ 期限 ' + t.due : ''}`));
+  const sb = S.subjects.filter(x => has(x.name)).slice(0, 5).map(x => row('subj:' + x.id, x.name, '教科'));
+  const cd = (S.cards || []).filter(c => has(c.f, c.b)).slice(0, 8).map(c => row('card:' + c.id, `${c.f}`, `${c.b}${(S.decks || []).find(d => d.id === c.d) ? ' ・ ' + (S.decks.find(d => d.id === c.d)).name : ''}`));
+  const mm = (S.memos || []).filter(m => has(m.t || '', m.b || '')).slice(0, 5).map(m => row('memo:' + m.id, m.t || '（タイトルなし）', (m.b || '').slice(0, 40)));
+  const tl = TOOLS.filter(x => has(x[1], x[3])).slice(0, 6).map(x => row('tool:' + x[0], x[1], x[3]));
+  const out = sec('task_alt', '課題', tk) + sec('menu_book', '教科', sb) + sec('style', '単語カード', cd) + sec('sticky_note_2', 'ふせんメモ', mm) + sec('apps', 'ツール', tl);
+  return out || '<p class="muted" style="text-align:center;padding:22px 0;margin:0">見つかりませんでした</p>';
+}
+function searchDlg() {
+  openDlg(`<h2>${ms('search')}さがす</h2><input id="gsq" class="gs-in" type="search" placeholder="課題・教科・単語・メモ・ツール" autocomplete="off" enterkeyhint="search"><div id="gsr" class="gs-r">${searchHtml('')}</div><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">閉じる</button></div>`);
+  const el = $('#gsq'); el.addEventListener('input', () => put('gsr', searchHtml(el.value))); setTimeout(() => el.focus(), 150);
+}
+// --- くじ引き・順番決め ---
+const drNames = () => { const el = $('#drn'); return (el ? el.value : localStorage.getItem('kosa-draw') || '').split(/\n+/).map(x => x.trim()).filter(Boolean); };
+function drawHtml() {
+  return `<div class="card"><div class="fld"><label for="drn">名前（1行に1つ）</label><textarea id="drn" rows="6" placeholder="例：&#10;さとう&#10;たなか&#10;すずき">${esc(localStorage.getItem('kosa-draw') || '')}</textarea></div>
+  <div class="dr-b"><button class="btn" data-act="drpick">${ms('casino')}ひとり選ぶ</button><button class="btn tonal" data-act="drorder">${ms('format_list_numbered')}順番を決める</button><span class="dr-g"><input id="drg" type="number" inputmode="numeric" min="2" max="10" value="2" aria-label="グループの数"><button class="btn tonal" data-act="drgroup">${ms('groups')}グループに分ける</button></span></div></div>
+  <div class="card dr-r" id="drr"><p class="muted" style="margin:0;text-align:center">ボタンを押すと、ここに結果が出ます</p></div>`;
+}
+const drShuf = a => { const v = a.slice(); for (let i = v.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [v[i], v[j]] = [v[j], v[i]]; } return v; };
+document.addEventListener('input', e => { if (e.target.id === 'drn') { try { localStorage.setItem('kosa-draw', e.target.value); } catch (x) { } } });
+// --- キーボード操作（外付けキーボード） ---
+document.addEventListener('keydown', e => {
+  if ((e.metaKey || e.ctrlKey) && !e.altKey && e.key.toLowerCase() === 'k') { e.preventDefault(); searchDlg(); return; }
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target, typing = t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable);
+  if (typing || dlg.open || ($('#yxui') && !$('#yxui').hidden) || $('#wca')) return;
+  if (e.key === '/') { e.preventDefault(); searchDlg(); return; }
+  const inCard = ((ui.tab === 'tools' && ui.tool === 'card' && WC.tab === 'study') || WC.focus) && $('#wcc');
+  if (!inCard) return;
+  // → 覚えた／← まだ／スペース めくる は、前からある操作。ここでは、Z と S を足す
+  if (e.key === 'z' || e.key === 'Z') ACT.wcundo(); else if (e.key === 's' || e.key === 'S') ACT.wcstar();
+});
+document.addEventListener('visibilitychange', () => { if (!document.hidden) recGen(); });
+setTimeout(() => { try { recGen(); } catch (e) { } }, 1500);
 
 /* ---- 安定化：不具合の記録・毎日の自動バックアップ・閉じる前の同期 ---- */
 const ERRK = 'kosa-errlog'; let errLast = 0;
