@@ -1946,6 +1946,53 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 .wk-st>div{padding:14px 6px;border-radius:24px;background:var(--s2)}
 @media(max-width:699px){.tbl-nx{padding:16px;gap:12px}.tbl-day{width:56px;height:56px;font-size:1.6rem}.qz2-q{padding:18px 20px 22px;min-height:150px}.qz2-ring{width:150px;height:150px}.qz2-ring b{font-size:2.6rem}.tbl{gap:6px}.tbl-c{min-height:54px;border-radius:18px;font-size:.85rem}}
 @media(prefers-reduced-motion:reduce){.htt2-day,.tbl-day,.qz2-b,.qz2-fb,.qz2-ring,.bag-done{animation:none}}
+
+/* ===== 16.0：まちがいノート・AI小テスト・ホームの復習・学習カレンダー ===== */
+#fab .fabb{touch-action:manipulation}
+.ai-pn{display:inline-flex;align-items:center;gap:4px;margin-bottom:6px;font-size:.85em;opacity:.85}
+.nt-hero{display:flex;align-items:center;gap:14px 16px;flex-wrap:wrap;padding:20px 22px;border-radius:36px;background:var(--pc);color:var(--on-pc)}
+.nt-hero.done{background:var(--s1);color:var(--on)}
+.nt-big{display:flex;align-items:baseline;gap:4px;flex:none}.nt-big b{font-size:3.4rem;font-weight:800;line-height:1;letter-spacing:-.03em}.nt-big span{font-weight:700}
+.nt-ht{flex:1;min-width:160px}.nt-ht h3{margin:0;font-size:1.2rem}.nt-ht small{opacity:.8}
+.nt-fl{display:grid;gap:10px;margin:14px 0}.nt-fl .chips{display:flex;flex-wrap:wrap;gap:6px}
+.nt-list{display:grid;gap:10px}
+.nt-c{border-radius:28px;background:var(--scc);color:var(--on-scc);transition:border-radius .4s var(--spring)}
+.nt-c[open]{border-radius:28px 28px 28px 12px}
+.nt-c summary{display:flex;align-items:center;gap:10px;padding:14px 16px;cursor:pointer;list-style:none;font-weight:650}
+.nt-c summary::-webkit-details-marker{display:none}
+.nt-c summary .ms{flex:none;transition:transform .35s var(--spring)}.nt-c[open] summary .ms{transform:rotate(180deg)}
+.nt-sub{flex:none;height:28px;padding:0 12px;border-radius:14px;background:var(--sc);color:#fff;display:inline-grid;place-items:center;font-size:.8rem;font-weight:800}
+.nt-q{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nt-due{flex:none;font-size:.8rem;font-weight:800;padding:4px 10px;border-radius:12px;background:rgba(255,255,255,.55);color:inherit}
+.nt-due.od{background:#c62828;color:#fff}.nt-due.gr{background:#2e7d32;color:#fff}
+.nt-b{padding:0 18px 16px;display:grid;gap:6px;line-height:1.7;overflow-wrap:anywhere}
+.nt-l{font-size:.78rem;font-weight:800;opacity:.7;margin-top:6px}
+.nt-a{background:var(--s1);color:var(--on);border-radius:20px;padding:12px 16px}
+.nt-ac{display:flex;align-items:center;gap:4px;margin-top:6px;flex-wrap:wrap}
+.nt-empty{display:grid;justify-items:center;gap:8px;text-align:center;padding:32px 22px;border-radius:36px;line-height:1.7}
+.nt-ans{border-radius:32px;padding:18px 22px;line-height:1.75;overflow-wrap:anywhere}
+.nt-g{display:grid;grid-template-columns:1fr 1fr;gap:10px}.nt-g .btn{min-height:60px;font-size:1.1rem}
+.nt-rv{width:100%;min-height:64px;font-size:1.1rem}
+.hnt{display:flex;align-items:center;gap:14px 16px;flex-wrap:wrap;padding:18px 22px;border-radius:36px;background:var(--pc);color:var(--on-pc)}.hnt.done{background:var(--s1);color:var(--on)}
+.hnt-t{flex:1;min-width:150px}.hnt-t b{display:block;font-size:1.1rem}.hnt-t small{opacity:.8}
+.hrv-l{flex:1;min-width:200px;display:flex;flex-wrap:wrap;gap:8px}
+.hrv-i{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:6px 14px;border:0;border-radius:22px;background:var(--scc);color:var(--on-scc);font:inherit;font-weight:700;transition:border-radius .35s var(--spring),transform .3s var(--spring)}
+.hrv-i:active{transform:scale(.95);border-radius:14px}.hrv-i span{opacity:.75;font-size:.85rem}
+.aq-set{display:grid;gap:18px;border-radius:36px;padding:22px}.aq-set .fld{margin:0}.aq-go{min-height:60px;font-size:1.05rem}
+.aq-load{display:grid;justify-items:center;gap:12px;text-align:center;padding:48px 22px;border-radius:36px}
+.qz2-w .aq-wr{flex-direction:column;align-items:flex-start;gap:3px}.qz2-w .aq-wr b{text-align:left;color:var(--primary)}.aq-wr small{line-height:1.5}
+.hm{padding:18px 20px;border-radius:36px}
+.hm-top{display:flex;gap:28px;margin-bottom:14px}.hm-top b{font-size:1.8rem;font-weight:800}.hm-top small{display:block;color:var(--on-v);font-weight:600}
+.hm-sc{overflow-x:auto;padding-bottom:2px}
+.hm-m,.hm-g{display:grid;gap:4px;grid-template-columns:repeat(var(--w),minmax(14px,1fr))}
+.hm-m{margin-bottom:4px;font-size:.7rem;font-weight:700;color:var(--on-v);height:14px}.hm-m i{font-style:normal;white-space:nowrap}
+.hm-g{grid-template-rows:repeat(7,auto);grid-auto-flow:column}
+.hm-c{display:block;aspect-ratio:1;min-width:14px;border-radius:6px;background:var(--s2);transition:transform .3s var(--spring),border-radius .3s var(--spring)}
+.hm-c:hover{transform:scale(1.25);border-radius:4px}
+.hm-c.l1{background:color-mix(in srgb,var(--primary) 25%,var(--s2))}.hm-c.l2{background:color-mix(in srgb,var(--primary) 48%,var(--s2))}.hm-c.l3{background:color-mix(in srgb,var(--primary) 72%,var(--s2))}.hm-c.l4{background:var(--primary)}
+.hm-c.td{box-shadow:0 0 0 2px var(--on-v)}
+.hm-lg{display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:12px;font-size:.75rem;color:var(--on-v)}.hm-lg .hm-c{width:14px;height:14px;aspect-ratio:auto;min-width:0}
+@media(max-width:699px){.nt-big b{font-size:2.8rem}.hm-top{gap:20px}}
 </style>
 </head>
 <body>
@@ -1970,7 +2017,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '15.0';
+const APP_VERSION = '16.0';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2467,6 +2514,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '16.0', t: 'まちがいノート・AI小テスト・学習カレンダーなどを追加', n: ['「まちがいノート」を追加しました。分からなかった問題と解き方をためておくと、1日・3日・1週間・2週間とあけながら、復習の問題が出ます。5回できたら「卒業」です', 'AI先生の答えの下の ブックマークのボタンから、ノートに保存できます', '「AI小テスト」を追加しました。教科とテーマを決めると、AIが4択の問題と解説をつくります。まちがえた問題は、ノートに保存できます', 'ホームに「今日の復習」と「単語帳の見直し」を追加しました（「配置」で、並べかえや非表示もできます）', '単語帳に「AIで例文」を追加しました', '記録に「学習カレンダー」を追加しました。16週間の勉強の記録が、色の濃さで分かります', 'AIの会話が、アプリを閉じても残るようになりました（文字だけ。写真は残りません）。「新しい会話」で消せます', '左上（スマホは右下）の「＋」ボタンが、意図せず動いてしまう問題を直しました。位置は固定になります'] },
   { v: '15.0', t: '起動できない問題の根本修正・4択クイズの向き・時間割に土曜', n: ['時間割を入力していると、アプリを開いても画面が真っ白のままになる問題を修正しました（13.0 以降で起きていました）', '単語帳の4択クイズで、「表 → 裏」「裏 → 表」「ミックス」から出しかたを選べるようになりました（単語帳のテストの画面と、暗記クイズの画面で選べます）', '4択クイズに、キーボードの 1〜4 での回答、まちがえた問題だけのやり直し、全問正解のお祝いを追加しました', '時間割に土曜日を追加しました（「土曜日」ボタンで表示を切り替えられます）。土曜に授業があるときは、金曜に「あしたの時間割」が土曜になります', '時間割（ホームのカードとツール）、持ち物、暗記クイズ、記録を、Material 3 Expressive のデザインにしました。時間割は、教科ごとの色で表示されます'] },
   { v: '14.1', t: 'AI先生の画面を、大きな画面に合わせて広げました', n: ['iPadなど大きな画面で、会話の部分を広く表示しました。上の余白を減らし、横向きでは、左に操作・右に会話の2列になります', '写真を添付しても、入力欄の位置が動かないようにしました（写真は入力欄の中に表示されます）', '答えが出たら、答えの最初から読めるようにしました'] },
   { v: '14.0', t: 'AI先生の追加と、更新後に画面が表示されない問題の修正', n: ['ツールに「AI先生」を追加しました。分からない問題の写真を送ると、問題を読み取って、解き方をやさしく説明します', '先生の名前・口調・教え方・学年・アイコンの色などを、自由に決められます。追加の指示も書けます', '答えを聞いたあとも、「もっとくわしく」「ヒントだけ」「似た問題を出して」などで、続けて質問できます', '更新のあとに、画面が真っ白のままになることがある問題を修正しました。通信が不安定なときでも、アプリが開くようにしました', 'もしうまく開かないときは、自動で直したり、画面のボタンで入れ直したりできるしくみを追加しました（課題などのデータは消えません）'] },
@@ -2579,7 +2627,7 @@ function viewHome() {
     h += `</div>`;
   } else h += `<div class="h-sec"><h2>${ms('event_upcoming')}${dly ? '提出スケジュール' : '期限が近い課題'}</h2></div><div class="card muted" style="text-align:center;font-weight:500;line-height:1.8">期限が設定された課題はありません${dly ? '<br>課題に提出期限を入れると、ここで提出日を管理できます' : ''}</div>`;
   P.due = h; h = '';
-  P.week = weekCard(); P.ai = aiTodayCard(); P.tt = homeTtCard(); P.memo = homeMemoCard();
+  P.week = weekCard(); P.ai = aiTodayCard(); P.tt = homeTtCard(); P.memo = homeMemoCard(); P.note = homeNoteCard(); P.rev = homeRevCard();
 
   // 教科
   h += `<div class="h-sec"><h2>${ms('donut_large')}教科ごとの進み具合</h2><span class="sp"></span><button class="btn tonal xs" data-act="addsubj">${ms('add')}教科</button></div>`;
@@ -2600,10 +2648,10 @@ function viewHome() {
 }
 
 /* ===== ホームの配置の編集 ===== */
-const HOME_SECS = [['hero', '達成率', 'donut_large'], ['tools', 'よく使うツール', 'apps'], ['plan', '今日のプラン', 'today'], ['due', '期限が近い課題・提出スケジュール', 'event_upcoming'], ['week', '今週の勉強', 'insights'], ['ai', 'AIの学習アドバイス', 'auto_awesome'], ['tt', 'あしたの時間割', 'calendar_view_week'], ['memo', 'ふせんメモ', 'sticky_note_2'], ['subj', '教科ごとの進み具合', 'donut_large']];
+const HOME_SECS = [['hero', '達成率', 'donut_large'], ['tools', 'よく使うツール', 'apps'], ['plan', '今日のプラン', 'today'], ['due', '期限が近い課題・提出スケジュール', 'event_upcoming'], ['week', '今週の勉強', 'insights'], ['note', 'まちがいノートの復習', 'edit_note'], ['rev', '単語帳の見直し', 'style'], ['ai', 'AIの学習アドバイス', 'auto_awesome'], ['tt', 'あしたの時間割', 'calendar_view_week'], ['memo', 'ふせんメモ', 'sticky_note_2'], ['subj', '教科ごとの進み具合', 'donut_large']];
 function homeLay() {
   const o = (S.set && S.set.home) || {}, ids = HOME_SECS.map(x => x[0]), order = (Array.isArray(o.order) ? o.order : ids).filter(i => ids.includes(i));
-  ids.forEach(i => { if (!order.includes(i)) order.push(i); });
+  ids.forEach(i => { if (!order.includes(i)) { const af = i === 'rev' ? (order.includes('note') ? 'note' : 'week') : i === 'note' ? 'week' : '', k = af ? order.indexOf(af) : -1; if (k >= 0) order.splice(k + 1, 0, i); else order.push(i); } });   // 新しい部分は、「今週の勉強」の次に入れる
   return { order, half: o.half || { plan: 1, due: 1 }, hide: o.hide || {}, sv: o.sv || 'card' };
 }
 function homeSave(L) { S.set.home = { order: L.order, half: L.half, hide: L.hide, sv: L.sv }; save(); render(); }
@@ -2787,6 +2835,7 @@ function viewStats() {
     <div class="stat"><div class="v">${V(best)}<small>${unit}</small></div><div class="k">${V(best) ? '最高の日 ' + fmtDate(best.k) : '最高の日'}</div></div>
     <div class="stat"><div class="v" style="display:flex;align-items:center;gap:4px">${ms('event_repeat', '', 'font-size:30px')}${tt.streak}<small>日連続</small></div><div class="k">最長 ${tt.bestStreak}日</div></div>
   </div>`;
+  h += statHeat(isM);
 
   // 完了の見込み
   const ex = curExam(), left = daysLeft(ex), pace = lastDays(7).reduce((a, d) => a + d.r, 0) / 7;
@@ -3624,7 +3673,7 @@ const ACT = {
     openDlg(`<h2>カードを編集</h2><form id="f" autocomplete="off"><div class="fld"><label for="ef">表（問題・単語）</label><textarea id="ef" class="trta" rows="2" maxlength="200">${esc(c.f)}</textarea></div><div class="fld"><label for="eb">裏（答え・意味）</label><textarea id="eb" class="trta" rows="3" maxlength="400">${esc(c.b)}</textarea></div><div class="fld"><label for="ed">単語帳</label><select id="ed" class="scin" style="width:100%">${S.decks.map(d => `<option value="${d.id}" ${d.id === c.d ? 'selected' : ''}>${esc(d.name)}</option>`).join('')}</select></div><div class="err" id="err"></div><div class="dact"><button type="button" class="btn text danger" data-act="wcdelc" data-id="${id}">削除</button><span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button class="btn" type="submit">${ms('check')}保存</button></div></form>`);
     $('#f').onsubmit = ev => {
       ev.preventDefault(); const f = $('#ef').value.trim(), b = $('#eb').value.trim(); if (!f || !b) return err('表と裏の両方を入力してください');
-      if (f !== c.f || b !== c.b) delete c.hint;
+      if (f !== c.f || b !== c.b) { delete c.hint; delete c.ex; }
       if (c.d !== $('#ed').value) delete c.n;
       c.f = f; c.b = b; c.d = $('#ed').value; save(); closeDlg(); toolsRefresh();
     };
@@ -3767,7 +3816,7 @@ const ACT = {
   trcopy() { navigator.clipboard && navigator.clipboard.writeText(TR.out).then(() => toast('コピーしました')); }, trspeak() { if (!window.speechSynthesis || !TR.out) return; const u = new SpeechSynthesisUtterance(TR.out); u.lang = TR.to; speechSynthesis.cancel(); speechSynthesis.speak(u); }, aisend() { aiSend(); }, aisug(id) { aiSend(AI.sug[+id]); }, aipick() { $('#aifile').click(); }, aiimport() { $('#aiimp').click(); },
   aiexplain() { $('#aiq').value = '写真の問題を、ヒントから順に解説してください。'; $('#aifile').click(); }, aiattrm(id) { AI.att.splice(+id, 1); renderAtt(); },
   aiimpok() { const sel = [...document.querySelectorAll('[data-imp]')].filter(c => c.checked).map(c => AI.imp[+c.dataset.imp]); closeDlg(); if (sel.length) aiAddTasks(sel); },
-  aiweek() { if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return acctDlg(); } const w0 = weekData(0), w1 = weekData(1); ACT.tab('ai'); setTimeout(() => aiSend(`今週の学習の振り返りと、来週へのアドバイスをください。今週は${w0.a}ページ（先週は${w1.a}ページ）、学習した日は${w0.act}/7日、完了した課題は${w0.fin}件、集中した時間は${w0.m}分です。`), 50); }, aireset() { AI.chat = null; AI.msgs = []; AI._n = 0; renderAiLog(); }, aicopy(id) { const m = AI.msgs[+id]; if (m && m.t && navigator.clipboard) navigator.clipboard.writeText(m.t).then(() => toast('コピーしました'), () => toast('コピーできませんでした')); }, guide() { guideDlg(); }, gdnext() { guideGo(G.i + 1); }, gdprev() { guideGo(G.i - 1); }, gdskip() { closeDlg(); }, upd() { updDlg(); }, updchk() { checkUpdate(); },
+  aiweek() { if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return acctDlg(); } const w0 = weekData(0), w1 = weekData(1); ACT.tab('ai'); setTimeout(() => aiSend(`今週の学習の振り返りと、来週へのアドバイスをください。今週は${w0.a}ページ（先週は${w1.a}ページ）、学習した日は${w0.act}/7日、完了した課題は${w0.fin}件、集中した時間は${w0.m}分です。`), 50); }, aireset() { histClear(AIH); AI.chat = null; AI.msgs = []; AI._n = 0; renderAiLog(); }, aicopy(id) { const m = AI.msgs[+id]; if (m && m.t && navigator.clipboard) navigator.clipboard.writeText(m.t).then(() => toast('コピーしました'), () => toast('コピーできませんでした')); }, guide() { guideDlg(); }, gdnext() { guideGo(G.i + 1); }, gdprev() { guideGo(G.i - 1); }, gdskip() { closeDlg(); }, upd() { updDlg(); }, updchk() { checkUpdate(); },
   calday(id) { ui.sel = id; const d = parse(id); ui.cal = { y: d.getFullYear(), m: d.getMonth() }; render(); },
   calprev() { const { y, m } = ui.cal; ui.cal = m === 0 ? { y: y - 1, m: 11 } : { y, m: m - 1 }; render(); },
   calnext() { const { y, m } = ui.cal; ui.cal = m === 11 ? { y: y + 1, m: 0 } : { y, m: m + 1 }; render(); },
@@ -4142,7 +4191,7 @@ async function cloudInit() {
 function cloudStop() { if (CLOUD.unsub) CLOUD.unsub(); CLOUD.unsub = null; clearTimeout(CLOUD.timer); CLOUD.status = CLOUD.fb ? 'out' : CLOUD.status; }
 /* ---- 同期の安全対策：データが入れ替わる前に、自動でバックアップを残す ---- */
 const SYNC_UID = 'kosa-sync-uid', AUTOBK = 'kosa-autobk';
-const hasData = j => !!(j && ((j.subjects || []).length || (j.tasks || []).length || (j.cards || []).length || (j.sessions || []).length || Object.keys(j.log || {}).length || (j.rev || []).length || String(j.sheet || '').trim() || (j.exams || []).some(e => e.date || e.arc) || (j.exams || []).length > 1));
+const hasData = j => !!(j && ((j.subjects || []).length || (j.tasks || []).length || (j.cards || []).length || (j.notes || []).length || (j.sessions || []).length || Object.keys(j.log || {}).length || (j.rev || []).length || String(j.sheet || '').trim() || (j.exams || []).some(e => e.date || e.arc) || (j.exams || []).length > 1));
 const abkList = () => { try { const a = JSON.parse(localStorage.getItem(AUTOBK) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } };
 function autoBackup(why, obj) {
   try {
@@ -4310,7 +4359,7 @@ async function aiStart() {
   if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
   const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
   const model = AI.mod.getGenerativeModel(ai, { model: window.AI_MODEL || 'gemini-3.5-flash-lite', systemInstruction: AI_SYS + '\n\n' + aiContext() });
-  AI.chat = model.startChat();
+  { const h = aiHistory(); AI.chat = h.length ? model.startChat({ history: h }) : model.startChat(); }   // 前の会話があれば、続きから
 }
 function aiErr(e) {
   const s = `${(e && e.code) || ''} ${(e && e.message) || ''} ${e || ''}`.replace(/\s+/g, ' ').trim();
@@ -4361,7 +4410,7 @@ function renderAiLog() {
   const greet = `<div class="ax-m m">${av}<div class="ax-bb">こんにちは。勉強で分からないことがあれば、質問してください。問題の写真も送れます。</div></div>`;
   log.innerHTML = greet + AI.msgs.map((m, i) => {
     const nw = i >= prev ? ' new' : '';
-    if (m.r === 'u') return `<div class="ax-m u${nw}"><div class="ax-bb">${m.imgs && m.imgs.length ? `<div class="ai-imgs">${m.imgs.map(u => `<img src="${u}" alt="">`).join('')}</div>` : ''}${esc(m.t).replace(/\n/g, '<br>')}</div></div>`;
+    if (m.r === 'u') return `<div class="ax-m u${nw}"><div class="ax-bb">${m.imgs && m.imgs.length ? `<div class="ai-imgs">${m.imgs.map(u => `<img src="${u}" alt="">`).join('')}</div>` : ''}${m.pn && !(m.imgs && m.imgs.length) ? `<div class="ai-pn">${ms('photo_camera', '', 'font-size:16px')} 写真 ${m.pn}枚</div>` : ''}${esc(m.t).replace(/\n/g, '<br>')}</div></div>`;
     const last = i === AI.msgs.length - 1;
     return `<div class="ax-m m${nw}">${av}<div class="ax-bb">${m.t ? mdLite(m.t) : '<span class="ax-dots"><i></i><i></i><i></i></span>'}${m.t && !(AI.busy && last) ? `<div class="ax-act"><button type="button" class="ax-cp" data-act="aicopy" data-id="${i}" aria-label="コピー" title="コピー">${ms('content_copy')}</button></div>` : ''}</div></div>`;
   }).join('');
@@ -4421,8 +4470,8 @@ async function aiSend(text) {
     const res = await AI.chat.sendMessageStream([text, ...atts.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))]);
     for await (const c of res.stream) { m.t += c.text(); renderAiLog(); }
     if (!m.t) m.t = '回答を作れませんでした。言い方を変えて、もう一度質問してください。';
-  } catch (e) { m.t = aiErr(e); }
-  AI.busy = false; renderAiLog();
+  } catch (e) { m.t = aiErr(e); m.err = true; AI.chat = null; }
+  AI.busy = false; renderAiLog(); histSave(AIH, AI.msgs);
 }
 async function aiImport(files) {
   if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
@@ -4781,7 +4830,7 @@ function trHtml() {
   ${TR.out || TR.err ? `<div class="card" style="margin-top:12px">${TR.err ? `<p class="muted">${esc(TR.err)}</p>` : `<div class="trout">${esc(TR.out).replace(/\n/g, '<br>')}</div><div class="dact" style="margin:10px 0 0"><button class="btn text" data-act="trspeak">${ms('volume_up')}読み上げ</button><button class="btn text" data-act="trcopy">${ms('content_copy')}コピー</button></div>`}</div>` : ''}
   <p class="muted" style="font-size:.8rem;margin-top:10px">入力した文章がGoogleのAIに送られます。個人情報は入力しないでください。</p>`;
 }
-const TOOLS = [['sensei', 'AI先生', 'school', '問題の写真を送ると、解き方を教えてくれる', 250, 'd'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
+const TOOLS = [['sensei', 'AI先生', 'school', '問題の写真を送ると、解き方を教えてくれる', 250, 'd'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'd'], ['note', 'まちがいノート', 'edit_note', '分からなかった問題をためて、くり返し復習', 12, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
   ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['drill', '計算ドリル', 'bolt', '10問の計算をタイム付きで練習', 60, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], ['wc', '文字数カウント', 'edit_note', '作文の文字数と原稿用紙の枚数', 300, 'b'],
   ['review', '復習リマインダー', 'history', '1・3・7・14・30日後の復習日を自動で管理', 250, 'b'], ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '周期表・元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['draw', 'くじ引き・順番決め', 'casino', '名前から、ひとり選ぶ・順番・グループ分け', 330, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
@@ -4789,7 +4838,7 @@ function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">AI</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'd').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, draw: drawHtml, sensei: snHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, draw: drawHtml, sensei: snHtml, note: ntHtml, aiquiz: aqHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -4851,8 +4900,8 @@ function wcStageHtml() {
       <span class="wc-in"><span class="wc-face wc-front"><small>${c.s ? '★ ' : ''}${WC.rev ? '裏' : '表'}　No.${c.n}　${n + 1}/${list.length}</small><span class="wc-t">${wcNl(f)}</span><em>タップでめくる ／ 左右にスワイプ</em></span><span class="wc-face wc-back"><small>${c.s ? '★ ' : ''}${WC.rev ? '表' : '裏'}</small><span class="wc-t">${wcNl(b)}</span></span></span>
     </button></div>
     <div class="wc-btns"><button class="btn tonal" data-act="wcng">${ms('close')}まだ</button><button class="btn" data-act="wcok">${ms('check')}覚えた</button></div>
-    <div class="wc-tools"><button class="tchip" data-act="wcundo" ${WC.undo.length ? '' : 'disabled'}>${ms('undo')}ひとつ前にもどる</button><button class="tchip ${c.s ? 'on' : ''}" data-act="wcstar">${ms('star')}${c.s ? '★をはずす' : '★をつける'}</button><button class="tchip" data-act="wcspeak">${ms('volume_up')}読み上げ</button><button class="tchip" data-act="aihint">${gem(16)}${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}</button></div>
-    ${c.hint ? `<div class="notice" style="margin:14px 0 0">${gem(20)}<span class="t">${esc(c.hint)}</span></div>` : ''}</div>`;
+    <div class="wc-tools"><button class="tchip" data-act="wcundo" ${WC.undo.length ? '' : 'disabled'}>${ms('undo')}ひとつ前にもどる</button><button class="tchip ${c.s ? 'on' : ''}" data-act="wcstar">${ms('star')}${c.s ? '★をはずす' : '★をつける'}</button><button class="tchip" data-act="wcspeak">${ms('volume_up')}読み上げ</button><button class="tchip" data-act="aihint">${gem(16)}${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}</button><button class="tchip" data-act="aiex">${gem(16)}${c.ex ? '例文を作り直す' : 'AIで例文'}</button></div>
+    ${c.hint ? `<div class="notice" style="margin:14px 0 0">${gem(20)}<span class="t">${esc(c.hint)}</span></div>` : ''}${c.ex ? `<div class="notice" style="margin:10px 0 0">${ms('format_quote')}<span class="t">${wcNl(c.ex)}</span></div>` : ''}</div>`;
 }
 function wcHeadPaint() {
   const all = wcAll(), k = all.filter(c => c.k).length, st = $('#wcstat'), pr = $('#wcprog'), cn = wcCounts();
@@ -6114,9 +6163,9 @@ function snRenderLog(still) {
   const greet = `<div class="ax-m m">${av}<div class="ax-bb">${esc(snGreet(c))}<br><span class="sn-hint">下のカメラ ${ms('photo_camera', '', 'font-size:17px;vertical-align:-3px')} で撮影するか、${ms('add_photo_alternate', '', 'font-size:17px;vertical-align:-3px')} で写真を選んでください。</span></div></div>`;
   log.innerHTML = greet + SN.msgs.map((m, i) => {
     const nw = i >= prev ? ' new' : '';
-    if (m.r === 'u') return `<div class="ax-m u${nw}"><div class="ax-bb">${m.imgs && m.imgs.length ? `<div class="ai-imgs">${m.imgs.map(u => `<img src="${u}" alt="">`).join('')}</div>` : ''}${esc(m.t).replace(/\n/g, '<br>')}</div></div>`;
+    if (m.r === 'u') return `<div class="ax-m u${nw}"><div class="ax-bb">${m.imgs && m.imgs.length ? `<div class="ai-imgs">${m.imgs.map(u => `<img src="${u}" alt="">`).join('')}</div>` : ''}${m.pn && !(m.imgs && m.imgs.length) ? `<div class="ai-pn">${ms('photo_camera', '', 'font-size:16px')} 写真 ${m.pn}枚</div>` : ''}${esc(m.t).replace(/\n/g, '<br>')}</div></div>`;
     const last = i === SN.msgs.length - 1;
-    return `<div class="ax-m m${nw}">${av}<div class="ax-bb ${m.err ? 'sn-err' : ''}">${m.t ? mdLite(m.t) : '<span class="ax-dots"><i></i><i></i><i></i></span>'}${m.t && !m.err && !(SN.busy && last) ? `<div class="ax-act"><button type="button" class="ax-cp" data-act="sncopy" data-id="${i}" aria-label="コピー" title="コピー">${ms('content_copy')}</button></div>` : ''}</div></div>`;
+    return `<div class="ax-m m${nw}">${av}<div class="ax-bb ${m.err ? 'sn-err' : ''}">${m.t ? mdLite(m.t) : '<span class="ax-dots"><i></i><i></i><i></i></span>'}${m.t && !m.err && !(SN.busy && last) ? `<div class="ax-act"><button type="button" class="ax-cp" data-act="sncopy" data-id="${i}" aria-label="コピー" title="コピー">${ms('content_copy')}</button><button type="button" class="ax-cp" data-act="snnote" data-id="${i}" aria-label="まちがいノートに保存" title="まちがいノートに保存">${ms(m.saved ? 'bookmark_added' : 'bookmark_add')}</button></div>` : ''}</div></div>`;
   }).join('');
   SN._n = SN.msgs.length; log.scrollTop = log.scrollHeight;
 }
@@ -6176,7 +6225,7 @@ async function snSend(text) {
     for await (const c of res.stream) { m.t += c.text(); snRenderLog(); }
     if (!m.t.trim()) { m.t = '答えを作れませんでした。写真を撮りなおすか、言い方を変えて、もう一度送ってください。'; m.err = true; SN.chat = null; }
   } catch (e) { m.t = aiErr(e); m.err = true; SN.chat = null; }
-  SN.busy = false; snRenderLog(); snRenderChips(); snBusyUi();
+  SN.busy = false; snRenderLog(); snRenderChips(); snBusyUi(); histSave(SNH, SN.msgs);
   const lg = $('#snlog'), el = lg && [...lg.querySelectorAll('.ax-m.m')].pop();
   if (el && !m.err) lg.scrollTop += el.getBoundingClientRect().top - lg.getBoundingClientRect().top - 12;   // 答えの先頭へ
 }
@@ -6227,7 +6276,7 @@ Object.assign(ACT, {
     toast(`「${snCfg().name}」の設定を保存しました`);
   },
   snrst() { confirmDlg('先生の設定をもとにもどしますか？', '名前・口調・教え方などが、最初の設定にもどります。', 'もとにもどす', () => { delete S.set.sn; save(); SN.chat = null; if (ui.tab === 'tools' && ui.tool === 'sensei') toolsRefresh(); toast('もとにもどしました'); }); },
-  snreset() { if (SN.busy) return toast('先生が答えている途中です'); SN.msgs = []; SN.att = []; SN.chat = null; SN._n = 0; SN.draft = ''; SN.sub = ''; toolsRefresh(); },
+  snreset() { if (SN.busy) return toast('先生が答えている途中です'); histClear(SNH); SN.msgs = []; SN.att = []; SN.chat = null; SN._n = 0; SN.draft = ''; SN.sub = ''; toolsRefresh(); },
   snsend() { snSend(); },
   sncam() { const i = $('#sncamf'); if (i) i.click(); },
   snpick() { const i = $('#snfile'); if (i) i.click(); },
@@ -6242,6 +6291,184 @@ Object.assign(ACT, {
     if (SN_Q[id]) snSend(SN_Q[id]);
   }
 });
+/* ====================== まちがいノート・AI小テスト・ホームの復習・学習カレンダー・会話履歴（16.0） ====================== */
+const NT_INT = [1, 3, 7, 14];                 // 復習のあいだ（日）。5回できたら「卒業」
+const NT_MAX = 150;
+const NT = { mode: 'list', q: [], i: 0, show: false, ok: 0, ng: 0, rq: {}, okS: {}, tot: 0, sub: '', st: 'now' };
+const ntAll = () => (S.notes = Array.isArray(S.notes) ? S.notes : []);
+const ntFind = id => ntAll().find(n => n.id === id);
+const ntPlus = d => { const x = new Date(); x.setDate(x.getDate() + d); return ymd(x); };
+const ntGrad = n => (n.box || 0) >= 5;
+const ntDue = n => !ntGrad(n) && !!n.due && n.due <= today();
+const ntFirst = t => String(t || '').split('\n').find(x => x.trim()) || '';
+function ntDueText(n) { if (ntGrad(n)) return '卒業'; if (n.due <= today()) return n.due < today() ? 'おくれ' : '今日'; return `${daysBetween(today(), n.due)}日後`; }
+function ntAdd(o) {
+  const q = String(o.q || '').trim().slice(0, 600), a = String(o.a || '').trim().slice(0, 1600); if (!q || !a) return false;
+  const all = ntAll(); if (all.some(n => n.q === q && n.a === a)) { toast('もう、ノートに入っています'); return false; }
+  all.unshift({ id: uid(), sub: String(o.sub || '').trim().slice(0, 12), q, a, src: o.src || 'manual', at: Date.now(), box: 0, due: today(), n: 0, last: '' });
+  while (all.length > NT_MAX) { let k = -1; for (let i = all.length - 1; i >= 0; i--) if (ntGrad(all[i])) { k = i; break; } all.splice(k >= 0 ? k : all.length - 1, 1); }   // 多すぎるときは、卒業したものから消す
+  save(); return true;
+}
+const ntGuessSub = t => ['国語', '数学', '英語', '理科', '社会'].find(s => String(t).slice(0, 160).includes(s)) || '';
+const ntProblem = t => { const m = String(t).match(/読み取った問題[：:]?\s*\n?([\s\S]*?)(?:\n\s*\n|$)/); return m ? m[1].replace(/\*\*/g, '').trim().slice(0, 400) : ''; };
+function ntGradeOne(id, ok) {
+  const n = ntFind(id); if (!n) return; n.n = (n.n || 0) + 1; n.last = today();
+  if (ok) { const b = n.box || 0; n.box = b + 1; n.due = ntGrad(n) ? '' : ntPlus(NT_INT[Math.min(b, NT_INT.length - 1)]); }
+  else { n.box = 0; n.due = today(); }
+  save();
+}
+function ntHtml() {
+  if (NT.mode === 'review') return ntReviewHtml();
+  const all = ntAll(), due = all.filter(ntDue), gr = all.filter(ntGrad).length, subs = [...new Set(all.map(n => n.sub || 'その他'))];
+  const list = all.filter(n => (!NT.sub || (n.sub || 'その他') === NT.sub) && (NT.st === 'all' || (NT.st === 'grad' ? ntGrad(n) : !ntGrad(n)))).sort((a, b) => ntGrad(a) - ntGrad(b) || String(a.due).localeCompare(String(b.due)) || b.at - a.at);
+  const nxt = all.filter(n => !ntGrad(n) && n.due > today()).map(n => n.due).sort()[0];
+  const hero = `<div class="card nt-hero ${due.length ? '' : 'done'}"><div class="nt-big"><b>${due.length}</b><span>問</span></div><div class="nt-ht"><h3>${due.length ? '今日の復習' : (all.length ? '今日の復習は、ぜんぶ終わりました' : 'まちがいノート')}</h3><small>${all.length ? `ノート ${all.length}問 ・ 卒業 ${gr}問${!due.length && nxt ? ` ・ 次は ${daysBetween(today(), nxt)}日後` : ''}` : '分からなかった問題を、ためて、くり返し復習します'}</small></div>${due.length ? `<button type="button" class="btn" data-act="ntstart">${ms('play_arrow')}復習をはじめる</button>` : ''}<button type="button" class="btn tonal" data-act="ntadd">${ms('add')}書く</button></div>`;
+  const chips = all.length ? `<div class="nt-fl"><div class="wx-seg" role="group">${[['now', '復習中'], ['grad', '卒業'], ['all', 'すべて']].map(([k, t]) => `<button type="button" class="wx-sg ${NT.st === k ? 'on' : ''}" data-act="ntst" data-id="${k}">${t}</button>`).join('')}</div>${subs.length > 1 ? `<div class="chips"><button type="button" class="sn-sc ${!NT.sub ? 'on' : ''}" data-act="ntsub" data-id="">すべて</button>${subs.map(s => `<button type="button" class="sn-sc ${NT.sub === s ? 'on' : ''}" data-act="ntsub" data-id="${esc(s)}">${esc(s)}</button>`).join('')}</div>` : ''}</div>` : '';
+  const rows = list.map(n => `<details class="nt-c sc" style="--sh:${ttHue(n.sub || 'その他')}"><summary><span class="nt-sub">${esc(n.sub || 'その他')}</span><span class="nt-q">${esc(ntFirst(n.q).slice(0, 60))}</span><span class="nt-due ${n.due && n.due < today() && !ntGrad(n) ? 'od' : ''} ${ntGrad(n) ? 'gr' : ''}">${ntDueText(n)}</span>${ms('expand_more')}</summary><div class="nt-b"><div class="nt-l">問題</div><div>${wcNl(n.q)}</div><div class="nt-l">解き方・答え</div><div class="nt-a">${mdLite(n.a)}</div><div class="nt-ac"><span class="muted">${n.n || 0}回 復習${n.src === 'sensei' ? ' ・ AI先生から' : n.src === 'quiz' ? ' ・ AI小テストから' : ''}</span><span class="sp" style="flex:1"></span><button type="button" class="btn text" data-act="ntedit" data-id="${n.id}">${ms('edit')}編集</button><button type="button" class="btn text danger" data-act="ntdel" data-id="${n.id}">${ms('delete')}削除</button></div></div></details>`).join('');
+  return hero + chips + (list.length ? `<div class="nt-list stg">${rows}</div>` : (all.length ? '<p class="muted" style="text-align:center;margin:28px 0">この条件のノートはありません</p>' : `<div class="card nt-empty">${ms('edit_note', '', 'font-size:44px;color:var(--primary)')}<p>AI先生の答えの下の ${ms('bookmark_add', '', 'font-size:18px;vertical-align:-4px')} や、AI小テストのまちがいから、ノートにためられます。もちろん、自分で書くこともできます。</p></div>`));
+}
+function ntReviewHtml() {
+  const n = NT.q.length;
+  if (NT.i >= n) { const tot = NT.tot || n, pct = tot ? Math.round(NT.ok / tot * 100) : 0; return `<div class="qz2-res"><div class="qz2-ring sc" style="--sh:150;--p:${pct}"><div><b>${NT.ok}</b><small>/ ${tot}</small></div></div><h2>${pct === 100 ? 'ぜんぶ、できました！' : pct >= 60 ? 'いい調子です！' : 'くり返すと、できるようになります'}</h2><p class="muted" style="margin:0">${NT.ok < tot ? '「まだ」の問題は、また今日の復習に出ます' : 'ぜんぶ、思い出せました'}</p><div class="qz2-acts"><button type="button" class="btn" data-act="ntdone">${ms('menu_book')}ノートにもどる</button></div></div>`; }
+  const note = ntFind(NT.q[NT.i]); if (!note) { NT.i++; return ntReviewHtml(); }
+  const hue = ttHue(note.sub || 'その他');
+  return `<div class="qz2"><div class="qz2-top"><span class="qz2-chip sc" style="--sh:${hue}">${ms('edit_note')}<span>${esc(note.sub || 'その他')}</span></span><span class="sp" style="flex:1"></span><span class="qz2-sc" title="できた">${ms('check_circle')}<b>${NT.ok}</b></span></div>
+  <div class="qz2-bar"><i style="width:${NT.i / n * 100}%"></i></div>
+  <div class="qz2-q sc" style="--sh:${hue}"><div class="qz2-m"><span>${NT.i + 1}<small> / ${n}</small></span><em>${(note.n || 0) ? `${note.n}回目の復習` : 'はじめての復習'}</em></div><div class="qz2-t ${String(note.q).length > 40 ? 'long' : ''}">${wcNl(note.q)}</div></div>
+  ${NT.show ? `<div class="card nt-ans"><div class="lbl">解き方・答え</div>${mdLite(note.a)}</div><div class="nt-g"><button type="button" class="btn tonal" data-act="ntgrade" data-id="0">${ms('close')}まだ</button><button type="button" class="btn" data-act="ntgrade" data-id="1">${ms('check')}できた！</button></div>` : `<button type="button" class="btn nt-rv" data-act="ntshow">${ms('visibility')}答えを見る</button><p class="muted qz2-h">${ms('keyboard')}スペースで答えを見て、1「まだ」・2「できた」</p>`}</div>`;
+}
+function ntDlg(id) {
+  const n = id ? ntFind(id) : null, subs = [...new Set([...(subjects().map(s => s.name)), '国語', '数学', '英語', '理科', '社会'])];
+  openDlg(`<h2>${ms('edit_note')}${n ? 'ノートを編集' : 'ノートに書く'}</h2><form id="ntf" autocomplete="off"><div class="fld"><label for="nts">教科</label><input id="nts" name="nts" type="text" maxlength="12" list="ntsl" value="${esc(n ? n.sub : '')}" placeholder="例：数学"><datalist id="ntsl">${subs.map(s => `<option value="${esc(s)}">`).join('')}</datalist></div><div class="fld"><label for="ntq">問題</label><textarea id="ntq" name="ntq" class="trta" rows="3" maxlength="600">${esc(n ? n.q : '')}</textarea></div><div class="fld"><label for="nta">解き方・答え</label><textarea id="nta" name="nta" class="trta" rows="5" maxlength="1600">${esc(n ? n.a : '')}</textarea></div><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="ntsave" data-id="${n ? n.id : ''}">${ms('check')}保存</button></div></form>`);
+}
+function ntRefresh() { if (ui.tab === 'tools' && ui.tool === 'note') toolsRefresh(); else render(); }
+Object.assign(ACT, {
+  ntadd() { ntDlg(''); }, ntedit(id) { ntDlg(id); },
+  ntsave(id) {
+    const f = $('#ntf'); if (!f) return; const g = n => (f.elements[n] ? f.elements[n].value.trim() : ''), q = g('ntq'), a = g('nta');
+    if (!q || !a) return toast('問題と、解き方・答えの両方を書いてください');
+    if (id) { const n = ntFind(id); if (n) { n.sub = g('nts').slice(0, 12); n.q = q; n.a = a; save(); } } else if (!ntAdd({ sub: g('nts'), q, a, src: 'manual' })) return;
+    closeDlg(); ntRefresh(); toast('保存しました');
+  },
+  ntdel(id) { undoable('ノートを削除しました', () => { S.notes = ntAll().filter(n => n.id !== id); }); },
+  ntst(id) { NT.st = id; toolsRefresh(); }, ntsub(id) { NT.sub = id; toolsRefresh(); },
+  ntstart() {
+    const q = ntAll().filter(ntDue).sort(() => Math.random() - .5).slice(0, 20).map(n => n.id); if (!q.length) return toast('今日の復習は、ありません');
+    Object.assign(NT, { mode: 'review', q, i: 0, show: false, ok: 0, ng: 0, rq: {}, okS: {}, tot: q.length });
+    if (ui.tab === 'tools' && ui.tool === 'note') { ui.vin = true; toolsRefresh(); } else ACT.tab('tool:note');
+  },
+  ntshow() { NT.show = true; toolsRefresh(); },
+  ntgrade(id) {
+    const ok = id === '1' || id === 1, nid = NT.q[NT.i]; ntGradeOne(nid, ok);
+    if (ok) { NT.okS[nid] = 1; NT.ok = Object.keys(NT.okS).length; } else { NT.ng++; if (!NT.rq[nid]) { NT.rq[nid] = 1; NT.q.push(nid); } }   // 「まだ」は、この回の最後に、もう一度出す
+    NT.i++; NT.show = false;
+    if (NT.i >= NT.q.length && NT.ng === 0) { try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } }
+    toolsRefresh();
+  },
+  ntdone() { NT.mode = 'list'; toolsRefresh(); },
+  snnote(id) {
+    const m = SN.msgs[+id], u = SN.msgs[+id - 1]; if (!m || !m.t || m.err) return;
+    if (m.saved) return toast('もう、ノートに入っています');
+    const prob = ntProblem(m.t) || (u && u.t !== '写真の問題を教えてください。' ? u.t : '') || '（写真の問題）';
+    if (ntAdd({ sub: SN.sub || ntGuessSub(m.t), q: prob, a: m.t, src: 'sensei' })) { m.saved = true; snRenderLog(true); toast('まちがいノートに保存しました'); }
+  }
+});
+/* ---- AI小テスト ---- */
+const AQ = { phase: 'setup', sub: '数学', theme: '', n: 5, lv: 'ふつう', q: [], i: 0, pick: -1, ok: 0, wrong: [], saved: false };
+const AQ_SUBS = ['国語', '数学', '英語', '理科', '社会'], AQ_HUE = 280;
+function aqNorm(arr) {
+  const out = []; for (const x of (Array.isArray(arr) ? arr : [])) {
+    if (!x || !x.q || !Array.isArray(x.c)) continue; const c = x.c.map(v => String(v == null ? '' : v).trim()).filter(Boolean), a = parseInt(x.a, 10);
+    if (c.length < 3 || new Set(c).size !== c.length || !(a >= 0 && a < x.c.length)) continue; const right = String(x.c[a]).trim(); if (!c.includes(right)) continue;
+    out.push({ q: String(x.q).trim().slice(0, 300), o: c.slice(0, 4).includes(right) ? c.slice(0, 4).sort(() => Math.random() - .5) : [...c.slice(0, 3), right].sort(() => Math.random() - .5), b: right, e: String(x.e || '').trim().slice(0, 240) });
+  } return out;
+}
+function aqHtml() {
+  const seg = (arr, cur, act) => `<div class="wx-seg" role="group">${arr.map(([k, t]) => `<button type="button" class="wx-sg ${String(cur) === String(k) ? 'on' : ''}" data-act="${act}" data-id="${k}">${t}</button>`).join('')}</div>`;
+  if (AQ.phase === 'setup') return `<div class="card aq-set"><div class="fld"><div class="lbl">教科</div>${seg(AQ_SUBS.map(s => [s, s]), AQ.sub, 'aqsub')}</div><div class="fld"><label for="aqt">テーマ・単元</label><input id="aqt" type="text" maxlength="40" value="${esc(AQ.theme)}" placeholder="例：二次方程式 ／ 関係代名詞 ／ 光合成 ／ 鎌倉時代"></div><div class="fld"><div class="lbl">問題数</div>${seg([[5, '5問'], [10, '10問']], AQ.n, 'aqn')}</div><div class="fld"><div class="lbl">むずかしさ</div>${seg(['やさしい', 'ふつう', 'むずかしい'].map(x => [x, x]), AQ.lv, 'aqlv')}</div><button type="button" class="btn aq-go" data-act="aqgo">${gem(20)}AIで問題をつくる</button><p class="muted" style="font-size:.82rem;margin:12px 4px 0">${CLOUD.user ? 'テーマは空でも作れます。' : 'AI小テストは、Googleログイン後に使えます。'}AIの問題や解説は、間違うことがあります。気になるときは、教科書で確かめましょう。</p></div>`;
+  if (AQ.phase === 'load') return `<div class="card aq-load">${gspin(44)}<b>AIが問題をつくっています…</b><small class="muted">${esc(AQ.sub)}${AQ.theme ? '「' + esc(AQ.theme) + '」' : ''}　${AQ.n}問</small></div>`;
+  const n = AQ.q.length;
+  if (AQ.phase === 'play') {
+    const q = AQ.q[AQ.i], done = AQ.pick >= 0, ok = done && q.o[AQ.pick] === q.b, prog = (AQ.i + (done ? 1 : 0)) / n * 100;
+    return `<div class="qz2"><div class="qz2-top"><span class="qz2-chip sc" style="--sh:${AQ_HUE}">${gem(18)}<span>${esc(AQ.sub)}${AQ.theme ? '：' + esc(AQ.theme) : ''}</span></span><span class="sp" style="flex:1"></span><span class="qz2-sc" title="正解数">${ms('check_circle')}<b>${AQ.ok}</b></span></div><div class="qz2-bar"><i style="width:${prog}%"></i></div>
+    <div class="qz2-q sc ${done ? (ok ? 'ok' : 'ng') : ''}" style="--sh:${AQ_HUE}"><div class="qz2-m"><span>${AQ.i + 1}<small> / ${n}</small></span><em>${esc(AQ.lv)}</em></div><div class="qz2-t ${q.q.length > 28 ? 'long' : ''}">${wcNl(q.q)}</div></div>
+    <div class="qz2-o">${q.o.map((o, k) => { const st = done ? (o === q.b ? 'ok' : k === AQ.pick ? 'ng' : 'dim') : ''; return `<button type="button" class="qz2-b ${st}" data-act="aqpick" data-id="${k}" ${done ? 'disabled' : ''}><span class="qz2-k">${st === 'ok' ? ms('check') : st === 'ng' ? ms('close') : k + 1}</span><span class="qz2-x">${wcNl(o)}</span></button>`; }).join('')}</div>
+    ${done ? `<div class="qz2-fb ${ok ? 'ok' : 'ng'}">${ms(ok ? 'celebration' : 'lightbulb')}<div><b>${ok ? '正解です！' : 'おしい！'}</b><span>${ok ? '' : `答えは「${esc(q.b)}」。`}${esc(q.e)}</span></div><span class="sp" style="flex:1"></span><button type="button" class="btn" data-act="aqnext">${AQ.i + 1 >= n ? '結果を見る' : '次の問題'}${ms('arrow_forward')}</button></div>` : `<p class="muted qz2-h">${ms('keyboard')}キーボードの 1〜${q.o.length} でも選べます</p>`}</div>`;
+  }
+  const pct = Math.round(AQ.ok / n * 100), msg = pct === 100 ? 'パーフェクト！' : pct >= 80 ? 'すばらしい！' : pct >= 50 ? 'あと少し！' : 'もう一度チャレンジ！';
+  return `<div class="qz2-res"><div class="qz2-ring sc" style="--sh:${AQ_HUE};--p:${pct}"><div><b>${AQ.ok}</b><small>/ ${n}</small></div></div><h2>${msg}</h2><p class="muted" style="margin:0">正解率 ${pct}%　・　${esc(AQ.sub)}${AQ.theme ? '「' + esc(AQ.theme) + '」' : ''}</p>${AQ.wrong.length ? `<div class="card qz2-w"><div class="lbl">まちがえた問題</div>${AQ.wrong.map(w => `<div class="aq-wr"><span>${wcNl(w.q)}</span><b>答え：${esc(w.b)}</b>${w.e ? `<small class="muted">${esc(w.e)}</small>` : ''}</div>`).join('')}</div>` : ''}<div class="qz2-acts">${AQ.wrong.length ? `<button type="button" class="btn tonal" data-act="aqnote" ${AQ.saved ? 'disabled' : ''}>${ms(AQ.saved ? 'bookmark_added' : 'bookmark_add')}${AQ.saved ? 'ノートに保存しました' : 'まちがいをノートに保存'}</button>` : ''}<button type="button" class="btn tonal" data-act="aqreset">条件をかえる</button><button type="button" class="btn" data-act="aqgo">${ms('replay')}新しい問題で、もう一度</button></div></div>`;
+}
+Object.assign(ACT, {
+  aqsub(id) { AQ.sub = id; toolsRefresh(); }, aqn(id) { AQ.n = +id; toolsRefresh(); }, aqlv(id) { AQ.lv = id; toolsRefresh(); },
+  async aqgo() {
+    if (!CLOUD.user) return toast('AI小テストは、Googleログイン後に使えます');
+    if (AQ.phase === 'load') return;
+    const t = $('#aqt'); if (t) AQ.theme = t.value.trim().slice(0, 40); AQ.theme = snOne(AQ.theme);
+    const g = snGrade(snCfg());
+    AQ.phase = 'load'; toolsRefresh();
+    const arr = await aiRun({ system: `あなたは、${g[2]}向けの問題をつくる、日本の学校の先生です。学習指導要領の範囲で、正確で、答えがひとつに決まる問題だけをつくります。`, prompt: `次の条件で、4択の問題を${AQ.n}問つくり、JSONの配列だけを返してください。\n教科：${AQ.sub}\nテーマ・単元：${AQ.theme || '（指定なし。この教科の基本から）'}\n学年：${g[2]}\nむずかしさ：${AQ.lv}\n各要素は {"q":"問題文","c":["選択肢1","選択肢2","選択肢3","選択肢4"],"a":正解の番号（0〜3の整数）,"e":"解説（100字以内）"} の形です。\n- 答えがひとつに決まる問題にする。正解は、必ず選択肢の中にひとつだけ入れる。\n- 選択肢は、もっともらしい間違いも含め、互いに重ならないようにする。\n- 数式にLaTeXは使わず、ふつうの文字（x²、1/2、×、÷、√ など）で書く。図や表が必要な問題は作らない。\n- 正解の位置は、問題ごとにばらけさせる。`, json: true });
+    const q = aqNorm(arr);
+    if (!q.length) { AQ.phase = 'setup'; toolsRefresh(); return toast('問題をつくれませんでした。もう一度、お試しください'); }
+    Object.assign(AQ, { q, i: 0, pick: -1, ok: 0, wrong: [], saved: false, phase: 'play' }); toolsRefresh();
+  },
+  aqpick(id) { if (AQ.pick >= 0) return; const k = +id, q = AQ.q[AQ.i]; if (!q || k >= q.o.length) return; AQ.pick = k; if (q.o[k] === q.b) AQ.ok++; else AQ.wrong.push(q); toolsRefresh(); },
+  aqnext() { AQ.i++; AQ.pick = -1; if (AQ.i >= AQ.q.length) { AQ.phase = 'done'; if (AQ.ok === AQ.q.length) { try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } } toolsRefresh(); },
+  aqreset() { AQ.phase = 'setup'; toolsRefresh(); },
+  aqnote() { let n = 0; AQ.wrong.slice().reverse().forEach(w => { if (ntAdd({ sub: AQ.sub, q: `${w.q}\n${w.o.map((o, k) => `${k + 1}. ${o}`).join('\n')}`, a: `正解：${w.b}\n${w.e}`, src: 'quiz' })) n++; }); AQ.saved = true; toolsRefresh(); if (n) toast(`${n}問を、まちがいノートに保存しました`); }
+});
+/* ---- ホームの部分：今日の復習／単語帳の見直し ---- */
+function homeNoteCard() {
+  const all = ntAll(); if (!all.length) return '';
+  const due = all.filter(ntDue), gr = all.filter(ntGrad).length;
+  return `<div class="h-sec"><h2>${ms('edit_note')}まちがいノートの復習</h2><span class="sp"></span><button class="btn tonal xs" data-act="tab" data-id="tool:note">${ms('menu_book')}ノート</button></div><div class="card hnt ${due.length ? '' : 'done'}"><div class="nt-big"><b>${due.length}</b><span>問</span></div><div class="hnt-t"><b>${due.length ? '今日の復習があります' : '今日の復習は、ぜんぶ終わりました'}</b><small>ノート ${all.length}問 ・ 卒業 ${gr}問</small></div>${due.length ? `<button type="button" class="btn" data-act="ntstart">${ms('play_arrow')}はじめる</button>` : ms('task_alt', '', 'font-size:34px;color:var(--primary)')}</div>`;
+}
+function homeRevCard() {
+  const per = (S.decks || []).map(d => ({ d, n: (S.cards || []).filter(c => c.d === d.id && wcRevDue(c)).length })).filter(x => x.n), tot = per.reduce((a, x) => a + x.n, 0); if (!tot) return '';
+  return `<div class="h-sec"><h2>${ms('style')}単語帳の見直し</h2></div><div class="card hnt"><div class="nt-big"><b>${tot}</b><span>枚</span></div><div class="hrv-l"><small class="muted" style="flex:1 1 100%">覚えてから1週間たったカードです</small>${per.map(({ d, n }) => `<button type="button" class="hrv-i sc" style="--sh:${d.hue || 0}" data-act="wcrevgo" data-id="${d.id}"><b>${esc(d.name)}</b><span>${n}枚</span>${ms('arrow_forward')}</button>`).join('')}</div></div>`;
+}
+Object.assign(ACT, { wcrevgo(id) { WC.deck = id; WC.filt = 'rev'; WC.tab = 'study'; WC.i = 0; WC.flip = false; WC.undo = []; WC.sel = 'all'; try { wcSave(); } catch (e) { } ACT.tab('tool:card'); } });
+/* ---- 単語帳：AIで例文 ---- */
+Object.assign(ACT, {
+  async aiex() {
+    const c = wcCur(); if (!c) return; toast('例文を考えています…');
+    const r = await aiRun({ system: AI_MINI, prompt: `暗記カードです。\n表：${c.f}\n裏：${c.b}\n\nこの内容を使った短い例文を1つ作ってください。英語など外国語の単語なら、その言語の例文と、日本語訳を2行で。そうでなければ、日本語の例文を1文。例文の本文だけを書いてください（前置きや説明は不要）。` });
+    if (r) { c.ex = r.replace(/\n{2,}/g, '\n').trim().slice(0, 240); save(); wcPaint(false); }
+  }
+});
+/* ---- 学習カレンダー（記録タブ） ---- */
+function statHeat(isM) {
+  const W = 16, wdn = new Date().getDay(), days = lastDays((W - 1) * 7 + wdn + 1), V = d => isM ? d.m : d.a, t = isM ? [0, 20, 40, 70] : [0, 5, 12, 25];
+  const lv = v => v <= 0 ? 0 : v < t[1] ? 1 : v < t[2] ? 2 : v < t[3] ? 3 : 4;
+  const act = days.filter(d => V(d) > 0).length; let run = 0, best = 0; days.forEach(d => { run = V(d) > 0 ? run + 1 : 0; best = Math.max(best, run); });
+  let mon = -1; const labs = Array.from({ length: W }, (_, c) => { const d = days[c * 7]; if (!d) return '<i></i>'; const m = d.d.getMonth(); const s = m !== mon ? `${m + 1}月` : ''; mon = m; return `<i>${s}</i>`; }).join('');
+  const cells = days.map(d => `<i class="hm-c l${lv(V(d))} ${d.k === today() ? 'td' : ''}" title="${d.d.getMonth() + 1}/${d.d.getDate()}　${V(d)}${isM ? '分' : 'ページ'}"></i>`).join('');
+  return `<div class="h-sec"><h2>${ms('calendar_month')}学習カレンダー</h2><span class="sp"></span><span class="muted" style="font-size:.85rem;font-weight:600">${isM ? '集中した時間' : 'すすんだページ'}</span></div><div class="card hm"><div class="hm-top"><div><b>${act}</b><small>日 学習した（${W}週間）</small></div><div><b>${best}</b><small>日 最長の連続</small></div></div><div class="hm-sc"><div class="hm-m" style="--w:${W}">${labs}</div><div class="hm-g" style="--w:${W}">${cells}</div></div><div class="hm-lg"><span>少</span><i class="hm-c l0"></i><i class="hm-c l1"></i><i class="hm-c l2"></i><i class="hm-c l3"></i><i class="hm-c l4"></i><span>多</span></div></div>`;
+}
+/* ---- AI会話の履歴を、端末に残す（文字だけ。写真は残さない） ---- */
+const AIH = 'kosa-ai-hist', SNH = 'kosa-sn-hist';
+function histSave(key, msgs) {
+  try { const out = []; for (let i = 0; i + 1 < msgs.length; i += 2) { const u = msgs[i], m = msgs[i + 1]; if (u && m && u.r === 'u' && m.r === 'm' && m.t && !m.err) out.push({ r: 'u', t: String(u.t).slice(0, 2000), pn: (u.imgs && u.imgs.length) || u.pn || 0, sub: u.sub || '' }, { r: 'm', t: String(m.t).slice(0, 6000), saved: m.saved ? 1 : 0 }); } localStorage.setItem(key, JSON.stringify(out.slice(-40))); } catch (e) { }
+}
+function histLoad(key) {
+  try { const a = JSON.parse(localStorage.getItem(key) || '[]'), out = []; if (!Array.isArray(a)) return out; for (let i = 0; i + 1 < a.length; i += 2) { const u = a[i], m = a[i + 1]; if (u && m && u.r === 'u' && m.r === 'm' && u.t && m.t) out.push({ r: 'u', t: String(u.t), imgs: [], pn: u.pn || 0, sub: u.sub || '' }, { r: 'm', t: String(m.t), saved: !!m.saved }); } return out; } catch (e) { return []; }
+}
+const histClear = key => { try { localStorage.removeItem(key); } catch (e) { } };
+function aiHistory() { const h = [], a = AI.msgs.slice(0, -2); for (let i = 0; i + 1 < a.length; i += 2) { const u = a[i], m = a[i + 1]; if (u.r === 'u' && m.r === 'm' && m.t && !m.err) h.push({ role: 'user', parts: [{ text: u.t + (u.pn ? `\n（写真を${u.pn}枚、送りました）` : '') }] }, { role: 'model', parts: [{ text: m.t }] }); } return h; }
+AI.msgs = histLoad(AIH); AI._n = AI.msgs.length; SN.msgs = histLoad(SNH); SN._n = SN.msgs.length;
+/* ---- キー操作：AI小テスト／ノートの復習 ---- */
+document.addEventListener('keydown', e => {
+  if (ui.tab !== 'tools' || dlg.open || e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target; if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
+  if (ui.tool === 'aiquiz' && AQ.phase === 'play') {
+    if (AQ.pick < 0 && /^[1-9]$/.test(e.key)) { const k = +e.key - 1; if (AQ.q[AQ.i] && k < AQ.q[AQ.i].o.length) { e.preventDefault(); ACT.aqpick(k); } }
+    else if (AQ.pick >= 0 && (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight')) { e.preventDefault(); ACT.aqnext(); }
+  } else if (ui.tool === 'note' && NT.mode === 'review' && NT.i < NT.q.length) {
+    if (!NT.show && (e.key === ' ' || e.key === 'Enter')) { e.preventDefault(); ACT.ntshow(); }
+    else if (NT.show && (e.key === '1' || e.key === 'ArrowLeft')) { e.preventDefault(); ACT.ntgrade('0'); }
+    else if (NT.show && (e.key === '2' || e.key === 'ArrowRight')) { e.preventDefault(); ACT.ntgrade('1'); }
+  }
+});
+document.addEventListener('input', e => { if (e.target.id === 'aqt') AQ.theme = e.target.value; });
 function toolsPost() {
   const tl = ui.tool || '';
   if (tl === 'calc') calcPaint(true);
@@ -6383,34 +6610,15 @@ try {
     if ((dy > 0 && top) || (dy < 0 && bot)) e.preventDefault();
   }, { passive: false });
 })();
-/* 追加ボタン（＋）：ドラッグで好きな場所に動かせる */
-let fabDrag = null, fabMoved = false;
+/* 追加ボタン（＋）：位置は固定（iPad は左上、スマホは右下）。以前はドラッグで動かせたが、意図せず動いてしまうため、16.0 でやめた */
+let fabMoved = false;
 function fabDir() {
   const f = $('#fab'), b = f && f.querySelector('.fabb'); if (!b) return;
   const r = b.getBoundingClientRect(); if (!r.width) return;
   f.classList.toggle('up', r.top + r.height / 2 > innerHeight / 2); f.classList.toggle('rt', r.left + r.width / 2 > innerWidth / 2);   // メニューは、画面の中心の側に向かって開く
 }
-function fabApply() {
-  let o = null; try { o = JSON.parse(localStorage.getItem('kosa-fab') || 'null'); } catch (e) { }
-  const f = $('#fab'); if (!f) return;
-  if (!o) { ['left', 'top', 'right', 'bottom'].forEach(k => f.style.removeProperty(k)); fabDir(); return; }
-  const w = 64, top = (parseInt(getComputedStyle(document.body).paddingTop) || 0) + 8, x = Math.max(8, Math.min(innerWidth - w - 8, o.x)), y = Math.max(top, Math.min(innerHeight - w - 8, o.y));
-  f.style.left = x + 'px'; f.style.top = y + 'px'; f.style.right = 'auto'; f.style.bottom = 'auto'; fabDir();
-}
-document.addEventListener('pointerdown', e => {
-  const b = e.target.closest && e.target.closest('.fabb'); if (!b || e.button > 0 || ui.fab) return;
-  const f = $('#fab'), r = f.getBoundingClientRect(); fabDrag = { id: e.pointerId, sx: e.clientX, sy: e.clientY, ox: r.left, oy: r.top, on: false };
-});
-document.addEventListener('pointermove', e => {
-  const d = fabDrag; if (!d || e.pointerId !== d.id) return;
-  const dx = e.clientX - d.sx, dy = e.clientY - d.sy;
-  if (!d.on) { if (Math.hypot(dx, dy) < 10) return; d.on = true; $('#fab').classList.add('drag'); }
-  const x = d.ox + dx, y = d.oy + dy; try { localStorage.setItem('kosa-fab', JSON.stringify({ x, y })); } catch (_) { } fabApply();
-  e.preventDefault();
-}, { passive: false });
-const fabUp = () => { const d = fabDrag; fabDrag = null; if (d && d.on) { fabMoved = true; setTimeout(() => { fabMoved = false; }, 350); const f = $('#fab'); f && f.classList.remove('drag'); fabDir(); } };
-document.addEventListener('pointerup', fabUp); document.addEventListener('pointercancel', fabUp);
-document.addEventListener('click', e => { if (fabMoved && e.target.closest && e.target.closest('#fab')) { e.stopPropagation(); e.preventDefault(); fabMoved = false; } }, true);
+function fabApply() { const f = $('#fab'); if (!f) return; ['left', 'top', 'right', 'bottom'].forEach(k => f.style.removeProperty(k)); fabDir(); }
+try { localStorage.removeItem('kosa-fab'); } catch (e) { }   // 以前に動かした位置は、わすれる（もとの場所にもどる）
 window.addEventListener('resize', fabApply); window.addEventListener('orientationchange', () => setTimeout(fabApply, 300));
 setTimeout(fabApply, 0);
 
