@@ -1856,6 +1856,96 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
   .snw .ax-bb{max-width:min(90%,900px)}
 }
 @media(prefers-reduced-motion:reduce){.sn-av{animation:none}}
+
+/* ===== Material 3 Expressive（15.0）：時間割・持ち物・暗記クイズ・記録 ===== */
+.htt2-day,.tbl-day{flex:none;display:grid;place-items:center;font-weight:800;color:var(--on-primary);background:var(--primary);border-radius:42% 58% 55% 45%/48% 44% 56% 52%;animation:axmorph 9s ease-in-out infinite}
+/* 時間割：ホームのカード */
+.htt2{padding:18px;border-radius:36px;background:var(--s1)}
+.htt2-top{display:flex;align-items:center;gap:14px;margin-bottom:14px}
+.htt2-day{width:58px;height:58px;font-size:1.6rem}
+.htt2-top b{display:block;font-size:1.15rem}.htt2-top small{color:var(--on-v);line-height:1.5}
+.htt2-g{display:grid;grid-template-columns:repeat(auto-fit,minmax(104px,1fr));gap:8px}
+.htt2-c{position:relative;display:grid;gap:3px;align-content:center;min-height:76px;padding:12px 14px;border-radius:26px;background:var(--scc);color:var(--on-scc);transition:border-radius .4s var(--spring),transform .35s var(--spring)}
+.htt2-c:nth-child(even){border-radius:26px 26px 12px 26px}.htt2-c:nth-child(3n){border-radius:12px 26px 26px 26px}
+.htt2-c:active{transform:scale(.95)}
+.htt2-c i{font-style:normal;font-size:.74rem;font-weight:800;opacity:.7}
+.htt2-c b{font-size:1.1rem;font-weight:750;line-height:1.2;overflow-wrap:anywhere}
+.htt2-c.emp{background:transparent;box-shadow:inset 0 0 0 2px var(--s3);color:var(--on-v)}
+/* 時間割：ツール */
+.tbl-nx{display:flex;gap:16px;align-items:center;padding:20px;border-radius:36px;background:var(--pc);color:var(--on-pc)}
+.tbl-day{width:68px;height:68px;font-size:1.9rem}
+.tbl-nxb{min-width:0;flex:1}.tbl-nxb b{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;font-size:1.2rem}.tbl-nxb small{font-weight:500;opacity:.75}
+.tbl-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.tbl-pill{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 14px 0 6px;border-radius:18px;background:var(--s1);color:var(--on);box-shadow:inset 0 0 0 2px var(--sc);font-weight:700;font-size:.92rem}
+.tbl-pill i{display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--sc);color:#fff;font-style:normal;font-size:.74rem;font-weight:800}
+.tbl-bag,.tbl-gc{border-radius:36px;padding:20px}
+.tbl{grid-template-columns:2.2em repeat(var(--nd,5),minmax(0,1fr));gap:8px}
+.tbl-h{padding:8px 0;border-radius:18px;font-size:.95rem}
+.tbl-h.tod{background:var(--primary);color:var(--on-primary)}
+.tbl-p{width:2em;height:2em;align-self:center;justify-self:center;padding:0;border-radius:50%;background:var(--s3);font-size:.82rem}
+.tbl-c{min-height:60px;border-radius:22px;background:var(--scc);color:var(--on-scc);font-weight:700;transition:border-radius .4s var(--spring),transform .35s var(--spring),box-shadow .25s}
+.tbl-c:active{transform:scale(.92);border-radius:14px}
+.tbl-c.tod{background:var(--scc);color:var(--on-scc);box-shadow:0 0 0 3px var(--primary)}
+.tbl-c.emp,.tbl-c.emp.tod{background:transparent;color:var(--on-v);font-weight:400;box-shadow:inset 0 0 0 2px var(--s3)}
+.tbl-c.emp.tod{box-shadow:inset 0 0 0 2px var(--primary);color:var(--primary)}
+.tbl-c.emp .ms{font-size:20px}
+.tbl-f .tchip{height:40px}
+.tbl-step{display:inline-flex;align-items:center;gap:4px;padding:4px;border-radius:26px;background:var(--s2)}
+.tbl-step b{min-width:3.4em;text-align:center}
+.tbl-step .ibtn{display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:50%;background:var(--s3);color:var(--on);transition:border-radius .35s var(--spring),transform .3s var(--spring)}
+.tbl-step .ibtn:active{transform:scale(.9);border-radius:14px}.tbl-step .ibtn:disabled{opacity:.4}
+/* 持ち物 */
+.bag-bar{height:10px;margin-top:14px;border-radius:5px;background:var(--s3);overflow:hidden}
+.bag-bar i{display:block;height:100%;border-radius:5px;background:var(--primary);transition:width .5s var(--spring)}
+.bag-i{transition:background .25s,border-radius .4s var(--spring),transform .35s var(--spring)}.bag-i.on{border-radius:14px}
+.bag-done{display:flex;align-items:center;gap:8px;margin-top:10px;padding:10px 16px;border-radius:20px;background:var(--pc);color:var(--on-pc);font-weight:700;animation:qzpop .5s var(--spring) both}
+/* 暗記クイズ */
+.qz2-dir{margin:0 0 18px}.qz2-dir .lbl{margin:0 4px 8px}.qz2-dir small{display:block;margin:2px 6px 0}.qz2-dir .wx-seg{margin-bottom:6px}
+.wx-tr .qz2-dir{margin:16px 0 0}
+.qz2{display:grid;gap:14px}
+.qz2-top{display:flex;align-items:center;gap:10px}
+.qz2-chip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:18px;background:var(--scc);color:var(--on-scc);font-weight:700;font-size:.88rem;min-width:0}.qz2-chip>span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.qz2-chip .ms{font-size:20px;flex:none}
+.qz2-sc{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border-radius:18px;background:var(--s2);font-weight:800}.qz2-sc .ms{color:#2e7d32;font-size:22px}
+.qz2-bar{height:12px;border-radius:6px;background:var(--s3);overflow:hidden}.qz2-bar i{display:block;height:100%;border-radius:6px;background:var(--primary);transition:width .5s var(--spring)}
+.qz2-q{display:grid;gap:12px;align-content:space-between;min-height:176px;padding:22px 26px 28px;border-radius:40px 40px 40px 14px;background:var(--scc);color:var(--on-scc);transition:border-radius .5s var(--spring)}
+.qz2-q.ok{border-radius:40px 14px 40px 40px}.qz2-q.ng{border-radius:14px 40px 40px 40px}
+.qz2-m{display:flex;align-items:baseline;justify-content:space-between;gap:12px}.qz2-m span{font-size:1.1rem;font-weight:800}.qz2-m small{font-weight:500;opacity:.7}.qz2-m em{font-style:normal;font-size:.82rem;font-weight:600;opacity:.8;text-align:right}
+.qz2-t{font-size:clamp(1.9rem,5vw,2.8rem);font-weight:800;line-height:1.25;letter-spacing:-.01em;overflow-wrap:anywhere}
+.qz2-t.long{font-size:clamp(1.25rem,3vw,1.7rem);font-weight:700;line-height:1.55}
+.qz2-o{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:10px}
+.qz2-b{display:flex;align-items:center;gap:14px;min-height:72px;padding:10px 18px 10px 12px;border:0;border-radius:28px;background:var(--s2);color:var(--on);font:inherit;font-weight:650;font-size:1.1rem;text-align:left;transition:background .25s,border-radius .4s var(--spring),transform .35s var(--spring),opacity .3s}
+.qz2-b:nth-child(even){border-radius:28px 28px 14px 28px}
+.qz2-b:active:not(:disabled){transform:scale(.97);border-radius:16px;background:var(--s3)}
+.qz2-b:disabled{cursor:default}
+.qz2-k{flex:none;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--s3);font-weight:800;font-size:.95rem}.qz2-k .ms{font-size:22px}
+.qz2-x{min-width:0;overflow-wrap:anywhere;line-height:1.35}
+.qz2-b.ok{background:#2e7d32;color:#fff;animation:qzpop .5s var(--spring)}
+.qz2-b.ng{background:#c62828;color:#fff;animation:qzshake .45s}
+.qz2-b.ok .qz2-k,.qz2-b.ng .qz2-k{background:rgba(255,255,255,.25)}
+.qz2-b.dim{opacity:.45}
+.qz2-fb{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 14px 14px 20px;border-radius:32px;animation:qzrise .4s var(--spring) both}
+.qz2-fb.ok{background:color-mix(in srgb,#2e7d32 22%,var(--s1))}.qz2-fb.ng{background:color-mix(in srgb,var(--err) 18%,var(--s1))}
+.qz2-fb>.ms{font-size:32px}.qz2-fb.ok>.ms{color:#2e7d32}.qz2-fb.ng>.ms{color:#c62828}
+.qz2-fb b{display:block;font-size:1.1rem}.qz2-fb span{font-size:.92rem;opacity:.85;overflow-wrap:anywhere}
+.qz2-h{display:flex;align-items:center;gap:6px;justify-content:center;margin:2px 0 0;font-size:.85rem}.qz2-h .ms{font-size:20px}
+@media(pointer:coarse){.qz2-h{display:none}}
+.qz2-res{display:grid;justify-items:center;gap:6px;text-align:center}
+.qz2-res h2{margin:4px 0 0;font-size:1.7rem;font-weight:800}
+.qz2-ring{position:relative;width:176px;height:176px;margin:6px 0 10px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(var(--sc) calc(var(--p)*1%),var(--scc) 0);animation:qzpop .7s var(--spring) both}
+.qz2-ring::before{content:"";position:absolute;inset:16px;border-radius:50%;background:var(--bg,var(--s1))}
+.qz2-ring div{position:relative}.qz2-ring b{font-size:3.2rem;font-weight:800;line-height:1}.qz2-ring small{display:block;margin-top:4px;font-weight:600;color:var(--on-v)}
+.qz2-w{width:100%;margin-top:14px;text-align:left;border-radius:32px}
+.qz2-w>div:not(.lbl){display:flex;justify-content:space-between;gap:14px;padding:10px 4px;border-bottom:1px solid var(--s3)}.qz2-w>div:last-child{border:0}.qz2-w b{text-align:right}
+.qz2-acts{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:18px}
+@keyframes qzpop{0%{transform:scale(.92)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+@keyframes qzshake{20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes qzrise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+/* 記録 */
+.wd{padding:12px 0;border-radius:22px;transition:border-radius .4s var(--spring),transform .3s var(--spring)}
+.wd.ok{border-radius:22px 22px 10px 22px}
+.wk-st>div{padding:14px 6px;border-radius:24px;background:var(--s2)}
+@media(max-width:699px){.tbl-nx{padding:16px;gap:12px}.tbl-day{width:56px;height:56px;font-size:1.6rem}.qz2-q{padding:18px 20px 22px;min-height:150px}.qz2-ring{width:150px;height:150px}.qz2-ring b{font-size:2.6rem}.tbl{gap:6px}.tbl-c{min-height:54px;border-radius:18px;font-size:.85rem}}
+@media(prefers-reduced-motion:reduce){.htt2-day,.tbl-day,.qz2-b,.qz2-fb,.qz2-ring,.bag-done{animation:none}}
 </style>
 </head>
 <body>
@@ -1880,7 +1970,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '14.1';
+const APP_VERSION = '15.0';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2377,6 +2467,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '15.0', t: '起動できない問題の根本修正・4択クイズの向き・時間割に土曜', n: ['時間割を入力していると、アプリを開いても画面が真っ白のままになる問題を修正しました（13.0 以降で起きていました）', '単語帳の4択クイズで、「表 → 裏」「裏 → 表」「ミックス」から出しかたを選べるようになりました（単語帳のテストの画面と、暗記クイズの画面で選べます）', '4択クイズに、キーボードの 1〜4 での回答、まちがえた問題だけのやり直し、全問正解のお祝いを追加しました', '時間割に土曜日を追加しました（「土曜日」ボタンで表示を切り替えられます）。土曜に授業があるときは、金曜に「あしたの時間割」が土曜になります', '時間割（ホームのカードとツール）、持ち物、暗記クイズ、記録を、Material 3 Expressive のデザインにしました。時間割は、教科ごとの色で表示されます'] },
   { v: '14.1', t: 'AI先生の画面を、大きな画面に合わせて広げました', n: ['iPadなど大きな画面で、会話の部分を広く表示しました。上の余白を減らし、横向きでは、左に操作・右に会話の2列になります', '写真を添付しても、入力欄の位置が動かないようにしました（写真は入力欄の中に表示されます）', '答えが出たら、答えの最初から読めるようにしました'] },
   { v: '14.0', t: 'AI先生の追加と、更新後に画面が表示されない問題の修正', n: ['ツールに「AI先生」を追加しました。分からない問題の写真を送ると、問題を読み取って、解き方をやさしく説明します', '先生の名前・口調・教え方・学年・アイコンの色などを、自由に決められます。追加の指示も書けます', '答えを聞いたあとも、「もっとくわしく」「ヒントだけ」「似た問題を出して」などで、続けて質問できます', '更新のあとに、画面が真っ白のままになることがある問題を修正しました。通信が不安定なときでも、アプリが開くようにしました', 'もしうまく開かないときは、自動で直したり、画面のボタンで入れ直したりできるしくみを追加しました（課題などのデータは消えません）'] },
   { v: '13.1', t: 'フィードバック機能と、AI画面のリニューアル', n: ['フィードバック（新機能の要望・不具合・感想など）を送れるようになりました', 'AIの画面を、Material 3 Expressive のデザインに刷新しました'] },
@@ -2533,9 +2624,9 @@ function subjCompact(subs) {
 }
 function homeTtCard() {
   const t = S.tt; if (!t || !t.c || !Object.keys(t.c).length) return '';
-  const wd = new Date().getDay(), nx = wd >= 1 && wd <= 4 ? wd : 0, items = Array.from({ length: t.p || 6 }, (_, p) => t.c[nx + '-' + p] || '—');
-  const bag = bagItems(), bc = t.chk && t.chk.d === tblNext().date ? t.chk.v : [];
-  return `<div class="h-sec"><h2>${ms('calendar_view_week')}${wd >= 0 && wd <= 4 ? 'あした' : 'つぎの登校日'}の時間割（${TBL_DAYS[nx]}）</h2><span class="sp"></span><button class="btn tonal xs" data-act="tab" data-id="tool:tbl">${ms('edit')}編集</button></div><div class="card htt">${items.map((v, i) => `<div><span>${i + 1}</span><b>${esc(v)}</b></div>`).join('')}</div>${bag.length ? `<div class="bag-c" style="margin-top:10px">${bag.map(x => `<button type="button" class="bag-i ${bc.includes(x) ? 'on' : ''}" data-act="bagtoggle" data-id="${esc(x)}">${ms(bc.includes(x) ? 'check_circle' : 'radio_button_unchecked')}${esc(x)}</button>`).join('')}</div>` : ''}`;
+  const nx = tblNext(), p = t.p || 6, items = Array.from({ length: p }, (_, i) => t.c[nx.idx + '-' + i] || ''), used = items.filter(Boolean).length;
+  const bag = bagItems(), bc = t.chk && t.chk.d === nx.date ? t.chk.v : [];
+  return `<div class="h-sec"><h2>${ms('calendar_view_week')}${nx.tomorrow ? 'あした' : 'つぎの登校日'}の時間割</h2><span class="sp"></span><button class="btn tonal xs" data-act="tab" data-id="tool:tbl">${ms('edit')}編集</button></div><div class="card htt2"><div class="htt2-top"><span class="htt2-day">${TBL_DAYS[nx.idx]}</span><div><b>${TBL_DAYS[nx.idx]}曜日</b><small>${used ? `${used}時間の授業` : 'まだ入力されていません'}${bag.length ? `　・　持ち物 ${bc.filter(x => bag.includes(x)).length} / ${bag.length}` : ''}</small></div></div><div class="htt2-g stg">${items.map((v, i) => v ? `<div class="htt2-c sc" style="--sh:${ttHue(v)}"><i>${i + 1}</i><b>${esc(v)}</b></div>` : `<div class="htt2-c emp"><i>${i + 1}</i><b>—</b></div>`).join('')}</div>${bag.length ? `<div class="bag-c" style="margin-top:14px">${bag.map(x => `<button type="button" class="bag-i ${bc.includes(x) ? 'on' : ''}" data-act="bagtoggle" data-id="${esc(x)}">${ms(bc.includes(x) ? 'check_circle' : 'radio_button_unchecked')}${esc(x)}</button>`).join('')}</div>` : ''}</div>`;
 }
 function homeMemoCard() {
   const m = (S.memos || []).slice().sort((a, b) => (b.at || 0) - (a.at || 0)).slice(0, 3); if (!m.length) return '';
@@ -3479,7 +3570,7 @@ const ACT = {
   hardrefresh() { okDlg('最新版を読み込み直しますか？', 'アプリの保存済みファイルを消して、最新版を読み込み直します。課題や成績などのデータは消えません。ネットにつながっている状態で行ってください。', '読み込み直す', hardRefresh); }, ai() { ACT.tab('ai'); },
   drmode(id) { DR.mode = id; toolsRefresh(); }, drlv(id) { DR.lv = +id; toolsRefresh(); }, drstart() { DR.q = Array.from({ length: 10 }, drillQ); DR.i = 0; DR.ok = 0; DR.wrong = []; DR.fb = ''; DR.t0 = Date.now(); DR.phase = 'play'; toolsRefresh(); },
   drans() { const el = $('#drin'); if (!el) return; const v = parseInt(el.value, 10); if (isNaN(v)) return; const q = DR.q[DR.i]; if (v === q.a) { DR.ok++; DR.fb = '前の問題：正解'; } else { DR.wrong.push({ q: q.t, a: q.a, y: v }); DR.fb = '前の問題：不正解（答え ' + q.a + '）'; } DR.i++; if (DR.i >= DR.q.length) { DR.ms = Date.now() - DR.t0; DR.phase = 'done'; } toolsRefresh(); }, drreset() { DR.phase = 'setup'; toolsRefresh(); },
-  simn(id) { SM.n = +id; toolsRefresh(); }, qzset(id) { quizStart(id); }, qzpick(id) { if (QZ.pick >= 0) return; QZ.pick = +id; const q = QZ.q[QZ.i]; if (q.o[QZ.pick] === q.b) QZ.ok++; else QZ.wrong.push(q); toolsRefresh(); }, qznext() { QZ.i++; QZ.pick = -1; if (QZ.i >= QZ.q.length) QZ.phase = 'done'; toolsRefresh(); }, qzreset() { QZ.phase = 'setup'; toolsRefresh(); }, nat(id) { if (NS.kind === id) natStop(); else natStart(id); renderMini(); renderFocus(); }, natoff() { natStop(); renderMini(); if (TM.open) renderFocus(); }, ftanim() { S.set.timerAnim = S.set.timerAnim === false; save(); renderFocus(); },
+  simn(id) { SM.n = +id; toolsRefresh(); }, qzset(id) { quizStart(id); }, qzpick(id) { if (QZ.pick >= 0) return; QZ.pick = +id; const q = QZ.q[QZ.i]; if (q.o[QZ.pick] === q.b) QZ.ok++; else QZ.wrong.push(q); toolsRefresh(); }, qznext() { QZ.i++; QZ.pick = -1; if (QZ.i >= QZ.q.length) { QZ.phase = 'done'; if (QZ.ok === QZ.q.length) { try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } } toolsRefresh(); }, qzreset() { QZ.phase = 'setup'; toolsRefresh(); }, nat(id) { if (NS.kind === id) natStop(); else natStart(id); renderMini(); renderFocus(); }, natoff() { natStop(); renderMini(); if (TM.open) renderFocus(); }, ftanim() { S.set.timerAnim = S.set.timerAnim === false; save(); renderFocus(); },
   wcflip() { const c = $('#wcc'); if (!c || WC.busy) return; WC.flip = !WC.flip; c.classList.toggle('flip', WC.flip); },
   wcok() { wcMark(1); }, wcng() { wcMark(0); },
   wcfilt(id) { WC.filt = id; WC.i = 0; WC.flip = false; WC.tab = 'study'; wcSave(); toolsRefresh(); },
@@ -4821,8 +4912,8 @@ function wcTestTab() {
   const card = (ic, t, desc, act, dis) => `<button type="button" class="wx-tc sc" style="--sh:${d.hue}" data-act="${act}" ${dis ? 'disabled' : ''}><span class="wx-ti">${ms(ic)}</span><b>${t}</b><small>${desc}</small></button>`;
   return `<div class="card wx-tr"><div class="wx-trh"><b>テストの範囲</b><span class="muted">対象：<b id="wxtn">${pool}</b>枚</span></div>
   <div class="wc-opts" style="justify-content:flex-start"><button class="tchip ${tr ? 'on' : ''}" data-act="wctrng">${ms('pin')}${tr ? `番号 ${tr[0]}〜${tr[1]}` : '番号：全部'}</button>${tr ? `<button class="tchip" data-act="wctrngclr">${ms('close')}範囲を解除</button>` : ''}</div>
-  <div class="wx-seg wx-tsel" role="radiogroup" aria-label="テストに出すカード">${[['all', 'すべて'], ['new', '覚えていない'], ['known', '覚えた'], ['star', '★'], ['weak', '苦手']].map(([k, t]) => `<button type="button" role="radio" aria-checked="${WC.tsel === k}" class="wx-sg ${WC.tsel === k ? 'on' : ''}" data-act="wctsel" data-id="${k}">${t}<small>${cnt[k]}</small></button>`).join('')}</div></div>
-  <div class="wx-tg stg">${card('quiz', '4択クイズ', '4つの選択肢から、正しい意味を選びます', 'wcquiz', pool < 4)}${card('keyboard', '入力テスト', '意味を見て、単語を自分で入力します', 'wctype', pool < 1)}${card('headphones', '聞き流し', 'カードを自動でめくって、読み上げます', 'wcauto', pool < 1)}</div>`;
+  <div class="wx-seg wx-tsel" role="radiogroup" aria-label="テストに出すカード">${[['all', 'すべて'], ['new', '覚えていない'], ['known', '覚えた'], ['star', '★'], ['weak', '苦手']].map(([k, t]) => `<button type="button" role="radio" aria-checked="${WC.tsel === k}" class="wx-sg ${WC.tsel === k ? 'on' : ''}" data-act="wctsel" data-id="${k}">${t}<small>${cnt[k]}</small></button>`).join('')}</div>${qzDirSeg()}</div>
+  <div class="wx-tg stg">${card('quiz', '4択クイズ', QZ_DESC[qzDir()], 'wcquiz', pool < 4)}${card('keyboard', '入力テスト', '意味を見て、単語を自分で入力します', 'wctype', pool < 1)}${card('headphones', '聞き流し', 'カードを自動でめくって、読み上げます', 'wcauto', pool < 1)}</div>`;
 }
 const wcTabHtml = () => WC.tab === 'list' ? wcListTab() : WC.tab === 'test' ? wcTestTab() : wcStudyTab();
 function cardsHtml() {
@@ -5607,18 +5698,38 @@ function swHtml() {
   return `<div class="card sw-c"><div class="sw-t" id="swt">${swFmt(swNow())}</div><div class="sw-b"><button class="btn tonal sw-s" data-act="swlap" ${SWS.run ? '' : 'disabled'}>${ms('flag')}ラップ</button><button class="btn sw-g ${SWS.run ? 'on' : ''}" data-act="swgo">${ms(SWS.run ? 'pause' : 'play_arrow')}${SWS.run ? 'ストップ' : (SWS.acc ? 'つづける' : 'スタート')}</button><button class="btn text" data-act="swreset" ${SWS.acc || SWS.run ? '' : 'disabled'}>${ms('restart_alt')}リセット</button></div></div>${L.length ? `<div class="card"><div class="sw-l">${L.map((t, i) => `<div><span>ラップ ${L.length - i}</span><b>${swFmt(t)}</b><em>+${swFmt(t - (L[i + 1] || 0))}</em></div>`).join('')}</div></div>` : ''}`;
 }
 TPAINT.sw = () => { cancelAnimationFrame(SWS.raf); const loop = () => { const el = $('#swt'); if (!el || ui.tool !== 'sw') return; el.textContent = swFmt(swNow()); if (SWS.run) SWS.raf = requestAnimationFrame(loop); }; loop(); };
-const TBL_DAYS = ['月', '火', '水', '木', '金'], TBL_PRE = ['国語', '数学', '英語', '理科', '社会', '音楽', '美術', '保体', '技術', '家庭', '道徳', '総合', '学活'];
+const TBL_DAYS = ['月', '火', '水', '木', '金', '土'], TBL_PRE = ['国語', '数学', '英語', '理科', '社会', '音楽', '美術', '保体', '技術', '家庭', '道徳', '総合', '学活'];
 let TBLK = '';
 const tblData = () => { if (!S.tt || typeof S.tt !== 'object') S.tt = { p: 6, c: {} }; S.tt.c = S.tt.c || {}; S.tt.p = S.tt.p || 6; return S.tt; };
-function tblHtml() {
-  const t = tblData(), wd = new Date().getDay(), today = wd >= 1 && wd <= 5 ? wd - 1 : -1, nx = wd >= 1 && wd <= 4 ? wd : 0;
-  const nxt = Array.from({ length: t.p }, (_, p) => t.c[nx + '-' + p]).filter(Boolean);
-  let g = '<span></span>' + TBL_DAYS.map((d, i) => `<b class="tbl-h ${i === today ? 'tod' : ''}">${d}</b>`).join('');
-  for (let p = 0; p < t.p; p++) { g += `<b class="tbl-p">${p + 1}</b>`; for (let d = 0; d < 5; d++) { const v = t.c[d + '-' + p]; g += `<button type="button" class="tbl-c ${d === today ? 'tod' : ''} ${v ? '' : 'emp'}" data-act="tblcell" data-id="${d}-${p}">${v ? esc(v) : '＋'}</button>`; } }
-  return `<div class="card tbl-nx"><b>${ms('event_upcoming')}${(wd >= 0 && wd <= 4) ? 'あした' : 'つぎの登校日'}の時間割（${TBL_DAYS[nx]}曜日）</b><p>${nxt.length ? nxt.map(esc).join('　/　') : '<span class="muted">まだ入力されていません</span>'}</p></div>
-  <div class="card tbl-bag" id="tblbag">${bagHtml()}</div>
-  <div class="card"><div class="tbl" style="--cols:6">${g}</div><div class="tbl-f"><span class="muted">マスをタップして、教科を選びます</span><span class="sp" style="flex:1"></span><button class="btn tonal sm" data-act="tblp" data-id="-1" ${t.p <= 4 ? 'disabled' : ''}>${ms('remove')}</button><b>${t.p}時間</b><button class="btn tonal sm" data-act="tblp" data-id="1" ${t.p >= 8 ? 'disabled' : ''}>${ms('add')}</button></div></div>`;
+// 土曜日は「表示する／しない」を切り替えられる（t.nosat）。授業が入っている土曜だけが、「あした」の対象になる
+const tblN = () => (tblData().nosat ? 5 : 6);
+const TBL_HUE = { 国語: 20, 数学: 222, 英語: 150, 理科: 190, 社会: 40, 音楽: 300, 美術: 340, 保体: 120, 技術: 205, 家庭: 10, 道徳: 60, 総合: 170, 学活: 255 };
+function ttHue(n) {
+  const s = (typeof subjects === 'function' ? subjects() : []).find(x => x.name === n) || (S.subjects || []).find(x => x.name === n);
+  if (s && Number.isFinite(+s.hue)) return +s.hue;
+  if (TBL_HUE[n] != null) return TBL_HUE[n];
+  let h = 0; for (const ch of String(n)) h = (h * 31 + ch.charCodeAt(0)) % 360; return h;
 }
+const ttHas = (t, i) => Array.from({ length: t.p }, (_, p) => t.c[i + '-' + p]).some(Boolean);
+function tblNext() {
+  const t = tblData(), n = tblN(), now = new Date();
+  for (let add = 1; add <= 8; add++) {
+    const d = new Date(now); d.setDate(d.getDate() + add); const idx = (d.getDay() + 6) % 7;
+    if (idx < 5 || (idx === 5 && n > 5 && ttHas(t, 5))) return { idx, date: ymdOf(d), tomorrow: add === 1 };
+  }
+  return { idx: 0, date: ymdOf(now), tomorrow: false };
+}
+function tblHtml() {
+  const t = tblData(), n = tblN(), days = TBL_DAYS.slice(0, n), wd = new Date().getDay(), ti = (wd + 6) % 7, today = ti < n ? ti : -1, nx = tblNext();
+  const nxt = Array.from({ length: t.p }, (_, p) => t.c[nx.idx + '-' + p]);
+  const pills = nxt.map((v, i) => v ? `<span class="tbl-pill sc" style="--sh:${ttHue(v)}"><i>${i + 1}</i>${esc(v)}</span>` : '').join('');
+  let g = '<span></span>' + days.map((d, i) => `<b class="tbl-h ${i === today ? 'tod' : ''}">${d}</b>`).join('');
+  for (let p = 0; p < t.p; p++) { g += `<b class="tbl-p">${p + 1}</b>`; for (let d = 0; d < n; d++) { const v = t.c[d + '-' + p]; g += `<button type="button" class="tbl-c ${v ? 'sc' : 'emp'} ${d === today ? 'tod' : ''}" ${v ? `style="--sh:${ttHue(v)}"` : ''} data-act="tblcell" data-id="${d}-${p}" aria-label="${days[d]}曜 ${p + 1}時間目 ${v ? esc(v) : '未入力'}">${v ? esc(v) : ms('add')}</button>`; } }
+  return `<div class="card tbl-nx"><span class="tbl-day">${TBL_DAYS[nx.idx]}</span><div class="tbl-nxb"><b>${nx.tomorrow ? 'あした' : 'つぎの登校日'}の時間割<small>${TBL_DAYS[nx.idx]}曜日</small></b>${pills ? `<div class="tbl-pills stg">${pills}</div>` : '<p class="muted" style="margin:8px 0 0">まだ入力されていません</p>'}</div></div>
+  <div class="card tbl-bag" id="tblbag">${bagHtml()}</div>
+  <div class="card tbl-gc"><div class="tbl" style="--nd:${n}">${g}</div><div class="tbl-f"><span class="muted">マスをタップして、教科を選びます</span><span class="sp" style="flex:1"></span><button type="button" class="tchip ${n > 5 ? 'on' : ''}" data-act="tblsat" aria-pressed="${n > 5}">${ms(n > 5 ? 'check' : 'calendar_view_week')}土曜日</button><div class="tbl-step"><button type="button" class="ibtn" data-act="tblp" data-id="-1" ${t.p <= 4 ? 'disabled' : ''} aria-label="時間を減らす">${ms('remove')}</button><b>${t.p}時間</b><button type="button" class="ibtn" data-act="tblp" data-id="1" ${t.p >= 8 ? 'disabled' : ''} aria-label="時間を増やす">${ms('add')}</button></div></div></div>`;
+}
+Object.assign(ACT, { tblsat() { const t = tblData(); t.nosat = !t.nosat; save(); toolsRefresh(); } });
 const MEMO_HUES = [50, 150, 200, 340, 280, 20], MEMOS = { id: '', h: 50 };
 function memoHtml() {
   const m = (S.memos || []).slice().sort((a, b) => (b.at || 0) - (a.at || 0));
@@ -5760,21 +5871,54 @@ const QD = {
 const QZ = { set: '', q: [], i: 0, ok: 0, pick: -1, wrong: [], phase: 'setup' };
 const qpairs = id => id.startsWith('cards:') ? (ensureDecks(), wcTestCards(id.slice(6)).map(c => [c.f, c.b])) : id === 'cards' ? (S.cards || []).map(c => [c.f, c.b]) : QD[id][1].split(';').map(x => x.split(','));
 const qzName = id => id.startsWith('cards:') ? `単語帳「${(S.decks.find(d => d.id === id.slice(6)) || {}).name || ''}」` : QD[id][0];
+const qzDir = () => (S.set && ['f', 'b', 'r'].includes(S.set.qzdir) ? S.set.qzdir : 'f');
+const qzShuf = a => a.slice().sort(() => Math.random() - .5);
+const QZ_HUE = { pref: 200, elem: 150, elemr: 150, elemz: 150, elemall: 150, verb: 260 };
+const qzHue = id => id.startsWith('cards:') ? ((S.decks.find(d => d.id === id.slice(6)) || {}).hue || 150) : (QZ_HUE[id] || 150);
+function qzTitle(id, rev) { const n = qzName(id); if (!rev || id.startsWith('cards:')) return n; const p = n.split(' → '); return p.length > 1 ? p.reverse().join(' → ') : n; }
+const QZ_DESC = { f: '表を見て、4つの選択肢から裏を選びます', b: '裏を見て、4つの選択肢から表を選びます', r: '表と裏が入れかわる、4択のクイズです' };
+const QZ_NOTE = { f: '表（単語など）を見て、裏（意味など）を選びます', b: '裏（意味など）を見て、表（単語など）を選びます', r: '1問ごとに、向きがランダムに入れかわります' };
+function qzDirSeg() {
+  const d = qzDir();
+  return `<div class="qz2-dir"><div class="lbl">4択の出しかた</div><div class="wx-seg" role="radiogroup" aria-label="4択の出しかた">${[['f', '表 → 裏', 'east'], ['b', '裏 → 表', 'west'], ['r', 'ミックス', 'shuffle']].map(([k, t, i]) => `<button type="button" role="radio" aria-checked="${d === k}" class="wx-sg ${d === k ? 'on' : ''}" data-act="qzdir" data-id="${k}">${ms(i, '', 'font-size:18px;vertical-align:-4px;margin-right:4px')}${t}</button>`).join('')}</div><small class="muted">${QZ_NOTE[d]}</small></div>`;
+}
 function quizStart(id) {
   const P = qpairs(id); if (P.length < 4) return toast('4枚以上のカードが必要です。単語帳でカードを追加してください');
-  const pick = P.slice().sort(() => Math.random() - .5).slice(0, 10), all = [...new Set(P.map(p => p[1]))];
-  QZ.set = id; QZ.i = 0; QZ.ok = 0; QZ.pick = -1; QZ.wrong = []; QZ.phase = 'play';
-  QZ.q = pick.map(([f, b]) => { const o = all.filter(x => x !== b).sort(() => Math.random() - .5).slice(0, 3); o.push(b); o.sort(() => Math.random() - .5); return { f, b, o }; });
+  const dir = qzDir();
+  const q = qzShuf(P).slice(0, 10).map(([f, b]) => {
+    const rev = dir === 'b' || (dir === 'r' && Math.random() < .5), Q = rev ? b : f, A = rev ? f : b;
+    const pool = [...new Set(P.map(p => rev ? p[0] : p[1]))].filter(x => x !== A), o = qzShuf(pool).slice(0, 3); o.push(A);
+    return { f: Q, b: A, o: qzShuf(o), rev };
+  }).filter(x => x.o.length >= 2);
+  if (!q.length) return toast('選択肢をつくれませんでした。別のカードを追加してください');
+  QZ.set = id; QZ.i = 0; QZ.ok = 0; QZ.pick = -1; QZ.wrong = []; QZ.phase = 'play'; QZ.q = q;
   toolsRefresh();
 }
 function quizHtml() {
-  if (QZ.phase === 'setup') return `<div class="tgrid2">${Object.entries(QD).filter(([id]) => id !== 'cards').map(([id, [n]]) => `<button class="tcard sc" style="--sh:${{ pref: 200, elem: 150, elemr: 150, elemz: 150, elemall: 150, verb: 260 }[id] || 150}" data-act="qzset" data-id="${id}"><b>${n}</b><span>10問・4択</span></button>`).join('')}${(ensureDecks(), S.decks).map(d => `<button class="tcard sc" style="--sh:${d.hue}" data-act="qzset" data-id="cards:${d.id}"><b>単語帳「${esc(d.name)}」</b><span>${S.cards.filter(c => c.d === d.id).length}枚のカードから出題</span></button>`).join('')}</div>`;
+  if (QZ.phase === 'setup') return `${qzDirSeg()}<div class="tgrid2">${Object.entries(QD).filter(([id]) => id !== 'cards').map(([id, [n]]) => `<button class="tcard sc" style="--sh:${qzHue(id)}" data-act="qzset" data-id="${id}"><b>${n}</b><span>10問・4択</span></button>`).join('')}${(ensureDecks(), S.decks).map(d => `<button class="tcard sc" style="--sh:${d.hue}" data-act="qzset" data-id="cards:${d.id}"><b>単語帳「${esc(d.name)}」</b><span>${S.cards.filter(c => c.d === d.id).length}枚のカードから出題</span></button>`).join('')}</div>`;
+  const n = QZ.q.length, hue = qzHue(QZ.set);
   if (QZ.phase === 'play') {
-    const q = QZ.q[QZ.i], done = QZ.pick >= 0;
-    return `<div class="card"><div class="muted" style="font-weight:500">${esc(qzName(QZ.set))}　${QZ.i + 1} / ${QZ.q.length} 問目</div><div class="drt" style="margin:14px 0">${esc(q.f)}</div><div class="qzo">${q.o.map((o, k) => `<button class="qzb ${done ? (o === q.b ? 'ok' : k === QZ.pick ? 'ng' : '') : ''}" data-act="qzpick" data-id="${k}" ${done ? 'disabled' : ''}>${esc(o)}</button>`).join('')}</div>${done ? `<div class="dact" style="margin-top:14px"><span class="muted" style="font-weight:600">${q.o[QZ.pick] === q.b ? '正解です' : '答えは「' + esc(q.b) + '」です'}</span><span class="sp"></span><button class="btn" data-act="qznext">${QZ.i + 1 >= QZ.q.length ? '結果を見る' : '次の問題'}${ms('arrow_forward')}</button></div>` : ''}</div>`;
+    const q = QZ.q[QZ.i], done = QZ.pick >= 0, ok = done && q.o[QZ.pick] === q.b, prog = (QZ.i + (done ? 1 : 0)) / n * 100;
+    const cap = QZ.set.startsWith('cards:') ? (q.rev ? '裏を見て、表を選びます' : '表を見て、裏を選びます') : qzTitle(QZ.set, q.rev);
+    return `<div class="qz2"><div class="qz2-top"><span class="qz2-chip sc" style="--sh:${hue}">${ms('quiz')}<span>${esc(qzName(QZ.set))}</span></span><span class="sp" style="flex:1"></span><span class="qz2-sc" title="正解数">${ms('check_circle')}<b>${QZ.ok}</b></span></div>
+    <div class="qz2-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${QZ.i + (done ? 1 : 0)}"><i style="width:${prog}%"></i></div>
+    <div class="qz2-q sc ${done ? (ok ? 'ok' : 'ng') : ''}" style="--sh:${hue}"><div class="qz2-m"><span>${QZ.i + 1}<small> / ${n}</small></span><em>${esc(cap)}</em></div><div class="qz2-t ${String(q.f).length > 22 ? 'long' : ''}">${wcNl(q.f)}</div></div>
+    <div class="qz2-o">${q.o.map((o, k) => { const st = done ? (o === q.b ? 'ok' : k === QZ.pick ? 'ng' : 'dim') : ''; return `<button type="button" class="qz2-b ${st}" data-act="qzpick" data-id="${k}" ${done ? 'disabled' : ''}><span class="qz2-k">${st === 'ok' ? ms('check') : st === 'ng' ? ms('close') : k + 1}</span><span class="qz2-x">${wcNl(o)}</span></button>`; }).join('')}</div>
+    ${done ? `<div class="qz2-fb ${ok ? 'ok' : 'ng'}">${ms(ok ? 'celebration' : 'lightbulb')}<div><b>${ok ? '正解です！' : 'おしい！'}</b>${ok ? '' : `<span>答えは「${esc(q.b)}」です</span>`}</div><span class="sp" style="flex:1"></span><button type="button" class="btn" data-act="qznext">${QZ.i + 1 >= n ? '結果を見る' : '次の問題'}${ms('arrow_forward')}</button></div>` : `<p class="muted qz2-h">${ms('keyboard')}キーボードの 1〜${q.o.length} でも選べます</p>`}</div>`;
   }
-  return `<div class="card" style="text-align:center"><div class="muted">結果</div><div class="crres" style="font-size:3rem">${QZ.ok} / ${QZ.q.length}</div>${QZ.wrong.length ? `<div class="chist" style="text-align:left"><div class="lbl">まちがえた問題</div>${QZ.wrong.map(w => `<div><span>${esc(w.f)}</span><b>${esc(w.b)}</b></div>`).join('')}</div>` : '<div>全問正解です</div>'}<div class="dact" style="justify-content:center;margin-top:16px"><button class="btn tonal" data-act="qzreset">別のクイズ</button><button class="btn" data-act="qzset" data-id="${QZ.set}">${ms('replay')}もう一度</button></div></div>`;
+  const pct = Math.round(QZ.ok / n * 100), msg = pct === 100 ? 'パーフェクト！' : pct >= 80 ? 'すばらしい！' : pct >= 50 ? 'あと少し！' : 'もう一度チャレンジ！';
+  return `<div class="qz2-res"><div class="qz2-ring sc" style="--sh:${hue};--p:${pct}"><div><b>${QZ.ok}</b><small>/ ${n}</small></div></div><h2>${msg}</h2><p class="muted" style="margin:0">正解率 ${pct}%　・　${esc(qzName(QZ.set))}</p>${QZ.wrong.length ? `<div class="card qz2-w"><div class="lbl">まちがえた問題</div>${QZ.wrong.map(w => `<div><span>${wcNl(w.f)}</span><b>${wcNl(w.b)}</b></div>`).join('')}</div>` : ''}<div class="qz2-acts">${QZ.wrong.length ? `<button type="button" class="btn tonal" data-act="qzagain">${ms('rule')}まちがえた問題だけ</button>` : ''}<button type="button" class="btn tonal" data-act="qzreset">別のクイズ</button><button type="button" class="btn" data-act="qzset" data-id="${QZ.set}">${ms('replay')}もう一度</button></div></div>`;
 }
+Object.assign(ACT, {
+  qzdir(id) { if (!['f', 'b', 'r'].includes(id)) return; S.set.qzdir = id; save(); toolsRefresh(); },
+  qzagain() { if (!QZ.wrong.length) return; QZ.q = QZ.wrong.map(q => ({ ...q, o: qzShuf(q.o) })); QZ.i = 0; QZ.ok = 0; QZ.pick = -1; QZ.wrong = []; QZ.phase = 'play'; toolsRefresh(); }
+});
+document.addEventListener('keydown', e => {
+  if (ui.tab !== 'tools' || ui.tool !== 'quiz' || QZ.phase !== 'play' || dlg.open || e.metaKey || e.ctrlKey || e.altKey) return;
+  const t = e.target; if (t && (/^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName) || t.isContentEditable)) return;
+  if (QZ.pick < 0 && /^[1-9]$/.test(e.key)) { const k = +e.key - 1; if (QZ.q[QZ.i] && k < QZ.q[QZ.i].o.length) { e.preventDefault(); ACT.qzpick(k); } }
+  else if (QZ.pick >= 0 && (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight')) { e.preventDefault(); ACT.qznext(); }
+});
 document.addEventListener('input', e => { const k = e.target.dataset && e.target.dataset.tp; if (k) { TV[e.target.id] = e.target.value; if (TPAINT[k]) TPAINT[k](); } });
 document.addEventListener('change', e => { if (e.target.id === 'shsel') { SH.id = e.target.value; SH.v = {}; toolsRefresh(); } });
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'drin') ACT.drans(); if (e.key === 'Enter' && e.target.id === 'fcus') ACT.fcus(); });
@@ -6199,12 +6343,17 @@ function msrCheck() {
 }
 window.__fl = msrCheck; msrCheck(); addEventListener('load', msrCheck); [1500, 4000, 10000, 25000].forEach(t => setTimeout(msrCheck, t));
 window.__kosaV = APP_VERSION;
+/* 最初の描画は、スクリプトの最後（すべての const / let の宣言が終わったあと）に行う。
+   途中で呼ぶと、あとの行で宣言する部品（例：ymdOf・bagSplit）を使う画面で、「宣言前に参照」の例外になり、画面が空になる */
+function bootApp() {
 const bootStep = (n, f) => { try { f(); return true; } catch (e) { try { window.__kosaLog && __kosaLog('起動(' + n + '): ' + ((e && e.message) || e)); } catch (x) { } return false; } };
 bootStep('theme', applyTheme); bootStep('badges', () => checkBadges(true)); bootStep('timer', () => tmReset('focus')); bootStep('fab', renderFab);
 let booted = bootStep('render', render);
 if (!booted) booted = bootStep('render-safe', () => { const hm = S.set.home; delete S.set.home; try { ui.tab = 'home'; render(); } finally { if (hm !== undefined) S.set.home = hm; } });   // ホームの配置データが原因のときは、この回だけ標準の配置で表示する
 bootStep('splash', splash); bootStep('acct', renderAcct); bootStep('cloud', cloudInit);
 if (booted) { try { window.__kosaOk && __kosaOk(); } catch (e) { } }
+}
+
 try { if (!localStorage.getItem('kosa-guide-seen')) setTimeout(() => { if (!dlg.open) guideDlg(); }, 900); } catch (e) { }
 // アップデートのあと最初に開いたとき、新しくなった点を表示する（初めて使うときは表示しない）
 try {
@@ -6312,7 +6461,6 @@ function recDlg(id) {
 }
 // --- あしたの持ち物 ---
 const bagSplit = t => String(t || '').split(/[、,，\n]+/).map(x => x.trim()).filter(Boolean);
-function tblNext() { const now = new Date(), wd = now.getDay(), add = wd >= 1 && wd <= 4 ? 1 : wd === 0 ? 1 : wd === 5 ? 3 : 2, d = new Date(now); d.setDate(d.getDate() + add); const idx = (d.getDay() + 6) % 7; return { idx, date: ymdOf(d), tomorrow: add === 1 }; }
 function bagItems() {
   const t = tblData(), nx = tblNext(), subj = [...new Set(Array.from({ length: t.p }, (_, p) => t.c[nx.idx + '-' + p]).filter(Boolean))], items = [];
   bagSplit(t.daily).forEach(x => items.push(x)); subj.forEach(sn => bagSplit((t.items || {})[sn]).forEach(x => items.push(x)));
@@ -6320,7 +6468,7 @@ function bagItems() {
 }
 function bagHtml() {
   const t = tblData(), nx = tblNext(), items = bagItems(), chk = t.chk && t.chk.d === nx.date ? t.chk.v : [];
-  return `<div class="bag-h"><b>${ms('backpack')}${nx.tomorrow ? 'あした' : 'つぎの登校日'}の持ち物</b><span class="sp" style="flex:1"></span><button type="button" class="btn tonal xs" data-act="bagset">${ms('edit')}設定</button></div>${items.length ? `<div class="bag-c">${items.map(x => `<button type="button" class="bag-i ${chk.includes(x) ? 'on' : ''}" data-act="bagtoggle" data-id="${esc(x)}" aria-pressed="${chk.includes(x)}">${ms(chk.includes(x) ? 'check_circle' : 'radio_button_unchecked')}${esc(x)}</button>`).join('')}</div><p class="muted bag-n">${chk.length} / ${items.length} そろいました</p>` : `<p class="muted" style="margin:6px 0 0;line-height:1.7">教科ごとの持ち物を「設定」で決めると、ここにチェックリストが出ます。</p>`}`;
+  return `<div class="bag-h"><b>${ms('backpack')}${nx.tomorrow ? 'あした' : 'つぎの登校日'}の持ち物</b><span class="sp" style="flex:1"></span><button type="button" class="btn tonal xs" data-act="bagset">${ms('edit')}設定</button></div>${items.length ? `<div class="bag-c">${items.map(x => `<button type="button" class="bag-i ${chk.includes(x) ? 'on' : ''}" data-act="bagtoggle" data-id="${esc(x)}" aria-pressed="${chk.includes(x)}">${ms(chk.includes(x) ? 'check_circle' : 'radio_button_unchecked')}${esc(x)}</button>`).join('')}</div><div class="bag-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${items.length}" aria-valuenow="${chk.length}"><i style="width:${chk.length / items.length * 100}%"></i></div>${chk.length >= items.length ? `<div class="bag-done">${ms('celebration')}ぜんぶそろいました！</div>` : `<p class="muted bag-n">${chk.length} / ${items.length} そろいました</p>`}` : `<p class="muted" style="margin:6px 0 0;line-height:1.7">教科ごとの持ち物を「設定」で決めると、ここにチェックリストが出ます。</p>`}`;
 }
 function bagDlg() {
   const t = tblData(), names = [...new Set(Object.values(t.c))];
@@ -6656,6 +6804,7 @@ document.addEventListener('click', e => {
   const n = Date.now(); yxkN = (n - yxkT < 1500) ? yxkN + 1 : 1; yxkT = n;
   if (yxkN >= 5) { yxkN = 0; yxOpen(); }
 });
+bootApp();
 </script>
 </body>
 </html>
