@@ -1993,6 +1993,43 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 .hm-c.td{box-shadow:0 0 0 2px var(--on-v)}
 .hm-lg{display:flex;align-items:center;gap:4px;justify-content:flex-end;margin-top:12px;font-size:.75rem;color:var(--on-v)}.hm-lg .hm-c{width:14px;height:14px;aspect-ratio:auto;min-width:0}
 @media(max-width:699px){.nt-big b{font-size:2.8rem}.hm-top{gap:20px}}
+
+/* ===== 17.0：今日のやること ===== */
+.pitem button.rg{border:0;background:var(--s3);color:var(--on);padding:8px 12px;border-radius:16px;font:inherit;font-weight:700;white-space:nowrap;transition:border-radius .35s var(--spring),transform .3s var(--spring)}
+.pitem button.rg:active{transform:scale(.93);border-radius:10px}
+.td{margin-top:16px;display:grid;gap:10px}
+.td-h{display:flex;align-items:center;gap:6px 10px;flex-wrap:wrap;padding:2px 4px}
+.td-h b{display:flex;align-items:center;gap:8px;font-size:1.05rem}.td-h small{color:var(--on-v);font-weight:600}
+.td-l{display:grid;gap:8px}
+.td-i{display:flex;align-items:center;gap:10px;padding:8px 10px 8px 8px;border-radius:26px;background:var(--s2);transition:background .3s,border-radius .5s var(--spring),transform .3s var(--spring)}
+.td-i.sc{background:var(--scc);color:var(--on-scc)}
+.td-i:nth-child(even){border-radius:26px 26px 12px 26px}
+.td-i.ok{opacity:.72}.td-i.ok .td-t b{text-decoration:line-through;text-decoration-thickness:2px}
+.td-ck{flex:none;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:transparent;box-shadow:inset 0 0 0 2.5px var(--on-v);color:var(--on-primary);transition:border-radius .45s var(--spring),background .25s,box-shadow .25s,transform .3s var(--spring)}
+.td-ck .ms{font-size:26px;opacity:0;transform:scale(.3);transition:opacity .2s,transform .4s var(--spring)}
+.td-ck:active{transform:scale(.88)}
+.td-i.ok .td-ck,.tda-r.on .td-ck{background:var(--primary);box-shadow:none;border-radius:15px}
+.td-i.ok .td-ck .ms,.tda-r.on .td-ck .ms{opacity:1;transform:none}
+.td-t{flex:1;min-width:0;display:block;text-align:left;background:none;border:0;padding:4px 0;font:inherit;color:inherit}
+.td-t b{display:block;font-weight:650;font-size:1rem;overflow-wrap:anywhere}
+.td-t span{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:3px;font-size:.78rem;color:var(--on-v);font-weight:600}
+.td-i.sc .td-t span{color:inherit;opacity:.8}
+.td-tag{display:inline-flex;align-items:center;gap:3px;padding:1px 9px;border-radius:10px;background:var(--pc);color:var(--on-pc);font-style:normal}
+.td-go{flex:none;display:grid;place-items:center;min-width:44px;height:44px;padding:0 10px;border:0;border-radius:22px;background:var(--s3);color:var(--on);font:inherit;font-weight:700;transition:border-radius .35s var(--spring),transform .3s var(--spring)}
+.td-go:active{transform:scale(.9);border-radius:12px}
+.td-empty{padding:14px 18px;border-radius:24px;background:var(--s1);color:var(--on-v);font-weight:500;line-height:1.6;text-align:center}
+.td-add{display:flex;gap:8px;flex-wrap:wrap}
+.td-add .btn{flex:1 1 150px}
+.td-ai{display:flex;gap:10px;padding:12px 16px;border-radius:24px 24px 24px 8px;background:var(--pc);color:var(--on-pc);line-height:1.6;font-weight:600}.td-ai small{display:block;opacity:.75;font-weight:500}
+.td-carry{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:8px 8px 8px 16px;border-radius:22px;background:var(--ter-c,var(--s2));font-weight:600;font-size:.92rem}
+.td-skip{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.td-skip small{color:var(--on-v);font-weight:600}
+.td-sug{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 16px}.td-sug .sn-fc.on{background:var(--pc);color:var(--on-pc)}.td-sug small{opacity:.7;font-weight:700;margin-left:2px}
+.pl-st{display:flex;align-items:center;gap:6px}.pl-st input{flex:1;min-width:0;text-align:center;font-size:1.5rem;font-weight:800;border:0;border-radius:18px;padding:10px 4px;background:var(--s3);color:var(--on)}
+.tda-r{display:flex;align-items:center;gap:12px;width:100%;padding:10px 14px 10px 10px;border:0;border-radius:24px;background:var(--s2);color:var(--on);font:inherit;text-align:left;transition:background .25s,border-radius .4s var(--spring),opacity .25s}
+.tda-r:not(.on){opacity:.55}
+.tda-r .td-ck{pointer-events:none}.tda-t{flex:1;min-width:0}.tda-t b{display:block;font-weight:650;overflow-wrap:anywhere}.tda-t small{color:var(--on-v);font-weight:600}
+.tda-r em{flex:none;font-style:normal;font-weight:800;font-size:.9rem}
+@media(prefers-reduced-motion:reduce){.td-i,.td-ck,.tda-r{transition:none}}
 </style>
 </head>
 <body>
@@ -2017,7 +2054,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '16.0';
+const APP_VERSION = '17.0';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2423,14 +2460,15 @@ function buildPlan() {
   for (const t of examTasks()) {
     const doneToday = lg.t[t.id] || 0;
     if (isDone(t) && !doneToday) continue;
-    const s = SUB(t.sid), pinned = isPinned(t);
+    if (t.skip === td && !doneToday) continue;   // 「今日はやらない」にした課題
+    const s = SUB(t.sid), pn = t.pn && t.pn.d === td ? t.pn : null, pinned = isPinned(t) || !!pn;
     const dls = [t.due, s.exam, ex.date].filter(Boolean).sort();
     const left = dls.length ? Math.max(1, daysBetween(td, dls[0])) : null;
     const base = t.total - t.done + doneToday;
     if (!pinned && !t.req && !(left && left <= 7)) continue;
-    let amt = left ? Math.ceil(base / left) : Math.min(base, Math.max(3, Math.ceil(t.total / 14)));
+    let amt = pn ? pn.n : left ? Math.ceil(base / left) : Math.min(base, Math.max(3, Math.ceil(t.total / 14)));   // pn＝今日のぶんを自分（またはAI）が決めたページ数
     amt = Math.min(amt, base); if (amt <= 0) continue;
-    items.push({ t, s, amt, doneToday, left, pinned });
+    items.push({ t, s, amt, doneToday, left, pinned, custom: !!pn, min: pn ? pn.m || 0 : 0 });
   }
   items.sort((a, b) => ((a.doneToday >= a.amt) - (b.doneToday >= b.amt)) || (b.pinned - a.pinned) || ((a.left ?? 999) - (b.left ?? 999)) || (b.t.req - a.t.req));
   return items.slice(0, 8);
@@ -2514,6 +2552,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.0', t: '「今日のプラン」に、自分のやること・AIの計画などを追加', n: ['ホームの「今日のプラン」に、「自分のやること」を追加しました。やることを自分で書いて、時間の目安も入れられます。チェックすると、ぜんぶ終わったときにお祝いが出ます', '「AIで今日の計画」を追加しました。使える時間・今日の調子・ひとことを伝えると、AIが課題・復習・休けいを、順番と時間つきで提案します。選んでから、計画に入れられます', '課題のノルマ（「0/9p」の部分）をタップすると、今日やるページ数を自分で決めたり、「今日はやらない」にしたりできます', '「毎日のやること」（音読・漢字など）を登録すると、毎日、自動で出ます。「平日だけ」も選べます', 'おすすめのやること（ノートの復習・単語帳の見直しなど）を、ワンタップで足せます。前の日の残りは、今日に持ちこせます'] },
   { v: '16.0', t: 'まちがいノート・AI小テスト・学習カレンダーなどを追加', n: ['「まちがいノート」を追加しました。分からなかった問題と解き方をためておくと、1日・3日・1週間・2週間とあけながら、復習の問題が出ます。5回できたら「卒業」です', 'AI先生の答えの下の ブックマークのボタンから、ノートに保存できます', '「AI小テスト」を追加しました。教科とテーマを決めると、AIが4択の問題と解説をつくります。まちがえた問題は、ノートに保存できます', 'ホームに「今日の復習」と「単語帳の見直し」を追加しました（「配置」で、並べかえや非表示もできます）', '単語帳に「AIで例文」を追加しました', '記録に「学習カレンダー」を追加しました。16週間の勉強の記録が、色の濃さで分かります', 'AIの会話が、アプリを閉じても残るようになりました（文字だけ。写真は残りません）。「新しい会話」で消せます', '左上（スマホは右下）の「＋」ボタンが、意図せず動いてしまう問題を直しました。位置は固定になります'] },
   { v: '15.0', t: '起動できない問題の根本修正・4択クイズの向き・時間割に土曜', n: ['時間割を入力していると、アプリを開いても画面が真っ白のままになる問題を修正しました（13.0 以降で起きていました）', '単語帳の4択クイズで、「表 → 裏」「裏 → 表」「ミックス」から出しかたを選べるようになりました（単語帳のテストの画面と、暗記クイズの画面で選べます）', '4択クイズに、キーボードの 1〜4 での回答、まちがえた問題だけのやり直し、全問正解のお祝いを追加しました', '時間割に土曜日を追加しました（「土曜日」ボタンで表示を切り替えられます）。土曜に授業があるときは、金曜に「あしたの時間割」が土曜になります', '時間割（ホームのカードとツール）、持ち物、暗記クイズ、記録を、Material 3 Expressive のデザインにしました。時間割は、教科ごとの色で表示されます'] },
   { v: '14.1', t: 'AI先生の画面を、大きな画面に合わせて広げました', n: ['iPadなど大きな画面で、会話の部分を広く表示しました。上の余白を減らし、横向きでは、左に操作・右に会話の2列になります', '写真を添付しても、入力欄の位置が動かないようにしました（写真は入力欄の中に表示されます）', '答えが出たら、答えの最初から読めるようにしました'] },
@@ -2574,6 +2613,7 @@ function greeting() {
   return [h < 5 ? 'お疲れさまです' : h < 11 ? 'おはようございます' : h < 18 ? 'こんにちは' : 'こんばんは', `${d.getMonth() + 1}月${d.getDate()}日（${WD[d.getDay()]}）`];
 }
 function viewHome() {
+  tdRoll();
   const ex = curExam(), subs = subjects(), P = {};
   const [gr, gd] = greeting(), lv = level(), st = streak();
   const C = 2 * Math.PI * 13;
@@ -2610,10 +2650,11 @@ function viewHome() {
   if (plan.length) {
     h += `<div class="stg" style="display:grid;gap:10px">${plan.map(it => {
       const ok = it.doneToday >= it.amt;
-      return `<div class="pitem sc ${ok ? 'ok' : ''}" style="--sh:${it.s.hue}">${avatar(it.s, 46)}<div class="t"><b>${esc(it.t.title)}</b><span>${esc(it.s.name)} ・ ${rangeText(it)}${it.pinned ? ' ' + ms('star', 'f', 'font-size:14px;vertical-align:-2px') : ''}</span></div><div class="rg">${Math.min(it.doneToday, it.amt)}/${it.amt}p</div>
+      return `<div class="pitem sc ${ok ? 'ok' : ''}" style="--sh:${it.s.hue}">${avatar(it.s, 46)}<div class="t"><b>${esc(it.t.title)}</b><span>${esc(it.s.name)} ・ ${rangeText(it)}${it.min ? ` ・ ${it.min}分` : ''}${it.custom && it.t.pn && it.t.pn.ai ? ' ' + ms('auto_awesome', '', 'font-size:14px;vertical-align:-2px') : it.pinned ? ' ' + ms('star', 'f', 'font-size:14px;vertical-align:-2px') : ''}</span></div><button type="button" class="rg" data-act="planedit" data-id="${it.t.id}" aria-label="今日のページ数を決める">${Math.min(it.doneToday, it.amt)}/${it.amt}p${ms('edit', '', 'font-size:14px;vertical-align:-2px;margin-left:4px;opacity:.7')}</button>
       <button class="b" data-act="timer-task" data-id="${it.t.id}" aria-label="この課題で集中タイマー">${ms('play_arrow')}</button><button class="b go" data-act="planok" data-id="${it.t.id}" data-n="${it.amt}" aria-label="計画ぶんを完了にする">${ms('check')}</button></div>`;
     }).join('')}</div>`;
   } else h += `<div class="card muted" style="text-align:center;font-weight:500">今日のぶんの計画はありません。課題カードの ${ms('star', '', 'font-size:18px;vertical-align:-4px')} で「今日やる」を選べます</div>`;
+  h += tdBlock();
   P.plan = h + '</div>'; h = '';   // 「今日のプラン」の枠を閉じる
 
   const dts = dueTasks(), dn = dly ? 6 : 4, due = dts.slice(0, dn);
@@ -6469,6 +6510,173 @@ document.addEventListener('keydown', e => {
   }
 });
 document.addEventListener('input', e => { if (e.target.id === 'aqt') AQ.theme = e.target.value; });
+/* ====================== 今日のやること（17.0）：自分で決める・AIに計画してもらう・毎日のやること ====================== */
+const TD_MAX = 200, TD_MIN = [0, 5, 10, 15, 20, 30, 45, 60, 90];
+const TD_PRE = [['音読', 5], ['漢字の練習', 10], ['英単語を覚える', 10], ['計算ドリル', 15], ['明日の持ち物を準備', 5]];
+const tdAll = () => (S.todos = Array.isArray(S.todos) ? S.todos : []);
+const tdHab = () => (S.habits = Array.isArray(S.habits) ? S.habits : []);
+const tdOrd = (a, b) => ((a.done ? 1 : 0) - (b.done ? 1 : 0)) || ((a.o || 0) - (b.o || 0));
+const tdToday = () => tdAll().filter(x => x.d === today() && !x.x).sort(tdOrd);
+const tdFind = id => tdAll().find(v => v.id === id);
+function tdAdd(o) {
+  const t = snOne(o.t).slice(0, 60); if (!t) return null;
+  const a = tdAll(), it = { id: uid(), t, d: o.d || today(), min: Math.max(0, Math.min(180, +o.min || 0)), done: false, src: o.src || 'me', sid: o.sid || '', go: o.go || '', h: o.h || '', o: Date.now() + a.length };
+  a.push(it); if (a.length > TD_MAX) a.splice(0, a.length - TD_MAX); return it;
+}
+// 毎日のやることを、今日のぶんだけ作る／古いものを消す
+function tdRoll() {
+  const td = today(), wd = new Date().getDay(); let ch = false;
+  if (!Array.isArray(S.habits) || !S.habits.length) { if (!Array.isArray(S.todos) || !S.todos.length) return; }
+  for (const h of tdHab()) { if ((h.days && h.days.length ? h.days : [0, 1, 2, 3, 4, 5, 6]).includes(wd) && !tdAll().some(x => x.h === h.id && x.d === td)) { tdAdd({ t: h.t, min: h.min, src: 'habit', h: h.id }); ch = true; } }
+  const lim = ntPlus(-14), n0 = tdAll().length; S.todos = tdAll().filter(x => x.d >= lim); if (S.todos.length !== n0) ch = true;
+  if (ch) save();
+}
+const tdMinLeft = () => tdToday().filter(x => !x.done).reduce((a, x) => a + (x.min || 0), 0) + buildPlan().filter(i => i.doneToday < i.amt).reduce((a, i) => a + ((i.t.pn && i.t.pn.d === today() && i.t.pn.m) || 0), 0);
+function tdSuggest() {
+  const have = new Set(tdToday().map(x => x.t)), out = [], nd = ntAll().filter(ntDue).length, rv = (S.cards || []).filter(wcRevDue).length;
+  if (nd) out.push({ t: `まちがいノートの復習（${nd}問）`, min: Math.min(15, Math.max(5, nd * 2)), i: 'edit_note', go: 'note' });
+  if (rv) out.push({ t: `単語帳の見直し（${rv}枚）`, min: Math.min(15, Math.max(5, Math.ceil(rv / 2))), i: 'style', go: 'cards' });
+  TD_PRE.forEach(([t, m]) => out.push({ t, min: m, i: 'task_alt' }));
+  return out.filter(s => !have.has(s.t));
+}
+let TDS = [];
+/* ---- ホームの「今日のプラン」に入れる、自分のやることの部分 ---- */
+function tdBlock() {
+  const list = tdToday(), dn = list.filter(x => x.done).length, left = tdMinLeft(), ap = S.aiplan && S.aiplan.d === today() ? S.aiplan : null;
+  const old = tdAll().filter(x => x.d < today() && !x.done && !x.x && !x.h && daysBetween(x.d, today()) <= 3);
+  const skipped = examTasks().filter(t => t.skip === today() && !isDone(t));
+  const row = x => { const s = x.sid ? SUB(x.sid) : null; return `<div class="td-i ${x.done ? 'ok' : ''} ${s ? 'sc' : ''}" ${s ? `style="--sh:${s.hue}"` : ''}><button type="button" class="td-ck" data-act="tdck" data-id="${x.id}" role="checkbox" aria-checked="${!!x.done}" aria-label="${esc(x.t)}を完了にする">${ms('check')}</button><button type="button" class="td-t" data-act="tdedit" data-id="${x.id}"><b>${esc(x.t)}</b><span>${s ? `<em class="td-tag">${esc(s.name)}</em>` : ''}${x.src === 'ai' ? `<em class="td-tag">${ms('auto_awesome', '', 'font-size:13px')}AI</em>` : ''}${x.src === 'habit' ? `<em class="td-tag">${ms('repeat', '', 'font-size:13px')}毎日</em>` : ''}${x.min ? `<em>${ms('schedule', '', 'font-size:14px;vertical-align:-2px')}${x.min}分</em>` : ''}</span></button>${x.done ? '' : `<button type="button" class="td-go" data-act="tdgo" data-id="${x.id}" aria-label="${x.go ? '開く' : '集中タイマーをはじめる'}">${ms(x.go ? 'arrow_forward' : 'play_arrow')}</button>`}</div>`; };
+  return `<div class="td"><div class="td-h"><b>${ms('checklist')}自分のやること</b><small>${list.length ? `${dn} / ${list.length} 完了${left ? `　・　あと約${left}分` : ''}` : ''}</small><span class="sp" style="flex:1"></span>${tdHab().length ? `<button type="button" class="btn text xs" data-act="tdhab">${ms('repeat')}毎日</button>` : ''}</div>
+  ${ap ? `<div class="td-ai">${gem(22)}<span>${esc(ap.msg || '今日の計画を、AIがつくりました。')}${ap.min ? `<small>（合計 約${ap.min}分）</small>` : ''}</span></div>` : ''}
+  ${old.length ? `<div class="td-carry">${ms('history')}<span>前の日の残りが ${old.length}件あります</span><span class="sp" style="flex:1"></span><button type="button" class="btn tonal xs" data-act="tdcarry">今日にうつす</button><button type="button" class="btn text xs" data-act="tdclear">消す</button></div>` : ''}
+  ${list.length ? `<div class="td-l stg">${list.map(row).join('')}</div>` : `<div class="td-empty">今日やることを、自分で決めてみましょう。時間の目安も入れられます。</div>`}
+  <div class="td-add"><button type="button" class="btn tonal" data-act="tdadd">${ms('add')}やることを足す</button><button type="button" class="btn tonal" data-act="tdai">${gem(18)}AIで今日の計画</button></div>
+  ${skipped.length ? `<div class="td-skip"><small>今日はやらないことにした課題：</small>${skipped.map(t => `<button type="button" class="sn-sc" data-act="plunskip" data-id="${t.id}">${ms('undo', '', 'font-size:15px;vertical-align:-3px')}${esc(t.title.slice(0, 14))}</button>`).join('')}</div>` : ''}</div>`;
+}
+/* ---- ダイアログ：やることの追加・編集 ---- */
+const tdChips = (name, arr, cur, f) => arr.map(v => `<label class="rchip"><input type="radio" name="${name}" value="${v}" ${String(v) === String(cur) ? 'checked' : ''}><span>${f(v)}</span></label>`).join('');
+function tdDlg(id) {
+  const x = id ? tdFind(id) : null, subs = subjects(); if (id && !x) return;
+  TDS = x ? [] : tdSuggest();
+  const sug = TDS.map((s, i) => `<button type="button" class="sn-fc" data-act="tdquick" data-id="${i}">${ms(s.i)}${esc(s.t)}${s.min ? `<small>${s.min}分</small>` : ''}</button>`).join('');
+  openDlg(`<h2>${ms('checklist')}${x ? 'やることを編集' : 'やることを足す'}</h2>${sug ? `<div class="lbl">ワンタップで足す</div><div class="td-sug">${sug}</div>` : ''}<form id="tdf" autocomplete="off" onsubmit="return false"><div class="fld"><label for="tdt">${x ? 'やること' : 'じぶんで書く'}</label><input id="tdt" name="tdt" type="text" maxlength="60" value="${esc(x ? x.t : '')}" placeholder="例：英語の教科書を音読する"></div><div class="fld"><div class="lbl">かかる時間（目安）</div><div class="chips">${tdChips('tdm', TD_MIN, x ? x.min : 0, v => v ? v + '分' : 'なし')}</div></div>${subs.length ? `<div class="fld"><label for="tds">教科（なくてもOK）</label><select id="tds" name="tds" class="scin" style="width:100%"><option value="">なし</option>${subs.map(s => `<option value="${s.id}" ${x && x.sid === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select></div>` : ''}${x ? '' : `<div class="fld"><div class="lbl">くり返し</div><div class="chips">${tdChips('tdr', ['', 'all', 'wk'], '', v => v === '' ? '今日だけ' : v === 'all' ? '毎日' : '平日だけ')}</div></div>`}</form><div class="dact">${x ? `<button type="button" class="btn text danger" data-act="tddel" data-id="${x.id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="tdsave" data-id="${x ? x.id : ''}">${ms('check')}保存</button></div>`);
+}
+function tdHabDlg() {
+  const hs = tdHab(), dl = h => (h.days && h.days.length === 5 && !h.days.includes(0) && !h.days.includes(6)) ? '平日' : '毎日';
+  openDlg(`<h2>${ms('repeat')}毎日のやること</h2>${hs.length ? `<div class="td-l">${hs.map(h => `<div class="td-i"><div class="td-t"><b>${esc(h.t)}</b><span><em class="td-tag">${dl(h)}</em>${h.min ? `<em>${h.min}分</em>` : ''}</span></div><button type="button" class="td-go" data-act="tdhdel" data-id="${h.id}" aria-label="やめる">${ms('delete')}</button></div>`).join('')}</div>` : '<p class="muted">毎日のやることは、ありません。</p>'}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">閉じる</button></div>`);
+}
+/* ---- 課題のノルマを、自分で決める ---- */
+function planDlg(id) {
+  const t = T(id); if (!t) return; const td = today(), base = t.total - t.done + (dayLog().t[id] || 0), it = buildPlan().find(v => v.t.id === id), cur = it ? it.amt : Math.min(base, 5), pn = t.pn && t.pn.d === td ? t.pn : null;
+  openDlg(`<h2>${ms('tune')}今日のぶんを決める</h2><p style="margin:0 0 4px"><b>${esc(t.title)}</b></p><p class="muted" style="margin:0 0 16px">残り ${base} ページ${it && !pn ? `　・　自動の計画：${it.amt}ページ` : ''}</p><form id="plf" autocomplete="off" onsubmit="return false"><div class="fld"><label for="pln">今日やるページ数</label><div class="pl-st"><button type="button" class="td-go" data-act="plstep" data-id="-5">−5</button><button type="button" class="td-go" data-act="plstep" data-id="-1">−1</button><input id="pln" name="pln" type="number" inputmode="numeric" min="1" max="${base}" value="${cur}"><button type="button" class="td-go" data-act="plstep" data-id="1">＋1</button><button type="button" class="td-go" data-act="plstep" data-id="5">＋5</button></div></div><div class="fld"><div class="lbl">かかる時間（目安）</div><div class="chips">${tdChips('plm', TD_MIN, pn ? pn.m || 0 : 0, v => v ? v + '分' : 'なし')}</div></div></form><div class="dact"><button type="button" class="btn text" data-act="plauto">自動にもどす</button><button type="button" class="btn text danger" data-act="plskip">今日はやらない</button><span class="sp"></span><button type="button" class="btn" data-act="plsave" data-id="${id}">${ms('check')}決める</button></div>`);
+  dlg.dataset.pl = id;
+}
+/* ---- AIで今日の計画 ---- */
+const TDA = { step: 'form', min: 60, mood: 'n', note: '', inc: { task: 1, note: 1, cards: 1 }, items: [], ok: [], msg: '' };
+const TDA_MOOD = { g: ['元気', 'ふつうより、たくさんできそう'], n: ['ふつう', 'ふつうのペース'], t: ['つかれた', 'つかれていて、軽めにしたい'] };
+function tdaKeep() { const n = $('#tdan'); if (n) TDA.note = snOne(n.value).slice(0, 80); }
+function tdaHtml() {
+  if (TDA.step === 'load') return `<h2>${gem(22)}AIで今日の計画</h2><div class="aq-load" style="padding:36px 0">${gspin(44)}<b>AIが計画を考えています…</b><small class="muted">使える時間：${TDA.min}分</small></div>`;
+  if (TDA.step === 'view') {
+    const tot = TDA.items.reduce((a, x, i) => a + (TDA.ok[i] ? x.min : 0), 0), n = TDA.ok.filter(Boolean).length;
+    return `<h2>${gem(22)}今日の計画</h2><div class="td-ai" style="margin-bottom:12px">${gem(22)}<span>${esc(TDA.msg || 'こんな計画はどうですか？')}</span></div><div class="td-l">${TDA.items.map((x, i) => `<button type="button" class="tda-r ${TDA.ok[i] ? 'on' : ''}" data-act="tdatog" data-id="${i}" role="checkbox" aria-checked="${!!TDA.ok[i]}"><span class="td-ck">${ms('check')}</span><span class="tda-t"><b>${x.kind === 'task' ? esc(x.title) : esc(x.title)}</b><small>${x.kind === 'task' ? `${esc(x.sub)}　・　${x.pages}ページ` : x.kind === 'todo' ? 'やること' : x.kind === 'note' ? 'まちがいノート' : '単語帳'}${x.why ? '　・　' + esc(x.why) : ''}</small></span><em>${x.min}分</em></button>`).join('')}</div><p class="muted" style="margin:12px 4px 0">選んだ ${n}件　・　合計 約${tot}分（使える時間 ${TDA.min}分）</p><div class="dact"><button type="button" class="btn text" data-act="tdaback">${ms('arrow_back')}条件をかえる</button><span class="sp"></span><button type="button" class="btn text" data-act="tdago">${ms('refresh')}つくり直す</button><button type="button" class="btn" data-act="tdaok" ${n ? '' : 'disabled'}>${ms('check')}この計画にする</button></div>`;
+  }
+  const nd = ntAll().filter(ntDue).length, rv = (S.cards || []).filter(wcRevDue).length;
+  const seg = (arr, cur, act) => `<div class="chips">${arr.map(([k, t]) => `<button type="button" class="sn-sc ${String(cur) === String(k) ? 'on' : ''}" data-act="${act}" data-id="${k}">${t}</button>`).join('')}</div>`;
+  return `<h2>${gem(22)}AIで今日の計画</h2><p class="muted" style="margin:0 0 14px;font-size:.9rem">使える時間と調子を教えると、AIが今日やることを、順番と時間つきで考えます。決めたあとで、自由に直せます。</p>
+  <div class="fld"><div class="lbl">今日、勉強に使える時間</div>${seg([[30, '30分'], [60, '1時間'], [90, '1時間半'], [120, '2時間'], [180, '3時間']], TDA.min, 'tdamin')}</div>
+  <div class="fld"><div class="lbl">今日の調子</div>${seg(Object.entries(TDA_MOOD).map(([k, v]) => [k, v[0]]), TDA.mood, 'tdamood')}</div>
+  <div class="fld"><div class="lbl">計画に入れるもの</div><div class="chips"><button type="button" class="sn-sc ${TDA.inc.task ? 'on' : ''}" data-act="tdainc" data-id="task">課題</button>${nd ? `<button type="button" class="sn-sc ${TDA.inc.note ? 'on' : ''}" data-act="tdainc" data-id="note">ノートの復習（${nd}問）</button>` : ''}${rv ? `<button type="button" class="sn-sc ${TDA.inc.cards ? 'on' : ''}" data-act="tdainc" data-id="cards">単語帳の見直し（${rv}枚）</button>` : ''}</div></div>
+  <div class="fld"><label for="tdan">ひとこと（なくてもOK）</label><input id="tdan" type="text" maxlength="80" value="${esc(TDA.note)}" placeholder="例：19時から塾がある ／ 英語を重点的に"></div>
+  <p class="muted" style="font-size:.8rem;margin:0">課題の名前と進み具合が、GoogleのAIに送られます。AIの計画は、あくまで提案です。</p>
+  <div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="tdago">${gem(18)}計画をつくる</button></div>`;
+}
+const tdaRender = () => { dlg.innerHTML = `<div class="dlg">${tdaHtml()}</div>`; };
+function tdaNorm(res) {
+  const items = [], tasks = new Map(examTasks().filter(t => !isDone(t)).map(t => [t.id, t])), nd = ntAll().filter(ntDue).length, rv = (S.cards || []).filter(wcRevDue).length;
+  for (const x of (res && Array.isArray(res.items) ? res.items : []).slice(0, 10)) {
+    if (!x) continue; const min = Math.max(0, Math.min(180, parseInt(x.min, 10) || 0)), why = snOne(x.why).slice(0, 30);
+    if (x.kind === 'task') { const t = tasks.get(String(x.tid)); if (!t || items.some(i => i.tid === t.id)) continue; const rem = t.total - t.done, pages = Math.max(1, Math.min(rem, parseInt(x.pages, 10) || 1)); items.push({ kind: 'task', tid: t.id, pages, min: min || 15, why, title: t.title, sub: (SUB(t.sid) || {}).name || '' }); }
+    else if (x.kind === 'note') { if (!nd || !TDA.inc.note || items.some(i => i.kind === 'note')) continue; items.push({ kind: 'note', min: min || 10, why, title: `まちがいノートの復習（${nd}問）` }); }
+    else if (x.kind === 'cards') { if (!rv || !TDA.inc.cards || items.some(i => i.kind === 'cards')) continue; items.push({ kind: 'cards', min: min || 10, why, title: `単語帳の見直し（${rv}枚）` }); }
+    else if (x.kind === 'todo') { const t = snOne(x.title).slice(0, 40); if (!t) continue; items.push({ kind: 'todo', min: min || 10, why, title: t }); }
+  }
+  const lim = TDA.min * 1.1; let sum = items.reduce((a, x) => a + x.min, 0);
+  while (items.length > 1 && sum > lim) sum -= items.pop().min;   // 使える時間をこえたぶんは、はずす
+  return items;
+}
+function tdaContext() {
+  const ex = curExam(), dl = ex && ex.date ? daysLeft(ex) : null, td = today();
+  const tl = examTasks().filter(t => !isDone(t)).sort((a, b) => String(a.due || '9999').localeCompare(String(b.due || '9999'))).slice(0, 20).map(t => `${t.id}｜${(SUB(t.sid) || {}).name || ''}｜${t.title}｜残り${t.total - t.done}ページ｜${t.due ? `期限${t.due}（あと${daysBetween(td, t.due)}日）` : '期限なし'}｜${t.req ? '必須' : '任意'}`);
+  const have = tdToday().map(x => `${x.t}${x.min ? `（${x.min}分）` : ''}`);
+  return { ex: ex && ex.date ? `${ex.name}（あと${dl}日）` : 'なし', tl, have };
+}
+Object.assign(ACT, {
+  tdadd() { tdDlg(''); }, tdedit(id) { tdDlg(id); },
+  tdquick(id, el) { const s = TDS[+id]; if (!s) return; tdAdd({ t: s.t, min: s.min, go: s.go || '' }); save(); render(); if (el) { el.disabled = true; el.classList.add('on'); } toast('足しました'); },
+  tdsave(id) {
+    const f = $('#tdf'); if (!f) return; const g = n => (f.elements[n] ? f.elements[n].value : ''), t = snOne(g('tdt')), min = +g('tdm') || 0, sid = g('tds') || '';
+    if (!t) return toast('やることを書いてください');
+    if (id) { const x = tdFind(id); if (x) { x.t = t.slice(0, 60); x.min = min; x.sid = sid; } }
+    else {
+      const r = g('tdr'); let hid = '';
+      if (r) { hid = uid(); tdHab().push({ id: hid, t: t.slice(0, 60), min, days: r === 'wk' ? [1, 2, 3, 4, 5] : [0, 1, 2, 3, 4, 5, 6] }); if (tdHab().length > 12) tdHab().shift(); }
+      if (!r || tdHab().find(h => h.id === hid).days.includes(new Date().getDay())) tdAdd({ t, min, sid, src: r ? 'habit' : 'me', h: hid });
+    }
+    save(); closeDlg(); render();
+  },
+  tddel(id) { closeDlg(); undoable('やることを消しました', () => { const x = tdFind(id); if (!x) return; if (x.h) x.x = 1; else S.todos = tdAll().filter(v => v.id !== id); }); },
+  tdck(id) {
+    const x = tdFind(id); if (!x) return; x.done = !x.done; x.dt = x.done ? Date.now() : 0; save(); render();
+    if (x.done) { const l = tdToday(); if (l.length >= 2 && l.every(v => v.done)) { toast('今日のやることが、ぜんぶ終わりました！'); try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } }
+  },
+  tdgo(id) {
+    const x = tdFind(id); if (!x) return;
+    if (x.go === 'note') return ACT.ntstart();
+    if (x.go === 'cards') { const d = (S.decks || []).find(d => (S.cards || []).some(c => c.d === d.id && wcRevDue(c))) || (S.decks || [])[0]; return d ? ACT.wcrevgo(d.id) : ACT.tab('tool:card'); }
+    openFocus();
+  },
+  tdcarry() { tdAll().filter(x => x.d < today() && !x.done && !x.x && !x.h).forEach(x => { x.d = today(); }); save(); render(); toast('今日にうつしました'); },
+  tdclear() { undoable('前の日の残りを消しました', () => { tdAll().filter(x => x.d < today() && !x.done && !x.h).forEach(x => { x.x = 1; }); }); },
+  tdhab() { tdHabDlg(); },
+  tdhdel(id) { S.habits = tdHab().filter(h => h.id !== id); S.todos = tdAll().filter(x => !(x.h === id && x.d === today() && !x.done)); save(); tdHabDlg(); render(); },
+  planedit(id) { planDlg(id); },
+  plstep(id) { const i = $('#pln'); if (!i) return; const mx = +i.max || 999; i.value = Math.max(1, Math.min(mx, (parseInt(i.value, 10) || 1) + (+id))); },
+  plsave(id) {
+    const t = T(id), f = $('#plf'); if (!t || !f) return; const base = t.total - t.done + (dayLog().t[id] || 0), n = Math.max(1, Math.min(base, parseInt($('#pln').value, 10) || 1)), m = +(f.elements.plm ? f.elements.plm.value : 0) || 0;
+    t.pn = { d: today(), n, m }; delete t.skip; save(); closeDlg(); render(); toast(`今日は ${n}ページにしました`);
+  },
+  plauto() { const id = dlg.dataset.pl, t = T(id); if (!t) return; delete t.pn; delete t.skip; save(); closeDlg(); render(); toast('自動の計画にもどしました'); },
+  plskip() { const id = dlg.dataset.pl, t = T(id); if (!t) return; delete t.pn; t.skip = today(); save(); closeDlg(); render(); toast('今日はやらないことにしました'); },
+  plunskip(id) { const t = T(id); if (!t) return; delete t.skip; save(); render(); },
+  tdai() {
+    if (!CLOUD.user) return toast('AIの計画は、Googleログイン後に使えます');
+    TDA.step = 'form'; TDA.ok = []; TDA.items = []; openDlg(tdaHtml());
+  },
+  tdamin(id) { tdaKeep(); TDA.min = +id; tdaRender(); }, tdamood(id) { tdaKeep(); TDA.mood = id; tdaRender(); },
+  tdainc(id) { tdaKeep(); TDA.inc[id] = TDA.inc[id] ? 0 : 1; tdaRender(); },
+  tdaback() { TDA.step = 'form'; tdaRender(); },
+  tdatog(id) { TDA.ok[+id] = !TDA.ok[+id]; tdaRender(); },
+  async tdago() {
+    tdaKeep(); if (TDA.step === 'load') return;
+    const c = tdaContext(), now = new Date(), nd = ntAll().filter(ntDue).length, rv = (S.cards || []).filter(wcRevDue).length;
+    TDA.step = 'load'; tdaRender();
+    const res = await aiRun({
+      system: AI_MINI + '生徒の1日の勉強の計画を、現実的に、やさしい言葉で立てます。',
+      prompt: `今日は${today()}（${WD[now.getDay()]}曜日）で、今は${now.getHours()}時です。\n生徒が今日、勉強に使える時間：${TDA.min}分。\n生徒の調子：${TDA_MOOD[TDA.mood][1]}。${TDA.note ? `\n生徒のひとこと：${TDA.note}` : ''}\n考査：${c.ex}\n${TDA.inc.task ? `未完了の課題（id｜教科｜課題名｜残り｜期限｜必須か）：\n${c.tl.join('\n') || 'なし'}` : '課題は、計画に入れません。'}\n${TDA.inc.note && nd ? `まちがいノートの復習：${nd}問（kind:"note"で入れられます）\n` : ''}${TDA.inc.cards && rv ? `単語帳の見直し：${rv}枚（kind:"cards"で入れられます）\n` : ''}${c.have.length ? `すでに入っている今日のやること：${c.have.join('、')}\n` : ''}\n次のJSONだけを返してください。\n{"msg":"生徒への、やさしいひとこと（60字以内）","items":[{"kind":"task","tid":"課題のid","pages":今日やるページ数,"min":目安の分,"why":"理由（20字以内）"},{"kind":"todo","title":"やること（30字以内）","min":分,"why":""},{"kind":"note","min":分,"why":""},{"kind":"cards","min":分,"why":""}]}\nルール：\n- min の合計は、使える時間（${TDA.min}分）をこえない。\n- 期限が近い課題と、必須の課題を先に。同じ教科が続かないように、順番を工夫する。\n- 課題の pages は、残りページ以下の整数。tid は、必ず上の一覧のidをそのまま使う。\n- 長く続けるときは、5〜10分の休けい（kind:"todo"、title:"休けい"）を入れてよい。\n- 項目は、多くても8個。今の時刻をすぎた時間には、計画しない。`,
+      json: true
+    });
+    const items = res ? tdaNorm(res) : [];
+    if (!items.length) { TDA.step = 'form'; tdaRender(); return toast('計画をつくれませんでした。もう一度、お試しください'); }
+    TDA.items = items; TDA.ok = items.map(() => true); TDA.msg = snOne(res.msg).slice(0, 80); TDA.step = 'view'; tdaRender();
+  },
+  tdaok() {
+    const td = today(), pick = TDA.items.filter((x, i) => TDA.ok[i]); if (!pick.length) return;
+    S.todos = tdAll().filter(x => !(x.src === 'ai' && x.d === td && !x.done)); (S.tasks || []).forEach(t => { if (t.pn && t.pn.ai && t.pn.d === td) delete t.pn; });
+    pick.forEach(x => { if (x.kind === 'task') { const t = T(x.tid); if (t) { t.pn = { d: td, n: x.pages, m: x.min, ai: 1 }; delete t.skip; } } else tdAdd({ t: x.title, min: x.min, src: 'ai', go: x.kind === 'note' || x.kind === 'cards' ? x.kind : '' }); });
+    S.aiplan = { d: td, msg: TDA.msg, min: pick.reduce((a, x) => a + x.min, 0) }; save(); closeDlg(); render(); toast('今日の計画に入れました');
+  }
+});
 function toolsPost() {
   const tl = ui.tool || '';
   if (tl === 'calc') calcPaint(true);
