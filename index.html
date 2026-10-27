@@ -2030,6 +2030,27 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 .tda-r .td-ck{pointer-events:none}.tda-t{flex:1;min-width:0}.tda-t b{display:block;font-weight:650;overflow-wrap:anywhere}.tda-t small{color:var(--on-v);font-weight:600}
 .tda-r em{flex:none;font-style:normal;font-weight:800;font-size:.9rem}
 @media(prefers-reduced-motion:reduce){.td-i,.td-ck,.tda-r{transition:none}}
+
+/* ===== 17.1：フィードバックの返信と通知 ===== */
+.acctb .nbadge{position:absolute;right:-5px;top:-5px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--err);color:#fff;font:800 .72rem/20px inherit;font-style:normal;text-align:center;box-shadow:0 0 0 2.5px var(--bg);animation:qzpop .5s var(--spring) both}
+.nbadge.in{display:inline-block;min-width:22px;height:22px;margin-left:8px;padding:0 6px;border-radius:11px;background:var(--err);color:#fff;font:800 .78rem/22px inherit;font-style:normal;text-align:center}
+.acct-fb{flex-direction:column;gap:8px}
+#nbar{position:fixed;z-index:200;left:50%;top:calc(12px + env(safe-area-inset-top));display:flex;align-items:center;gap:10px;width:min(560px,calc(100vw - 24px));padding:10px 10px 10px 12px;border-radius:30px;background:var(--pc);color:var(--on-pc);box-shadow:var(--shadow);transform:translate(-50%,-160%);opacity:0;pointer-events:none;transition:transform .55s var(--spring),opacity .25s}
+#nbar.show{transform:translate(-50%,0);opacity:1;pointer-events:auto}
+.nb-i{flex:none;display:grid;place-items:center;width:44px;height:44px;color:var(--on-primary);background:var(--primary);border-radius:42% 58% 55% 45%/48% 44% 56% 52%}
+.nb-t{flex:1;min-width:0;display:grid;gap:1px}.nb-t b{font-size:.95rem;line-height:1.35}.nb-t small{opacity:.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nb-x{flex:none;display:grid;place-items:center;width:36px;height:36px;padding:0;border:0;border-radius:50%;background:transparent;color:inherit}
+.fbr{margin:10px 0 0;padding:12px 16px;border-radius:22px 22px 22px 6px;background:var(--pc);color:var(--on-pc);line-height:1.65}
+.fbr.new{box-shadow:0 0 0 2.5px var(--primary)}
+.fbr-h{display:flex;align-items:center;gap:6px;font-weight:800;font-size:.85rem}.fbr-h small{margin-left:auto;font-weight:600;opacity:.75}
+.fbr p{margin:6px 0 0}
+.fbi.new{box-shadow:inset 0 0 0 2px var(--primary)}
+.fbi-tag{display:inline-block;padding:1px 9px;border-radius:10px;background:var(--primary);color:var(--on-primary);font:800 .72rem/1.6 inherit;font-style:normal}.fbi-tag.ok{background:var(--s4,var(--s3));color:var(--on-v)}
+.fbi-rp{margin-top:10px}.fbi-rp summary{cursor:pointer;font-weight:700;color:var(--primary);padding:6px 0}
+.fbi-rp textarea{width:100%;margin-top:8px;box-sizing:border-box}
+.fbi-rp .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.fbi-ra{display:flex;align-items:center;gap:8px;margin-top:8px}
+.fbi-new{display:flex;align-items:center;gap:8px;margin:0 0 8px;padding:6px 6px 6px 16px;border-radius:20px;background:var(--pc);color:var(--on-pc);font-weight:700;font-size:.9rem}.fbi-new[hidden]{display:none}
 </style>
 </head>
 <body>
@@ -2054,7 +2075,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.0';
+const APP_VERSION = '17.1.1';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2552,6 +2573,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.1.1', t: 'フィードバックのお知らせを、アプリの中だけに', n: ['フィードバックの返信などのお知らせは、アプリの中だけに表示されます（端末の通知は使いません）'] },
+  { v: '17.1', t: 'フィードバックへの返信・単語帳クイズの選択肢の数', n: ['フィードバックに返信が届くと、アプリの中で、お知らせが出ます。送った内容と返信は、右上のアカウント画面の「送った内容と返信」で見られます', '単語帳のクイズで、選択肢の数を、2・3・4・5・6・8つから選べるようになりました（単語帳のテストの画面と、暗記クイズの画面で選べます）'] },
   { v: '17.0', t: '「今日のプラン」に、自分のやること・AIの計画などを追加', n: ['ホームの「今日のプラン」に、「自分のやること」を追加しました。やることを自分で書いて、時間の目安も入れられます。チェックすると、ぜんぶ終わったときにお祝いが出ます', '「AIで今日の計画」を追加しました。使える時間・今日の調子・ひとことを伝えると、AIが課題・復習・休けいを、順番と時間つきで提案します。選んでから、計画に入れられます', '課題のノルマ（「0/9p」の部分）をタップすると、今日やるページ数を自分で決めたり、「今日はやらない」にしたりできます', '「毎日のやること」（音読・漢字など）を登録すると、毎日、自動で出ます。「平日だけ」も選べます', 'おすすめのやること（ノートの復習・単語帳の見直しなど）を、ワンタップで足せます。前の日の残りは、今日に持ちこせます'] },
   { v: '16.0', t: 'まちがいノート・AI小テスト・学習カレンダーなどを追加', n: ['「まちがいノート」を追加しました。分からなかった問題と解き方をためておくと、1日・3日・1週間・2週間とあけながら、復習の問題が出ます。5回できたら「卒業」です', 'AI先生の答えの下の ブックマークのボタンから、ノートに保存できます', '「AI小テスト」を追加しました。教科とテーマを決めると、AIが4択の問題と解説をつくります。まちがえた問題は、ノートに保存できます', 'ホームに「今日の復習」と「単語帳の見直し」を追加しました（「配置」で、並べかえや非表示もできます）', '単語帳に「AIで例文」を追加しました', '記録に「学習カレンダー」を追加しました。16週間の勉強の記録が、色の濃さで分かります', 'AIの会話が、アプリを閉じても残るようになりました（文字だけ。写真は残りません）。「新しい会話」で消せます', '左上（スマホは右下）の「＋」ボタンが、意図せず動いてしまう問題を直しました。位置は固定になります'] },
   { v: '15.0', t: '起動できない問題の根本修正・4択クイズの向き・時間割に土曜', n: ['時間割を入力していると、アプリを開いても画面が真っ白のままになる問題を修正しました（13.0 以降で起きていました）', '単語帳の4択クイズで、「表 → 裏」「裏 → 表」「ミックス」から出しかたを選べるようになりました（単語帳のテストの画面と、暗記クイズの画面で選べます）', '4択クイズに、キーボードの 1〜4 での回答、まちがえた問題だけのやり直し、全問正解のお祝いを追加しました', '時間割に土曜日を追加しました（「土曜日」ボタンで表示を切り替えられます）。土曜に授業があるときは、金曜に「あしたの時間割」が土曜になります', '時間割（ホームのカードとツール）、持ち物、暗記クイズ、記録を、Material 3 Expressive のデザインにしました。時間割は、教科ごとの色で表示されます'] },
@@ -4188,7 +4211,7 @@ function userAv(sz) {
 }
 function renderAcct() {
   const u = CLOUD.user, bad = CLOUD.status === 'error' && u;
-  $('#acct').innerHTML = `<button class="acctb" data-act="acct" aria-label="${u ? 'アカウントと同期' : 'ログイン'}">${u ? userAv(36) : ms('account_circle', '', 'font-size:32px')}${bad ? '<i class="dot"></i>' : ''}</button>`;
+  $('#acct').innerHTML = `<button class="acctb" data-act="acct" aria-label="${u ? 'アカウントと同期' : 'ログイン'}">${u ? userAv(36) : ms('account_circle', '', 'font-size:32px')}${bad ? '<i class="dot"></i>' : ''}${fbBadgeN() ? `<i class="nbadge">${Math.min(fbBadgeN(), 9)}${fbBadgeN() > 9 ? '+' : ''}</i>` : ''}</button>`;
 }
 function acctHtml() {
   const u = CLOUD.user, st = CLOUD.status, close = `<div class="dact"><span class="sp"></span><button class="btn text" data-act="close">閉じる</button></div>`;
@@ -4201,7 +4224,7 @@ function acctHtml() {
   const last = CLOUD.last ? new Date(CLOUD.last).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
   return `<div class="acct-h">${userAv(56)}<div class="t"><b>${esc(u.displayName || 'Google アカウント')}</b><span>${esc(u.email || '')}</span></div></div>
   <div class="kv2"><div><span>状態</span><b>${label}</b></div><div><span>最終同期</span><b>${last}</b></div></div>
-  <div class="acct-fb"><button class="btn tonal" data-act="fbopen">${ms('rate_review')}フィードバックを送る</button></div>
+  <div class="acct-fb"><button class="btn tonal" data-act="fbopen">${ms('rate_review')}フィードバックを送る</button>${FBL.mine.length || fbQ().length ? `<button class="btn tonal" data-act="fbmine">${ms('forum')}送った内容と返信${fbUnreadMine().length ? `<i class="nbadge in">${fbUnreadMine().length}</i>` : ''}</button>` : ''}${FBL.isAdmin ? `<button class="btn tonal" data-act="fbinbox">${ms('inbox')}フィードバックの受信箱${fbUnreadAdm().length ? `<i class="nbadge in">${fbUnreadAdm().length}</i>` : ''}</button>` : ''}</div>
   <div class="dact"><button class="btn text danger" data-act="cloudout">ログアウト</button><span class="sp"></span><button class="btn tonal" data-act="close">閉じる</button><button class="btn" data-act="cloudnow">${ms('sync')}今すぐ同期</button></div>`;
 }
 function acctDlg() { openDlg(acctHtml()); dlg.dataset.k = 'acct'; }
@@ -4224,7 +4247,7 @@ async function cloudInit() {
     if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); ac.initializeAppCheck(a, { provider: new ac.ReCaptchaV3Provider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); } catch (e) { } }
     const authI = auth.getAuth(a), db = fs.getFirestore(a);
     CLOUD.fb = { auth, fs, authI, db, app: a }; CLOUD.status = 'out';
-    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; if (u) cloudStart(); else cloudStop(); cloudRefresh(); });
+    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; if (u) { cloudStart(); setTimeout(fbWatchStart, 1500); } else { cloudStop(); fbWatchStop(); } cloudRefresh(); });
     cloudResume();
   } catch (e) { CLOUD.status = 'error'; }
   cloudRefresh();
@@ -5003,7 +5026,7 @@ function wcTestTab() {
   return `<div class="card wx-tr"><div class="wx-trh"><b>テストの範囲</b><span class="muted">対象：<b id="wxtn">${pool}</b>枚</span></div>
   <div class="wc-opts" style="justify-content:flex-start"><button class="tchip ${tr ? 'on' : ''}" data-act="wctrng">${ms('pin')}${tr ? `番号 ${tr[0]}〜${tr[1]}` : '番号：全部'}</button>${tr ? `<button class="tchip" data-act="wctrngclr">${ms('close')}範囲を解除</button>` : ''}</div>
   <div class="wx-seg wx-tsel" role="radiogroup" aria-label="テストに出すカード">${[['all', 'すべて'], ['new', '覚えていない'], ['known', '覚えた'], ['star', '★'], ['weak', '苦手']].map(([k, t]) => `<button type="button" role="radio" aria-checked="${WC.tsel === k}" class="wx-sg ${WC.tsel === k ? 'on' : ''}" data-act="wctsel" data-id="${k}">${t}<small>${cnt[k]}</small></button>`).join('')}</div>${qzDirSeg()}</div>
-  <div class="wx-tg stg">${card('quiz', '4択クイズ', QZ_DESC[qzDir()], 'wcquiz', pool < 4)}${card('keyboard', '入力テスト', '意味を見て、単語を自分で入力します', 'wctype', pool < 1)}${card('headphones', '聞き流し', 'カードを自動でめくって、読み上げます', 'wcauto', pool < 1)}</div>`;
+  <div class="wx-tg stg">${card('quiz', `${qzN()}択クイズ`, qzDesc(), 'wcquiz', pool < 2)}${card('keyboard', '入力テスト', '意味を見て、単語を自分で入力します', 'wctype', pool < 1)}${card('headphones', '聞き流し', 'カードを自動でめくって、読み上げます', 'wcauto', pool < 1)}</div>`;
 }
 const wcTabHtml = () => WC.tab === 'list' ? wcListTab() : WC.tab === 'test' ? wcTestTab() : wcStudyTab();
 function cardsHtml() {
@@ -5962,22 +5985,24 @@ const QZ = { set: '', q: [], i: 0, ok: 0, pick: -1, wrong: [], phase: 'setup' };
 const qpairs = id => id.startsWith('cards:') ? (ensureDecks(), wcTestCards(id.slice(6)).map(c => [c.f, c.b])) : id === 'cards' ? (S.cards || []).map(c => [c.f, c.b]) : QD[id][1].split(';').map(x => x.split(','));
 const qzName = id => id.startsWith('cards:') ? `単語帳「${(S.decks.find(d => d.id === id.slice(6)) || {}).name || ''}」` : QD[id][0];
 const qzDir = () => (S.set && ['f', 'b', 'r'].includes(S.set.qzdir) ? S.set.qzdir : 'f');
+const QZ_NS = [2, 3, 4, 5, 6, 8];
+const qzN = () => (S.set && QZ_NS.includes(+S.set.qzn) ? +S.set.qzn : 4);   // 選択肢の数（既定は4つ）
 const qzShuf = a => a.slice().sort(() => Math.random() - .5);
 const QZ_HUE = { pref: 200, elem: 150, elemr: 150, elemz: 150, elemall: 150, verb: 260 };
 const qzHue = id => id.startsWith('cards:') ? ((S.decks.find(d => d.id === id.slice(6)) || {}).hue || 150) : (QZ_HUE[id] || 150);
 function qzTitle(id, rev) { const n = qzName(id); if (!rev || id.startsWith('cards:')) return n; const p = n.split(' → '); return p.length > 1 ? p.reverse().join(' → ') : n; }
-const QZ_DESC = { f: '表を見て、4つの選択肢から裏を選びます', b: '裏を見て、4つの選択肢から表を選びます', r: '表と裏が入れかわる、4択のクイズです' };
+const qzDesc = () => ({ f: `表を見て、${qzN()}つの選択肢から裏を選びます`, b: `裏を見て、${qzN()}つの選択肢から表を選びます`, r: `表と裏が入れかわる、${qzN()}択のクイズです` })[qzDir()];
 const QZ_NOTE = { f: '表（単語など）を見て、裏（意味など）を選びます', b: '裏（意味など）を見て、表（単語など）を選びます', r: '1問ごとに、向きがランダムに入れかわります' };
 function qzDirSeg() {
   const d = qzDir();
-  return `<div class="qz2-dir"><div class="lbl">4択の出しかた</div><div class="wx-seg" role="radiogroup" aria-label="4択の出しかた">${[['f', '表 → 裏', 'east'], ['b', '裏 → 表', 'west'], ['r', 'ミックス', 'shuffle']].map(([k, t, i]) => `<button type="button" role="radio" aria-checked="${d === k}" class="wx-sg ${d === k ? 'on' : ''}" data-act="qzdir" data-id="${k}">${ms(i, '', 'font-size:18px;vertical-align:-4px;margin-right:4px')}${t}</button>`).join('')}</div><small class="muted">${QZ_NOTE[d]}</small></div>`;
+  return `<div class="qz2-dir"><div class="lbl">出しかた</div><div class="wx-seg" role="radiogroup" aria-label="出しかた">${[['f', '表 → 裏', 'east'], ['b', '裏 → 表', 'west'], ['r', 'ミックス', 'shuffle']].map(([k, t, i]) => `<button type="button" role="radio" aria-checked="${d === k}" class="wx-sg ${d === k ? 'on' : ''}" data-act="qzdir" data-id="${k}">${ms(i, '', 'font-size:18px;vertical-align:-4px;margin-right:4px')}${t}</button>`).join('')}</div><small class="muted">${QZ_NOTE[d]}</small><div class="lbl" style="margin-top:14px">選択肢の数</div><div class="wx-seg" role="radiogroup" aria-label="選択肢の数">${QZ_NS.map(n => `<button type="button" role="radio" aria-checked="${qzN() === n}" class="wx-sg ${qzN() === n ? 'on' : ''}" data-act="qzn" data-id="${n}">${n}つ</button>`).join('')}</div><small class="muted">カードが少ないときは、選択肢が少なくなることがあります</small></div>`;
 }
 function quizStart(id) {
-  const P = qpairs(id); if (P.length < 4) return toast('4枚以上のカードが必要です。単語帳でカードを追加してください');
+  const P = qpairs(id); if (P.length < 2) return toast('2枚以上のカードが必要です。単語帳でカードを追加してください');
   const dir = qzDir();
   const q = qzShuf(P).slice(0, 10).map(([f, b]) => {
     const rev = dir === 'b' || (dir === 'r' && Math.random() < .5), Q = rev ? b : f, A = rev ? f : b;
-    const pool = [...new Set(P.map(p => rev ? p[0] : p[1]))].filter(x => x !== A), o = qzShuf(pool).slice(0, 3); o.push(A);
+    const pool = [...new Set(P.map(p => rev ? p[0] : p[1]))].filter(x => x !== A), o = qzShuf(pool).slice(0, qzN() - 1); o.push(A);
     return { f: Q, b: A, o: qzShuf(o), rev };
   }).filter(x => x.o.length >= 2);
   if (!q.length) return toast('選択肢をつくれませんでした。別のカードを追加してください');
@@ -5985,7 +6010,7 @@ function quizStart(id) {
   toolsRefresh();
 }
 function quizHtml() {
-  if (QZ.phase === 'setup') return `${qzDirSeg()}<div class="tgrid2">${Object.entries(QD).filter(([id]) => id !== 'cards').map(([id, [n]]) => `<button class="tcard sc" style="--sh:${qzHue(id)}" data-act="qzset" data-id="${id}"><b>${n}</b><span>10問・4択</span></button>`).join('')}${(ensureDecks(), S.decks).map(d => `<button class="tcard sc" style="--sh:${d.hue}" data-act="qzset" data-id="cards:${d.id}"><b>単語帳「${esc(d.name)}」</b><span>${S.cards.filter(c => c.d === d.id).length}枚のカードから出題</span></button>`).join('')}</div>`;
+  if (QZ.phase === 'setup') return `${qzDirSeg()}<div class="tgrid2">${Object.entries(QD).filter(([id]) => id !== 'cards').map(([id, [n]]) => `<button class="tcard sc" style="--sh:${qzHue(id)}" data-act="qzset" data-id="${id}"><b>${n}</b><span>10問・${qzN()}択</span></button>`).join('')}${(ensureDecks(), S.decks).map(d => `<button class="tcard sc" style="--sh:${d.hue}" data-act="qzset" data-id="cards:${d.id}"><b>単語帳「${esc(d.name)}」</b><span>${S.cards.filter(c => c.d === d.id).length}枚のカードから出題</span></button>`).join('')}</div>`;
   const n = QZ.q.length, hue = qzHue(QZ.set);
   if (QZ.phase === 'play') {
     const q = QZ.q[QZ.i], done = QZ.pick >= 0, ok = done && q.o[QZ.pick] === q.b, prog = (QZ.i + (done ? 1 : 0)) / n * 100;
@@ -6001,6 +6026,7 @@ function quizHtml() {
 }
 Object.assign(ACT, {
   qzdir(id) { if (!['f', 'b', 'r'].includes(id)) return; S.set.qzdir = id; save(); toolsRefresh(); },
+  qzn(id) { if (!QZ_NS.includes(+id)) return; S.set.qzn = +id; save(); toolsRefresh(); },
   qzagain() { if (!QZ.wrong.length) return; QZ.q = QZ.wrong.map(q => ({ ...q, o: qzShuf(q.o) })); QZ.i = 0; QZ.ok = 0; QZ.pick = -1; QZ.wrong = []; QZ.phase = 'play'; toolsRefresh(); }
 });
 document.addEventListener('keydown', e => {
@@ -6962,23 +6988,122 @@ async function fbFlush() {
   } catch (e) { fbFlush.err = e; }
   fbFlush.busy = false; return sent;
 }
-const FBI = { rows: [], err: null };
+/* ===== フィードバックの返信と通知（17.1）：管理者が返信 → 送った人に、アプリの中でお知らせ。新着は、管理者にお知らせ ===== */
+const FB_SEEN = 'kosa-fb-seen', FB_ASEEN = 'kosa-fb-aseen', FB_ADM = 'kosa-fb-adm';
+const FBL = { mine: [], adm: [], isAdmin: false, unsubM: null, unsubA: null, firstM: true, firstA: true, uid: '', noted: {} };
+const FBA = { filt: 'all', newIds: new Set() };
+let FBM_NEW = new Set();
+const lsj = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
+const lss = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } };
+const fbCat = v => (FB_CATS.find(c => c[0] === v) || FB_CATS[0]);
+const fbWhen = t => new Date(t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+const fbUnreadMine = () => { const m = lsj(FB_SEEN, {}); return FBL.mine.filter(r => r.reply && (r.rt || 0) > (m[r.id] || 0)); };
+const fbUnreadAdm = () => { const s = lsj(FB_ASEEN, null), set = new Set((s && s.ids) || []); return FBL.adm.filter(r => !set.has(r.id)); };
+const fbBadgeN = () => fbUnreadMine().length + (FBL.isAdmin ? fbUnreadAdm().length : 0);
+const fbIsPerm = e => /permission/i.test(String((e && (e.code || e.message)) || e));
+function fbBadge() {
+  try { renderAcct(); } catch (e) { }
+  if (dlg.open && dlg.dataset.k === 'acct') dlg.innerHTML = `<div class="dlg">${acctHtml()}</div>`;
+}
+/* ---- 画面の上に出る、お知らせ ---- */
+let nbarT = 0, nbarQ = [];
+function nbar(o) {
+  if (dlg.open) { nbarQ.push(o); return; }   // ダイアログを開いているあいだは、閉じたあとに出す
+  let el = $('#nbar'); if (!el) { el = document.createElement('div'); el.id = 'nbar'; el.setAttribute('role', 'status'); document.body.appendChild(el); }
+  el.innerHTML = `<span class="nb-i">${ms(o.icon || 'notifications')}</span><span class="nb-t"><b>${esc(o.text)}</b>${o.sub ? `<small>${esc(o.sub)}</small>` : ''}</span>${o.label ? `<button type="button" class="btn tonal xs" data-act="${o.act}">${esc(o.label)}</button>` : ''}<button type="button" class="nb-x" data-act="nbclose" aria-label="閉じる">${ms('close')}</button>`;
+  el.classList.add('show'); clearTimeout(nbarT); nbarT = setTimeout(() => el.classList.remove('show'), 12000);
+}
+dlg.addEventListener('close', () => { const o = nbarQ.pop(); nbarQ = []; if (o) setTimeout(() => nbar(o), 450); });
+/* ---- 見はり：自分が送ったものへの返信／（管理者だけ）すべてのフィードバック ---- */
+function fbWatchStop() {
+  try { FBL.unsubM && FBL.unsubM(); FBL.unsubA && FBL.unsubA(); } catch (e) { }
+  Object.assign(FBL, { unsubM: null, unsubA: null, mine: [], adm: [], isAdmin: false, firstM: true, firstA: true, uid: '', noted: {} }); fbBadge();
+}
+async function fbWatchStart() {
+  if (!CLOUD.user || !CLOUD.fb) return; const uid = CLOUD.user.uid; if (FBL.uid === uid && FBL.unsubM) return;
+  fbWatchStop(); FBL.uid = uid; const { fs, db } = CLOUD.fb;
+  try { FBL.unsubM = fs.onSnapshot(fs.query(fs.collection(db, 'feedback'), fs.where('uid', '==', uid)), fbOnMine, () => { }); } catch (e) { }
+  const adm = lsj(FB_ADM, null);   // 管理者かどうかは、「全体を読めるか」で調べる（管理者でないと分かったアカウントは、1週間は調べない）
+  if (adm && adm.uid === uid && (adm.v === 1 || Date.now() - adm.t < 7 * 864e5)) { if (adm.v === 1) fbAdminOn(); return; }
+  try { await fs.getDocs(fs.query(fs.collection(db, 'feedback'), fs.limit(1))); lss(FB_ADM, { uid, v: 1, t: Date.now() }); fbAdminOn(); }
+  catch (e) { if (fbIsPerm(e)) lss(FB_ADM, { uid, v: 0, t: Date.now() }); }
+}
+function fbAdminOn() {
+  if (FBL.unsubA || !CLOUD.fb) return; const { fs, db } = CLOUD.fb; FBL.isAdmin = true;
+  try { FBL.unsubA = fs.onSnapshot(fs.query(fs.collection(db, 'feedback'), fs.orderBy('t', 'desc'), fs.limit(100)), fbOnAdm, e => { if (fbIsPerm(e)) { lss(FB_ADM, { uid: FBL.uid, v: 0, t: Date.now() }); FBL.isAdmin = false; FBL.unsubA = null; fbBadge(); } }); } catch (e) { }
+  fbBadge();
+}
+function fbOnMine(sn) {
+  FBL.mine = sn.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.t || 0) - (a.t || 0));
+  const first = FBL.firstM, open = dlg.open && dlg.dataset.k === 'fbmine'; FBL.firstM = false;
+  const un = fbUnreadMine().filter(r => !FBL.noted[r.id + ':' + r.rt]); un.forEach(r => { FBL.noted[r.id + ':' + r.rt] = 1; });
+  if (open) { fbMineDlg(true); } else fbBadge();
+  if (un.length && !open) nbar({ icon: 'mark_email_unread', text: first ? `管理者からの返信が ${un.length}件あります` : '管理者から、返信が届きました', sub: String(un[0].reply).replace(/\s+/g, ' ').slice(0, 40), label: '見る', act: 'fbmine' });
+}
+function fbOnAdm(sn) {
+  const rows = sn.docs.map(d => ({ id: d.id, ...d.data() })).sort((a, b) => (b.t || 0) - (a.t || 0)), first = FBL.firstA; FBL.firstA = false; FBL.adm = rows;
+  if (lsj(FB_ASEEN, null) === null) lss(FB_ASEEN, { ids: rows.map(r => r.id).slice(0, 400) });   // 初めて開くときは、いまある分を、既読にする
+  const un = fbUnreadAdm(), open = dlg.open && dlg.dataset.k === 'fbinbox', me = FBL.uid;
+  const added = first ? [] : sn.docChanges().filter(c => c.type === 'added' && !c.doc.data().reply && c.doc.data().uid !== me).map(c => ({ id: c.doc.id, ...c.doc.data() }));
+  if (open) { if (added.length) { added.forEach(a => FBA.newIds.add(a.id)); } fbInboxRefresh(); fbAdmSeen(); } else fbBadge();
+  if (open) return;
+  if (first && un.length) nbar({ icon: 'inbox', text: `未読のフィードバックが ${un.length}件あります`, label: '開く', act: 'fbinbox' });
+  else if (added.length) nbar({ icon: 'mark_email_unread', text: added.length > 1 ? `新しいフィードバックが ${added.length}件届きました` : '新しいフィードバックが届きました', sub: `${fbCat(added[0].cat)[1]}：${String(added[0].text).replace(/\s+/g, ' ').slice(0, 30)}`, label: '開く', act: 'fbinbox' });
+}
+function fbAdmSeen() { const s = lsj(FB_ASEEN, null), ids = new Set((s && s.ids) || []); FBL.adm.forEach(r => ids.add(r.id)); lss(FB_ASEEN, { ids: [...ids].slice(-400) }); fbBadge(); }
+/* ---- 送った人：自分のフィードバックと、返信 ---- */
+function fbMineHtml() {
+  const rows = FBL.mine, lq = fbQ(), item = (x, local) => { const c = fbCat(x.cat), nw = FBM_NEW.has(x.id); return `<div class="fbi"><div class="fbi-h"><span class="fbi-c">${ms(c[2])}${c[1]}</span><small>${fbWhen(x.t)}${local ? ' ・ 未送信' : x.reply ? '' : ' ・ 返信まち'}</small></div><p>${esc(x.text).replace(/\n/g, '<br>')}</p>${x.reply ? `<div class="fbr ${nw ? 'new' : ''}"><div class="fbr-h">${ms('support_agent')}管理者からの返信${nw ? '<em class="fbi-tag">新着</em>' : ''}<small>${fbWhen(x.rt || x.t)}</small></div><p>${esc(x.reply).replace(/\n/g, '<br>')}</p></div>` : ''}</div>`; };
+  return `<h2>${ms('forum')}送った内容と返信</h2><div class="fbi-l">${lq.length ? `<div class="gs-h">${ms('schedule_send')}未送信（${lq.length}件）</div>${lq.map(x => item(x, true)).join('')}` : ''}${rows.length ? rows.map(x => item(x, false)).join('') : (lq.length ? '' : '<p class="muted" style="text-align:center;padding:20px 0">まだ、送ったフィードバックはありません</p>')}</div><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="fbopen">${ms('rate_review')}新しく送る</button><button type="button" class="btn" data-act="close">閉じる</button></div>`;
+}
+function fbMineDlg(keep) {
+  if (!keep) FBM_NEW = new Set(fbUnreadMine().map(r => r.id));
+  if (keep && dlg.open && dlg.dataset.k === 'fbmine') { const l = dlg.querySelector('.fbi-l'), top = l ? l.scrollTop : 0; dlg.innerHTML = `<div class="dlg">${fbMineHtml()}</div>`; const l2 = dlg.querySelector('.fbi-l'); if (l2) l2.scrollTop = top; }
+  else { openDlg(fbMineHtml()); dlg.dataset.k = 'fbmine'; }
+  const m = lsj(FB_SEEN, {}); FBL.mine.forEach(r => { if (r.reply) m[r.id] = r.rt || 1; });
+  lss(FB_SEEN, Object.fromEntries(Object.entries(m).slice(-120))); fbBadge();
+}
+/* ---- 管理者：受信箱と、返信 ---- */
+const FB_TPL = ['ありがとうございます！とても助かります。', '対応しました。次の更新で直ります。', '検討します。もう少し、くわしく教えてもらえますか？'];
+function fbInboxHtml() {
+  const rows = FBL.adm, all = rows.length, nr = rows.filter(r => !r.reply).length, list = rows.filter(r => FBA.filt === 'all' || (FBA.filt === 'no' ? !r.reply : !!r.reply));
+  const item = x => { const c = fbCat(x.cat), nw = FBA.newIds.has(x.id); return `<div class="fbi ${nw ? 'new' : ''}"><div class="fbi-h"><span class="fbi-c">${ms(c[2])}${c[1]}</span><small>${fbWhen(x.t)}${x.name ? ' ・ ' + esc(x.name) : ''}${x.ver ? ' ・ v' + esc(x.ver) : ''}</small>${nw ? '<em class="fbi-tag">新着</em>' : ''}${x.reply ? `<em class="fbi-tag ok">返信ずみ</em>` : ''}<button type="button" class="ibtn" data-act="fbdel" data-id="${x.id}" aria-label="削除">${ms('delete')}</button></div><p>${esc(x.text).replace(/\n/g, '<br>')}</p>${x.env ? `<small class="muted">${esc(x.env)}</small>` : ''}${x.reply ? `<div class="fbr"><div class="fbr-h">${ms('support_agent')}あなたの返信<small>${fbWhen(x.rt || x.t)}</small></div><p>${esc(x.reply).replace(/\n/g, '<br>')}</p></div>` : ''}
+    <details class="fbi-rp"><summary>${ms('reply')}${x.reply ? '返信を編集' : '返信する'}</summary><div class="chips">${FB_TPL.map((t, k) => `<button type="button" class="sn-sc" data-act="fbtpl" data-id="${x.id}" data-t="${k}">${esc(t.slice(0, 10))}…</button>`).join('')}</div><textarea id="fbrt-${x.id}" rows="3" maxlength="1000" data-orig="${esc(x.reply || '')}" placeholder="返信を書く（送った人に、アプリの中で通知されます）">${esc(x.reply || '')}</textarea><div class="fbi-ra">${x.reply ? `<button type="button" class="btn text danger xs" data-act="fbunreply" data-id="${x.id}">返信を取り消す</button>` : ''}<span class="sp"></span><button type="button" class="btn xs" data-act="fbsend" data-id="${x.id}">${ms('send')}返信する</button></div></details></div>`; };
+  return `<h2>${ms('inbox')}フィードバック <small style="font-weight:500;color:var(--on-v)">${all}件</small></h2><div class="wx-seg" role="group" style="margin:0 0 10px">${[['all', 'すべて', all], ['no', '未返信', nr], ['yes', '返信ずみ', all - nr]].map(([k, t, n]) => `<button type="button" class="wx-sg ${FBA.filt === k ? 'on' : ''}" data-act="fbfilt" data-id="${k}">${t} ${n}</button>`).join('')}</div><div class="fbi-new" id="fbnew" hidden>新しい内容があります<button type="button" class="btn text xs" data-act="fbreload">更新</button></div><div class="fbi-l">${list.length ? list.map(item).join('') : '<p class="muted" style="text-align:center;padding:20px 0">該当するフィードバックはありません</p>'}</div><div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">閉じる</button></div>`;
+}
+function fbInboxRefresh() {
+  if (!(dlg.open && dlg.dataset.k === 'fbinbox')) return;
+  const busy = [...dlg.querySelectorAll('.fbi-rp textarea')].some(t => t.value !== (t.dataset.orig || ''));   // 保存していない文字がある＝書いている途中
+  if (busy) { const s = $('#fbnew'); if (s) s.hidden = false; return; }   // 書いている途中は、画面を作り直さない
+  const l = dlg.querySelector('.fbi-l'), top = l ? l.scrollTop : 0; dlg.innerHTML = `<div class="dlg">${fbInboxHtml()}</div>`; const l2 = dlg.querySelector('.fbi-l'); if (l2) l2.scrollTop = top;
+}
+function fbInboxMsg(err) {
+  const perm = fbIsPerm(err), uid = CLOUD.user ? CLOUD.user.uid : '';
+  openDlg(`<h2>${ms('inbox')}フィードバック</h2><div class="notice" style="margin:0 0 12px">${ms('lock')}<span class="t">${err === 'login' ? 'ログインすると、フィードバックを読み込めます。' : perm ? 'このアカウントには、読み取りの許可がありません。Firestore のルールの <b>feedback</b> に、次の UID を管理者として書いてください。' : '読み込めませんでした。接続を確認してください。'}</span></div>${uid && perm ? `<div class="fbi"><small class="muted">このアカウントの UID</small><p style="font-family:ui-monospace,Menlo,monospace;word-break:break-all;user-select:all">${esc(uid)}</p></div>` : ''}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">閉じる</button></div>`);
+}
 async function fbInbox() {
-  openDlg(`<div class="busy">${gspin(52)}<h2>読み込んでいます…</h2></div>`);
-  let rows = [], err = null;
-  if (CLOUD.user && CLOUD.fb) { try { const { fs, db } = CLOUD.fb; const sn = await fs.getDocs(fs.query(fs.collection(db, 'feedback'), fs.orderBy('t', 'desc'), fs.limit(100))); rows = sn.docs.map(d => ({ id: d.id, ...d.data() })); } catch (e) { err = e; } } else err = new Error('login');
-  FBI.rows = rows; FBI.err = err; fbInboxPaint();
+  if (!CLOUD.user || !CLOUD.fb) return fbInboxMsg('login');
+  if (!FBL.isAdmin) {
+    openDlg(`<div class="busy">${gspin(52)}<h2>読み込んでいます…</h2></div>`);
+    try { const { fs, db } = CLOUD.fb; await fs.getDocs(fs.query(fs.collection(db, 'feedback'), fs.limit(1))); lss(FB_ADM, { uid: CLOUD.user.uid, v: 1, t: Date.now() }); FBL.uid = CLOUD.user.uid; fbAdminOn(); for (let i = 0; i < 30 && FBL.firstA; i++) await new Promise(r => setTimeout(r, 100)); }
+    catch (e) { return fbInboxMsg(e); }
+  }
+  FBA.newIds = new Set(fbUnreadAdm().map(r => r.id)); openDlg(fbInboxHtml()); dlg.dataset.k = 'fbinbox'; fbAdmSeen();
 }
-function fbInboxPaint() {
-  const rows = FBI.rows, err = FBI.err, lq = fbQ(), cat = v => (FB_CATS.find(c => c[0] === v) || FB_CATS[0]), when = t => new Date(t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
-  const item = (x, local) => { const c = cat(x.cat); return `<div class="fbi"><div class="fbi-h"><span class="fbi-c">${ms(c[2])}${c[1]}</span><small>${when(x.t)}${x.name ? ' ・ ' + esc(x.name) : ''}${x.ver ? ' ・ v' + esc(x.ver) : ''}${local ? ' ・ 未送信' : ''}</small>${local ? '' : `<button type="button" class="ibtn" data-act="fbdel" data-id="${x.id}" aria-label="削除">${ms('delete')}</button>`}</div><p>${esc(x.text).replace(/\n/g, '<br>')}</p>${x.env ? `<small class="muted">${esc(x.env)}</small>` : ''}</div>`; };
-  let body = '';
-  if (err) {
-    const perm = /permission/i.test(String(err.code || err.message)), uid = CLOUD.user ? CLOUD.user.uid : '';
-    body = `<div class="notice" style="margin:0 0 12px">${ms('lock')}<span class="t">${err.message === 'login' ? 'ログインすると、送られたフィードバックを読み込めます。' : perm ? 'このアカウントには、読み取りの許可がありません。Firestore のルールの <b>feedback</b> に、次の UID を書いてください。' : '読み込めませんでした。接続を確認してください。'}</span></div>${uid && perm ? `<div class="fbi"><small class="muted">このアカウントの UID</small><p style="font-family:ui-monospace,Menlo,monospace;word-break:break-all;user-select:all">${esc(uid)}</p></div>` : ''}`;
-  } else body = rows.length ? rows.map(x => item(x, false)).join('') : '<p class="muted" style="text-align:center;padding:20px 0">まだ、フィードバックはありません</p>';
-  openDlg(`<h2>${ms('inbox')}フィードバック <small style="font-weight:500;color:var(--on-v)">${err ? '' : rows.length + '件'}</small></h2><div class="fbi-l">${lq.length ? `<div class="gs-h">${ms('schedule_send')}この端末の、未送信（${lq.length}件）</div>${lq.map(x => item(x, true)).join('')}` : ''}${body}</div><div class="dact"><button type="button" class="btn text" data-act="close">閉じる</button><span class="sp"></span><button type="button" class="btn tonal" data-act="fbreload">${ms('refresh')}読み込み直す</button></div>`);
-}
+Object.assign(ACT, {
+  fbmine() { fbMineDlg(); }, fbinbox() { fbInbox(); }, fbreload() { if (dlg.open && dlg.dataset.k === 'fbinbox') { dlg.innerHTML = `<div class="dlg">${fbInboxHtml()}</div>`; } else fbInbox(); },
+  nbclose() { const e = $('#nbar'); if (e) e.classList.remove('show'); },
+  fbfilt(id) { FBA.filt = id; dlg.innerHTML = `<div class="dlg">${fbInboxHtml()}</div>`; },
+  fbtpl(id, el) { const t = $('#fbrt-' + id); if (t && el) { t.value = FB_TPL[+el.dataset.t] || ''; t.focus(); } },
+  async fbsend(id) {
+    const t = $('#fbrt-' + id), v = t ? t.value.trim().slice(0, 1000) : ''; if (!v) return toast('返信を書いてください'); if (!CLOUD.fb) return;
+    const { fs, db } = CLOUD.fb; try { await fs.updateDoc(fs.doc(db, 'feedback', id), { reply: v, rt: Date.now() }); if (t) t.dataset.orig = v; toast('返信を送りました'); fbInboxRefresh(); } catch (e) { toast(fbIsPerm(e) ? '返信できません。Firestore のルールに、返信（update）の許可が必要です' : '返信できませんでした。接続を確認してください'); }
+  },
+  async fbunreply(id) {
+    if (!CLOUD.fb) return; const { fs, db } = CLOUD.fb; try { await fs.updateDoc(fs.doc(db, 'feedback', id), { reply: fs.deleteField(), rt: Date.now() }); toast('返信を取り消しました'); const t = $('#fbrt-' + id); if (t) t.dataset.orig = ''; fbInboxRefresh(); } catch (e) { toast('取り消せませんでした'); }
+  },
+  fbdel(id) { if (!CLOUD.fb) return; const { fs, db } = CLOUD.fb; confirmDlg('このフィードバックを消しますか？', '消すと、元にもどせません。', '消す', async () => { try { await fs.deleteDoc(fs.doc(db, 'feedback', id)); } catch (e) { toast('消せませんでした'); } if (FBL.isAdmin) { FBA.newIds = new Set(); openDlg(fbInboxHtml()); dlg.dataset.k = 'fbinbox'; } }); }
+});
 // 設定の「データ」の文字を、5回続けてタップすると開く
 let fbkN = 0, fbkT = 0;
 document.addEventListener('click', e => {
