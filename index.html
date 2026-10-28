@@ -1853,6 +1853,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
   .snw .sn-chips.start .ax-pc{min-height:96px}
   .snw .sn-fc{width:100%;justify-content:flex-start;height:46px;border-radius:23px}
   .snw .sn-subs{flex-wrap:wrap;align-self:end;overflow:visible}
+  .snw .ax-in{align-self:end}
   .snw .ax-bb{max-width:min(90%,900px)}
 }
 @media(prefers-reduced-motion:reduce){.sn-av{animation:none}}
@@ -2051,6 +2052,48 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 .fbi-rp .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
 .fbi-ra{display:flex;align-items:center;gap:8px;margin-top:8px}
 .fbi-new{display:flex;align-items:center;gap:8px;margin:0 0 8px;padding:6px 6px 6px 16px;border-radius:20px;background:var(--pc);color:var(--on-pc);font-weight:700;font-size:.9rem}.fbi-new[hidden]{display:none}
+
+/* ===== 17.2：予定・テスト対策プラン・採点・成績の推移・暗記シート ===== */
+.evd{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--primary)}
+.dayp-a{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}.dayp-a .btn{flex:1 1 150px}
+.td-evs{display:flex;flex-wrap:wrap;gap:6px}
+.td-ev{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:16px;background:var(--ter-c,var(--s2));font-weight:700;font-size:.85rem}
+.tp-l{display:grid;gap:8px;max-height:min(52vh,460px);overflow-y:auto;padding:2px}
+.tp-d{border-radius:22px;background:var(--s2);overflow:hidden;padding-bottom:2px}
+.tp-d summary{display:flex;align-items:center;gap:10px;padding:12px 16px;cursor:pointer;list-style:none}.tp-d summary::-webkit-details-marker{display:none}
+.tp-d summary span{margin-left:auto;color:var(--on-v);font-weight:700;font-size:.85rem}.tp-d summary .ms{transition:transform .35s var(--spring)}.tp-d[open] summary .ms{transform:rotate(180deg)}
+.tp-i{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 8px 6px;padding:10px 14px;border-radius:16px;background:var(--s1)}
+.tp-i.sc{background:var(--scc);color:var(--on-scc)}.tp-i b{font-size:.85rem;white-space:nowrap}
+.tp-st{display:flex;align-items:center;gap:14px;padding:14px 18px;margin:0 0 12px;border-radius:26px;background:var(--pc);color:var(--on-pc)}.tp-st small{display:block;opacity:.8}.tp-st .nt-big b{font-size:2.4rem}
+.gr{display:grid;gap:10px;min-width:min(520px,68vw)}
+.gr-top{display:flex;align-items:center;gap:14px}
+.gr-ring{flex:none;position:relative;width:84px;height:84px;border-radius:50%;display:grid;place-items:center;align-content:center;background:conic-gradient(var(--primary) calc(var(--p)*1%),var(--s3) 0);animation:qzpop .6s var(--spring) both}
+.gr-ring::before{content:"";position:absolute;inset:9px;border-radius:50%;background:var(--s2)}
+.gr-ring b,.gr-ring small{position:relative;text-align:center}.gr-ring b{font-size:1.7rem;font-weight:800;line-height:1}.gr-ring small{font-weight:700;color:var(--on-v);font-size:.75rem}
+.gr-c{display:grid;gap:2px}.gr-c span{font-size:.9rem;line-height:1.5}
+.gr-l{display:grid;gap:6px}
+.gr-r{display:flex;align-items:flex-start;gap:10px;width:100%;padding:10px 12px;border:0;border-radius:20px;text-align:left;font:inherit;color:inherit;background:var(--s1);transition:border-radius .35s var(--spring),transform .3s var(--spring)}
+.gr-r.ng{background:color-mix(in srgb,#c62828 14%,var(--s1))}.gr-r.ok{background:color-mix(in srgb,#2e7d32 14%,var(--s1))}.gr-r.na{opacity:.75}
+.gr-r:not(:disabled):active{transform:scale(.98);border-radius:12px}.gr-r:disabled{cursor:default}
+.gr-b{flex:none;display:grid;place-items:center;width:32px;height:32px;border-radius:50%;font-weight:800;color:#fff;background:#2e7d32}.gr-r.ng .gr-b{background:#c62828;border-radius:10px}.gr-r.na .gr-b{background:var(--on-v)}
+.gr-t{flex:1;min-width:0;display:grid;gap:2px}.gr-t b{font-size:.92rem;overflow-wrap:anywhere}.gr-t small{color:var(--on-v);font-weight:600;line-height:1.5}.gr-t em{font-style:normal;color:#2e7d32;font-weight:800}.gr-t p{margin:2px 0 0;font-size:.88rem;line-height:1.6}
+.gr-go{flex:none;align-self:center;opacity:.6}
+.gr-a{display:flex}.gr-a .btn{flex:1}.gr-h{margin:0;font-size:.78rem}
+.sn-sc.gm{margin-left:auto}
+.sct-w{padding:18px 18px 16px;border-radius:36px}
+.sct{width:100%;height:auto;display:block;overflow:visible}
+.sct-cs{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 4px}
+.sct-c{display:inline-flex;align-items:center;gap:5px;padding:5px 12px;border-radius:15px;background:var(--s2);font-weight:700;font-size:.82rem}
+.sct-c.up{background:color-mix(in srgb,#2e7d32 20%,var(--s1))}.sct-c.dn{background:color-mix(in srgb,#c62828 16%,var(--s1))}
+.sct-l{display:grid;gap:4px;margin-top:10px}
+.sct-r{display:grid;grid-template-columns:minmax(64px,1.1fr) 64px 78px 54px auto;align-items:center;gap:8px;padding:8px 12px;border-radius:18px;background:var(--scc);color:var(--on-scc)}
+.sct-r b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.scs{width:64px;height:22px}
+.sct-v{font-weight:800;text-align:right}.sct-v small{font-weight:600;opacity:.7}
+.sct-d{font-weight:800;font-size:.82rem}.sct-d.up{color:#1b5e20}.sct-d.dn{color:#b71c1c}
+.sct-g{justify-self:end;font-size:.72rem;font-weight:800;padding:2px 9px;border-radius:10px;background:rgba(255,255,255,.55);white-space:nowrap}.sct-g.ok{background:#2e7d32;color:#fff}
+.rs-tools{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
+.rs-d{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0 0}
+@media(max-width:560px){.sct-r{grid-template-columns:1fr 70px 54px auto}.scs{display:none}.gr{min-width:0}}
 </style>
 </head>
 <body>
@@ -2075,7 +2118,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.1.1';
+const APP_VERSION = '17.2';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2573,6 +2616,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.2', t: '予定・テスト対策プラン・採点・成績の推移などを追加', n: ['プリントを撮ると、課題に加えて、予定（行事）・テストの日程・持ち物も読み取って、登録できるようになりました。カレンダーに「予定」を足せます（複数日の予定も）', '「テスト対策プラン」を追加しました。考査の日までの勉強計画を、AIが日ごとに作り、カレンダーと「今日のやること」に入れます', 'AI先生に「採点モード」を追加しました。解いた問題と答えを撮ると、問題ごとに ○× を付けて、点数を出します。まちがいは、まちがいノートに保存できます', '記録に「成績の推移」を追加しました。考査ごとの平均と、教科ごとの変化、目標との差が分かります', '暗記シートに、単語帳から読み込む機能と、AIが重要な言葉を自動で【　】にする機能（文章・写真から）を追加しました'] },
   { v: '17.1.1', t: 'フィードバックのお知らせを、アプリの中だけに', n: ['フィードバックの返信などのお知らせは、アプリの中だけに表示されます（端末の通知は使いません）'] },
   { v: '17.1', t: 'フィードバックへの返信・単語帳クイズの選択肢の数', n: ['フィードバックに返信が届くと、アプリの中で、お知らせが出ます。送った内容と返信は、右上のアカウント画面の「送った内容と返信」で見られます', '単語帳のクイズで、選択肢の数を、2・3・4・5・6・8つから選べるようになりました（単語帳のテストの画面と、暗記クイズの画面で選べます）'] },
   { v: '17.0', t: '「今日のプラン」に、自分のやること・AIの計画などを追加', n: ['ホームの「今日のプラン」に、「自分のやること」を追加しました。やることを自分で書いて、時間の目安も入れられます。チェックすると、ぜんぶ終わったときにお祝いが出ます', '「AIで今日の計画」を追加しました。使える時間・今日の調子・ひとことを伝えると、AIが課題・復習・休けいを、順番と時間つきで提案します。選んでから、計画に入れられます', '課題のノルマ（「0/9p」の部分）をタップすると、今日やるページ数を自分で決めたり、「今日はやらない」にしたりできます', '「毎日のやること」（音読・漢字など）を登録すると、毎日、自動で出ます。「平日だけ」も選べます', 'おすすめのやること（ノートの復習・単語帳の見直しなど）を、ワンタップで足せます。前の日の残りは、今日に持ちこせます'] },
@@ -2842,9 +2886,10 @@ function taskCard(t, s) {
 
 /* ---------- 予定（カレンダー） ---------- */
 function eventsMap() {
-  const map = {}, add = (k, t, v) => { (map[k] || (map[k] = { ex: [], se: [], due: [] }))[t].push(v); };
+  const map = {}, add = (k, t, v) => { (map[k] || (map[k] = { ex: [], se: [], due: [], ev: [] }))[t].push(v); };
   const ex = curExam(); if (ex.date) add(ex.date, 'ex', ex);
   for (const s of subjects()) { if (s.exam) add(s.exam, 'se', s); for (const t of tasksOfSub(s.id)) if (t.due) add(t.due, 'due', t); }
+  for (const e of evAll()) { let k = e.d, c = 0; while (k <= (e.d2 || e.d) && c < 14) { add(k, 'ev', e); k = ymd(new Date(parse(k).getTime() + 864e5)); c++; } }   // 複数日の予定は、毎日に入れる
   return map;
 }
 function viewCal() {
@@ -2856,21 +2901,24 @@ function viewCal() {
     const hh = a >= 25 ? 3 : a >= 10 ? 2 : (a > 0 || (l && l.m)) ? 1 : 0;
     const dots = e ? e.due.slice(0, 3).map(t => `<i class="sc" style="--sh:${SUB(t.sid).hue}"></i>`).join('') : '';
     const fl = e && (e.ex.length || e.se.length) ? ms('flag', 'f fl') : '';
-    cells += `<button class="cal-d ${d.getMonth() !== m ? 'out' : ''} ${hh ? 'h' + hh : ''} ${k === td ? 'today' : ''} ${k === ui.sel ? 'sel' : ''}" data-act="calday" data-id="${k}" aria-label="${d.getMonth() + 1}月${d.getDate()}日"><span class="n">${d.getDate()}</span><span class="dots">${fl}${dots}</span></button>`;
+    cells += `<button class="cal-d ${d.getMonth() !== m ? 'out' : ''} ${hh ? 'h' + hh : ''} ${k === td ? 'today' : ''} ${k === ui.sel ? 'sel' : ''}" data-act="calday" data-id="${k}" aria-label="${d.getMonth() + 1}月${d.getDate()}日"><span class="n">${d.getDate()}</span><span class="dots">${fl}${dots}${e && e.ev.length ? '<i class="evd"></i>' : ''}</span></button>`;
   }
-  const sel = ui.sel, sd = parse(sel), l = dayLog(sel), e = ev[sel] || { ex: [], se: [], due: [] };
+  const sel = ui.sel, sd = parse(sel), l = dayLog(sel), e = ev[sel] || { ex: [], se: [], due: [], ev: [] };
   const worked = Object.keys(l.t).map(id => ({ t: T(id), n: l.t[id] })).filter(x => x.t);
   let h = `<div class="cal-wrap"><div class="card"><div class="cal-h"><h2>${y}年${m + 1}月</h2><button class="ibtn" data-act="calprev" aria-label="前の月">${ms('chevron_left')}</button><button class="btn tonal xs" data-act="caltoday">${ms('today')}今日</button><button class="ibtn" data-act="calnext" aria-label="次の月">${ms('chevron_right')}</button></div>
     <div class="cal-g">${[...WD].map(w => `<div class="cal-w">${w}</div>`).join('')}${cells}</div>
-    <div class="cal-key"><span><i style="background:color-mix(in srgb,var(--primary) 18%,var(--s2))"></i>少し</span><span><i style="background:color-mix(in srgb,var(--primary) 38%,var(--s2))"></i>10p〜</span><span><i style="background:color-mix(in srgb,var(--primary) 62%,var(--s2))"></i>25p〜</span><span>${ms('flag', 'f', 'font-size:16px;color:var(--err);vertical-align:-3px')}テスト・考査</span><span><i class="sc" style="--sh:${S.set.hue};border-radius:50%;background:var(--ter)"></i>提出期限</span></div></div>
+    <div class="cal-key"><span><i style="background:color-mix(in srgb,var(--primary) 18%,var(--s2))"></i>少し</span><span><i style="background:color-mix(in srgb,var(--primary) 38%,var(--s2))"></i>10p〜</span><span><i style="background:color-mix(in srgb,var(--primary) 62%,var(--s2))"></i>25p〜</span><span>${ms('flag', 'f', 'font-size:16px;color:var(--err);vertical-align:-3px')}テスト・考査</span><span><i class="sc" style="--sh:${S.set.hue};border-radius:50%;background:var(--ter)"></i>提出期限</span><span><i class="evd" style="vertical-align:1px"></i> 予定</span></div></div>
     <div class="card dayp"><h3>${sd.getMonth() + 1}月${sd.getDate()}日（${WD[sd.getDay()]}）${sel === td ? '<span class="tag ok" style="margin-left:8px;vertical-align:4px">今日</span>' : ''}</h3>
     <div class="chips"><span class="tag plain">${ms('menu_book')}${l.a}ページ</span><span class="tag plain">${ms('timer')}集中 ${l.m}分</span></div>`;
   for (const x of e.ex) h += `<div class="ev">${ms('school', '', 'color:var(--err)')}<div class="t">${esc(x.name)} 初日<small>試験期間の開始日</small></div></div>`;
   for (const s of e.se) h += `<div class="ev sc" style="--sh:${s.hue}">${avatar(s, 40)}<div class="t">${esc(s.name)} のテスト<small>この日までに仕上げる</small></div></div>`;
+  for (const x of e.ev) h += evRow(x);
   if (e.due.length) { h += `<div class="lbl" style="margin-top:6px">提出期限の課題</div>`; for (const t of e.due) { const s = SUB(t.sid); h += `<button class="ev sc rp" style="--sh:${s.hue}" data-act="edittask" data-id="${t.id}">${avatar(s, 40)}<div class="t">${esc(t.title)}<small>${esc(s.name)} ・ 残り ${t.total - t.done}p</small></div>${isDone(t) ? `<span class="tag ok">${ms('check')}完了</span>` : ''}</button>`; } }
   if (worked.length) { h += `<div class="lbl" style="margin-top:6px">この日に取り組んだ課題</div>`; for (const { t, n } of worked) { const s = SUB(t.sid); h += `<div class="ev sc" style="--sh:${s.hue}">${avatar(s, 40)}<div class="t">${esc(t.title)}<small>${esc(s.name)}</small></div><b style="color:var(--sc)">+${n}p</b></div>`; } }
-  if (!e.ex.length && !e.se.length && !e.due.length && !worked.length) h += `<p class="muted" style="font-weight:500">この日の予定や記録はまだありません。</p>`;
-  h += `<button class="btn tonal" data-act="addtask-due" data-id="${sel}">${ms('add_task')}この日が期限の課題を追加</button></div></div>`;
+  const tds = tdAll().filter(x => x.d === sel && !x.x).sort(tdOrd);
+  if (tds.length) h += `<div class="lbl" style="margin-top:6px">この日のやること</div>` + tds.map(tdRowCal).join('');
+  if (!e.ex.length && !e.se.length && !e.due.length && !e.ev.length && !tds.length && !worked.length) h += `<p class="muted" style="font-weight:500">この日の予定や記録はまだありません。</p>`;
+  h += `<div class="dayp-a"><button class="btn tonal" data-act="evadd" data-id="${sel}">${ms('event')}予定を足す</button><button class="btn tonal" data-act="tdadd" data-id="${sel}">${ms('checklist')}やることを足す</button><button class="btn tonal" data-act="addtask-due" data-id="${sel}">${ms('add_task')}期限の課題を追加</button></div></div></div>`;
   return h;
 }
 
@@ -2889,7 +2937,7 @@ function viewStats() {
   const best = days.reduce((b, d) => V(d) > V(b) ? d : b, days[0]), unit = isM ? '分' : 'p';
   const lab = (d, i) => n <= 7 ? WD[d.d.getDay()] : n <= 14 ? d.d.getDate() : (i % 5 === 0 || i === n - 1 ? `${d.d.getMonth() + 1}/${d.d.getDate()}` : '');
   const tt = totals(), lv = level();
-  let h = wkReview() + scoreCard() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
+  let h = wkReview() + scoreCard() + scoreTrend() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
   <div class="chips mb"><div class="seg" role="group">${[7, 14, 30].map(p => `<button class="${ui.period === p ? 'on' : ''}" data-act="period" data-id="${p}">${p}日</button>`).join('')}</div></div>
   <div class="card"><div class="bars" style="--n:${n}">${days.map((d, i) => `<div class="bcol ${d.k === today() ? 'today' : ''}"><div class="bval">${n <= 14 && V(d) ? V(d) : ''}</div><div class="bar">${isM ? `<i class="m" style="height:${V(d) / max * 100}%"></i>` : `<i class="o" style="height:${d.a / max * 100}%"></i><i class="r" style="height:${d.r / max * 100}%"></i>`}</div><div class="blab">${lab(d, i)}</div></div>`).join('')}</div>
   ${isM ? '' : `<div class="chips" style="margin-top:14px"><span class="lg"><i style="background:var(--primary)"></i><span>必須</span></span><span class="lg"><i style="background:var(--ter-c)"></i><span>任意</span></span></div>`}</div>
@@ -4511,7 +4559,7 @@ function viewAi() {
   AI.sug = [...urgent.map(k => `「${k.title}」の進め方を教えて`), '今日の勉強の進め方を教えて', '効率のよい暗記のコツを教えて'].slice(0, 4);
   const ico = ['trending_up', 'today', 'psychology', 'lightbulb'];
   return `<div class="axw" id="axw"><header class="ax-h"><div class="ax-t"><span class="ax-av">${gem(28)}</span><div><h2>AIに質問</h2><small>勉強のこと、何でも聞いてください</small></div></div><span class="ax-q" id="aicnt" title="今日の質問の回数"></span>
-  <div class="ax-tools" data-fit><button class="btn tonal" data-act="aitext" aria-label="文章から課題を登録" title="文章から課題を登録">${ms('edit_note')}<span class="bl">文章から課題を登録</span></button><button class="btn tonal" data-act="aiimport" aria-label="写真から課題を登録" title="写真から課題を登録">${ms('document_scanner')}<span class="bl">写真から課題を登録</span></button><button class="ibtn ax-rs" data-act="aireset" aria-label="新しい会話" title="新しい会話">${ms('restart_alt')}</button></div></header>
+  <div class="ax-tools" data-fit><button class="btn tonal" data-act="aitext" aria-label="文章から課題を登録" title="文章から課題を登録">${ms('edit_note')}<span class="bl">文章から課題を登録</span></button><button class="btn tonal" data-act="aiimport" aria-label="プリントを読み取って登録" title="プリントを読み取って登録">${ms('document_scanner')}<span class="bl">プリントを読み取って登録</span></button><button class="ibtn ax-rs" data-act="aireset" aria-label="新しい会話" title="新しい会話">${ms('restart_alt')}</button></div></header>
   <details class="ax-n"><summary>${ms('shield')}AIに送られる情報について</summary><p>質問・写真・課題の名前と進み具合が、GoogleのAIに送られます。顔や名前、学校名が写らないようにしてください。AIの答えは間違うことがあります。</p></details>
   <div class="ax-log" id="ailog"></div>
   <div class="ax-sug" id="aisug">${AI.sug.map((x, i) => `<button class="ax-pc" style="--i:${i}" data-act="aisug" data-id="${i}"><span class="ax-pi">${ms(ico[i % ico.length])}</span><span>${esc(x)}</span></button>`).join('')}<button class="ax-pc" style="--i:${AI.sug.length}" data-act="aiexplain"><span class="ax-pi">${ms('photo_camera')}</span><span>写真の問題を解説</span></button></div>
@@ -4537,40 +4585,88 @@ async function aiSend(text) {
   } catch (e) { m.t = aiErr(e); m.err = true; AI.chat = null; }
   AI.busy = false; renderAiLog(); histSave(AIH, AI.msgs);
 }
+/* ====================== 予定（行事）と、プリントの読み取りの拡張（17.2） ====================== */
+const EV_MAX = 200, DRE = /^\d{4}-\d{2}-\d{2}$/;
+const evAll = () => (S.events = Array.isArray(S.events) ? S.events : []);
+const evFind = id => evAll().find(e => e.id === id);
+const evTime = v => /^\d{1,2}:\d{2}$/.test(String(v || '')) ? String(v).replace(/^(\d):/, '0$1:') : '';
+function evAdd(o) {
+  const t = snOne(o.t).slice(0, 40), d = String(o.d || ''); if (!t || !DRE.test(d)) return null;
+  const a = evAll(); if (a.some(e => e.t === t && e.d === d)) return null;   // 同じ予定は、2回入れない
+  const e = { id: uid(), t, d, d2: DRE.test(String(o.d2 || '')) && o.d2 > d ? o.d2 : '', tm: evTime(o.tm), note: snOne(o.note).slice(0, 60), src: o.src || 'me' };
+  a.push(e); if (a.length > EV_MAX) a.splice(0, a.length - EV_MAX); return e;
+}
+const evOn = k => evAll().filter(e => e.d <= k && k <= (e.d2 || e.d)).sort((a, b) => String(a.tm || '99').localeCompare(String(b.tm || '99')));
+const evRow = x => `<button type="button" class="ev rp evx" data-act="evedit" data-id="${x.id}">${ms('event', '', 'color:var(--primary)')}<div class="t">${esc(x.t)}<small>${x.d2 ? `${fmtDate(x.d)}〜${fmtDate(x.d2)}` : '予定'}${x.tm ? ` ${x.tm}` : ''}${x.note ? ` ・ ${esc(x.note)}` : ''}${x.src === 'ai' ? ' ・ プリントから' : ''}</small></div></button>`;
+function evDlg(id, date) {
+  const x = id ? evFind(id) : null; if (id && !x) return;
+  openDlg(`<h2>${ms('event')}${x ? '予定を編集' : '予定を足す'}</h2><form id="evf" autocomplete="off" onsubmit="return false"><div class="fld"><label for="evt">予定の名前</label><input id="evt" name="evt" type="text" maxlength="40" value="${esc(x ? x.t : '')}" placeholder="例：三者面談 ／ 体育祭 ／ 修学旅行"></div><div class="fld2"><div class="fld"><label for="evd">日付</label><input id="evd" name="evd" type="date" value="${esc(x ? x.d : (date || today()))}"></div><div class="fld"><label for="evd2">終わりの日（複数日のとき）</label><input id="evd2" name="evd2" type="date" value="${esc(x ? x.d2 : '')}"></div></div><div class="fld"><label for="evtm">時刻（なくてもOK）</label><input id="evtm" name="evtm" type="time" value="${esc(x ? x.tm : '')}"></div><div class="fld"><label for="evn">メモ（場所・持ち物など）</label><input id="evn" name="evn" type="text" maxlength="60" value="${esc(x ? x.note : '')}"></div></form><div class="dact">${x ? `<button type="button" class="btn text danger" data-act="evdel" data-id="${x.id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="evsave" data-id="${x ? x.id : ''}">${ms('check')}保存</button></div>`);
+}
+Object.assign(ACT, {
+  evadd(id) { evDlg('', id); }, evedit(id) { evDlg(id); },
+  evsave(id) {
+    const f = $('#evf'); if (!f) return; const g = n => (f.elements[n] ? f.elements[n].value.trim() : ''), t = snOne(g('evt')), d = g('evd');
+    if (!t) return toast('予定の名前を書いてください'); if (!DRE.test(d)) return toast('日付を選んでください');
+    if (id) { const e = evFind(id); if (e) { e.t = t.slice(0, 40); e.d = d; e.d2 = DRE.test(g('evd2')) && g('evd2') > d ? g('evd2') : ''; e.tm = evTime(g('evtm')); e.note = snOne(g('evn')).slice(0, 60); } }
+    else if (!evAdd({ t, d, d2: g('evd2'), tm: g('evtm'), note: g('evn') })) return toast('同じ日に、同じ名前の予定が、すでにあります');
+    save(); closeDlg(); ui.sel = d; const dd = parse(d); ui.cal = { y: dd.getFullYear(), m: dd.getMonth() }; render();
+  },
+  evdel(id) { closeDlg(); undoable('予定を消しました', () => { S.events = evAll().filter(e => e.id !== id); }); }
+});
+/* ---- プリントの読み取り：課題に加えて、予定・テスト日程・持ち物も ---- */
+const aiNormEvents = arr => (Array.isArray(arr) ? arr : []).filter(x => x && x.title && DRE.test(String(x.date || ''))).slice(0, 20).map(x => ({ t: snOne(x.title).slice(0, 40), d: x.date, d2: DRE.test(String(x.end || '')) && x.end > x.date ? x.end : '', tm: evTime(x.time), note: snOne(x.note).slice(0, 60) }));
+const aiNormExams = arr => (Array.isArray(arr) ? arr : []).filter(x => x && DRE.test(String(x.date || ''))).slice(0, 12).map(x => ({ subject: snOne(x.subject).slice(0, 20), date: x.date, name: snOne(x.name).slice(0, 30) }));
+const aiNormBring = arr => (Array.isArray(arr) ? arr : []).filter(x => x && x.text).slice(0, 12).map(x => ({ text: snOne(x.text).slice(0, 50), date: DRE.test(String(x.date || '')) ? x.date : '' }));
 async function aiImport(files) {
   if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
   if (!files.length) return;
   if (aiUsed() >= aiLimit()) return toast(`今日の質問は${aiLimit()}回までです`);
-  toast('写真を読み取っています…');
+  toast('プリントを読み取っています…');
   try {
     const imgs = await Promise.all(files.slice(0, 3).map(f => aiResize(f, 1600)));
-    if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
-    const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
-    const model = AI.mod.getGenerativeModel(ai, { model: window.AI_MODEL || 'gemini-3.5-flash-lite', generationConfig: { responseMimeType: 'application/json' } });
-    const prompt = `この画像は、学校の課題や提出物のお知らせです。書かれている課題を読み取り、JSONの配列だけを返してください。各要素は {"subject":"教科名","title":"課題名","start":開始ページ（数値。なければnull）,"end":終了ページ（数値。なければnull）,"due":"提出期限 YYYY-MM-DD（なければ空文字）","dest":"提出先（なければ空文字）"} の形です。今日は${today()}です。登録済みの教科：${subjects().map(s => s.name).join('、') || 'なし'}。教科名は、できるだけ登録済みの名前に合わせてください。読み取れない項目は空にしてください。`;
-    aiCount();
-    const res = await model.generateContent([prompt, ...imgs.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))]);
-    const arr = JSON.parse(res.response.text().replace(/```json|```/g, '').trim());
-    const items = (Array.isArray(arr) ? arr : []).filter(x => x && x.title).map(x => ({ subject: String(x.subject || '').trim(), title: String(x.title).trim(), start: parseInt(x.start, 10) || 0, end: parseInt(x.end, 10) || 0, due: String(x.due || ''), dest: String(x.dest || '').trim().slice(0, 30) }));
-    if (!items.length) return toast('課題を読み取れませんでした。別の写真でお試しください');
-    AI.imp = items;
-    aiImpDlg(items);
+    const prompt = `この画像は、学校のプリントやお知らせです。書かれている内容を読み取り、次の形の「JSONのオブジェクト」だけを返してください。\n{"tasks":[{"subject":"教科名","title":"課題名","start":開始ページ（数値。なければnull）,"end":終了ページ（数値。なければnull）,"due":"提出期限 YYYY-MM-DD（なければ空文字）","dest":"提出先（なければ空文字）"}],"events":[{"title":"行事・予定の名前","date":"YYYY-MM-DD","end":"終わりの日 YYYY-MM-DD（複数日のときだけ。なければ空文字）","time":"HH:MM（なければ空文字）","note":"場所や注意（40字まで。なければ空文字）"}],"exams":[{"subject":"教科名（全教科の考査の日程なら空文字）","date":"YYYY-MM-DD","name":"テストの名前（なければ空文字）"}],"bring":[{"text":"持ち物や連絡（40字まで）","date":"いつの日／いつまでか YYYY-MM-DD（なければ空文字）"}]}\n- 「課題・提出物」は tasks、「行事・面談・集会などの予定」は events、「定期テストや小テストの日程」は exams、「持ち物や連絡事項」は bring に入れる。\n- 該当するものがない項目は、空の配列 [] にする。読み取れない項目は空にする。推測で日付を作らない。\n- 今日は${today()}です。年が書かれていない日付は、今日に近い未来の年にする。\n- 登録済みの教科：${subjects().map(s => s.name).join('、') || 'なし'}。教科名は、できるだけ登録済みの名前に合わせる。`;
+    const arr = await aiRun({ prompt, json: true, imgs });
+    if (!arr) return;
+    const o = Array.isArray(arr) ? { tasks: arr } : (arr || {});
+    const res = { tasks: aiNormTasks(o.tasks), events: aiNormEvents(o.events), exams: aiNormExams(o.exams), bring: aiNormBring(o.bring) };
+    if (!res.tasks.length && !res.events.length && !res.exams.length && !res.bring.length) return toast('読み取れませんでした。別の写真でお試しください');
+    AI.imp2 = res; aiImpDlg(res);
   } catch (e) { toast(aiErr(e).split('\n')[0]); }
 }
-function aiImpDlg(items) {
-    openDlg(`<h2>${ms('document_scanner')}読み取った課題</h2><p class="muted" style="margin:-8px 0 12px">追加する課題にチェックを入れてください。追加したあとで、内容を編集できます。</p><div class="cl">${items.map((x, i) => `<label class="clr"><input type="checkbox" checked data-imp="${i}"><span class="cb">${ms('check')}</span><span class="cx">${esc(x.subject || '（教科なし）')}：${esc(x.title)}${x.start >= 1 && x.end >= x.start ? ` ・ p.${x.start}〜${x.end}` : ''}${/^\d{4}-\d{2}-\d{2}$/.test(x.due) ? ` ・ 期限 ${x.due}` : ''}</span></label>`).join('')}</div><div class="dact"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" data-act="aiimpok">${ms('check')}追加する</button></div>`);
+function aiImpDlg(x) {
+  const r = Array.isArray(x) ? { tasks: x, events: [], exams: [], bring: [] } : x; AI.imp2 = r;
+  const sec = (ic, title, key, arr, f) => arr.length ? `<div class="lbl" style="margin:12px 0 4px">${ms(ic, '', 'font-size:18px;vertical-align:-4px;margin-right:4px')}${title}（${arr.length}）</div><div class="cl">${arr.map((v, i) => `<label class="clr"><input type="checkbox" checked data-imp="${key}:${i}"><span class="cb">${ms('check')}</span><span class="cx">${f(v)}</span></label>`).join('')}</div>` : '';
+  const dd = v => /^\d{4}-\d{2}-\d{2}$/.test(v) ? ` ・ ${fmtDate(v)}` : '';
+  openDlg(`<h2>${ms('document_scanner')}読み取った内容</h2><p class="muted" style="margin:-8px 0 4px">登録するものに、チェックを入れてください。登録したあとで、直せます。</p>
+  ${sec('task_alt', '課題', 't', r.tasks, v => `${esc(v.subject || '（教科なし）')}：${esc(v.title)}${v.start >= 1 && v.end >= v.start ? ` ・ p.${v.start}〜${v.end}` : ''}${/^\d{4}-\d{2}-\d{2}$/.test(v.due) ? ` ・ 期限 ${v.due}` : ''}`)}
+  ${sec('event', '予定', 'e', r.events, v => `${esc(v.t)}${dd(v.d)}${v.d2 ? '〜' + fmtDate(v.d2) : ''}${v.tm ? ' ' + v.tm : ''}`)}
+  ${sec('flag', 'テストの日程', 'x', r.exams, v => `${esc(v.subject || '考査')}${v.name ? '：' + esc(v.name) : ''}${dd(v.date)}`)}
+  ${sec('backpack', '持ち物・連絡', 'b', r.bring, v => `${esc(v.text)}${dd(v.date)}`)}
+  <div class="dact"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" data-act="aiimpok">${ms('check')}登録する</button></div>`);
 }
-function aiAddTasks(sel) {
-  undoable(`${sel.length}件の課題を追加しました`, () => {
-    const exId = curExam().id;
-    for (const x of sel) {
-      let s = S.subjects.find(v => v.ex === exId && v.name === x.subject) || S.subjects.find(v => v.ex === exId && x.subject && (v.name.includes(x.subject) || x.subject.includes(v.name)));
-      if (!s) { s = { id: uid(), ex: exId, name: (x.subject || 'その他').slice(0, 30), icon: 'menu_book', hue: Math.floor(Math.random() * 360), exam: '' }; S.subjects.push(s); }
-      const pg = x.start >= 1 && x.end >= x.start;
-      S.tasks.push({ id: uid(), sid: s.id, title: x.title.slice(0, 60), req: true, kind: pg ? 'pg' : 'chk', total: pg ? x.end - x.start + 1 : 1, start: pg ? x.start : 1, segs: null, items: null, done: 0, due: /^\d{4}-\d{2}-\d{2}$/.test(x.due) ? x.due : '', note: '', dest: x.dest || '', subreq: true, submitted: null, pin: '', at: Date.now(), doneAt: null });
-    }
-  });
+function aiAddTasks(sel) { undoable(`${sel.length}件の課題を追加しました`, () => aiAddTasksRaw(sel)); }
+function aiAddTasksRaw(sel) {
+  const exId = curExam().id;
+  for (const x of sel) {
+    let s = S.subjects.find(v => v.ex === exId && v.name === x.subject) || S.subjects.find(v => v.ex === exId && x.subject && (v.name.includes(x.subject) || x.subject.includes(v.name)));
+    if (!s) { s = { id: uid(), ex: exId, name: (x.subject || 'その他').slice(0, 30), icon: 'menu_book', hue: Math.floor(Math.random() * 360), exam: '' }; S.subjects.push(s); }
+    const pg = x.start >= 1 && x.end >= x.start;
+    S.tasks.push({ id: uid(), sid: s.id, title: x.title.slice(0, 60), req: true, kind: pg ? 'pg' : 'chk', total: pg ? x.end - x.start + 1 : 1, start: pg ? x.start : 1, segs: null, items: null, done: 0, due: /^\d{4}-\d{2}-\d{2}$/.test(x.due) ? x.due : '', note: '', dest: x.dest || '', subreq: true, submitted: null, pin: '', at: Date.now(), doneAt: null });
+  }
 }
+Object.assign(ACT, {
+  aiimpok() {
+    const r = AI.imp2 || { tasks: [], events: [], exams: [], bring: [] }, pick = { t: [], e: [], x: [], b: [] };
+    document.querySelectorAll('[data-imp]').forEach(c => { if (!c.checked) return; const [k, i] = c.dataset.imp.split(':'); const src = { t: r.tasks, e: r.events, x: r.exams, b: r.bring }[k]; if (src && src[+i]) pick[k].push(src[+i]); });
+    const n = pick.t.length + pick.e.length + pick.x.length + pick.b.length; closeDlg(); if (!n) return;
+    undoable(`${n}件を登録しました`, () => {
+      if (pick.t.length) aiAddTasksRaw(pick.t);
+      pick.e.forEach(v => evAdd({ ...v, src: 'ai' }));
+      pick.x.forEach(v => { const s = subjects().find(q => v.subject && (q.name === v.subject || q.name.includes(v.subject) || v.subject.includes(q.name))), ex = curExam(); if (s) s.exam = v.date; else if (!ex.date) ex.date = v.date; else evAdd({ t: v.name || '考査', d: v.date, src: 'ai' }); });
+      pick.b.forEach(v => tdAdd({ t: v.text, d: v.date && v.date >= today() ? v.date : today(), src: 'ai' }));
+    });
+  }
+});
 /* ====================== ツール（電卓・関数・通貨・翻訳） ====================== */
 function compileExpr(src, o = {}) {
   const s = String(src).replace(/×/g, '*').replace(/÷/g, '/').replace(/[−ー]/g, '-').replace(/π/g, 'pi').replace(/√/g, 'sqrt').replace(/²/g, '^2').replace(/³/g, '^3').replace(/\s+/g, '').toLowerCase();
@@ -5221,7 +5317,7 @@ document.addEventListener('keydown', e => {
 const RS = { edit: false };
 function sheetHtml() {
   const txt = S.sheet || '';
-  if (RS.edit || !txt) return `<div class="card"><p class="muted" style="margin-top:0">覚えたい言葉を【　】で囲んで入力します。学習モードでは、囲んだ言葉が赤いシートで隠れ、タップすると見えます。</p><textarea id="rstxt" class="trta" rows="9" placeholder="例：日本の首都は【東京】で、人口がもっとも多い都市です。">${esc(txt)}</textarea><div class="dact" style="margin:10px 0 0"><span class="sp"></span><button class="btn" data-act="rsmode">${ms('visibility_off')}学習モードにする</button></div></div>`;
+  if (RS.edit || !txt) return `<div class="card"><p class="muted" style="margin-top:0">覚えたい言葉を【　】で囲んで入力します。学習モードでは、囲んだ言葉が赤いシートで隠れ、タップすると見えます。</p><textarea id="rstxt" class="trta" rows="9" placeholder="例：日本の首都は【東京】で、人口がもっとも多い都市です。">${esc(txt)}</textarea><div class="rs-tools"><button type="button" class="btn tonal xs" data-act="rsdecks">${ms('style')}単語帳から</button><button type="button" class="btn tonal xs" data-act="rsphoto">${ms('photo_camera')}写真から</button><button type="button" class="btn tonal xs" data-act="rsauto">${gem(16)}AIで【　】をつける</button></div><div class="rs-d"><span class="muted" style="font-size:.82rem">AIが選ぶ数</span>${Object.entries(RS_DENS).map(([k, [t]]) => `<button type="button" class="sn-sc ${RS.dens === k ? 'on' : ''}" data-act="rsdens" data-id="${k}">${t}</button>`).join('')}</div><input type="file" id="rsfile" accept="image/*" multiple hidden><div class="dact" style="margin:10px 0 0"><span class="sp"></span><button class="btn" data-act="rsmode">${ms('visibility_off')}学習モードにする</button></div></div>`;
   let i = 0; const html = esc(txt).replace(/【([^】]+)】/g, (_, w) => `<span class="hid" data-act="rsshow" data-id="${i++}">${w}</span>`).replace(/\n/g, '<br>');
   return `<div class="card rsb">${html}</div><div class="dact" style="margin-top:12px"><button class="btn text" data-act="rsedit">${ms('edit')}編集</button><span class="sp"></span><button class="btn tonal" data-act="rsall" data-id="0">すべて隠す</button><button class="btn tonal" data-act="rsall" data-id="1">すべて表示</button></div>`;
 }
@@ -6232,7 +6328,7 @@ function snRenderLog(still) {
     const nw = i >= prev ? ' new' : '';
     if (m.r === 'u') return `<div class="ax-m u${nw}"><div class="ax-bb">${m.imgs && m.imgs.length ? `<div class="ai-imgs">${m.imgs.map(u => `<img src="${u}" alt="">`).join('')}</div>` : ''}${m.pn && !(m.imgs && m.imgs.length) ? `<div class="ai-pn">${ms('photo_camera', '', 'font-size:16px')} 写真 ${m.pn}枚</div>` : ''}${esc(m.t).replace(/\n/g, '<br>')}</div></div>`;
     const last = i === SN.msgs.length - 1;
-    return `<div class="ax-m m${nw}">${av}<div class="ax-bb ${m.err ? 'sn-err' : ''}">${m.t ? mdLite(m.t) : '<span class="ax-dots"><i></i><i></i><i></i></span>'}${m.t && !m.err && !(SN.busy && last) ? `<div class="ax-act"><button type="button" class="ax-cp" data-act="sncopy" data-id="${i}" aria-label="コピー" title="コピー">${ms('content_copy')}</button><button type="button" class="ax-cp" data-act="snnote" data-id="${i}" aria-label="まちがいノートに保存" title="まちがいノートに保存">${ms(m.saved ? 'bookmark_added' : 'bookmark_add')}</button></div>` : ''}</div></div>`;
+    return `<div class="ax-m m${nw}">${av}<div class="ax-bb ${m.err ? 'sn-err' : ''}">${m.grade ? snGradeHtml(m, i) : m.t ? mdLite(m.t) : '<span class="ax-dots"><i></i><i></i><i></i></span>'}${m.t && !m.err && !m.grade && !(SN.busy && last) ? `<div class="ax-act"><button type="button" class="ax-cp" data-act="sncopy" data-id="${i}" aria-label="コピー" title="コピー">${ms('content_copy')}</button><button type="button" class="ax-cp" data-act="snnote" data-id="${i}" aria-label="まちがいノートに保存" title="まちがいノートに保存">${ms(m.saved ? 'bookmark_added' : 'bookmark_add')}</button></div>` : ''}</div></div>`;
   }).join('');
   SN._n = SN.msgs.length; log.scrollTop = log.scrollHeight;
 }
@@ -6244,12 +6340,12 @@ function snRenderChips() {
     el.innerHTML = `<button type="button" class="ax-pc" style="--i:0" data-act="sncam"><span class="ax-pi">${ms('photo_camera')}</span><span>問題を撮影する</span></button><button type="button" class="ax-pc" style="--i:1" data-act="snpick"><span class="ax-pi">${ms('add_photo_alternate')}</span><span>写真から選ぶ</span></button>`;
     return;
   }
-  const last = SN.msgs[SN.msgs.length - 1], L = last && last.err ? [['retry', 'もう一度送る', 'refresh']] : [['detail', 'もっとくわしく', 'zoom_in'], ['hint', 'ヒントだけ', 'lightbulb'], ['ans', '答えまで教えて', 'task_alt'], ['alt', '別の解き方', 'alt_route'], ['similar', '似た問題を出して', 'autorenew'], ['check', '私の答えを見て', 'fact_check'], ['next', '次の問題', 'skip_next']];
+  const last = SN.msgs[SN.msgs.length - 1], L = last && last.err ? [['retry', 'もう一度送る', 'refresh']] : [['detail', 'もっとくわしく', 'zoom_in'], ['hint', 'ヒントだけ', 'lightbulb'], ['ans', '答えまで教えて', 'task_alt'], ['alt', '別の解き方', 'alt_route'], ['similar', '似た問題を出して', 'autorenew'], ['check', '採点してもらう', 'fact_check'], ['next', '次の問題', 'skip_next']];
   el.className = 'sn-chips'; el.innerHTML = L.map(([k, l, i]) => `<button type="button" class="sn-fc" data-act="snq" data-id="${k}">${ms(i)}${l}</button>`).join('');
 }
 function snRenderSubs() {
   const el = $('#snsubs'); if (!el) return;
-  el.innerHTML = `<span class="lbl">教科</span>` + SN_SUBS.map(s => `<button type="button" class="sn-sc ${SN.sub === s ? 'on' : ''}" data-act="snsub" data-id="${s}">${s || '自動'}</button>`).join('');
+  el.innerHTML = `<span class="lbl">教科</span>` + SN_SUBS.map(s => `<button type="button" class="sn-sc ${SN.sub === s ? 'on' : ''}" data-act="snsub" data-id="${s}">${s || '自動'}</button>`).join('') + `<button type="button" class="sn-sc gm ${SN.grade ? 'on' : ''}" data-act="sngm" aria-pressed="${!!SN.grade}">${ms('fact_check', '', 'font-size:16px;vertical-align:-3px')} 採点モード</button>`;
 }
 function snRenderAtt() {
   const a = $('#snatt'); if (a) a.innerHTML = SN.att.map((x, i) => `<span class="ai-th"><img src="${x.url}" alt=""><button type="button" data-act="snattrm" data-id="${i}" aria-label="削除">${ms('close')}</button></span>`).join('');
@@ -6278,6 +6374,7 @@ async function snSend(text) {
   const q = $('#snq'); text = String(text != null ? text : (q ? q.value : '')).trim();
   const atts = SN.att.slice();
   if ((!text && !atts.length) || SN.busy) return;
+  if (SN.grade) { if (!atts.length) return toast('採点するには、解いた問題と答えの写真を撮ってください'); return snGradeSend(text, atts); }   // 採点モード
   if (!CLOUD.user) { toast('AI先生は、Googleログイン後に使えます'); return acctDlg(); }
   if (aiUsed() >= aiLimit()) return toast(`今日のAI利用は${aiLimit()}回までです`);
   const shown = text || '写真の問題を教えてください。', sub = SN.sub ? `【教科：${SN.sub}】\n` : '';
@@ -6353,7 +6450,7 @@ Object.assign(ACT, {
   snq(id) {
     if (SN.busy) return;
     if (id === 'retry') { const u = SN.msgs[SN.msgs.length - 2]; if (!u || u.r !== 'u') return; SN.msgs.splice(-2, 2); SN.att = u.raw || []; snRenderLog(true); snRenderAtt(); snSend(u.t === '写真の問題を教えてください。' ? '' : u.t); return; }
-    if (id === 'check') { const q = $('#snq'); if (q) { q.value = SN.draft = '私の答えが合っているか、見てください。'; snReady(); } const i = $('#sncamf'); if (i) i.click(); return; }
+    if (id === 'check') { SN.grade = true; snRenderSubs(); toast('採点モード：解いた問題と答えを、撮影してください'); const i = $('#sncamf'); if (i) i.click(); return; }
     if (id === 'next') { SN.chat = null; const i = $('#sncamf'); if (i) i.click(); return; }
     if (SN_Q[id]) snSend(SN_Q[id]);
   }
@@ -6514,10 +6611,10 @@ function statHeat(isM) {
 /* ---- AI会話の履歴を、端末に残す（文字だけ。写真は残さない） ---- */
 const AIH = 'kosa-ai-hist', SNH = 'kosa-sn-hist';
 function histSave(key, msgs) {
-  try { const out = []; for (let i = 0; i + 1 < msgs.length; i += 2) { const u = msgs[i], m = msgs[i + 1]; if (u && m && u.r === 'u' && m.r === 'm' && m.t && !m.err) out.push({ r: 'u', t: String(u.t).slice(0, 2000), pn: (u.imgs && u.imgs.length) || u.pn || 0, sub: u.sub || '' }, { r: 'm', t: String(m.t).slice(0, 6000), saved: m.saved ? 1 : 0 }); } localStorage.setItem(key, JSON.stringify(out.slice(-40))); } catch (e) { }
+  try { const out = []; for (let i = 0; i + 1 < msgs.length; i += 2) { const u = msgs[i], m = msgs[i + 1]; if (u && m && u.r === 'u' && m.r === 'm' && m.t && !m.err) out.push({ r: 'u', t: String(u.t).slice(0, 2000), pn: (u.imgs && u.imgs.length) || u.pn || 0, sub: u.sub || '' }, { r: 'm', t: String(m.t).slice(0, 6000), saved: m.saved ? 1 : 0, g: m.grade || null }); } localStorage.setItem(key, JSON.stringify(out.slice(-40))); } catch (e) { }
 }
 function histLoad(key) {
-  try { const a = JSON.parse(localStorage.getItem(key) || '[]'), out = []; if (!Array.isArray(a)) return out; for (let i = 0; i + 1 < a.length; i += 2) { const u = a[i], m = a[i + 1]; if (u && m && u.r === 'u' && m.r === 'm' && u.t && m.t) out.push({ r: 'u', t: String(u.t), imgs: [], pn: u.pn || 0, sub: u.sub || '' }, { r: 'm', t: String(m.t), saved: !!m.saved }); } return out; } catch (e) { return []; }
+  try { const a = JSON.parse(localStorage.getItem(key) || '[]'), out = []; if (!Array.isArray(a)) return out; for (let i = 0; i + 1 < a.length; i += 2) { const u = a[i], m = a[i + 1]; if (u && m && u.r === 'u' && m.r === 'm' && u.t && m.t) out.push({ r: 'u', t: String(u.t), imgs: [], pn: u.pn || 0, sub: u.sub || '' }, { r: 'm', t: String(m.t), saved: !!m.saved, grade: m.g || undefined }); } return out; } catch (e) { return []; }
 }
 const histClear = key => { try { localStorage.removeItem(key); } catch (e) { } };
 function aiHistory() { const h = [], a = AI.msgs.slice(0, -2); for (let i = 0; i + 1 < a.length; i += 2) { const u = a[i], m = a[i + 1]; if (u.r === 'u' && m.r === 'm' && m.t && !m.err) h.push({ role: 'user', parts: [{ text: u.t + (u.pn ? `\n（写真を${u.pn}枚、送りました）` : '') }] }, { role: 'model', parts: [{ text: m.t }] }); } return h; }
@@ -6537,7 +6634,7 @@ document.addEventListener('keydown', e => {
 });
 document.addEventListener('input', e => { if (e.target.id === 'aqt') AQ.theme = e.target.value; });
 /* ====================== 今日のやること（17.0）：自分で決める・AIに計画してもらう・毎日のやること ====================== */
-const TD_MAX = 200, TD_MIN = [0, 5, 10, 15, 20, 30, 45, 60, 90];
+const TD_MAX = 400, TD_MIN = [0, 5, 10, 15, 20, 30, 45, 60, 90];
 const TD_PRE = [['音読', 5], ['漢字の練習', 10], ['英単語を覚える', 10], ['計算ドリル', 15], ['明日の持ち物を準備', 5]];
 const tdAll = () => (S.todos = Array.isArray(S.todos) ? S.todos : []);
 const tdHab = () => (S.habits = Array.isArray(S.habits) ? S.habits : []);
@@ -6571,21 +6668,24 @@ function tdBlock() {
   const list = tdToday(), dn = list.filter(x => x.done).length, left = tdMinLeft(), ap = S.aiplan && S.aiplan.d === today() ? S.aiplan : null;
   const old = tdAll().filter(x => x.d < today() && !x.done && !x.x && !x.h && daysBetween(x.d, today()) <= 3);
   const skipped = examTasks().filter(t => t.skip === today() && !isDone(t));
-  const row = x => { const s = x.sid ? SUB(x.sid) : null; return `<div class="td-i ${x.done ? 'ok' : ''} ${s ? 'sc' : ''}" ${s ? `style="--sh:${s.hue}"` : ''}><button type="button" class="td-ck" data-act="tdck" data-id="${x.id}" role="checkbox" aria-checked="${!!x.done}" aria-label="${esc(x.t)}を完了にする">${ms('check')}</button><button type="button" class="td-t" data-act="tdedit" data-id="${x.id}"><b>${esc(x.t)}</b><span>${s ? `<em class="td-tag">${esc(s.name)}</em>` : ''}${x.src === 'ai' ? `<em class="td-tag">${ms('auto_awesome', '', 'font-size:13px')}AI</em>` : ''}${x.src === 'habit' ? `<em class="td-tag">${ms('repeat', '', 'font-size:13px')}毎日</em>` : ''}${x.min ? `<em>${ms('schedule', '', 'font-size:14px;vertical-align:-2px')}${x.min}分</em>` : ''}</span></button>${x.done ? '' : `<button type="button" class="td-go" data-act="tdgo" data-id="${x.id}" aria-label="${x.go ? '開く' : '集中タイマーをはじめる'}">${ms(x.go ? 'arrow_forward' : 'play_arrow')}</button>`}</div>`; };
+  const row = x => { const s = x.sid ? SUB(x.sid) : null; return `<div class="td-i ${x.done ? 'ok' : ''} ${s ? 'sc' : ''}" ${s ? `style="--sh:${s.hue}"` : ''}><button type="button" class="td-ck" data-act="tdck" data-id="${x.id}" role="checkbox" aria-checked="${!!x.done}" aria-label="${esc(x.t)}を完了にする">${ms('check')}</button><button type="button" class="td-t" data-act="tdedit" data-id="${x.id}"><b>${esc(x.t)}</b><span>${s ? `<em class="td-tag">${esc(s.name)}</em>` : ''}${x.src === 'ai' ? `<em class="td-tag">${ms('auto_awesome', '', 'font-size:13px')}AI</em>` : ''}${x.src === 'habit' ? `<em class="td-tag">${ms('repeat', '', 'font-size:13px')}毎日</em>` : ''}${x.src === 'plan' ? '<em class="td-tag">テスト対策</em>' : ''}${x.min ? `<em>${ms('schedule', '', 'font-size:14px;vertical-align:-2px')}${x.min}分</em>` : ''}</span></button>${x.done ? '' : `<button type="button" class="td-go" data-act="tdgo" data-id="${x.id}" aria-label="${x.go ? '開く' : '集中タイマーをはじめる'}">${ms(x.go ? 'arrow_forward' : 'play_arrow')}</button>`}</div>`; };
   return `<div class="td"><div class="td-h"><b>${ms('checklist')}自分のやること</b><small>${list.length ? `${dn} / ${list.length} 完了${left ? `　・　あと約${left}分` : ''}` : ''}</small><span class="sp" style="flex:1"></span>${tdHab().length ? `<button type="button" class="btn text xs" data-act="tdhab">${ms('repeat')}毎日</button>` : ''}</div>
+  ${evOn(today()).length ? `<div class="td-evs">${evOn(today()).map(x => `<span class="td-ev">${ms('event', '', 'font-size:16px')}${x.tm ? x.tm + ' ' : ''}${esc(x.t)}</span>`).join('')}</div>` : ''}
   ${ap ? `<div class="td-ai">${gem(22)}<span>${esc(ap.msg || '今日の計画を、AIがつくりました。')}${ap.min ? `<small>（合計 約${ap.min}分）</small>` : ''}</span></div>` : ''}
   ${old.length ? `<div class="td-carry">${ms('history')}<span>前の日の残りが ${old.length}件あります</span><span class="sp" style="flex:1"></span><button type="button" class="btn tonal xs" data-act="tdcarry">今日にうつす</button><button type="button" class="btn text xs" data-act="tdclear">消す</button></div>` : ''}
   ${list.length ? `<div class="td-l stg">${list.map(row).join('')}</div>` : `<div class="td-empty">今日やることを、自分で決めてみましょう。時間の目安も入れられます。</div>`}
-  <div class="td-add"><button type="button" class="btn tonal" data-act="tdadd">${ms('add')}やることを足す</button><button type="button" class="btn tonal" data-act="tdai">${gem(18)}AIで今日の計画</button></div>
+  <div class="td-add"><button type="button" class="btn tonal" data-act="tdadd">${ms('add')}やることを足す</button><button type="button" class="btn tonal" data-act="tdai">${gem(18)}AIで今日の計画</button>${curExam().date && daysBetween(today(), curExam().date) >= 1 ? `<button type="button" class="btn tonal" data-act="tpdlg">${ms('event_available')}テスト対策プラン${tpActive() ? ` ${tpStat().done}/${tpStat().total}` : ''}</button>` : ''}</div>
   ${skipped.length ? `<div class="td-skip"><small>今日はやらないことにした課題：</small>${skipped.map(t => `<button type="button" class="sn-sc" data-act="plunskip" data-id="${t.id}">${ms('undo', '', 'font-size:15px;vertical-align:-3px')}${esc(t.title.slice(0, 14))}</button>`).join('')}</div>` : ''}</div>`;
 }
 /* ---- ダイアログ：やることの追加・編集 ---- */
 const tdChips = (name, arr, cur, f) => arr.map(v => `<label class="rchip"><input type="radio" name="${name}" value="${v}" ${String(v) === String(cur) ? 'checked' : ''}><span>${f(v)}</span></label>`).join('');
-function tdDlg(id) {
+let TDD = '';   // 足すやることの、日付（カレンダーから足すとき）
+function tdDlg(id, date) {
+  TDD = date || '';
   const x = id ? tdFind(id) : null, subs = subjects(); if (id && !x) return;
   TDS = x ? [] : tdSuggest();
   const sug = TDS.map((s, i) => `<button type="button" class="sn-fc" data-act="tdquick" data-id="${i}">${ms(s.i)}${esc(s.t)}${s.min ? `<small>${s.min}分</small>` : ''}</button>`).join('');
-  openDlg(`<h2>${ms('checklist')}${x ? 'やることを編集' : 'やることを足す'}</h2>${sug ? `<div class="lbl">ワンタップで足す</div><div class="td-sug">${sug}</div>` : ''}<form id="tdf" autocomplete="off" onsubmit="return false"><div class="fld"><label for="tdt">${x ? 'やること' : 'じぶんで書く'}</label><input id="tdt" name="tdt" type="text" maxlength="60" value="${esc(x ? x.t : '')}" placeholder="例：英語の教科書を音読する"></div><div class="fld"><div class="lbl">かかる時間（目安）</div><div class="chips">${tdChips('tdm', TD_MIN, x ? x.min : 0, v => v ? v + '分' : 'なし')}</div></div>${subs.length ? `<div class="fld"><label for="tds">教科（なくてもOK）</label><select id="tds" name="tds" class="scin" style="width:100%"><option value="">なし</option>${subs.map(s => `<option value="${s.id}" ${x && x.sid === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select></div>` : ''}${x ? '' : `<div class="fld"><div class="lbl">くり返し</div><div class="chips">${tdChips('tdr', ['', 'all', 'wk'], '', v => v === '' ? '今日だけ' : v === 'all' ? '毎日' : '平日だけ')}</div></div>`}</form><div class="dact">${x ? `<button type="button" class="btn text danger" data-act="tddel" data-id="${x.id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="tdsave" data-id="${x ? x.id : ''}">${ms('check')}保存</button></div>`);
+  openDlg(`<h2>${ms('checklist')}${x ? 'やることを編集' : 'やることを足す'}</h2>${sug ? `<div class="lbl">ワンタップで足す</div><div class="td-sug">${sug}</div>` : ''}<form id="tdf" autocomplete="off" onsubmit="return false"><div class="fld"><label for="tdt">${x ? 'やること' : 'じぶんで書く'}</label><input id="tdt" name="tdt" type="text" maxlength="60" value="${esc(x ? x.t : '')}" placeholder="例：英語の教科書を音読する"></div><div class="fld"><div class="lbl">かかる時間（目安）</div><div class="chips">${tdChips('tdm', TD_MIN, x ? x.min : 0, v => v ? v + '分' : 'なし')}</div></div>${subs.length ? `<div class="fld"><label for="tds">教科（なくてもOK）</label><select id="tds" name="tds" class="scin" style="width:100%"><option value="">なし</option>${subs.map(s => `<option value="${s.id}" ${x && x.sid === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select></div>` : ''}${x || TDD ? '' : `<div class="fld"><div class="lbl">くり返し</div><div class="chips">${tdChips('tdr', ['', 'all', 'wk'], '', v => v === '' ? '今日だけ' : v === 'all' ? '毎日' : '平日だけ')}</div></div>`}</form><div class="dact">${x ? `<button type="button" class="btn text danger" data-act="tddel" data-id="${x.id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="tdsave" data-id="${x ? x.id : ''}">${ms('check')}保存</button></div>`);
 }
 function tdHabDlg() {
   const hs = tdHab(), dl = h => (h.days && h.days.length === 5 && !h.days.includes(0) && !h.days.includes(6)) ? '平日' : '毎日';
@@ -6638,7 +6738,7 @@ function tdaContext() {
   return { ex: ex && ex.date ? `${ex.name}（あと${dl}日）` : 'なし', tl, have };
 }
 Object.assign(ACT, {
-  tdadd() { tdDlg(''); }, tdedit(id) { tdDlg(id); },
+  tdadd(id) { tdDlg('', /^\d{4}-\d{2}-\d{2}$/.test(String(id)) ? id : ''); }, tdedit(id) { tdDlg(id); },
   tdquick(id, el) { const s = TDS[+id]; if (!s) return; tdAdd({ t: s.t, min: s.min, go: s.go || '' }); save(); render(); if (el) { el.disabled = true; el.classList.add('on'); } toast('足しました'); },
   tdsave(id) {
     const f = $('#tdf'); if (!f) return; const g = n => (f.elements[n] ? f.elements[n].value : ''), t = snOne(g('tdt')), min = +g('tdm') || 0, sid = g('tds') || '';
@@ -6647,7 +6747,7 @@ Object.assign(ACT, {
     else {
       const r = g('tdr'); let hid = '';
       if (r) { hid = uid(); tdHab().push({ id: hid, t: t.slice(0, 60), min, days: r === 'wk' ? [1, 2, 3, 4, 5] : [0, 1, 2, 3, 4, 5, 6] }); if (tdHab().length > 12) tdHab().shift(); }
-      if (!r || tdHab().find(h => h.id === hid).days.includes(new Date().getDay())) tdAdd({ t, min, sid, src: r ? 'habit' : 'me', h: hid });
+      if (!r || tdHab().find(h => h.id === hid).days.includes(new Date().getDay())) tdAdd({ t, min, sid, d: TDD || today(), src: r ? 'habit' : 'me', h: hid });
     }
     save(); closeDlg(); render();
   },
@@ -6703,6 +6803,211 @@ Object.assign(ACT, {
     S.aiplan = { d: td, msg: TDA.msg, min: pick.reduce((a, x) => a + x.min, 0) }; save(); closeDlg(); render(); toast('今日の計画に入れました');
   }
 });
+/* ====================== テスト対策プラン：考査の日まで、日ごとの勉強計画（17.2） ====================== */
+const TP = { wk: 90, we: 180, off: [], weak: [], step: 'form', days: [], msg: '' };
+function tpRange() {
+  const ex = curExam(); if (!ex || !ex.date) return null; const left = daysBetween(today(), ex.date); if (left < 1) return null;
+  const hor = Math.min(left, 21), days = [];
+  for (let i = 0; i < hor; i++) { const d = new Date(); d.setDate(d.getDate() + i); const wd = d.getDay(), we = wd === 0 || wd === 6; days.push({ k: ymd(d), wd, b: TP.off.includes(wd) ? 0 : (we ? TP.we : TP.wk) }); }
+  return { ex, left, hor, days };
+}
+const tpTodos = () => tdAll().filter(x => x.src === 'plan' && !x.x);
+function tpStat() { const l = tpTodos().filter(x => x.d >= ntPlus(-30)), done = l.filter(x => x.done).length; return { total: l.length, done, left: l.filter(x => !x.done).reduce((a, x) => a + (x.min || 0), 0) }; }
+const tpActive = () => { const ex = curExam(); return !!(S.tplan && ex && S.tplan.ex === ex.id && ex.date && daysBetween(today(), ex.date) >= 0 && tpTodos().length); };
+function tpHtml() {
+  const r = tpRange(), ex = curExam();
+  if (!r) return `<h2>${ms('event_available')}テスト対策プラン</h2><div class="notice" style="margin:0 0 12px">${ms('info')}<span class="t">考査の日が、まだ入っていないか、すでに過ぎています。考査の日を入れると、その日までの計画が作れます。</span></div><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">閉じる</button><button type="button" class="btn" data-act="tpexam">${ms('edit_calendar')}考査の日を入れる</button></div>`;
+  if (TP.step === 'load') return `<h2>${gem(22)}テスト対策プラン</h2><div class="aq-load" style="padding:36px 0">${gspin(44)}<b>AIが計画を考えています…</b><small class="muted">${esc(ex.name)}まで あと${r.left}日</small></div>`;
+  if (TP.step === 'view') {
+    const tot = TP.days.reduce((a, d) => a + d.items.reduce((b, x) => b + x.min, 0), 0);
+    return `<h2>${gem(22)}計画ができました</h2><div class="td-ai" style="margin-bottom:12px">${gem(22)}<span>${esc(TP.msg || '考査の日までの計画です。')}</span></div><div class="tp-l">${TP.days.map(d => { const dt = parse(d.date); return `<details class="tp-d" ${d.date === today() ? 'open' : ''}><summary><b>${dt.getMonth() + 1}/${dt.getDate()}（${WD[dt.getDay()]}）</b><span>${d.items.reduce((a, x) => a + x.min, 0)}分</span>${ms('expand_more')}</summary>${d.items.map(x => { const s = x.sid ? SUB(x.sid) : null; return `<div class="tp-i ${s ? 'sc' : ''}" ${s ? `style="--sh:${s.hue}"` : ''}><span>${s ? `<em class="td-tag">${esc(s.name)}</em>` : ''}${esc(x.title)}</span><b>${x.min}分</b></div>`; }).join('')}</details>`; }).join('')}</div><p class="muted" style="margin:10px 4px 0">${TP.days.length}日分 ・ 合計 約${tot}分。「この計画にする」と、カレンダーと「今日のやること」に入ります。</p><div class="dact"><button type="button" class="btn text" data-act="tpback">${ms('arrow_back')}条件をかえる</button><span class="sp"></span><button type="button" class="btn text" data-act="tpgo">${ms('refresh')}つくり直す</button><button type="button" class="btn" data-act="tpok">${ms('check')}この計画にする</button></div>`;
+  }
+  const st = tpStat(), act = tpActive(), subs = subjects();
+  const seg = (arr, cur, a) => `<div class="chips">${arr.map(([k, t]) => `<button type="button" class="sn-sc ${String(cur) === String(k) ? 'on' : ''}" data-act="${a}" data-id="${k}">${t}</button>`).join('')}</div>`;
+  return `<h2>${gem(22)}テスト対策プラン</h2>${act ? `<div class="tp-st"><div class="nt-big"><b>${st.done}</b><span>/ ${st.total}</span></div><div><b>いまの計画</b><small>あと約${st.left}分 ・ ${esc(ex.name)}まで あと${r.left}日</small></div></div>` : `<p class="muted" style="margin:0 0 12px;font-size:.9rem">${esc(ex.name)}まで あと${r.left}日。勉強できる時間と、勉強できない曜日を教えると、AIが日ごとの計画を考えます。</p>`}
+  <div class="fld"><div class="lbl">平日（月〜金）に使える時間</div>${seg([[30, '30分'], [60, '1時間'], [90, '1時間半'], [120, '2時間'], [180, '3時間']], TP.wk, 'tpwk')}</div>
+  <div class="fld"><div class="lbl">休日（土・日）に使える時間</div>${seg([[60, '1時間'], [120, '2時間'], [180, '3時間'], [240, '4時間'], [300, '5時間']], TP.we, 'tpwe')}</div>
+  <div class="fld"><div class="lbl">勉強できない曜日（部活・習い事など）</div><div class="chips">${[...WD].map((w, i) => `<button type="button" class="sn-sc ${TP.off.includes(i) ? 'on' : ''}" data-act="tpoff" data-id="${i}" aria-pressed="${TP.off.includes(i)}">${w}</button>`).join('')}</div></div>
+  ${subs.length ? `<div class="fld"><div class="lbl">苦手な教科（多めに入れます）</div><div class="chips">${subs.map(s => `<button type="button" class="sn-sc ${TP.weak.includes(s.id) ? 'on' : ''}" data-act="tpweak" data-id="${s.id}">${esc(s.name)}</button>`).join('')}</div></div>` : ''}
+  <p class="muted" style="font-size:.8rem;margin:0">教科・課題の名前と進み具合が、GoogleのAIに送られます。計画は、あくまで提案です。</p>
+  <div class="dact">${act ? `<button type="button" class="btn text danger" data-act="tpdel">${ms('delete')}計画を消す</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">閉じる</button><button type="button" class="btn" data-act="tpgo">${gem(18)}${act ? '計画を作り直す' : '計画をつくる'}</button></div>`;
+}
+const tpRender = () => { dlg.innerHTML = `<div class="dlg">${tpHtml()}</div>`; };
+function tpNorm(res, range) {
+  const days = [], valid = new Map(range.days.filter(d => d.b > 0).map(d => [d.k, d])), sub = new Set(subjects().map(s => s.id));
+  for (const d of (res && Array.isArray(res.days) ? res.days : [])) {
+    const info = valid.get(String(d.date)); if (!info || days.some(x => x.date === d.date)) continue;
+    const items = (Array.isArray(d.items) ? d.items : []).slice(0, 6).map(x => ({ sid: sub.has(String(x && x.sid)) ? String(x.sid) : '', title: snOne(x && x.title).slice(0, 40), min: Math.max(5, Math.min(180, parseInt(x && x.min, 10) || 20)) })).filter(x => x.title);
+    let sum = items.reduce((a, x) => a + x.min, 0); while (items.length > 1 && sum > info.b * 1.1) sum -= items.pop().min;   // その日に使える時間を、こえないようにする
+    if (items.length) days.push({ date: d.date, items });
+  }
+  return days.sort((a, b) => a.date.localeCompare(b.date));
+}
+Object.assign(ACT, {
+  tpdlg() { TP.step = 'form'; openDlg(tpHtml()); }, tpexam() { closeDlg(); examDlg(curExam().id); },
+  tpwk(id) { TP.wk = +id; tpRender(); }, tpwe(id) { TP.we = +id; tpRender(); },
+  tpoff(id) { const w = +id; TP.off = TP.off.includes(w) ? TP.off.filter(x => x !== w) : [...TP.off, w]; tpRender(); },
+  tpweak(id) { TP.weak = TP.weak.includes(id) ? TP.weak.filter(x => x !== id) : [...TP.weak, id]; tpRender(); },
+  tpback() { TP.step = 'form'; tpRender(); },
+  async tpgo() {
+    if (!CLOUD.user) return toast('AIの計画は、Googleログイン後に使えます'); if (TP.step === 'load') return;
+    const r = tpRange(); if (!r) return; const sub = subjects();
+    const sl = sub.map(s => `${s.id}｜${s.name}｜${TP.weak.includes(s.id) ? '苦手' : 'ふつう'}｜テスト日 ${s.exam || r.ex.date}｜目標点 ${s.goal != null ? s.goal : '未設定'}｜残り ${tasksOfSub(s.id).filter(t => !isDone(t)).reduce((a, t) => a + (t.total - t.done), 0)}ページ`);
+    const tl = examTasks().filter(t => !isDone(t)).slice(0, 25).map(t => `${(SUB(t.sid) || {}).name || ''}｜${t.title}｜残り${t.total - t.done}ページ｜${t.due ? '期限 ' + t.due : '期限なし'}`);
+    const dl = r.days.map(d => `${d.k}（${WD[d.wd]}）${d.b ? d.b + '分まで' : '勉強しない日'}`);
+    TP.step = 'load'; tpRender();
+    const res = await aiRun({
+      system: AI_MINI + '定期テストに向けた勉強計画を、現実的に、やさしい言葉で立てます。',
+      prompt: `${r.ex.name}（初日 ${r.ex.date}）まで あと${r.left}日です。今日は${today()}です。\n教科（id｜名前｜得意不得意｜テスト日｜目標点｜残りの課題）：\n${sl.join('\n') || 'なし'}\n未完了の課題：\n${tl.join('\n') || 'なし'}\n日ごとに使える時間：\n${dl.join('\n')}\n\n次のJSONだけを返してください。\n{"msg":"生徒への、やさしいひとこと（60字以内）","days":[{"date":"YYYY-MM-DD","items":[{"sid":"教科のid（教科に関係ないときは空文字）","title":"やること（30字以内。例：数学ワーク p.10〜15）","min":分}]}]}\nルール：\n- days には、勉強する日だけを入れる（「勉強しない日」は入れない）。1日の min の合計は、その日に使える時間をこえない。\n- 苦手な教科は、多めに、早めに。テスト日が近い教科は、その前の数日に集中させる。\n- 課題の残りページは、期限とテスト日までに終わるように、日ごとに配分する。\n- 同じ教科が、続けて並ばないようにする。1日は2〜5個の項目にする。\n- 考査の直前の2日間は、新しいことより、復習（まちがいノート・単語帳・ワークの見直し）にする。\n- 出題範囲が分からない教科は、最初の日に「テスト範囲を確認する」を入れる。`,
+      json: true
+    });
+    const days = res ? tpNorm(res, r) : [];
+    if (!days.length) { TP.step = 'form'; tpRender(); return toast('計画をつくれませんでした。もう一度、お試しください'); }
+    TP.days = days; TP.msg = snOne(res.msg).slice(0, 80); TP.step = 'view'; tpRender();
+  },
+  tpok() {
+    const r = tpRange(), ex = curExam(); if (!r) return; const td = today();
+    S.todos = tdAll().filter(x => !(x.src === 'plan' && x.d >= td && !x.done));   // 前の計画の、これからのぶんを、入れかえる
+    let o = Date.now(); TP.days.forEach(d => d.items.forEach(x => tdAdd({ t: x.title, d: d.date, min: x.min, sid: x.sid, src: 'plan' })));
+    S.tplan = { ex: ex.id, made: o, msg: TP.msg }; save(); closeDlg(); render(); toast('計画を、カレンダーと「今日のやること」に入れました');
+  },
+  tpdel() { closeDlg(); undoable('計画を消しました', () => { S.todos = tdAll().filter(x => !(x.src === 'plan' && !x.done)); S.tplan = null; }); }
+});
+// カレンダーの、その日のやること
+const tdRowCal = x => { const s = x.sid ? SUB(x.sid) : null; return `<div class="td-i ${x.done ? 'ok' : ''} ${s ? 'sc' : ''}" ${s ? `style="--sh:${s.hue}"` : ''}><button type="button" class="td-ck" data-act="tdck" data-id="${x.id}" role="checkbox" aria-checked="${!!x.done}" aria-label="${esc(x.t)}を完了にする">${ms('check')}</button><button type="button" class="td-t" data-act="tdedit" data-id="${x.id}"><b>${esc(x.t)}</b><span>${s ? `<em class="td-tag">${esc(s.name)}</em>` : ''}${x.src === 'plan' ? '<em class="td-tag">テスト対策</em>' : ''}${x.min ? `<em>${x.min}分</em>` : ''}</span></button></div>`; };
+/* ====================== AI先生：採点モード（17.2）。○×・点数の採点カードと、まちがいのノート保存 ====================== */
+SN.grade = false;
+function snGradeNorm(res) {
+  const items = (res && Array.isArray(res.items) ? res.items : []).slice(0, 20).map(x => ({ no: snOne(x && x.no).slice(0, 10), q: snOne(x && x.q).slice(0, 60), mine: snOne(x && x.mine).slice(0, 60), ok: x && x.ok === true ? true : x && x.ok === false ? false : null, right: snOne(x && x.right).slice(0, 80), why: snOne(x && x.why).slice(0, 120) })).filter(x => x.no || x.q);
+  const dec = items.filter(x => x.ok !== null);
+  return { items, got: dec.filter(x => x.ok).length, total: dec.length, comment: snOne(res && res.comment).slice(0, 100) };
+}
+const snGradeText = g => `採点結果：${g.got} / ${g.total}問 正解${g.comment ? '\n' + g.comment : ''}\n` + g.items.map(x => `${x.no} ${x.ok === true ? '○' : x.ok === false ? '×' : '？'} ${x.q}${x.ok === false ? `（あなたの答え：${x.mine || '空欄'} ／ 正しい答え：${x.right}）` : ''}`).join('\n');
+function snGradeHtml(m, i) {
+  const g = m.grade, pct = g.total ? Math.round(g.got / g.total * 100) : 0, ng = g.items.filter(x => x.ok === false).length;
+  return `<div class="gr"><div class="gr-top"><div class="gr-ring" style="--p:${pct}"><b>${g.got}</b><small>/ ${g.total}</small></div><div class="gr-c"><b>${pct === 100 ? 'ぜんぶ正解！' : pct >= 70 ? 'よくできました' : 'ここから伸びます'}</b><span>${esc(g.comment)}</span></div></div><div class="gr-l">${g.items.map((x, k) => `<button type="button" class="gr-r ${x.ok === true ? 'ok' : x.ok === false ? 'ng' : 'na'}" ${x.ok === false ? `data-act="sngrq" data-id="${i}:${k}"` : 'disabled'}><span class="gr-b">${x.ok === true ? '○' : x.ok === false ? '×' : '？'}</span><span class="gr-t"><b>${esc(x.no)} ${esc(x.q)}</b>${x.ok === false ? `<small>あなた：${esc(x.mine || '空欄')} ／ 正しい答え：<em>${esc(x.right)}</em></small><p>${esc(x.why)}</p>` : x.ok === null ? '<small>写真から、判断できませんでした</small>' : x.why ? `<small>${esc(x.why)}</small>` : ''}</span>${x.ok === false ? ms('chevron_right', 'gr-go') : ''}</button>`).join('')}</div>${ng ? `<div class="gr-a"><button type="button" class="btn tonal" data-act="sngrnote" data-id="${i}" ${m.saved ? 'disabled' : ''}>${ms(m.saved ? 'bookmark_added' : 'bookmark_add')}${m.saved ? 'ノートに保存しました' : `まちがい ${ng}問を、ノートに保存`}</button></div><p class="muted gr-h">× の問題をタップすると、先生が くわしく教えてくれます</p>` : ''}<p class="muted gr-h">AIの採点は、間違うことがあります。気になるときは、教科書や答えで確かめましょう。</p></div>`;
+}
+async function snGradeSend(text, atts) {
+  const q = $('#snq'); if (!CLOUD.user) { toast('AI先生は、Googleログイン後に使えます'); return acctDlg(); }
+  if (aiUsed() >= aiLimit()) return toast(`今日のAI利用は${aiLimit()}回までです`);
+  SN.busy = true; SN.draft = ''; if (q) { q.value = ''; q.style.height = ''; } SN.att = []; snRenderAtt();
+  SN.msgs.forEach(m => { delete m.raw; });
+  SN.msgs.push({ r: 'u', t: text || '採点してください。', imgs: atts.map(a => a.url), raw: atts, sub: SN.sub ? `【教科：${SN.sub}】\n` : '', gr: 1 }, { r: 'm', t: '' });
+  const m = SN.msgs[SN.msgs.length - 1]; snRenderLog(); snRenderChips(); snBusyUi();
+  const res = await aiRun({
+    system: snSys(),
+    prompt: `この写真は、生徒が解いた問題と、生徒の答え（途中式を含む）です。1問ずつ採点して、次のJSONだけを返してください。\n{"comment":"全体への、先生としてのひとこと（80字以内。口調は、先生の設定のとおり）","items":[{"no":"問題番号（(1)、問2 など）","q":"問題の要約（40字以内）","mine":"生徒の答え（読み取った内容。空欄なら空文字）","ok":true か false か null,"right":"正しい答え","why":"まちがいの理由と、直し方（80字以内）。正解なら、よい点を一言"}]}\n- 読み取れない問題や、判断に自信がない問題は、ok:null にする。\n- 正解かどうかは、答えが合っているかで決める。途中式がまちがっていても、答えが合っていれば ok:true にして、why で指摘する。\n- 計算は、見直してから ok を決める。\n- 問題の数は、写っている範囲だけ。多くても20問。${SN.sub ? `\n教科：${SN.sub}` : ''}${text ? `\n生徒のひとこと：${text}` : ''}`,
+    json: true, imgs: atts
+  });
+  const g = res ? snGradeNorm(res) : null;
+  if (!g || !g.items.length) { m.t = '採点できませんでした。問題と答えが、はっきり写るように撮りなおして、もう一度、送ってください。'; m.err = true; SN.chat = null; }
+  else { m.grade = g; m.t = snGradeText(g); SN.chat = null; }   // 会話は、つぎに送るときに、採点の結果ごと作り直す
+  SN.busy = false; snRenderLog(); snRenderChips(); snBusyUi(); histSave(SNH, SN.msgs);
+}
+Object.assign(ACT, {
+  sngm() { SN.grade = !SN.grade; snRenderSubs(); if (SN.grade) toast('採点モード：解いた問題と答えの写真を送ってください'); },
+  sngrq(id) { const [i, k] = String(id).split(':').map(Number), x = SN.msgs[i] && SN.msgs[i].grade && SN.msgs[i].grade.items[k]; if (!x || SN.busy) return; const was = SN.grade; SN.grade = false; snSend(`採点の ${x.no} を、くわしく教えてください。（問題：${x.q}／私の答え：${x.mine || '空欄'}／正しい答え：${x.right}）`).finally(() => { SN.grade = was; }); },
+  sngrnote(id) {
+    const m = SN.msgs[+id]; if (!m || !m.grade || m.saved) return; let n = 0;
+    m.grade.items.filter(x => x.ok === false).reverse().forEach(x => { if (ntAdd({ sub: SN.sub || ntGuessSub(x.q), q: `${x.no} ${x.q}\n（私の答え：${x.mine || '空欄'}）`, a: `正しい答え：${x.right}\n${x.why}`, src: 'sensei' })) n++; });
+    m.saved = true; snRenderLog(true); histSave(SNH, SN.msgs); if (n) toast(`${n}問を、まちがいノートに保存しました`);
+  }
+});
+/* ====================== 成績の推移（17.2）：考査ごとの平均・教科ごとの変化・目標との差 ====================== */
+function scTrendData() {
+  const cur = curExam(), exams = S.exams.slice().sort((a, b) => String(a.date || '9999').localeCompare(String(b.date || '9999')) || (a.arcAt || 0) - (b.arcAt || 0));
+  const pc = (v, full) => Math.round(v / (full || 100) * 1000) / 10;
+  return exams.map(e => {
+    const subs = S.subjects.filter(s => s.ex === e.id && s.score != null && !isNaN(+s.score)); if (!subs.length) return null;
+    const rows = subs.map(s => ({ name: s.name, hue: s.hue, pct: pc(+s.score, s.full), score: +s.score, full: s.full || 100, goal: s.goal != null && s.goal !== '' ? +s.goal : null, goalPct: s.goal != null && s.goal !== '' ? pc(+s.goal, s.full) : null }));
+    const g = rows.filter(r => r.goalPct != null);
+    return { id: e.id, name: e.name, date: e.date, cur: e.id === cur.id, avg: Math.round(rows.reduce((a, r) => a + r.pct, 0) / rows.length * 10) / 10, goalAvg: g.length ? Math.round(g.reduce((a, r) => a + r.goalPct, 0) / g.length * 10) / 10 : null, rows };
+  }).filter(Boolean);
+}
+function scChart(data) {
+  const W = 320, H = 150, L = 30, R = 12, T = 14, B = 30, n = data.length, x = i => n === 1 ? (L + W - R) / 2 : L + (W - L - R) * i / (n - 1), y = v => T + (H - T - B) * (1 - Math.max(0, Math.min(100, v)) / 100);
+  const pts = data.map((d, i) => `${x(i).toFixed(1)},${y(d.avg).toFixed(1)}`), gl = data.map((d, i) => d.goalAvg != null ? `${x(i).toFixed(1)},${y(d.goalAvg).toFixed(1)}` : null).filter(Boolean);
+  return `<svg class="sct" viewBox="0 0 ${W} ${H}" role="img" aria-label="考査ごとの平均点（満点換算）の推移">${[0, 50, 100].map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" style="stroke:var(--s3)" stroke-width="1"/><text x="${L - 6}" y="${y(v) + 4}" text-anchor="end" style="fill:var(--on-v)" font-size="10">${v}</text>`).join('')}${gl.length > 1 ? `<polyline points="${gl.join(' ')}" fill="none" style="stroke:var(--ter)" stroke-width="2" stroke-dasharray="5 4"/>` : ''}${n > 1 ? `<polyline points="${pts.join(' ')}" fill="none" style="stroke:var(--primary)" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>` : ''}${data.map((d, i) => `<circle cx="${x(i).toFixed(1)}" cy="${y(d.avg).toFixed(1)}" r="${d.cur ? 6 : 4.5}" style="fill:${d.cur ? 'var(--primary)' : 'var(--bg,#fff)'};stroke:var(--primary)" stroke-width="3"/><text x="${x(i).toFixed(1)}" y="${(y(d.avg) - 11).toFixed(1)}" text-anchor="middle" style="fill:var(--on)" font-size="11" font-weight="800">${Math.round(d.avg)}</text><text x="${x(i).toFixed(1)}" y="${H - 10}" text-anchor="${n > 1 && i === 0 ? 'start' : n > 1 && i === n - 1 ? 'end' : 'middle'}" style="fill:var(--on-v)" font-size="9.5">${esc(String(d.name).slice(0, 7))}</text>`).join('')}</svg>`;
+}
+function scSpark(vals) {
+  const W = 64, H = 22, n = vals.length; if (n < 2) return ''; const xs = i => 3 + (W - 6) * i / (n - 1), y = v => 3 + (H - 6) * (1 - Math.max(0, Math.min(100, v)) / 100);
+  return `<svg class="scs" viewBox="0 0 ${W} ${H}" aria-hidden="true"><polyline points="${vals.map((v, i) => `${xs(i).toFixed(1)},${y(v).toFixed(1)}`).join(' ')}" fill="none" style="stroke:var(--sc)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="${xs(n - 1).toFixed(1)}" cy="${y(vals[n - 1]).toFixed(1)}" r="3" style="fill:var(--sc)"/></svg>`;
+}
+let SCAI = '';
+function scoreTrend() {
+  const data = scTrendData(); if (!data.length) return '';
+  const last = data[data.length - 1], prev = data.length > 1 ? data[data.length - 2] : null, diff = prev ? Math.round((last.avg - prev.avg) * 10) / 10 : null;
+  const names = [...new Set(data.flatMap(d => d.rows.map(r => r.name)))].filter(nm => last.rows.some(r => r.name === nm));
+  const rows = names.map(nm => { const hist = data.map(d => (d.rows.find(r => r.name === nm) || {}).pct).filter(v => v != null), lr = last.rows.find(r => r.name === nm), pv = hist.length > 1 ? hist[hist.length - 2] : null; return { nm, lr, hist, d: pv != null ? Math.round((lr.pct - pv) * 10) / 10 : null }; });
+  const hit = last.rows.filter(r => r.goalPct != null && r.pct >= r.goalPct).length, withGoal = last.rows.filter(r => r.goalPct != null).length;
+  const grown = rows.filter(r => r.d != null).sort((a, b) => b.d - a.d)[0], gap = last.rows.filter(r => r.goalPct != null && r.pct < r.goalPct).sort((a, b) => (b.goalPct - b.pct) - (a.goalPct - a.pct))[0];
+  const chip = (ic, t, cls) => `<span class="sct-c ${cls || ''}">${ms(ic, '', 'font-size:17px')}${t}</span>`;
+  return `<div class="h-sec"><h2>${ms('show_chart')}成績の推移</h2><span class="sp"></span><button class="btn tonal xs" data-act="scai">${gem(16)}AIで分析</button></div>
+  <div class="card sct-w">${data.length > 1 ? scChart(data) : `<p class="muted" style="margin:0 0 8px;font-weight:500">考査が2回分そろうと、推移のグラフが出ます。いまは「${esc(last.name)}」の平均が <b>${Math.round(last.avg)}%</b> です。</p>`}
+  <div class="sct-cs">${diff !== null ? chip(diff >= 0 ? 'trending_up' : 'trending_down', `前回より ${diff >= 0 ? '+' : ''}${diff}%`, diff >= 0 ? 'up' : 'dn') : ''}${withGoal ? chip('flag', `目標達成 ${hit} / ${withGoal}教科`, hit === withGoal ? 'up' : '') : ''}${grown && grown.d > 0 ? chip('emoji_events', `${esc(grown.nm)} が +${grown.d}%`, 'up') : ''}${gap ? chip('target', `${esc(gap.name)} は、目標まで あと ${Math.round((gap.goalPct - gap.pct) / 100 * gap.full * 10) / 10}点`) : ''}</div>
+  <div class="sct-l">${rows.map(r => `<div class="sct-r sc" style="--sh:${r.lr.hue}"><b>${esc(r.nm)}</b>${scSpark(r.hist)}<span class="sct-v">${r.lr.score}<small>/${r.lr.full}</small></span><span class="sct-d ${r.d === null ? '' : r.d >= 0 ? 'up' : 'dn'}">${r.d === null ? '' : (r.d >= 0 ? '▲' : '▼') + Math.abs(r.d) + '%'}</span>${r.lr.goal != null ? `<span class="sct-g ${r.lr.pct >= r.lr.goalPct ? 'ok' : ''}">${r.lr.pct >= r.lr.goalPct ? '目標 達成' : `目標 ${r.lr.goal}`}</span>` : '<span></span>'}</div>`).join('')}</div>
+  ${SCAI ? `<div class="td-ai" style="margin-top:12px">${gem(22)}<span>${esc(SCAI).replace(/\n/g, '<br>')}</span></div>` : ''}</div>`;
+}
+Object.assign(ACT, {
+  async scai() {
+    const data = scTrendData(); if (!data.length) return; if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
+    toast('成績を分析しています…');
+    const txt = data.map(d => `${d.name}${d.date ? '（' + d.date + '）' : ''}：平均${d.avg}%／${d.rows.map(r => `${r.name}${r.score}/${r.full}${r.goal != null ? '（目標' + r.goal + '）' : ''}`).join('、')}`).join('\n');
+    const r = await aiRun({ system: AI_MINI, prompt: `中学生の、考査ごとの成績です（古い順）。\n${txt}\n\n伸びた点、課題になっている点、次の考査に向けてやることを、やさしい言葉で、全体で200字以内にまとめてください。「・」の箇条書き3つ程度にします。本文だけを書いてください。` });
+    if (r) { SCAI = r.replace(/\*\*/g, '').trim(); render(); }
+  }
+});
+/* ====================== 暗記シート（既存のツール）の強化（17.2）：単語帳から読み込む・AIで重要語を自動で【】にする ====================== */
+RS.dens = RS.dens || 'mid';
+const rsKeep = () => { const el = $('#rstxt'); if (el) S.sheet = el.value; };
+const rsStrip = t => String(t).replace(/[【】]/g, '');
+// 文章の中に、そのままの形で出てくる言葉だけを【】で囲む（AIが文章を書き換えても、本文は変わらない）。同じ言葉は、最初の1か所だけ
+function rsMark(text, terms) {
+  const base = rsStrip(text), spans = [];
+  [...new Set((Array.isArray(terms) ? terms : []).map(t => String(t == null ? '' : t).trim()).filter(t => t.length >= 1 && t.length <= 30))].sort((a, b) => b.length - a.length).forEach(t => {
+    let from = 0; while (true) { const i = base.indexOf(t, from); if (i < 0) break; if (!spans.some(s => i < s[1] && i + t.length > s[0])) { spans.push([i, i + t.length]); break; } from = i + 1; }
+  });
+  spans.sort((a, b) => a[0] - b[0]); let out = '', p = 0; spans.forEach(([a, b]) => { out += base.slice(p, a) + '【' + base.slice(a, b) + '】'; p = b; }); return { text: out + base.slice(p), n: spans.length };
+}
+const RS_DENS = { few: ['少なめ', 8], mid: ['ふつう', 15], many: ['多め', 25] };
+const rsTarget = len => Math.max(3, Math.min(RS_DENS[RS.dens][1], Math.round(len / 18)));
+function rsDeckDlg() {
+  const ds = (ensureDecks(), S.decks).map(d => ({ d, n: S.cards.filter(c => c.d === d.id).length })).filter(x => x.n);
+  openDlg(`<h2>${ms('style')}単語帳から読み込む</h2>${ds.length ? `<div class="lbl">どちらを隠しますか？</div><div class="wx-seg" role="group" style="margin-bottom:12px"><button type="button" class="wx-sg ${RS.side !== 'f' ? 'on' : ''}" data-act="rsside" data-id="b">裏（意味）を隠す</button><button type="button" class="wx-sg ${RS.side === 'f' ? 'on' : ''}" data-act="rsside" data-id="f">表（単語）を隠す</button></div><div class="td-l">${ds.map(({ d, n }) => `<button type="button" class="hrv-i sc" style="--sh:${d.hue || 0};width:100%;justify-content:space-between" data-act="rsdeck" data-id="${d.id}"><b>${esc(d.name)}</b><span>${n}枚${n > 60 ? '（先頭の60枚）' : ''}</span>${ms('arrow_forward')}</button>`).join('')}</div>` : '<p class="muted">単語帳に、カードがありません。</p>'}<div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">閉じる</button></div>`);
+}
+Object.assign(ACT, {
+  rsdecks() { rsKeep(); rsDeckDlg(); },
+  rsside(id) { RS.side = id; rsDeckDlg(); },
+  rsdeck(id) {
+    const cs = S.cards.filter(c => c.d === id).slice(0, 60), hide = RS.side === 'f' ? 'f' : 'b';
+    const add = cs.map(c => { const f = String(c.f).replace(/[【】\n]/g, ' ').trim(), b = String(c.b).replace(/[【】\n]/g, ' ').trim(); return hide === 'f' ? `【${f}】：${b}` : `${f}：【${b}】`; }).join('\n');
+    S.sheet = ((S.sheet || '').trim() ? S.sheet.trim() + '\n' : '') + add; save(); closeDlg(); RS.edit = true; toolsRefresh(); toast(`${cs.length}枚を、読み込みました`);
+  },
+  rsdens(id) { rsKeep(); RS.dens = id; toolsRefresh(); },
+  async rsauto() {
+    rsKeep(); const txt = rsStrip(S.sheet || '').trim(); if (txt.length < 15) return toast('文章を、もう少し書いてから押してください');
+    if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
+    if (/【[^】]+】/.test(S.sheet) && !confirm('いま囲んである【　】は、AIが選びなおします。よろしいですか？')) return;
+    const n = rsTarget(txt.length); toast('重要な言葉を、探しています…');
+    const terms = await aiRun({ system: AI_MINI, prompt: `次の文章は、中学生の暗記用の文章です。テストに出そうな重要な言葉（用語・人名・地名・年号・数値・公式の名前など）を、${n}個くらい選んで、JSONの配列（文字列だけ）で返してください。\n- 文章の中に、そのままの形で出てくる言葉だけを選ぶ（言い換えない）。\n- 1つの言葉は、短く（30字以内）。助詞や、ふつうの言葉は選ばない。\n\n文章：\n${txt.slice(0, 3000)}`, json: true });
+    if (!terms) return; const r = rsMark(txt, terms);
+    if (!r.n) return toast('重要な言葉を見つけられませんでした');
+    S.sheet = r.text; save(); RS.edit = true; toolsRefresh(); toast(`${r.n}個の言葉を、【　】で囲みました。直せます`);
+  },
+  rsphoto() { rsKeep(); const i = $('#rsfile'); if (i) i.click(); }
+});
+async function rsFromPhotos(files) {
+  if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます'); if (!files.length) return;
+  toast('写真を読み取っています…');
+  try {
+    const imgs = await Promise.all(files.slice(0, 3).map(f => aiResize(f, 1600)));
+    const r = await aiRun({ system: AI_MINI, prompt: `この画像は、教科書やノートの文章です。文字をそのまま読み取って、テストに出そうな重要な言葉（用語・人名・地名・年号・数値など）を、${RS_DENS[RS.dens][1]}個くらい選んでください。次のJSONだけを返してください。\n{"text":"読み取った文章（改行はそのまま。1500字まで）","terms":["重要な言葉（text にそのまま出てくる形で）"]}`, json: true, imgs });
+    if (!r || !r.text) return toast('文字を読み取れませんでした');
+    const m = rsMark(String(r.text).slice(0, 1800), r.terms);
+    S.sheet = ((S.sheet || '').trim() ? S.sheet.trim() + '\n\n' : '') + m.text; save(); RS.edit = true; toolsRefresh(); toast(`読み取りました（${m.n}個の言葉を【　】にしました）。直せます`);
+  } catch (e) { toast(aiErr(e).split('\n')[0]); }
+}
+document.addEventListener('change', e => { const t = e.target; if (t && t.id === 'rsfile') { const fl = [...t.files]; t.value = ''; rsFromPhotos(fl); } });
 function toolsPost() {
   const tl = ui.tool || '';
   if (tl === 'calc') calcPaint(true);
