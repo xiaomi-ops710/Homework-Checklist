@@ -559,7 +559,7 @@ input[type=range]::-moz-range-thumb{width:6px;height:44px;border-radius:3px;back
 .f-ctl .ibtn{width:64px;height:64px;border-radius:32px;background:var(--sec-c);color:var(--on-sec-c)}
 .focus.brk .f-ctl .ibtn{background:color-mix(in srgb,var(--on-ter-c) 14%,transparent);color:var(--on-ter-c)}
 .f-sum{text-align:center;font-weight:500;opacity:.8}
-#splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;transition:opacity .5s,visibility .5s}
+#splash{position:fixed;inset:0;z-index:100;background:var(--bg);display:grid;place-items:center;transition:opacity .2s,visibility .2s}
 #splash.hide{opacity:0;visibility:hidden}
 #splash svg{width:120px;height:120px;fill:var(--primary)}
 
@@ -1800,7 +1800,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 @media(prefers-reduced-motion:reduce){.ax-av,.ax-dots i,.ax-m.new,.ax-pc{animation:none}}
 
 /* ===== 起動の安全対策（14.0）：スクリプトが動かなくても、読み込み画面は必ず消える ===== */
-#splash{animation:splashFail .01s linear 4s forwards}
+#splash{animation:splashFail .01s linear 2s forwards}
 @keyframes splashFail{to{opacity:0;visibility:hidden;pointer-events:none}}
 #splash svg{opacity:.9}
 
@@ -2094,6 +2094,22 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 .rs-tools{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 4px}
 .rs-d{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:8px 0 0}
 @media(max-width:560px){.sct-r{grid-template-columns:1fr 70px 54px auto}.scs{display:none}.gr{min-width:0}}
+
+/* ===== 17.3：きょうのおすすめ ===== */
+.sug-l{display:flex;flex-wrap:wrap;gap:10px}
+.sug-c{display:flex;align-items:center;border-radius:28px;background:var(--scc);color:var(--on-scc);transition:border-radius .4s var(--spring),transform .3s var(--spring),opacity .3s}
+.sug-c:nth-child(even){border-radius:28px 28px 12px 28px}.sug-c:nth-child(3n){border-radius:12px 28px 28px 28px}
+.sug-c:active{transform:scale(.97);border-radius:16px}
+.sug-b{display:flex;align-items:center;gap:10px;min-height:58px;padding:8px 16px 8px 9px;border:0;background:transparent;color:inherit;font:inherit;text-align:left;border-radius:inherit}
+.sug-i{flex:none;display:grid;place-items:center;width:42px;height:42px;color:#fff;background:var(--sc);border-radius:42% 58% 55% 45%/48% 44% 56% 52%}
+.sug-t b{display:block;font-size:.95rem;font-weight:700;line-height:1.3}
+.sug-t small{display:block;margin-top:1px;opacity:.75;font-weight:600;font-size:.78rem;line-height:1.35}
+.sug-p,.sug-ok{flex:none;display:grid;place-items:center;width:44px;height:44px;margin:0 6px 0 -6px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.5);color:inherit}
+.sug-p:active{transform:scale(.9)}.sug-ok{background:transparent;opacity:.8}
+.sug-c.done{opacity:.6}.sug-c.done .sug-i{background:var(--on-v)}
+.td-evs+.td-ai,.sug-l+.sug-l{margin-top:8px}
+@media(max-width:699px){.sug-l{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:2px 16px 4px}.sug-l::-webkit-scrollbar{display:none}.sug-c{flex:none;max-width:84vw}}
+@media(prefers-reduced-motion:reduce){.sug-c{transition:none}}
 </style>
 </head>
 <body>
@@ -2118,7 +2134,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.2';
+const APP_VERSION = '17.3';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2197,7 +2213,7 @@ function load() {
   return fresh();
 }
 let S = load();
-let ui = { tab: 'home', filter: 'all', sid: '', q: '', sort: 'due', period: 7, metric: 'pages', collapsed: {}, anim: true, fab: false, flash: null, cal: { y: new Date().getFullYear(), m: new Date().getMonth() }, sel: today() };
+let ui = { tab: 'home', filter: 'all', sid: '', q: '', sort: 'due', period: 7, metric: 'pages', collapsed: {}, anim: false, fab: false, flash: null, cal: { y: new Date().getFullYear(), m: new Date().getMonth() }, sel: today() };
 let lastUndo = null;
 let _noSync = false;
 function save() { try { if (!_noSync) S.mt = Date.now(); localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('保存に失敗しました。容量を確認してください'); } if (!_noSync) cloudPush(); }
@@ -2465,7 +2481,7 @@ window.addEventListener('resize', () => { navFit(); fitIcons(); }); window.addEv
 function renderFab() {
   const f = $('#fab'); f.hidden = false; document.documentElement.dataset.tab = ui.tab;
   if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="ai">${gem(20)}AIに質問</button><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="aitext">${gem(20)}文章から課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button><button class="fabi" data-act="recmgr">${ms('event_repeat')}くり返しの課題</button><button class="fabi" data-act="gsearch">${ms('search')}さがす</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
-  f.classList.toggle('open', !!ui.fab); fabDir();
+  f.classList.toggle('open', !!ui.fab); requestAnimationFrame(fabDir);
   f.querySelector('.fabb').setAttribute('aria-expanded', String(!!ui.fab));
 }
 
@@ -2616,6 +2632,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.3', t: '起動を速くしました・ホームに「きょうのおすすめ」を追加', n: ['アプリの起動を、大きく速くしました。開くときの待ち時間（スプラッシュ画面）を約1秒短くし、開いた直後のアニメーションを省きました。通信がおそい場所でも、すぐに開きます', 'ホームに「きょうのおすすめ」を追加しました。「単語帳を勉強する」「まちがいノートを復習する」「集中タイマーで25分」など、今日やるとよいことを、時間帯や進み具合に合わせて、チップで提案します。チップをタップするとすぐ始められ、＋で「今日のやること」に入れられます', '更新のときのダウンロード量を、半分にしました'] },
   { v: '17.2', t: '予定・テスト対策プラン・採点・成績の推移などを追加', n: ['プリントを撮ると、課題に加えて、予定（行事）・テストの日程・持ち物も読み取って、登録できるようになりました。カレンダーに「予定」を足せます（複数日の予定も）', '「テスト対策プラン」を追加しました。考査の日までの勉強計画を、AIが日ごとに作り、カレンダーと「今日のやること」に入れます', 'AI先生に「採点モード」を追加しました。解いた問題と答えを撮ると、問題ごとに ○× を付けて、点数を出します。まちがいは、まちがいノートに保存できます', '記録に「成績の推移」を追加しました。考査ごとの平均と、教科ごとの変化、目標との差が分かります', '暗記シートに、単語帳から読み込む機能と、AIが重要な言葉を自動で【　】にする機能（文章・写真から）を追加しました'] },
   { v: '17.1.1', t: 'フィードバックのお知らせを、アプリの中だけに', n: ['フィードバックの返信などのお知らせは、アプリの中だけに表示されます（端末の通知は使いません）'] },
   { v: '17.1', t: 'フィードバックへの返信・単語帳クイズの選択肢の数', n: ['フィードバックに返信が届くと、アプリの中で、お知らせが出ます。送った内容と返信は、右上のアカウント画面の「送った内容と返信」で見られます', '単語帳のクイズで、選択肢の数を、2・3・4・5・6・8つから選べるようになりました（単語帳のテストの画面と、暗記クイズの画面で選べます）'] },
@@ -2735,7 +2752,7 @@ function viewHome() {
     h += `</div>`;
   } else h += `<div class="h-sec"><h2>${ms('event_upcoming')}${dly ? '提出スケジュール' : '期限が近い課題'}</h2></div><div class="card muted" style="text-align:center;font-weight:500;line-height:1.8">期限が設定された課題はありません${dly ? '<br>課題に提出期限を入れると、ここで提出日を管理できます' : ''}</div>`;
   P.due = h; h = '';
-  P.week = weekCard(); P.ai = aiTodayCard(); P.tt = homeTtCard(); P.memo = homeMemoCard(); P.note = homeNoteCard(); P.rev = homeRevCard();
+  P.week = weekCard(); P.ai = aiTodayCard(); P.tt = homeTtCard(); P.memo = homeMemoCard(); P.note = homeNoteCard(); P.rev = homeRevCard(); P.sug = homeSugCard();
 
   // 教科
   h += `<div class="h-sec"><h2>${ms('donut_large')}教科ごとの進み具合</h2><span class="sp"></span><button class="btn tonal xs" data-act="addsubj">${ms('add')}教科</button></div>`;
@@ -2756,10 +2773,10 @@ function viewHome() {
 }
 
 /* ===== ホームの配置の編集 ===== */
-const HOME_SECS = [['hero', '達成率', 'donut_large'], ['tools', 'よく使うツール', 'apps'], ['plan', '今日のプラン', 'today'], ['due', '期限が近い課題・提出スケジュール', 'event_upcoming'], ['week', '今週の勉強', 'insights'], ['note', 'まちがいノートの復習', 'edit_note'], ['rev', '単語帳の見直し', 'style'], ['ai', 'AIの学習アドバイス', 'auto_awesome'], ['tt', 'あしたの時間割', 'calendar_view_week'], ['memo', 'ふせんメモ', 'sticky_note_2'], ['subj', '教科ごとの進み具合', 'donut_large']];
+const HOME_SECS = [['hero', '達成率', 'donut_large'], ['sug', 'きょうのおすすめ', 'tips_and_updates'], ['tools', 'よく使うツール', 'apps'], ['plan', '今日のプラン', 'today'], ['due', '期限が近い課題・提出スケジュール', 'event_upcoming'], ['week', '今週の勉強', 'insights'], ['note', 'まちがいノートの復習', 'edit_note'], ['rev', '単語帳の見直し', 'style'], ['ai', 'AIの学習アドバイス', 'auto_awesome'], ['tt', 'あしたの時間割', 'calendar_view_week'], ['memo', 'ふせんメモ', 'sticky_note_2'], ['subj', '教科ごとの進み具合', 'donut_large']];
 function homeLay() {
   const o = (S.set && S.set.home) || {}, ids = HOME_SECS.map(x => x[0]), order = (Array.isArray(o.order) ? o.order : ids).filter(i => ids.includes(i));
-  ids.forEach(i => { if (!order.includes(i)) { const af = i === 'rev' ? (order.includes('note') ? 'note' : 'week') : i === 'note' ? 'week' : '', k = af ? order.indexOf(af) : -1; if (k >= 0) order.splice(k + 1, 0, i); else order.push(i); } });   // 新しい部分は、「今週の勉強」の次に入れる
+  ids.forEach(i => { if (!order.includes(i)) { const af = i === 'sug' ? 'hero' : i === 'rev' ? (order.includes('note') ? 'note' : 'week') : i === 'note' ? 'week' : '', k = af ? order.indexOf(af) : -1; if (k >= 0) order.splice(k + 1, 0, i); else order.push(i); } });   // 新しい部分は、「今週の勉強」の次に入れる
   return { order, half: o.half || { plan: 1, due: 1 }, hide: o.hide || {}, sv: o.sv || 'card' };
 }
 function homeSave(L) { S.set.home = { order: L.order, half: L.half, hide: L.hide, sv: L.sv }; save(); render(); }
@@ -6759,6 +6776,8 @@ Object.assign(ACT, {
   tdgo(id) {
     const x = tdFind(id); if (!x) return;
     if (x.go === 'note') return ACT.ntstart();
+    if (x.go === 'study') { const u = (S.decks || []).map(d => ({ d, n: (S.cards || []).filter(c => c.d === d.id && !c.k).length })).sort((a, b) => b.n - a.n)[0]; return u ? wcStudyGo(u.d.id) : ACT.tab('tool:card'); }
+    if (/^tool:/.test(x.go)) return ACT.tab(x.go);
     if (x.go === 'cards') { const d = (S.decks || []).find(d => (S.cards || []).some(c => c.d === d.id && wcRevDue(c))) || (S.decks || [])[0]; return d ? ACT.wcrevgo(d.id) : ACT.tab('tool:card'); }
     openFocus();
   },
@@ -7008,6 +7027,56 @@ async function rsFromPhotos(files) {
   } catch (e) { toast(aiErr(e).split('\n')[0]); }
 }
 document.addEventListener('change', e => { const t = e.target; if (t && t.id === 'rsfile') { const fl = [...t.files]; t.value = ''; rsFromPhotos(fl); } });
+/* ====================== ホームの「きょうのおすすめ」（17.3）：今日やるとよいことを、状況に合わせてチップで提案 ====================== */
+const SUG_MAX = 6;
+const sugState = () => { const td = today(); if (!S.sug || S.sug.d !== td) S.sug = { d: td, done: {} }; return S.sug; };
+const sugCut = (t, n) => { t = String(t || ''); return t.length > n ? t.slice(0, n) + '…' : t; };
+function sugList() {
+  const h = new Date().getHours(), out = [], cards = S.cards || [], decks = S.decks || [], push = o => out.push(o);
+  const ex = curExam(), lg = dayLog(), mins = (lg && lg.m) || 0;
+  // 今日のノルマ（課題）
+  const pi = buildPlan().find(i => i.doneToday < i.amt);
+  if (pi) push({ id: 'plan', ic: 'play_circle', hue: 222, t: `${sugCut(pi.t.title, 14)}を進める`, sub: `${pi.s ? pi.s.name + '・' : ''}あと${pi.amt - pi.doneToday}ページ`, score: 90, run: () => openFocus(pi.t.id) });
+  // 夕方からは、あしたの持ち物
+  if (h >= 17 && S.tt && S.tt.c && Object.keys(S.tt.c).length) { const bag = bagItems(), bc = S.tt.chk && S.tt.chk.d === tblNext().date ? S.tt.chk.v : [], left = bag.filter(x => !bc.includes(x)).length; if (left) push({ id: 'bring', ic: 'backpack', hue: 150, t: 'あしたの持ち物を準備する', sub: `あと${left}個`, score: 88, run: () => ACT.tab('tool:tbl') }); }
+  // まちがいノートの復習
+  const nd = ntAll().filter(ntDue).length;
+  if (nd) push({ id: 'note', ic: 'edit_note', hue: 20, t: 'まちがいノートを復習する', sub: `${nd}問`, score: 85, todo: { t: `まちがいノートの復習（${nd}問）`, min: Math.min(15, Math.max(5, nd * 2)), go: 'note' }, run: () => ACT.ntstart() });
+  // 考査が近い
+  const left = ex && ex.date ? daysBetween(today(), ex.date) : -1;
+  if (left >= 1 && left <= 45 && !tpActive()) push({ id: 'tp', ic: 'event_available', hue: 40, t: 'テスト対策プランをつくる', sub: `${sugCut(ex.name, 8)}まで あと${left}日`, score: left <= 14 ? 82 : 55, run: () => ACT.tpdlg() });
+  // 単語帳を勉強する（覚えていないカードが多い単語帳）
+  const unk = decks.map(d => ({ d, n: cards.filter(c => c.d === d.id && !c.k).length })).filter(x => x.n).sort((a, b) => b.n - a.n)[0];
+  if (unk) push({ id: 'cards', ic: 'style', hue: 340, t: '単語帳を勉強する', sub: `${sugCut(unk.d.name, 8)}・覚えていない${unk.n}枚`, score: 80 + (h < 12 ? 4 : 0), todo: { t: `単語帳を勉強する（${sugCut(unk.d.name, 8)}）`, min: Math.min(15, Math.max(5, Math.ceil(unk.n / 2))), go: 'study' }, run: () => wcStudyGo(unk.d.id) });
+  // 単語帳の見直し
+  const rv = decks.map(d => ({ d, n: cards.filter(c => c.d === d.id && wcRevDue(c)).length })).filter(x => x.n).sort((a, b) => b.n - a.n)[0];
+  if (rv) push({ id: 'rev', ic: 'history_edu', hue: 330, t: '単語帳を見直す', sub: `${sugCut(rv.d.name, 8)}・${rv.n}枚`, score: 75, todo: { t: `単語帳の見直し（${rv.n}枚）`, min: Math.min(15, Math.max(5, Math.ceil(rv.n / 2))), go: 'cards' }, run: () => ACT.wcrevgo(rv.d.id) });
+  // 前の日の残り
+  const old = tdAll().filter(x => x.d < today() && !x.done && !x.x && !x.h && daysBetween(x.d, today()) <= 3).length;
+  if (old) push({ id: 'carry', ic: 'history', hue: 60, t: '前の日の残りを、今日にうつす', sub: `${old}件`, score: 60, run: () => ACT.tdcarry() });
+  // 今日やることが、まだ決まっていない
+  if (!tdToday().length) { push({ id: 'todo', ic: 'checklist', hue: 250, t: '今日やることを決める', sub: '時間の目安も入れられます', score: 50, run: () => ACT.tdadd('') }); if (CLOUD.user && examTasks().some(t => !isDone(t))) push({ id: 'tdai', ic: 'auto_awesome', hue: 285, t: 'AIに今日の計画を立ててもらう', sub: '時間と調子に合わせて', score: 52, run: () => ACT.tdai() }); }
+  // 集中タイマー
+  if (mins < 25) push({ id: 'focus', ic: 'timer', hue: 200, t: '集中タイマーで25分', sub: mins ? `今日は ${mins}分 やりました` : 'まだ今日は、やっていません', score: 40 + (pi ? 0 : 15) + (h < 12 ? 5 : 0), todo: { t: '集中タイマーで25分', min: 25, go: '' }, run: () => ACT.focus() });
+  // 力だめし
+  if (cards.length >= 4) push({ id: 'quiz', ic: 'quiz', hue: 280, t: `${qzN()}択クイズに挑戦`, sub: '単語帳から出題', score: 35, run: () => ACT.tab('tool:quiz') });
+  if (CLOUD.user) push({ id: 'aiq', ic: 'bolt', hue: 285, t: 'AI小テストで力だめし', sub: '教科とテーマを選ぶ', score: 30, run: () => ACT.tab('tool:aiquiz') });
+  if (/【[^】]+】/.test(S.sheet || '')) push({ id: 'sheet', ic: 'visibility_off', hue: 10, t: '暗記シートで確認する', sub: '隠して思い出す', score: 32, run: () => ACT.tab('tool:sheet') });
+  if (CLOUD.user) push({ id: 'sensei', ic: 'school', hue: 250, t: 'わからない問題をAI先生に聞く', sub: '写真を撮るだけ', score: 20, run: () => ACT.tab('tool:sensei') });
+  const st = sugState();
+  return out.sort((a, b) => (st.done[a.id] ? 1 : 0) - (st.done[b.id] ? 1 : 0) || b.score - a.score).slice(0, SUG_MAX);
+}
+function wcStudyGo(id) { WC.deck = id; WC.filt = 'new'; WC.tab = 'study'; WC.i = 0; WC.flip = false; WC.undo = []; WC.sel = 'all'; try { wcSave(); } catch (e) { } ACT.tab('tool:card'); }   // 単語帳の「覚えていないカード」を、勉強しはじめる
+function homeSugCard() {
+  const l = sugList(); if (!l.length) return '';
+  const st = sugState(), td = tdToday();
+  const chip = s => { const done = !!st.done[s.id], added = !!(s.todo && td.some(x => x.t === s.todo.t)); return `<div class="sug-c sc ${done ? 'done' : ''}" style="--sh:${s.hue}"><button type="button" class="sug-b" data-act="sugdo" data-id="${s.id}"><span class="sug-i">${ms(done ? 'check' : s.ic)}</span><span class="sug-t"><b>${esc(s.t)}</b><small>${esc(s.sub)}</small></span></button>${s.todo && !added ? `<button type="button" class="sug-p" data-act="sugadd" data-id="${s.id}" aria-label="今日のやることに入れる" title="今日のやることに入れる">${ms('add')}</button>` : added ? `<span class="sug-ok" title="今日のやることに入っています">${ms('playlist_add_check')}</span>` : ''}</div>`; };
+  return `<div class="h-sec"><h2>${ms('tips_and_updates')}きょうのおすすめ</h2></div><div class="sug-l stg">${l.map(chip).join('')}</div>`;
+}
+Object.assign(ACT, {
+  sugdo(id) { const s = sugList().find(x => x.id === id); if (!s) return; sugState().done[id] = 1; save(); s.run(); },
+  sugadd(id) { const s = sugList().find(x => x.id === id); if (!s || !s.todo) return; tdAdd({ ...s.todo, src: 'me' }); save(); render(); toast('今日のやることに入れました'); }
+});
 function toolsPost() {
   const tl = ui.tool || '';
   if (tl === 'calc') calcPaint(true);
@@ -7095,11 +7164,11 @@ if ('serviceWorker' in navigator) {
 }
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => { });
 function splash() {
-  const sp = $('#splash'), p = $('#spath'); if (!sp) return;
-  if (reduced()) { sp.classList.add('hide'); return; }
-  const t0 = performance.now(), hide = () => sp.classList.add('hide');
-  const f = now => { try { const s = (now - t0) / 1000; p.setAttribute('d', pathOf(morphAt(s, .4), 44, 0, 0, s * 1.4)); if (s < 1.1) { requestAnimationFrame(f); return; } } catch (e) { } hide(); };
-  requestAnimationFrame(f); setTimeout(hide, 2500);   // 画面の描画が止まっていても、2.5秒で必ず消す
+  const sp = $('#splash'); if (!sp) return;
+  const hide = () => sp.classList.add('hide');
+  if (reduced()) { hide(); return; }
+  hide();   // 画面（内容）を作ったあとなので、すぐに消しはじめる。最初の描画で、内容と、フェードアウトが、同時に出る
+  setTimeout(hide, 1200);   // 画面の描画が止まっていても、必ず消す
 }
 // アイコンフォントが読み込まれたらアイコンを表示（フォントのCSSは、画面の表示をじゃましないよう、あとから読み込む）
 function msrCheck() {
@@ -7112,12 +7181,16 @@ window.__kosaV = APP_VERSION;
 /* 最初の描画は、スクリプトの最後（すべての const / let の宣言が終わったあと）に行う。
    途中で呼ぶと、あとの行で宣言する部品（例：ymdOf・bagSplit）を使う画面で、「宣言前に参照」の例外になり、画面が空になる */
 function bootApp() {
-const bootStep = (n, f) => { try { f(); return true; } catch (e) { try { window.__kosaLog && __kosaLog('起動(' + n + '): ' + ((e && e.message) || e)); } catch (x) { } return false; } };
-bootStep('theme', applyTheme); bootStep('badges', () => checkBadges(true)); bootStep('timer', () => tmReset('focus')); bootStep('fab', renderFab);
-let booted = bootStep('render', render);
-if (!booted) booted = bootStep('render-safe', () => { const hm = S.set.home; delete S.set.home; try { ui.tab = 'home'; render(); } finally { if (hm !== undefined) S.set.home = hm; } });   // ホームの配置データが原因のときは、この回だけ標準の配置で表示する
-bootStep('splash', splash); bootStep('acct', renderAcct); bootStep('cloud', cloudInit);
-if (booted) { try { window.__kosaOk && __kosaOk(); } catch (e) { } }
+  const bt = window.__bt = {};
+  const bootStep = (n, f) => { const t0 = performance.now(); try { f(); return true; } catch (e) { try { window.__kosaLog && __kosaLog('起動(' + n + '): ' + ((e && e.message) || e)); } catch (x) { } return false; } finally { bt[n] = +(performance.now() - t0).toFixed(1); } };
+  bootStep('theme', applyTheme); bootStep('timer', () => tmReset('focus')); bootStep('fab', renderFab);
+  let booted = bootStep('render', render);
+  if (!booted) booted = bootStep('render-safe', () => { const hm = S.set.home; delete S.set.home; try { ui.tab = 'home'; render(); } finally { if (hm !== undefined) S.set.home = hm; } });   // ホームの配置データが原因のときは、この回だけ標準の配置で表示する
+  bootStep('splash', splash); bootStep('acct', renderAcct);
+  if (booted) { try { window.__kosaOk && __kosaOk(); } catch (e) { } }
+  // ここから先は、画面が見えたあとに行う（クラウドへの接続は、重いので、手があいたときに）
+  const idle = (fn, t) => ('requestIdleCallback' in window) ? requestIdleCallback(fn, { timeout: t }) : setTimeout(fn, 400);
+  requestAnimationFrame(() => setTimeout(() => { bootStep('badges', () => checkBadges(true)); idle(() => bootStep('cloud', cloudInit), 1500); }, 0));
 }
 
 try { if (!localStorage.getItem('kosa-guide-seen')) setTimeout(() => { if (!dlg.open) guideDlg(); }, 900); } catch (e) { }
