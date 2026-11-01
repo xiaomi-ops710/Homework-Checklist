@@ -112,6 +112,16 @@
 .cf-r span,.cf-r b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.95rem}
 .cf-r span{flex:1 1 0}.cf-r b{flex:1 1 0}.cf-arr{font-style:normal;color:var(--on-v);flex:none}
 @media(max-width:699px){#wxbody .wc-wrap{--wch:clamp(280px,calc(100dvh - 430px),560px)}#wxbody .wc-btns{position:static;margin:0}#wxbody .wx-sg{font-size:.84rem;padding:0 4px;white-space:nowrap}}
+
+/* ===== 17.7：単語帳（タイトルを消し、アイコンのボタンを近くに）・戻る ===== */
+.wx-top{justify-content:flex-end}
+.wc-meta{display:flex;justify-content:flex-end;margin:0 4px 4px;color:var(--on-v);font-size:.9rem;font-weight:600}
+.wc-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:0 0 8px}
+.wc-bar .wc-act{margin:0;min-width:0}
+.wc-quick{display:flex;gap:8px;flex:none;margin-left:auto}
+.wc-side-acts{display:flex;gap:8px;margin:6px 0 0;flex:none}
+.wx-side .wc-side-acts{margin:8px 0 0}
+#wxbody .wc-tools{margin-top:8px}
 </style>
 </head>
 <body>
@@ -136,7 +146,7 @@
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.6';
+const APP_VERSION = '17.7';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -418,7 +428,17 @@ function postRender() {
 
 /* ====================== 画面描画 ====================== */
 const VIEWS = { home: viewHome, tasks: viewTasks, cal: viewCal, stats: viewStats, ai: viewAi, tools: viewTools, settings: viewSettings };
+const NAVH = { stack: [], k: null, tab: '', tool: '', skip: false };
+// 画面の移動の履歴：画面（タブ・ツール）が変わるたびに、前の画面を積む。ツールの戻るは、ここから一つ前に戻る
+function navTrack() {
+  const k = ui.tab + '|' + (ui.tool || '');
+  if (NAVH.k === null) { NAVH.k = k; NAVH.tab = ui.tab; NAVH.tool = ui.tool || ''; return; }
+  if (k === NAVH.k) return;
+  if (!NAVH.skip) { NAVH.stack.push({ tab: NAVH.tab, tool: NAVH.tool, wct: NAVH.tool === 'card' ? WC.tab : '' }); if (NAVH.stack.length > 30) NAVH.stack.shift(); }
+  NAVH.skip = false; NAVH.k = k; NAVH.tab = ui.tab; NAVH.tool = ui.tool || '';
+}
 function render() {
+  navTrack();
   if (ui.tab === 'ai' && !aiOpened()) { try { localStorage.setItem('kosa-ai-opened', '1'); } catch (e) { } }
   const y = window.scrollY, v = $('#view');
   if (ui.anim) ui._cu = true;
@@ -634,6 +654,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.7', t: '単語帳の画面の整理・ツールの戻るは、前の画面に戻る', n: ['単語帳の上のタイトルをなくし、画面をすっきりさせました', '集中モードとシャッフルは、メニューではなく、カードの近くにアイコンのボタンとして置きました', '左側の「新しい単語帳」は、＋のアイコンだけにし、となりに共有・バックアップのアイコンを置きました', 'ツールの左上の戻るは、ツール一覧ではなく、前にいた画面に戻るようにしました（履歴がないときは、ツール一覧に戻ります）'] },
   { v: '17.6', t: '単語帳の画面をすっきりさせ、手動の追加を入力しやすく', n: ['単語帳の画面のボタンを減らしました。編集・共有・バックアップ・オプションは、右上の「⋯」のメニューにまとめました', '学習の画面で、カードを大きく表示するようにしました。カードの下のボタンは、アイコンだけになりました', '手動のカード追加は、表 → 裏の順に入力して、Enterで追加できます。続けて何枚でも入力でき、表と裏は入れかえられます。直前に追加したカードは、その場で取り消せます'] },
   { v: '17.5', t: 'おすすめをAIで最適化・図形を整理・クイズの改善・ナビの修正', n: ['ホームの「きょうのおすすめ」を、AIが自分の取り組み（課題の進み具合・期限・勉強時間・単語帳）に合わせて並べかえるようにしました。理由も、短く表示します。「もう一度最適化」で、いつでも作り直せます', 'アルバムのジャケットや、アイコン・チップなどの、不規則な形をやめ、角丸の四角形か円にしました', '単語帳のクイズで、問題数（5・10・15・20問）を選べるようになりました。クイズの画面で戻るを押すと、単語帳にもどります', 'iPad で、ツール一覧などを表示したときに、画面の左のナビが画面の高さに合うように直しました（下の項目が画面の外に出ていた）'] },
   { v: '17.4', t: 'ツール「音楽」を追加', n: ['ツールに「音楽」を追加しました。端末の中の音楽ファイル（MP3・M4A・AAC・WAV・FLAC など）を取り込んで、アプリの中で流せます。曲名・アーティスト・ジャケットも、ファイルから読み取って表示します', '再生中は、画面の右上（アカウントのすぐ左）に、ジャケット・曲名・再生／一時停止ボタンの、小さなプレーヤーが出ます。アプリの中で、どの画面を開いていても、止まらずに流れます', 'くり返し・シャッフル・スリープタイマーに対応しています。ロック画面やイヤホンの操作ボタンからも、操作できます（端末によります）。音楽ファイルは、この端末の中だけに保存されます'] },
@@ -1934,7 +1955,13 @@ const ACT = {
     const f = $('#labf'); if (f && f.scrollIntoView) f.scrollIntoView({ behavior: 'smooth', block: 'center' });
   },
   vbmode(id) { VB.mode = id; VB.rev = {}; vbPaint(); }, vbrev(id) { VB.rev[id] = !VB.rev[id]; vbPaint(); }, vbclear() { VB.rev = {}; vbPaint(); },
-  uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; ui.vin = true; ui.dir = 1; render(); scrollTo(0, 0); }, toolback() { if (ui.tool === 'quiz' && QZ.from === 'card') { QZ.from = ''; QZ.phase = 'setup'; ui.tool = 'card'; WC.tab = 'test'; ui.vin = true; ui.dir = -1; render(); scrollTo(0, 0); return; } ui.tool = ''; ui.vin = true; ui.dir = -1; render(); scrollTo(0, 0); }, ck(id) { calcKey(id); }, gz(id) { graphZoom(id); }, cswap() { const a = CR.from; CR.from = CR.to; CR.to = a; render(); }, crupd() { crFetch(); },
+  uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; ui.vin = true; ui.dir = 1; render(); scrollTo(0, 0); }, toolback() {
+    if (ui.tool === 'quiz') { QZ.from = ''; QZ.phase = 'setup'; }
+    const prev = NAVH.stack.pop();
+    if (prev) { ui.tab = prev.tab; ui.tool = prev.tool; if (prev.wct) WC.tab = prev.wct; NAVH.skip = true; }   // 前の画面に戻る
+    else { ui.tool = ''; }   // 履歴がないときは、ツール一覧
+    ui.vin = true; ui.dir = -1; render(); scrollTo(0, 0);
+  }, ck(id) { calcKey(id); }, gz(id) { graphZoom(id); }, cswap() { const a = CR.from; CR.from = CR.to; CR.to = a; render(); }, crupd() { crFetch(); },
   trswap() { const f = TR.from === 'auto' ? 'ja-JP' : TR.from; TR.from = TR.to; TR.to = f; if (TR.out) { TR.text = TR.out; TR.out = ''; } render(); }, trgo() { trRun(); }, trclr() { TR.text = ''; TR.out = ''; TR.err = ''; render(); },
   trcopy() { navigator.clipboard && navigator.clipboard.writeText(TR.out).then(() => toast('コピーしました')); }, trspeak() { if (!window.speechSynthesis || !TR.out) return; const u = new SpeechSynthesisUtterance(TR.out); u.lang = TR.to; speechSynthesis.cancel(); speechSynthesis.speak(u); }, aisend() { aiSend(); }, aisug(id) { aiSend(AI.sug[+id]); }, aipick() { $('#aifile').click(); }, aiimport() { $('#aiimp').click(); },
   aiexplain() { $('#aiq').value = '写真の問題を、ヒントから順に解説してください。'; $('#aifile').click(); }, aiattrm(id) { AI.att.splice(+id, 1); renderAtt(); },
@@ -4220,7 +4247,7 @@ TPAINT.seq = () => {
   const [b, r, m] = ['ga', 'gr', 'gn2'].map(nv);
   put('sq3', [b, r, m].some(isNaN) || !Number.isInteger(m) || m < 1 ? '' : `第n項：<b>${pf(b * Math.pow(r, m - 1))}</b><br>初項から第n項までの和：<b>${pf(r === 1 ? b * m : b * (Math.pow(r, m) - 1) / (r - 1))}</b>${Math.abs(r) < 1 ? `<br>無限等比級数の和：<b>${pf(b / (1 - r))}</b>` : ''}<br><span class="muted">${Array.from({ length: Math.min(8, m) }, (_, i) => pf(b * Math.pow(r, i))).join('、') + (m > 8 ? '、…' : '')}</span>`);
 };
-function toolsRefresh() { if (ui.tab === 'tools') { const y = scrollY; $('#view').innerHTML = viewTools(); toolsPost(); scrollTo(0, y); } }
+function toolsRefresh() { navTrack(); if (ui.tab === 'tools') { const y = scrollY; $('#view').innerHTML = viewTools(); toolsPost(); scrollTo(0, y); } }
 /* ====================== AI先生（写真の問題を読み取って、解き方を教える） ====================== */
 const SN_DEF = { name: 'ミライ先生', call: '', tone: 'gentle', style: 'step', grade: 'm2', custom: '', icon: 'school', hue: 222 };
 // [id, 名前, アイコン, 説明, AIへの指示, あいさつ（{n}＝先生の名前）]
@@ -5307,9 +5334,9 @@ Object.assign(ACT, { sugai() { if (!CLOUD.user) return toast('AIは、Googleロ�
 const CF = { n: 0, rec: [] };
 function cardsHtml() {
   ensureDecks(); const d = wcDeck(), all = wcAll(), k = all.filter(c => c.k).length;
-  return `<div class="wx"><aside class="wx-side"><div class="wx-sh">単語帳</div><div class="wc-decks">${S.decks.map(dk => `<button class="wc-dk sc ${dk.id === d.id ? 'on' : ''}" style="--sh:${dk.hue}" data-act="wcdeck" data-id="${dk.id}"><i></i><b>${esc(dk.name)}</b><small>${S.cards.filter(c => c.d === dk.id).length}</small></button>`).join('')}<button class="wc-dk add" data-act="wcdeckadd">${ms('add')}<b>新しい単語帳</b></button></div></aside>
-  <section class="wx-main"><div class="wx-top"><div class="wx-t"><h3>${esc(d.name)}</h3><span id="wcstat">${wcStatText()}</span></div><div class="wx-acts"><button class="btn" data-act="wcmanual" aria-label="カードを追加" title="カードを追加">${ms('add')}<span class="bl">追加</span></button><button class="ibtn wc-more" data-act="wcmore" aria-label="その他の操作" title="その他の操作">${ms('more_vert')}</button></div></div>
-  <div class="wc-prog"><i id="wcprog" style="width:${all.length ? k / all.length * 100 : 0}%"></i></div>
+  return `<div class="wx"><aside class="wx-side"><div class="wx-sh">単語帳</div><div class="wc-decks">${S.decks.map(dk => `<button class="wc-dk sc ${dk.id === d.id ? 'on' : ''}" style="--sh:${dk.hue}" data-act="wcdeck" data-id="${dk.id}"><i></i><b>${esc(dk.name)}</b><small>${S.cards.filter(c => c.d === dk.id).length}</small></button>`).join('')}<div class="wc-side-acts"><button class="wc-ib" data-act="wcdeckadd" aria-label="新しい単語帳" title="新しい単語帳">${ms('add')}</button><button class="wc-ib" data-act="wcbackup" aria-label="共有・バックアップ" title="共有・バックアップ">${ms('share')}</button></div></div></aside>
+  <section class="wx-main"><div class="wx-top"><div class="wx-acts"><button class="btn" data-act="wcmanual" aria-label="カードを追加" title="カードを追加">${ms('add')}<span class="bl">追加</span></button><button class="ibtn wc-more" data-act="wcmore" aria-label="その他の操作" title="その他の操作">${ms('more_vert')}</button></div></div>
+  <div class="wc-meta"><span id="wcstat">${wcStatText()}</span></div><div class="wc-prog"><i id="wcprog" style="width:${all.length ? k / all.length * 100 : 0}%"></i></div>
   <div class="wx-tabs" role="tablist">${[['study', 'style', '学習'], ['list', 'list', '一覧'], ['test', 'quiz', 'テスト']].map(([t, ic, l]) => `<button type="button" role="tab" aria-selected="${WC.tab === t}" class="wx-tab ${WC.tab === t ? 'on' : ''}" data-act="wctab" data-id="${t}">${ms(ic)}${l}</button>`).join('')}</div>
   <div id="wxbody" class="sc" style="--sh:${d.hue}">${wcTabHtml()}</div></section></div>`;
 }
@@ -5317,13 +5344,12 @@ function wcStudyTab() {
   if (WC.focus) return '<div class="card" style="text-align:center;padding:30px"><p class="muted" style="margin:0">集中モードで学習中です</p></div>';
   const c = wcCounts(), d = wcDeck(), rg = wcRangeOf(d.id), shuf = !!WC.seed[d.id];
   const act = [];   // 有効になっている絞り込みだけ、札で見せる（タップで解除）
-  if (shuf) act.push(['wcunshuf', '', 'shuffle', 'シャッフル中']);
   if (rg) act.push(['wcrng', '', 'pin', `番号 ${rg[0]}〜${rg[1]}`]);
   if (WC.sel === 'star') act.push(['wcsel', 'all', 'star', '★だけ']);
   if (WC.sel === 'weak') act.push(['wcsel', 'all', 'priority_high', '苦手だけ']);
   if (WC.rev) act.push(['wcrev', '', 'swap_horiz', '裏から出す']);
   return `<div class="wx-seg" role="radiogroup" aria-label="出すカード">${[['new', '覚えていない', c.nw], ['all', 'すべて', c.all], ['known', '覚えた', c.known], ['rev', '見直し', c.rev]].map(([k, t, n]) => `<button type="button" role="radio" aria-checked="${WC.filt === k}" class="wx-sg ${WC.filt === k ? 'on' : ''}" data-act="wcfilt" data-id="${k}">${t}<small id="wcn-${k}">${n}</small></button>`).join('')}</div>
-  ${act.length ? `<div class="wc-act">${act.map(([a, id, ic, t]) => `<button type="button" class="wc-chip" data-act="${a}" data-id="${id}" aria-label="${t}を解除">${ms(ic, '', 'font-size:17px')}${t}${ms('close', '', 'font-size:16px')}</button>`).join('')}</div>` : ''}
+  <div class="wc-bar"><div class="wc-act">${act.map(([a, id, ic, t]) => `<button type="button" class="wc-chip" data-act="${a}" data-id="${id}" aria-label="${t}を解除">${ms(ic, '', 'font-size:17px')}${t}${ms('close', '', 'font-size:16px')}</button>`).join('')}</div><div class="wc-quick"><button type="button" class="wc-ib" data-act="wcfocus" aria-label="集中モード（全画面）" title="集中モード（全画面）">${ms('fullscreen')}</button><button type="button" class="wc-ib ${shuf ? 'on' : ''}" data-act="${shuf ? 'wcunshuf' : 'wcshuf'}" aria-pressed="${shuf}" aria-label="${shuf ? '順番にもどす' : 'シャッフル'}" title="${shuf ? '順番にもどす' : 'シャッフル'}">${ms('shuffle')}</button></div></div>
   <div id="wcstage">${wcStageHtml()}</div>`;
 }
 function wcMoreHtml() {
@@ -5331,8 +5357,6 @@ function wcMoreHtml() {
   const row = (act, id, ic, t, desc, on) => `<button type="button" class="wcm-i ${on ? 'on' : ''}" data-act="wcmx" data-id="${act}|${id}" ${on === undefined ? '' : `aria-pressed="${!!on}"`}><span class="wcm-ic">${ms(ic)}</span><span class="wcm-l"><b>${t}</b><small>${desc}</small></span>${on === undefined ? ms('chevron_right') : ms(on ? 'toggle_on' : 'toggle_off', on ? 'f' : '', 'font-size:30px')}</button>`;
   return `<h2>${ms('tune')}その他の操作</h2>
   <div class="wcm-g"><div class="wcm-h">出しかた</div>
-  ${row('wcfocus', '', 'fullscreen', '集中モード', '画面いっぱいで、1枚ずつ学習します')}
-  ${row(shuf ? 'wcunshuf' : 'wcshuf', '', 'shuffle', shuf ? 'シャッフルをやめる' : 'シャッフル', shuf ? '番号の順番にもどします' : 'カードの順番を、ランダムにします')}
   ${row('wcrng', '', 'pin', '番号で絞る', rg ? `いまは 番号 ${rg[0]}〜${rg[1]}` : '番号の範囲だけを出します')}
   ${row('wcsel', WC.sel === 'star' ? 'all' : 'star', 'star', '★だけ', `★のついたカード（${c.star}枚）`, WC.sel === 'star')}
   ${row('wcsel', WC.sel === 'weak' ? 'all' : 'weak', 'priority_high', '苦手だけ', `よくまちがえるカード（${c.weak}枚）`, WC.sel === 'weak')}
