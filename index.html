@@ -2110,6 +2110,55 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 .td-evs+.td-ai,.sug-l+.sug-l{margin-top:8px}
 @media(max-width:699px){.sug-l{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:2px 16px 4px}.sug-l::-webkit-scrollbar{display:none}.sug-c{flex:none;max-width:84vw}}
 @media(prefers-reduced-motion:reduce){.sug-c{transition:none}}
+
+/* ===== 17.4：音楽 ===== */
+#mchip{position:fixed;z-index:24;top:calc(10px + env(safe-area-inset-top));right:calc(14px + 48px + 8px);height:48px;max-width:min(300px,calc(100vw - 14px - 48px - 8px - 10px));display:none;align-items:center;gap:2px;padding:0 3px 0 3px;border-radius:24px;background:var(--s3);color:var(--on);box-shadow:0 4px 14px rgba(128,128,128,.32);transform-origin:right center}
+#mchip.show{display:flex;animation:qzpop .5s var(--spring) both}
+.mc-b{display:flex;align-items:center;gap:9px;min-width:0;flex:1;height:48px;padding:0 6px 0 3px;border:0;background:transparent;color:inherit;font:inherit;text-align:left;border-radius:24px}
+.mc-cv,.mu-cv,.mu-ncv{flex:none;display:grid;place-items:center;background-size:cover;background-position:center;background-color:var(--pc);color:var(--on-pc)}
+.mc-cv{width:42px;height:42px;border-radius:42% 58% 55% 45%/48% 44% 56% 52%}
+#mchip.on .mc-cv{animation:axmorph 6s ease-in-out infinite}
+.mc-t{min-width:0;display:grid;line-height:1.25}.mc-t b{font-size:.86rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mc-t small{font-size:.72rem;opacity:.7;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mc-p{position:relative;flex:none;display:grid;place-items:center;width:44px;height:44px;padding:0;border:0;border-radius:50%;background:conic-gradient(var(--primary) calc(var(--p,0)*1%),var(--s4,var(--s2)) 0);color:var(--on-primary);transition:transform .3s var(--spring)}
+.mc-p::before{content:"";position:absolute;inset:4px;border-radius:50%;background:var(--primary)}
+.mc-p .ms{position:relative}.mc-p:active{transform:scale(.9)}
+.mc-x{flex:none;display:grid;place-items:center;width:34px;height:34px;padding:0;border:0;border-radius:50%;background:transparent;color:var(--on-v)}
+.mu-w{display:grid;gap:12px;grid-template-columns:minmax(0,1fr)}
+.mu-w>*{grid-area:auto!important}   /* ax-n など、ほかの画面の配置の指定を打ち消す */
+.mu-h{display:flex;align-items:center;gap:14px;padding:16px 20px;border-radius:32px}
+.mu-hi{flex:none;display:grid;place-items:center;width:56px;height:56px;color:var(--on-primary);background:var(--primary);border-radius:42% 58% 55% 45%/48% 44% 56% 52%}
+.mu-ht b{display:block;font-size:1.2rem}.mu-ht small{color:var(--on-v);font-weight:600}
+.mu-add{display:flex;flex-wrap:wrap;gap:8px}.mu-add .btn{flex:1 1 150px;min-height:52px}
+.mu-np{display:grid;justify-items:center;gap:10px;padding:22px 20px 14px;border-radius:40px;background:var(--pc);color:var(--on-pc)}
+.mu-ncv{width:min(220px,56vw);aspect-ratio:1;border-radius:34% 66% 55% 45%/48% 44% 56% 52%;box-shadow:0 12px 30px rgba(0,0,0,.22)}
+.mu-nt{display:grid;text-align:center;max-width:100%}.mu-nt b{font-size:1.25rem;line-height:1.3;overflow-wrap:anywhere}.mu-nt small{opacity:.75;font-weight:600}
+.mu-sk{width:100%}.mu-tm{display:flex;justify-content:space-between;font-size:.78rem;font-weight:700;opacity:.8}
+.mu-sk input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:28px;margin:0;background:transparent}
+.mu-sk input[type=range]::-webkit-slider-runnable-track{height:12px;border-radius:6px;background:linear-gradient(to right,var(--primary) calc(var(--p,0)*1%),rgba(128,128,128,.32) 0)}
+.mu-sk input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-6px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 4px color-mix(in srgb,var(--primary) 25%,transparent)}
+.mu-sk input[type=range]::-moz-range-track{height:12px;border-radius:6px;background:rgba(128,128,128,.32)}
+.mu-sk input[type=range]::-moz-range-progress{height:12px;border-radius:6px;background:var(--primary)}
+.mu-sk input[type=range]::-moz-range-thumb{width:24px;height:24px;border:0;border-radius:50%;background:var(--primary)}
+.mu-ct{display:flex;align-items:center;justify-content:center;gap:6px}
+.mu-s{display:grid;place-items:center;width:52px;height:52px;padding:0;border:0;border-radius:50%;background:transparent;color:inherit;transition:background .25s,transform .3s var(--spring),border-radius .4s var(--spring)}
+.mu-s.on{background:rgba(255,255,255,.55);border-radius:18px}.mu-s:active{transform:scale(.9)}
+.mu-big{display:grid;place-items:center;width:76px;height:76px;padding:0;border:0;border-radius:34px;background:var(--primary);color:var(--on-primary);transition:border-radius .45s var(--spring),transform .3s var(--spring)}
+.mu-big:active{transform:scale(.93);border-radius:50%}
+.mu-sl{display:grid;gap:4px;justify-items:center;width:100%}.mu-sl .chips{display:flex;gap:6px;flex-wrap:wrap;justify-content:center}
+.mu-l{display:grid;gap:8px}
+.mu-r{display:flex;align-items:center;gap:6px;border-radius:26px;background:var(--s2);transition:background .3s,border-radius .5s var(--spring)}
+.mu-r:nth-child(even){border-radius:26px 26px 12px 26px}.mu-r.on{background:var(--pc);color:var(--on-pc)}
+.mu-b{display:flex;align-items:center;gap:12px;flex:1;min-width:0;padding:8px 8px 8px 8px;border:0;background:transparent;color:inherit;font:inherit;text-align:left;border-radius:inherit}
+.mu-cv{width:48px;height:48px;border-radius:16px}.mu-cv.no{background:var(--s3);color:var(--on-v)}
+.mu-t{flex:1;min-width:0;display:grid}.mu-t b{font-size:.95rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.mu-t small{opacity:.7;font-weight:600;font-size:.78rem}
+.mu-eq{flex:none;display:none;align-items:flex-end;gap:3px;width:22px;height:20px}.mu-r.on .mu-eq{display:flex}
+.mu-eq i{width:4px;height:100%;border-radius:2px;background:var(--primary);transform-origin:bottom;transform:scaleY(.3)}
+.mu-r.pl .mu-eq i{animation:mueq .8s ease-in-out infinite alternate}.mu-r.pl .mu-eq i:nth-child(2){animation-delay:-.3s}.mu-r.pl .mu-eq i:nth-child(3){animation-delay:-.6s}
+@keyframes mueq{from{transform:scaleY(.25)}to{transform:scaleY(1)}}
+.mu-r>.ibtn{flex:none;width:44px;height:44px;margin-right:6px;border-radius:50%;background:transparent;display:grid;place-items:center;color:var(--on-v)}
+.mu-help p{line-height:1.75}
+@media(max-width:699px){#mchip{max-width:calc(100vw - 14px - 48px - 8px - 10px)}.mu-np{padding:18px 14px 12px}}
+@media(prefers-reduced-motion:reduce){#mchip.show,#mchip.on .mc-cv,.mu-r.pl .mu-eq i{animation:none}}
 </style>
 </head>
 <body>
@@ -2134,7 +2183,7 @@ html,body{min-height:calc(100vh + 2px);min-height:calc(100lvh + 2px)}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.3';
+const APP_VERSION = '17.4';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2632,6 +2681,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.4', t: 'ツール「音楽」を追加', n: ['ツールに「音楽」を追加しました。端末の中の音楽ファイル（MP3・M4A・AAC・WAV・FLAC など）を取り込んで、アプリの中で流せます。曲名・アーティスト・ジャケットも、ファイルから読み取って表示します', '再生中は、画面の右上（アカウントのすぐ左）に、ジャケット・曲名・再生／一時停止ボタンの、小さなプレーヤーが出ます。アプリの中で、どの画面を開いていても、止まらずに流れます', 'くり返し・シャッフル・スリープタイマーに対応しています。ロック画面やイヤホンの操作ボタンからも、操作できます（端末によります）。音楽ファイルは、この端末の中だけに保存されます'] },
   { v: '17.3', t: '起動を速くしました・ホームに「きょうのおすすめ」を追加', n: ['アプリの起動を、大きく速くしました。開くときの待ち時間（スプラッシュ画面）を約1秒短くし、開いた直後のアニメーションを省きました。通信がおそい場所でも、すぐに開きます', 'ホームに「きょうのおすすめ」を追加しました。「単語帳を勉強する」「まちがいノートを復習する」「集中タイマーで25分」など、今日やるとよいことを、時間帯や進み具合に合わせて、チップで提案します。チップをタップするとすぐ始められ、＋で「今日のやること」に入れられます', '更新のときのダウンロード量を、半分にしました'] },
   { v: '17.2', t: '予定・テスト対策プラン・採点・成績の推移などを追加', n: ['プリントを撮ると、課題に加えて、予定（行事）・テストの日程・持ち物も読み取って、登録できるようになりました。カレンダーに「予定」を足せます（複数日の予定も）', '「テスト対策プラン」を追加しました。考査の日までの勉強計画を、AIが日ごとに作り、カレンダーと「今日のやること」に入れます', 'AI先生に「採点モード」を追加しました。解いた問題と答えを撮ると、問題ごとに ○× を付けて、点数を出します。まちがいは、まちがいノートに保存できます', '記録に「成績の推移」を追加しました。考査ごとの平均と、教科ごとの変化、目標との差が分かります', '暗記シートに、単語帳から読み込む機能と、AIが重要な言葉を自動で【　】にする機能（文章・写真から）を追加しました'] },
   { v: '17.1.1', t: 'フィードバックのお知らせを、アプリの中だけに', n: ['フィードバックの返信などのお知らせは、アプリの中だけに表示されます（端末の通知は使いません）'] },
@@ -5007,15 +5057,15 @@ function trHtml() {
   ${TR.out || TR.err ? `<div class="card" style="margin-top:12px">${TR.err ? `<p class="muted">${esc(TR.err)}</p>` : `<div class="trout">${esc(TR.out).replace(/\n/g, '<br>')}</div><div class="dact" style="margin:10px 0 0"><button class="btn text" data-act="trspeak">${ms('volume_up')}読み上げ</button><button class="btn text" data-act="trcopy">${ms('content_copy')}コピー</button></div>`}</div>` : ''}
   <p class="muted" style="font-size:.8rem;margin-top:10px">入力した文章がGoogleのAIに送られます。個人情報は入力しないでください。</p>`;
 }
-const TOOLS = [['sensei', 'AI先生', 'school', '問題の写真を送ると、解き方を教えてくれる', 250, 'd'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'd'], ['note', 'まちがいノート', 'edit_note', '分からなかった問題をためて、くり返し復習', 12, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
+const TOOLS = [['music', '音楽', 'library_music', '端末の音楽を、アプリの中でずっと流せる', 300, 'e'], ['sensei', 'AI先生', 'school', '問題の写真を送ると、解き方を教えてくれる', 250, 'd'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'd'], ['note', 'まちがいノート', 'edit_note', '分からなかった問題をためて、くり返し復習', 12, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
   ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['drill', '計算ドリル', 'bolt', '10問の計算をタイム付きで練習', 60, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], ['wc', '文字数カウント', 'edit_note', '作文の文字数と原稿用紙の枚数', 300, 'b'],
   ['review', '復習リマインダー', 'history', '1・3・7・14・30日後の復習日を自動で管理', 250, 'b'], ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '周期表・元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['draw', 'くじ引き・順番決め', 'casino', '名前から、ひとり選ぶ・順番・グループ分け', 330, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
-  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">AI</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'd').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, draw: drawHtml, sensei: snHtml, note: ntHtml, aiquiz: aqHtml }[tl]();
+  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">AI</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'd').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
+  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, drill: drillHtml, grade: gradeHtml, wc: wcHtml, review: reviewHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, draw: drawHtml, sensei: snHtml, note: ntHtml, aiquiz: aqHtml, music: muHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -7062,6 +7112,7 @@ function sugList() {
   if (cards.length >= 4) push({ id: 'quiz', ic: 'quiz', hue: 280, t: `${qzN()}択クイズに挑戦`, sub: '単語帳から出題', score: 35, run: () => ACT.tab('tool:quiz') });
   if (CLOUD.user) push({ id: 'aiq', ic: 'bolt', hue: 285, t: 'AI小テストで力だめし', sub: '教科とテーマを選ぶ', score: 30, run: () => ACT.tab('tool:aiquiz') });
   if (/【[^】]+】/.test(S.sheet || '')) push({ id: 'sheet', ic: 'visibility_off', hue: 10, t: '暗記シートで確認する', sub: '隠して思い出す', score: 32, run: () => ACT.tab('tool:sheet') });
+  { const mn = +localStorage.getItem('kosa-music-n') || 0; if (mn && !MU.playing) push({ id: 'music', ic: 'music_note', hue: 300, t: '音楽をかけて勉強する', sub: `${mn}曲`, score: 28, run: () => muResume() }); }
   if (CLOUD.user) push({ id: 'sensei', ic: 'school', hue: 250, t: 'わからない問題をAI先生に聞く', sub: '写真を撮るだけ', score: 20, run: () => ACT.tab('tool:sensei') });
   const st = sugState();
   return out.sort((a, b) => (st.done[a.id] ? 1 : 0) - (st.done[b.id] ? 1 : 0) || b.score - a.score).slice(0, SUG_MAX);
@@ -7077,6 +7128,210 @@ Object.assign(ACT, {
   sugdo(id) { const s = sugList().find(x => x.id === id); if (!s) return; sugState().done[id] = 1; save(); s.run(); },
   sugadd(id) { const s = sugList().find(x => x.id === id); if (!s || !s.todo) return; tdAdd({ ...s.todo, src: 'me' }); save(); render(); toast('今日のやることに入れました'); }
 });
+/* ====================== 音楽（17.4）：端末の音声ファイルを取り込んで、アプリのどの画面でも流す ====================== */
+const MU_DB = 'kosa-music', MU_LAST = 'kosa-music-last', MU_N = 'kosa-music-n', MU_MAX = 300, MU_BIG = 300 * 1024 * 1024;
+const MU_EXT = /\.(mp3|m4a|m4b|aac|wav|flac|ogg|oga|opus|caf|aif|aiff|mp4|webm)$/i;
+const MU_SILENT = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
+// このモジュールの中だけで使う、保存の読み書き（読み込み時に実行される行が、あとで宣言される部品を使わないようにする）
+const muJ = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
+const muS = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } };
+const MU = { list: [], loaded: false, loading: null, cur: '', playing: false, repeat: 'off', shuffle: false, order: [], url: '', cov: {}, sleepAt: 0, busy: false, audio: null, unlocked: false, seeking: false, tick: 0, saved: 0, ms: 0 };
+{ const l = muJ(MU_LAST, {}); if (['off', 'all', 'one'].includes(l.repeat)) MU.repeat = l.repeat; MU.shuffle = !!l.shuffle; }
+/* ---- 端末の中のデータベース（IndexedDB）：meta＝曲の情報、blob＝音声ファイルそのもの ---- */
+const muDb = () => MU._db || (MU._db = new Promise((ok, ng) => { const r = indexedDB.open(MU_DB, 1); r.onupgradeneeded = () => { const d = r.result; d.createObjectStore('meta', { keyPath: 'id' }); d.createObjectStore('blob'); }; r.onsuccess = () => ok(r.result); r.onerror = () => { MU._db = null; ng(r.error); }; }));
+const muReq = r => new Promise((ok, ng) => { r.onsuccess = () => ok(r.result); r.onerror = () => ng(r.error); });
+const muTx = (names, mode, f) => muDb().then(db => new Promise((ok, ng) => { const tx = db.transaction(names, mode); let res; tx.oncomplete = () => ok(res); tx.onerror = tx.onabort = () => ng(tx.error || new Error('tx')); res = f(tx); }));
+const muAll = () => muDb().then(db => muReq(db.transaction('meta').objectStore('meta').getAll()));
+const muPut = (m, blob) => muTx(['meta', 'blob'], 'readwrite', tx => { tx.objectStore('meta').put(m); tx.objectStore('blob').put(blob, m.id); });
+const muBlob = id => muDb().then(db => muReq(db.transaction('blob').objectStore('blob').get(id)));
+const muRemove = id => muTx(['meta', 'blob'], 'readwrite', tx => { tx.objectStore('meta').delete(id); tx.objectStore('blob').delete(id); });
+function muLoad() {
+  if (MU.loaded) return Promise.resolve();
+  return MU.loading || (MU.loading = muAll().then(a => { MU.list = a.sort((x, y) => String(x.name).localeCompare(String(y.name), 'ja', { numeric: true })); MU.loaded = true; try { localStorage.setItem(MU_N, String(MU.list.length)); } catch (e) { } }).catch(() => { MU.loaded = true; }).finally(() => { MU.loading = null; }));
+}
+/* ---- タグの読み取り：MP3（ID3）・M4A（MP4）。タイトル・アーティスト・ジャケット ---- */
+const muSlice = async (f, a, b) => new Uint8Array(await f.slice(a, b).arrayBuffer());
+function muDec(b, enc) {
+  try {
+    if (enc === 1) { let le = true, o = 0; if (b[0] === 0xFE && b[1] === 0xFF) { le = false; o = 2; } else if (b[0] === 0xFF && b[1] === 0xFE) o = 2; return new TextDecoder(le ? 'utf-16le' : 'utf-16be').decode(b.subarray(o)); }
+    return new TextDecoder(enc === 2 ? 'utf-16be' : enc === 3 ? 'utf-8' : 'windows-1252').decode(b);
+  } catch (e) { return ''; }
+}
+function muText(d) { if (!d.length) return ''; const enc = d[0]; let b = d.subarray(1), e = b.length; if (enc === 1 || enc === 2) { for (let i = 0; i + 1 < b.length; i += 2) if (b[i] === 0 && b[i + 1] === 0 && i > 1) { e = i; break; } } else { const z = b.indexOf(0); if (z >= 0) e = z; } return muDec(b.subarray(0, e), enc).replace(/\0/g, '').trim(); }
+const muSniff = b => b[0] === 0xFF && b[1] === 0xD8 ? 'image/jpeg' : b[0] === 0x89 && b[1] === 0x50 ? 'image/png' : b[0] === 0x47 && b[1] === 0x49 ? 'image/gif' : b[0] === 0x52 && b[1] === 0x49 ? 'image/webp' : '';
+function muPic(d, v2) {   // ID3 の APIC / PIC フレーム → ジャケットの画像データ
+  const enc = d[0]; let p = 1; if (v2) p += 3; else { while (p < d.length && d[p] !== 0) p++; p++; }
+  p++;   // 画像の種類（1バイト）
+  if (enc === 1 || enc === 2) { while (p + 1 < d.length && !(d[p] === 0 && d[p + 1] === 0)) p += 2; p += 2; } else { while (p < d.length && d[p] !== 0) p++; p++; }
+  const img = d.subarray(p); const t = muSniff(img); return t ? new Blob([img], { type: t }) : null;
+}
+async function muId3(f) {
+  const h = await muSlice(f, 0, 10); if (h[0] !== 0x49 || h[1] !== 0x44 || h[2] !== 0x33) return null;
+  const ver = h[3], fl = h[5], sz = ((h[6] & 127) << 21) | ((h[7] & 127) << 14) | ((h[8] & 127) << 7) | (h[9] & 127);
+  const tag = await muSlice(f, 10, 10 + Math.min(sz, 16 * 1024 * 1024)), out = {}; let o = 0;
+  if (fl & 0x40 && tag.length > 4) o = ver === 4 ? (((tag[0] & 127) << 21) | ((tag[1] & 127) << 14) | ((tag[2] & 127) << 7) | (tag[3] & 127)) : ((tag[0] << 24) | (tag[1] << 16) | (tag[2] << 8) | tag[3]) + 4;
+  const il = ver === 2 ? 3 : 4, hl = ver === 2 ? 6 : 10;
+  while (o + hl <= tag.length) {
+    const id = String.fromCharCode(...tag.subarray(o, o + il)); if (!/^[A-Z0-9]+$/.test(id)) break;
+    const fs = ver === 2 ? (tag[o + 3] << 16) | (tag[o + 4] << 8) | tag[o + 5] : ver === 4 ? ((tag[o + 4] & 127) << 21) | ((tag[o + 5] & 127) << 14) | ((tag[o + 6] & 127) << 7) | (tag[o + 7] & 127) : ((tag[o + 4] << 24) | (tag[o + 5] << 16) | (tag[o + 6] << 8) | tag[o + 7]) >>> 0;
+    if (!fs || o + hl + fs > tag.length) break; const d = tag.subarray(o + hl, o + hl + fs); o += hl + fs;
+    if ((id === 'TIT2' || id === 'TT2') && !out.title) out.title = muText(d); else if ((id === 'TPE1' || id === 'TP1') && !out.artist) out.artist = muText(d); else if ((id === 'APIC' || id === 'PIC') && !out.cover) out.cover = muPic(d, ver === 2);
+  }
+  return out;
+}
+const mu4 = (b, p) => String.fromCharCode(b[p + 4], b[p + 5], b[p + 6], b[p + 7]);
+function muMp4Walk(b, out) {
+  let p = 0; while (p + 8 <= b.length) {
+    const sz = ((b[p] << 24) | (b[p + 1] << 16) | (b[p + 2] << 8) | b[p + 3]) >>> 0, t = mu4(b, p); if (sz < 8 || p + sz > b.length) break; const body = b.subarray(p + 8, p + sz);
+    if (t === 'moov' || t === 'udta' || t === 'ilst') muMp4Walk(body, out); else if (t === 'meta') muMp4Walk(body.subarray(4), out);
+    else if (t === '\u00a9nam' || t === '\u00a9ART' || t === 'covr') {
+      const dsz = ((body[0] << 24) | (body[1] << 16) | (body[2] << 8) | body[3]) >>> 0; if (body.length >= 16 && mu4(body, 0) === 'data') { const pay = body.subarray(16, Math.min(dsz, body.length)); if (t === 'covr') { const ty = muSniff(pay); if (ty && !out.cover) out.cover = new Blob([pay], { type: ty }); } else { const s = new TextDecoder('utf-8').decode(pay).trim(); if (t === '\u00a9nam' && !out.title) out.title = s; else if (t === '\u00a9ART' && !out.artist) out.artist = s; } }
+    }
+    p += sz;
+  }
+}
+async function muMp4(f) {
+  let o = 0; const out = {};
+  while (o + 8 <= f.size) {
+    const h = await muSlice(f, o, o + 16), dv = new DataView(h.buffer); let sz = dv.getUint32(0), hl = 8; const t = mu4(h, 0);
+    if (sz === 1) { sz = Number(dv.getBigUint64(8)); hl = 16; } else if (sz === 0) sz = f.size - o; if (sz < hl) break;
+    if (t === 'moov') { if (sz > 48 * 1024 * 1024) break; const mv = await muSlice(f, o + hl, o + sz); muMp4Walk(mv, out); break; }
+    o += sz;
+  }
+  return out;
+}
+async function muTags(f) { const h = await muSlice(f, 0, 12); if (h[0] === 0x49 && h[1] === 0x44 && h[2] === 0x33) return (await muId3(f)) || {}; if (mu4(h, 0) === 'ftyp') return await muMp4(f); return {}; }
+async function muThumb(blob) {
+  try {
+    const u = URL.createObjectURL(blob), img = await new Promise((ok, ng) => { const i = new Image(); i.onload = () => ok(i); i.onerror = ng; i.src = u; }); URL.revokeObjectURL(u);
+    const S = 192, c = document.createElement('canvas'); c.width = c.height = S; const x = c.getContext('2d'), m = Math.min(img.naturalWidth, img.naturalHeight), sx = (img.naturalWidth - m) / 2, sy = (img.naturalHeight - m) / 2;
+    x.drawImage(img, sx, sy, m, m, 0, 0, S, S); return await new Promise(ok => c.toBlob(b => ok(b), 'image/jpeg', .82));
+  } catch (e) { return null; }
+}
+const muDur = f => new Promise(ok => { const a = new Audio(), u = URL.createObjectURL(f); let end = false; const done = d => { if (end) return; end = true; a.removeAttribute('src'); try { a.load(); } catch (e) { } URL.revokeObjectURL(u); ok(d); }; a.preload = 'metadata'; a.onloadedmetadata = () => done(isFinite(a.duration) ? a.duration : 0); a.onerror = () => done(-1); setTimeout(() => done(0), 7000); a.src = u; });
+/* ---- 取り込み ---- */
+async function muImport(files) {
+  if (MU.busy || !files.length) return; MU.busy = true; let ok = 0, bad = 0, dup = 0, full = false;
+  try {
+    await muLoad();
+    for (let i = 0; i < files.length; i++) {
+      const f = files[i];
+      if (MU.list.length >= MU_MAX) { full = true; break; }
+      if (!(MU_EXT.test(f.name) || /^audio\//.test(f.type)) || f.size > MU_BIG || !f.size) { bad++; continue; }
+      if (MU.list.some(t => t.name === f.name && t.size === f.size)) { dup++; continue; }
+      toast(`追加しています… ${i + 1} / ${files.length}`);
+      const d = await muDur(f); if (d < 0) { bad++; continue; }
+      let tg = {}; try { tg = await muTags(f); } catch (e) { }
+      const m = { id: uid(), name: f.name, title: String(tg.title || f.name.replace(/\.[^.]+$/, '')).slice(0, 80), artist: String(tg.artist || '').slice(0, 60), dur: d, size: f.size, type: f.type || '', cover: tg.cover ? await muThumb(tg.cover) : null, at: Date.now() };
+      try { await muPut(m, f); } catch (e) { toast('保存できませんでした（端末の空き容量が、足りないかもしれません）'); break; }
+      MU.list.push(m); ok++;
+    }
+  } catch (e) { toast('取り込めませんでした'); }
+  MU.busy = false; MU.list.sort((x, y) => String(x.name).localeCompare(String(y.name), 'ja', { numeric: true })); MU.order = [];
+  try { localStorage.setItem(MU_N, String(MU.list.length)); if (ok && navigator.storage && navigator.storage.persist) navigator.storage.persist(); } catch (e) { }
+  toast(`${ok}曲を追加しました${dup ? `（${dup}曲は、追加ずみ）` : ''}${bad ? `（${bad}個は、音楽ファイルではない・この端末で再生できない・大きすぎる）` : ''}${full ? `（${MU_MAX}曲まで）` : ''}`);
+  muRefresh();
+}
+/* ---- 再生 ---- */
+const muCur = () => MU.list.find(t => t.id === MU.cur) || null;
+const muFmt = s => { s = Math.max(0, Math.round(+s || 0)); return `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`; };
+const muCovUrl = m => m && m.cover ? (MU.cov[m.id] || (MU.cov[m.id] = URL.createObjectURL(m.cover))) : '';
+function muAudio() {
+  if (MU.audio) return MU.audio;
+  const a = MU.audio = new Audio(); a.preload = 'auto'; a.setAttribute('playsinline', ''); a.style.display = 'none'; document.body.appendChild(a);
+  a.addEventListener('play', () => { MU.playing = true; muState(); });
+  a.addEventListener('pause', () => { if (a.ended) return; MU.playing = false; muState(); muSave(); });
+  a.addEventListener('ended', () => { if (MU.repeat !== 'one') muNext(true); });
+  a.addEventListener('error', () => { if (!MU.cur) return; toast('この曲は、再生できませんでした'); MU.playing = false; muState(); });
+  a.addEventListener('timeupdate', muTick); a.addEventListener('loadedmetadata', muTick);
+  return a;
+}
+function muOrder() { if (!MU.shuffle) return MU.list.map(t => t.id); const ids = MU.list.map(t => t.id); if (MU.order.length !== ids.length || ids.some(i => !MU.order.includes(i))) { MU.order = ids.slice().sort(() => Math.random() - .5); } return MU.order; }
+async function muPlay(id, pos) {
+  const a = muAudio(); if (!MU.unlocked) { MU.unlocked = true; try { a.src = MU_SILENT; const p = a.play(); if (p && p.catch) p.catch(() => { }); } catch (e) { } }   // iPad / iPhone：最初のタップで、音を出せる状態にしておく
+  await muLoad(); const m = MU.list.find(t => t.id === id); if (!m) return;
+  let blob; try { blob = await muBlob(id); } catch (e) { } if (!blob) return toast('ファイルが見つかりません');
+  if (MU.url) URL.revokeObjectURL(MU.url); MU.url = URL.createObjectURL(blob); MU.cur = id; a.src = MU.url; a.loop = MU.repeat === 'one';
+  if (pos > 1) a.addEventListener('loadedmetadata', function f() { a.removeEventListener('loadedmetadata', f); try { a.currentTime = pos; } catch (e) { } });
+  muMeta(); muState(true);
+  try { await a.play(); } catch (e) { MU.playing = false; muState(); toast('再生できませんでした。もう一度、再生ボタンを押してください'); }
+}
+async function muToggle() { const a = muAudio(); if (!MU.cur) return muResume(); if (a.paused) { try { await a.play(); } catch (e) { toast('再生できませんでした'); } } else a.pause(); }
+async function muResume() {
+  await muLoad(); if (!MU.list.length) { toast('音楽が、まだありません。ツール「音楽」で追加してください'); return ACT.tab('tool:music'); }
+  const l = muJ(MU_LAST, {}), id = MU.list.some(t => t.id === l.id) ? l.id : MU.list[0].id; muPlay(id, id === l.id ? l.pos : 0);
+}
+function muNext(auto) {
+  const o = muOrder(); if (!o.length) return; let i = o.indexOf(MU.cur) + 1;
+  if (i >= o.length) { if (MU.repeat === 'all' || !auto) i = 0; else { const a = muAudio(); a.pause(); a.currentTime = 0; MU.playing = false; muState(); return; } }
+  muPlay(o[i]);
+}
+function muPrev() { const a = muAudio(), o = muOrder(); if (a.currentTime > 3 || o.length < 2) { a.currentTime = 0; return; } const i = o.indexOf(MU.cur); muPlay(o[(i - 1 + o.length) % o.length]); }
+function muStop() {
+  const a = muAudio(); a.pause(); a.removeAttribute('src'); try { a.load(); } catch (e) { } if (MU.url) { URL.revokeObjectURL(MU.url); MU.url = ''; }
+  MU.cur = ''; MU.playing = false; MU.sleepAt = 0; try { if ('mediaSession' in navigator) { navigator.mediaSession.metadata = null; navigator.mediaSession.playbackState = 'none'; } } catch (e) { } muState(true);
+}
+function muSave() { const a = MU.audio; muS(MU_LAST, { id: MU.cur || (muJ(MU_LAST, {}).id || ''), pos: a && MU.cur ? a.currentTime : (muJ(MU_LAST, {}).pos || 0), repeat: MU.repeat, shuffle: MU.shuffle }); }
+/* ---- メディアセッション：ロック画面・コントロールセンター・イヤホンの操作。ほかのアプリを開いているときの再生にも、関わる ---- */
+function muMeta() {
+  if (!('mediaSession' in navigator)) return; const m = muCur(); if (!m) return;
+  try {
+    const u = muCovUrl(m); navigator.mediaSession.metadata = new MediaMetadata({ title: m.title, artist: m.artist || '音楽', album: '課題管理', artwork: u ? [{ src: u, sizes: '192x192', type: 'image/jpeg' }] : [] });
+    if (!MU.ms) { MU.ms = 1; const h = (n, f) => { try { navigator.mediaSession.setActionHandler(n, f); } catch (e) { } }; h('play', () => muToggle()); h('pause', () => muToggle()); h('previoustrack', () => muPrev()); h('nexttrack', () => muNext(false)); h('stop', () => muStop());
+      h('seekto', d => { const a = muAudio(); if (d && d.seekTime != null) a.currentTime = d.seekTime; }); h('seekbackward', d => { const a = muAudio(); a.currentTime = Math.max(0, a.currentTime - ((d && d.seekOffset) || 10)); }); h('seekforward', d => { const a = muAudio(); a.currentTime = Math.min(a.duration || 1e9, a.currentTime + ((d && d.seekOffset) || 10)); }); }
+  } catch (e) { }
+}
+/* ---- 画面の右上の、小さなプレーヤー（どの画面でも出る。アカウントボタンの、すぐ左） ---- */
+function muChip() {
+  let c = $('#mchip'); if (!c) { c = document.createElement('div'); c.id = 'mchip'; c.setAttribute('role', 'region'); c.setAttribute('aria-label', '音楽プレーヤー'); document.body.appendChild(c); } return c;
+}
+function muChipPaint() {
+  const m = muCur(), c = muChip(); if (!m) { c.classList.remove('show'); c.innerHTML = ''; return; }
+  const cv = muCovUrl(m);
+  c.innerHTML = `<button type="button" class="mc-b" data-act="mutool" aria-label="音楽を開く：${esc(m.title)}"><span class="mc-cv ${cv ? '' : 'no'}" ${cv ? `style="background-image:url('${cv}')"` : ''}>${cv ? '' : ms('music_note', '', 'font-size:22px')}</span><span class="mc-t"><b>${esc(m.title)}</b>${m.artist ? `<small>${esc(m.artist)}</small>` : ''}</span></button><button type="button" class="mc-p" data-act="muplay" aria-label="${MU.playing ? '一時停止' : '再生'}" style="--p:${MU._p || 0}">${ms(MU.playing ? 'pause' : 'play_arrow', '', 'font-size:26px')}</button>${MU.playing ? '' : `<button type="button" class="mc-x" data-act="muclose" aria-label="プレーヤーを閉じる">${ms('close', '', 'font-size:20px')}</button>`}`;
+  c.classList.add('show'); c.classList.toggle('on', MU.playing);
+}
+function muTick() {
+  const a = MU.audio; if (!a || !MU.cur) return; const now = performance.now(); if (now - MU.tick < 250) return; MU.tick = now;
+  const d = a.duration || (muCur() || {}).dur || 0, p = d ? Math.min(100, a.currentTime / d * 100) : 0; MU._p = Math.round(p * 10) / 10;
+  const cp = $('#mchip .mc-p'); if (cp) cp.style.setProperty('--p', MU._p);
+  const tc = $('#mutc'); if (tc) tc.textContent = muFmt(a.currentTime); const td = $('#mutd'); if (td) td.textContent = muFmt(d); const sk = $('#museek'); if (sk && !MU.seeking) { sk.max = Math.max(1, Math.round(d)); sk.value = Math.round(a.currentTime); sk.style.setProperty('--p', p); }
+  if (MU.sleepAt) { const left = MU.sleepAt - Date.now(); const sl = $('#musl'); if (sl) sl.textContent = left > 0 ? `あと ${Math.ceil(left / 60000)}分で止まります` : ''; if (left <= 0) { MU.sleepAt = 0; a.pause(); toast('スリープタイマーで、音楽を止めました'); muRefresh(); } }
+  if (now - MU.saved > 4000) { MU.saved = now; muSave(); try { if ('mediaSession' in navigator && d) navigator.mediaSession.setPositionState({ duration: d, position: Math.min(a.currentTime, d), playbackRate: a.playbackRate || 1 }); } catch (e) { } }
+}
+function muState(structure) {
+  muChipPaint(); try { if ('mediaSession' in navigator) navigator.mediaSession.playbackState = MU.cur ? (MU.playing ? 'playing' : 'paused') : 'none'; } catch (e) { }
+  if (structure) muRefresh(); else muPaintCtl();
+}
+function muPaintCtl() { const b = $('#mubig'); if (b) { b.innerHTML = ms(MU.playing ? 'pause' : 'play_arrow', '', 'font-size:40px'); b.setAttribute('aria-label', MU.playing ? '一時停止' : '再生'); } document.querySelectorAll('.mu-r').forEach(r => r.classList.toggle('pl', MU.playing && r.dataset.id === MU.cur)); }
+const muRefresh = () => { if (ui.tab === 'tools' && ui.tool === 'music' && !(dlg && dlg.open)) toolsRefresh(); };
+/* ---- ツールの画面 ---- */
+function muHtml() {
+  if (!MU.loaded) { muLoad().then(() => muRefresh()); return `<div class="card aq-load">${gspin(40)}<b>読み込んでいます…</b></div>`; }
+  const cur = muCur(), n = MU.list.length, total = MU.list.reduce((a, t) => a + (t.size || 0), 0);
+  const add = `<div class="mu-add"><button type="button" class="btn" data-act="muadd">${ms('library_add')}音楽を追加</button>${n ? `<button type="button" class="btn tonal" data-act="muresume">${ms('play_arrow')}${cur ? 'つづきから' : '再生する'}</button>` : ''}<input type="file" id="mufile" accept="audio/*,.mp3,.m4a,.m4b,.aac,.wav,.flac,.ogg,.oga,.opus,.caf,.aif,.aiff" multiple hidden></div>`;
+  const now = cur ? `<div class="card mu-np"><div class="mu-ncv ${cur.cover ? '' : 'no'}" ${cur.cover ? `style="background-image:url('${muCovUrl(cur)}')"` : ''}>${cur.cover ? '' : ms('music_note', '', 'font-size:56px')}</div><div class="mu-nt"><b>${esc(cur.title)}</b><small>${esc(cur.artist || '')}</small></div><div class="mu-sk"><input type="range" id="museek" min="0" max="${Math.max(1, Math.round(cur.dur))}" value="${Math.round((MU.audio && MU.audio.currentTime) || 0)}" step="1" aria-label="再生位置" style="--p:${cur.dur ? Math.min(100, ((MU.audio && MU.audio.currentTime) || 0) / cur.dur * 100) : 0}"><div class="mu-tm"><span id="mutc">${muFmt(MU.audio ? MU.audio.currentTime : 0)}</span><span id="mutd">${muFmt(cur.dur)}</span></div></div><div class="mu-ct"><button type="button" class="mu-s ${MU.shuffle ? 'on' : ''}" data-act="mushuf" aria-pressed="${MU.shuffle}" aria-label="シャッフル">${ms('shuffle')}</button><button type="button" class="mu-s" data-act="muprev" aria-label="前の曲">${ms('skip_previous', '', 'font-size:32px')}</button><button type="button" class="mu-big" id="mubig" data-act="muplay" aria-label="${MU.playing ? '一時停止' : '再生'}">${ms(MU.playing ? 'pause' : 'play_arrow', '', 'font-size:40px')}</button><button type="button" class="mu-s" data-act="munext" aria-label="次の曲">${ms('skip_next', '', 'font-size:32px')}</button><button type="button" class="mu-s ${MU.repeat !== 'off' ? 'on' : ''}" data-act="murep" aria-label="くり返し：${MU.repeat === 'one' ? '1曲' : MU.repeat === 'all' ? '全曲' : 'なし'}">${ms(MU.repeat === 'one' ? 'repeat_one' : 'repeat')}</button></div><div class="mu-sl"><span class="muted">${ms('bedtime', '', 'font-size:18px;vertical-align:-4px')} スリープタイマー</span><div class="chips">${[[0, 'なし'], [15, '15分'], [30, '30分'], [60, '60分']].map(([k, t]) => `<button type="button" class="sn-sc ${(!MU.sleepAt && !k) || (MU.sleepAt && k && MU._sl === k) ? 'on' : ''}" data-act="musleep" data-id="${k}">${t}</button>`).join('')}</div><small class="muted" id="musl"></small></div><div class="dact" style="margin:6px 0 0"><span class="sp"></span><button type="button" class="btn text" data-act="muclose">${ms('stop')}止める</button></div></div>` : '';
+  const rows = MU.list.map(t => { const u = muCovUrl(t), on = t.id === MU.cur; return `<div class="mu-r ${on ? 'on' : ''} ${on && MU.playing ? 'pl' : ''}" data-id="${t.id}"><button type="button" class="mu-b" data-act="muplay" data-id="${t.id}"><span class="mu-cv ${u ? '' : 'no'}" ${u ? `style="background-image:url('${u}')"` : ''}>${u ? '' : ms('music_note', '', 'font-size:22px')}</span><span class="mu-t"><b>${esc(t.title)}</b><small>${esc(t.artist ? t.artist + ' ・ ' : '')}${muFmt(t.dur)}</small></span><span class="mu-eq" aria-hidden="true"><i></i><i></i><i></i></span></button><button type="button" class="ibtn" data-act="mudel" data-id="${t.id}" aria-label="削除：${esc(t.title)}">${ms('delete')}</button></div>`; }).join('');
+  const help = `<details class="ax-n mu-help" ${n ? '' : 'open'}><summary>${ms('info')}使いかた・保存について</summary><p>端末の中の音楽ファイル（MP3・M4A・AAC・WAV・FLAC など）を追加すると、アプリを開いている間は、どの画面でも流せます。再生中は、右上のアカウントの左に、小さなプレーヤーが出ます。<br>ファイルは、<b>この端末の中だけ</b>に保存されます（クラウドには送りません。ほかの端末には、移りません）。<br>ほかのアプリを開いたときも、止まらずに流れる場合があります（端末と、OSのバージョンによります）。ロック画面やイヤホンの操作ボタンにも、対応しています。<br>iPad・iPhone では、「ファイル」アプリに入れた音楽を選べます。使える形式は、端末によって違います。</p></details>`;
+  return `<div class="mu-w"><div class="card mu-h"><div class="mu-hi">${ms('library_music', '', 'font-size:34px')}</div><div class="mu-ht"><b>${n ? `${n}曲` : 'まだ音楽がありません'}</b><small id="mustore">${n ? `${(total / 1048576).toFixed(0)}MB ・ この端末の中に保存` : '下のボタンから、追加できます'}</small></div></div>${add}${now}${n ? `<div class="mu-l stg">${rows}</div>` : ''}${help}${n ? `<div class="dact" style="margin-top:12px"><span class="sp"></span><button type="button" class="btn text danger" data-act="muclear">${ms('delete_sweep')}すべて消す</button></div>` : ''}</div>`;
+}
+Object.assign(ACT, {
+  muadd() { const i = $('#mufile'); if (i) i.click(); },
+  muplay(id) { if (id) { if (id === MU.cur && MU.audio) return muToggle(); return muPlay(id); } muToggle(); },
+  muresume() { if (MU.cur) muToggle(); else muResume(); },
+  muprev() { muPrev(); }, munext() { muNext(false); },
+  mushuf() { MU.shuffle = !MU.shuffle; MU.order = []; muSave(); muRefresh(); },
+  murep() { MU.repeat = MU.repeat === 'off' ? 'all' : MU.repeat === 'all' ? 'one' : 'off'; if (MU.audio) MU.audio.loop = MU.repeat === 'one'; muSave(); muRefresh(); },
+  musleep(id) { const k = +id; MU.sleepAt = k ? Date.now() + k * 60000 : 0; MU._sl = k; muRefresh(); if (k) toast(`${k}分後に、音楽を止めます`); },
+  muclose() { muStop(); },
+  mutool() { ACT.tab('tool:music'); },
+  mudel(id) { const m = MU.list.find(t => t.id === id); if (!m) return; confirmDlg(`「${m.title.slice(0, 24)}」を、消しますか？`, 'この端末の中から、消えます。元にもどせません。', '消す', async () => { if (MU.cur === id) muStop(); try { await muRemove(id); } catch (e) { } MU.list = MU.list.filter(t => t.id !== id); if (MU.cov[id]) { URL.revokeObjectURL(MU.cov[id]); delete MU.cov[id]; } MU.order = []; try { localStorage.setItem(MU_N, String(MU.list.length)); } catch (e) { } muRefresh(); }); },
+  muclear() { confirmDlg('すべての音楽を、消しますか？', `${MU.list.length}曲が、この端末の中から消えます。元にもどせません。`, 'すべて消す', async () => { muStop(); for (const t of MU.list.slice()) { try { await muRemove(t.id); } catch (e) { } } Object.values(MU.cov).forEach(u => URL.revokeObjectURL(u)); MU.cov = {}; MU.list = []; MU.order = []; try { localStorage.setItem(MU_N, '0'); } catch (e) { } muRefresh(); }); }
+});
+document.addEventListener('change', e => { const t = e.target; if (t && t.id === 'mufile') { const fl = [...t.files]; t.value = ''; muImport(fl); } });
+document.addEventListener('input', e => { const t = e.target; if (t && t.id === 'museek') { MU.seeking = true; const tc = $('#mutc'); if (tc) tc.textContent = muFmt(t.value); t.style.setProperty('--p', (+t.value / (+t.max || 1)) * 100); } });
+document.addEventListener('change', e => { const t = e.target; if (t && t.id === 'museek') { MU.seeking = false; if (MU.audio) MU.audio.currentTime = +t.value; } });
+document.addEventListener('pointerup', () => { if (MU.seeking) { const t = $('#museek'); MU.seeking = false; if (t && MU.audio) MU.audio.currentTime = +t.value; } });
 function toolsPost() {
   const tl = ui.tool || '';
   if (tl === 'calc') calcPaint(true);
