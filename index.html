@@ -184,6 +184,73 @@
 .hsearch{height:44px}
 .set-page .card{padding:12px 16px;overflow:visible}
 .set-page .card .setrow{padding-left:4px;padding-right:4px}
+.ny-add{padding:14px;border-radius:30px;margin-bottom:10px}
+.ny-l{display:grid;gap:8px}
+.ny-r{display:grid;grid-template-columns:72px 1fr auto;gap:10px;align-items:center;padding:10px 6px 10px 16px;border-radius:22px;background:var(--s1)}
+.ny-r b{font-size:1.05rem;color:var(--primary)}
+.ny-r span{font-weight:600;overflow-wrap:anywhere}
+.rk{padding:16px;border-radius:32px}
+.rk-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.rk-f{margin:4px 2px 12px;font-size:.85rem;line-height:1.6}
+.rk-res{margin-top:12px;min-height:30px;font-weight:800;font-size:1.15rem;text-align:center;color:var(--primary)}
+.en{padding:14px 16px;border-radius:32px;margin-bottom:10px}
+.en-t{display:grid;gap:6px;margin-top:6px}
+.en-r{display:grid;grid-template-columns:1fr;gap:2px;padding:10px 14px;border-radius:20px;background:var(--s2)}
+.en-r b{font-size:1rem}
+.en-r b em{font-style:normal;font-size:.8rem;color:var(--on-v);margin-left:6px}
+.en-ex{font-weight:700;color:var(--primary)}
+.en-r small{color:var(--on-v);font-weight:600;line-height:1.5}
+@media(min-width:700px){.en-r{grid-template-columns:110px 1fr 1fr}.en-r b{align-self:center}.ny-r{grid-template-columns:90px 1fr auto}}
+/* ===== 17.13：中学・高校の計算ツール ===== */
+.t3{padding:16px;border-radius:32px;display:grid;gap:10px}
+.t3-g{display:grid;gap:10px}
+.t3-tabs,.t3-eras{display:flex;flex-wrap:wrap;gap:6px}
+.t3-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.t3-l{font-size:.85rem;font-weight:700;color:var(--on-v);margin:2px 4px -4px}
+.t3 input{width:100%;box-sizing:border-box;height:52px;padding:0 16px;border:0;border-radius:22px;background:var(--s2);color:var(--on);font:inherit;font-size:1.05rem;outline:none}
+.t3 input:focus{box-shadow:0 0 0 3px var(--primary)}
+.t3 input::placeholder{color:var(--on-v);opacity:.7}
+.t3-f{margin:2px 4px 0;font-size:.85rem;line-height:1.6}
+.t3-a{margin:0}
+.t3-res{padding:14px 16px;border-radius:22px;background:var(--pc);color:var(--on-pc);font-size:1.02rem;line-height:1.8;font-weight:600;overflow-wrap:anywhere}
+.t3-res b{font-size:1.2rem}
+.t3-s{font-size:.9rem;color:var(--on-v);font-weight:600;line-height:1.7;overflow-wrap:anywhere}
+.t3-pun{display:grid;grid-template-columns:auto 1fr 1fr;gap:6px;align-items:center;text-align:center;max-width:320px}
+.t3-pun b{font-size:1rem;padding:6px}
+.t3-c{display:grid;place-items:center;height:48px;border-radius:16px;background:var(--s2);font-weight:800}
+.ny-add{padding:14px;border-radius:30px;margin-bottom:10px}
+.ny-l{display:grid;gap:8px}
+.ny-r{display:grid;grid-template-columns:72px 1fr auto;gap:10px;align-items:center;padding:10px 6px 10px 16px;border-radius:22px;background:var(--s1)}
+.ny-r b{font-size:1.05rem;color:var(--primary)}
+.ny-r span{font-weight:600;overflow-wrap:anywhere}
+.en{padding:14px 16px;border-radius:32px;margin-bottom:10px}
+.en-t{display:grid;gap:6px;margin-top:6px}
+.en-r{display:grid;grid-template-columns:1fr;gap:2px;padding:10px 14px;border-radius:20px;background:var(--s2)}
+.en-r b{font-size:1rem}
+.en-r b em{font-style:normal;font-size:.8rem;color:var(--on-v);margin-left:6px}
+.en-ex{font-weight:700;color:var(--primary)}
+.en-r small{color:var(--on-v);font-weight:600;line-height:1.5}
+@media(min-width:700px){.en-r{grid-template-columns:110px 1fr 1fr}.en-r b{align-self:center}.ny-r{grid-template-columns:90px 1fr auto}}
+/* ===== 18.0：日本史年表（暗記モード） ===== */
+.jn-top{display:grid;gap:10px;margin-bottom:10px}
+.jn-eras{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding:2px}
+.jn-eras::-webkit-scrollbar{display:none}
+.jn-eras .sn-sc{flex:none}
+.jn-ctl{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.jn-n{font-size:.82rem;font-weight:600}
+.jn-q input{width:100%;box-sizing:border-box;height:48px;padding:0 18px;border:0;border-radius:24px;background:var(--s2);color:var(--on);font:inherit;font-size:1rem;outline:none}
+.jn-q input:focus{box-shadow:0 0 0 3px var(--primary)}
+.jn-f{margin:4px 6px 8px;font-size:.85rem;line-height:1.6}
+.jn-l{display:grid;gap:6px}
+.jn-h{position:sticky;top:0;z-index:1;margin:14px 0 4px;padding:6px 12px;border-radius:14px;background:var(--pc);color:var(--on-pc);font-weight:800;font-size:.95rem;width:max-content}
+.jn-r{display:grid;grid-template-columns:118px 1fr;gap:12px;align-items:start;padding:10px 14px;border-radius:20px;background:var(--s1);line-height:1.8}
+.jn-r b{font-size:.92rem;color:var(--primary);font-variant-numeric:tabular-nums;padding-top:2px}
+.jn-r>span{overflow-wrap:anywhere;font-size:.98rem}
+.jn-k{display:inline;margin:0 1px;padding:1px 9px;border:0;border-radius:10px;background:color-mix(in srgb,var(--primary) 16%,transparent);color:var(--on);font:inherit;font-weight:800;transition:background .2s,transform .2s var(--spring)}
+.jn-k.hid{background:var(--on);color:var(--bg,#fff);letter-spacing:.1em;min-width:3.6em;text-align:center}
+.jn-k.open{background:var(--sec-c);color:var(--on-sec-c)}
+.jn-k:active{transform:scale(.94)}
+@media(max-width:699px){.jn-r{grid-template-columns:1fr;gap:4px}.jn-h{width:auto}}
 </style>
 </head>
 <body>
@@ -208,7 +275,7 @@
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.11';
+const APP_VERSION = '17.14';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -716,6 +783,9 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.14', t: '社会：日本史年表（旧石器〜昭和）を追加', n: ['「日本史年表」を追加しました。旧石器時代から昭和まで、時代ごとの主な出来事を年順に並べています（全161件）', '重要な語は「暗記モード」で隠れ、タップすると答えが出ます。時代で絞ったり、出来事や年で探したりできます'] },
+  { v: '17.13', t: '中学・高校向けの計算ツールを追加（五十音表・九九表は削除）', n: ['五十音表と九九表を削除しました', '中学・高校向けのツールを追加しました：年号・西暦（社会）、時差計算（地理）、最大公約数・最小公倍数（数学）、二次関数の頂点（数学）、分子量・物質の量（化学）、合成抵抗（理科）、遺伝の確率（生物）', '理科の計算は、計算のあとも入力した値が残るようになりました'] },
+  { v: '17.12', t: '勉強系ツールを追加', n: ['「九九表」を追加しました。マスをタップすると、答えを確かめられます', '「理科の計算」を追加しました。速さ・密度・濃度・オームの法則を、空欄の一つを計算して求められます', '「五十音表」を追加しました。ひらがな・カタカナを切り替えられ、タップするとローマ字と読み上げを確かめられます', '「年表」を追加しました。出来事を自分で追加すると、年の順に並びます', '「英語の時制・品詞」を追加しました。時制と品詞を、例文つきで確かめられます'] },
   { v: '17.11', t: 'ホームの挨拶に、自分に合った話題を追加', n: ['挨拶のあとに出る話題に、豆知識だけでなく、自分に合ったものを混ぜるようにしました。「○○まで、あと○日」（考査）、単語帳の単語、課題の残り、今日の天気です', '天気は、設定の「今日の天気をホームに出す」をオンにすると表示されます。位置情報は、オンにしたときに一度だけ使います', '通信できないときや、データがないときは、豆知識を出します'] },
   { v: '17.10', t: 'ホームの挨拶と豆知識・連続日数の位置・設定の余白', n: ['ホームの挨拶が、時間帯に合わせて色々な言葉に変わるようにしました', '挨拶（5秒）と豆知識（15秒）が交互に出ます。切り替わりは、文字が上に消えて下から出てくるアニメーションです', '「○日連続」を、右上のアカウントのアイコンの左隣に移しました', 'ホームの検索バーの高さを、配置などのボタンに揃えました', '設定画面で、文字やボタンが角に寄りすぎていた箇所に、余白を付けました'] },
   { v: '17.9', t: '設定画面を新しいデザインに・集中タイマーをツールに・＋メニューの整理・ホームに検索バー', n: ['設定画面を、Androidの設定のような、グループごとのカードと、アイコン付きの行にしました。上の検索欄で、設定を探せます', 'ツールに「集中タイマー」を追加しました。ツールから、すぐ始められます', '＋メニューを「集中タイマー・課題を追加・教科を追加・AIに質問・さがす」に整理しました（AIで課題を追加などは外しました）', 'ホームの「配置」の隣に、短い検索バーを置きました'] },
@@ -3068,12 +3138,12 @@ function trHtml() {
 const TOOLS = [['music', '音楽', 'library_music', '端末の音楽を、アプリの中でずっと流せる', 300, 'e'], ['sensei', 'AI先生', 'school', '問題の写真を送ると、解き方を教えてくれる', 250, 'd'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'd'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
   ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], 
-  ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
+  ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['mol', '分子量・物質の量', 'science', '化学（中学・高校）：化学式の分子量と、g・molの換算', 300, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">AI</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'd').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -5461,6 +5531,365 @@ function rotPersonal() {
 }
 const rotTipOrPersonal = () => { const p = rotPersonal(); return p.length && Math.random() < 0.7 ? rotPick(p) : rotPick(ROT_TIPS); };
 setTimeout(() => wxRefresh(false), 4000);
+/* ====================== 勉強系ツール（17.13）：年表・英語の時制と品詞・中学高校の計算ツール ====================== */
+const T3 = {};   // ツールごとの入力と結果（計算のあとも、入力を残す）
+const t3st = id => T3[id] || (T3[id] = { v: {}, m: '', res: '' });
+const t3in = (id, k, label, ph) => `<label class="t3-l" for="t3${id}${k}">${label}</label><input id="t3${id}${k}" data-t3="${id}" data-k="${k}" type="text" inputmode="decimal" placeholder="${esc(ph || '')}" value="${esc(t3st(id).v[k] || '')}">`;
+const t3card = (id, inner, btn) => `<div class="card t3"><div class="t3-g">${inner}</div><div class="dact t3-a"><span class="sp"></span><button type="button" class="btn" data-act="t3calc" data-id="${id}">${ms('calculate')}計算</button></div>${t3st(id).res ? `<div class="t3-res" role="status">${t3st(id).res}</div>` : ''}</div>`;
+const t3tabs = (id, opts) => `<div class="t3-tabs">${opts.map(([k, t]) => `<button type="button" class="sn-sc ${t3st(id).m === k || (!t3st(id).m && k === opts[0][0]) ? 'on' : ''}" data-act="t3mode" data-id="${id}|${k}">${t}</button>`).join('')}</div>`;
+const t3mode = (id, def) => t3st(id).m || def;
+const t3num = s => { const t = String(s == null ? '' : s).trim(); return t === '' ? null : Number(t); };
+const t3fix = x => { if (!isFinite(x)) return '—'; const r = Math.round(x * 1000) / 1000; return String(r); };
+function t3read(id) { const st = t3st(id); document.querySelectorAll(`[data-t3="${id}"]`).forEach(el => { st.v[el.dataset.k] = el.value; }); return st; }
+
+/* 年表（社会）：自分で出来事を並べる */
+function nenpyoHtml() {
+  const list = (S.nenpyo || []).slice().sort((a, b) => (parseInt(a.y, 10) || 0) - (parseInt(b.y, 10) || 0));
+  return `<div class="card ny-add"><div class="fld2"><div class="fld"><label for="nyy">年（西暦・年号など）</label><input id="nyy" type="text" maxlength="12" placeholder="例：794"></div><div class="fld"><label for="nyt">出来事</label><input id="nyt" type="text" maxlength="60" placeholder="例：平安京に都が移る"></div></div><div class="dact" style="margin:4px 0 0"><span class="sp"></span><button type="button" class="btn" data-act="nyadd">${ms('add')}追加</button></div></div>
+  <div class="ny-l stg">${list.length ? list.map(x => `<div class="ny-r"><b>${esc(x.y)}</b><span>${esc(x.t)}</span><button type="button" class="ibtn" data-act="nydel" data-id="${x.id}" aria-label="削除">${ms('delete')}</button></div>`).join('') : '<p class="muted" style="text-align:center;padding:14px 0">出来事を追加すると、年の順に並びます</p>'}</div>`;
+}
+/* 英語の時制・品詞（参照） */
+function engHtml() {
+  const tenses = [['現在形','I play.','ふつうの動作・習慣','動詞の原形（主語が三人称単数なら s）'],['過去形','I played.','終わった動作','動詞の過去形（規則は ed）'],['未来形','I will play.','これからのこと','will ＋ 動詞の原形'],['現在進行形','I am playing.','いま進行中','am/is/are ＋ ing形'],['現在完了形','I have played.','過去からの経験・完了・継続','have/has ＋ 過去分詞']];
+  const pos = [['名詞','noun','book, Tokyo','ものや人の名前'],['動詞','verb','run, eat','動作や状態'],['形容詞','adjective','big, happy','名詞の様子を説明'],['副詞','adverb','quickly, here','動詞などの様子・場所・時を説明'],['代名詞','pronoun','I, it, they','名詞の代わり'],['前置詞','preposition','in, on, at','名詞の前にあり、場所や時を表す']];
+  return `<div class="card en"><div class="lbl">時制（「する」の例）</div><div class="en-t">${tenses.map(([n, ex, use, form]) => `<div class="en-r"><b>${n}</b><span class="en-ex">${ex}</span><small>${use}</small><small class="en-f">${form}</small></div>`).join('')}</div></div>
+  <div class="card en"><div class="lbl">品詞</div><div class="en-t">${pos.map(([j, e, ex, role]) => `<div class="en-r"><b>${j}<em>${e}</em></b><span class="en-ex">${ex}</span><small>${role}</small></div>`).join('')}</div></div>`;
+}
+/* 理科の計算：速さ・密度・濃度・オームの法則（空欄の一つを計算） */
+const RK_DEF = { speed: ['速さ', ['距離（m）', '時間（秒）', '速さ（m/秒）'], '速さ＝距離÷時間'], density: ['密度', ['質量（g）', '体積（cm³）', '密度（g/cm³）'], '密度＝質量÷体積'], conc: ['濃度', ['溶質（g）', '溶液（g）', '濃度（％）'], '濃度（％）＝溶質÷溶液×100'], ohm: ['オームの法則', ['電圧（V）', '電流（A）', '抵抗（Ω）'], '電圧＝電流×抵抗'] };
+function rikaHtml() {
+  const id = 'rika', m = t3mode(id, 'speed'), d = RK_DEF[m];
+  return t3card(id, `${t3tabs(id, Object.entries(RK_DEF).map(([k, v]) => [k, v[0]]))}<p class="muted t3-f">${d[2]}。空欄を1つだけ残すと、その値を計算します。</p><div class="t3-row">${d[1].map((l, i) => t3in(id, 'k' + i, l, '空欄にする値は空けます')).join('')}</div>`);
+}
+/* 年号・西暦（社会）：明治以降 */
+const NENGO = [['明治', 1868], ['大正', 1912], ['昭和', 1926], ['平成', 1989], ['令和', 2019]];
+function nengoHtml() {
+  const id = 'nengo', m = t3mode(id, 'w2j'), era = t3st(id).v.era || '令和';
+  return t3card(id, `${t3tabs(id, [['w2j', '西暦 → 和暦'], ['j2w', '和暦 → 西暦']])}${m === 'w2j' ? t3in(id, 'y', '西暦（年）', '例：1945') : `<div class="t3-eras">${NENGO.map(([n]) => `<button type="button" class="sn-sc ${era === n ? 'on' : ''}" data-act="t3era" data-id="${id}|${n}">${n}</button>`).join('')}</div>${t3in(id, 'n', `${era}の年（元年＝1）`, '例：3')}`}<p class="muted t3-f">1868年より前は対象外です。年単位で計算します（年の途中で元号が変わった年は、月日を確かめてください）。</p>`);
+}
+function nengoCalc(st) {
+  if (st.m === 'j2w') { const era = st.v.era || '令和', n = t3num(st.v.n), base = (NENGO.find(x => x[0] === era) || [])[1]; if (!base || !n || n < 1) return '元号と、年（1以上）を入れてください'; return `${era}${n === 1 ? '元' : n}年 ＝ 西暦 ${base + n - 1}年`; }
+  const y = t3num(st.v.y); if (!y || y < 1868) return '1868年以降の西暦を入れてください';
+  const hit = [...NENGO].reverse().find(([, s]) => y >= s); const n = y - hit[1] + 1;
+  return `西暦${y}年 ＝ ${hit[0]}${n === 1 ? '元' : n}年`;
+}
+/* 時差（地理）：経度から、日本（東経135度）との差 */
+function jisaHtml() {
+  const id = 'jisa';
+  return t3card(id, `${t3in(id, 'lon', '経度（東経は＋、西経は−）', '例：-74（ニューヨーク）')}<p class="muted t3-f">日本（東経135度）との時差は、経度の差÷15で求めます。国ごとに時間の決め方が違うこともあります。</p>`);
+}
+function jisaCalc(st) {
+  const lon = t3num(st.v.lon); if (lon === null || !isFinite(lon) || Math.abs(lon) > 180) return '−180〜180の経度を入れてください';
+  const h = (lon - 135) / 15, sign = h >= 0 ? '+' : '−', ah = Math.abs(h), hh = Math.floor(ah), mm = Math.round((ah - hh) * 60);
+  let local = 12 - h; local = ((local % 24) + 24) % 24; const lh = Math.floor(local), lm = Math.round((local - lh) * 60);
+  return `日本との時差：${sign}${hh}時間${mm ? mm + '分' : ''}　・　日本が正午のとき、この場所は ${String(lh).padStart(2, '0')}:${String(lm === 60 ? 0 : lm).padStart(2, '0')}`;
+}
+/* 最大公約数・最小公倍数（数学） */
+const t3gcdN = (a, b) => b ? t3gcdN(b, a % b) : a;
+function primeFac(n) { const f = []; for (let p = 2; p * p <= n; p++) while (n % p === 0) { f.push(p); n /= p; } if (n > 1) f.push(n); return f; }
+function gcdHtml() {
+  const id = 'gcd';
+  return t3card(id, `${t3in(id, 'a', '数１', '例：36')}${t3in(id, 'b', '数２', '例：48')}<p class="muted t3-f">2つの数の、いちばん大きい共通の約数と、いちばん小さい共通の倍数を求めます（自然数）。</p>`);
+}
+function gcdCalc(st) {
+  const a = t3num(st.v.a), b = t3num(st.v.b);
+  if (!Number.isInteger(a) || !Number.isInteger(b) || a < 1 || b < 1 || a > 1e9 || b > 1e9) return '1以上の整数を入れてください';
+  const g = t3gcdN(a, b), l = a / g * b;
+  const fa = primeFac(a).join('×') || '1', fb = primeFac(b).join('×') || '1';
+  return `最大公約数：<b>${g}</b>　最小公倍数：<b>${l}</b><br><span class="t3-s">${a} ＝ ${fa}　／　${b} ＝ ${fb}</span>`;
+}
+/* 二次関数の頂点（数学・高校）：y = ax² + bx + c */
+function quadHtml() {
+  const id = 'quad';
+  return t3card(id, `${t3in(id, 'a', 'a（0以外）', '例：1')}${t3in(id, 'b', 'b', '例：-4')}${t3in(id, 'c', 'c', '例：3')}<p class="muted t3-f">y ＝ ax² ＋ bx ＋ c の、頂点・軸・判別式を求めます。</p>`);
+}
+function quadCalc(st) {
+  const a = t3num(st.v.a), b = t3num(st.v.b) ?? 0, c = t3num(st.v.c) ?? 0;
+  if (a === null || a === 0 || !isFinite(a)) return 'aは、0以外の数を入れてください';
+  const p = -b / (2 * a), q = c - b * b / (4 * a), D = b * b - 4 * a * c;
+  const roots = D < 0 ? '実数解はありません' : D === 0 ? `重解 x ＝ ${t3fix(p)}` : `解：x ＝ ${t3fix(p - Math.sqrt(D) / (2 * Math.abs(a)))}、${t3fix(p + Math.sqrt(D) / (2 * Math.abs(a)))}`;
+  return `頂点：（${t3fix(p)}，${t3fix(q)}）　軸：x ＝ ${t3fix(p)}<br>平方完成：y ＝ ${a}(x ${p < 0 ? '＋ ' + t3fix(-p) : '− ' + t3fix(p)})² ${q < 0 ? '−' + t3fix(-q) : '＋' + t3fix(q)}<br><span class="t3-s">判別式 D ＝ ${D}　・　${roots}</span>`;
+}
+/* 分子量・物質の量（理科）：標準の原子量（IUPAC）。表にない元素は、元素ラボの値を使う */
+const T3AW = { H: 1.008, He: 4.003, Li: 6.94, B: 10.81, C: 12.011, N: 14.007, O: 15.999, F: 18.998, Ne: 20.18, Na: 22.99, Mg: 24.305, Al: 26.982, Si: 28.085, P: 30.974, S: 32.06, Cl: 35.45, Ar: 39.948, K: 39.098, Ca: 40.078, Cr: 51.996, Mn: 54.938, Fe: 55.845, Co: 58.933, Ni: 58.693, Cu: 63.546, Zn: 65.38, Br: 79.904, Ag: 107.868, I: 126.904, Ba: 137.327, Pb: 207.2 };
+function molMass(f) {
+  f = String(f).replace(/\s/g, ''); let i = 0;
+  const num = () => { const m = /^\d+/.exec(f.slice(i)); if (m) { i += m[0].length; return +m[0]; } return 1; };
+  const group = depth => { let sum = 0; while (i < f.length) { const ch = f[i];
+    if (ch === '(' || ch === '[') { i++; const g = group(depth + 1); sum += g * num(); }
+    else if (ch === ')' || ch === ']') { if (depth === 0) throw new Error('式'); i++; return sum; }
+    else { const m = /^[A-Z][a-z]?/.exec(f.slice(i)); if (!m) throw new Error('式'); const sym = m[0]; const w = T3AW[sym] ?? ((PT_E.find(x => x[1] === sym) || [])[3]); if (!w) throw new Error('元素:' + sym); i += sym.length; sum += w * num(); } }
+    if (depth > 0) throw new Error('式'); return sum; };
+  const r = group(0); if (!(r > 0)) throw new Error('式'); return r;
+}
+function molHtml() {
+  const id = 'mol';
+  return t3card(id, `${t3in(id, 'f', '化学式', '例：H2O、CO2、Ca(OH)2、C6H12O6')}${t3in(id, 'g', '質量（g）（なくてもOK）', '例：36')}<p class="muted t3-f">分子量（g/mol）と、物質の量（mol）＝質量÷分子量を求めます。原子量は、標準の値を使います（表にない元素は、元素ラボの値）。</p>`);
+}
+function molCalc(st) {
+  let M; try { M = molMass(st.v.f || ''); } catch (e) { return String(e.message).startsWith('元素:') ? `元素記号「${e.message.slice(3)}」が、見つかりません` : '化学式を正しく入れてください（例：H2O、Ca(OH)2）'; }
+  const g = t3num(st.v.g); let out = `${st.v.f}の分子量：<b>${t3fix(M)}</b>（g/mol）`;
+  if (g !== null && isFinite(g) && g >= 0) out += `<br>${g} g ＝ <b>${t3fix(g / M)}</b> mol`;
+  return out;
+}
+/* 合成抵抗（理科）：直列と並列 */
+function resHtml() {
+  const id = 'res', m = t3mode(id, 'ser');
+  return t3card(id, `${t3tabs(id, [['ser', '直列'], ['par', '並列']])}${t3in(id, 'r', '抵抗（Ω）をコンマで区切る', '例：2, 3, 6')}<p class="muted t3-f">直列は抵抗の和、並列は「1÷（1/R1＋1/R2＋…）」です。</p>`);
+}
+function resCalc(st) {
+  const list = String(st.v.r || '').split(/[,、\s]+/).filter(Boolean).map(Number);
+  if (!list.length || list.some(x => !isFinite(x) || x < 0)) return '0以上の数を、コンマで区切って入れてください';
+  if (st.m === 'par') { if (list.some(x => x === 0)) return '合成抵抗：0 Ω（0Ωの抵抗があるため）'; return `並列の合成抵抗：<b>${t3fix(1 / list.reduce((a, x) => a + 1 / x, 0))}</b> Ω`; }
+  return `直列の合成抵抗：<b>${t3fix(list.reduce((a, x) => a + x, 0))}</b> Ω`;
+}
+/* 遺伝の確率（理科）：一対の遺伝子のかけ合わせ */
+function idenHtml() {
+  const id = 'iden';
+  return t3card(id, `${t3in(id, 'p', '親1の遺伝子（例：Aa）', 'Aa')}${t3in(id, 'q', '親2の遺伝子（例：aa）', 'aa')}<p class="muted t3-f">大文字は顕性（優性）、小文字は潜性（劣性）です。2文字で、同じ文字の組み（Aa・aa など）を入れます。</p>`);
+}
+function idenCalc(st) {
+  const p = String(st.v.p || '').trim(), q = String(st.v.q || '').trim();
+  const ok = s => /^[A-Za-z]{2}$/.test(s) && s[0].toLowerCase() === s[1].toLowerCase();
+  if (!ok(p) || !ok(q)) return '遺伝子は、「Aa」のように、同じ文字の2つで入れてください';
+  const key = c => (c === c.toUpperCase() ? '0' : '1') + c;
+  const gen = (x, y) => [x, y].sort((a, b) => key(a).localeCompare(key(b))).join('');
+  const kids = []; for (const x of p) for (const y of q) kids.push(gen(x, y));
+  const cnt = {}; kids.forEach(k => { cnt[k] = (cnt[k] || 0) + 1; });
+  const pheno = k => /[A-Z]/.test(k) ? '顕性' : '潜性';
+  const pc = {}; kids.forEach(k => { pc[pheno(k)] = (pc[pheno(k)] || 0) + 1; });
+  const cells = `<div class="t3-pun"><span></span>${[q[0], q[1]].map(c => `<b>${c}</b>`).join('')}${[p[0], p[1]].map((a, i) => `<b>${a}</b>${[q[0], q[1]].map(b => `<span class="t3-c">${gen(a, b)}</span>`).join('')}`).join('')}</div>`;
+  const ratio = o => Object.entries(o).map(([k, v]) => `${k}：${v}`).join('　');
+  return `${cells}<div class="t3-s">遺伝子型の割合　${ratio(Object.fromEntries(Object.entries(cnt).map(([k, v]) => [k, v + '/4'])))}</div><div class="t3-s">表現型の割合　${ratio(Object.fromEntries(Object.entries(pc).map(([k, v]) => [k, v + '/4'])))}</div>`;
+}
+const T3F = { nengo: nengoCalc, jisa: jisaCalc, gcd: gcdCalc, quad: quadCalc, mol: molCalc, res: resCalc, iden: idenCalc, rika: null };
+Object.assign(ACT, {
+  t3mode(arg) { const [id, k] = String(arg).split('|'); const st = t3st(id); st.m = k; st.res = ''; toolsRefresh(); },
+  t3era(arg) { const [id, n] = String(arg).split('|'); const st = t3read(id); st.v.era = n; st.res = ''; toolsRefresh(); },
+  t3calc(id) {
+    const st = t3read(id);
+    if (id === 'rika') return rikaCalc(st);
+    st.res = T3F[id] ? T3F[id](st) : ''; toolsRefresh();
+  }
+});
+function rikaCalc(st) {
+  const m = t3mode('rika', 'speed'), d = RK_DEF[m], v = [0, 1, 2].map(i => t3num(st.v['k' + i]));
+  const blank = v.map((x, i) => x === null ? i : -1).filter(i => i >= 0);
+  if (blank.length !== 1) { st.res = '空欄は、1つだけにしてください'; return toolsRefresh(); }
+  if (v.some(x => x !== null && !isFinite(x))) { st.res = '数字を入れてください'; return toolsRefresh(); }
+  const [a, b, c] = v, i = blank[0]; let out, unit;
+  if (m === 'speed') { unit = ['m', '秒', 'm/秒'][i]; out = i === 0 ? b * c : i === 1 ? a / c : a / b; }
+  else if (m === 'density') { unit = ['g', 'cm³', 'g/cm³'][i]; out = i === 0 ? b * c : i === 1 ? a / c : a / b; }
+  else if (m === 'conc') { unit = ['g', 'g', '％'][i]; out = i === 0 ? b * c / 100 : i === 1 ? a * 100 / c : a / b * 100; }
+  else { unit = ['V', 'A', 'Ω'][i]; out = i === 0 ? b * c : i === 1 ? a / c : a / b; }
+  st.res = isFinite(out) ? `答え：<b>${t3fix(out)}</b> ${unit}` : '計算できません（0で割っています）';
+  toolsRefresh();
+}
+Object.assign(ACT, {
+  nyadd() {
+    const y = ($('#nyy') || {}).value.trim(), t = ($('#nyt') || {}).value.trim();
+    if (!y || !t) return toast('年と出来事を入れてください');
+    S.nenpyo = [...(S.nenpyo || []), { id: uid(), y: y.slice(0, 12), t: t.slice(0, 60) }].slice(-200); save(); toolsRefresh();
+  },
+  nydel(id) { S.nenpyo = (S.nenpyo || []).filter(x => x.id !== id); save(); toolsRefresh(); }
+});
+/* ====================== 日本史年表（18.0）：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる ====================== */
+const JN_ERAS = ['旧石器', '縄文', '弥生', '古墳', '飛鳥', '奈良', '平安', '鎌倉', '室町', '戦国', '安土桃山', '江戸', '明治', '大正', '昭和'];
+// [年の表示, 並び用の年, 時代, 出来事（重要な語は {　} で囲む）]
+const JN_DATA = [
+  ['約3.8万年前', -38000, '旧石器', '日本列島に人々が暮らし始める（{旧石器時代}）。打製石器を使い、狩りや採集をして暮らした'],
+  ['約1万6千年前', -16000, '縄文', '土器が作られ始める（{縄文時代}のはじまり。土器が出現し始めたころ）'],
+  ['約5500〜4000年前', -4500, '縄文', '青森県の{三内丸山遺跡}に、大きな集落が栄える'],
+  ['約2500〜2800年前', -2600, '弥生', '北九州から、{水田稲作}が伝わる（{弥生時代}のはじまり。諸説あり）'],
+  ['1世紀ごろ', 1, '弥生', '各地に、{むらのくに}（小さな国）が生まれる'],
+  ['57年', 57, '弥生', '{奴国}の王が後漢に使いを送り、{金印}（漢委奴国王）を授かる'],
+  ['107年', 107, '弥生', '倭国の王が後漢に使いを送る（『後漢書』）'],
+  ['2世紀後半', 150, '弥生', '{倭国大乱}：各地の王が争い、国が乱れる（『後漢書』）'],
+  ['239年', 239, '弥生', '{邪馬台国}の女王{卑弥呼}が魏に使いを送り、「{親魏倭王}」の称号を授かる（『魏志倭人伝』）'],
+  ['3世紀後半', 250, '古墳', '{前方後円墳}が、近畿地方を中心に各地へ広がる（{古墳時代}のはじまり）。奈良県の{箸墓古墳}は代表例'],
+  ['4世紀後半', 370, '古墳', '{ヤマト王権}（大和政権）が、各地の豪族をまとめていく'],
+  ['5世紀', 450, '古墳', '{倭の五王}が、中国の南朝（宋）に使いを送る（『宋書』）'],
+  ['5世紀', 460, '古墳', '大阪府の{大仙古墳}（仁徳天皇陵とされる）など、大きな前方後円墳が造られる'],
+  ['5世紀後半（471年とされる）', 471, '古墳', '{稲荷山古墳}出土の鉄剣に、「{ワカタケル}大王」の名が刻まれる'],
+  ['6世紀前半', 520, '古墳', '朝鮮半島から{渡来人}が多く来て、技術や文化を伝える'],
+  ['538年（552年とする説も）', 538, '飛鳥', '百済から{仏教}が伝わる（{仏教伝来}）'],
+  ['587年', 587, '飛鳥', '{蘇我馬子}が、{物部守屋}を倒す（{丁未の乱}）'],
+  ['592年', 592, '飛鳥', '{推古天皇}が即位する（最初の女性の天皇）'],
+  ['593年', 593, '飛鳥', '{聖徳太子}が摂政となり、政治を進める'],
+  ['603年', 603, '飛鳥', '{冠位十二階}の制度が定められる（能力によって役人の位を決める）'],
+  ['604年', 604, '飛鳥', '{十七条の憲法}が定められる'],
+  ['607年', 607, '飛鳥', '{小野妹子}を{遣隋使}として隋へ派遣する'],
+  ['645年', 645, '飛鳥', '{乙巳の変}：中大兄皇子と{中臣鎌足}が、蘇我氏を倒す（{大化の改新}のはじまり）'],
+  ['646年', 646, '飛鳥', '改新の詔が出され、{公地公民}などの方針が示される'],
+  ['663年', 663, '飛鳥', '{白村江の戦い}で、日本と百済の連合軍が、唐と新羅の連合軍に敗れる'],
+  ['672年', 672, '飛鳥', '{壬申の乱}：大海人皇子（後の天武天皇）が勝利する'],
+  ['701年', 701, '飛鳥', '{大宝律令}が完成し、律令国家の仕組みが整う'],
+  ['710年', 710, '奈良', '都が{平城京}に移る（{奈良時代}のはじまり）'],
+  ['712年', 712, '奈良', '{古事記}が完成する'],
+  ['720年', 720, '奈良', '{日本書紀}が完成する'],
+  ['743年', 743, '奈良', '{墾田永年私財法}が出され、貴族や寺社の土地の私有が広がる'],
+  ['743年', 743, '奈良', '聖武天皇が{大仏}を造る詔を出す（{東大寺}の大仏）'],
+  ['752年', 752, '奈良', '東大寺の大仏が完成し、開眼供養が行われる'],
+  ['753年', 753, '奈良', '唐の僧の{鑑真}が来日する（苦難の末に）'],
+  ['8世紀後半', 780, '奈良', '{万葉集}が、まとめられる'],
+  ['794年', 794, '平安', '都が{平安京}に移る（{平安時代}のはじまり）'],
+  ['804年', 804, '平安', '{最澄}・{空海}が遣唐使とともに唐へ渡る（帰国後、天台宗・真言宗を開く）'],
+  ['866年', 866, '平安', '{藤原良房}が、初めての{摂政}となる'],
+  ['894年', 894, '平安', '{菅原道真}の提案で、{遣唐使}が停止される'],
+  ['905年', 905, '平安', '{古今和歌集}が編纂される（{国風文化}）'],
+  ['935年', 935, '平安', '{平将門}の乱・{藤原純友}の乱が起こる（～941年）'],
+  ['1016年', 1016, '平安', '{藤原道長}が摂政となり、藤原氏の全盛期をつくる'],
+  ['1051年', 1051, '平安', '{前九年の役}が起こる（～1062年）'],
+  ['1086年', 1086, '平安', '{白河上皇}が{院政}を始める'],
+  ['1156年', 1156, '平安', '{保元の乱}：天皇家と藤原氏の争いが、武力で決着する'],
+  ['1159年', 1159, '平安', '{平治の乱}で、{平清盛}が勝ち、勢力を広げる'],
+  ['1167年', 1167, '平安', '平清盛が{太政大臣}となり、{平氏}が政治の実権を握る'],
+  ['1175年', 1175, '平安', '{法然}が{浄土宗}を開く（念仏で救われるという教え）'],
+  ['1185年', 1185, '平安', '{壇ノ浦の戦い}で平氏が滅びる（{平安時代}の終わり）'],
+  ['1185年', 1185, '鎌倉', '源頼朝が、{守護・地頭}を置く（{鎌倉幕府}の支配が広がる）'],
+  ['1192年', 1192, '鎌倉', '源頼朝が{征夷大将軍}に任じられる（{鎌倉時代}のはじまり。鎌倉幕府の成立とされる）'],
+  ['1221年', 1221, '鎌倉', '{承久の乱}：朝廷が幕府を倒そうとして敗れる'],
+  ['1224年', 1224, '鎌倉', '{親鸞}が{浄土真宗}を開く（悪人正機の教え）'],
+  ['1232年', 1232, '鎌倉', '{御成敗式目}（貞永式目）が定められる（武士の初めての法律）'],
+  ['1253年', 1253, '鎌倉', '{日蓮}が{日蓮宗}（法華宗）を開く'],
+  ['1274年', 1274, '鎌倉', '{文永の役}：元（モンゴル）軍が、九州北部に襲来する'],
+  ['1281年', 1281, '鎌倉', '{弘安の役}：元軍が再び襲来し、暴風雨で退く（{神風}）'],
+  ['1297年', 1297, '鎌倉', '{永仁の徳政令}が出される（御家人の借金を帳消しにしようとする）'],
+  ['1333年', 1333, '鎌倉', '{鎌倉幕府}が滅びる（{後醍醐天皇}が{建武の新政}を始める）'],
+  ['1338年', 1338, '室町', '{足利尊氏}が征夷大将軍となり、{室町幕府}が始まる（{室町時代}）'],
+  ['1392年', 1392, '室町', '{南北朝}が合一される（足利義満による）'],
+  ['1397年', 1397, '室町', '足利義満が{金閣}を造る（{北山文化}）'],
+  ['1404年', 1404, '室町', '{勘合貿易}（日明貿易）が始まる'],
+  ['1467年', 1467, '室町', '{応仁の乱}が起こる（～1477年）。戦国の世へ'],
+  ['1485年', 1485, '室町', '{山城の国一揆}：武士が、守護を追い出して自治を行う'],
+  ['1489年', 1489, '室町', '足利義政が{銀閣}を造る（{東山文化}）'],
+  ['1543年', 1543, '戦国', '種子島に{鉄砲}が伝わる（ポルトガル人が伝える）'],
+  ['1549年', 1549, '戦国', '{フランシスコ・ザビエル}が来日し、{キリスト教}を伝える'],
+  ['1560年', 1560, '戦国', '{桶狭間の戦い}：織田信長が、今川義元に勝つ'],
+  ['1575年', 1575, '戦国', '{長篠の戦い}：織田・徳川の連合軍が、武田勝頼の騎馬隊に勝つ'],
+  ['1573年', 1573, '安土桃山', '織田信長が足利義昭を追放し、室町幕府が滅びる（{安土桃山時代}のはじまり）'],
+  ['1582年', 1582, '安土桃山', '{本能寺の変}：明智光秀が織田信長を倒す'],
+  ['1582年', 1582, '安土桃山', '{太閤検地}が始まり、土地の面積や収穫量を調べる'],
+  ['1585年', 1585, '安土桃山', '豊臣秀吉が{関白}となる'],
+  ['1587年', 1587, '安土桃山', '{バテレン追放令}が出され、キリスト教の布教が禁止される'],
+  ['1588年', 1588, '安土桃山', '{刀狩令}が出され、農民から武器が取り上げられる'],
+  ['1590年', 1590, '安土桃山', '豊臣秀吉が{全国統一}を果たす（小田原の北条氏を降す）'],
+  ['1592年', 1592, '安土桃山', '{文禄の役}（朝鮮出兵）が始まる'],
+  ['1597年', 1597, '安土桃山', '{慶長の役}（朝鮮出兵）が行われる'],
+  ['1600年', 1600, '安土桃山', '{関ヶ原の戦い}：徳川家康が、石田三成らに勝つ'],
+  ['1603年', 1603, '江戸', '徳川家康が征夷大将軍となり、{江戸幕府}を開く（{江戸時代}のはじまり）'],
+  ['1615年', 1615, '江戸', '{大坂夏の陣}で豊臣氏が滅びる'],
+  ['1615年', 1615, '江戸', '{武家諸法度}が定められる（大名を統制する法律）'],
+  ['1637年', 1637, '江戸', '{島原・天草一揆}：キリスト教徒らが、幕府に反抗して立ち上がる'],
+  ['1639年', 1639, '江戸', 'ポルトガル船の来航が禁止され、{鎖国}の体制が完成する'],
+  ['1641年', 1641, '江戸', 'オランダ商館が長崎の{出島}に移される'],
+  ['1716年', 1716, '江戸', '{享保の改革}：徳川吉宗が、幕府の改革を進める'],
+  ['1774年', 1774, '江戸', '杉田玄白らが『{解体新書}』を出版する（{蘭学}の発展）'],
+  ['1787年', 1787, '江戸', '{寛政の改革}：松平定信が、改革を進める'],
+  ['1792年', 1792, '江戸', 'ロシアの使節{ラクスマン}が根室に来航する'],
+  ['1800年', 1800, '江戸', '{伊能忠敬}が、全国の測量を始める（{大日本沿海輿地全図}）'],
+  ['1825年', 1825, '江戸', '{異国船打払令}が出される'],
+  ['1837年', 1837, '江戸', '{大塩平八郎}の乱：大坂で、幕府に対する反乱が起こる'],
+  ['1841年', 1841, '江戸', '{天保の改革}：水野忠邦が、改革を進める'],
+  ['1853年', 1853, '江戸', '{ペリー}が浦賀に来航する'],
+  ['1854年', 1854, '江戸', '{日米和親条約}が結ばれ、下田・函館が開港される'],
+  ['1858年', 1858, '江戸', '{日米修好通商条約}が結ばれる（{不平等条約}）'],
+  ['1860年', 1860, '江戸', '{桜田門外の変}：大老の井伊直弼が暗殺される'],
+  ['1867年', 1867, '江戸', '{大政奉還}：徳川慶喜が、政権を朝廷に返す'],
+  ['1867年', 1867, '江戸', '{王政復古の大号令}が出される'],
+  ['1868年', 1868, '明治', '{戊辰戦争}が始まる（～1869年）'],
+  ['1868年', 1868, '明治', '{五箇条の御誓文}が出され、{明治維新}が進む（{明治時代}のはじまり）'],
+  ['1869年', 1869, '明治', '{版籍奉還}が行われる'],
+  ['1871年', 1871, '明治', '{廃藩置県}が行われ、府知事・県令が派遣される'],
+  ['1872年', 1872, '明治', '{学制}が公布される（近代的な学校制度の始まり）'],
+  ['1873年', 1873, '明治', '{地租改正}が行われる（地価の3％を、現金で納める）'],
+  ['1873年', 1873, '明治', '{徴兵令}が出される（国民皆兵）'],
+  ['1874年', 1874, '明治', '{民撰議院設立建白書}が出され、{自由民権運動}が始まる'],
+  ['1877年', 1877, '明治', '{西南戦争}：西郷隆盛らが、政府に反乱を起こす'],
+  ['1881年', 1881, '明治', '{国会開設の勅諭}が出される（10年後の国会開設を約束）'],
+  ['1885年', 1885, '明治', '{内閣制度}ができ、伊藤博文が初代の{内閣総理大臣}となる'],
+  ['1889年', 1889, '明治', '{大日本帝国憲法}が発布される'],
+  ['1890年', 1890, '明治', '{第一回帝国議会}が開かれる（{教育勅語}も発布される）'],
+  ['1894年', 1894, '明治', '{日清戦争}が始まる（～1895年）'],
+  ['1895年', 1895, '明治', '{下関条約}が結ばれ、{台湾}などを得る'],
+  ['1901年', 1901, '明治', '{八幡製鉄所}が操業を始める'],
+  ['1902年', 1902, '明治', '{日英同盟}が結ばれる'],
+  ['1904年', 1904, '明治', '{日露戦争}が始まる（～1905年）'],
+  ['1905年', 1905, '明治', '{ポーツマス条約}が結ばれる（日露戦争の講和）'],
+  ['1910年', 1910, '明治', '{韓国併合}が行われる'],
+  ['1911年', 1911, '明治', '{関税自主権}の回復が実現する'],
+  ['1912年', 1912, '大正', '{明治天皇}が亡くなり、{大正}が始まる（{大正時代}のはじまり）'],
+  ['1914年', 1914, '大正', '{第一次世界大戦}が始まる（日本は日英同盟を理由に参戦）'],
+  ['1918年', 1918, '大正', '{米騒動}が全国に広がる'],
+  ['1918年', 1918, '大正', '{原敬}内閣が成立する（初めての本格的な政党内閣）'],
+  ['1919年', 1919, '大正', '{ヴェルサイユ条約}に調印する（日本は五大国の一つ）'],
+  ['1920年', 1920, '大正', '{国際連盟}の常任理事国となる'],
+  ['1922年', 1922, '大正', '{ワシントン会議}（海軍軍縮条約など）'],
+  ['1923年', 1923, '大正', '{関東大震災}が起こる'],
+  ['1925年', 1925, '大正', '{普通選挙法}が成立する（満25歳以上の男子が選挙権をもつ）'],
+  ['1925年', 1925, '大正', '{治安維持法}が成立する'],
+  ['1926年', 1926, '昭和', '大正天皇が亡くなり、{昭和}が始まる（{昭和時代}のはじまり）'],
+  ['1927年', 1927, '昭和', '{金融恐慌}が起こる'],
+  ['1929年', 1929, '昭和', '{世界恐慌}が起こり、日本も不景気になる'],
+  ['1931年', 1931, '昭和', '{満州事変}が起こる'],
+  ['1932年', 1932, '昭和', '{五・一五事件}：犬養毅首相が殺される'],
+  ['1932年', 1932, '昭和', '{満州国}が建国される'],
+  ['1933年', 1933, '昭和', '日本が{国際連盟}を脱退する'],
+  ['1936年', 1936, '昭和', '{二・二六事件}：陸軍の青年将校が反乱を起こす'],
+  ['1937年', 1937, '昭和', '{日中戦争}が始まる（{盧溝橋事件}がきっかけ）'],
+  ['1938年', 1938, '昭和', '{国家総動員法}が公布される'],
+  ['1940年', 1940, '昭和', '{日独伊三国同盟}が結ばれる'],
+  ['1940年', 1940, '昭和', '{大政翼賛会}が発足する'],
+  ['1941年', 1941, '昭和', '{太平洋戦争}が始まる（真珠湾攻撃）'],
+  ['1945年', 1945, '昭和', '広島（8月6日）・長崎（8月9日）に{原子爆弾}が投下される'],
+  ['1945年', 1945, '昭和', '{ポツダム宣言}を受諾し、8月15日に{終戦}を迎える'],
+  ['1946年', 1946, '昭和', '{日本国憲法}が公布される（1947年に施行）'],
+  ['1946年', 1946, '昭和', '{農地改革}が行われる（～1950年）'],
+  ['1946年', 1946, '昭和', '群馬県の{岩宿遺跡}で、日本で初めて旧石器時代の石器が見つかる'],
+  ['1950年', 1950, '昭和', '{朝鮮戦争}が始まる（日本は特需景気となる）'],
+  ['1951年', 1951, '昭和', '{サンフランシスコ平和条約}と{日米安全保障条約}が結ばれる'],
+  ['1955年', 1955, '昭和', '{高度経済成長}が始まる（～1973年）'],
+  ['1956年', 1956, '昭和', '{日ソ共同宣言}に調印し、{国際連合}に加盟する'],
+  ['1964年', 1964, '昭和', '{東京オリンピック}が開かれる'],
+  ['1964年', 1964, '昭和', '{東海道新幹線}が開業する'],
+  ['1965年', 1965, '昭和', '{日韓基本条約}が結ばれる'],
+  ['1968年', 1968, '昭和', '{小笠原諸島}が日本に返還される'],
+  ['1972年', 1972, '昭和', '{沖縄}が日本に返還される'],
+  ['1972年', 1972, '昭和', '{日中共同声明}が出され、国交が正常化する'],
+  ['1973年', 1973, '昭和', '{石油危機}（オイルショック）が起こり、高度経済成長が終わる'],
+  ['1989年', 1989, '昭和', '{昭和天皇}が亡くなり、昭和が終わる']
+];
+const JN = { era: '', mode: false, open: {}, q: '' };
+const jnParts = t => String(t).split(/\{([^}]+)\}/).map((seg, k) => k % 2 ? { kw: seg } : { txt: seg }).filter(x => x.kw !== undefined || x.txt);
+function jnText(i, t) {
+  let j = 0;
+  return jnParts(t).map(p => { if (p.txt !== undefined) return esc(p.txt); const id = i + '-' + (j++); const show = !JN.mode || JN.open[id];
+    return show ? `<button type="button" class="jn-k ${JN.mode ? 'open' : ''}" data-act="jnk" data-id="${id}">${esc(p.kw)}</button>` : `<button type="button" class="jn-k hid" data-act="jnk" data-id="${id}" aria-label="答えを見る">？？？</button>`; }).join('');
+}
+function jnList() {
+  const q = JN.q.trim(), rows = JN_DATA.map((r, i) => ({ r, i })).filter(({ r }) => (!JN.era || r[2] === JN.era) && (!q || r[3].replace(/[{}]/g, '').includes(q) || r[0].includes(q)));
+  const out = []; let last = '';
+  for (const { r, i } of rows.sort((a, b) => (JN_ERAS.indexOf(a.r[2]) - JN_ERAS.indexOf(b.r[2])) || (a.r[1] - b.r[1]))) {
+    if (r[2] !== last) { last = r[2]; out.push(`<div class="jn-h">${esc(last)}時代</div>`); }
+    out.push(`<div class="jn-r"><b>${esc(r[0])}</b><span>${jnText(i, r[3])}</span></div>`);
+  }
+  return out.length ? out.join('') : '<p class="muted" style="text-align:center;padding:18px 0">見つかりませんでした</p>';
+}
+function jnenHtml() {
+  const kw = JN_DATA.reduce((a, r) => a + (r[3].match(/\{/g) || []).length, 0);
+  return `<div class="jn-top"><div class="jn-eras">${['', ...JN_ERAS].map(e => `<button type="button" class="sn-sc ${JN.era === e ? 'on' : ''}" data-act="jnera" data-id="${e}">${e || 'すべて'}</button>`).join('')}</div>
+  <div class="jn-ctl"><button type="button" class="sn-sc ${JN.mode ? 'on' : ''}" data-act="jnmode" aria-pressed="${JN.mode}">${ms(JN.mode ? 'visibility_off' : 'visibility')}暗記モード</button>${JN.mode ? `<button type="button" class="sn-sc" data-act="jnall" data-id="show">すべて答える</button><button type="button" class="sn-sc" data-act="jnall" data-id="hide">すべて隠す</button>` : ''}<span class="sp" style="flex:1"></span><span class="muted jn-n">${JN_DATA.length}件・重要語${kw}</span></div>
+  <div class="jn-q"><input id="jnq" type="search" placeholder="出来事や年で探す" value="${esc(JN.q)}" autocomplete="off" aria-label="年表を探す"></div></div>
+  <p class="muted jn-f">${JN.mode ? '暗記モード：「？？？」の部分をタップすると、答えが出ます。もう一度タップで隠れます。' : '重要な語は、このまま読めます。「暗記モード」をオンにすると、語を隠して覚えられます。'}</p>
+  <div id="jnlist" class="jn-l">${jnList()}</div>`;
+}
+Object.assign(ACT, {
+  jnera(id) { JN.era = id; JN.open = {}; toolsRefresh(); },
+  jnmode() { JN.mode = !JN.mode; JN.open = {}; toolsRefresh(); },
+  jnk(id) { JN.open[id] = !JN.open[id]; const l = $('#jnlist'); if (l) l.innerHTML = jnList(); else toolsRefresh(); },
+  jnall(id) { const all = {}; if (id === 'show') JN_DATA.forEach((r, i) => { const n = (r[3].match(/\{/g) || []).length; for (let j = 0; j < n; j++) all[i + '-' + j] = true; }); JN.open = all; toolsRefresh(); }
+});
+document.addEventListener('input', e => { if (e.target && e.target.id === 'jnq') { JN.q = e.target.value; const l = $('#jnlist'); if (l) l.innerHTML = jnList(); } });
 function toolsPost() {
   const tl = ui.tool || '';
   if (tl === 'calc') calcPaint(true);
