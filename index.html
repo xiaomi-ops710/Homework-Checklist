@@ -251,6 +251,59 @@
 .jn-k.open{background:var(--sec-c);color:var(--on-sec-c)}
 .jn-k:active{transform:scale(.94)}
 @media(max-width:699px){.jn-r{grid-template-columns:1fr;gap:4px}.jn-h{width:auto}}
+
+/* ===== 18.1：Material 3 Expressive の全体の調整（フォーカス・押したときの形・ダイアログ・トースト・時間割の7限以降） ===== */
+:focus-visible{outline:3px solid var(--primary);outline-offset:3px}
+.btn,.tchip,.sn-sc,.wx-sg,.rchip span,.ibtn,.wc-ib,.wcm-i,.jn-k{transition:border-radius .35s var(--spring),transform .25s var(--spring),background .2s,box-shadow .2s,color .2s}
+.btn:active:not(:disabled),.tchip:active,.sn-sc:active,.wx-sg:active,.ibtn:active,.wc-ib:active{transform:scale(.95)}
+.btn:active:not(:disabled){border-radius:18px}
+.btn:disabled,.tchip:disabled,.ibtn:disabled,.wc-ib:disabled{opacity:.38;cursor:default}
+.dlg{border-radius:32px}
+.h-sec h2{font-size:1.4rem;font-weight:700;letter-spacing:-.01em}
+#toast{border-radius:20px;background:var(--on);color:var(--bg);box-shadow:var(--shadow);font-weight:600}
+.t7{display:grid;gap:8px}
+.t7-r{display:grid;grid-template-columns:44px 1fr auto 1fr;gap:6px;align-items:center}
+.t7-r b{font-weight:800;color:var(--primary);text-align:center}
+.t7-r span{color:var(--on-v);font-weight:700;text-align:center}
+.t7-r input{width:100%;box-sizing:border-box;height:48px;padding:0 10px;border:0;border-radius:16px;background:var(--s2);color:var(--on);font:inherit;font-size:1rem;outline:none}
+.t7-r input:focus{box-shadow:0 0 0 3px var(--primary)}
+
+/* ===== 18.2：全体のアニメーション（豪華に）。設定の「アニメーション」オフで止まる ===== */
+@keyframes riseIn{from{opacity:0;transform:translateY(24px) scale(.97);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+@keyframes popIn{0%{opacity:0;transform:scale(.6)}70%{transform:scale(1.07)}100%{opacity:1;transform:none}}
+@keyframes sheen{0%{transform:translateX(-130%) skewX(-18deg)}100%{transform:translateX(260%) skewX(-18deg)}}
+@keyframes auroraA{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(34px,-18px) scale(1.18)}}
+@keyframes auroraB{0%,100%{transform:translate(0,0) scale(1.04)}50%{transform:translate(-28px,20px) scale(.94)}}
+@keyframes ripple{to{transform:scale(3.6);opacity:0}}
+@keyframes dlgIn{from{opacity:0;transform:translateY(46px) scale(.9)}to{opacity:1;transform:none}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes growX{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+@keyframes glowPulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--primary) 45%,transparent)}60%{box-shadow:0 0 0 14px transparent}}
+@keyframes bobble{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.card,.h-sec,.hqi,.tcard,.tt-row,.jn-r,.ny-r,.wcm-i,.sug-c,.td-i,.mu-r,.pitem,.tbl-c,.tbl-h,.tbl-p,.en-r,.gr-r,.sct-r{animation:riseIn .7s var(--spring) both}
+.stg>*{animation:riseIn .65s var(--spring) both}
+.stg>*:nth-child(2){animation-delay:.05s}.stg>*:nth-child(3){animation-delay:.1s}.stg>*:nth-child(4){animation-delay:.15s}
+.stg>*:nth-child(5){animation-delay:.2s}.stg>*:nth-child(6){animation-delay:.25s}.stg>*:nth-child(7){animation-delay:.3s}
+.stg>*:nth-child(n+8){animation-delay:.34s}
+.tbl-c:nth-child(3n){animation-delay:.04s}.tbl-c:nth-child(5n){animation-delay:.08s}
+.sn-sc.on,.wx-sg.on,.rchip input:checked+span,.tchip.on,.pillchip.on,.ni.on .pill{animation:popIn .45s var(--spring) both}
+dialog[open]{animation:dlgIn .55s var(--spring) both}
+dialog::backdrop{background:rgba(8,10,20,.42);backdrop-filter:blur(3px);animation:fadeIn .4s ease both}
+.rip-host{position:relative;overflow:hidden}
+.rip{position:absolute;border-radius:50%;background:currentColor;opacity:.22;pointer-events:none;animation:ripple .65s cubic-bezier(.2,.7,.3,1) forwards}
+.stk{position:relative;overflow:hidden}
+.stk::after{content:"";position:absolute;top:0;bottom:0;left:0;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);animation:sheen 3.6s ease-in-out infinite;pointer-events:none}
+.greet{position:relative;isolation:isolate}
+.greet::before,.greet::after{content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(34px)}
+.greet::before{width:340px;height:220px;left:-40px;top:-60px;background:color-mix(in srgb,var(--primary) 38%,transparent);animation:auroraA 10s ease-in-out infinite}
+.greet::after{width:300px;height:200px;right:-60px;top:20px;background:color-mix(in srgb,var(--ter,var(--primary)) 30%,transparent);animation:auroraB 12s ease-in-out infinite}
+#fab .fabb{animation:glowPulse 2.8s ease-out infinite}
+.wc-prog i,.qz2-bar i,.bag-bar i{animation:growX .9s var(--spring) both}
+.ft-ring,.tt-now{animation:popIn .7s var(--spring) both}
+.h-sec h2 .ms,.ni.on .ms{animation:bobble 3.2s ease-in-out infinite}
+@media(hover:hover){.tcard:hover,.hqi:hover{transform:translateY(-4px);transition:transform .35s var(--spring)}}
+html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!important;transition:none!important}
+html.noanim .greet::before,html.noanim .greet::after{display:none}
 </style>
 </head>
 <body>
@@ -275,7 +328,7 @@
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.14';
+const APP_VERSION = '17.16';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -673,7 +726,7 @@ function aiTodayInner() {
 function aiTodayCard() { if (!CLOUD.user) return ''; axLoad(); return `<section class="card aitd" id="aitd">${aiTodayInner()}</section>`; }
 const aiTodayPaint = () => { const el = $('#aitd'); if (el) el.innerHTML = aiTodayInner(); };
 /* ---------- ホーム：よく使うツール ---------- */
-const HOME_MAX = 8;
+const HOME_MAX = 12;
 const homeToolIds = () => (Array.isArray(S.set.homeTools) ? S.set.homeTools : []).filter((id, i, a) => a.indexOf(id) === i && TOOLS.some(t => t[0] === id)).slice(0, HOME_MAX);
 function homeTools() {
   const ids = homeToolIds();
@@ -783,6 +836,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.16', t: 'よく使うツールを12個まで・全体のアニメーションを豪華に', n: ['ホームの「よく使うツール」を、8個から12個まで置けるようにしました', 'アニメーションを全体に追加しました。画面の要素が順番に浮き上がって出る・ボタンを押すと波紋が広がる・ダイアログがばねのように開く・ホームの背景に光が揺らめく、などです', '設定の「アニメーション」をオフにすると、すべての動きが止まります'] },
+  { v: '17.15', t: '時間割の時間を固定に・全体のデザインを調整', n: ['時間割の1〜6限は、8:35〜9:25、9:35〜10:25、10:35〜11:25、11:35〜12:25、13:10〜14:00、14:10〜15:00に決まりました（自分で入れる必要はありません）', '7限は、曜日ごとに時間を自分で設定できます（空けておくと、その曜日は表示しません）', '全体のボタン・ダイアログ・通知の形と、キーボードで操作したときの枠を、Material 3 Expressive の形に整えました'] },
   { v: '17.14', t: '社会：日本史年表（旧石器〜昭和）を追加', n: ['「日本史年表」を追加しました。旧石器時代から昭和まで、時代ごとの主な出来事を年順に並べています（全161件）', '重要な語は「暗記モード」で隠れ、タップすると答えが出ます。時代で絞ったり、出来事や年で探したりできます'] },
   { v: '17.13', t: '中学・高校向けの計算ツールを追加（五十音表・九九表は削除）', n: ['五十音表と九九表を削除しました', '中学・高校向けのツールを追加しました：年号・西暦（社会）、時差計算（地理）、最大公約数・最小公倍数（数学）、二次関数の頂点（数学）、分子量・物質の量（化学）、合成抵抗（理科）、遺伝の確率（生物）', '理科の計算は、計算のあとも入力した値が残るようになりました'] },
   { v: '17.12', t: '勉強系ツールを追加', n: ['「九九表」を追加しました。マスをタップすると、答えを確かめられます', '「理科の計算」を追加しました。速さ・密度・濃度・オームの法則を、空欄の一つを計算して求められます', '「五十音表」を追加しました。ひらがな・カタカナを切り替えられ、タップするとローマ字と読み上げを確かめられます', '「年表」を追加しました。出来事を自分で追加すると、年の順に並びます', '「英語の時制・品詞」を追加しました。時制と品詞を、例文つきで確かめられます'] },
@@ -1681,7 +1736,7 @@ const ACT = {
     $('#tblf').onsubmit = ev => { ev.preventDefault(); ACT.tblset($('#tblin').value.trim()); };
   },
   tblset(v) { const t = tblData(); if (v) t.c[TBLK] = v; else delete t.c[TBLK]; save(); closeDlg(); toolsRefresh(); },
-  tblp(id) { const t = tblData(); t.p = Math.max(4, Math.min(8, t.p + (+id))); save(); toolsRefresh(); },
+  tblp(id) { const t = tblData(); t.p = Math.max(7, Math.min(8, t.p + (+id))); save(); toolsRefresh(); },
   memoadd() { memoDlg(''); },
   memoedit(id) { memoDlg(id); },
   memohue(id, el) { MEMOS.h = +id; el.parentElement.querySelectorAll('.memo-c').forEach(b => b.classList.toggle('on', b === el)); },
@@ -2117,7 +2172,7 @@ document.addEventListener('change', e => {
   }
   else if (t.id === 'sort') { ui.sort = t.value; $('#tl').innerHTML = taskList(); postRender(); }
   else if (t.dataset && t.dataset.act === 'hue') ACT.hue(t.dataset.id);
-  else if (t.dataset && t.dataset.set) { S.set[t.dataset.set] = t.checked; applyTheme(); save(); if (t.dataset.set === 'wx') wxOnToggle(); }
+  else if (t.dataset && t.dataset.set) { S.set[t.dataset.set] = t.checked; applyTheme(); save(); if (t.dataset.set === 'wx') wxOnToggle(); if (t.dataset.set === 'anim') motionSync(); }
   else if (t.dataset && t.dataset.setn) { const mn = +t.min, mx = +t.max; let v = Math.round(+t.value) || mn; v = Math.max(mn, Math.min(mx, v)); t.value = v; S.set[t.dataset.setn] = v; save(); tmResync(); if (TM.open) renderFocus(); }
   else if (t.id === 'ftask') { TM.tid = t.value; const k = T(t.value); TM.sid = k ? k.sid : ''; }
   else if (t.id === 'imp') importData(t);
@@ -4009,7 +4064,7 @@ function swHtml() {
 TPAINT.sw = () => { cancelAnimationFrame(SWS.raf); const loop = () => { const el = $('#swt'); if (!el || ui.tool !== 'sw') return; el.textContent = swFmt(swNow()); if (SWS.run) SWS.raf = requestAnimationFrame(loop); }; loop(); };
 const TBL_DAYS = ['月', '火', '水', '木', '金', '土'], TBL_PRE = ['国語', '数学', '英語', '理科', '社会', '音楽', '美術', '保体', '技術', '家庭', '道徳', '総合', '学活'];
 let TBLK = '';
-const tblData = () => { if (!S.tt || typeof S.tt !== 'object') S.tt = { p: 6, c: {} }; S.tt.c = S.tt.c || {}; S.tt.p = S.tt.p || 6; return S.tt; };
+const tblData = () => { if (!S.tt || typeof S.tt !== 'object') S.tt = { p: 6, c: {} }; S.tt.c = S.tt.c || {}; S.tt.p = Math.max(7, S.tt.p || 7); return S.tt; };
 // 土曜日は「表示する／しない」を切り替えられる（t.nosat）。授業が入っている土曜だけが、「あした」の対象になる
 const tblN = () => (tblData().nosat ? 5 : 6);
 const TBL_HUE = { 国語: 20, 数学: 222, 英語: 150, 理科: 190, 社会: 40, 音楽: 300, 美術: 340, 保体: 120, 技術: 205, 家庭: 10, 道徳: 60, 総合: 170, 学活: 255 };
@@ -4036,7 +4091,7 @@ function tblHtml() {
   for (let p = 0; p < t.p; p++) { g += `<button type="button" class="tbl-p" data-act="tbltm" data-id="${p}" aria-label="${p + 1}時間目の時間を決める">${p + 1}${tblTmRowHtml(p)}</button>`; for (let d = 0; d < n; d++) { const v = t.c[d + '-' + p]; g += `<button type="button" class="tbl-c ${v ? 'sc' : 'emp'} ${d === today ? 'tod' : ''}" ${v ? `style="--sh:${ttHue(v)}"` : ''} data-act="tblcell" data-id="${d}-${p}" aria-label="${days[d]}曜 ${p + 1}時間目 ${v ? esc(v) : '未入力'}">${v ? esc(v) : ms('add')}</button>`; } }
   return `<div class="card tbl-nx"><span class="tbl-day">${TBL_DAYS[nx.idx]}</span><div class="tbl-nxb"><b>${nx.tomorrow ? 'あした' : 'つぎの登校日'}の時間割<small>${TBL_DAYS[nx.idx]}曜日</small></b>${pills ? `<div class="tbl-pills stg">${pills}</div>` : '<p class="muted" style="margin:8px 0 0">まだ入力されていません</p>'}</div></div>
   <div class="card tbl-bag" id="tblbag">${bagHtml()}</div>
-  <div class="card tbl-gc"><div class="tbl" style="--nd:${n}">${g}</div><div class="tbl-f"><span class="muted">マスをタップして、教科を選びます</span><span class="sp" style="flex:1"></span><button type="button" class="tchip" data-act="tbltmall">${ms('schedule')}時間を入れる</button><button type="button" class="tchip ${n > 5 ? 'on' : ''}" data-act="tblsat" aria-pressed="${n > 5}">${ms(n > 5 ? 'check' : 'calendar_view_week')}土曜日</button><div class="tbl-step"><button type="button" class="ibtn" data-act="tblp" data-id="-1" ${t.p <= 4 ? 'disabled' : ''} aria-label="時間を減らす">${ms('remove')}</button><b>${t.p}時間</b><button type="button" class="ibtn" data-act="tblp" data-id="1" ${t.p >= 8 ? 'disabled' : ''} aria-label="時間を増やす">${ms('add')}</button></div></div></div>`;
+  <div class="card tbl-gc"><div class="tbl" style="--nd:${n}">${g}</div><div class="tbl-f"><span class="muted">マスをタップして、教科を選びます</span><span class="sp" style="flex:1"></span><button type="button" class="tchip ${n > 5 ? 'on' : ''}" data-act="tblsat" aria-pressed="${n > 5}">${ms(n > 5 ? 'check' : 'calendar_view_week')}土曜日</button><div class="tbl-step"><button type="button" class="ibtn" data-act="tblp" data-id="-1" ${t.p <= 7 ? 'disabled' : ''} aria-label="時間を減らす">${ms('remove')}</button><b>${t.p}時間</b><button type="button" class="ibtn" data-act="tblp" data-id="1" ${t.p >= 8 ? 'disabled' : ''} aria-label="時間を増やす">${ms('add')}</button></div></div></div>`;
 }
 Object.assign(ACT, { tblsat() { const t = tblData(); t.nosat = !t.nosat; save(); toolsRefresh(); } });
 const MEMO_HUES = [50, 150, 200, 340, 280, 20], MEMOS = { id: '', h: 50 };
@@ -5370,7 +5425,8 @@ document.addEventListener('keydown', e => {
 /* ====================== 時間割の時間（17.8）：時間目ごとの始まり・終わり。ホームに、今日の時間割といまの時間目 ====================== */
 const TT_MIN = t => { const m = /^(\d{1,2}):(\d{2})$/.exec(String(t || '')); return m ? (+m[1]) * 60 + (+m[2]) : NaN; };
 const ttFmt = m => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
-const ttTm = i => { const a = (tblData().tm || {})[i]; return Array.isArray(a) && a.length === 2 && !isNaN(TT_MIN(a[0])) && !isNaN(TT_MIN(a[1])) ? a : null; };
+const TT_DEF = [['08:35', '09:25'], ['09:35', '10:25'], ['10:35', '11:25'], ['11:35', '12:25'], ['13:10', '14:00'], ['14:10', '15:00']];   // 1〜6限は、いつも同じ時間
+const ttTm = (i, d) => { if (i < TT_DEF.length) return TT_DEF[i]; const a = (tblData().dt || {})[i + '-' + (d == null ? 0 : d)]; return Array.isArray(a) && a.length === 2 && !isNaN(TT_MIN(a[0])) && !isNaN(TT_MIN(a[1])) ? a : null; };   // 7限以降は、曜日（0＝月）ごと
 // 今日の行（時間目ごと）と、いまの時刻から、いまの時間目・次の時間目を決める
 function ttCalc(rows, nowM) {
   let cur = -1, nxt = -1;
@@ -5389,7 +5445,7 @@ function homeTtCard() {
   const t = S.tt; if (!t || !t.c || !Object.keys(t.c).length) return '';
   const now = new Date(), nowM = now.getHours() * 60 + now.getMinutes(), ti = (now.getDay() + 6) % 7, todayOK = ti < tblN();
   const day = todayOK ? { idx: ti, date: ymdOf(now), label: '今日' } : (() => { const nx = tblNext(); return { idx: nx.idx, date: nx.date, label: '次の登校日' }; })();
-  const rows = Array.from({ length: t.p || 6 }, (_, i) => { const tm = ttTm(i); return { i, v: t.c[day.idx + '-' + i] || '', s: tm ? TT_MIN(tm[0]) : NaN, e: tm ? TT_MIN(tm[1]) : NaN, ts: tm ? tm[0] : '', te: tm ? tm[1] : '' }; });
+  const rows = Array.from({ length: t.p || 7 }, (_, i) => { const tm = ttTm(i, day.idx); return { i, v: t.c[day.idx + '-' + i] || '', s: tm ? TT_MIN(tm[0]) : NaN, e: tm ? TT_MIN(tm[1]) : NaN, ts: tm ? tm[0] : '', te: tm ? tm[1] : '' }; });
   const st = ttCalc(rows, nowM), bag = bagItems(), bc = t.chk && t.chk.d === day.date ? t.chk.v : [];
   const body = rows.map((r, k) => { const isNow = todayOK && k === st.cur, past = todayOK && !isNaN(r.e) && r.e <= nowM;
     return `<div class="tt-row ${isNow ? 'now' : ''} ${past ? 'past' : ''} ${r.v ? '' : 'empty'}" data-i="${r.i}" data-s="${isNaN(r.s) ? '' : r.s}" data-e="${isNaN(r.e) ? '' : r.e}"><span class="tt-no">${r.i + 1}</span><span class="tt-tm">${r.ts ? `${r.ts}–${r.te}` : ''}</span><span class="tt-sub ${r.v ? 'sc' : ''}" ${r.v ? `style="--sh:${ttHue(r.v)}"` : ''}>${r.v ? esc(r.v) : '—'}</span>${isNow ? '<em class="tt-tag">いま</em>' : ''}</div>`; }).join('');
@@ -5408,32 +5464,23 @@ function ttNowPaint() {
 }
 setInterval(() => { try { ttNowPaint(); } catch (e) { } }, 30000);
 // 時間割の表：時間目の数字をタップで、その時間目の時間を入れる。一括でも入れられる
-function tblTmRowHtml(p) { const a = ttTm(p); return a ? `<small>${a[0]}</small>` : ''; }
+function tblTmRowHtml(p) { return p < TT_DEF.length ? `<small>${TT_DEF[p][0]}</small>` : '<small>曜別</small>'; }
 Object.assign(ACT, {
   tbltm(id) {
-    const p = +id, a = ttTm(p) || ['', ''];
-    openDlg(`<h2>${p + 1}時間目の時間</h2><form id="tmf" autocomplete="off" onsubmit="return false"><div class="fld2"><div class="fld"><label for="tms">始まり</label><input id="tms" type="time" value="${esc(a[0])}"></div><div class="fld"><label for="tme">終わり</label><input id="tme" type="time" value="${esc(a[1])}"></div></div></form><div class="dact">${a[0] ? `<button type="button" class="btn text danger" data-act="tbltmdel" data-id="${p}">${ms('delete')}消す</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="tbltmsave" data-id="${p}">${ms('check')}保存</button></div>`);
+    const p = +id; if (p < TT_DEF.length) return toast(`${p + 1}限は、時間が決まっています（${TT_DEF[p][0]}〜${TT_DEF[p][1]}）`);
+    const n = tblN(), rows = TBL_DAYS.slice(0, n).map((d, k) => { const a = ttTm(p, k) || ['', '']; return `<div class="t7-r"><b>${d}</b><input type="time" id="t7s${k}" value="${esc(a[0])}" aria-label="${d}曜 ${p + 1}限 始まり"><span>〜</span><input type="time" id="t7e${k}" value="${esc(a[1])}" aria-label="${d}曜 ${p + 1}限 終わり"></div>`; }).join('');
+    openDlg(`<h2>${p + 1}限の時間（曜日ごと）</h2><p class="muted">時間を空けておくと、その曜日は表示しません。</p><div class="t7">${rows}</div><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="tbltmsave" data-id="${p}">${ms('check')}保存</button></div>`);
   },
   tbltmsave(id) {
-    const s = ($('#tms') || {}).value || '', e = ($('#tme') || {}).value || '';
-    if (!s || !e) return toast('始まりと終わりの時間を入れてください');
-    if (TT_MIN(e) <= TT_MIN(s)) return toast('終わりは、始まりより後にしてください');
-    const t = tblData(); t.tm = t.tm || {}; t.tm[id] = [s, e]; save(); closeDlg(); toolsRefresh();
-  },
-  tbltmdel(id) { const t = tblData(); if (t.tm) delete t.tm[id]; save(); closeDlg(); toolsRefresh(); },
-  tbltmall() {
-    openDlg(`<h2>時間を一括で入れる</h2><p class="muted" style="margin:-8px 0 14px">1時間目の始まりと、授業・休みの長さで、すべての時間目の時間を入れます。</p>
-    <div class="fld"><label for="tmstart">1時間目の始まり</label><input id="tmstart" type="time" value="08:45"></div>
-    <div class="lbl">授業の長さ</div><div class="chips">${[45, 50].map(m => `<label class="rchip"><input type="radio" name="tmlen" value="${m}" ${m === 50 ? 'checked' : ''}><span>${m}分</span></label>`).join('')}</div>
-    <div class="lbl" style="margin-top:12px">休み時間</div><div class="chips">${[5, 10, 15].map(m => `<label class="rchip"><input type="radio" name="tmbrk" value="${m}" ${m === 10 ? 'checked' : ''}><span>${m}分</span></label>`).join('')}</div>
-    <div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="tbltmfill">${ms('check')}入れる</button></div>`);
-  },
-  tbltmfill() {
-    const st = TT_MIN(($('#tmstart') || {}).value); if (isNaN(st)) return toast('1時間目の始まりを入れてください');
-    const len = +((document.querySelector('input[name=tmlen]:checked') || {}).value) || 50, brk = +((document.querySelector('input[name=tmbrk]:checked') || {}).value) || 10;
-    const t = tblData(); t.tm = {}; let m = st;
-    for (let i = 0; i < t.p; i++) { t.tm[i] = [ttFmt(m), ttFmt(m + len)]; m += len + brk; }
-    save(); closeDlg(); toolsRefresh(); toast('時間を入れました');
+    const p = +id, t = tblData(); t.dt = t.dt || {};
+    for (let k = 0; k < tblN(); k++) {
+      const s = ($('#t7s' + k) || {}).value || '', e = ($('#t7e' + k) || {}).value || '', key = p + '-' + k;
+      if (!s && !e) { delete t.dt[key]; continue; }
+      if (!s || !e) return toast(`${TBL_DAYS[k]}曜：始まりと終わりを両方入れてください`);
+      if (TT_MIN(e) <= TT_MIN(s)) return toast(`${TBL_DAYS[k]}曜：終わりは、始まりより後にしてください`);
+      t.dt[key] = [s, e];
+    }
+    save(); closeDlg(); toolsRefresh();
   }
 });
 /* ====================== 集中タイマー（ツール版）・設定のアイコン（17.9） ====================== */
@@ -5890,6 +5937,16 @@ Object.assign(ACT, {
   jnall(id) { const all = {}; if (id === 'show') JN_DATA.forEach((r, i) => { const n = (r[3].match(/\{/g) || []).length; for (let j = 0; j < n; j++) all[i + '-' + j] = true; }); JN.open = all; toolsRefresh(); }
 });
 document.addEventListener('input', e => { if (e.target && e.target.id === 'jnq') { JN.q = e.target.value; const l = $('#jnlist'); if (l) l.innerHTML = jnList(); } });
+/* ====================== 全体のアニメーション（18.2）：波紋・出現・オーロラ。設定の「アニメーション」をオフにすると止まる ====================== */
+function motionSync() { document.documentElement.classList.toggle('noanim', (S.set && S.set.anim === false) || matchMedia('(prefers-reduced-motion: reduce)').matches); }
+motionSync();
+document.addEventListener('pointerdown', e => {
+  const t = e.target && e.target.closest && e.target.closest('button,.tcard,.hqi,.btn,.tchip,.sn-sc,.ibtn,.wx-sg,.rchip span,.ni');
+  if (!t || t.disabled || document.documentElement.classList.contains('noanim')) return;
+  const r = t.getBoundingClientRect(), d = Math.max(r.width, r.height) * 1.25, w = document.createElement('span');
+  w.className = 'rip'; w.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left - d / 2}px;top:${e.clientY - r.top - d / 2}px`;
+  t.classList.add('rip-host'); t.appendChild(w); setTimeout(() => w.remove(), 700);
+}, { passive: true });
 function toolsPost() {
   const tl = ui.tool || '';
   if (tl === 'calc') calcPaint(true);
