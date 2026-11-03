@@ -304,6 +304,67 @@ dialog::backdrop{background:rgba(8,10,20,.42);backdrop-filter:blur(3px);animatio
 @media(hover:hover){.tcard:hover,.hqi:hover{transform:translateY(-4px);transition:transform .35s var(--spring)}}
 html.noanim *,html.noanim *::before,html.noanim *::after{animation:none!important;transition:none!important}
 html.noanim .greet::before,html.noanim .greet::after{display:none}
+
+/* ===== 18.3：タブバーのアイコンの動き（切り替えたときだけ再生）・挨拶の切り替え ===== */
+@keyframes navFill{from{font-variation-settings:'FILL' 0,'wght' 400}to{font-variation-settings:'FILL' 1,'wght' 600}}
+@keyframes navSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes navSwing{0%{transform:rotate(0)}22%{transform:rotate(-24deg)}48%{transform:rotate(18deg)}72%{transform:rotate(-8deg)}100%{transform:rotate(0)}}
+@keyframes navFlip{from{transform:perspective(220px) rotateY(0)}to{transform:perspective(220px) rotateY(360deg)}}
+@keyframes navDraw{0%{transform:scale(.3) rotate(-24deg);opacity:0}60%{transform:scale(1.28) rotate(6deg);opacity:1}100%{transform:none}}
+@keyframes navBars{0%{transform:scaleY(.15)}45%{transform:scaleY(1.3)}75%{transform:scaleY(.92)}100%{transform:scaleY(1)}}
+@keyframes navSpark{0%{transform:rotate(0) scale(.6)}55%{transform:rotate(200deg) scale(1.25)}100%{transform:rotate(360deg) scale(1)}}
+@keyframes navLabel{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.ni .ms{font-variation-settings:'FILL' 0,'wght' 400;transition:font-variation-settings .35s ease}
+.ni.on .ms{font-variation-settings:'FILL' 1,'wght' 600}
+.ni.on.fresh .nl{animation:navLabel .5s var(--spring) both}
+.ni.on.fresh[data-id=home] .ms{animation:navFill .5s var(--spring) both,navSwing .9s .1s var(--spring) both}
+.ni.on.fresh[data-id=tasks] .ms{animation:navDraw .65s var(--spring) both}
+.ni.on.fresh[data-id=cal] .pill{animation:navFlip .9s var(--spring) both}
+.ni.on.fresh[data-id=stats] .ms{transform-origin:50% 100%;animation:navBars .8s var(--spring) both}
+.ni.on.fresh[data-id=ai] .pill>*{animation:navSpark 1s var(--spring) both}
+.ni.on.fresh[data-id=tools] .ms{animation:navFill .5s var(--spring) both,navSwing 1s .05s var(--spring) both}
+.ni.on.fresh[data-id=settings] .ms{animation:navFill .5s var(--spring) both,navSpin .9s cubic-bezier(.3,1.5,.5,1) both}
+.ni:not(.on):active .ms{transform:scale(.86);transition:transform .15s}
+
+/* ===== 18.4：初回の説明（Androidのセットアップ風）・フィードバックボタン ===== */
+.fbtop{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;border:0;background:var(--s3);color:var(--on);transition:transform .3s var(--spring),background .2s,border-radius .4s var(--spring)}
+.fbtop .ms{font-size:22px}
+.fbtop:active{transform:scale(.88);border-radius:16px}
+.fbtop[hidden]{display:none}
+dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;margin:0;border:0;border-radius:0;padding:0;background:var(--s1)}
+.dlg:has(.ob){max-width:none;width:100%;height:100%;border-radius:0;padding:0;box-sizing:border-box;display:flex;flex-direction:column;background:transparent;box-shadow:none}
+.ob{flex:1;display:flex;flex-direction:column;min-height:0;width:100%;max-width:640px;margin:0 auto;box-sizing:border-box;padding:calc(18px + env(safe-area-inset-top)) 24px calc(20px + env(safe-area-inset-bottom))}
+.ob-bar{display:flex;align-items:center;gap:14px;min-height:44px}
+.ob-prog{flex:1;height:8px;border-radius:4px;background:var(--s3);overflow:hidden}
+.ob-prog i{display:block;height:100%;border-radius:4px;background:var(--primary);transition:width .6s var(--spring)}
+.ob-skip{font-weight:700}
+.ob-skip[hidden]{display:none}
+.ob-art{position:relative;flex:1 1 auto;min-height:210px;max-height:520px;margin:14px 0 4px;display:grid;place-items:center}
+.ob-blob{position:absolute;inset:4% 6%;background:var(--pc);border-radius:42% 58% 55% 45%/48% 44% 56% 52%;animation:obBlob 9s ease-in-out infinite;opacity:.85}
+.ob-art svg{position:relative;width:100%;height:100%;max-height:270px;overflow:visible}
+.ob-art svg>*{animation:riseIn .7s var(--spring) both}
+.ob-art svg>*:nth-child(2){animation-delay:.06s}.ob-art svg>*:nth-child(3){animation-delay:.12s}
+.ob-art svg>*:nth-child(4){animation-delay:.18s}.ob-art svg>*:nth-child(5){animation-delay:.24s}
+.ob-art svg>*:nth-child(n+6){animation-delay:.3s}
+.ob-txt{display:grid;gap:6px;margin-top:8px}
+.ob-foot{margin-top:auto}
+.ob-ic{width:54px;height:54px;border-radius:20px;display:grid;place-items:center;background:var(--ter-c);color:var(--on-ter-c)}
+.ob-ic .ms{font-size:28px}
+.ob-step{font-weight:700;color:var(--on-v);letter-spacing:.06em;font-size:.85rem}
+.ob-txt h2{font-size:clamp(1.7rem,5.5vw,2.25rem);font-weight:800;line-height:1.2;margin:2px 0 0;letter-spacing:-.01em}
+.ob-txt p{font-size:1.02rem;line-height:1.8;margin:0;color:var(--on-v)}
+.ob-dots{display:flex;gap:6px;justify-content:center;margin:16px 0 12px}
+.ob-dots i{width:8px;height:8px;border-radius:4px;background:var(--s3);transition:width .45s var(--spring),background .3s}
+.ob-dots i.on{width:28px;background:var(--primary)}
+.ob-foot{display:flex;align-items:center;gap:10px}
+.ob-next{min-height:58px;padding:0 28px;font-size:1.05rem}
+.ob-next .ms{font-size:22px}
+.ob-art.fwd,.ob-txt.fwd{animation:obFwd .6s var(--spring) both}
+.ob-art.back,.ob-txt.back{animation:obBack .6s var(--spring) both}
+@keyframes obFwd{from{opacity:0;transform:translateX(48px)}to{opacity:1;transform:none}}
+@keyframes obBack{from{opacity:0;transform:translateX(-48px)}to{opacity:1;transform:none}}
+@keyframes obBlob{0%,100%{border-radius:42% 58% 55% 45%/48% 44% 56% 52%}50%{border-radius:58% 42% 44% 56%/55% 60% 40% 45%}}
+@media(max-height:620px){.ob-art{min-height:150px}.ob-txt p{font-size:.95rem;line-height:1.65}}
 </style>
 </head>
 <body>
@@ -328,7 +389,7 @@ html.noanim .greet::before,html.noanim .greet::after{display:none}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.16';
+const APP_VERSION = '17.19';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -646,7 +707,9 @@ const DEF_NAV = ['home', 'tasks', 'cal', 'stats', 'ai', 'tools', 'settings'];
 const NAV_META = { home: ['ホーム', 'home'], tasks: ['課題', 'checklist'], cal: ['予定', 'calendar_month'], stats: ['記録', 'insights'], ai: ['AI', 'auto_awesome'], tools: ['ツール', 'build'], settings: ['設定', 'settings'] };
 const NAV_MAXTOOLS = 3;
 // バーに並べる項目（基本の7つは必ず入る。ツールは "tool:電卓のID" の形で最大3つまで）
+function isPhoneUI() { return matchMedia('(max-width:699px)').matches; }   // スマホ（狭い画面）
 function navList() {
+  if (isPhoneUI()) return DEF_NAV.slice();   // スマホの下のバーは、決まった画面だけ（ツールは置かない）
   const n = S.set && S.set.nav, out = [];
   if (Array.isArray(n)) n.forEach(id => {
     if (out.includes(id)) return;
@@ -663,6 +726,7 @@ function navInfo(id) {
 const navPinned = () => navList().filter(x => x.startsWith('tool:')).map(x => x.slice(5));
 // いま表示している画面に対応するバーの項目
 function navCur() { return ui.tab === 'tools' && ui.tool && navPinned().includes(ui.tool) ? 'tool:' + ui.tool : ui.tab; }
+const NAVL = { last: '' };   // 直前に選んでいたタブ（切り替えの判定用）
 function renderNav() {
   const items = navList();
   const dl0 = daysLeft(curExam()); let bt = '', bhot = false;
@@ -670,7 +734,8 @@ function renderNav() {
   else if (dl0 === null) { const D = dueStats(); if (D.over) { bt = '期限切れ'; bhot = true; } else if (D.next) { const n = daysBetween(today(), D.next.due); bt = n === 0 ? '提出は今日' : '提出あと' + n + '日'; bhot = n <= 1; } }
   const cur = navCur();
   const nav = $('#nav'); nav.classList.toggle('many', items.length > 8);
-  nav.innerHTML = items.map(id => { const [l, i] = navInfo(id); const on = cur === id, b = id === 'home' && bt; return `<button class="ni ${on ? 'on' : ''}" data-act="tab" data-id="${id}" title="${l}" aria-label="${l}${b ? `（${bt}）` : ''}" ${on ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24) : ms(i)}</span>${b ? `<b class="nbadge ${bhot ? 'hot' : ''}">${bt}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span><span class="nl">${l}</span></button>`; }).join('');
+  const navFresh = NAVL.last !== cur; NAVL.last = cur;
+  nav.innerHTML = items.map(id => { const [l, i] = navInfo(id); const on = cur === id, b = id === 'home' && bt; return `<button class="ni ${on ? 'on' : ''} ${on && navFresh ? 'fresh' : ''}" data-act="tab" data-id="${id}" title="${l}" aria-label="${l}${b ? `（${bt}）` : ''}" ${on ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24) : ms(i)}</span>${b ? `<b class="nbadge ${bhot ? 'hot' : ''}">${bt}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span><span class="nl">${l}</span></button>`; }).join('');
   navFit();
 }
 // 下のバーに文字が入りきらないときは、アイコンだけにする
@@ -836,6 +901,9 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.19', t: '右上のフィードバック・初回の説明の作り直し・スマホのバーの整理', n: ['右上の「○日連続」とアカウントの間に、フィードバックボタンを置きました。押すとすぐ送信画面が開きます', '初めて使うときの説明を、Androidのセットアップ画面のような、ページごとの流れにしました。各ページに、アプリの画面を描いたイラストを付けています', 'スマホでは、下のバーに決まった画面だけを表示します。ツールは、ホームの「よく使うツール」か、ツール一覧から開きます'] },
+  { v: '17.18', t: 'ホームの豆知識を、中学生・高校生に役立つ内容に', n: ['ホームに出る豆知識を、数学・理科・英語・国語・社会・勉強法の、テストや学習に役立つ内容に入れ替えました（全55件）', '一般によく知られている話題は外しました'] },
+  { v: '17.17', t: '挨拶の切り替えを5秒ごとに・タブバーのアイコンを凝った動きに', n: ['ホームの挨拶と話題が、すべて5秒ごとに入れ替わるようにしました', '一度出た言葉は、そのアプリを開いている間はなるべく出ないように、ランダムな順番で出します', 'タブバーのアイコンは、切り替えたときに、タブごとに違う動きをします（ホームは塗りつぶし、課題は描き出し、予定はくるりと回転、記録は棒グラフが伸び、AIはきらめき、ツールは揺れ、設定は歯車が回ります）'] },
   { v: '17.16', t: 'よく使うツールを12個まで・全体のアニメーションを豪華に', n: ['ホームの「よく使うツール」を、8個から12個まで置けるようにしました', 'アニメーションを全体に追加しました。画面の要素が順番に浮き上がって出る・ボタンを押すと波紋が広がる・ダイアログがばねのように開く・ホームの背景に光が揺らめく、などです', '設定の「アニメーション」をオフにすると、すべての動きが止まります'] },
   { v: '17.15', t: '時間割の時間を固定に・全体のデザインを調整', n: ['時間割の1〜6限は、8:35〜9:25、9:35〜10:25、10:35〜11:25、11:35〜12:25、13:10〜14:00、14:10〜15:00に決まりました（自分で入れる必要はありません）', '7限は、曜日ごとに時間を自分で設定できます（空けておくと、その曜日は表示しません）', '全体のボタン・ダイアログ・通知の形と、キーボードで操作したときの枠を、Material 3 Expressive の形に整えました'] },
   { v: '17.14', t: '社会：日本史年表（旧石器〜昭和）を追加', n: ['「日本史年表」を追加しました。旧石器時代から昭和まで、時代ごとの主な出来事を年順に並べています（全161件）', '重要な語は「暗記モード」で隠れ、タップすると答えが出ます。時代で絞ったり、出来事や年で探したりできます'] },
@@ -1224,7 +1292,7 @@ const numRow = (key, title, sub, min, max, unit) => `<div class="setrow"><span c
 function navSettings() {
   const l = navList(), pin = navPinned(), rest = TOOLS.filter(t => !pin.includes(t[0]));
   const rows = l.map((id, i) => { const [lb, ic] = navInfo(id), tl = id.startsWith('tool:'); return `<div class="srow nvr"><span class="nvi">${ic === 'auto_awesome' ? gem(24) : ms(ic)}</span><div class="t">${esc(lb)}<small>${tl ? 'ツール' : '基本の画面'}</small></div><button class="ibtn" data-act="navup" data-id="${id}" ${i === 0 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を上（左）へ">${ms('keyboard_arrow_up')}</button><button class="ibtn" data-act="navdown" data-id="${id}" ${i === l.length - 1 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を下（右）へ">${ms('keyboard_arrow_down')}</button>${tl ? `<button class="ibtn" data-act="navdel" data-id="${id}" aria-label="${esc(lb)}をバーから外す">${ms('close')}</button>` : '<span style="width:48px;flex:none"></span>'}</div>`; }).join('');
-  const add = pin.length >= NAV_MAXTOOLS ? `<p class="muted" style="margin:14px 4px 0;font-weight:500">ツールは${NAV_MAXTOOLS}つまで置けます。入れ替えるときは、先に × で外してください。</p>` : `<div class="lbl" style="margin:16px 4px 8px">バーに置くツールを選ぶ（あと${NAV_MAXTOOLS - pin.length}つ）</div><div class="tchips" style="margin:0">${rest.map(t => `<button class="tchip" data-act="navadd" data-id="${t[0]}">${ms(t[2])}${esc(t[1])}</button>`).join('')}</div>`;
+  const add = isPhoneUI() ? '<p class="muted" style="margin:14px 4px 0;font-weight:500">スマホでは、下のバーは決まった画面だけです。ツールは、ホームの「よく使うツール」か、ツール一覧から開けます。</p>' : pin.length >= NAV_MAXTOOLS ? `<p class="muted" style="margin:14px 4px 0;font-weight:500">ツールは${NAV_MAXTOOLS}つまで置けます。入れ替えるときは、先に × で外してください。</p>` : `<div class="lbl" style="margin:16px 4px 8px">バーに置くツールを選ぶ（あと${NAV_MAXTOOLS - pin.length}つ）</div><div class="tchips" style="margin:0">${rest.map(t => `<button class="tchip" data-act="navadd" data-id="${t[0]}">${ms(t[2])}${esc(t[1])}</button>`).join('')}</div>`;
   return `<div class="card"><div class="fld"><div class="lbl">バーの位置</div><div class="seg">${[['auto', '自動', 'devices'], ['bottom', '下に固定', 'dock_to_bottom']].map(([v, l, i]) => `<button class="${(S.set.navPos || 'auto') === v ? 'on' : ''}" data-act="navpos" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div><p class="muted" style="margin:6px 4px 0;font-weight:500;font-size:.88rem">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div><p class="muted" style="margin:14px 4px 12px;font-weight:500">上から順に、バーに並びます。</p><div class="slist">${rows}</div>${add}<div class="dact" style="margin:18px 0 0;justify-content:flex-start"><button class="btn tonal" data-act="hometools">${ms('apps')}ホームによく使うツールを選ぶ</button><button class="btn tonal" data-act="homeedit">${ms('dashboard_customize')}ホームの配置を編集</button><button class="btn tonal" data-act="recmgr">${ms('event_repeat')}くり返しの課題</button></div></div>`;
 }
 function viewSettings() {
@@ -2458,8 +2526,8 @@ function userAv(sz) {
 }
 function renderAcct() {
   const u = CLOUD.user, bad = CLOUD.status === 'error' && u;
-  const st = stkHtml(); $('#acct').innerHTML = st + `<button class="acctb" data-act="acct" aria-label="${u ? 'アカウントと同期' : 'ログイン'}">${u ? userAv(36) : ms('account_circle', '', 'font-size:32px')}${bad ? '<i class="dot"></i>' : ''}${fbBadgeN() ? `<i class="nbadge">${Math.min(fbBadgeN(), 9)}${fbBadgeN() > 9 ? '+' : ''}</i>` : ''}</button>`;
-  const sw = $('#stk'); document.documentElement.style.setProperty('--acct-w', sw ? (sw.offsetWidth + 8) + 'px' : '0px');
+  const st = stkHtml(); $('#acct').innerHTML = st + `<button type="button" class="fbtop" data-act="fbopen" aria-label="フィードバックを送る" title="フィードバックを送る">${ms('rate_review')}</button><button class="acctb" data-act="acct" aria-label="${u ? 'アカウントと同期' : 'ログイン'}">${u ? userAv(36) : ms('account_circle', '', 'font-size:32px')}${bad ? '<i class="dot"></i>' : ''}${fbBadgeN() ? `<i class="nbadge">${Math.min(fbBadgeN(), 9)}${fbBadgeN() > 9 ? '+' : ''}</i>` : ''}</button>`;
+  const ac = $('#acct'), ab = ac && ac.querySelector('.acctb'); document.documentElement.style.setProperty('--acct-w', ac && ab ? (ac.offsetWidth - ab.offsetWidth + 8) + 'px' : '0px');
 }
 function acctHtml() {
   const u = CLOUD.user, st = CLOUD.status, close = `<div class="dact"><span class="sp"></span><button class="btn text" data-act="close">閉じる</button></div>`;
@@ -2623,26 +2691,40 @@ const updInfo = () => ({
   error: ['error', '更新を確認できませんでした', '接続を確認して、もう一度お試しください。'],
   idle: ['system_update', 'アプリのアップデート', '更新を確認できます。']
 }[UPD.state]);
+/* ====================== 初回の説明（18.4）：Androidのセットアップのような、ページごとのイラストつきの流れ ====================== */
 const GUIDE = [
-  ['school', '考査課題マネージャーへようこそ', 'このアプリは、考査（テスト）までに終わらせる課題をまとめて管理するためのものです。<br>どの課題がどれくらい終わっているかが、<b>パーセント</b>ですぐに分かります。使い方を、順番に見ていきましょう。'],
-  ['library_add', 'まず教科を登録します', '画面の<b>＋ボタン</b>を押して、<b>「教科を追加」</b>を選びます。<br>「数学」「英語」のように教科の名前を入れて、保存します。教科ごとにアイコンと色を選べます。テスト日や目標点も入れられます。'],
-  ['add_task', '次に課題を追加します', '<b>＋ボタン → 「課題を追加」</b>を選びます。<br>ワークの名前、ページの<b>範囲（開始〜終了）</b>、提出期限を入れます。途中のページを飛ばす課題は、<b>「範囲を追加」</b>で分けて入力できます（例：1〜20 と 41〜60）。<br>ページがない課題は<b>「完了のみ」</b>、細かく分けたい課題は<b>「チェックリスト」</b>を選びます。'],
-  ['edit_note', '進み具合を記録します', '課題カードの<b>「現在のページ」</b>に、ここまで終わったページ番号を入れます。<br>たとえば p.30 まで終わったら「30」と入れます。パーセントと残りのページ数は、自動で計算されます。<b>+1 / +5 / +10</b> のボタンで進めることもできます。'],
-  ['home', 'ホーム画面の見方', '上の大きな円は、<b>全体の達成率</b>です。<br><b>「今日のプラン」</b>は、考査日までに間に合うように、今日やるページ数を自動で出したものです。<b>「期限が近い課題」</b>と、教科ごとの進み具合も見られます。'],
-  ['outbox', '提出も忘れないようにします', '提出が必要な課題は、終わったら<b>「提出済み」</b>にします。まだ提出していない課題は、期限が近づくと赤く表示されます。<br>課題を追加するときに、<b>「提出先」</b>も入れておけます。'],
-  ['timer', '集中タイマー', '<b>＋ボタン → 「集中タイマー」</b>で、集中する時間を計れます。終わると学習時間として記録され、<b>統計タブの「今週の振り返り」</b>に反映されます。'],
-  ['build', 'ツールタブ', '<b>「ツール」タブ</b>には、<b>電卓</b>（関数電卓つき）、<b>関数グラフ</b>、<b>通貨計算</b>、<b>翻訳</b>のほか、<b>単語帳・暗記クイズ・計算ドリル・成績計算・文字数カウント</b>など、勉強に役立つツールがそろっています。<br>グラフは、指でなぞって動かし、2本の指で拡大・縮小できます。通貨計算の為替レートは、ネットにつながっているときに更新されます。翻訳は、Googleログインが必要です。'],
-  ['auto_awesome', 'AIに質問できます', '<b>下のタブの「AI」</b>で、勉強で分からないことを質問できます。ヒントや考え方を教えてくれます。<b>写真も添付</b>できます（問題を撮って質問できます）。<br>プリントを撮ると、課題を読み取って登録することもできます。<br>使うには<b>Googleログイン</b>が必要です。質問と、課題の名前・進み具合がAIに送られるので、名前や学校名などの個人情報は入力しないでください。答えが間違っていることもあるので、教科書や先生にも確認しましょう。'],
-  ['cloud_sync', 'データの保存と同期', 'データは、この端末の中に保存されます。<br>右上のアイコンから<b>Googleでログイン</b>すると、同じアカウントでログインした別の端末とも、進み具合が同期されます。<br>この説明は、<b>設定 → 「使い方を見る」</b>からいつでも見られます。']
+  { ic: 'school', ti: 'ようこそ', tx: '考査（テスト）までに終わらせる課題を、わかりやすく管理するアプリです。よく使う機能を、順番に見ていきましょう。', art: 'welcome' },
+  { ic: 'add_task', ti: '課題を追加する', tx: '＋ボタンから「課題を追加」を選び、ワーク名・ページの範囲・提出期限を入れます。途中のページを飛ばす課題や、チェックリストの課題も作れます。', art: 'task' },
+  { ic: 'edit_note', ti: '進みを記録する', tx: '課題の「現在のページ」に、ここまで終わったページ番号を入れると、達成率が自動で計算されます。＋1や＋5のボタンでも進められます。', art: 'progress' },
+  { ic: 'calendar_view_week', ti: '時間割', tx: '1〜6限は、決まった時間で動きます。7限は、曜日ごとに時間を設定できます。ホームで、今日の時間割と「いま」の教科がわかります。', art: 'timetable' },
+  { ic: 'timer', ti: '集中タイマー', tx: 'ツールの「集中タイマー」で、集中と休憩をくり返せます。時間は設定で変えられます。', art: 'timer' },
+  { ic: 'auto_awesome', ti: 'AIに質問する', tx: 'わからない問題は、写真を撮って「AI」タブから質問できます。使うにはGoogleログインが必要です。答えは間違うこともあるので、教科書でも確かめましょう。', art: 'chat' },
+  { ic: 'apps', ti: 'ツールと、よく使うもの', tx: 'ホームの「よく使うツール」に、12個まで置けます。ツールは、ツール一覧からいつでも開けます。', art: 'tools' },
+  { ic: 'rate_review', ti: 'フィードバック', tx: '右上のフィードバックボタンから、いつでも意見や不具合を送れます。送った内容への返信も、アプリの中で届きます。', art: 'feedback' },
+  { ic: 'cloud_sync', ti: 'データの保存と同期', tx: 'データは、この端末の中に保存されます。Googleでログインすると、同じアカウントの別の端末とも同期されます。この説明は、設定の「使い方を見る」からいつでも見られます。', art: 'sync' }
 ];
+const OB_SVG = {
+  welcome: '<rect x="105" y="36" width="110" height="110" rx="34" style="fill:var(--primary)"/><circle cx="160" cy="91" r="26" style="fill:none;stroke:var(--on-primary);stroke-width:7"/><path d="M148 91l9 9 17-18" style="fill:none;stroke:var(--on-primary);stroke-width:6;stroke-linecap:round;stroke-linejoin:round"/><rect x="26" y="50" width="62" height="24" rx="12" style="fill:var(--ter-c)"/><rect x="232" y="128" width="66" height="26" rx="13" style="fill:var(--sec-c)"/><circle cx="252" cy="52" r="12" style="fill:var(--pc)"/>',
+  task: '<rect x="38" y="36" width="244" height="128" rx="28" style="fill:var(--pc)"/><rect x="58" y="58" width="130" height="14" rx="7" style="fill:var(--on)"/><rect x="58" y="80" width="84" height="9" rx="4.5" style="fill:var(--on-v)"/><rect x="58" y="112" width="204" height="12" rx="6" style="fill:var(--s3)"/><rect x="58" y="112" width="124" height="12" rx="6" style="fill:var(--primary)"/><rect x="208" y="56" width="58" height="24" rx="12" style="fill:var(--ter-c)"/><rect x="58" y="134" width="86" height="12" rx="6" style="fill:var(--s3)"/>',
+  progress: '<rect x="46" y="60" width="228" height="80" rx="40" style="fill:var(--sec-c)"/><rect x="66" y="78" width="110" height="44" rx="22" style="fill:var(--pc)"/><text x="121" y="108" text-anchor="middle" style="fill:var(--on-pc);font:700 22px system-ui,sans-serif">p.30</text><rect x="192" y="78" width="40" height="44" rx="20" style="fill:var(--s3)"/><text x="212" y="108" text-anchor="middle" style="fill:var(--on);font:700 16px system-ui,sans-serif">+1</text><rect x="240" y="78" width="40" height="44" rx="20" style="fill:var(--primary)"/><text x="260" y="108" text-anchor="middle" style="fill:var(--on-primary);font:700 16px system-ui,sans-serif">+5</text>',
+  timetable: [0,1,2,3,4,5].map(c => [0,1,2,3].map(r => `<rect x="${52 + c * 42}" y="${40 + r * 36}" width="36" height="28" rx="10" style="fill:${c === 2 ? 'var(--primary)' : ['color-mix(in srgb,var(--primary) 34%,transparent)','color-mix(in srgb,var(--ter) 55%,transparent)','color-mix(in srgb,var(--sec) 50%,transparent)','color-mix(in srgb,var(--on-v) 30%,transparent)'][(c + r) % 4]}"/>`).join('')).join('') + '<text x="160" y="186" text-anchor="middle" style="fill:var(--on-v);font:600 13px system-ui,sans-serif">いまの教科が、ハイライトされます</text>',
+  timer: '<circle cx="160" cy="104" r="70" style="fill:none;stroke:var(--s3);stroke-width:14"/><circle cx="160" cy="104" r="70" style="fill:none;stroke:var(--primary);stroke-width:14;stroke-linecap:round;stroke-dasharray:440;stroke-dashoffset:132;transform:rotate(-90deg);transform-origin:160px 104px"/><text x="160" y="116" text-anchor="middle" style="fill:var(--on);font:800 32px system-ui,sans-serif">25:00</text>',
+  chat: '<rect x="34" y="44" width="170" height="44" rx="22" style="fill:var(--s2)"/><rect x="92" y="104" width="194" height="52" rx="26" style="fill:var(--primary)"/><rect x="60" y="62" width="110" height="9" rx="4.5" style="fill:var(--on-v)"/><rect x="118" y="122" width="130" height="9" rx="4.5" style="fill:var(--on-primary)"/><rect x="118" y="136" width="90" height="9" rx="4.5" style="fill:var(--on-primary)"/><circle cx="40" cy="172" r="8" style="fill:var(--ter)"/>',
+  tools: [[0,0,'var(--pc)'],[1,0,'var(--sec-c)'],[2,0,'var(--ter-c)'],[0,1,'var(--s3)'],[1,1,'var(--primary)'],[2,1,'var(--pc)']].map(([c,r,f]) => `<rect x="${50 + c * 84}" y="${36 + r * 76}" width="70" height="64" rx="24" style="fill:${f}"/>`).join('') + '<path d="M214 58l5 10 11 2-8 8 2 11-10-5-10 5 2-11-8-8 11-2z" style="fill:var(--on-pc)"/>',
+  feedback: '<rect x="24" y="30" width="272" height="60" rx="30" style="fill:var(--pc)"/><rect x="48" y="50" width="100" height="20" rx="10" style="fill:var(--s3)"/><circle cx="252" cy="60" r="20" style="fill:var(--primary)"/><path d="M243 60h18M252 51v18" style="stroke:var(--on-primary);stroke-width:4;stroke-linecap:round"/><path d="M236 118q-36 0-40 40" style="fill:none;stroke:var(--on-v);stroke-width:3;stroke-dasharray:6 6"/><path d="M190 152l6 10 10-6" style="fill:none;stroke:var(--on-v);stroke-width:3;stroke-linecap:round"/><rect x="92" y="130" width="136" height="44" rx="22" style="fill:var(--sec-c)"/><text x="160" y="158" text-anchor="middle" style="fill:var(--on-sec-c);font:700 15px system-ui,sans-serif">フィードバック</text>',
+  sync: '<rect x="62" y="56" width="84" height="120" rx="20" style="fill:var(--sec-c)"/><rect x="170" y="86" width="104" height="90" rx="18" style="fill:var(--ter-c)"/><circle cx="160" cy="60" r="26" style="fill:var(--primary)"/><path d="M149 62l8 8 14-14" style="fill:none;stroke:var(--on-primary);stroke-width:5;stroke-linecap:round;stroke-linejoin:round"/>'
+};
+
 const G = { i: 0, dir: 'fwd' };
 function guideHtml(i) {
-  const [ic, ti, tx] = GUIDE[i], last = i === GUIDE.length - 1;
-  return `<div class="gd-top"><span>${i + 1} / ${GUIDE.length}</span>${last ? '' : '<button class="btn text" data-act="gdskip">スキップ</button>'}</div>
-  <div class="gd-body ${G.dir}"><span class="gd-ic">${ic === 'auto_awesome' ? gem(48, true) : ms(ic, '', 'font-size:48px')}</span><h2>${ti}</h2><p>${tx}</p></div>
-  <div class="gd-dots">${GUIDE.map((_, k) => `<i class="${k === i ? 'on' : ''}"></i>`).join('')}</div>
-  <div class="dact">${i ? '<button class="btn text" data-act="gdprev">戻る</button>' : ''}<span class="sp"></span><button class="btn" data-act="${last ? 'gdskip' : 'gdnext'}">${last ? 'はじめる' : '次へ'}</button></div>`;
+  const g = GUIDE[i], last = i === GUIDE.length - 1, pct = ((i + 1) / GUIDE.length) * 100;
+  return `<div class="ob"><div class="ob-bar"><span class="ob-prog" role="progressbar" aria-valuemin="1" aria-valuemax="${GUIDE.length}" aria-valuenow="${i + 1}"><i style="width:${pct}%"></i></span><button type="button" class="btn text ob-skip" data-act="gdskip" ${last ? 'hidden' : ''}>スキップ</button></div>
+  <div class="ob-art ${G.dir}" key="${i}"><div class="ob-blob"></div><svg viewBox="0 0 320 200" role="img" aria-label="${esc(g.ti)}の説明">${OB_SVG[g.art]}</svg></div>
+  <div class="ob-txt ${G.dir}"><span class="ob-ic">${ms(g.ic)}</span><small class="ob-step">${i + 1} / ${GUIDE.length}</small><h2>${g.ti}</h2><p>${g.tx}</p></div>
+  <div class="ob-dots">${GUIDE.map((_, k) => `<i class="${k === i ? 'on' : ''}"></i>`).join('')}</div>
+  <div class="ob-foot">${i ? '<button type="button" class="btn text" data-act="gdprev">戻る</button>' : '<span></span>'}<span class="sp"></span><button type="button" class="btn ob-next" data-act="${last ? 'gdskip' : 'gdnext'}">${last ? 'はじめる' : '次へ'}${ms(last ? 'check' : 'arrow_forward')}</button></div></div>`;
 }
+
 function guideDlg() { G.i = 0; G.dir = 'fwd'; openDlg(guideHtml(0)); dlg.dataset.k = 'guide'; try { localStorage.setItem('kosa-guide-seen', APP_VERSION); } catch (e) { } }
 function guideGo(n) { G.dir = n > G.i ? 'fwd' : 'back'; G.i = Math.max(0, Math.min(GUIDE.length - 1, n)); dlg.innerHTML = `<div class="dlg">${guideHtml(G.i)}</div>`; }
 /* ====================== AI質問（Firebase AI Logic / Gemini） ====================== */
@@ -5499,7 +5581,7 @@ document.addEventListener('input', e => {
   page.querySelectorAll('.card').forEach(c => { if (!c.querySelector('.setrow, .srow')) return; c.hidden = !!q && !c.querySelector('.setrow:not([hidden]), .srow:not([hidden])'); });
 });
 /* ====================== ホームの挨拶と豆知識（17.10）：挨拶（5秒）→ 豆知識（15秒）→ … 上に消えて、下から出てくる ====================== */
-const ROT = { phase: 'greet', text: '', last: '', timer: 0 };
+const ROT = { phase: 'greet', text: '', last: '', timer: 0, seen: new Set() };   // seen：この画面を開いている間に出た項目
 const ROT_GREET = {
   late: ['お疲れさまです', '夜ふかしに気をつけてくださいね', '休むことも、勉強のうちですよ', '今日はここまででも、十分がんばりました'],
   morning: ['おはようございます', 'いい朝ですね', '今日も一日、いっしょにがんばりましょう', '朝の時間は、集中しやすいといわれています', 'ゆっくり、一日を始めましょう', '今日の予定を、ひとつ確かめてみましょう'],
@@ -5508,19 +5590,66 @@ const ROT_GREET = {
 };
 const ROT_COMMON = ['きょうも、少しずつ進めていきましょう', '分からないところは、いつでも聞いてくださいね', 'できたことを、ひとつ認めてあげましょう'];
 const ROT_TIPS = [
-  '日本で一番長い川は、信濃川です。', '日本で一番面積が大きい都道府県は、北海道です。', '日本で一番高い山は、富士山です（3776m）。', '日本で一番大きい湖は、琵琶湖です。',
-  '同じ体積でいちばん重くなるのは、4℃の水です。', '光は、1秒間に約30万km進みます。', '雷の光は、音より先に届きます。', '地球の表面のおよそ7割は、海です。',
-  '北極星は、ほとんど動いて見えない星です。', '月は、地球のまわりを約27日かけて一周します。', '円周率は、3.14159…と、終わりなく続く数です。', '三角形の内角の和は、180度です。',
-  'ダイヤモンドと鉛筆の芯は、どちらも炭素でできています。', '鉄は、空気中の酸素と結びつくと、さびます。', '植物は、光合成で酸素を出します。', '人の成人の骨は、およそ206本といわれています。',
-  '心臓は、1日に約10万回拍動するといわれています。', '人は、学んだあと何もしないと、時間とともに忘れていきます。', '間をあけて復習すると、記憶に残りやすいといわれています。', '「一」は、1画だけでできた漢字です。',
-  '1mmの1000分の1は、1マイクロメートル（μm）です。', '世界でいちばん大きい海は、太平洋です。', '東京スカイツリーの高さは、634mです。', '日本の標準時は、兵庫県明石市を通る東経135度を基準にしています。',
-  '鉛筆の「HB」の「H」は硬さ（Hard）、「B」は濃さ（Black）を表しています。', '蜂蜜は、ほとんど腐らないといわれています。', '空が青く見えるのは、光が空気中で散らばるためです。', '食塩の主な成分は、塩化ナトリウムです。',
-  '蛍は、光で仲間と合図しあうことがあります。', '1年（太陽年）は、約365.24日です。', '素数は、2以上の整数で、1と自分自身でしか割り切れない数です。'
+  '【数学】負の数どうしのかけ算は、答えが正の数になる。（−）×（−）＝（＋）',
+  '【数学】2次方程式は、判別式b²−4acが負のとき、実数の解をもたない。',
+  '【数学】√2は分数で表せない無理数。√の中の数が平方数でなければ、ふつう無理数。',
+  '【数学】素数のうち、偶数は2だけ。それ以外の偶数はすべて2で割り切れる。',
+  '【数学】0で割ることは、できない。0で割った答えは定義されていない。',
+  '【数学】1＋2＋…＋100の和は5050。n項までの和は、n(n＋1)÷2で求められる。',
+  '【数学】相似な図形は、面積比が相似比の2乗、体積比が相似比の3乗になる。',
+  '【数学】(a＋b)²＝a²＋2ab＋b²は、一辺a＋bの正方形を分けた図で確かめられる。',
+  '【数学】くじ引きは、先に引いても後に引いても当たる確率は同じ。',
+  '【数学】三角形の内角の和は180度。四角形なら360度で、多角形は三角形に分けて数えられる。',
+  '【理科】水は4℃で密度が最大になる。だから、冬の湖の底は4℃に保たれ、魚が生きられる。',
+  '【理科】氷が水に浮くのは、凍ると体積が増えて、密度が小さくなるため。',
+  '【理科】作用・反作用は別々の物体にはたらく。つりあいは、同じ物体にはたらく。',
+  '【理科】同じ速さでも、質量が大きい物体ほど運動エネルギーは大きい（½mv²）。',
+  '【理科】並列つなぎでは、各枝に流れる電流の和が全体の電流になる。',
+  '【理科】凸レンズで、焦点の内側に物体があると、大きな虚像ができる。',
+  '【理科】植物は、昼は光合成と呼吸を、夜は呼吸だけを行っている。',
+  '【理科】BTB液は、酸性で黄色、中性で緑、アルカリ性で青に変わる。',
+  '【理科】ヒトの血液の赤色は、鉄を含むヘモグロビンが酸素と結びつくため。',
+  '【理科】P波（初期微動）はS波（主要動）より速く伝わるので、その時間差で震源距離がわかる。',
+  '【理科】月の満ち欠けは、地球の影ではなく、太陽の光を月がどの角度で受けるかで起こる。',
+  '【理科】粘りけの強いマグマほど、ガスが抜けにくく、激しく噴火しやすい。',
+  '【理科】空気の約78％は窒素、約21％は酸素。二酸化炭素は約0.04％。',
+  '【理科】エタノールが燃えると、水と二酸化炭素ができる。',
+  '【理科】気温が高いほど、空気中に含める水蒸気の量（飽和水蒸気量）は増える。',
+  '【英語】I wish＋過去形は、今の事実と違う願いを表す（I wish I were taller.）。',
+  '【英語】stop to doは「〜するために立ち止まる」、stop doingは「〜するのをやめる」。',
+  '【英語】The more you read, the better your English gets.（読むほど上達する）の形。',
+  '【英語】must have＋過去分詞は、「〜したに違いない」。過去のことへの推量。',
+  '【英語】a few（少しある）とfew（ほとんどない）は、意味が大きく違う。',
+  '【英語】関係代名詞whoseは、「〜の」の意味で、名詞の持ち主を表す。',
+  '【英語】付加疑問で、Let’s ～のあとはshall we?を付ける。',
+  '【英語】否定疑問への答えは、内容で決める。「行かないの？」に「行きます」は Yes, I am.（Yesで否定を打ち消す）',
+  '【国語】係り結びは、「ぞ・なむ・や・か」があると、文末が連体形になる。',
+  '【国語】『枕草子』は清少納言、『方丈記』は鴨長明、『徒然草』は兼好法師が書いた。',
+  '【国語】『源氏物語』は紫式部の作。主人公は光源氏。',
+  '【国語】「さんずい」は水、「にんべん」は人に関係する漢字の部首。',
+  '【国語】季語の「蛙（かわず）」は春、「蝉」は夏の季語。',
+  '【国語】『こころ』の作者は夏目漱石。',
+  '【社会】三権分立は、立法（国会）・行政（内閣）・司法（裁判所）の三つ。',
+  '【社会】憲法改正には、国会の両議院の3分の2以上の賛成と、国民投票の過半数が必要。',
+  '【社会】裁判員制度は2009年に始まった。',
+  '【社会】選挙権は2016年から、18歳以上の国民がもてるようになった。',
+  '【社会】冬の季節風は、北西（シベリア方面）から吹く。日本海側に雪が多い理由。',
+  '【社会】円安になると、輸出企業の利益が増えやすく、輸入品の値段は上がりやすい。',
+  '【社会】江戸幕府の鎖国のあとも、長崎の出島で、オランダと中国との貿易が続いた。',
+  '【社会】日露戦争の講和条約は、ポーツマス条約（1905年）。賠償金は得られなかった。',
+  '【勉強法】教科書を声に出して読むと、理解と記憶に役立つと言われている。',
+  '【勉強法】一夜漬けより、毎日少しずつ学ぶ方が、記憶に残りやすい（分散学習）。',
+  '【勉強法】答えを見るだけでなく、思い出して書く練習は、記憶を強くすると言われている。',
+  '【勉強法】間違えた問題は、正解の理由まで説明できるようにすると定着しやすい。',
+  '【勉強法】寝る前の見直しは、睡眠中の記憶の整理に役立つと言われている。',
+  '【勉強法】集中は、25分ほどの短い区切りで休むと続きやすい（ポモドーロ法）。',
+  '【勉強法】わからない問題は、先に飛ばしてから戻ると、全体の時間配分がしやすい。',
+  '【勉強法】ノートは、後で見返せるように余白を残すと、復習の効果が上がる。'
 ];
 const rotPick = list => { const pool = list.filter(x => x !== ROT.last); const c = pool.length ? pool : list; return c[Math.floor(Math.random() * c.length)]; };
 function rotGreet() { const h = new Date().getHours(), band = h < 5 ? 'late' : h < 11 ? 'morning' : h < 18 ? 'day' : 'evening'; return rotPick([...ROT_GREET[band], ...ROT_COMMON]); }
 
-const rotSmall = (phase, text) => phase === 'tip' || Array.from(text || '').length > 12;   // 豆知識と、長い挨拶は、小さめの文字に
+const rotSmall = (phase, text) => Array.from(text || '').length > 12;   // 豆知識と、長い挨拶は、小さめの文字に
 function rotHtml() { if (!ROT.text) ROT.text = greeting()[0]; return esc(ROT.text); }
 function rotShow(el, text, next) {
   const h1 = el.parentElement, swap = () => { el.textContent = text; if (h1) h1.classList.toggle('tip', rotSmall(next, text)); };
@@ -5528,13 +5657,24 @@ function rotShow(el, text, next) {
   const out = el.animate([{ transform: 'translateY(0)', opacity: 1 }, { transform: 'translateY(-70%)', opacity: 0 }], { duration: 420, easing: 'ease-in', fill: 'forwards' });
   out.onfinish = () => { out.cancel(); swap(); el.animate([{ transform: 'translateY(80%)', opacity: 0 }, { transform: 'translateY(0)', opacity: 1 }], { duration: 560, easing: 'cubic-bezier(.2,.9,.25,1)' }); };
 }
+// 挨拶・豆知識・自分に合う話題を、ひとつの山にして、5秒ごとにランダムに出す。一度出たものは、なるべく出さない
+function rotPool() {
+  const h = new Date().getHours(), band = h < 5 ? 'late' : h < 11 ? 'morning' : h < 18 ? 'day' : 'evening';
+  return [...new Set([...ROT_GREET[band], ...ROT_COMMON, ...ROT_TIPS, ...rotPersonal()])];
+}
+function rotNext() {
+  let pool = rotPool().filter(x => !ROT.seen.has(x) && x !== ROT.last);
+  if (!pool.length) { ROT.seen = new Set(); pool = rotPool().filter(x => x !== ROT.last); }   // 全部出たら、山を組み直す
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  ROT.seen.add(pick); return pick;
+}
 function rotTick() {
   const el = $('#rot');
   if (!el || ui.tab !== 'home') { ROT.timer = setTimeout(rotTick, 1000); return; }   // ホーム以外の画面では、出し替えを待つ
-  const next = ROT.phase === 'greet' ? 'tip' : 'greet', text = next === 'greet' ? rotGreet() : rotTipOrPersonal();
-  rotShow(el, text, next);
-  ROT.phase = next; ROT.text = text; ROT.last = text;
-  ROT.timer = setTimeout(rotTick, next === 'greet' ? 5000 : 15000);   // 挨拶は5秒、豆知識は15秒
+  const text = rotNext();
+  rotShow(el, text, 'greet');
+  ROT.text = text; ROT.last = text;
+  ROT.timer = setTimeout(rotTick, 5000);   // すべて5秒ごと
 }
 ROT.timer = setTimeout(rotTick, 5000);
 // アカウントの左の、連続日数
