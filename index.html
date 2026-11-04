@@ -523,6 +523,72 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 .srow>.ibtn{flex:none}
 .srow>.ibtn:first-of-type{margin-left:auto}
 .set-page .srow>.t{flex:1 1 0}
+
+/* ===== 18.8：AIに質問（Geminiのような、履歴つきの画面） ===== */
+.gm{display:grid;grid-template-columns:300px minmax(0,1fr);gap:16px;height:calc(100dvh - 150px);min-height:560px;max-height:1100px}
+.gm-side{display:flex;flex-direction:column;gap:12px;min-height:0;padding:18px 14px 14px;border-radius:32px;background:var(--s1);overflow:hidden}
+.gm-x{display:none}
+.gm-brand{display:flex;gap:12px;align-items:center;padding:4px 6px}
+.gm-av{width:48px;height:48px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,var(--primary),var(--sec,var(--ter)));color:var(--on-primary);box-shadow:0 8px 20px color-mix(in srgb,var(--primary) 30%,transparent)}
+.gm-av .ms,.gm-av svg{font-size:26px;width:26px;height:26px}
+.gm-brand b{display:block;font-size:1.2rem;font-weight:800;letter-spacing:-.01em}
+.gm-brand small{display:block;color:var(--on-v);font-weight:600;font-size:.8rem}
+.gm-acts{display:grid;gap:6px}
+.gm-a{display:flex;align-items:center;gap:12px;min-height:50px;padding:0 14px;border:0;border-radius:26px;background:transparent;color:var(--on);font:inherit;font-weight:700;text-align:left;transition:background .25s,transform .3s var(--spring),border-radius .4s var(--spring)}
+.gm-a:hover{background:var(--s2)}
+.gm-a:active{transform:scale(.97);border-radius:18px}
+.gm-a>.ms{flex:none;color:var(--primary);font-size:22px}
+.gm-a.pri{background:var(--pc);color:var(--on-pc)}
+.gm-a.pri>.ms{color:var(--on-pc)}
+.gm-a small{display:block;font-size:.72rem;font-weight:600;color:var(--on-v);margin-top:1px}
+.gm-hl{margin:10px 10px 0;font-size:.8rem;font-weight:800;color:var(--on-v);letter-spacing:.02em}
+.gm-hist{flex:1;min-height:0;overflow-y:auto;display:grid;gap:4px;align-content:start;padding:2px 2px 6px}
+.gm-empty{color:var(--on-v);font-weight:600;font-size:.85rem;line-height:1.6;padding:6px 10px}
+.gm-hi{display:flex;align-items:center;gap:2px;border-radius:22px;transition:background .25s}
+.gm-hi:hover{background:var(--s2)}
+.gm-hi.on{background:var(--pc);color:var(--on-pc)}
+.gm-hi>button:first-child{flex:1;min-width:0;text-align:left;border:0;background:transparent;padding:10px 12px;font:inherit;color:inherit}
+.gm-hi b{display:block;font-size:.92rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gm-hi small{font-size:.72rem;opacity:.7;font-weight:600}
+.gm-hi .ibtn{width:36px;height:36px;flex:none;opacity:.55}
+.gm-hi .ibtn .ms{font-size:18px}
+.gm-foot{padding:4px 8px 0;color:var(--on-v);font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.gm-main{display:flex;flex-direction:column;min-height:0;border-radius:32px;background:var(--s1);overflow:hidden;position:relative}
+.gm-top{display:none;align-items:center;gap:8px;padding:10px 12px 4px}
+.gm-ttl{font-weight:800;font-size:1rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gm-log{flex:1;min-height:0;overflow-y:auto;padding:18px 22px 8px;scroll-behavior:smooth}
+.gm-sug{padding:0 18px 8px;display:flex;flex-wrap:wrap;gap:8px}
+.gm-sug[hidden]{display:none}
+.gm-in{display:flex;align-items:flex-end;gap:6px;margin:0 14px 14px;padding:8px 8px 8px 8px;border-radius:34px;background:var(--s2);box-shadow:0 8px 24px rgba(0,0,0,.08)}
+.gm-in textarea{flex:1;min-width:0;max-height:160px;resize:none;border:0;background:transparent;color:var(--on);font:inherit;font-size:1rem;line-height:1.55;padding:12px 6px;outline:none}
+.gm-in textarea::placeholder{color:var(--on-v);opacity:.85}
+.gm-plus,.gm-mic,.gm-send{flex:none;width:50px;height:50px;border:0;border-radius:50%;display:grid;place-items:center;background:transparent;color:var(--on);transition:transform .3s var(--spring),background .25s,border-radius .4s var(--spring)}
+.gm-plus .ms,.gm-mic .ms{font-size:26px}
+.gm-plus:active,.gm-mic:active,.gm-send:active{transform:scale(.9)}
+.gm-send{background:var(--primary);color:var(--on-primary)}
+.gm-send .ms{font-size:24px}
+.gm-send:disabled{opacity:.35}
+.gm-send.ready{box-shadow:0 0 0 0 color-mix(in srgb,var(--primary) 45%,transparent);animation:glowPulse 2.4s ease-out infinite}
+.gm-mic.on{background:var(--pc);color:var(--on-pc);animation:glowPulse 1.2s ease-out infinite}
+.gm-scrim{display:none}
+.gm .ai-att{padding:0 18px}
+@media(min-width:700px) and (max-width:1099px){.gm{grid-template-columns:260px minmax(0,1fr)}}
+@media(max-width:699px){
+  .gm{grid-template-columns:minmax(0,1fr);height:calc(100dvh - 128px);min-height:0;gap:0}
+  .gm-side{position:fixed;left:0;top:0;bottom:0;width:min(86vw,330px);z-index:45;border-radius:0 32px 32px 0;transform:translateX(-106%);transition:transform .5s var(--spring);box-shadow:0 20px 60px rgba(0,0,0,.35);padding-top:calc(16px + env(safe-area-inset-top))}
+  .gm-x{display:grid;place-items:center;position:absolute;right:10px;top:calc(12px + env(safe-area-inset-top));width:40px;height:40px;border:0;border-radius:50%;background:var(--s2);color:var(--on)}
+  .gm.open .gm-side{transform:none}
+  .gm.open .gm-scrim{display:block;position:fixed;inset:0;background:rgba(8,10,20,.38);z-index:44;animation:fadeIn .35s ease both}
+  .gm-top{display:flex}
+  .gm-main{border-radius:28px}
+  .gm-in{margin:0 8px 8px}
+}
+
+/* 設定の行：アーカイブ・並べ替えなどのアイコンを右にそろえる */
+.srow>.t + .ibtn{margin-left:auto}
+/* 初回の説明：イラストを中央に（文字が縦に並ぶのを防ぐ） */
+.ob-art{display:flex;align-items:center;justify-content:center}
+.obm-wrap{width:100%;height:auto;min-height:0}
 </style>
 </head>
 <body>
@@ -547,7 +613,7 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.23';
+const APP_VERSION = '17.24';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1059,6 +1125,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.24', t: 'AIに質問を、履歴つきの新しい画面に', n: ['AIに質問の画面を、Geminiのような作りにしました。左に、チャットの新規作成・写真を添付して解説・文章から課題を登録・Gem、そしてチャット履歴が並びます', '会話は送信のたびに履歴に残ります。履歴を選ぶと、その会話を開き直せます。不要な会話は削除できます', '入力欄は、左に＋（写真を添付）、右に音声入力と送信のボタンを置きました', 'スマホでは、履歴は左から開くメニューになります', '設定の考査の終了・保存アイコンを右にそろえました', '初回の説明のAIのページで、文字が縦に並ぶ問題を直しました'] },
   { v: '17.23', t: '単語帳が消える問題を根本から修正・見た目の調整', n: ['同期で単語帳やカードが消える問題を直しました。単語帳とカードは、同期のたびに両方の端末の内容を合わせるようにし、削除した記録もそろえます。消したものは戻らず、消していないものは消えません', 'クラウドに保存する前に、最新の内容を読んでから書くようにしました', 'スマホの下のバーで、選んでいる画面を囲む丸の大きさを広げました', '設定の行で、アーカイブや並べ替えなどのアイコンを右側にそろえました'] },
   { v: '17.22', t: '単語帳の選択肢の数を自由に', n: ['単語帳のテストの選択肢の数を、2〜100の中から自由に決められるようになりました', '選択肢の数の上限は、その単語帳のカードの枚数です。カードが少ない単語帳では、その枚数までになります'] },
   { v: '17.21', t: '更新の案内・入力の保護・問題数の自由設定・iPad向けの調整', n: ['更新のあとの案内を、セットアップ画面のような全画面の流れにしました。アプリのアイコン付きで、新しくなった点を順番に見られます', '更新を読み込むときは、ローディング画面を出します', '単語帳のテストの問題数を、1〜100の中から自由に決められるようになりました', 'AIに質問で、入力中の文字が消えることがあった問題を直しました', '初回の説明の1枚目に、アプリのアイコンを表示しました', 'iPadでは、画面の幅を広く使うレイアウトにしました'] },
@@ -3005,15 +3072,36 @@ function viewAi() {
   if (!CLOUD.user) return `<div class="h-sec" style="margin-top:4px"><h2>${gem(26, true)}AIに質問</h2></div><div class="card"><p class="muted" style="margin-bottom:14px">AIに質問するには、Googleログインが必要です。</p>${gBtn()}</div>`;
   const urgent = examTasks().filter(k => !isDone(k)).sort((a, b) => (a.due || '9999').localeCompare(b.due || '9999')).slice(0, 2);
   AI.sug = [...urgent.map(k => `「${k.title}」の進め方を教えて`), '今日の勉強の進め方を教えて', '効率のよい暗記のコツを教えて'].slice(0, 4);
-  const ico = ['trending_up', 'today', 'psychology', 'lightbulb'];
-  return `<div class="axw" id="axw"><header class="ax-h"><div class="ax-t"><span class="ax-av">${gem(28)}</span><div><h2>AIに質問</h2><small>勉強のこと、何でも聞いてください</small></div></div><span class="ax-q" id="aicnt" title="今日の質問の回数"></span>
-  <div class="ax-tools" data-fit><button class="btn tonal" data-act="aitext" aria-label="文章から課題を登録" title="文章から課題を登録">${ms('edit_note')}<span class="bl">文章から課題を登録</span></button><button class="btn tonal" data-act="aiimport" aria-label="プリントを読み取って登録" title="プリントを読み取って登録">${ms('document_scanner')}<span class="bl">プリントを読み取って登録</span></button><button class="ibtn ax-rs" data-act="aireset" aria-label="新しい会話" title="新しい会話">${ms('restart_alt')}</button></div></header>
-  <details class="ax-n"><summary>${ms('shield')}AIに送られる情報について</summary><p>質問・写真・課題の名前と進み具合が、GoogleのAIに送られます。顔や名前、学校名が写らないようにしてください。AIの答えは間違うことがあります。</p></details>
-  <div class="ax-log" id="ailog"></div>
-  <div class="ax-sug" id="aisug">${AI.sug.map((x, i) => `<button class="ax-pc" style="--i:${i}" data-act="aisug" data-id="${i}"><span class="ax-pi">${ms(ico[i % ico.length])}</span><span>${esc(x)}</span></button>`).join('')}<button class="ax-pc" style="--i:${AI.sug.length}" data-act="aiexplain"><span class="ax-pi">${ms('photo_camera')}</span><span>写真の問題を解説</span></button></div>
-  <div class="ai-att" id="aiatt"></div>
-  <div class="ax-in"><button class="ax-at" data-act="aipick" aria-label="写真を添付">${ms('add_photo_alternate')}</button><textarea id="aiq" rows="1" maxlength="600" placeholder="質問を入力"></textarea><button class="ax-sd" id="aisend" data-act="aisend" aria-label="送信">${ms('arrow_upward')}</button></div>
-  <input type="file" id="aifile" accept="image/*" multiple hidden><input type="file" id="aiimp" accept="image/*" multiple hidden></div>`;
+  const ico = ['trending_up', 'today', 'psychology', 'lightbulb'], c = snCfg();
+  return `<div class="gm" id="axw">
+    <aside class="gm-side" aria-label="AIに質問の操作と履歴">
+      <button type="button" class="gm-x" data-act="gmside" aria-label="閉じる">${ms('close')}</button>
+      <div class="gm-brand"><span class="gm-av">${gem(26)}</span><div><b>AIに質問</b><small>勉強のこと、何でも聞いてください</small></div></div>
+      <div class="gm-acts">
+        <button type="button" class="gm-a pri" data-act="aireset">${ms('edit_square')}<span>チャットを新規作成</span></button>
+        <button type="button" class="gm-a" data-act="aiexplain">${ms('photo_camera')}<span>写真を添付して解説</span></button>
+        <button type="button" class="gm-a" data-act="aitext">${ms('edit_note')}<span>文章から課題を登録</span></button>
+        <button type="button" class="gm-a" data-act="sncfg">${ms('diamond')}<span>Gem<small>${esc(c.name)} ・ ${esc(snTone(c)[1])}</small></span></button>
+      </div>
+      <div class="gm-hl">チャット履歴</div>
+      <div class="gm-hist" id="gmhist">${aiHistHtml()}</div>
+      <div class="gm-foot"><span class="ax-q" id="aicnt" title="今日の質問の回数"></span><span>今日の質問</span></div>
+    </aside>
+    <div class="gm-scrim" data-act="gmside"></div>
+    <section class="gm-main">
+      <div class="gm-top"><button type="button" class="ibtn" data-act="gmside" aria-label="履歴を開く">${ms('menu')}</button><span class="gm-ttl">${esc(aiMainTitle())}</span></div>
+      <div class="ax-log gm-log" id="ailog"></div>
+      <div class="gm-sug" id="aisug">${AI.sug.map((x, i) => `<button type="button" class="ax-pc" style="--i:${i}" data-act="aisug" data-id="${i}"><span class="ax-pi">${ms(ico[i % ico.length])}</span><span>${esc(x)}</span></button>`).join('')}</div>
+      <div class="ai-att" id="aiatt"></div>
+      <div class="gm-in">
+        <button type="button" class="gm-plus" data-act="aipick" aria-label="写真を添付">${ms('add')}</button>
+        <textarea id="aiq" rows="1" maxlength="600" placeholder="質問を入力" aria-label="質問"></textarea>
+        <button type="button" class="gm-mic" data-act="aivoice" aria-label="音声で入力">${ms('mic')}</button>
+        <button type="button" class="gm-send ax-sd" id="aisend" data-act="aisend" aria-label="送信">${ms('arrow_upward')}</button>
+      </div>
+      <input type="file" id="aifile" accept="image/*" multiple hidden><input type="file" id="aiimp" accept="image/*" multiple hidden>
+    </section>
+  </div>`;
 }
 async function aiSend(text) {
   const q = $('#aiq'); text = (text || (q && q.value) || '').trim();
@@ -3031,7 +3119,7 @@ async function aiSend(text) {
     for await (const c of res.stream) { m.t += c.text(); renderAiLog(); }
     if (!m.t) m.t = '回答を作れませんでした。言い方を変えて、もう一度質問してください。';
   } catch (e) { m.t = aiErr(e); m.err = true; AI.chat = null; }
-  AI.busy = false; renderAiLog(); histSave(AIH, AI.msgs);
+  AI.busy = false; renderAiLog(); histSave(AIH, AI.msgs); aiArchive(); const gh = $('#gmhist'); if (gh) gh.innerHTML = aiHistHtml();
 }
 /* ====================== 予定（行事）と、プリントの読み取りの拡張（17.2） ====================== */
 const EV_MAX = 200, DRE = /^\d{4}-\d{2}-\d{2}$/;
@@ -6370,6 +6458,56 @@ async function mergeFromCloud(fs, db) {
   if (S.decks.length + S.cards.length !== before) S.mt = Math.max(S.mt || 0, Date.now());
   _noSync = true; try { save(); } finally { _noSync = false; }
 }
+/* ====================== AIに質問（18.8）：Geminiのような、履歴つきの画面 ====================== */
+const AIC_KEY = 'kosa-ai-chats';
+const AIC = { list: [], cur: '' };   // 会話の履歴（最新30件・文字だけ）
+try { const j = JSON.parse(localStorage.getItem(AIC_KEY) || 'null'); if (j && Array.isArray(j.list)) AIC.list = j.list.slice(0, 30); } catch (e) { }
+function aicSave() { try { localStorage.setItem(AIC_KEY, JSON.stringify({ v: 1, list: AIC.list.slice(0, 30) })); } catch (e) { } }
+function aiTrim(msgs) {
+  const out = [];
+  for (let i = 0; i + 1 < msgs.length; i += 2) { const u = msgs[i], m = msgs[i + 1]; if (u && m && u.r === 'u' && m.r === 'm' && m.t && !m.err) out.push({ r: 'u', t: String(u.t).slice(0, 2000), pn: (u.imgs && u.imgs.length) || u.pn || 0 }, { r: 'm', t: String(m.t).slice(0, 6000) }); }
+  return out.slice(-40);
+}
+const aiTitle = msgs => { const u = msgs.find(x => x.r === 'u'); return u ? String(u.t).replace(/\s+/g, ' ').slice(0, 24) : '新しいチャット'; };
+// 送信が終わるたびに、いまの会話を履歴に残す
+function aiArchive() {
+  const t = aiTrim(AI.msgs); if (!t.length) return;
+  const id = AIC.cur || uid();
+  AIC.list = [{ id, title: aiTitle(t), at: Date.now(), msgs: t }, ...AIC.list.filter(x => x.id !== id)].slice(0, 30);
+  AIC.cur = id; aicSave();
+}
+function aiRepaint() { if (ui.tab === 'ai') { render(); renderAiLog(); } }   // AIの画面は、画面全体を描き直す
+function aiHistHtml() {
+  if (!AIC.list.length) return '<p class="gm-empty">まだ履歴はありません。質問すると、ここに残ります。</p>';
+  return AIC.list.slice().sort((a, b) => (b.at || 0) - (a.at || 0)).map(x => `<div class="gm-hi ${x.id === AIC.cur ? 'on' : ''}"><button type="button" data-act="aiopenchat" data-id="${x.id}"><b>${esc(x.title)}</b><small>${new Date(x.at || 0).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' })}</small></button><button type="button" class="ibtn" data-act="aidelchat" data-id="${x.id}" aria-label="この会話を削除">${ms('delete')}</button></div>`).join('');
+}
+function aiMainTitle() { return AI.msgs.length ? aiTitle(AI.msgs) : '新しいチャット'; }
+Object.assign(ACT, {
+  aireset() { AIC.cur = ''; histClear(AIH); AI.chat = null; AI.msgs = []; AI._n = 0; AI.att = []; aiRepaint(); },
+  aiopenchat(id) {
+    const it = AIC.list.find(x => x.id === id); if (!it) return;
+    AI.msgs = it.msgs.map(m => ({ ...m, imgs: [] })); AI._n = 0; AI.chat = null; AIC.cur = id;
+    histSave(AIH, AI.msgs); aicSave(); const w = $('#axw'); if (w) w.classList.remove('open'); aiRepaint();
+  },
+  aidelchat(id) {
+    AIC.list = AIC.list.filter(x => x.id !== id); if (AIC.cur === id) { AIC.cur = ''; AI.msgs = []; AI.chat = null; histClear(AIH); }
+    aicSave(); aiRepaint();
+  },
+  gmside() { const w = $('#axw'); if (w) w.classList.toggle('open'); },
+  aivoice() {
+    const R = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!R) return toast('この端末では、音声入力を使えません');
+    const btn = $('.gm-mic');
+    if (AIV) { try { AIV.stop(); } catch (e) { } AIV = null; if (btn) btn.classList.remove('on'); return; }
+    const q = $('#aiq'), base = q ? q.value : '';
+    const r = new R(); r.lang = 'ja-JP'; r.interimResults = true; r.continuous = false;
+    r.onresult = e => { let t = ''; for (const x of e.results) t += x[0].transcript; if (q) { q.value = base + t; q.dispatchEvent(new Event('input', { bubbles: true })); } };
+    r.onend = () => { AIV = null; if (btn) btn.classList.remove('on'); };
+    r.onerror = () => { AIV = null; if (btn) btn.classList.remove('on'); toast('音声を聞き取れませんでした'); };
+    AIV = r; try { r.start(); if (btn) btn.classList.add('on'); } catch (e) { AIV = null; }
+  }
+});
+let AIV = null;
 function toolsPost() {
   const tl = ui.tool || '';
   if (tl === 'calc') calcPaint(true);
