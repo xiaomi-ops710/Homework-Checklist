@@ -515,6 +515,14 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 @media(min-width:1180px){
   .tgrid2{grid-template-columns:repeat(4,minmax(0,1fr))!important}
 }
+
+/* ===== 18.7：下のバーの丸を広く・設定の行のアイコンを右にそろえる ===== */
+.ni .pill{width:72px;height:36px;border-radius:18px}
+@media(max-width:699px){.ni .pill{width:64px;height:36px;border-radius:18px}}
+.srow>.t{flex:1 1 0;min-width:0}
+.srow>.ibtn{flex:none}
+.srow>.ibtn:first-of-type{margin-left:auto}
+.set-page .srow>.t{flex:1 1 0}
 </style>
 </head>
 <body>
@@ -539,7 +547,7 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.21';
+const APP_VERSION = '17.23';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -621,7 +629,7 @@ let S = load();
 let ui = { tab: 'home', filter: 'all', sid: '', q: '', sort: 'due', period: 7, metric: 'pages', collapsed: {}, anim: false, fab: false, flash: null, cal: { y: new Date().getFullYear(), m: new Date().getMonth() }, sel: today() };
 let lastUndo = null;
 let _noSync = false;
-function save() { try { if (!_noSync) S.mt = Date.now(); localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('保存に失敗しました。容量を確認してください'); } if (!_noSync) cloudPush(); }
+function save() { try { if (!_noSync) S.mt = Date.now(); trackDeletes(S); localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('保存に失敗しました。容量を確認してください'); } if (!_noSync) cloudPush(); }
 const snap = () => JSON.stringify(S);
 const activeExams = () => S.exams.filter(e => !e.arc);
 const pastExams = () => S.exams.filter(e => e.arc).sort((a, b) => (b.arcAt || 0) - (a.arcAt || 0));
@@ -1051,6 +1059,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.23', t: '単語帳が消える問題を根本から修正・見た目の調整', n: ['同期で単語帳やカードが消える問題を直しました。単語帳とカードは、同期のたびに両方の端末の内容を合わせるようにし、削除した記録もそろえます。消したものは戻らず、消していないものは消えません', 'クラウドに保存する前に、最新の内容を読んでから書くようにしました', 'スマホの下のバーで、選んでいる画面を囲む丸の大きさを広げました', '設定の行で、アーカイブや並べ替えなどのアイコンを右側にそろえました'] },
+  { v: '17.22', t: '単語帳の選択肢の数を自由に', n: ['単語帳のテストの選択肢の数を、2〜100の中から自由に決められるようになりました', '選択肢の数の上限は、その単語帳のカードの枚数です。カードが少ない単語帳では、その枚数までになります'] },
   { v: '17.21', t: '更新の案内・入力の保護・問題数の自由設定・iPad向けの調整', n: ['更新のあとの案内を、セットアップ画面のような全画面の流れにしました。アプリのアイコン付きで、新しくなった点を順番に見られます', '更新を読み込むときは、ローディング画面を出します', '単語帳のテストの問題数を、1〜100の中から自由に決められるようになりました', 'AIに質問で、入力中の文字が消えることがあった問題を直しました', '初回の説明の1枚目に、アプリのアイコンを表示しました', 'iPadでは、画面の幅を広く使うレイアウトにしました'] },
   { v: '17.20', t: '初回の説明のイラストを、実際の画面に近づけた', n: ['説明のイラストを、アプリの実際の画面（課題・時間割・集中タイマー・AI・ツール・フィードバック）に似せて作り直しました。文字とアイコンは、本物と同じ見た目です', '同期のページに、Googleの公式のGロゴを使い、端末どうしが同期されている様子を示しました'] },
   { v: '17.19', t: '右上のフィードバック・初回の説明の作り直し・スマホのバーの整理', n: ['右上の「○日連続」とアカウントの間に、フィードバックボタンを置きました。押すとすぐ送信画面が開きます', '初めて使うときの説明を、Androidのセットアップ画面のような、ページごとの流れにしました。各ページに、アプリの画面を描いたイラストを付けています', 'スマホでは、下のバーに決まった画面だけを表示します。ツールは、ホームの「よく使うツール」か、ツール一覧から開きます'] },
@@ -2732,7 +2742,7 @@ function autoBackup(why, obj) {
   } catch (e) { }
 }
 const sameData = (a, b) => { try { return JSON.stringify({ ...a, mt: 0 }) === JSON.stringify({ ...b, mt: 0 }); } catch (e) { return false; } };
-function cloudPull(remote, rm) { _noSync = true; S = migrate(remote); S.mt = rm; applyTheme(); save(); _noSync = false; ui.sid = ''; if (!dlg.open && !TM.open) render(); }
+function cloudPull(remote, rm) { _noSync = true; const local = S, raw = { decks: Array.isArray(remote.decks) ? remote.decks.slice() : [], cards: Array.isArray(remote.cards) ? remote.cards.slice() : [], gone: remote.gone, alive: remote.alive }; S = migrate(remote); S.mt = rm; const m = unionDW(local, raw, true); S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive; ensureDecks(S); applyTheme(); save(); _noSync = false; ui.sid = ''; if (!dlg.open && !TM.open) render(); }
 function syncChoiceDlg() {
   const P = CLOUD.pend; if (!P) return;
   const fmt = t => t ? new Date(t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '不明';
@@ -2753,7 +2763,7 @@ function cloudStart() {
     if (!remote) { cloudPushNow(); done(); }
     else if (!lData && !S.cleared && rData) { cloudPull(remote, rm); done(); }          // 端末が空のときは、クラウドのデータを取り込む（空でクラウドを上書きしない）
     else if (lData && !rData && !remote.cleared) { cloudPush(); done(); }              // クラウドが空のときは、端末のデータを送る
-    else if (lData && rData && last !== myUid && !sameData(S, remote)) { CLOUD.hold = true; CLOUD.pend = { remote, rm }; if (!dlg.open) syncChoiceDlg(); }   // 別のアカウント／初めての同期で、中身がちがうときは、選んでもらう
+    else if (lData && rData && last !== myUid && !sameData(S, remote)) { _noSync = true; try { applyUnion(remote, false); save(); } finally { _noSync = false; } CLOUD.hold = true; CLOUD.pend = { remote, rm }; if (!dlg.open) syncChoiceDlg(); }   // 別のアカウント／初めての同期で、中身がちがうときは、選んでもらう
     else {
       if (rm > lm) {
         const before = lm && CLOUD.first ? snap() : null; autoBackup('クラウドと同期する前');
@@ -2767,7 +2777,7 @@ function cloudStart() {
 function cloudPush() { if (!CLOUD.user || !CLOUD.fb || CLOUD.hold) return; CLOUD.dirty = true; clearTimeout(CLOUD.timer); CLOUD.timer = setTimeout(cloudPushNow, 1500); }
 async function cloudPushNow() {
   if (!CLOUD.user || !CLOUD.fb || CLOUD.hold) return; CLOUD.dirty = false; const { fs, db } = CLOUD.fb;
-  try { if (!S.mt) { _noSync = true; S.mt = Date.now(); save(); _noSync = false; } await fs.setDoc(fs.doc(db, 'users', CLOUD.user.uid), { json: JSON.stringify(S), mt: S.mt, updatedAt: fs.serverTimestamp() }); CLOUD.status = 'ok'; setLast(); }
+  try { if (!S.mt) { _noSync = true; S.mt = Date.now(); save(); _noSync = false; } await mergeFromCloud(fs, db); await fs.setDoc(fs.doc(db, 'users', CLOUD.user.uid), { json: JSON.stringify(S), mt: S.mt, updatedAt: fs.serverTimestamp() }); CLOUD.status = 'ok'; setLast(); }
   catch (e) { CLOUD.status = 'error'; }
   cloudRefresh();
 }
@@ -4447,7 +4457,7 @@ const qpairs = id => id.startsWith('cards:') ? (ensureDecks(), wcTestCards(id.sl
 const qzName = id => id.startsWith('cards:') ? `単語帳「${(S.decks.find(d => d.id === id.slice(6)) || {}).name || ''}」` : QD[id][0];
 const qzDir = () => (S.set && ['f', 'b', 'r'].includes(S.set.qzdir) ? S.set.qzdir : 'f');
 const QZ_NS = [2, 3, 4, 5, 6, 8], QZ_QS = [5, 10, 15, 20];
-const qzN = () => (S.set && QZ_NS.includes(+S.set.qzn) ? +S.set.qzn : 4);   // 選択肢の数（既定は4つ）
+const qzN = () => { const n = Math.round(+(S.set && S.set.qzn)); return n >= 2 && n <= 100 ? n : 4; };   // 選択肢の数（2〜100・既定は4つ）。実際の数は、単語帳のカード枚数までになる
 const qzShuf = a => a.slice().sort(() => Math.random() - .5);
 const QZ_HUE = { pref: 200, elem: 150, elemr: 150, elemz: 150, elemall: 150, verb: 260 };
 const qzHue = id => id.startsWith('cards:') ? ((S.decks.find(d => d.id === id.slice(6)) || {}).hue || 150) : (QZ_HUE[id] || 150);
@@ -4456,14 +4466,15 @@ const qzDesc = () => ({ f: `表を見て、${qzN()}つの選択肢から裏を�
 const QZ_NOTE = { f: '表（単語など）を見て、裏（意味など）を選びます', b: '裏（意味など）を見て、表（単語など）を選びます', r: '1問ごとに、向きがランダムに入れかわります' };
 function qzDirSeg() {
   const d = qzDir();
-  return `<div class="qz2-dir"><div class="lbl">出しかた</div><div class="wx-seg" role="radiogroup" aria-label="出しかた">${[['f', '表 → 裏', 'east'], ['b', '裏 → 表', 'west'], ['r', 'ミックス', 'shuffle']].map(([k, t, i]) => `<button type="button" role="radio" aria-checked="${d === k}" class="wx-sg ${d === k ? 'on' : ''}" data-act="qzdir" data-id="${k}">${ms(i, '', 'font-size:18px;vertical-align:-4px;margin-right:4px')}${t}</button>`).join('')}</div><small class="muted">${QZ_NOTE[d]}</small><div class="lbl" style="margin-top:14px">選択肢の数</div><div class="wx-seg" role="radiogroup" aria-label="選択肢の数">${QZ_NS.map(n => `<button type="button" role="radio" aria-checked="${qzN() === n}" class="wx-sg ${qzN() === n ? 'on' : ''}" data-act="qzn" data-id="${n}">${n}つ</button>`).join('')}</div><small class="muted">カードが少ないときは、選択肢が少なくなることがあります</small>${qzQSetup()}`;
+  return `<div class="qz2-dir"><div class="lbl">出しかた</div><div class="wx-seg" role="radiogroup" aria-label="出しかた">${[['f', '表 → 裏', 'east'], ['b', '裏 → 表', 'west'], ['r', 'ミックス', 'shuffle']].map(([k, t, i]) => `<button type="button" role="radio" aria-checked="${d === k}" class="wx-sg ${d === k ? 'on' : ''}" data-act="qzdir" data-id="${k}">${ms(i, '', 'font-size:18px;vertical-align:-4px;margin-right:4px')}${t}</button>`).join('')}</div><small class="muted">${QZ_NOTE[d]}</small>${qznSetup()}${qzQSetup()}`;
 }
 function quizStart(id) {
   const P = qpairs(id); if (P.length < 2) return toast('2枚以上のカードが必要です。単語帳でカードを追加してください');
   const dir = qzDir();
+  const cap = Math.min(qzN(), P.length);   // 選択肢は、この単語帳のカードの枚数まで
   const q = qzShuf(P).slice(0, qzQ()).map(([f, b]) => {
     const rev = dir === 'b' || (dir === 'r' && Math.random() < .5), Q = rev ? b : f, A = rev ? f : b;
-    const pool = [...new Set(P.map(p => rev ? p[0] : p[1]))].filter(x => x !== A), o = qzShuf(pool).slice(0, qzN() - 1); o.push(A);
+    const pool = [...new Set(P.map(p => rev ? p[0] : p[1]))].filter(x => x !== A), o = qzShuf(pool).slice(0, cap - 1); o.push(A);
     return { f: Q, b: A, o: qzShuf(o), rev };
   }).filter(x => x.o.length >= 2);
   if (!q.length) return toast('選択肢をつくれませんでした。別のカードを追加してください');
@@ -4487,7 +4498,8 @@ function quizHtml() {
 }
 Object.assign(ACT, {
   qzdir(id) { if (!['f', 'b', 'r'].includes(id)) return; S.set.qzdir = id; save(); toolsRefresh(); },
-  qzn(id) { if (!QZ_NS.includes(+id)) return; S.set.qzn = +id; save(); toolsRefresh(); },
+  qzn(id) { const n = Math.round(+id); if (!(n >= 2 && n <= 100)) return toast('2〜100の数字を入れてください'); S.set.qzn = n; save(); toolsRefresh(); },
+  qznstep(id) { const el = $('#qznin'), cur = el ? Math.round(+el.value) : qzN(); ACT.qzn(Math.min(100, Math.max(2, (isFinite(cur) ? cur : 4) + (+id)))); },
   qzagain() { if (!QZ.wrong.length) return; QZ.q = QZ.wrong.map(q => ({ ...q, o: qzShuf(q.o) })); QZ.i = 0; QZ.ok = 0; QZ.pick = -1; QZ.wrong = []; QZ.phase = 'play'; toolsRefresh(); }
 });
 document.addEventListener('keydown', e => {
@@ -6308,6 +6320,55 @@ Object.assign(ACT, {
 function updLoadShow() {
   openDlg(`<div class="ob upd-load" role="status" aria-live="polite"><div class="ob-art"><div class="upd-ld"><img class="obm-appicon" src="icon-192.png" alt="" width="96" height="96"></div></div><div class="ob-txt"><h2>更新しています</h2><p>少しお待ちください。終わると、自動で新しいバージョンが開きます。</p></div><div class="ob-prog ind" aria-hidden="true"><i></i></div></div>`);
   dlg.dataset.k = 'updload';
+}
+
+/* 選択肢の数：2〜100で自由に。実際には、単語帳のカード枚数までになる */
+function qznSetup() {
+  const n = qzN(), most = Math.max(2, ...(S.decks || []).map(d => S.cards.filter(c => c.d === d.id).length));
+  return `<div class="lbl" style="margin-top:14px">選択肢の数（2〜100）</div><div class="qzq-row"><button type="button" class="ibtn" data-act="qznstep" data-id="-1" aria-label="1つ減らす">${ms('remove')}</button><input id="qznin" type="number" inputmode="numeric" min="2" max="100" step="1" value="${n}" aria-label="選択肢の数"><button type="button" class="ibtn" data-act="qznstep" data-id="1" aria-label="1つ増やす">${ms('add')}</button></div><div class="wx-seg" role="radiogroup" aria-label="よく使う選択肢の数">${[2, 3, 4, 6, 8].map(k => `<button type="button" role="radio" aria-checked="${n === k}" class="wx-sg ${n === k ? 'on' : ''}" data-act="qzn" data-id="${k}">${k}つ</button>`).join('')}</div><small class="muted">上限は、単語帳のカードの枚数です（いちばん多い単語帳は${most}枚）。カードが少ないときは、その枚数までになります。</small>`;
+}
+document.addEventListener('change', e => { if (e.target && e.target.id === 'qznin') ACT.qzn(e.target.value); });
+/* ====================== 同期の安全装置（18.7）：単語帳とカードは消さずに合わせる ====================== */
+// 削除と再追加を、時刻つきで記録する（gone＝削除された時刻、alive＝再び追加された時刻）
+let _ids = null;
+function trackDeletes(j) {
+  const now = { d: new Set((j.decks || []).map(x => x.id)), c: new Set((j.cards || []).map(x => x.id)) };
+  j.gone = j.gone && typeof j.gone === 'object' ? j.gone : {}; j.alive = j.alive && typeof j.alive === 'object' ? j.alive : {};
+  ['d', 'c'].forEach(k => { j.gone[k] = j.gone[k] || {}; j.alive[k] = j.alive[k] || {}; });
+  if (_ids) ['d', 'c'].forEach(k => _ids[k].forEach(id => { if (!now[k].has(id)) j.gone[k][id] = Date.now(); }));
+  ['d', 'c'].forEach(k => now[k].forEach(id => { if (j.gone[k][id]) { j.alive[k][id] = Date.now(); delete j.gone[k][id]; } }));
+  _ids = now;
+}
+// 2つの状態を合わせる。どちらかにある単語帳・カードは残す（削除の記録が新しいものだけ消す）
+function unionDW(a, b, preferB) {
+  const first = preferB ? b : a, second = preferB ? a : b;
+  const gone = { d: {}, c: {} }, alive = { d: {}, c: {} };
+  ['d', 'c'].forEach(k => [a, b].forEach(x => {
+    const g = (x.gone && x.gone[k]) || {}, al = (x.alive && x.alive[k]) || {};
+    Object.keys(g).forEach(id => { gone[k][id] = Math.max(gone[k][id] || 0, g[id]); });
+    Object.keys(al).forEach(id => { alive[k][id] = Math.max(alive[k][id] || 0, al[id]); });
+  }));
+  const dead = (k, id) => (gone[k][id] || 0) > (alive[k][id] || 0);
+  const dm = new Map(), cm = new Map();
+  [...(first.decks || []), ...(second.decks || [])].forEach(d => { if (d && d.id && !dead('d', d.id) && !dm.has(d.id)) dm.set(d.id, d); });
+  [...(first.cards || []), ...(second.cards || [])].forEach(c => { if (c && c.id && !dead('c', c.id) && !cm.has(c.id)) cm.set(c.id, c); });
+  return { decks: [...dm.values()], cards: [...cm.values()], gone, alive };
+}
+function applyUnion(rem, preferRem) {
+  const m = unionDW(S, rem, preferRem);
+  S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive;
+  ensureDecks(S);
+}
+// クラウドに書く前に、クラウドの最新の単語帳を読んで合わせる（読めなければ書かない）
+async function mergeFromCloud(fs, db) {
+  const snap = await fs.getDoc(fs.doc(db, 'users', CLOUD.user.uid));
+  if (!snap.exists()) return;
+  const d = snap.data(); if (!d || !d.json) return;
+  let rem = null; try { rem = JSON.parse(d.json); } catch (e) { throw new Error('remote'); }
+  const before = S.decks.length + S.cards.length;
+  applyUnion(rem, false);
+  if (S.decks.length + S.cards.length !== before) S.mt = Math.max(S.mt || 0, Date.now());
+  _noSync = true; try { save(); } finally { _noSync = false; }
 }
 function toolsPost() {
   const tl = ui.tool || '';
