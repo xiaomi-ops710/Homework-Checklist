@@ -589,6 +589,45 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 /* 初回の説明：イラストを中央に（文字が縦に並ぶのを防ぐ） */
 .ob-art{display:flex;align-items:center;justify-content:center}
 .obm-wrap{width:100%;height:auto;min-height:0}
+/* ===== 更新の画面と案内（Material 3 Expressive。Android の設定画面のような大きな形と見出し） ===== */
+.ux{display:flex;flex-direction:column;align-items:center;text-align:center;padding:4px 2px 4px}
+.ux-top{display:flex;align-items:center;gap:10px;align-self:stretch;margin:0 0 6px;color:var(--on-v);font-weight:700;font-size:.92rem}
+.ux-top img{border-radius:10px}
+.ux-hero{width:188px;height:188px;display:grid;place-items:center;margin:14px 0 24px;background:var(--pc);color:var(--on-pc);border-radius:46% 54% 42% 58%/52% 44% 56% 48%;animation:uxBlob 9s ease-in-out infinite,uxIn .7s var(--spring) both}
+.ux-hero .ms{font-variation-settings:'FILL' 1,'wght' 500}
+.ux-hero.ok{background:var(--primary);color:var(--on-primary)}
+.ux-hero.err{background:var(--err-c);color:var(--on-err-c)}
+.ux-hero.busy{animation:uxBlob 3.2s ease-in-out infinite}
+.ux-hero.busy .ms{animation:uxSpin 2.6s linear infinite}
+.ux-h{margin:0;font-size:1.9rem;font-weight:800;line-height:1.22;letter-spacing:-.01em;color:var(--on);text-wrap:balance}
+.ux-p{margin:10px 0 0;color:var(--on-v);font-size:1rem;line-height:1.7;max-width:30em;text-wrap:pretty}
+.ux-chip{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 16px;border-radius:999px;background:var(--ter-c);color:var(--on-ter-c);font-weight:700;font-size:.92rem}
+.ux-chip .ms{font-size:20px}
+.ux-ver{margin-top:12px;color:var(--out);font-size:.85rem;font-weight:600}
+.ux-wave{width:100%;max-width:300px;height:14px;margin:26px 0 2px;overflow:hidden}
+.ux-wave svg{display:block;width:200%;height:100%;animation:uxWave 1.3s linear infinite}
+.ux-wave path{fill:none;stroke:var(--primary);stroke-width:5;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.ux-btns{display:flex;flex-direction:column;gap:10px;width:100%;max-width:360px;margin-top:26px}
+.ux-btn{min-height:56px;border:0;border-radius:28px;font:inherit;font-weight:700;font-size:1.02rem;display:flex;align-items:center;justify-content:center;gap:8px;padding:0 20px;cursor:pointer;transition:transform .2s var(--spring),filter .2s}
+.ux-btn:active{transform:scale(.97)}
+.ux-btn:disabled{opacity:.45;cursor:default}
+.ux-btn.p{background:var(--primary);color:var(--on-primary)}
+.ux-btn.t{background:var(--pc);color:var(--on-pc)}
+.ux-btn.x{background:transparent;color:var(--primary)}
+.ux-btn.x:first-of-type{color:var(--on-v)}
+/* 更新のお知らせ（画面の上に出る帯） */
+#updbar:not([hidden]){position:fixed;top:calc(10px + env(safe-area-inset-top));left:0;right:0;padding:0 12px;z-index:950;pointer-events:none;display:flex;justify-content:center}
+.updb{pointer-events:auto;display:flex;align-items:center;gap:12px;width:100%;max-width:560px;padding:10px 10px 10px 10px;border:0;border-radius:28px;background:var(--ter-c);color:var(--on-ter-c);font:inherit;text-align:left;box-shadow:var(--shadow);cursor:pointer;animation:uxIn .5s var(--spring) both}
+.updb>i.ms{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--primary);color:var(--on-primary);flex:none;font-size:24px}
+.updb>span{flex:1;min-width:0}
+.updb b{display:block;font-weight:800;font-size:.98rem}
+.updb small{display:block;opacity:.85;font-size:.82rem}
+.updb>i:not(.ms){flex:none;font-style:normal;font-weight:800;background:var(--primary);color:var(--on-primary);border-radius:999px;padding:9px 18px}
+@keyframes uxBlob{0%,100%{border-radius:46% 54% 42% 58%/52% 44% 56% 48%}50%{border-radius:58% 42% 56% 44%/44% 58% 42% 56%}}
+@keyframes uxIn{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes uxWave{to{transform:translateX(-50%)}}
+@keyframes uxSpin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion: reduce){.ux-hero,.ux-hero .ms,.ux-wave svg{animation:none!important}}
 </style>
 </head>
 <body>
@@ -613,7 +652,7 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.25';
+const APP_VERSION = '17.27';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1125,6 +1164,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.27', t: '更新の画面を新しいデザインに・単語帳のAI一括編集', n: ['更新の画面を、Material 3 Expressiveの大きな形と見出しのデザインに刷新しました（確認中・更新中・更新ありの表示）', '更新のお知らせを、画面の上の帯に変えました', '単語帳の「その他の操作」から、AIでカードを一括で編集できるようになりました。例：「表にある数字を消して」「表と裏を反対にして」', 'AIの編集は、変更案を確認してから反映します。チェックを外したカードは変わりません'] },
+  { v: '17.26', t: '動作の診断を追加・AIの回数制限をなくす', n: ['設定に「動作の診断」を追加しました。同期・AI・写真の読み取り・通信などを、ボタン1つで確認できます。結果はコピーして先生に送れます', 'AIの1日の利用回数の制限をなくしました', 'AIの写真の読み取りに失敗したときの原因が、診断で分かるようになりました'] },
   { v: '17.25', t: 'AI機能をApp Checkで守る設定に変更', n: ['AIへの不正な利用を防ぐため、App Check（Fraud Defense）を設定しました', 'AIが「利用上限」と表示される誤りを直しました。接続の問題は、接続の案内を出すようにしました', 'App Checkの設定でエラーが起きたときは、エラーの記録に残るようにしました'] },
   { v: '17.24', t: 'AIに質問を、履歴つきの新しい画面に', n: ['AIに質問の画面を、Geminiのような作りにしました。左に、チャットの新規作成・写真を添付して解説・文章から課題を登録・Gem、そしてチャット履歴が並びます', '会話は送信のたびに履歴に残ります。履歴を選ぶと、その会話を開き直せます。不要な会話は削除できます', '入力欄は、左に＋（写真を添付）、右に音声入力と送信のボタンを置きました', 'スマホでは、履歴は左から開くメニューになります', '設定の考査の終了・保存アイコンを右にそろえました', '初回の説明のAIのページで、文字が縦に並ぶ問題を直しました'] },
   { v: '17.23', t: '単語帳が消える問題を根本から修正・見た目の調整', n: ['同期で単語帳やカードが消える問題を直しました。単語帳とカードは、同期のたびに両方の端末の内容を合わせるようにし、削除した記録もそろえます。消したものは戻らず、消していないものは消えません', 'クラウドに保存する前に、最新の内容を読んでから書くようにしました', 'スマホの下のバーで、選んでいる画面を囲む丸の大きさを広げました', '設定の行で、アーカイブや並べ替えなどのアイコンを右側にそろえました'] },
@@ -1554,7 +1595,7 @@ function viewSettings() {
 
   <div class="h-sec"><h2 data-fbk style="-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent">${ms('database')}データ</h2></div>
   <div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">データはこのiPad内にのみ保存されます。機種変更や万一に備えて、定期的にバックアップしてください。${st.lastBackup ? `<br>最後のバックアップ：${new Date(st.lastBackup).toLocaleDateString('ja-JP')}` : ''}</p>
-  <div class="chips"><button class="btn tonal" data-act="bkopen">${ms('backup')}バックアップと共有を開く${ms('chevron_right')}</button></div></div>
+  <div class="chips"><button class="btn tonal" data-act="bkopen">${ms('backup')}バックアップと共有を開く${ms('chevron_right')}</button><button class="btn tonal" data-act="diag">${ms('troubleshoot')}動作の診断${ms('chevron_right')}</button></div></div>
   <p class="about">考査課題マネージャー v3.0</p></div>`;
 }
 
@@ -2785,7 +2826,7 @@ async function cloudInit() {
     const B = `https://www.gstatic.com/firebasejs/${FB_VER}/`;
     const [app, auth, fs] = await Promise.all([import(B + 'firebase-app.js'), import(B + 'firebase-auth.js'), import(B + 'firebase-firestore.js')]);
     const a = app.initializeApp(cfg);
-    if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); ac.initializeAppCheck(a, { provider: new ac.ReCaptchaEnterpriseProvider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); } catch (e) { if (window.__kosaLog) window.__kosaLog('App Checkの初期化に失敗: ' + ((e && e.message) || e)); } }
+    if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); CLOUD.ac = { mod: ac, inst: ac.initializeAppCheck(a, { provider: new ac.ReCaptchaEnterpriseProvider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }) }; } catch (e) { if (window.__kosaLog) window.__kosaLog('App Checkの初期化に失敗: ' + ((e && e.message) || e)); } }
     const authI = auth.getAuth(a), db = fs.getFirestore(a);
     CLOUD.fb = { auth, fs, authI, db, app: a }; CLOUD.status = 'out';
     auth.onAuthStateChanged(authI, u => { CLOUD.user = u; if (u) { cloudStart(); setTimeout(fbWatchStart, 1500); } else { cloudStop(); fbWatchStop(); } cloudRefresh(); });
@@ -2846,7 +2887,7 @@ function cloudPush() { if (!CLOUD.user || !CLOUD.fb || CLOUD.hold) return; CLOUD
 async function cloudPushNow() {
   if (!CLOUD.user || !CLOUD.fb || CLOUD.hold) return; CLOUD.dirty = false; const { fs, db } = CLOUD.fb;
   try { if (!S.mt) { _noSync = true; S.mt = Date.now(); save(); _noSync = false; } await mergeFromCloud(fs, db); await fs.setDoc(fs.doc(db, 'users', CLOUD.user.uid), { json: JSON.stringify(S), mt: S.mt, updatedAt: fs.serverTimestamp() }); CLOUD.status = 'ok'; setLast(); }
-  catch (e) { CLOUD.status = 'error'; }
+  catch (e) { CLOUD.status = 'error'; CLOUD.err = String((e && ((e.code ? e.code + ' ' : '') + (e.message || ''))) || e).slice(0, 240); }
   cloudRefresh();
 }
 const isStandalone = () => navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
@@ -2974,7 +3015,8 @@ const AI_SYS = `あなたは日本の中学生の勉強を手伝うAIの先生�
 - 数式には LaTeX（$ や \ の記号）を使わず、ふつうの文字で書きます（例：∠ABC、△ABC、x²、1/2、×、÷、°）。空欄は「＿＿」で表します。
 - 個人情報を聞き出しません。分からないときは、分からないと正直に言います。
 - 以下は生徒の現在の課題の状況です。必要なときだけ参考にしてください。`;
-const aiLimit = () => window.AI_DAILY_LIMIT || 30;
+const aiLimit = () => Number(window.AI_DAILY_LIMIT) || 0;   // 0 は回数の制限なし
+const aiFull = () => { const L = aiLimit(); return L > 0 && aiUsed() >= L; };
 const aiUsed = () => { try { const o = JSON.parse(localStorage.getItem('kosa-ai-use') || '{}'); return o.d === today() ? o.n : 0; } catch (e) { return 0; } };
 const aiCount = () => { try { localStorage.setItem('kosa-ai-use', JSON.stringify({ d: today(), n: aiUsed() + 1 })); } catch (e) { } };
 function aiContext() {
@@ -3005,7 +3047,7 @@ function aiErr(e) {
 const AI_MINI = 'あなたは日本の中学生を応援する、学習アドバイザーです。やさしく前向きな日本語で、です・ます調で書きます。難しい言葉は使わず、与えられた情報にないことは作りません。数式にLaTeXは使わず、ふつうの文字で書きます。個人情報は聞き出しません。';
 async function aiRun({ system, prompt, json = false, imgs = [] }) {
   if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return null; }
-  if (aiUsed() >= aiLimit()) { toast(`今日のAI利用は${aiLimit()}回までです`); return null; }
+  if (aiFull()) { toast(`今日のAI利用は${aiLimit()}回までです`); return null; }
   try {
     if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
     const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
@@ -3046,7 +3088,7 @@ function renderAiLog() {
   AI._n = AI.msgs.length; log.scrollTop = log.scrollHeight;
   const sg = $('#aisug'), c = $('#aicnt'), b = $('#aisend'), q = $('#aiq');
   if (sg) sg.hidden = AI.msgs.length > 0;
-  if (c) { const u = aiUsed(), L = aiLimit(); c.innerHTML = `<span class="ax-ring" style="--p:${Math.min(100, Math.round(u / L * 100))}"></span><span><b>${u}</b> / ${L}</span>`; }
+  if (c) { c.innerHTML = `<span><b>${aiUsed()}</b> 回（今日）</span>`; }
   if (b) { b.disabled = AI.busy; const bz = AI.busy ? '1' : ''; if (b.dataset.bz !== bz) { b.dataset.bz = bz; b.innerHTML = AI.busy ? gspin(26) : ms('arrow_upward'); } }
   if (q && !q.value) q.style.height = '';
   axReady();
@@ -3110,7 +3152,7 @@ async function aiSend(text) {
   const atts = AI.att.slice();
   if ((!text && !atts.length) || AI.busy) return;
   if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
-  if (aiUsed() >= aiLimit()) return toast(`今日の質問は${aiLimit()}回までです`);
+  if (aiFull()) return toast(`今日の質問は${aiLimit()}回までです`);
   if (!text) text = '写真について教えてください。';
   AI.busy = true; if (q) q.value = ''; AI.att = []; renderAtt();
   AI.msgs.push({ r: 'u', t: text, imgs: atts.map(a => a.url) }, { r: 'm', t: '' }); const m = AI.msgs[AI.msgs.length - 1]; renderAiLog();
@@ -3158,7 +3200,7 @@ const aiNormBring = arr => (Array.isArray(arr) ? arr : []).filter(x => x && x.te
 async function aiImport(files) {
   if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
   if (!files.length) return;
-  if (aiUsed() >= aiLimit()) return toast(`今日の質問は${aiLimit()}回までです`);
+  if (aiFull()) return toast(`今日の質問は${aiLimit()}回までです`);
   toast('プリントを読み取っています…');
   try {
     const imgs = await Promise.all(files.slice(0, 3).map(f => aiResize(f, 1600)));
@@ -3507,7 +3549,7 @@ const langName = c => (LANGS.find(x => x[0] === c) || [0, c])[1];
 async function trRun() {
   if (!CLOUD.user) { toast('翻訳は、Googleログイン後に使えます'); return acctDlg(); }
   const text = TR.text.trim(); if (!text || TR.busy) return;
-  if (aiUsed() >= aiLimit()) return toast(`今日のAI利用は${aiLimit()}回までです`);
+  if (aiFull()) return toast(`今日のAI利用は${aiLimit()}回までです`);
   TR.busy = true; TR.err = ''; TR.out = ''; toolsRefresh();
   try {
     if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
@@ -4821,7 +4863,7 @@ function snRenderAtt() {
 function snReady() { const b = $('#snsend'), q = $('#snq'); if (b && q) b.classList.toggle('ready', !!(q.value.trim() || SN.att.length)); }
 function snBusyUi() {
   const b = $('#snsend'); if (b) { b.disabled = SN.busy; const bz = SN.busy ? '1' : ''; if (b.dataset.bz !== bz) { b.dataset.bz = bz; b.innerHTML = SN.busy ? gspin(26) : ms('arrow_upward'); } }
-  const c = $('#sncnt'); if (c) { const u = aiUsed(), L = aiLimit(); c.innerHTML = `<span class="ax-ring" style="--p:${Math.min(100, Math.round(u / L * 100))}"></span><span><b>${u}</b> / ${L}</span>`; }
+  const c = $('#sncnt'); if (c) { c.innerHTML = `<span><b>${aiUsed()}</b> 回（今日）</span>`; }
   snReady();
 }
 function snPaint() {
@@ -4843,7 +4885,7 @@ async function snSend(text) {
   if ((!text && !atts.length) || SN.busy) return;
   if (SN.grade) { if (!atts.length) return toast('採点するには、解いた問題と答えの写真を撮ってください'); return snGradeSend(text, atts); }   // 採点モード
   if (!CLOUD.user) { toast('AI先生は、Googleログイン後に使えます'); return acctDlg(); }
-  if (aiUsed() >= aiLimit()) return toast(`今日のAI利用は${aiLimit()}回までです`);
+  if (aiFull()) return toast(`今日のAI利用は${aiLimit()}回までです`);
   const shown = text || '写真の問題を教えてください。', sub = SN.sub ? `【教科：${SN.sub}】\n` : '';
   SN.busy = true; SN.draft = ''; if (q) { q.value = ''; q.style.height = ''; } SN.att = []; snRenderAtt();
   SN.msgs.forEach(m => { delete m.raw; });   // 古い写真のデータは手放す（もう一度送るために使うのは、直前の1組だけ）
@@ -5265,7 +5307,7 @@ function snGradeHtml(m, i) {
 }
 async function snGradeSend(text, atts) {
   const q = $('#snq'); if (!CLOUD.user) { toast('AI先生は、Googleログイン後に使えます'); return acctDlg(); }
-  if (aiUsed() >= aiLimit()) return toast(`今日のAI利用は${aiLimit()}回までです`);
+  if (aiFull()) return toast(`今日のAI利用は${aiLimit()}回までです`);
   SN.busy = true; SN.draft = ''; if (q) { q.value = ''; q.style.height = ''; } SN.att = []; snRenderAtt();
   SN.msgs.forEach(m => { delete m.raw; });
   SN.msgs.push({ r: 'u', t: text || '採点してください。', imgs: atts.map(a => a.url), raw: atts, sub: SN.sub ? `【教科：${SN.sub}】\n` : '', gr: 1 }, { r: 'm', t: '' });
@@ -5704,6 +5746,7 @@ function wcMoreHtml() {
   return `<h2>${ms('tune')}その他の操作</h2>
   <div class="wcm-g"><div class="wcm-h">出しかた</div>
   ${row('wcrng', '', 'pin', '番号で絞る', rg ? `いまは 番号 ${rg[0]}〜${rg[1]}` : '番号の範囲だけを出します')}
+  ${row('wcai', '', 'auto_awesome', 'AIで一括編集', '指示を書くと、すべてのカードをAIが書き換えます')}
   ${row('wcsel', WC.sel === 'star' ? 'all' : 'star', 'star', '★だけ', `★のついたカード（${c.star}枚）`, WC.sel === 'star')}
   ${row('wcsel', WC.sel === 'weak' ? 'all' : 'weak', 'priority_high', '苦手だけ', `よくまちがえるカード（${c.weak}枚）`, WC.sel === 'weak')}
   ${row('wcrev', '', 'swap_horiz', '裏から出す', '表と裏を入れかえて出します', WC.rev)}
@@ -6537,10 +6580,21 @@ document.addEventListener('change', e => {
   else if (t.id === 'rstxt') { S.sheet = t.value; save(); }
 });
 function updHtml() {
-  const [ic, ti, su] = updInfo(), busy = UPD.state === 'installing' || UPD.state === 'checking', av = UPD.state === 'available';
-  return `<div class="upd-top"><img src="icon-192.png" alt="" width="64" height="64"><div><b>考査課題マネージャー</b><span>${av ? 'アップデートを利用できます' : 'アプリのアップデート'} ・ v${APP_VERSION}${av && UPD.next ? ' → v' + UPD.next : ''}</span></div></div>
-  <div class="upd-body"><span class="upd-ic ${busy ? 'spin' : ''}">${ms(ic, '', 'font-size:44px')}</span><h2>${ti}</h2><p class="muted">${su}</p>${busy ? '<div class="upd-bar"><i></i></div>' : ''}${busy ? '' : `<button class="btn text" data-act="hardrefresh" style="margin-top:10px">${ms('cleaning_services')}うまく更新されないとき</button>`}</div>
-  <div class="dact"><button class="btn text" data-act="close">${av ? 'あとで' : '閉じる'}</button><span class="sp"></span>${av ? `<button class="btn" data-act="reload">${ms('download')}今すぐ更新</button>` : `<button class="btn tonal" data-act="updchk" ${busy ? 'disabled' : ''}>${ms('refresh')}更新を確認</button>`}</div>`;
+  const [ic, ti, su] = updInfo(), st = UPD.state, busy = st === 'installing' || st === 'checking', av = st === 'available';
+  const tone = st === 'error' ? 'err' : (av || st === 'latest') ? 'ok' : '';
+  const wave = busy ? `<div class="ux-wave" aria-hidden="true"><svg viewBox="0 0 400 14" preserveAspectRatio="none"><path d="M0 7Q25 0 50 7T100 7T150 7T200 7T250 7T300 7T350 7T400 7"/></svg></div>` : '';
+  const chip = av && UPD.next ? `<span class="ux-chip">${ms('new_releases')}v${APP_VERSION} → v${UPD.next}</span>` : (busy || av ? '' : `<span class="ux-ver">v${APP_VERSION}</span>`);
+  const btns = av
+    ? `<button class="ux-btn p" data-act="reload">${ms('download')}今すぐ更新</button><button class="ux-btn x" data-act="close">あとで</button>`
+    : `<button class="ux-btn t" data-act="updchk" ${busy ? 'disabled' : ''}>${ms('refresh')}更新を確認</button>${busy ? '' : `<button class="ux-btn x" data-act="hardrefresh">${ms('cleaning_services')}うまく更新されないとき</button>`}<button class="ux-btn x" data-act="close">閉じる</button>`;
+  return `<div class="ux" role="status" aria-live="polite">
+    <div class="ux-top"><img src="icon-192.png" alt="" width="32" height="32"><span>考査課題マネージャー</span></div>
+    <div class="ux-hero ${tone} ${busy ? 'busy' : ''}">${ms(ic, '', 'font-size:76px')}</div>
+    <h2 class="ux-h">${esc(ti)}</h2>
+    ${su ? `<p class="ux-p">${esc(su)}</p>` : ''}
+    ${chip}${wave}
+    <div class="ux-btns">${btns}</div>
+  </div>`;
 }
 function updDlg() { openDlg(updHtml()); dlg.dataset.k = 'upd'; if (UPD.state === 'idle') checkUpdate(); }
 function updCard() { const [, ti, su] = updInfo(), av = UPD.state === 'available'; return `<div class="card"><div class="setrow" style="padding:0"><span class="t">${ti}<small>${su}</small></span><button class="btn ${av ? '' : 'tonal'}" data-act="upd">${ms(av ? 'download' : 'refresh')}${av ? '更新' : '更新を確認'}</button></div></div>`; }
@@ -7146,6 +7200,245 @@ document.addEventListener('click', e => {
   const n = Date.now(); yxkN = (n - yxkT < 1500) ? yxkN + 1 : 1; yxkT = n;
   if (yxkN >= 5) { yxkN = 0; yxOpen(); }
 });
+/* ===== 動作の診断（設定 → 動作の診断）：同期・AI・写真の読み取りなどが、この端末で動くかを確認する ===== */
+const DG = { rows: [], busy: false, img: null };
+const DG_IC = { ok: ['check_circle', 'var(--primary)', '正常'], ng: ['cancel', 'var(--err)', '失敗'], warn: ['error', '#b26a00', '注意'], run: ['hourglass_top', 'var(--out)', '確認中'] };
+(() => {
+  const s = document.createElement('style');
+  s.textContent = '#dglist{max-height:min(50dvh,460px);overflow:auto;-webkit-overflow-scrolling:touch}.dg-g{margin:14px 0 2px;font-weight:700;font-size:.85rem;color:var(--on-v)}.dg-r{display:flex;gap:10px;align-items:flex-start;padding:8px 0;border-bottom:1px solid var(--out-v)}.dg-t{min-width:0;flex:1}.dg-t b{display:block;font-weight:600;font-size:.95rem}.dg-t small{display:block;color:var(--on-v);font-size:.8rem;line-height:1.5;word-break:break-all;white-space:pre-wrap}';
+  document.head.appendChild(s);
+})();
+const dgErr = e => String((e && ((e.code ? e.code + ' ' : '') + (e.message || ''))) || e).replace(/\s+/g, ' ').trim().slice(0, 240);
+const dgWait = (p, lim, what) => { let t; return Promise.race([p, new Promise((_, no) => { t = setTimeout(() => no(new Error(what + 'が' + Math.round(lim / 1000) + '秒たっても終わりませんでした')), lim); })]).then(v => { clearTimeout(t); return v; }, e => { clearTimeout(t); throw e; }); };
+function dgPaint() {
+  const el = $('#dglist'); if (!el) return;
+  let g = '', h = '';
+  DG.rows.forEach(r => {
+    if (r.g !== g) { g = r.g; h += `<div class="dg-g">${esc(g)}</div>`; }
+    const [ic, col] = DG_IC[r.s];
+    h += `<div class="dg-r"><span style="color:${col};flex:none">${ms(ic)}</span><div class="dg-t"><b>${esc(r.n)}</b>${r.d ? `<small>${esc(r.d)}</small>` : ''}</div></div>`;
+  });
+  el.innerHTML = h;
+  if (DG.busy) el.scrollTop = el.scrollHeight;
+  const n = s => DG.rows.filter(r => r.s === s).length, sm = $('#dgsum');
+  if (sm) sm.textContent = DG.busy ? '確認しています…（1〜2分かかることがあります）' : !DG.rows.length ? '' : n('ng') ? `${n('ng')}件の問題が見つかりました。「コピー」して先生に送ってください。` : n('warn') ? `大きな問題はありません（注意 ${n('warn')}件）。` : 'すべて正常です。';
+  const go = $('#dggo'), cp = $('#dgcp'); if (go) go.disabled = DG.busy; if (cp) cp.disabled = DG.busy || !DG.rows.length;
+}
+async function dgT(g, n, fn, lim = 20000) {
+  const r = { g, n, s: 'run', d: '' }; DG.rows.push(r); dgPaint();
+  try { const o = await dgWait(Promise.resolve().then(fn), lim, n); const [s, d] = Array.isArray(o) ? o : ['ok', o]; r.s = s; r.d = d || ''; }
+  catch (e) { r.s = 'ng'; r.d = dgErr(e); }
+  dgPaint(); return r;
+}
+const dgAiMod = async () => AI.mod || (AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`));
+async function dgProbe(prompt, o = {}) {   // AIを1回呼ぶ（1日の回数には数えない）
+  try {
+    const m = await dgAiMod(), ai = m.getAI(CLOUD.fb.app, { backend: new m.GoogleAIBackend() });
+    const cfg = { model: window.AI_MODEL || 'gemini-3.5-flash-lite' }; if (o.json) cfg.generationConfig = { responseMimeType: 'application/json' };
+    const model = m.getGenerativeModel(ai, cfg), t = performance.now();
+    const res = await model.generateContent(o.img ? [prompt, { inlineData: { mimeType: o.img.mime, data: o.img.data } }] : prompt);
+    return { text: String(res.response.text() || '').trim(), ms: Math.round(performance.now() - t) };
+  } catch (e) { throw new Error(aiErr(e).replace(/\s+/g, ' ')); }
+}
+async function dgRun() {
+  if (DG.busy) return; DG.busy = true; DG.rows = []; DG.img = null; dgPaint();
+  try {
+    const ua = navigator.userAgent, sf = /Version\/(\d+)\.(\d+)/.exec(ua), standalone = !!(navigator.standalone || (window.matchMedia && matchMedia('(display-mode: standalone)').matches));
+    const G1 = 'アプリと端末', G2 = 'データの保存', G3 = '写真（写真からカード・AIに質問）', G4 = '通信', G5 = 'ログインと同期', G6 = 'AI', G7 = 'そのほかの機能', G8 = '最近のエラーの記録';
+    await dgT(G1, 'アプリの版・端末', () => {
+      const old = sf && +sf[1] < 16;
+      return [!navigator.onLine ? 'ng' : old ? 'warn' : 'ok', `v${APP_VERSION} ／ ${standalone ? 'ホーム画面から起動' : 'ブラウザで起動'} ／ ${navigator.onLine ? 'オンライン' : 'オフライン'}\nSafari ${sf ? sf[1] + '.' + sf[2] : '不明'}${old ? '（古いため、iPadOSの更新をおすすめします）' : ''} ／ 画面 ${innerWidth}×${innerHeight}（×${devicePixelRatio}）\n${ua}`];
+    });
+    await dgT(G1, 'アプリの更新（Service Worker）', async () => {
+      if (!('serviceWorker' in navigator)) return ['warn', 'この端末では使えません（オフライン機能なし）'];
+      const reg = await navigator.serviceWorker.getRegistration();
+      if (!reg) return ['warn', '登録されていません（初回の起動直後か、プライベートブラウズの可能性があります）'];
+      if (!reg.active) return ['warn', '準備中です。しばらくしてからもう一度お試しください'];
+      const v = await new Promise(ok => { const ch = new MessageChannel(); ch.port1.onmessage = e => ok(e.data); setTimeout(() => ok(''), 3000); try { reg.active.postMessage('ver', [ch.port2]); } catch (e) { ok(''); } });
+      if (!v) return ['warn', '保存されている版を確認できませんでした'];
+      return v === APP_VERSION ? ['ok', `v${v}`] : ['warn', `保存されている版（v${v}）と画面（v${APP_VERSION}）がちがいます。設定の「アプリのアップデート」を実行してください`];
+    });
+    await dgT(G2, 'この端末への保存（LocalStorage）', () => {
+      const k = 'kosa-diag-test', v = String(Date.now()); localStorage.setItem(k, v); const ok = localStorage.getItem(k) === v; localStorage.removeItem(k);
+      if (!ok) return ['ng', '書いた内容を読み戻せません'];
+      let b = 0; for (let i = 0; i < localStorage.length; i++) { const kk = localStorage.key(i); if (/^kosa-/.test(kk)) b += kk.length + (localStorage.getItem(kk) || '').length; }
+      const bad = localStorage.getItem('kosa-corrupt');
+      return [bad ? 'warn' : 'ok', `アプリのデータ 約${Math.round(b * 2 / 1024)}KB${bad ? '\n読み込めなかった保存データが残っています（以前に問題があった記録です）' : ''}`];
+    });
+    await dgT(G2, 'IndexedDB・保存できる容量', async () => {
+      if (!window.indexedDB) return ['warn', 'IndexedDBが使えません'];
+      await new Promise((ok, no) => { const q = indexedDB.open('kosa-diag'); q.onsuccess = () => { q.result.close(); try { indexedDB.deleteDatabase('kosa-diag'); } catch (e) { } ok(); }; q.onerror = () => no(q.error || new Error('開けません')); q.onblocked = () => no(new Error('blocked')); });
+      let est = ''; try { if (navigator.storage && navigator.storage.estimate) { const e = await navigator.storage.estimate(); est = `使用 ${Math.round((e.usage || 0) / 1048576)}MB ／ 上限 ${Math.round((e.quota || 0) / 1048576)}MB`; } } catch (e) { }
+      return ['ok', est || '開けました'];
+    });
+    /* 写真：アプリと同じ処理（aiResize）で、テスト用の画像を縮小する */
+    const mk = (w, h) => { const c = document.createElement('canvas'); c.width = w; c.height = h; const g = c.getContext('2d'); if (!g) throw new Error('canvasが使えません'); g.fillStyle = '#fff'; g.fillRect(0, 0, w, h); g.fillStyle = '#000'; g.font = `bold ${Math.round(h / 3)}px sans-serif`; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText('42', w / 2, h / 2); return c; };
+    const blobOf = c => new Promise((ok, no) => c.toBlob(b => b ? ok(b) : no(new Error('画像に変換できません（メモリ不足の可能性）')), 'image/jpeg', 0.9));
+    await dgT(G3, '写真の読み込みと縮小', async () => {
+      const c = mk(2400, 1800); let b; try { b = await blobOf(c); } finally { c.width = c.height = 0; }
+      const t = performance.now(), a = await aiResize(new File([b], 'diag.jpg', { type: 'image/jpeg' }), 1600); DG.img = a;
+      if (!a || !a.data || a.data.length < 1000) return ['ng', '変換後の画像が空です'];
+      return ['ok', `約${Math.round(a.data.length * .75 / 1024)}KBに変換（${Math.round(performance.now() - t)}ms）`];
+    });
+    await dgT(G3, 'カメラの大きな写真（約1200万画素）', async () => {
+      const c = mk(4032, 3024); let b; try { b = await blobOf(c); } finally { c.width = c.height = 0; }
+      const t = performance.now(), a = await aiResize(new File([b], 'big.jpg', { type: 'image/jpeg' }), 1600);
+      if (!a || !a.data || a.data.length < 1000) return ['ng', '変換後の画像が空です'];
+      return ['ok', `縮小できました（${Math.round(performance.now() - t)}ms）`];
+    }, 40000);
+    /* 通信：ブロックされていないか（学校のフィルター・コンテンツブロッカーなど） */
+    for (const [n, u] of [['Googleの配信サーバー（gstatic）', `https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`], ['クラウドデータベース（Firestore）', 'https://firestore.googleapis.com/'], ['ログインの認証サーバー', 'https://identitytoolkit.googleapis.com/'], ['AIサーバー（Firebase AI Logic）', 'https://firebasevertexai.googleapis.com/'], ['App Checkの確認（reCAPTCHA）', 'https://www.google.com/recaptcha/enterprise.js']]) {
+      await dgT(G4, n, async () => {
+        const t = performance.now();
+        try { await dgWait(fetch(u, { mode: 'no-cors', cache: 'no-store' }), 9000, n); }
+        catch (e) { throw new Error('つながりません。学校のネットワークのフィルターや、Safariのコンテンツブロッカー（広告ブロック）が止めている可能性があります（' + dgErr(e) + '）'); }
+        return `つながりました（${Math.round(performance.now() - t)}ms）`;
+      }, 12000);
+    }
+    await dgT(G4, 'AI部品の読み込み（firebase-ai）', async () => { const t = performance.now(); await dgAiMod(); return `読み込めました（${Math.round(performance.now() - t)}ms）`; }, 25000);
+    /* ログインと同期 */
+    const mask = s => { s = String(s || ''); const [a, d] = s.split('@'); return a ? a.slice(0, 2) + '***' + (d ? '@' + d : '') : '不明'; };
+    await dgT(G5, 'Googleログイン', () => {
+      if (CLOUD.status === 'unconfigured') return ['ng', 'firebase-config.js のFirebase設定が未入力です'];
+      if (!CLOUD.fb) return ['ng', 'Firebaseを初期化できていません（通信の結果を確認してください）'];
+      if (!CLOUD.user) return ['warn', 'ログインしていません。AI・同期は、ログイン後に使えます'];
+      return ['ok', mask(CLOUD.user.email)];
+    });
+    const login = !!(CLOUD.fb && CLOUD.user);
+    if (!login) {
+      DG.rows.push({ g: G5, n: 'クラウドの読み取り・同期の保存', s: 'warn', d: 'ログイン後に確認できます' }, { g: G6, n: 'App Check・AI', s: 'warn', d: 'ログイン後に確認できます' }); dgPaint();
+    } else {
+      await dgT(G5, 'クラウドのデータ読み取り', async () => {
+        const { fs, db } = CLOUD.fb, t = performance.now(), sn = await fs.getDocFromServer(fs.doc(db, 'users', CLOUD.user.uid)), d = sn.exists() ? sn.data() : null;
+        if (!d) return ['warn', 'クラウドにはまだデータがありません'];
+        return ['ok', `${Math.round(String(d.json || '').length / 1024)}KB ／ 最終更新 ${d.mt ? new Date(d.mt).toLocaleString('ja-JP') : '不明'}（${Math.round(performance.now() - t)}ms）`];
+      });
+      await dgT(G5, '同期（クラウドへの保存）', async () => {
+        if (CLOUD.hold) return ['warn', '端末とクラウドのデータがちがうため、同期を止めています。設定の「アカウントと同期」で選んでください'];
+        CLOUD.err = ''; await cloudPushNow();
+        const last = CLOUD.last ? new Date(CLOUD.last).toLocaleString('ja-JP') : '';
+        return CLOUD.status === 'ok' ? ['ok', `保存できました${last ? '（' + last + '）' : ''}`] : ['ng', CLOUD.err || '保存できませんでした'];
+      }, 40000);
+      await dgT(G6, 'App Check（アプリの確認）', async () => {
+        if (!window.APPCHECK_SITE_KEY) return ['warn', 'キーが未設定です（firebase-config.js の APPCHECK_SITE_KEY）'];
+        if (!CLOUD.ac) return ['ng', '初期化できていません。下の「最近のエラーの記録」を確認してください'];
+        const t = performance.now(), r = await CLOUD.ac.mod.getToken(CLOUD.ac.inst, true);
+        if (r && r.error) throw r.error;
+        if (!r || !r.token) throw new Error('トークンを取得できません');
+        return `トークンを取得できました（${Math.round(performance.now() - t)}ms）`;
+      }, 30000);
+      await dgT(G6, 'AIの返答（文章）', async () => {
+        const r = await dgProbe('「OK」とだけ答えてください。');
+        return r.text ? ['ok', `返答あり（${r.ms}ms）：${r.text.slice(0, 40)}`] : ['ng', '返答が空でした'];
+      }, 45000);
+      await dgT(G6, 'AIの写真の読み取り（写真からカードと同じ送り方）', async () => {
+        if (!DG.img) return ['warn', '写真の縮小に失敗したため、確認できません'];
+        const r = await dgProbe('画像に大きく書かれている数字だけを答えてください。', { img: DG.img });
+        return /42/.test(r.text) ? ['ok', `読み取れました（${r.ms}ms、画像 約${Math.round(DG.img.data.length * .75 / 1024)}KB）`] : ['warn', `画像は届きましたが、読み取りが想定とちがいます：${r.text.slice(0, 60)}`];
+      }, 60000);
+      await dgT(G6, 'AIのJSON形式の返答（カード作成と同じ）', async () => {
+        const r = await dgProbe('単語「book」の単語カードを1枚、JSONの配列だけで返してください。形は [{"f":"表","b":"裏"}] です。', { json: true });
+        let j; try { j = JSON.parse(r.text.replace(/```json|```/g, '').trim()); } catch (e) { return ['ng', 'JSONとして読み取れません：' + r.text.slice(0, 80)]; }
+        return Array.isArray(j) || (j && Array.isArray(j.cards)) ? ['ok', `読み取れました（${r.ms}ms）`] : ['warn', '配列ではない形で返ってきました'];
+      }, 45000);
+    }
+    /* そのほか */
+    await dgT(G7, '音声の読み上げ・音声入力・音の再生', () => {
+      const a = !!window.speechSynthesis, b = !!(window.SpeechRecognition || window.webkitSpeechRecognition), c = !!(window.AudioContext || window.webkitAudioContext);
+      return [a && b && c ? 'ok' : 'warn', `読み上げ：${a ? 'OK' : '×'} ／ 音声入力：${b ? 'OK' : '×'} ／ 音の再生：${c ? 'OK' : '×'}`];
+    });
+    await dgT(G7, 'クリップボード', () => navigator.clipboard && navigator.clipboard.writeText ? ['ok', '使えます'] : ['warn', '使えません（コピー機能が動かない場合があります）']);
+    let errs = []; try { errs = JSON.parse(localStorage.getItem('kosa-errlog') || '[]').slice(0, 5); } catch (e) { }
+    if (!errs.length) DG.rows.push({ g: G8, n: 'エラーの記録はありません', s: 'ok', d: '' });
+    else errs.forEach(x => DG.rows.push({ g: G8, n: `${x.t} v${x.v}`, s: 'warn', d: String(x.m || '') }));
+  } catch (e) { DG.rows.push({ g: '診断', n: '診断中に予期しないエラー', s: 'ng', d: dgErr(e) }); }
+  DG.busy = false; dgPaint();
+}
+function dgText() {
+  const L = ['考査課題マネージャー 診断結果', new Date().toLocaleString('ja-JP') + ' ／ v' + APP_VERSION, ''];
+  let g = ''; DG.rows.forEach(r => { if (r.g !== g) { g = r.g; L.push('■ ' + g); } L.push(`[${DG_IC[r.s][2]}] ${r.n}${r.d ? '：' + r.d.replace(/\n/g, ' / ') : ''}`); });
+  return L.join('\n');
+}
+function dgCopy(t) {
+  const ok = () => { const b = $('#dgcp'); if (b) { const o = b.textContent; b.textContent = 'コピーしました'; setTimeout(() => { if (b.isConnected) b.textContent = o; }, 2000); } };
+  const fb = () => { try { const a = document.createElement('textarea'); a.value = t; a.setAttribute('readonly', ''); a.style.cssText = 'position:fixed;left:-9999px;top:0'; document.body.appendChild(a); a.select(); a.setSelectionRange(0, t.length); const r = document.execCommand('copy'); a.remove(); r ? ok() : toast('コピーできませんでした'); } catch (e) { toast('コピーできませんでした'); } };
+  if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(ok, fb); else fb();
+}
+Object.assign(ACT, {
+  diag() {
+    openDlg(`<h2>${ms('troubleshoot')}動作の診断</h2>
+    <p class="muted" style="margin:-4px 0 8px;font-size:.88rem;line-height:1.7">同期・AI・写真の読み取りなどが、この端末で動くかを確認します。AIの利用回数には数えません。</p>
+    <p id="dgsum" style="font-weight:600;margin:0 0 4px"></p><div id="dglist"></div>
+    <div class="dact"><button type="button" class="btn text" data-act="close">閉じる</button><span class="sp"></span><button type="button" class="btn tonal" id="dgcp" data-act="diagcopy" disabled>コピー</button><button type="button" class="btn" id="dggo" data-act="diagrun">もう一度</button></div>`);
+    if (DG.busy) dgPaint(); else dgRun();
+  },
+  diagrun() { dgRun(); },
+  diagcopy() { if (DG.rows.length && !DG.busy) dgCopy(dgText()); }
+});
+
+/* ---- 単語帳のAI編集：指示を書くと、デッキの全カードの書き換え案を作り、確認してから反映する ---- */
+const WCAI = { busy: false, chg: [] };
+const WCAI_EX = ['表にある数字を消して', '表と裏の内容を反対にして', '裏の意味を中学生にわかる言葉に直して', '表の英単語に、カタカナの読み方を付けて'];
+const WCAI_SYS = 'あなたは日本の中学生の単語帳カードを編集するアシスタントです。ユーザーの指示に従い、カードの表（f）と裏（b）を書き換えます。指示に当てはまらないカードは変更しません。指示にないことを勝手に足したり、内容の意味を変えたりしません。数式にLaTeXは使わず、ふつうの文字で書きます。JSONの配列だけを返します。';
+const wcaiClean = t => String(t ?? '').replace(/\$/g, '').trim();
+function wcaiDlg() {
+  const d = wcDeck(), n = wcAll().length;
+  openDlg(`<h2>${gem(24, true)}AIで単語帳を編集</h2>
+  <p class="muted" style="margin:-8px 0 12px;line-height:1.7">「${esc(d.name)}」の${n}枚のカードを、指示のとおりに書き換えます。変更案を確認してから反映します。</p>
+  <div class="fld"><label for="wcaiq">どう編集する？</label><textarea id="wcaiq" class="trta" rows="3" maxlength="200" placeholder="例：表にある数字を消して"></textarea>
+  <div class="wp-ex">${WCAI_EX.map((x, i) => `<button type="button" class="tchip" data-act="wcaiex" data-id="${i}">${esc(x)}</button>`).join('')}</div></div>
+  <p class="muted" style="margin:0 0 4px;font-size:.88rem;line-height:1.7">AIの編集は間違うことがあります。反映の前に、必ず確認してください。${CLOUD.user ? '' : '<br>Googleログイン後に使えます。'}</p>
+  <div class="dact"><button type="button" class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button type="button" class="btn" id="wcaigo" data-act="wcaigo" ${n && CLOUD.user ? '' : 'disabled'}>${gem(18)}変更案を作る</button></div>`);
+}
+async function wcaiGo() {
+  if (WCAI.busy) return;
+  const ins = ($('#wcaiq') ? $('#wcaiq').value : '').trim();
+  if (!ins) return toast('どう編集するかを書いてください');
+  if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます');
+  const cards = wcAll(); if (!cards.length) return toast('カードがありません');
+  WCAI.busy = true; WCAI.chg = [];
+  const CH = 40, parts = []; for (let i = 0; i < cards.length; i += CH) parts.push(cards.slice(i, i + CH));
+  let aborted = false;
+  for (let p = 0; p < parts.length; p++) {
+    const g = $('#wcaigo'); if (g) { g.disabled = true; g.innerHTML = `${gspin(18)}作成中… ${p + 1}/${parts.length}`; }
+    const list = parts[p], by = new Map(list.map(c => [c.n, c]));
+    const r = await aiRun({ json: true, system: WCAI_SYS, prompt: `指示：${ins}\n\n対象のカード（JSON）：${JSON.stringify(list.map(c => ({ n: c.n, f: c.f, b: c.b })))}\n\n変更したカードだけを、次の形のJSON配列で返してください：[{"n":番号,"f":"新しい表","b":"新しい裏"}]\n変更しないカードは含めないでください。変更がないときは [] を返してください。表は200字以内、裏は400字以内にしてください。` });
+    if (r === null) { aborted = true; break; }
+    const arr = Array.isArray(r) ? r : (r && Array.isArray(r.cards) ? r.cards : []);
+    arr.forEach(x => {
+      const c = by.get(Number(x && x.n)); if (!c) return;
+      const f = (wcaiClean(x.f ?? x.front) || c.f).slice(0, 200), b = (wcaiClean(x.b ?? x.back) || c.b).slice(0, 400);
+      if (f === c.f && b === c.b) return;
+      WCAI.chg.push({ id: c.id, n: c.n, of: c.f, ob: c.b, f, b });
+    });
+  }
+  WCAI.busy = false;
+  const g = $('#wcaigo'); if (g) { g.disabled = false; g.innerHTML = `${gem(18)}変更案を作る`; }
+  if (!WCAI.chg.length) return toast(aborted ? '途中で止まりました。もう一度お試しください' : '変更するカードはありませんでした');
+  wcaiReview(aborted ? '途中で止まったため、ここまでの変更案だけを表示しています。' : '');
+}
+function wcaiReview(note) {
+  const ch = WCAI.chg;
+  openDlg(`<h2>${gem(24, true)}変更案（${ch.length}枚）</h2>
+  <p class="muted" style="margin:-8px 0 12px;line-height:1.7">チェックを外したカードは変わりません。内容は、ここで直してから反映できます。</p>
+  ${note ? `<div class="notice" style="margin:0 0 12px">${ms('error')}<span class="t">${esc(note)}</span></div>` : ''}
+  <div class="wc-imp">${ch.map((x, i) => `<div class="wc-ir"><label class="wc-ck"><input type="checkbox" checked data-wa="${i}"><span>${ms('check')}</span></label><div><small class="muted" style="font-size:.8rem;display:block;margin-bottom:4px">${x.n}番　変更前：${esc(x.of)} ／ ${esc(x.ob)}</small><input class="scin memo" data-waf="${i}" value="${esc(x.f)}" aria-label="表"><input class="scin memo" data-wab="${i}" value="${esc(x.b)}" aria-label="裏"></div></div>`).join('')}</div>
+  <div class="dact"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" data-act="wcaiapply">${ms('check')}反映する</button></div>`);
+}
+Object.assign(ACT, {
+  wcai() { wcaiDlg(); },
+  wcaiex(id) { const q = $('#wcaiq'); if (q) q.value = WCAI_EX[+id] || ''; },
+  wcaigo() { wcaiGo(); },
+  wcaiapply() {
+    const rows = [...document.querySelectorAll('.wc-ir')].map((r, i) => ({ on: r.querySelector('[data-wa]').checked, f: wcaiClean(r.querySelector('[data-waf]').value), b: wcaiClean(r.querySelector('[data-wab]').value), x: WCAI.chg[i] })).filter(o => o.on && o.x && o.f && o.b);
+    closeDlg(); if (!rows.length) return toast('反映するカードがありません');
+    undoable(`${rows.length}枚のカードを編集しました`, () => {
+      rows.forEach(o => { const c = S.cards.find(k => k.id === o.x.id); if (c) { c.f = o.f.slice(0, 200); c.b = o.b.slice(0, 400); } });
+      WCAI.chg = []; wcSave();
+    });
+  }
+});
+
 bootApp();
 </script>
 </body>
