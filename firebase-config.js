@@ -16,5 +16,6 @@ window.GOOGLE_CLIENT_ID = "909288674254-rdn22g4s7vnnrpaeo95295tjf92cb92q.apps.go
 window.AI_MODEL = "gemini-3.5-flash-lite";
 // 1日にAIへ質問できる回数（この端末）
 window.AI_DAILY_LIMIT = 30;
-// App Check を使わないので、空のままにします。
-window.APPCHECK_SITE_KEY = "";
+// App Check（Google Cloud Fraud Defense / reCAPTCHA Enterprise のスコアベースのWebキー）。
+// AIへの不正な利用を防ぐために使います。空にすると、App Check は動きません。
+window.APPCHECK_SITE_KEY = "6LdUXhEuAAAAAEMIfHe4bVjqNkvFoDRTZ3Ra6vI0";

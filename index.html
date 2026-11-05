@@ -613,7 +613,7 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.24';
+const APP_VERSION = '17.25';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1125,6 +1125,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.25', t: 'AI機能をApp Checkで守る設定に変更', n: ['AIへの不正な利用を防ぐため、App Check（Fraud Defense）を設定しました', 'AIが「利用上限」と表示される誤りを直しました。接続の問題は、接続の案内を出すようにしました', 'App Checkの設定でエラーが起きたときは、エラーの記録に残るようにしました'] },
   { v: '17.24', t: 'AIに質問を、履歴つきの新しい画面に', n: ['AIに質問の画面を、Geminiのような作りにしました。左に、チャットの新規作成・写真を添付して解説・文章から課題を登録・Gem、そしてチャット履歴が並びます', '会話は送信のたびに履歴に残ります。履歴を選ぶと、その会話を開き直せます。不要な会話は削除できます', '入力欄は、左に＋（写真を添付）、右に音声入力と送信のボタンを置きました', 'スマホでは、履歴は左から開くメニューになります', '設定の考査の終了・保存アイコンを右にそろえました', '初回の説明のAIのページで、文字が縦に並ぶ問題を直しました'] },
   { v: '17.23', t: '単語帳が消える問題を根本から修正・見た目の調整', n: ['同期で単語帳やカードが消える問題を直しました。単語帳とカードは、同期のたびに両方の端末の内容を合わせるようにし、削除した記録もそろえます。消したものは戻らず、消していないものは消えません', 'クラウドに保存する前に、最新の内容を読んでから書くようにしました', 'スマホの下のバーで、選んでいる画面を囲む丸の大きさを広げました', '設定の行で、アーカイブや並べ替えなどのアイコンを右側にそろえました'] },
   { v: '17.22', t: '単語帳の選択肢の数を自由に', n: ['単語帳のテストの選択肢の数を、2〜100の中から自由に決められるようになりました', '選択肢の数の上限は、その単語帳のカードの枚数です。カードが少ない単語帳では、その枚数までになります'] },
@@ -2784,7 +2785,7 @@ async function cloudInit() {
     const B = `https://www.gstatic.com/firebasejs/${FB_VER}/`;
     const [app, auth, fs] = await Promise.all([import(B + 'firebase-app.js'), import(B + 'firebase-auth.js'), import(B + 'firebase-firestore.js')]);
     const a = app.initializeApp(cfg);
-    if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); ac.initializeAppCheck(a, { provider: new ac.ReCaptchaV3Provider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); } catch (e) { } }
+    if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); ac.initializeAppCheck(a, { provider: new ac.ReCaptchaEnterpriseProvider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }); } catch (e) { if (window.__kosaLog) window.__kosaLog('App Checkの初期化に失敗: ' + ((e && e.message) || e)); } }
     const authI = auth.getAuth(a), db = fs.getFirestore(a);
     CLOUD.fb = { auth, fs, authI, db, app: a }; CLOUD.status = 'out';
     auth.onAuthStateChanged(authI, u => { CLOUD.user = u; if (u) { cloudStart(); setTimeout(fbWatchStart, 1500); } else { cloudStop(); fbWatchStop(); } cloudRefresh(); });
@@ -2991,8 +2992,9 @@ async function aiStart() {
 function aiErr(e) {
   const s = `${(e && e.code) || ''} ${(e && e.message) || ''} ${e || ''}`.replace(/\s+/g, ' ').trim();
   let m;
-  if (/429|quota|rate|RESOURCE_EXHAUSTED/i.test(s)) m = 'AIの利用上限に達しました。しばらくしてから、もう一度お試しください。';
-  else if (/403|permission|app-?check|not been used|disabled|not enabled/i.test(s)) m = 'AI機能がまだ有効になっていないようです。FirebaseコンソールのAI Logicで、Gemini Developer APIを有効にしてください。';
+  if (/app ?check|app-check|appcheck|401|unauthenticated/i.test(s)) m = 'AIとの接続を確認できませんでした。アプリを開き直してから、もう一度お試しください。それでも直らないときは、フィードバックでお知らせください。';
+  else if (/\b429\b|quota|RESOURCE_EXHAUSTED|rate.?limit|too many requests/i.test(s)) m = 'AIの利用上限に達しました。しばらくしてから、もう一度お試しください。';
+  else if (/403|permission|not been used|disabled|not enabled/i.test(s)) m = 'AI機能がまだ有効になっていないようです。FirebaseコンソールのAI Logicで、Gemini Developer APIを有効にしてください。';
   else if (/404|not found|not supported/i.test(s)) m = 'モデル名が正しくない可能性があります。firebase-config.js の AI_MODEL を確認してください。';
   else if (/400|api key|invalid/i.test(s)) m = '設定の値が正しくない可能性があります。firebase-config.js の内容を確認してください。';
   else if (!navigator.onLine) m = 'インターネットに接続できません。接続を確認してください。';
