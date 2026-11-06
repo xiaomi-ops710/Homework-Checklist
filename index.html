@@ -646,6 +646,25 @@ button,a,[role=button]{touch-action:manipulation}
 .wc-hide{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin-top:10px}
 .wc-hb{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 16px;border-radius:22px;border:1px solid var(--out-v);background:var(--s1);color:var(--on);font:inherit;font-weight:700;font-size:.92rem;cursor:pointer}
 .wc-hb.on{background:var(--sec-c);color:var(--on-sec-c);border-color:transparent}
+
+/* ===== 17.32：AIに質問の幅・更新の進み具合・元素シューティング ===== */
+.tbody:has(.gm){max-width:none}
+.gm{margin:0;max-width:none;width:100%}
+.stk::after{display:none!important}
+.ux-lin{position:relative;width:100%;max-width:300px;height:10px;margin:26px 0 6px;border-radius:5px;background:var(--s2);overflow:hidden}
+.ux-lin i{position:absolute;left:0;top:0;bottom:0;border-radius:5px;background:var(--primary);transition:width .8s var(--smooth)}
+.ux-lin i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent) no-repeat 0 0/60% 100%;animation:uxShim 1.6s linear infinite}
+.ux-pct{margin:0;font-size:.9rem;font-weight:700;color:var(--on-v)}
+@keyframes uxShim{from{background-position:-60% 0}to{background-position:160% 0}}
+.ps{max-width:900px;margin:0 auto}
+.ps-cv{width:100%;border-radius:28px;overflow:hidden;box-shadow:0 18px 48px rgba(0,0,0,.35);border:1px solid rgba(120,190,255,.25);background:#040819;touch-action:none;-webkit-user-select:none;user-select:none}
+.ps-cv canvas{display:block}
+.ps-ctl{display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px;margin-top:12px}
+.ps-fire{min-height:64px;border:0;border-radius:24px;background:linear-gradient(180deg,#ff8a6b,#e0573c);color:#fff;font:inherit;font-size:1.15rem;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px;box-shadow:0 8px 22px rgba(224,87,60,.35);cursor:pointer;touch-action:manipulation}
+.ps-mv{min-height:64px;border:0;border-radius:24px;background:linear-gradient(180deg,#4a7fb8,#2c5687);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;touch-action:none;-webkit-user-select:none;user-select:none}
+.ps-fire .ms,.ps-mv .ms{font-size:30px}
+.ps-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px}
+.ps-note{font-size:.85rem;line-height:1.6;margin:0}
 </style>
 </head>
 <body>
@@ -669,7 +688,7 @@ button,a,[role=button]{touch-action:manipulation}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.31';
+const APP_VERSION = '17.32';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1181,6 +1200,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.32', t: '元素シューティングを追加・AIの画面の幅・更新の進み具合', n: ['元素ラボに「シューティング」を追加しました。ロケットで、上に出ている元素名の正しい原子記号を撃ちます（13種類）', 'AIに質問の画面を、左右いっぱいに広げました', '更新中に、どこまで進んだかが分かる直線の表示にしました', '「○日連続」の光の残りを消しました', 'ツールタブの上に残っていた「AI」の文字を消しました'] },
   { v: '17.31', t: '常に動くアニメーションを止めて、動きを軽くしました', n: ['タブやページの、上下に動くアイコンのアニメーションを止めました（タブを切り替えるときの動きは残しています）', '「○日連続」の光の動きと、ホームの飾りの回転、＋ボタンの光るアニメーションを止めました', 'ホーム上部の色がゆっくり動く演出は残しています'] },
   { v: '17.30', t: 'iPadで軽く動くように最適化・全画面のけしボタン', n: ['全画面の単語帳で、例文ボタンを消し、「表・裏・ヒント・例文」を隠す「けし」ボタンを4つにしました', 'iPadなどタッチ操作の端末で、飾りのアニメーションを止めて、動きを軽くしました', 'スクロール時の描き直しを減らし、ホーム画面のアプリとしての動きを整えました'] },
   { v: '17.29', t: 'AI先生を整理・AIの回答モードを追加', n: ['ツールの「AI先生」を消し、AIに質問の中で使えるようにしました', 'AIに質問に「ヒントと手順」と「答えも解説」の2つの回答モードを追加しました', 'AI小テストを、ツールの「勉強」に移しました', '単語帳の全画面（集中モード）のボタンを、右端に移しました', '全画面で、AIのヒント・例文が表示されない問題を直しました'] },
@@ -2443,7 +2463,7 @@ const ACT = {
   pthide() { PT.hide = !PT.hide; PT.shown = {}; ptPaint(); },
   ptreset() { PT.hide = false; PT.shown = {}; PT.sel = 0; PT.q = ''; PT.cat = ''; const i = $('#ptq'); if (i) i.value = ''; ptPaint(); },
   ptcat(id) { PT.cat = PT.cat === id ? '' : id; ptPaint(); },
-  ptmode(id) { PT.mode = id === 'lab' ? 'lab' : 'table'; toolsRefresh(); },
+  ptmode(id) { PT.mode = id === 'lab' ? 'lab' : id === 'game' ? 'game' : 'table'; toolsRefresh(); },
   ptlab(id) {
     const [a, b] = id.split('|'); PT.mode = 'lab'; LAB.blobs = []; LAB.sel = 0; LAB.last = null; toolsRefresh(); window.scrollTo(0, 0);
     setTimeout(() => { const A = labAdd(a, 28, 52), B = b ? labAdd(b, 72, 52) : null; labPaint(); if (B) setTimeout(() => labReact(A, B), 450); }, 150);
@@ -3605,7 +3625,7 @@ const TOOLS = [['music', '音楽', 'library_music', '端末の音楽を、アプ
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
-  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">AI</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'd').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
+  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
   const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
@@ -4083,6 +4103,7 @@ function ptDetail() {
   ${LI[sym] ? `<div class="dact" style="margin:10px 0 0;justify-content:flex-start"><button class="btn tonal" data-act="ptlab" data-id="${sym}">${ms('experiment')}ラボで使ってみる</button></div>` : ''}${ptRel(sym)}`;
 }
 function ptPaint() {
+  if (PT.mode === 'game') return psMount();
   if (PT.mode === 'lab') return labPaint();
   const g = $('#ptg'); if (!g) return;
   const q = PT.q.trim(), ql = q.toLowerCase(), qz = /^\d+$/.test(q) ? +q : 0;
@@ -4096,8 +4117,9 @@ function ptPaint() {
 }
 TPAINT.ptable = ptPaint;
 function ptableHtml() {
-  const tabs = `<div class="seg pt-seg" role="group" aria-label="表示の切り替え"><button class="${PT.mode === 'table' ? 'on' : ''}" data-act="ptmode" data-id="table">${ms('grid_view')}周期表</button><button class="${PT.mode === 'lab' ? 'on' : ''}" data-act="ptmode" data-id="lab">${ms('experiment')}くっつけてみよう</button></div>`;
+  const tabs = `<div class="seg pt-seg" role="group" aria-label="表示の切り替え"><button class="${PT.mode === 'table' ? 'on' : ''}" data-act="ptmode" data-id="table">${ms('grid_view')}周期表</button><button class="${PT.mode === 'lab' ? 'on' : ''}" data-act="ptmode" data-id="lab">${ms('experiment')}くっつけてみよう</button><button class="${PT.mode === 'game' ? 'on' : ''}" data-act="ptmode" data-id="game">${ms('rocket_launch')}シューティング</button></div>`;
   if (PT.mode === 'lab') return tabs + labHtml();
+  if (PT.mode === 'game') return tabs + gameHtml();
   return `${tabs}<div class="ptq"><input id="ptq" type="search" placeholder="元素名・記号・原子番号で探す" value="${esc(PT.q)}" autocomplete="off"></div>
   <div class="tseg"><button class="tchip ${PT.hide ? 'on' : ''}" id="pthide" data-act="pthide">${ms('visibility_off')}記号を隠して覚える</button><button class="tchip" data-act="ptreset">${ms('restart_alt')}元に戻す</button></div>
   <div id="ptd" style="margin-bottom:14px"></div>
@@ -6609,7 +6631,8 @@ document.addEventListener('change', e => {
 function updHtml() {
   const [ic, ti, su] = updInfo(), st = UPD.state, busy = st === 'installing' || st === 'checking', av = st === 'available';
   const tone = st === 'error' ? 'err' : (av || st === 'latest') ? 'ok' : '';
-  const wave = busy ? `<div class="ux-wave" aria-hidden="true"><svg viewBox="0 0 400 14" preserveAspectRatio="none"><path d="M0 7Q25 0 50 7T100 7T150 7T200 7T250 7T300 7T350 7T400 7"/></svg></div>` : '';
+  const pct = st === 'installing' ? 75 : 30;
+  const wave = busy ? `<div class="ux-lin" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="更新の進み具合"><i style="width:${pct}%"></i></div><p class="ux-pct">${st === 'installing' ? '更新を取得・準備しています' : '更新を確認しています'}　約${pct}%</p>` : '';
   const chip = av && UPD.next ? `<span class="ux-chip">${ms('new_releases')}v${APP_VERSION} → v${UPD.next}</span>` : (busy || av ? '' : `<span class="ux-ver">v${APP_VERSION}</span>`);
   const btns = av
     ? `<button class="ux-btn p" data-act="reload">${ms('download')}今すぐ更新</button><button class="ux-btn x" data-act="close">あとで</button>`
@@ -7465,6 +7488,183 @@ Object.assign(ACT, {
     });
   }
 });
+
+/* ====================== 元素シューティング（元素ラボの「シューティング」）：ロケットで、元素名に合う原子記号を撃つ ====================== */
+const PS_EL = [['水素', 'H'], ['炭素', 'C'], ['窒素', 'N'], ['酸素', 'O'], ['ナトリウム', 'Na'], ['マグネシウム', 'Mg'], ['硫黄', 'S'], ['塩素', 'Cl'], ['カルシウム', 'Ca'], ['鉄', 'Fe'], ['銅', 'Cu'], ['亜鉛', 'Zn'], ['銀', 'Ag']];
+const PS_FONT = "'Noto Sans JP','Hiragino Sans',system-ui,sans-serif";
+const PS = { on: false, bound: false, drag: false, tx: 0.5, ship: 0.5, mv: 0, mvk: 0, cd: 0, shake: 0, over: false, lives: 3, score: 0, wave: 1, msg: '', msgT: 0, tiles: [], bl: [], pts: [], stars: null, tgt: null, dy: 0, last: 0, t: 0, W: 0, H: 0, dpr: 1, best: 0 };
+try { PS.best = +(localStorage.getItem('kosa-ps-best') || 0) || 0; } catch (e) { }
+const psActive = () => ui.tab === 'tools' && ui.tool === 'ptable' && PT.mode === 'game' && !dlg.open && !!$('#psc');
+function psReset() { Object.assign(PS, { over: false, lives: 3, score: 0, wave: 1, bl: [], pts: [], msg: '元素の記号を撃ちぬこう！', msgT: 3 }); psSpawn(); }
+function psSpawn() {
+  const n = Math.min(8 + PS.wave * 2, 20), cols = 5;
+  PS.dy = 0; PS.tiles = [];
+  for (let i = 0; i < n; i++) {
+    const r = Math.floor(i / cols), inRow = Math.min(cols, n - r * cols), k = i - r * cols;
+    const fx = (k + 0.5 + (cols - inRow) / 2) / cols;   // 最後の行は真ん中にそろえる
+    const e = PS_EL[Math.floor(Math.random() * PS_EL.length)];
+    PS.tiles.push({ n: e[0], s: e[1], fx, row: r, ph: Math.random() * 6.28, hit: 0, dead: 0 });
+  }
+  psTarget();
+}
+function psTarget() {
+  const al = PS.tiles.filter(t => !t.dead); if (!al.length) return;
+  const prev = PS.tgt && PS.tgt.s;
+  let p = al[Math.floor(Math.random() * al.length)];
+  if (al.length > 1 && p.s === prev) p = al.find(t => t.s !== prev) || p;
+  PS.tgt = { s: p.s, n: p.n };
+}
+function psTilePos(t) {
+  const W = PS.W, cols = 5, w = Math.min(W / cols * 0.8, 118), h = w * 0.5;
+  return { x: t.fx * W + Math.sin(PS.t * 0.7 + t.ph) * Math.min(18, W * 0.02), y: 84 + t.row * (h + 22) + PS.dy, w, h };
+}
+function psBurst(x, y, c, n) { for (let i = 0; i < n; i++) { const a = Math.random() * 6.28, s = 80 + Math.random() * 180; PS.pts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s, l: 0.6 + Math.random() * 0.4, max: 1, c, g: 160, r: 2 + Math.random() * 3 }); } }
+function psFire() { if (PS.over || PS.cd > 0 || !PS.W) return; PS.bl.push({ x: PS.ship * PS.W, y: PS.H - 122, v: 620 }); PS.cd = 0.32; }
+function psOver() { PS.over = true; PS.msg = 'ゲームオーバー'; PS.msgT = 99; if (PS.score > PS.best) { PS.best = PS.score; try { localStorage.setItem('kosa-ps-best', String(PS.best)); } catch (e) { } } }
+function psHit(t, p) {
+  if (t.s === PS.tgt.s) {
+    t.dead = 1; PS.score += 10 * PS.wave; psBurst(p.x, p.y, '#7fe0ff', 26);
+    if (!PS.tiles.some(x => !x.dead)) { PS.wave++; PS.msg = `ウェーブ ${PS.wave} へ！`; PS.msgT = 2; psSpawn(); }
+    else { PS.msg = `正解！ ${t.s} ＝ ${t.n}`; PS.msgT = 1.4; psTarget(); }
+  } else {
+    t.hit = 0.5; PS.lives--; PS.shake = 0.3; psBurst(p.x, p.y, '#ff6b6b', 10);
+    PS.msg = `ちがう… ${PS.tgt.n}の記号は ${PS.tgt.s}`; PS.msgT = 2;
+    if (PS.lives <= 0) psOver();
+  }
+}
+function psUpdate(dt) {
+  PS.t += dt; PS.cd = Math.max(0, PS.cd - dt); PS.shake = Math.max(0, PS.shake - dt); PS.msgT = Math.max(0, PS.msgT - dt);
+  const dir = PS.mv || PS.mvk;
+  if (PS.drag) PS.ship += (PS.tx - PS.ship) * Math.min(1, dt * 12); else if (dir) PS.ship += dir * dt * 0.9;
+  PS.ship = Math.min(0.96, Math.max(0.04, PS.ship));
+  for (let i = PS.pts.length - 1; i >= 0; i--) { const q = PS.pts[i]; q.x += q.vx * dt; q.y += q.vy * dt; q.vy += (q.g || 0) * dt; q.l -= dt; if (q.l <= 0) PS.pts.splice(i, 1); }
+  if (PS.over) return;
+  for (let i = 0; i < 2; i++) PS.pts.push({ x: PS.ship * PS.W + (Math.random() - 0.5) * 12, y: PS.H - 30, vx: (Math.random() - 0.5) * 30, vy: 120 + Math.random() * 120, l: 0.35, max: 0.35, c: 'flame', g: 0, r: 4 + Math.random() * 4 });   // 噴射の炎
+  PS.dy += (16 + PS.wave * 3) * dt;
+  const dangerY = PS.H - 130;
+  if (PS.tiles.some(t => !t.dead && psTilePos(t).y + psTilePos(t).h / 2 > dangerY)) {
+    PS.lives--; PS.shake = 0.4; PS.msg = 'ゆだんした！ ライフが1つへります'; PS.msgT = 2;
+    if (PS.lives <= 0) { psOver(); return; }
+    psSpawn(); return;
+  }
+  for (const t of PS.tiles) if (t.hit > 0) t.hit = Math.max(0, t.hit - dt);
+  for (const b of PS.bl) b.y -= b.v * dt;
+  PS.bl = PS.bl.filter(b => {
+    if (b.y < -10) return false;
+    for (const t of PS.tiles) {
+      if (t.dead) continue;
+      const p = psTilePos(t);
+      if (Math.abs(b.x - p.x) <= p.w / 2 && Math.abs(b.y - p.y) <= p.h / 2) { psHit(t, p); return false; }
+    }
+    return true;
+  });
+}
+function psRR(ctx, x, y, w, h, r) { ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+function psDrawTile(ctx, t) {
+  const p = psTilePos(t), x = p.x - p.w / 2, y = p.y - p.h / 2, r = p.h * 0.28, hf = t.hit > 0;
+  ctx.save();
+  ctx.shadowColor = hf ? 'rgba(255,80,80,.9)' : 'rgba(90,200,255,.5)'; ctx.shadowBlur = hf ? 24 : 14;
+  const g = ctx.createLinearGradient(0, y, 0, y + p.h);
+  g.addColorStop(0, hf ? '#8a2b3a' : '#2f5b92'); g.addColorStop(0.55, hf ? '#5a1f2c' : '#1b3560'); g.addColorStop(1, hf ? '#3a1220' : '#0c1c38');
+  psRR(ctx, x, y, p.w, p.h, r); ctx.fillStyle = g; ctx.fill();
+  ctx.shadowBlur = 0;
+  const bd = ctx.createLinearGradient(x, y, x + p.w, y + p.h);
+  bd.addColorStop(0, '#eaf8ff'); bd.addColorStop(0.5, '#5fb4e8'); bd.addColorStop(1, '#255f93');
+  psRR(ctx, x, y, p.w, p.h, r); ctx.lineWidth = 2.5; ctx.strokeStyle = bd; ctx.stroke();
+  const gl = ctx.createLinearGradient(0, y, 0, y + p.h * 0.5); gl.addColorStop(0, 'rgba(255,255,255,.3)'); gl.addColorStop(1, 'rgba(255,255,255,0)');
+  psRR(ctx, x + 3, y + 3, p.w - 6, p.h * 0.5, r * 0.8); ctx.fillStyle = gl; ctx.fill();
+  ctx.fillStyle = '#7cc8f0'; ctx.fillRect(x + p.w * 0.12, y + p.h, p.w * 0.18, 5); ctx.fillRect(x + p.w * 0.7, y + p.h, p.w * 0.18, 5);
+  ctx.fillStyle = '#ffffff'; ctx.font = `800 ${Math.round(p.h * 0.5)}px ${PS_FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(0,0,0,.6)'; ctx.shadowBlur = 4; ctx.fillText(t.s, p.x, p.y + 1);
+  ctx.restore();
+}
+function psDrawShip(ctx, x, b) {
+  const w = 44, h = 92;
+  ctx.save(); ctx.translate(x, b);
+  ctx.shadowColor = 'rgba(120,200,255,.6)'; ctx.shadowBlur = 12;
+  for (const s of [-1, 1]) { ctx.beginPath(); ctx.moveTo(s * w * 0.42, -h * 0.12); ctx.lineTo(s * (w * 0.8), h * 0.2); ctx.lineTo(s * w * 0.42, h * 0.26); ctx.closePath(); const fg = ctx.createLinearGradient(s * w * 0.4, 0, s * w * 0.8, 0); fg.addColorStop(0, '#ff8c7a'); fg.addColorStop(1, '#c23b2e'); ctx.fillStyle = fg; ctx.fill(); }
+  ctx.shadowBlur = 0;
+  const bg = ctx.createLinearGradient(-w / 2, 0, w / 2, 0);
+  bg.addColorStop(0, '#8d9bb4'); bg.addColorStop(0.35, '#f5f9ff'); bg.addColorStop(0.6, '#c4d0e4'); bg.addColorStop(1, '#6f7e98');
+  ctx.beginPath(); ctx.moveTo(-w / 2, -h * 0.18); ctx.lineTo(-w / 2, h * 0.22); ctx.lineTo(w / 2, h * 0.22); ctx.lineTo(w / 2, -h * 0.18); ctx.closePath(); ctx.fillStyle = bg; ctx.fill();
+  const nose = ctx.createLinearGradient(-w / 2, 0, w / 2, 0); nose.addColorStop(0, '#ffb35c'); nose.addColorStop(0.5, '#ff7a3d'); nose.addColorStop(1, '#d4502a');
+  ctx.beginPath(); ctx.moveTo(0, -h / 2); ctx.bezierCurveTo(w * 0.42, -h * 0.4, w / 2, -h * 0.22, w / 2, -h * 0.18); ctx.lineTo(-w / 2, -h * 0.18); ctx.bezierCurveTo(-w / 2, -h * 0.22, -w * 0.42, -h * 0.4, 0, -h / 2); ctx.closePath(); ctx.fillStyle = nose; ctx.fill();
+  const wg = ctx.createRadialGradient(-4, -h * 0.1, 2, 0, -h * 0.08, w * 0.22); wg.addColorStop(0, '#f0fbff'); wg.addColorStop(0.5, '#4fb0ff'); wg.addColorStop(1, '#0b3a7a');
+  ctx.beginPath(); ctx.arc(0, -h * 0.08, w * 0.2, 0, 6.283); ctx.fillStyle = wg; ctx.fill(); ctx.lineWidth = 3; ctx.strokeStyle = '#2b3d59'; ctx.stroke();
+  const ng = ctx.createLinearGradient(-w * 0.35, 0, w * 0.35, 0); ng.addColorStop(0, '#3a4256'); ng.addColorStop(0.5, '#8a93a8'); ng.addColorStop(1, '#343b4f');
+  ctx.beginPath(); ctx.moveTo(-w * 0.26, h * 0.22); ctx.lineTo(-w * 0.36, h * 0.36); ctx.lineTo(w * 0.36, h * 0.36); ctx.lineTo(w * 0.26, h * 0.22); ctx.closePath(); ctx.fillStyle = ng; ctx.fill();
+  ctx.restore();
+}
+function psDraw(cv) {
+  const ctx = cv.getContext('2d'), W = PS.W, H = PS.H, d = PS.dpr;
+  ctx.setTransform(d, 0, 0, d, 0, 0); ctx.save();
+  if (PS.shake > 0) ctx.translate((Math.random() - 0.5) * PS.shake * 22, (Math.random() - 0.5) * PS.shake * 22);
+  const bg = ctx.createLinearGradient(0, 0, 0, H); bg.addColorStop(0, '#040819'); bg.addColorStop(0.6, '#0a1532'); bg.addColorStop(1, '#101c3e');
+  ctx.fillStyle = bg; ctx.fillRect(-20, -20, W + 40, H + 40);
+  const n1 = ctx.createRadialGradient(W * 0.2, H * 0.3, 0, W * 0.2, H * 0.3, W * 0.5); n1.addColorStop(0, 'rgba(70,120,255,.2)'); n1.addColorStop(1, 'rgba(70,120,255,0)');
+  const n2 = ctx.createRadialGradient(W * 0.85, H * 0.2, 0, W * 0.85, H * 0.2, W * 0.4); n2.addColorStop(0, 'rgba(170,90,255,.14)'); n2.addColorStop(1, 'rgba(170,90,255,0)');
+  ctx.fillStyle = n1; ctx.fillRect(0, 0, W, H); ctx.fillStyle = n2; ctx.fillRect(0, 0, W, H);
+  for (const s of PS.stars) { ctx.globalAlpha = 0.35 + 0.65 * Math.abs(Math.sin(PS.t * s.s + s.p)); ctx.fillStyle = '#e8f2ff'; ctx.beginPath(); ctx.arc(s.x * W, ((s.y * H + PS.t * (6 + s.s * 4)) % H), s.r, 0, 6.283); ctx.fill(); }
+  ctx.globalAlpha = 1;
+  for (const t of PS.tiles) if (!t.dead) psDrawTile(ctx, t);
+  for (const b of PS.bl) {
+    const bl = ctx.createLinearGradient(0, b.y, 0, b.y + 28); bl.addColorStop(0, '#ffffff'); bl.addColorStop(0.3, '#7fe0ff'); bl.addColorStop(1, 'rgba(127,224,255,0)');
+    ctx.save(); ctx.shadowColor = '#7fe0ff'; ctx.shadowBlur = 14; ctx.fillStyle = bl; ctx.fillRect(b.x - 3, b.y, 6, 28); ctx.restore();
+  }
+  psDrawShip(ctx, PS.ship * W, H - 30);
+  ctx.save(); ctx.globalCompositeOperation = 'lighter';
+  for (const q of PS.pts) { const a = Math.max(0, q.l / q.max); if (q.c === 'flame') { const rg = ctx.createRadialGradient(q.x, q.y, 0, q.x, q.y, q.r * 2); rg.addColorStop(0, `rgba(255,250,200,${a})`); rg.addColorStop(0.4, `rgba(255,150,40,${a * 0.9})`); rg.addColorStop(1, 'rgba(255,60,0,0)'); ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(q.x, q.y, q.r * 2, 0, 6.283); ctx.fill(); } else { ctx.fillStyle = q.c; ctx.globalAlpha = a; ctx.beginPath(); ctx.arc(q.x, q.y, q.r * (0.6 + a * 0.4), 0, 6.283); ctx.fill(); ctx.globalAlpha = 1; } }
+  ctx.restore();
+  const dangerY = H - 130, dl = ctx.createLinearGradient(0, dangerY - 10, 0, dangerY + 10); dl.addColorStop(0, 'rgba(255,80,80,0)'); dl.addColorStop(0.5, 'rgba(255,80,80,.55)'); dl.addColorStop(1, 'rgba(255,80,80,0)');
+  ctx.fillStyle = dl; ctx.fillRect(0, dangerY - 10, W, 20);
+  ctx.save(); ctx.setLineDash([10, 8]); ctx.strokeStyle = 'rgba(255,120,120,.5)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(0, dangerY); ctx.lineTo(W, dangerY); ctx.stroke(); ctx.restore();
+  /* 上の表示（撃つ元素）と、ライフ・スコア */
+  const bw = Math.min(330, W * 0.5), bx = W / 2 - bw / 2;
+  ctx.save(); ctx.shadowColor = 'rgba(90,200,255,.5)'; ctx.shadowBlur = 12; psRR(ctx, bx, 12, bw, 50, 25); ctx.fillStyle = 'rgba(8,22,50,.85)'; ctx.fill(); ctx.lineWidth = 2; ctx.strokeStyle = '#5fb4e8'; ctx.stroke(); ctx.restore();
+  ctx.fillStyle = '#ffffff'; ctx.font = `800 ${Math.round(Math.min(20, W * 0.03))}px ${PS_FONT}`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillText(PS.tgt ? `撃つ元素：${PS.tgt.n}` : '', W / 2, 37);
+  for (let i = 0; i < 3; i++) { ctx.beginPath(); ctx.arc(26 + i * 24, 30, 8, 0, 6.283); ctx.fillStyle = i < PS.lives ? '#ff5d6c' : 'rgba(255,255,255,.15)'; ctx.shadowColor = i < PS.lives ? '#ff5d6c' : 'transparent'; ctx.shadowBlur = i < PS.lives ? 10 : 0; ctx.fill(); }
+  ctx.shadowBlur = 0; ctx.textAlign = 'right'; ctx.font = `700 14px ${PS_FONT}`; ctx.fillStyle = '#cfe3ff';
+  ctx.fillText(`スコア ${PS.score}　ウェーブ ${PS.wave}`, W - 16, 28); ctx.fillText(`ベスト ${Math.max(PS.best, PS.score)}`, W - 16, 48);
+  if (PS.msgT > 0 && PS.msg) { ctx.save(); ctx.globalAlpha = Math.min(1, PS.msgT); ctx.textAlign = 'center'; ctx.font = `800 ${Math.round(Math.min(24, W * 0.04))}px ${PS_FONT}`; ctx.fillStyle = '#fff'; ctx.shadowColor = 'rgba(0,0,0,.7)'; ctx.shadowBlur = 8; ctx.fillText(PS.msg, W / 2, H * 0.45); ctx.restore(); }
+  if (PS.over) { ctx.fillStyle = 'rgba(0,0,0,.55)'; ctx.fillRect(0, 0, W, H); ctx.textAlign = 'center'; ctx.fillStyle = '#fff'; ctx.font = `900 ${Math.round(Math.min(40, W * 0.07))}px ${PS_FONT}`; ctx.fillText('ゲームオーバー', W / 2, H * 0.4); ctx.font = `700 20px ${PS_FONT}`; ctx.fillStyle = '#cfe3ff'; ctx.fillText(`スコア ${PS.score}　ベスト ${PS.best}`, W / 2, H * 0.4 + 46); ctx.fillText('下の「もういちど」で、もう一度遊べます', W / 2, H * 0.4 + 80); }
+  ctx.restore();
+}
+function psLoop(ts) {
+  const cv = $('#psc'); if (!cv) { PS.on = false; return; }
+  const dt = Math.min(0.05, Math.max(0, (ts - PS.last) / 1000)); PS.last = ts;
+  if (PS.W) { psUpdate(dt); psDraw(cv); }
+  requestAnimationFrame(psLoop);
+}
+function psMount() {
+  const cv = $('#psc'); if (!cv || !cv.parentElement) return;
+  const W = Math.max(280, Math.floor(cv.parentElement.clientWidth)), H = Math.round(Math.max(520, Math.min(W * 1.1, 680))), dpr = Math.min(window.devicePixelRatio || 1, 2);
+  cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); cv.style.width = W + 'px'; cv.style.height = H + 'px';
+  Object.assign(PS, { W, H, dpr });
+  if (!PS.stars) PS.stars = Array.from({ length: 70 }, () => ({ x: Math.random(), y: Math.random(), r: Math.random() * 1.4 + 0.3, s: Math.random() * 3 + 1, p: Math.random() * 6 }));
+  if (!PS.tiles.length && !PS.over) psReset();
+  if (!cv.dataset.b) {
+    cv.dataset.b = '1';
+    cv.addEventListener('pointerdown', e => { const r = cv.getBoundingClientRect(); PS.tx = (e.clientX - r.left) / r.width; PS.drag = true; try { cv.setPointerCapture(e.pointerId); } catch (x) { } psFire(); });
+    cv.addEventListener('pointermove', e => { if (!PS.drag) return; const r = cv.getBoundingClientRect(); PS.tx = (e.clientX - r.left) / r.width; });
+    const end = () => { PS.drag = false; }; cv.addEventListener('pointerup', end); cv.addEventListener('pointercancel', end);
+  }
+  if (!PS.bound) {
+    PS.bound = true;
+    document.addEventListener('pointerdown', e => { const b = e.target.closest && e.target.closest('[data-psm]'); if (b) PS.mv = +b.dataset.psm; });
+    const up = () => { PS.mv = 0; }; document.addEventListener('pointerup', up); document.addEventListener('pointercancel', up);
+    document.addEventListener('keydown', e => { if (!psActive()) return; if (e.key === 'ArrowLeft') PS.mvk = -1; else if (e.key === 'ArrowRight') PS.mvk = 1; else if (e.key === ' ') { e.preventDefault(); psFire(); } });
+    document.addEventListener('keyup', e => { if ((e.key === 'ArrowLeft' && PS.mvk === -1) || (e.key === 'ArrowRight' && PS.mvk === 1)) PS.mvk = 0; });
+  }
+  if (!PS.on) { PS.on = true; PS.last = performance.now(); requestAnimationFrame(psLoop); }
+}
+function gameHtml() {
+  return `<div class="ps"><div class="ps-cv"><canvas id="psc" role="img" aria-label="元素シューティングの画面"></canvas></div>
+  <div class="ps-ctl"><button type="button" class="ps-mv" data-psm="-1" aria-label="左へ">${ms('arrow_back')}</button><button type="button" class="ps-fire" data-act="psfire">${ms('rocket_launch')}発射！</button><button type="button" class="ps-mv" data-psm="1" aria-label="右へ">${ms('arrow_forward')}</button></div>
+  <div class="ps-row"><button type="button" class="btn tonal sm" data-act="psstart">${ms('restart_alt')}もういちど</button><p class="muted ps-note">画面をタップで発射、ドラッグで移動できます。Windowsは ← → で移動、スペースで発射です。</p></div>
+  <p class="muted ps-note" style="margin:10px 4px 0">上に出ている元素名の、正しい原子記号を撃ちます。ちがう記号を撃つと、ライフが1つへります。</p></div>`;
+}
+Object.assign(ACT, { psfire() { psFire(); }, psstart() { psReset(); } });
 
 bootApp();
 </script>
