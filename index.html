@@ -790,6 +790,25 @@ html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
   .cal-d.sel .cal-tx em{color:var(--on-primary)}
   .dayp h3{font-size:1.7rem}
 }
+/* ===== 17.42：通知（アイコンだけ）・YouTubeの音声だけ再生 ===== */
+#nav .noti-b .nl{display:none}
+#nav .noti-b{justify-content:center}
+#nav .noti-b .nbadge{left:auto!important;right:-4px!important;top:-2px!important;margin:0!important;min-width:20px;height:20px;padding:0 5px;font-size:.68rem;line-height:20px;box-shadow:0 0 0 2px var(--s2)!important}
+.noti-h{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.noti-h .ms{font-size:28px;color:var(--primary)}
+.noti-h span{font-size:1.5rem;font-weight:700}
+.noti-cnt{font-style:normal;font-size:.8rem;font-weight:700;padding:4px 12px;border-radius:14px;background:var(--pc);color:var(--on-pc)}
+.noti-l{padding:0 2px}
+.noti-g{padding:14px 6px 6px}
+.noti-i{outline:none;box-shadow:none;border:0;align-items:center;padding:12px 14px}
+.noti-i:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.noti-i .t b{font-size:.95rem}
+.noti-i .tm{align-self:center}
+.noti-a .btn{min-height:42px;height:42px;padding:0 16px;font-size:.9rem}
+.noti-a .btn .ms{font-size:18px;margin-right:4px}
+/* 音声だけ：動画は、アプリの画面の裏に隠す（再生は止めない） */
+#yxp.m-bg{z-index:-1;opacity:0;pointer-events:none;border-radius:0;box-shadow:none}
+#yxp.m-bg .yx-bar,#yxp.m-bg .yx-x{display:none}
 </style>
 </head>
 <body>
@@ -813,7 +832,7 @@ html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.41';
+const APP_VERSION = '17.42';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1373,6 +1392,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.42', t: '通知アイコンの整理・音楽のおすすめは音楽だけ・YouTubeの音声だけ再生', n: ['ツールバー下の通知は、アイコンと丸いボタンだけにしました（未読の数は右上に出ます）', '通知の一覧の、文字や位置のズレを直しました', '音楽のおすすめは、音楽の動画だけを出すようにしました', 'YouTubeの「音声だけ」モードを追加しました。動画はアプリの画面の裏に隠れ、音だけ流れます', '音声だけのときは、MP3のプレーヤーと同じ場所（○日連続の隣）に、チップが出ます。タップで動画に戻せます'] },
   { v: '17.41', t: '更新の進み・通知・カレンダーの広い画面・ICS読み込み', n: ['更新の確認は、取れたファイルの数から実際の%を出し、100%になってから終わります（途中で勝手に再読み込みしません）', 'ツールバーが、スクロールで動かないように直しました（iPadでも、下に動かないようにしました）', '通知を追加しました：ツールバーの一番下の「通知」から、課題の期限・テストの日・予定・フィードバックの返信を一覧で見られます', 'カレンダーを、iPadの広い画面向けに作り直しました：月の表に予定名を入れ、右側に「その日の予定（時刻順）」と「これからの予定」を出します', 'ICSファイル（カレンダーの書き出し）から予定を読み込めます。毎日・毎週・毎月・毎年の繰り返しと、前後1年分に対応しています'] },  { v: '17.40', t: '音楽ツールを新しくデザイン・おすすめとお気に入り', n: ['音楽ツールを、YouTube Musicのような画面（ホーム・検索・お気に入り・端末の曲）に作り直しました', 'おすすめ（YouTubeの急上昇）・最近聴いた・お気に入りを、ホームからすぐ開けます', '動画の ♡ で、お気に入りに保存できます（動画ツールと同じ保存先です）', '検索ボタンが枠からはみ出していたのを直しました', 'デザインを、Material 3 Expressive（大きな角丸・ピル型のボタン）の雰囲気に寄せました（まずは音楽ツールから）'] },
   { v: '17.39', t: '元素インベーダーの操作・音・全画面のバグ修正', n: ['シューティングのキーボード操作が、そのまま効くようにしました（画面を開くと、ゲームに焦点が移ります）', '最初のタップかキー操作で、BGMが自動で流れるようにしました', '全画面の「通常の画面に戻す」ボタンが大きくなりすぎていた不具合を直しました'] },
   { v: '17.38', t: '元素インベーダーのBGMを重低音に・全画面の修正', n: ['元素インベーダーのBGMを、重低音が効いた迫力のある音に変えました（音程や曲の流れはそのままです）', '全画面が、iPadの上部に隠れないようにしました', '全画面から戻せるように、画面の上と下に「戻す」ボタンを付けました（Escキーでも戻せます）'] },
@@ -5878,7 +5898,13 @@ function muMeta() {
 function muChip() {
   let c = $('#mchip'); if (!c) { c = document.createElement('div'); c.id = 'mchip'; c.setAttribute('role', 'region'); c.setAttribute('aria-label', '音楽プレーヤー'); document.body.appendChild(c); } return c;
 }
+function yxChipPaint() {
+  const c = yx.cur, c2 = muChip(), cv = c.id ? `https://i.ytimg.com/vi/${c.id}/mqdefault.jpg` : '';
+  c2.innerHTML = `<button type="button" class="mc-b" data-yx="page" aria-label="動画を開く：${esc(c.title || '')}"><span class="mc-cv" ${cv ? `style="background-image:url('${cv}')"` : ''}></span><span class="mc-t"><b>${esc(c.title || '読み込み中…')}</b><small>${yx.playing ? '音声だけ再生中' : '一時停止中'}</small></span></button><button type="button" class="mc-p" data-yx="pp" aria-label="${yx.playing ? '一時停止' : '再生'}" style="--p:0">${ms(yx.playing ? 'pause' : 'play_arrow', '', 'font-size:26px')}</button><button type="button" class="mc-x" data-yx="stop" aria-label="停止して閉じる">${ms('close', '', 'font-size:20px')}</button>`;
+  c2.classList.add('show'); c2.classList.toggle('on', !!yx.playing);
+}
 function muChipPaint() {
+  if (yx.mode === 'bg' && yx.cur) return yxChipPaint();
   const m = muCur(), c = muChip(); if (!m) { c.classList.remove('show'); c.innerHTML = ''; return; }
   const cv = muCovUrl(m);
   c.innerHTML = `<button type="button" class="mc-b" data-act="mutool" aria-label="音楽を開く：${esc(m.title)}"><span class="mc-cv ${cv ? '' : 'no'}" ${cv ? `style="background-image:url('${cv}')"` : ''}>${cv ? '' : ms('music_note', '', 'font-size:22px')}</span><span class="mc-t"><b>${esc(m.title)}</b>${m.artist ? `<small>${esc(m.artist)}</small>` : ''}</span></button><button type="button" class="mc-p" data-act="muplay" aria-label="${MU.playing ? '一時停止' : '再生'}" style="--p:${MU._p || 0}">${ms(MU.playing ? 'pause' : 'play_arrow', '', 'font-size:26px')}</button>${MU.playing ? '' : `<button type="button" class="mc-x" data-act="muclose" aria-label="プレーヤーを閉じる">${ms('close', '', 'font-size:20px')}</button>`}`;
@@ -7194,7 +7220,7 @@ function notiAdd(o) {
 }
 function notiNavBtn() {
   const n = notiUnread();
-  return `<button class="ni noti-b" data-act="notiopen" title="通知" aria-label="通知${n ? `（未読${n}件）` : ''}"><span class="pw"><span class="pill">${ms('notifications')}</span>${n ? `<b class="nbadge">${n > 99 ? '99+' : n}</b>` : ''}</span><span class="nl">通知</span></button>`;
+  return `<button class="ni noti-b" data-act="notiopen" title="通知" aria-label="通知${n ? `（未読${n}件）` : ''}"><span class="pw"><span class="pill">${ms('notifications')}</span>${n ? `<b class="nbadge">${n > 99 ? '99+' : n}</b>` : ''}</span></button>`;
 }
 function notiBadge() { const b = document.querySelector('#nav .noti-b'); if (b) b.outerHTML = notiNavBtn(); }
 // 期限・テスト・予定・フィードバックの返信を見て、通知を作る（同じものは、日ごとに1回だけ）
@@ -7221,12 +7247,12 @@ function notiScan() {
 }
 function notiHtml() {
   const a = notiAll().slice().reverse(), now = new Date(), td = today(), yd = ymd(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1));
-  if (!a.length) return `<h2>${ms('notifications')}通知</h2><div class="noti-e">${ms('notifications_none', '', 'font-size:44px')}<p>まだ通知はありません。</p></div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
+  if (!a.length) return `<h2 class="noti-h">${ms('notifications')}<span>通知</span></h2><div class="noti-e">${ms('notifications_none', '', 'font-size:44px')}<p>まだ通知はありません。</p></div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
   const grp = { '今日': [], '昨日': [], 'それ以前': [] };
   for (const x of a) { const k = ymd(new Date(x.t)); (k === td ? grp['今日'] : k === yd ? grp['昨日'] : grp['それ以前']).push(x); }
   const row = x => `<button type="button" class="noti-i ${x.read ? '' : 'un'}" data-act="notigo" data-id="${x.id}"><span class="noti-ic">${ms(x.icon)}</span><span class="t"><b>${esc(x.title)}</b>${x.sub ? `<small>${esc(x.sub)}</small>` : ''}</span><span class="tm">${new Date(x.t).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}</span></button>`;
   const body = Object.entries(grp).filter(([, v]) => v.length).map(([k, v]) => `<div class="noti-g">${k}</div>${v.map(row).join('')}`).join('');
-  return `<h2>${ms('notifications')}通知 <small style="font-weight:500;color:var(--on-v)">${notiUnread() ? `未読 ${notiUnread()}件` : ''}</small></h2><div class="noti-l">${body}</div><div class="noti-a"><button class="btn tonal xs" data-act="notiread">${ms('done_all')}すべて既読</button><button class="btn text" data-act="noticlear">${ms('delete_sweep')}既読を消す</button><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
+  return `<h2 class="noti-h">${ms('notifications')}<span>通知</span>${notiUnread() ? `<em class="noti-cnt">未読 ${notiUnread()}件</em>` : ''}</h2><div class="noti-l">${body}</div><div class="noti-a"><button class="btn tonal xs" data-act="notiread">${ms('done_all')}すべて既読</button><button class="btn text" data-act="noticlear">${ms('delete_sweep')}既読を消す</button><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
 }
 function notiRedraw() { if (dlg.open && dlg.dataset.k === 'noti') dlg.innerHTML = `<div class="dlg">${notiHtml()}</div>`; notiBadge(); }
 // ICS（カレンダーの書き出しファイル）：繰り返し（毎日・毎週・毎月・毎年）と、終日・時刻つきに対応。前後1年分を入れます
@@ -7295,7 +7321,7 @@ function icsLoad(text) {
 }
 Object.assign(ACT, {
   notiopen() {
-    notiScan(); openDlg(notiHtml()); dlg.dataset.k = 'noti';
+    notiScan(); openDlg(notiHtml()); dlg.dataset.k = 'noti'; try { document.activeElement && document.activeElement.blur(); } catch (e) { }
     const a = notiAll(); if (a.some(x => !x.read)) { a.forEach(x => { x.read = true; }); notiPut(a); }
     notiBadge();
   },
@@ -7670,10 +7696,13 @@ function yxNorm(t, j) {
   else { const l = Array.isArray(j) ? j : (j && j.items) || []; a = l.filter(x => x && typeof x.url === 'string' && x.url.includes('watch?v=')).map(x => ({ id: new URLSearchParams(x.url.split('?')[1]).get('v'), title: x.title, author: x.uploaderName, len: x.duration, views: yxViews(x.views) })); }
   return a.filter(x => x.id && /^[\w-]{11}$/.test(x.id) && x.title);
 }
+// おすすめは、音楽の動画だけ（日によって、検索の言葉を変えます）
+const MUSIC_Q = ['最新 J-POP ミュージックビデオ', '邦楽 新曲 MV', 'ヒット曲 ミュージックビデオ', '洋楽 ヒット MV', 'ボカロ 新曲 MV', 'アニソン 新曲 MV', '人気の曲 ミュージックビデオ'];
+const musicQ = () => MUSIC_Q[new Date().getDate() % MUSIC_Q.length];
 async function yxQuery(kind, arg) {
   const one = c => {
     const q = encodeURIComponent(arg || '');
-    const url = c.t === 'i' ? (kind === 'search' ? `${c.u}/api/v1/search?q=${q}&type=video&region=JP&hl=ja` : `${c.u}/api/v1/trending?region=JP`) : (kind === 'search' ? `${c.u}/search?q=${q}&filter=videos` : `${c.u}/trending?region=JP`);
+    const url = c.t === 'i' ? (kind === 'search' ? `${c.u}/api/v1/search?q=${q}&type=video&region=JP&hl=ja` : `${c.u}/api/v1/trending?region=JP&type=music`) : (kind === 'search' ? `${c.u}/search?q=${q}&filter=videos` : `${c.u}/search?q=${encodeURIComponent(musicQ())}&filter=music_videos`);
     return yxJson(url).then(j => { const l = yxNorm(c.t, j); if (!l.length) throw new Error('empty'); yx.good = c; YXS.good = c; yxSave(); return l; });
   };
   const c = yxCands();
@@ -7718,7 +7747,7 @@ function yxDom() {
   if (yx.ui) return;
   const ui = document.createElement('div'); ui.id = 'yxui'; ui.hidden = true;
   ui.innerHTML = `<div class="yx-in">
-    <div class="yx-hd"><b>${ms('smart_display')}動画</b><button type="button" class="yx-ib" data-yx="pip" aria-label="小さな画面で見る">${ms('picture_in_picture_alt')}</button><button type="button" class="yx-ib" data-yx="stop" aria-label="閉じる">${ms('close')}</button></div>
+    <div class="yx-hd"><b>${ms('smart_display')}動画</b><button type="button" class="yx-ib" data-yx="bg" aria-label="音声だけで聴く（動画を隠す）">${ms('headphones')}</button><button type="button" class="yx-ib" data-yx="pip" aria-label="小さな画面で見る">${ms('picture_in_picture_alt')}</button><button type="button" class="yx-ib" data-yx="stop" aria-label="閉じる">${ms('close')}</button></div>
     <div class="yx-sr"><input id="yxq" type="search" placeholder="キーワード、または動画のURL" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false"><button type="button" class="btn" data-yx="go">${ms('search')}検索</button></div>
     <div class="yx-np" id="yxnp"><div class="yx-slot" id="yxslot"></div><div class="yx-meta"><b id="yxti"></b><small id="yxau"></small><div class="yx-err" id="yxerr"></div></div><div class="yx-ctl" id="yxctl"></div></div>
     <div class="yx-tabs" id="yxtabs"></div><div class="yx-list" id="yxlist"></div></div>`;
@@ -7747,7 +7776,8 @@ function yxPlace() {
     w = Math.min(yxPw(), innerWidth - 16); h = Math.round(w * 9 / 16);
     const off = (innerWidth < 700 || document.documentElement.dataset.nav === 'bottom') ? 176 : 28;
     [l, t] = yxClamp(YXS.px == null ? innerWidth - w - 16 : YXS.px, YXS.py == null ? innerHeight - h - off : YXS.py, w, h);
-  } else return;
+  } else if (yx.mode === 'bg') { l = 0; t = 0; w = 320; h = 180; }
+  else return;
   Object.assign(b.style, { left: l + 'px', top: t + 'px', width: w + 'px', height: h + 'px' });
 }
 function yxMode(m) {
@@ -7761,7 +7791,8 @@ function yxSync() {
   $('#yxerr').innerHTML = yx.err ? `${esc(yx.err)} <button type="button" class="yx-lk" data-yx="ext">YouTubeで開く</button>` : '';
   const f = c && yxIsFav(c.id);
   $('#yxctl').innerHTML = `<button type="button" class="yx-ib" data-yx="prev" aria-label="前へ">${ms('skip_previous')}</button><button type="button" class="yx-ib big" data-yx="pp" aria-label="再生・一時停止">${ms(yx.playing ? 'pause' : 'play_arrow')}</button><button type="button" class="yx-ib" data-yx="next" aria-label="次へ">${ms('skip_next')}</button><span class="fl"></span><button type="button" class="yx-ib ${f ? 'on' : ''}" data-yx="fav" aria-label="お気に入り">${ms('favorite')}</button><button type="button" class="yx-ib" data-yx="pip" aria-label="小さな画面">${ms('picture_in_picture_alt')}</button><button type="button" class="yx-ib" data-yx="fs" aria-label="全画面">${ms('fullscreen')}</button><button type="button" class="yx-ib" data-yx="ext" aria-label="YouTubeで開く">${ms('open_in_new')}</button>`;
-  $('#yxbar').innerHTML = `<span class="yx-gr">${ms('drag_indicator')}</span><button type="button" data-yx="pp" aria-label="再生・一時停止">${ms(yx.playing ? 'pause' : 'play_arrow')}</button><button type="button" data-yx="size" aria-label="大きさ">${ms('zoom_out_map')}</button><button type="button" data-yx="fs" aria-label="全画面">${ms('fullscreen')}</button><button type="button" data-yx="page" aria-label="開く">${ms('open_in_full')}</button><button type="button" data-yx="stop" aria-label="閉じる">${ms('close')}</button>`;
+  $('#yxbar').innerHTML = `<span class="yx-gr">${ms('drag_indicator')}</span><button type="button" data-yx="pp" aria-label="再生・一時停止">${ms(yx.playing ? 'pause' : 'play_arrow')}</button><button type="button" data-yx="size" aria-label="大きさ">${ms('zoom_out_map')}</button><button type="button" data-yx="fs" aria-label="全画面">${ms('fullscreen')}</button><button type="button" data-yx="page" aria-label="開く">${ms('open_in_full')}</button><button type="button" data-yx="bg" aria-label="音声だけで聴く">${ms('headphones')}</button><button type="button" data-yx="stop" aria-label="閉じる">${ms('close')}</button>`;
+  muChipPaint();
 }
 function yxItem(v, i) {
   return `<button type="button" class="yx-it" data-yx="play" data-i="${i}"><span class="yx-th"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg">${v.len ? `<em>${yxLen(v.len)}</em>` : ''}</span><span class="yx-tx"><b>${esc(v.title || v.id)}</b><small>${esc(v.author || '')}${v.views ? ' ・ ' + esc(v.views) : ''}</small></span></button>`;
@@ -7831,6 +7862,7 @@ Object.assign(yxAct, {
   ext() { const c = yx.cur; if (c) window.open(c.id ? 'https://www.youtube.com/watch?v=' + c.id : 'https://www.youtube.com/playlist?list=' + c.list, '_blank', 'noopener'); },
   pip() { if (yx.cur) yxMode('pip'); else yxAct.stop(); },
   page() { yxMode('page'); },
+  bg() { if (!yx.cur) return toast('再生中の動画がありません'); yxMode('bg'); toast('動画を隠して、音だけ再生します。○日連続の横のチップから戻せます'); },
   size() { const L = innerWidth < 700 ? [200, 260, 320] : [280, 400, 560], cur = yxPw(), n = L.find(x => x > cur + 4) || L[0]; YXS.pw = n; yxSave(); yxPlace(); },
   fs() {
     if (yx.mode === 'fs') return yxAct.unfs();
