@@ -1,0 +1,3366 @@
+<!DOCTYPE html>
+<html lang="ja" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>元素インベーダー ULTRA | 正しい元素記号を撃ち抜け！</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js (WebGL 3D Engine) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;900&family=Noto+Sans+JP:wght@500;700;900&family=Orbitron:wght@600;800;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background: radial-gradient(circle at 50% 0%, #10203a 0%, #070e1c 55%, #030710 100%);
+            color: #f1f5f9;
+            overflow-x: hidden;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
+        }
+
+        .font-cyber {
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        /* ステータスカードのガラス質感 */
+        .stat-card {
+            background: linear-gradient(180deg, rgba(22, 37, 65, 0.92) 0%, rgba(14, 24, 44, 0.95) 100%);
+            border: 1px solid rgba(71, 118, 182, 0.45);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        }
+
+        /* 黄金のターゲットバナー（オリジナル完全再現＋発光強化） */
+        .target-banner {
+            background: linear-gradient(135deg, #fde068 0%, #f7cb45 50%, #eab308 100%);
+            box-shadow: 0 0 28px rgba(250, 204, 21, 0.38), inset 0 2px 2px rgba(255, 255, 255, 0.65);
+            border: 2px solid #fef08a;
+            transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .target-banner.pop-anim {
+            transform: scale(1.025);
+        }
+
+        /* キャンバス枠 */
+        .canvas-frame {
+            background: radial-gradient(ellipse at 50% 25%, #0c1f3f 0%, #050d1d 65%, #020409 100%);
+            border: 2px solid #38bdf8;
+            box-shadow: 0 0 40px rgba(56, 189, 248, 0.28), inset 0 0 36px rgba(56, 189, 248, 0.16);
+        }
+
+        .ctrl-btn {
+            transition: all 0.15s ease;
+        }
+        .ctrl-btn:hover {
+            transform: translateY(-1px);
+            filter: brightness(1.12);
+        }
+        .ctrl-btn:active {
+            transform: translateY(1px) scale(0.97);
+        }
+
+        /* 画面シェイクアニメーション */
+        @keyframes shake-red {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+        .animate-miss {
+            animation: shake-red 0.35s ease;
+            border-color: #ef4444 !important;
+            box-shadow: 0 0 30px rgba(239, 68, 68, 0.55) !important;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between py-2 px-2 sm:px-4">
+
+    <!-- ==================== メインコンテナ ==================== -->
+    <div class="max-w-5xl w-full mx-auto flex flex-col gap-2.5">
+
+        <!-- 1. 最上部コントロールバー（速さ・出題範囲・一時停止・音・BGM・最初から・図鑑） -->
+        <header class="flex flex-wrap items-center justify-center sm:justify-between gap-2 bg-slate-900/80 backdrop-blur-md px-3 py-2 rounded-xl border border-slate-700/70">
+            <!-- ロゴ＆タイトル -->
+            <div class="flex items-center gap-2">
+                <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center shadow-md shadow-sky-500/30">
+                    <i class="fa-solid fa-crosshairs text-white text-sm"></i>
+                </div>
+                <div>
+                    <span class="font-black text-sm sm:text-base tracking-wide text-white">元素インベーダー</span>
+                    <span class="ml-1 text-[10px] font-cyber px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-400/40 font-bold">ULTRA</span>
+                </div>
+            </div>
+
+            <!-- オリジナル準拠＋強化コントロール群 -->
+            <div class="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 text-xs sm:text-sm">
+                <!-- 3D / 2D グラフィックモード切替（新機能） -->
+                <button id="btn3DMode" tabindex="-1" onclick="this.blur(); game.toggle3DMode()" class="ctrl-btn px-3 py-1.5 rounded-lg bg-gradient-to-r from-cyan-600 to-blue-700 hover:from-cyan-500 hover:to-blue-600 border border-cyan-300/70 text-white font-black text-xs sm:text-sm flex items-center gap-1.5 shadow-md shadow-cyan-500/30">
+                    <i class="fa-solid fa-cube text-cyan-200 animate-spin" style="animation-duration: 6s;"></i>
+                    <span id="lbl3DMode">3Dモード: ON</span>
+                </button>
+
+                <!-- 3Dカメラアングル切替（新機能） -->
+                <button id="btnCamAngle" tabindex="-1" onclick="this.blur(); game.cycleCameraMode()" class="ctrl-btn px-2.5 py-1.5 rounded-lg bg-slate-800/95 hover:bg-slate-700 border border-cyan-400/40 text-cyan-200 font-bold text-xs sm:text-sm flex items-center gap-1" title="3Dカメラアングルを切り替えます">
+                    <i class="fa-solid fa-video text-xs"></i>
+                    <span id="lblCamAngle">視点: ダイナミック</span>
+                </button>
+
+                <!-- 速さセレクト -->
+                <div class="flex items-center gap-1.5 bg-slate-800/90 px-2.5 py-1.5 rounded-lg border border-slate-600">
+                    <label for="selectSpeed" class="text-slate-300 font-bold text-xs">速さ</label>
+                    <select id="selectSpeed" tabindex="-1" onchange="this.blur(); game.changeSpeed(this.value)" class="bg-slate-900 text-white font-bold rounded px-2 py-0.5 border border-slate-600 focus:outline-none focus:border-sky-400 text-xs sm:text-sm">
+                        <option value="slow">ゆっくり</option>
+                        <option value="normal" selected>ふつう</option>
+                        <option value="fast">はやい</option>
+                        <option value="super">超高速</option>
+                    </select>
+                </div>
+
+                <!-- BGMトラック切替（3D立体音響・美旋律BGM） -->
+                <div class="flex items-center gap-1.5 bg-slate-800/90 px-2.5 py-1.5 rounded-lg border border-slate-600">
+                    <label for="selectBgmTrack" class="text-sky-300 font-bold text-xs"><i class="fa-solid fa-headphones Simple mr-1"></i>曲</label>
+                    <select id="selectBgmTrack" tabindex="-1" onchange="this.blur(); sound.changeTrack(this.value)" class="bg-slate-900 text-white font-bold rounded px-2 py-0.5 border border-slate-600 focus:outline-none focus:border-sky-400 text-xs sm:text-sm">
+                        <option value="cyber" selected>1. COSMIC AURORA (立体美旋律)</option>
+                        <option value="galactic">2. STELLAR SYMPHONY (幻想交響)</option>
+                        <option value="overdrive">3. QUANTUM HORIZON (疾走重低音)</option>
+                    </select>
+                </div>
+
+                <!-- 一時停止ボタン -->
+                <button id="btnPause" tabindex="-1" onclick="this.blur(); game.togglePause()" class="ctrl-btn px-3 py-1.5 rounded-lg bg-[#1e3a5f] hover:bg-[#284d7e] border border-sky-400/40 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5">
+                    <i id="iconPause" class="fa-solid fa-pause text-xs"></i>
+                    <span id="lblPause">一時停止</span>
+                </button>
+
+                <!-- 効果音＆ボイス ON/OFF -->
+                <button id="btnSound" tabindex="-1" onclick="this.blur(); sound.toggleSfx()" class="ctrl-btn px-3 py-1.5 rounded-lg bg-[#1e3a5f] hover:bg-[#284d7e] border border-sky-400/40 text-white font-bold text-xs sm:text-sm flex items-center gap-1.5">
+                    <span id="lblSound">🔊 音 ON</span>
+                </button>
+
+                <!-- BGM ON/OFF -->
+                <button id="btnBgm" tabindex="-1" onclick="this.blur(); sound.toggleBgm()" class="ctrl-btn px-3 py-1.5 rounded-lg bg-[#1e3a5f] hover:bg-[#284d7e] border border-sky-400/40 text-sky-200 font-bold text-xs sm:text-sm flex items-center gap-1">
+                    <i class="fa-solid fa-music text-xs"></i>
+                    <span id="lblBgm">BGM ON</span>
+                </button>
+
+                <!-- 最初からボタン -->
+                <button tabindex="-1" onclick="this.blur(); game.restartGame()" class="ctrl-btn px-3 py-1.5 rounded-lg bg-[#1e3a5f] hover:bg-[#2b588f] border border-sky-400/50 text-white font-bold text-xs sm:text-sm flex items-center gap-1">
+                    <i class="fa-solid fa-rotate-right text-xs"></i>
+                    <span>最初から</span>
+                </button>
+
+                <!-- 元素一覧・図鑑ボタン -->
+                <button tabindex="-1" onclick="this.blur(); game.openGuideModal()" class="ctrl-btn px-2.5 py-1.5 rounded-lg bg-indigo-900/90 hover:bg-indigo-800 border border-indigo-400/50 text-indigo-100 font-bold text-xs sm:text-sm flex items-center gap-1" title="元素記号一覧表を見る">
+                    <i class="fa-solid fa-book-open text-amber-300"></i>
+                    <span class="hidden md:inline">暗記表</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- 2. 4つの大型ステータスパネル（得点・残り時間・ミス・最高得点） -->
+        <section class="grid grid-cols-2 md:grid-cols-4 gap-2 text-center">
+            <div class="stat-card rounded-xl p-2.5 flex flex-col justify-center items-center">
+                <span class="text-[11px] font-bold text-slate-400 tracking-wider">得点</span>
+                <span id="uiScore" class="font-cyber font-black text-2xl sm:text-3xl text-sky-400">0</span>
+            </div>
+            <div id="cardTime" class="stat-card rounded-xl p-2.5 flex flex-col justify-center items-center relative overflow-hidden">
+                <div class="absolute bottom-0 left-0 w-full h-1 bg-slate-800"><div id="uiTimeBar" class="h-full bg-sky-400 transition-all duration-300" style="width: 100%;"></div></div>
+                <span class="text-[11px] font-bold text-slate-400 tracking-wider">残り時間</span>
+                <span id="uiTime" class="font-cyber font-black text-2xl sm:text-3xl text-amber-300">90</span>
+            </div>
+            <div id="cardMiss" class="stat-card rounded-xl p-2.5 flex flex-col justify-center items-center">
+                <span class="text-[11px] font-bold text-slate-400 tracking-wider">ミス / 限界</span>
+                <span id="uiMiss" class="font-cyber font-black text-2xl sm:text-3xl text-rose-400">0 / 5</span>
+            </div>
+            <div class="stat-card rounded-xl p-2.5 flex flex-col justify-center items-center">
+                <span class="text-[11px] font-bold text-slate-400 tracking-wider">最高得点</span>
+                <span id="uiHighScore" class="font-cyber font-black text-2xl sm:text-3xl text-emerald-400">5</span>
+            </div>
+        </section>
+
+        <!-- 3. 黄金の「🎯 狙う元素」バナー（オリジナル完全再現＋コンボバッジ） -->
+        <div id="targetBanner" class="target-banner rounded-xl px-4 py-2.5 flex items-center justify-between text-slate-950 font-black shadow-lg">
+            <div class="flex items-center gap-2.5">
+                <i class="fa-solid fa-bullseye text-red-600 text-lg animate-pulse"></i>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-xs sm:text-sm bg-slate-950/15 px-2 py-0.5 rounded-md font-extrabold">🎯 狙う元素</span>
+                    <span id="uiTargetName" class="font-cyber font-black text-lg sm:text-xl tracking-wide text-slate-950">ナトリウム</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-3">
+                <span id="uiTargetHint" class="hidden sm:inline text-xs font-bold text-slate-900 bg-white/40 px-2.5 py-1 rounded-lg border border-yellow-300">
+                    原子番号11 / 食塩の成分
+                </span>
+                <div id="uiComboBadge" class="hidden font-cyber font-black text-xs px-2 py-0.5 rounded bg-red-600 text-white animate-bounce">
+                    🔥2連続!
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. メインゲームキャンバスエリア（WebGL 3D Canvas ＋ 2D HUD Canvas ハイブリッド構造） -->
+        <div id="canvasWrapper" class="canvas-frame rounded-2xl relative overflow-hidden w-full aspect-[16/10] max-h-[62vh] flex items-center justify-center">
+            <!-- Three.js 超高精細3Dレンダリング層 -->
+            <canvas id="webglCanvas" width="960" height="600" class="absolute inset-0 w-full h-full object-contain pointer-events-none"></canvas>
+            <!-- 2D UI・照準・エフェクト＆タッチ操作層 -->
+            <canvas id="gameCanvas" tabindex="0" width="960" height="600" class="relative z-10 w-full h-full object-contain cursor-crosshair focus:outline-none"></canvas>
+
+            <!-- ゲームオーバー時のモーダルオーバーレイ -->
+            <div id="overlayResult" class="hidden absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center p-4 z-20 text-center animate-fade-in">
+                <div class="w-14 h-14 rounded-2xl bg-amber-500/20 border border-amber-400 flex items-center justify-center mb-3 text-amber-400 text-2xl">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                <h2 id="resultBadge" class="font-cyber font-black text-2xl sm:text-3xl text-white mb-1">GAME OVER</h2>
+                <p id="resultSub" class="text-xs sm:text-sm text-slate-300 mb-4">よくがんばりました！</p>
+                
+                <div class="bg-slate-900 border border-slate-700 rounded-xl p-3.5 max-w-sm w-full mb-4 grid grid-cols-3 gap-2 text-center">
+                    <div>
+                        <div class="text-[10px] text-slate-400">スコア</div>
+                        <div id="resFinalScore" class="font-cyber font-black text-xl text-sky-400">0</div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-slate-400">最大コンボ</div>
+                        <div id="resMaxCombo" class="font-cyber font-black text-xl text-amber-300">0</div>
+                    </div>
+                    <div>
+                        <div class="text-[10px] text-slate-400">ベスト</div>
+                        <div id="resBestScore" class="font-cyber font-black text-xl text-emerald-400">5</div>
+                    </div>
+                </div>
+
+                <!-- 間違えた元素の復習リスト -->
+                <div class="max-w-md w-full mb-4 text-left">
+                    <div class="text-xs font-bold text-slate-400 mb-1.5 flex items-center gap-1.5">
+                        <i class="fa-solid fa-book-medical text-sky-400"></i> 今回登場した主な元素の復習
+                    </div>
+                    <div id="reviewList" class="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto pr-1"></div>
+                </div>
+
+                <button onclick="game.restartGame(true)" class="ctrl-btn px-6 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-sm shadow-lg shadow-sky-500/30 flex items-center gap-2">
+                    <i class="fa-solid fa-rotate-right"></i> もう一度挑戦する
+                </button>
+            </div>
+        </div>
+
+        <!-- 5. モバイル・タブレット・PC共通の補助操作バー（左右移動・発射・ヒント・凍結） -->
+        <footer class="grid grid-cols-5 gap-2">
+            <button id="btnLeft" class="ctrl-btn py-3 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-600 text-white font-bold flex flex-col items-center justify-center gap-0.5 active:scale-95">
+                <i class="fa-solid fa-angles-left text-sm text-sky-400"></i>
+                <span class="text-[10px]">左移動</span>
+            </button>
+            <button id="btnFire" class="ctrl-btn py-3 rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 border border-sky-400 text-white font-black flex flex-col items-center justify-center gap-0.5 shadow-md shadow-sky-500/30 active:scale-95">
+                <i class="fa-solid fa-crosshairs text-sm"></i>
+                <span class="text-[10px]">発射!</span>
+            </button>
+            <button id="btnRight" class="ctrl-btn py-3 rounded-xl bg-slate-800/90 hover:bg-slate-700 border border-slate-600 text-white font-bold flex flex-col items-center justify-center gap-0.5 active:scale-95">
+                <i class="fa-solid fa-angles-right text-sm text-sky-400"></i>
+                <span class="text-[10px]">右移動</span>
+            </button>
+            <button onclick="game.useScannerHint()" class="ctrl-btn py-3 rounded-xl bg-amber-950/80 hover:bg-amber-900 border border-amber-600/60 text-amber-200 font-bold flex flex-col items-center justify-center gap-0.5 active:scale-95" title="正解の元素をキラッと光らせるヒント">
+                <i class="fa-solid fa-lightbulb text-sm text-amber-300"></i>
+                <span class="text-[10px]">ヒント(H)</span>
+            </button>
+            <button onclick="game.activateCryoFreeze()" class="ctrl-btn py-3 rounded-xl bg-cyan-950/80 hover:bg-cyan-900 border border-cyan-600/60 text-cyan-200 font-bold flex flex-col items-center justify-center gap-0.5 active:scale-95" title="5秒間時間を凍結">
+                <i class="fa-solid fa-snowflake text-sm text-cyan-300"></i>
+                <span class="text-[10px]">凍結(<span id="lblCryoCount">3</span>)</span>
+            </button>
+        </footer>
+    </div>
+
+    <!-- ==================== モーダル：元素記号 暗記一覧表（プリント完全準拠13元素） ==================== -->
+    <div id="modalGuide" class="hidden fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 flex items-center justify-center p-3">
+        <div class="bg-slate-900 border border-sky-500/50 rounded-2xl max-w-3xl w-full max-h-[88vh] flex flex-col shadow-2xl overflow-hidden">
+            <div class="p-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-amber-400 text-lg"></i>
+                    <h2 class="font-black text-base sm:text-lg text-white">出題される13種類の元素・暗記一覧表</h2>
+                </div>
+                <button onclick="game.closeGuideModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <div class="p-4 overflow-y-auto">
+                <p class="text-xs sm:text-sm text-slate-300 mb-3">
+                    このゲームに出題される<strong class="text-amber-300">全13種類の元素名と元素記号</strong>です。行をクリックすると発音＆ヒントを確認できます。
+                </p>
+                <div id="guideGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- JSでプリントと同じ左右2列構成で生成 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================== JAVASCRIPT ゲームエンジン ==================== -->
+    <script>
+        // 古いiPad Safari（roundRect 未対応）でも描画が止まらないように、簡単な代わりの関数を用意する
+        if (!CanvasRenderingContext2D.prototype.roundRect) {
+            CanvasRenderingContext2D.prototype.roundRect = function (x, y, w, h, r) {
+                const rad = Math.max(0, Math.min(Array.isArray(r) ? (r[0] || 0) : (r || 0), w / 2, h / 2));
+                this.moveTo(x + rad, y);
+                this.arcTo(x + w, y, x + w, y + h, rad);
+                this.arcTo(x + w, y + h, x, y + h, rad);
+                this.arcTo(x, y + h, x, y, rad);
+                this.arcTo(x, y, x + w, y, rad);
+                this.closePath();
+                return this;
+            };
+        }
+        /**
+         * ============================================================================
+         * 1. 元素データベース（ご指定のプリント13種類に完全限定！）
+         * ============================================================================
+         */
+        const ELEMENTS_LIST = [
+            // 左列の7元素
+            { z: 1,  sym: 'H',  name: '水素',         colGroup: 'left',  hint: '最も軽い気体・水の成分',             flame: '#38bdf8', metalColor: '#0ea5e9' },
+            { z: 6,  sym: 'C',  name: '炭素',         colGroup: 'left',  hint: 'ダイヤモンド・鉛筆の芯・有機物',     flame: '#fb923c', metalColor: '#64748b' },
+            { z: 7,  sym: 'N',  name: '窒素',         colGroup: 'left',  hint: '空気の約78%を占める気体',            flame: '#60a5fa', metalColor: '#3b82f6' },
+            { z: 8,  sym: 'O',  name: '酸素',         colGroup: 'left',  hint: 'ものを燃やすはたらきがある気体',     flame: '#00f3ff', metalColor: '#06b6d4' },
+            { z: 11, sym: 'Na', name: 'ナトリウム',   colGroup: 'left',  hint: '食塩(NaCl)の成分・黄色の炎色反応',   flame: '#fde047', metalColor: '#eab308' },
+            { z: 12, sym: 'Mg', name: 'マグネシウム', colGroup: 'left',  hint: '燃えると白い強い光を出す金属',       flame: '#f8fafc', metalColor: '#94a3b8' },
+            { z: 16, sym: 'S',  name: '硫黄',         colGroup: 'left',  hint: '温泉や火山の成分・黄色い非金属',     flame: '#facc15', metalColor: '#ca8a04' },
+
+            // 右列の6元素
+            { z: 17, sym: 'Cl', name: '塩素',         colGroup: 'right', hint: 'プールの消毒・黄緑色の気体',         flame: '#a3e635', metalColor: '#65a30d' },
+            { z: 20, sym: 'Ca', name: 'カルシウム',   colGroup: 'right', hint: '骨や歯・石灰石の成分・橙赤色の炎',   flame: '#fb923c', metalColor: '#f97316' },
+            { z: 26, sym: 'Fe', name: '鉄',           colGroup: 'right', hint: '磁石につく代表的な金属・スチール',   flame: '#fbbf24', metalColor: '#78716c' },
+            { z: 29, sym: 'Cu', name: '銅',           colGroup: 'right', hint: '10円玉や電線・青緑色の炎色反応',     flame: '#2dd4bf', metalColor: '#d97706' },
+            { z: 30, sym: 'Zn', name: '亜鉛',         colGroup: 'right', hint: '真鍮(黄銅)や乾電池に使われる金属',   flame: '#67e8f9', metalColor: '#71717a' },
+            { z: 47, sym: 'Ag', name: '銀',           colGroup: 'right', hint: '電気や熱を最もよく通す白い貴金属',   flame: '#e2e8f0', metalColor: '#cbd5e1' }
+        ];
+
+        /**
+         * ============================================================================
+         * 2. 3D立体音響（バイノーラルステレオパン・ホールリバーブ・ピンポンディレイ）＆
+         *    美旋律シンフォニック・トランスBGM＆豪華効果音エンジン
+         * ============================================================================
+         */
+        class SoundSystem {
+            constructor() {
+                this.ctx = null;
+                this.masterGain = null;
+                this.subBassBoost = null;
+                this.highEnhancer = null;
+                this.compressor = null;
+                this.convolver = null;
+                this.reverbGain = null;
+                this.delayL = null;
+                this.delayR = null;
+                this.panL = null;
+                this.panR = null;
+                this.analyser = null;
+                this.freqData = new Uint8Array(32);
+                this.sfxOn = true;
+                this.bgmOn = true;
+                this.bgmTrack = 'cyber'; // 'cyber', 'galactic', 'overdrive'
+                this.bgmTimer = null;
+                this.bgmStep = 0;
+                this.noiseBuffer = null;
+            }
+
+            init() {
+                try {
+                    if (!this.ctx) {
+                        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                        this.ctx = new AudioCtx();
+
+                        // 1. 豊かな重低音サブベース・ウォームブースト (85Hz以下を+6.5dB)
+                        this.subBassBoost = this.ctx.createBiquadFilter();
+                        this.subBassBoost.type = 'lowshelf';
+                        this.subBassBoost.frequency.setValueAtTime(85, this.ctx.currentTime);
+                        this.subBassBoost.gain.setValueAtTime(6.5, this.ctx.currentTime);
+
+                        // 2. クリスタル高域エアーエンハンサー (6000Hz以上を+4dBで透明感アップ)
+                        this.highEnhancer = this.ctx.createBiquadFilter();
+                        this.highEnhancer.type = 'highshelf';
+                        this.highEnhancer.frequency.setValueAtTime(6000, this.ctx.currentTime);
+                        this.highEnhancer.gain.setValueAtTime(4.0, this.ctx.currentTime);
+
+                        // 3. マスタリング・リミッター/コンプレッサー
+                        this.compressor = this.ctx.createDynamicsCompressor();
+                        this.compressor.threshold.setValueAtTime(-16, this.ctx.currentTime);
+                        this.compressor.knee.setValueAtTime(12, this.ctx.currentTime);
+                        this.compressor.ratio.setValueAtTime(6, this.ctx.currentTime);
+                        this.compressor.attack.setValueAtTime(0.005, this.ctx.currentTime);
+                        this.compressor.release.setValueAtTime(0.18, this.ctx.currentTime);
+
+                        this.masterGain = this.ctx.createGain();
+                        this.masterGain.gain.setValueAtTime(0.90, this.ctx.currentTime);
+
+                        // 4. 立体音響：カスタム生成ステレオ・コズミックホール・リバーブ (ConvolverNode)
+                        this.convolver = this.ctx.createConvolver();
+                        this.convolver.buffer = this.createStereoReverbBuffer(2.4, 2.8);
+                        this.reverbGain = this.ctx.createGain();
+                        this.reverbGain.gain.setValueAtTime(0.34, this.ctx.currentTime);
+                        this.convolver.connect(this.reverbGain);
+                        this.reverbGain.connect(this.highEnhancer);
+
+                        // 5. 立体音響：ピンポン・ステレオディレイ (L/Rに交互に広がる3D空間エコー)
+                        this.delayL = this.ctx.createDelay(1.0);
+                        this.delayR = this.ctx.createDelay(1.0);
+                        this.delayL.delayTime.setValueAtTime(0.24, this.ctx.currentTime);
+                        this.delayR.delayTime.setValueAtTime(0.36, this.ctx.currentTime);
+
+                        const fbL = this.ctx.createGain();
+                        const fbR = this.ctx.createGain();
+                        fbL.gain.setValueAtTime(0.32, this.ctx.currentTime);
+                        fbR.gain.setValueAtTime(0.32, this.ctx.currentTime);
+
+                        const dFilter = this.ctx.createBiquadFilter();
+                        dFilter.type = 'bandpass';
+                        dFilter.frequency.setValueAtTime(2200, this.ctx.currentTime);
+                        dFilter.Q.setValueAtTime(0.7, this.ctx.currentTime);
+
+                        this.panL = this.ctx.createStereoPanner ? this.ctx.createStereoPanner() : null;
+                        this.panR = this.ctx.createStereoPanner ? this.ctx.createStereoPanner() : null;
+                        if (this.panL && this.panR) {
+                            this.panL.pan.setValueAtTime(-0.78, this.ctx.currentTime);
+                            this.panR.pan.setValueAtTime(0.78, this.ctx.currentTime);
+                            this.delayL.connect(this.panL);
+                            this.delayR.connect(this.panR);
+                            this.panL.connect(dFilter);
+                            this.panR.connect(dFilter);
+                        } else {
+                            this.delayL.connect(dFilter);
+                            this.delayR.connect(dFilter);
+                        }
+                        this.delayL.connect(fbL);
+                        fbL.connect(this.delayR);
+                        this.delayR.connect(fbR);
+                        fbR.connect(this.delayL);
+                        dFilter.connect(this.highEnhancer);
+
+                        this.analyser = this.ctx.createAnalyser();
+                        this.analyser.fftSize = 64;
+                        this.analyser.smoothingTimeConstant = 0.78;
+
+                        // マスタリングルーティング接続
+                        this.masterGain.connect(this.subBassBoost);
+                        this.subBassBoost.connect(this.highEnhancer);
+                        this.highEnhancer.connect(this.compressor);
+                        this.compressor.connect(this.analyser);
+                        this.analyser.connect(this.ctx.destination);
+
+                        this.freqData = new Uint8Array(this.analyser.frequencyBinCount);
+                        this.createNoiseBuffer();
+                    }
+                    if (this.ctx && this.ctx.state === 'suspended') {
+                        this.ctx.resume();
+                    }
+                } catch (e) {}
+            }
+
+            // ステレオ・インパルス応答（美しい宇宙空間ホール残響）の生成
+            createStereoReverbBuffer(duration = 2.4, decay = 2.8) {
+                const rate = this.ctx.sampleRate;
+                const length = Math.floor(rate * duration);
+                const impulse = this.ctx.createBuffer(2, length, rate);
+                const left = impulse.getChannelData(0);
+                const right = impulse.getChannelData(1);
+                for (let i = 0; i < length; i++) {
+                    const n = i / length;
+                    const env = Math.pow(1 - n, decay);
+                    left[i] = (Math.random() * 2 - 1) * env;
+                    right[i] = (Math.random() * 2 - 1) * env;
+                }
+                return impulse;
+            }
+
+            createNoiseBuffer() {
+                if (!this.ctx) return;
+                const bufferSize = this.ctx.sampleRate * 1.5;
+                const buffer = this.ctx.createBuffer(1, bufferSize, this.ctx.sampleRate);
+                const output = buffer.getChannelData(0);
+                for (let i = 0; i < bufferSize; i++) {
+                    output[i] = Math.random() * 2 - 1;
+                }
+                this.noiseBuffer = buffer;
+            }
+
+            // 3Dステレオパンノードを生成（左右 -1.0 〜 +1.0 の立体定位）
+            createPanner(panVal = 0) {
+                const dest = this.masterGain || this.ctx.destination;
+                if (this.ctx && this.ctx.createStereoPanner) {
+                    const p = this.ctx.createStereoPanner();
+                    p.pan.setValueAtTime(Math.max(-1, Math.min(1, panVal)), this.ctx.currentTime);
+                    p.connect(dest);
+                    return p;
+                }
+                return dest;
+            }
+
+            getSpectrum() {
+                if (this.analyser && (this.bgmOn || this.sfxOn) && this.ctx && this.ctx.state === 'running') {
+                    this.analyser.getByteFrequencyData(this.freqData);
+                    return this.freqData;
+                }
+                return null;
+            }
+
+            changeTrack(trackName) {
+                this.init();
+                this.bgmTrack = trackName;
+                this.bgmStep = 0;
+                if (this.bgmOn) this.startBgm();
+            }
+
+            toggleSfx() {
+                this.init();
+                this.sfxOn = !this.sfxOn;
+                document.getElementById('lblSound').textContent = this.sfxOn ? '🔊 音 ON' : '🔇 音 OFF';
+                if (this.sfxOn) this.playShot(0);
+            }
+
+            toggleBgm() {
+                this.init();
+                this.bgmOn = !this.bgmOn;
+                document.getElementById('lblBgm').textContent = this.bgmOn ? 'BGM ON' : 'BGM OFF';
+                if (this.bgmOn) {
+                    this.startBgm();
+                } else {
+                    this.stopBgm();
+                }
+            }
+
+            speakJa(text) {
+                if (!this.sfxOn || !('speechSynthesis' in window)) return;
+                try {
+                    window.speechSynthesis.cancel();
+                    const u = new SpeechSynthesisUtterance(text);
+                    u.lang = 'ja-JP';
+                    u.rate = 1.25;
+                    u.pitch = 1.08;
+                    u.volume = 0.65;
+                    window.speechSynthesis.speak(u);
+                } catch (e) {}
+            }
+
+            startBgm() {
+                this.init();
+                this.stopBgm();
+                if (!this.bgmOn || !this.ctx) return;
+
+                const tick = () => {
+                    if (!this.bgmOn || !game || game.isPaused || game.isGameOver) return;
+                    this.playBgmStep(this.bgmStep);
+                    this.bgmStep = (this.bgmStep + 1) % 128;
+
+                    let baseTempo = this.bgmTrack === 'overdrive' ? 108 : this.bgmTrack === 'galactic' ? 118 : 114;
+                    if (game.timeLeft <= 20) baseTempo *= 0.90;
+                    const speedMult = game.speedMode === 'super' ? 0.88 : game.speedMode === 'fast' ? 0.94 : game.speedMode === 'slow' ? 1.06 : 1.0;
+                    this.bgmTimer = setTimeout(tick, Math.floor(baseTempo * speedMult));
+                };
+                tick();
+            }
+
+            stopBgm() {
+                if (this.bgmTimer) {
+                    clearTimeout(this.bgmTimer);
+                    this.bgmTimer = null;
+                }
+            }
+
+            /**
+             * 3D立体音響・美旋律シンフォニックBGMシーケンサー
+             * - ステレオ・ホールリバーブ＋左右ピンポンディレイ＋3Dオートパンニングで包み込まれる立体音響！
+             */
+            playBgmStep(step) {
+                if (!this.ctx || !this.bgmOn) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const dest = this.masterGain || this.ctx.destination;
+                    const s32 = step % 32;
+                    const section = step < 32 ? 'A' : step < 64 ? 'B' : 'DROP';
+                    const isDrop = section === 'DROP';
+
+                    const tracks = {
+                        cyber: {
+                            // 1. COSMIC AURORA: 透明感あふれる美旋律と深い重低音 (Fmaj7 -> G6 -> Em7 -> Am9)
+                            subRoot: [43.65, 49.00, 41.20, 55.00], // F1, G1, E1, A1
+                            bass: [
+                                87.31, 87.31, 174.61, 87.31, 87.31, 174.61, 164.81, 174.61,
+                                98.00, 98.00, 196.00, 98.00, 98.00, 196.00, 174.61, 196.00,
+                                82.41, 82.41, 164.81, 82.41, 82.41, 164.81, 196.00, 164.81,
+                                110.00, 110.00, 220.00, 110.00, 98.00, 196.00, 87.31, 174.61
+                            ],
+                            chords: [
+                                [174.61, 220.00, 261.63, 329.63, 392.00], // Fmaj9
+                                [196.00, 246.94, 293.66, 329.63, 392.00], // G6(add11)
+                                [164.81, 246.94, 293.66, 329.63, 392.00], // Em7
+                                [220.00, 261.63, 329.63, 392.00, 493.88]  // Am9
+                            ],
+                            leadVerse: [
+                                523.25, 0, 659.25, 783.99, 880.00, 0, 783.99, 659.25,
+                                783.99, 0, 659.25, 587.33, 523.25, 0, 587.33, 659.25,
+                                659.25, 0, 783.99, 987.77, 1046.50, 0, 987.77, 783.99,
+                                880.00, 783.99, 659.25, 587.33, 523.25, 0, 659.25, 587.33
+                            ],
+                            leadDrop: [
+                                1046.50, 0, 987.77, 880.00, 783.99, 880.00, 1046.50, 1318.51,
+                                1174.66, 0, 1046.50, 987.77, 783.99, 880.00, 987.77, 1174.66,
+                                1318.51, 0, 1174.66, 1046.50, 987.77, 1046.50, 1318.51, 1567.98,
+                                1318.51, 1174.66, 1046.50, 987.77, 880.00, 783.99, 659.25, 783.99
+                            ],
+                            arp: [523.25, 659.25, 783.99, 987.77, 1046.50, 1318.51, 1046.50, 783.99]
+                        },
+                        galactic: {
+                            // 2. STELLAR SYMPHONY: 壮麗な宇宙オーケストラ＆重低音 (Cm9 -> Abmaj7 -> Eb -> G7)
+                            subRoot: [32.70, 51.91, 38.89, 49.00],
+                            bass: [
+                                65.41, 130.81, 65.41, 130.81, 65.41, 130.81, 155.56, 130.81,
+                                51.91, 103.83, 51.91, 103.83, 51.91, 103.83, 130.81, 103.83,
+                                77.78, 155.56, 77.78, 155.56, 77.78, 155.56, 130.81, 155.56,
+                                49.00, 98.00,  49.00, 98.00,  61.74, 123.47, 73.42,  146.83
+                            ],
+                            chords: [
+                                [130.81, 155.56, 196.00, 233.08, 293.66], // Cm9
+                                [103.83, 155.56, 196.00, 233.08, 311.13], // Abmaj9
+                                [155.56, 196.00, 233.08, 293.66, 392.00], // Ebmaj7
+                                [98.00,  146.83, 174.61, 246.94, 293.66]  // G7
+                            ],
+                            leadVerse: [
+                                523.25, 0, 622.25, 783.99, 932.33, 0, 783.99, 622.25,
+                                830.61, 0, 783.99, 698.46, 622.25, 0, 523.25, 622.25,
+                                698.46, 0, 783.99, 932.33, 1046.50, 0, 932.33, 783.99,
+                                783.99, 739.99, 783.99, 987.77, 783.99, 0, 622.25, 587.33
+                            ],
+                            leadDrop: [
+                                1046.50, 783.99, 622.25, 1046.50, 1244.51, 1174.66, 1046.50, 932.33,
+                                830.61, 622.25, 523.25, 830.61, 1046.50, 932.33, 783.99, 698.46,
+                                783.99, 932.33, 1174.66, 1567.98, 1396.91, 1244.51, 1174.66, 1046.50,
+                                987.77, 1174.66, 1396.91, 1567.98, 1479.98, 1396.91, 1174.66, 987.77
+                            ],
+                            arp: [523.25, 622.25, 783.99, 932.33, 1046.50, 1244.51, 1046.50, 783.99]
+                        },
+                        overdrive: {
+                            // 3. QUANTUM HORIZON: 疾走感と高揚感あふれる王道シューティング・トランス (F#m7 -> Dmaj7 -> E -> C#m7)
+                            subRoot: [46.25, 36.71, 41.20, 34.65],
+                            bass: [
+                                92.50, 185.00, 92.50, 185.00, 92.50, 185.00, 164.81, 185.00,
+                                73.42, 146.83, 73.42, 146.83, 73.42, 146.83, 164.81, 146.83,
+                                82.41, 164.81, 82.41, 164.81, 82.41, 164.81, 185.00, 164.81,
+                                69.30, 138.59, 69.30, 138.59, 82.41, 164.81, 92.50,  185.00
+                            ],
+                            chords: [
+                                [185.00, 220.00, 277.18, 329.63, 369.99], // F#m7
+                                [146.83, 185.00, 220.00, 277.18, 329.63], // Dmaj9
+                                [164.81, 207.65, 246.94, 329.63, 369.99], // E6
+                                [138.59, 164.81, 207.65, 246.94, 329.63]  // C#m7
+                            ],
+                            leadVerse: [
+                                739.99, 0, 880.00, 987.77, 1108.73, 0, 987.77, 880.00,
+                                987.77, 0, 880.00, 739.99, 659.25, 0, 554.37, 659.25,
+                                739.99, 0, 880.00, 1108.73, 1318.51, 0, 1108.73, 987.77,
+                                1108.73, 987.77, 880.00, 739.99, 659.25, 0, 554.37, 659.25
+                            ],
+                            leadDrop: [
+                                1108.73, 0, 1318.51, 1479.98, 1661.22, 1479.98, 1318.51, 1108.73,
+                                1174.66, 0, 1108.73, 987.77, 880.00, 987.77, 1108.73, 1318.51,
+                                1479.98, 0, 1318.51, 1108.73, 1318.51, 1479.98, 1661.22, 1760.00,
+                                1661.22, 1479.98, 1318.51, 1108.73, 987.77, 880.00, 739.99, 880.00
+                            ],
+                            arp: [739.99, 880.00, 1108.73, 1318.51, 1479.98, 1318.51, 1108.73, 880.00]
+                        }
+                    };
+
+                    const cur = tracks[this.bgmTrack] || tracks.cyber;
+                    const barIdx = Math.floor(s32 / 8) % 4;
+                    const isFillBar = (step >= 56 && step < 64) || (step >= 120);
+
+                    // 1. ウォーム＆ディープ・サブキック (耳に優しくお腹に響く高品位キック)
+                    if ((s32 % 4 === 0) || (isDrop && s32 === 30)) {
+                        const kickOsc = this.ctx.createOscillator();
+                        const kickGain = this.ctx.createGain();
+                        kickOsc.type = 'sine';
+                        kickOsc.frequency.setValueAtTime(145, now);
+                        kickOsc.frequency.exponentialRampToValueAtTime(46, now + 0.055);
+                        kickOsc.frequency.exponentialRampToValueAtTime(34, now + 0.22);
+                        kickGain.gain.setValueAtTime(0.38, now);
+                        kickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.23);
+                        kickOsc.connect(kickGain);
+                        kickGain.connect(dest);
+                        kickOsc.start(now);
+                        kickOsc.stop(now + 0.24);
+                    }
+
+                    // 2. クリスプ・リムスネア＆シルキー・ステレオハイハット
+                    if (this.noiseBuffer) {
+                        const isSnareHit = (s32 % 8 === 4) || (isFillBar && step % 2 === 1);
+                        if (isSnareHit) {
+                            const noise = this.ctx.createBufferSource();
+                            noise.buffer = this.noiseBuffer;
+                            const filter = this.ctx.createBiquadFilter();
+                            filter.type = 'bandpass';
+                            filter.frequency.setValueAtTime(2400, now);
+                            const nGain = this.ctx.createGain();
+                            nGain.gain.setValueAtTime(isFillBar ? 0.09 : 0.14, now);
+                            nGain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+                            noise.connect(filter);
+                            filter.connect(nGain);
+                            nGain.connect(dest);
+                            if (this.convolver) nGain.connect(this.convolver);
+                            noise.start(now);
+                            noise.stop(now + 0.17);
+                        }
+
+                        // ステレオに揺れるシルキーハイハット
+                        const isOpenHat = s32 % 4 === 2;
+                        const hh = this.ctx.createBufferSource();
+                        hh.buffer = this.noiseBuffer;
+                        const hFilter = this.ctx.createBiquadFilter();
+                        hFilter.type = 'highpass';
+                        hFilter.frequency.setValueAtTime(8500, now);
+                        const hGain = this.ctx.createGain();
+                        const dur = isOpenHat ? 0.085 : 0.028;
+                        hGain.gain.setValueAtTime(isOpenHat ? 0.038 : 0.018, now);
+                        hGain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+                        const hhPan = this.createPanner(Math.sin(step * 0.5) * 0.45);
+                        hh.connect(hFilter);
+                        hFilter.connect(hGain);
+                        hGain.connect(hhPan);
+                        hh.start(now);
+                        hh.stop(now + dur + 0.01);
+                    }
+
+                    // 3. 3Dディープ・ウォームサブベース & ベルベットベース
+                    if (s32 % 4 !== 0) {
+                        const subFreq = cur.subRoot[barIdx];
+                        if (subFreq) {
+                            const subSine = this.ctx.createOscillator();
+                            const subGain = this.ctx.createGain();
+                            subSine.type = 'sine';
+                            subSine.frequency.setValueAtTime(subFreq, now);
+                            subGain.gain.setValueAtTime(isDrop ? 0.20 : 0.15, now);
+                            subGain.gain.exponentialRampToValueAtTime(0.01, now + 0.13);
+                            subSine.connect(subGain);
+                            subGain.connect(dest);
+                            subSine.start(now);
+                            subSine.stop(now + 0.14);
+                        }
+                    }
+
+                    const bFreq = cur.bass[s32];
+                    if (bFreq > 0) {
+                        const bOsc = this.ctx.createOscillator();
+                        const bFilter = this.ctx.createBiquadFilter();
+                        const bGain = this.ctx.createGain();
+                        bOsc.type = 'sawtooth';
+                        bOsc.frequency.setValueAtTime(bFreq, now);
+                        bFilter.type = 'lowpass';
+                        bFilter.Q.setValueAtTime(3.2, now);
+                        bFilter.frequency.setValueAtTime(isDrop ? 1350 : 950, now);
+                        bFilter.frequency.exponentialRampToValueAtTime(130, now + 0.12);
+                        bGain.gain.setValueAtTime(0.08, now);
+                        bGain.gain.exponentialRampToValueAtTime(0.001, now + 0.125);
+                        bOsc.connect(bFilter);
+                        bFilter.connect(bGain);
+                        bGain.connect(dest);
+                        bOsc.start(now);
+                        bOsc.stop(now + 0.13);
+                    }
+
+                    // 4. 3Dワイドステレオ・シンフォニックパッド和音（左右の空間に広がる美しいコードパッド）
+                    if (s32 % 8 === 0 || (isDrop && s32 % 4 === 2)) {
+                        const chord = cur.chords[barIdx];
+                        const dur = s32 % 8 === 0 ? 0.72 : 0.28;
+                        chord.forEach((cFreq, idx) => {
+                            const cOsc = this.ctx.createOscillator();
+                            const cFilter = this.ctx.createBiquadFilter();
+                            const cGain = this.ctx.createGain();
+                            // 各構成音を左右の3D空間 (-0.85 〜 +0.85) にワイド定位！
+                            const panPos = ((idx / (chord.length - 1)) * 2 - 1) * 0.85;
+                            const panNode = this.createPanner(panPos);
+
+                            cOsc.type = idx % 2 === 0 ? 'sawtooth' : 'triangle';
+                            cOsc.frequency.setValueAtTime(cFreq, now);
+                            cOsc.detune.setValueAtTime((idx - 2) * 7, now);
+
+                            cFilter.type = 'lowpass';
+                            cFilter.frequency.setValueAtTime(isDrop ? 2800 : 1800, now);
+
+                            cGain.gain.setValueAtTime(0.001, now);
+                            cGain.gain.linearRampToValueAtTime(isDrop ? 0.026 : 0.020, now + 0.06);
+                            cGain.gain.exponentialRampToValueAtTime(0.001, now + dur);
+
+                            cOsc.connect(cFilter);
+                            cFilter.connect(cGain);
+                            cGain.connect(panNode);
+                            if (this.convolver && idx % 2 === 0) cGain.connect(this.convolver);
+                            cOsc.start(now);
+                            cOsc.stop(now + dur + 0.03);
+                        });
+                    }
+
+                    // 5. 3Dバイノーラル・クリスタルハープ/ベル・アルペジオ（左右の耳元をぐるりと回転！）
+                    const aFreq = cur.arp[step % 8] * (isDrop && step % 4 === 0 ? 1.5 : 1.0);
+                    if (aFreq > 0) {
+                        const aOsc = this.ctx.createOscillator();
+                        const aGain = this.ctx.createGain();
+                        // サイン波で滑らかにL⇔Rを往復する立体音響パンニング
+                        const arpPan = this.createPanner(Math.sin(step * 0.45) * 0.88);
+                        aOsc.type = 'sine';
+                        aOsc.frequency.setValueAtTime(aFreq, now);
+                        aGain.gain.setValueAtTime(isDrop ? 0.036 : 0.025, now);
+                        aGain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+
+                        aOsc.connect(aGain);
+                        aGain.connect(arpPan);
+                        if (this.delayL) aGain.connect(step % 2 === 0 ? this.delayL : this.delayR);
+                        if (this.convolver) aGain.connect(this.convolver);
+                        aOsc.start(now);
+                        aOsc.stop(now + 0.17);
+                    }
+
+                    // 6. エモーショナル・ビブラート・シンセリード（歌うような美しい主旋律＋ホールリバーブ）
+                    const leadArray = isDrop ? cur.leadDrop : cur.leadVerse;
+                    const lFreq = leadArray[s32];
+                    if (lFreq > 0) {
+                        const leadPan = this.createPanner(Math.cos(step * 0.2) * 0.32);
+                        [-6, 6].forEach((det, i) => {
+                            const lOsc = this.ctx.createOscillator();
+                            const lFilter = this.ctx.createBiquadFilter();
+                            const lGain = this.ctx.createGain();
+
+                            lOsc.type = i === 0 ? 'sawtooth' : 'triangle';
+                            lOsc.frequency.setValueAtTime(lFreq, now);
+                            lOsc.detune.setValueAtTime(det, now);
+
+                            // ビブラートLFO
+                            const vib = this.ctx.createOscillator();
+                            const vibGain = this.ctx.createGain();
+                            vib.frequency.setValueAtTime(5.5, now);
+                            vibGain.gain.setValueAtTime(4.5, now);
+                            vib.connect(vibGain);
+                            vibGain.connect(lOsc.frequency);
+                            vib.start(now);
+                            vib.stop(now + 0.28);
+
+                            lFilter.type = 'lowpass';
+                            lFilter.frequency.setValueAtTime(3600, now);
+
+                            lGain.gain.setValueAtTime(0.001, now);
+                            lGain.gain.linearRampToValueAtTime(isDrop ? 0.034 : 0.026, now + 0.018);
+                            lGain.gain.exponentialRampToValueAtTime(0.001, now + 0.26);
+
+                            lOsc.connect(lFilter);
+                            lFilter.connect(lGain);
+                            lGain.connect(leadPan);
+                            if (this.delayL && i === 0) lGain.connect(this.delayL);
+                            if (this.convolver && i === 1) lGain.connect(this.convolver);
+                            lOsc.start(now);
+                            lOsc.stop(now + 0.28);
+                        });
+                    }
+                } catch (e) {}
+            }
+
+            // ターゲット照準ロックオン時の未来的なクリスタル・ロックオン音 (3D定位対応)
+            playLockOn(panVal = 0) {
+                if (!this.sfxOn || !this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const panNode = this.createPanner(panVal);
+                    [1480, 1975.5].forEach((freq, i) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'sine';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.032);
+                        gain.gain.setValueAtTime(0.045, now + i * 0.032);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.032 + 0.065);
+                        osc.connect(gain);
+                        gain.connect(panNode);
+                        osc.start(now + i * 0.032);
+                        osc.stop(now + i * 0.032 + 0.07);
+                    });
+                } catch (e) {}
+            }
+
+            // 3Dステレオ定位対応：豪華なSFプラズマ・クリスタルレールガン発射音
+            playShot(panVal = 0) {
+                if (!this.sfxOn || !this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const panNode = this.createPanner(panVal);
+
+                    // 1. 高域クリスタル・レーザーチャープ
+                    const osc1 = this.ctx.createOscillator();
+                    const gain1 = this.ctx.createGain();
+                    osc1.type = 'triangle';
+                    osc1.frequency.setValueAtTime(2200, now);
+                    osc1.frequency.exponentialRampToValueAtTime(240, now + 0.14);
+                    gain1.gain.setValueAtTime(0.14, now);
+                    gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+                    osc1.connect(gain1);
+                    gain1.connect(panNode);
+                    if (this.delayL) gain1.connect(this.delayL);
+                    osc1.start(now);
+                    osc1.stop(now + 0.16);
+
+                    // 2. 重低音プラズマ・キャノンパンチ
+                    const osc2 = this.ctx.createOscillator();
+                    const gain2 = this.ctx.createGain();
+                    osc2.type = 'sine';
+                    osc2.frequency.setValueAtTime(320, now);
+                    osc2.frequency.exponentialRampToValueAtTime(45, now + 0.11);
+                    gain2.gain.setValueAtTime(0.20, now);
+                    gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                    osc2.connect(gain2);
+                    gain2.connect(panNode);
+                    osc2.start(now);
+                    osc2.stop(now + 0.13);
+                } catch (e) {}
+            }
+
+            // 3Dステレオ定位対応：正解撃破音（重低音プラズマ爆破＋立体ホール残響付きクリスタル和音アルペジオ）
+            playCorrect(combo = 1, panVal = 0) {
+                if (!this.sfxOn || !this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const panNode = this.createPanner(panVal);
+
+                    if (this.noiseBuffer) {
+                        const expNoise = this.ctx.createBufferSource();
+                        expNoise.buffer = this.noiseBuffer;
+                        const expFilter = this.ctx.createBiquadFilter();
+                        expFilter.type = 'lowpass';
+                        expFilter.frequency.setValueAtTime(1600, now);
+                        expFilter.frequency.exponentialRampToValueAtTime(90, now + 0.36);
+                        const expGain = this.ctx.createGain();
+                        expGain.gain.setValueAtTime(0.20, now);
+                        expGain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+                        expNoise.connect(expFilter);
+                        expFilter.connect(expGain);
+                        expGain.connect(panNode);
+                        expNoise.start(now);
+                        expNoise.stop(now + 0.4);
+                    }
+
+                    const subOsc = this.ctx.createOscillator();
+                    const subGain = this.ctx.createGain();
+                    subOsc.type = 'sine';
+                    subOsc.frequency.setValueAtTime(160, now);
+                    subOsc.frequency.exponentialRampToValueAtTime(28, now + 0.34);
+                    subGain.gain.setValueAtTime(0.28, now);
+                    subGain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                    subOsc.connect(subGain);
+                    subGain.connect(panNode);
+                    subOsc.start(now);
+                    subOsc.stop(now + 0.36);
+
+                    const pitchBoost = Math.min(1.5, 1 + (combo - 1) * 0.05);
+                    const notes = [523.25 * pitchBoost, 659.25 * pitchBoost, 783.99 * pitchBoost, 1046.5 * pitchBoost, 1318.5 * pitchBoost, 1567.98 * pitchBoost];
+                    notes.forEach((freq, i) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        const notePan = this.createPanner(Math.max(-1, Math.min(1, panVal + (i - 2.5) * 0.18)));
+                        osc.type = i % 2 === 0 ? 'triangle' : 'sine';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.042);
+                        gain.gain.setValueAtTime(0.14, now + i * 0.042);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.042 + 0.35);
+                        osc.connect(gain);
+                        gain.connect(notePan);
+                        if (this.convolver) gain.connect(this.convolver);
+                        if (this.delayL && i % 2 === 0) gain.connect(this.delayL);
+                        osc.start(now + i * 0.042);
+                        osc.stop(now + i * 0.042 + 0.36);
+                    });
+                } catch (e) {}
+            }
+
+            // 3Dステレオ定位対応：誤射ミス音（電磁シールド反射音＋アラート）
+            playWrong(panVal = 0) {
+                if (!this.sfxOn || !this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const panNode = this.createPanner(panVal);
+                    [185, 130].forEach((freq, i) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        osc.type = 'sawtooth';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.11);
+                        osc.frequency.linearRampToValueAtTime(freq * 0.78, now + i * 0.11 + 0.16);
+                        gain.gain.setValueAtTime(0.16, now + i * 0.11);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.11 + 0.18);
+                        osc.connect(gain);
+                        gain.connect(panNode);
+                        if (this.convolver) gain.connect(this.convolver);
+                        osc.start(now + i * 0.11);
+                        osc.stop(now + i * 0.11 + 0.19);
+                    });
+                } catch (e) {}
+            }
+
+            // WAVE全滅クリアファンファーレ（立体音響シンフォニック・ファンファーレ）
+            playWaveClear() {
+                if (!this.sfxOn || !this.ctx) return;
+                try {
+                    const now = this.ctx.currentTime;
+                    const notes = [523.25, 659.25, 783.99, 1046.5, 1318.5, 1567.98, 2093.0];
+                    notes.forEach((freq, i) => {
+                        const osc = this.ctx.createOscillator();
+                        const gain = this.ctx.createGain();
+                        const pNode = this.createPanner(Math.sin(i) * 0.7);
+                        osc.type = 'triangle';
+                        osc.frequency.setValueAtTime(freq, now + i * 0.055);
+                        gain.gain.setValueAtTime(0.15, now + i * 0.055);
+                        gain.gain.exponentialRampToValueAtTime(0.001, now + i * 0.055 + 0.48);
+                        osc.connect(gain);
+                        gain.connect(pNode);
+                        if (this.convolver) gain.connect(this.convolver);
+                        if (this.delayL) gain.connect(i % 2 === 0 ? this.delayL : this.delayR);
+                        osc.start(now + i * 0.055);
+                        osc.stop(now + i * 0.055 + 0.50);
+                    });
+                } catch (e) {}
+            }
+        }
+
+        const sound = new SoundSystem();
+
+        /**
+         * ============================================================================
+         * 2.5 Three.js 超高クオリティー 3D WebGL レンダリングエンジン (大幅強化版)
+         *     - 3Dレーザー照準ビーム＆3Dヘキサゴン・ロックオンリング
+         *     - 二重ボーア電子軌道＋3Dホバージェット＋3D立体衝撃波リング
+         *     - ワープスターライン＆背景3D分子結晶ネットワーク
+         * ============================================================================
+         */
+        class ThreeStageRenderer {
+            constructor(game) {
+                this.game = game;
+                this.canvas = document.getElementById('webglCanvas');
+                this.enabled = true;
+                this.camMode = 'dynamic'; // 'dynamic', 'cockpit', 'standard'
+                this.symbolTextures = new Map();
+                this.invaderMeshes = new Map();
+                this.bulletMeshes = [];
+                this.explosionMeshes = [];
+                this.shockwaveRings = [];
+
+                this.initThree();
+            }
+
+            // 2Dキャンバス座標 (0..960, 0..600) を 3Dワールド座標 (-48..48, 30..-30, 0) へ変換
+            to3DX(x) { return (x - this.game.W / 2) * 0.1; }
+            to3DY(y) { return (this.game.H / 2 - y) * 0.1; }
+
+            initThree() {
+                if (typeof THREE === 'undefined' || !this.canvas) {
+                    this.enabled = false;
+                    return;
+                }
+
+                this.scene = new THREE.Scene();
+                this.scene.fog = new THREE.FogExp2(0x020714, 0.0055);
+
+                this.camera = new THREE.PerspectiveCamera(50, this.game.W / this.game.H, 0.1, 500);
+                this.camera.position.set(0, -14, 68);
+                this.camera.lookAt(0, 2, 0);
+
+                this.renderer = new THREE.WebGLRenderer({
+                    canvas: this.canvas,
+                    antialias: true,
+                    alpha: false,
+                    powerPreference: 'high-performance'
+                });
+                this.renderer.setSize(this.game.W, this.game.H, false);
+                this.renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+                this.renderer.toneMapping = THREE.ACESFilmicToneMapping;
+                this.renderer.toneMappingExposure = 1.28;
+
+                // ライティング（宇宙空間の太陽光＋シアンのリムライト＋ゴールドアクセントライト＋機体ライト）
+                const ambient = new THREE.AmbientLight(0x93c5fd, 0.85);
+                this.scene.add(ambient);
+
+                const mainLight = new THREE.DirectionalLight(0xffffff, 1.45);
+                mainLight.position.set(28, 45, 58);
+                this.scene.add(mainLight);
+
+                const rimLight = new THREE.DirectionalLight(0x38bdf8, 1.05);
+                rimLight.position.set(-45, -25, 32);
+                this.scene.add(rimLight);
+
+                const topGoldLight = new THREE.DirectionalLight(0xfacc15, 0.45);
+                topGoldLight.position.set(0, 50, 20);
+                this.scene.add(topGoldLight);
+
+                this.shipLight = new THREE.PointLight(0x38bdf8, 2.2, 38);
+                this.scene.add(this.shipLight);
+
+                // 1. 3D宇宙星空フィールド（1500個の立体恒星パーティクル）
+                const starGeo = new THREE.BufferGeometry();
+                const starCount = 1500;
+                const posArr = new Float32Array(starCount * 3);
+                const colArr = new Float32Array(starCount * 3);
+                const palette = [
+                    new THREE.Color(0xffffff),
+                    new THREE.Color(0x7dd3fc),
+                    new THREE.Color(0xfde047),
+                    new THREE.Color(0xc4b5fd),
+                    new THREE.Color(0x67e8f9)
+                ];
+                for (let i = 0; i < starCount; i++) {
+                    posArr[i * 3]     = (Math.random() - 0.5) * 240;
+                    posArr[i * 3 + 1] = (Math.random() - 0.5) * 160;
+                    posArr[i * 3 + 2] = -Math.random() * 150 - 6;
+                    const c = palette[i % palette.length];
+                    colArr[i * 3]     = c.r;
+                    colArr[i * 3 + 1] = c.g;
+                    colArr[i * 3 + 2] = c.b;
+                }
+                starGeo.setAttribute('position', new THREE.BufferAttribute(posArr, 3));
+                starGeo.setAttribute('color', new THREE.BufferAttribute(colArr, 3));
+                const starMat = new THREE.PointsMaterial({
+                    size: 0.82,
+                    vertexColors: true,
+                    transparent: true,
+                    opacity: 0.92
+                });
+                this.starField = new THREE.Points(starGeo, starMat);
+                this.scene.add(this.starField);
+
+                // 1.5 宇宙空間に浮かぶ3D結晶ラティス構造体（背景でゆっくり回転する3D分子アート）
+                this.bgCrystals = [];
+                for (let i = 0; i < 6; i++) {
+                    const cGeo = new THREE.IcosahedronGeometry(3.8 + (i % 3) * 1.4, 0);
+                    const cMat = new THREE.MeshBasicMaterial({
+                        color: i % 2 === 0 ? 0x0ea5e9 : 0x6366f1,
+                        wireframe: true,
+                        transparent: true,
+                        opacity: 0.14
+                    });
+                    const cMesh = new THREE.Mesh(cGeo, cMat);
+                    cMesh.position.set(-48 + i * 19, 14 - (i % 2) * 24, -28 - (i % 3) * 12);
+                    this.scene.add(cMesh);
+                    this.bgCrystals.push(cMesh);
+                }
+
+                // 2. 遠景の3D巨大環付き惑星（立体球体＋大気オーラ＋多重リング＋公転する衛星）
+                this.planetGroup = new THREE.Group();
+                this.planetGroup.position.set(38, 19, -38);
+                const planetGeo = new THREE.SphereGeometry(7.2, 32, 32);
+                const planetMat = new THREE.MeshStandardMaterial({
+                    color: 0x1d4ed8,
+                    emissive: 0x071936,
+                    roughness: 0.4,
+                    metalness: 0.3
+                });
+                this.planetMesh = new THREE.Mesh(planetGeo, planetMat);
+                this.planetGroup.add(this.planetMesh);
+
+                // 惑星の大気グロー球体
+                const atmoGeo = new THREE.SphereGeometry(7.9, 32, 32);
+                const atmoMat = new THREE.MeshBasicMaterial({
+                    color: 0x38bdf8,
+                    transparent: true,
+                    opacity: 0.16,
+                    wireframe: true
+                });
+                this.planetGroup.add(new THREE.Mesh(atmoGeo, atmoMat));
+
+                const ringGeo = new THREE.RingGeometry(9.2, 15.5, 64);
+                const ringMat = new THREE.MeshBasicMaterial({
+                    color: 0x38bdf8,
+                    side: THREE.DoubleSide,
+                    transparent: true,
+                    opacity: 0.38
+                });
+                const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+                ringMesh.rotation.x = Math.PI * 0.38;
+                ringMesh.rotation.y = -0.25;
+                this.planetGroup.add(ringMesh);
+                this.scene.add(this.planetGroup);
+
+                // 3. 下部の3Dサイバー防衛グリッドフロア
+                this.gridHelper = new THREE.GridHelper(160, 40, 0x38bdf8, 0x0c345a);
+                this.gridHelper.position.set(0, -25.5, -18);
+                this.gridHelper.material.transparent = true;
+                this.gridHelper.material.opacity = 0.45;
+                this.scene.add(this.gridHelper);
+
+                // 4. プレイヤーの3D宇宙ロケット戦闘機＋3Dレーザーサイト照準＋3Dロックオンリングを構築
+                this.buildPlayerSpaceship();
+                this.build3DLaserSightAndReticle();
+            }
+
+            build3DLaserSightAndReticle() {
+                // 3D空間内で自機からインベーダーまで伸びる立体レーザー照準ビーム
+                const sightGeo = new THREE.CylinderGeometry(0.08, 0.14, 1, 8);
+                sightGeo.translate(0, 0.5, 0);
+                this.sightMat = new THREE.MeshBasicMaterial({
+                    color: 0x38bdf8,
+                    transparent: true,
+                    opacity: 0.42
+                });
+                this.laserSightMesh = new THREE.Mesh(sightGeo, this.sightMat);
+                this.scene.add(this.laserSightMesh);
+
+                // 照準が合っている3Dインベーダーの前面に浮かぶ3Dホログラム・ターゲットロックオンリング
+                this.lockReticleGroup = new THREE.Group();
+                const outerRingGeo = new THREE.RingGeometry(6.2, 6.8, 6);
+                const outerRingMat = new THREE.MeshBasicMaterial({
+                    color: 0xfde047,
+                    side: THREE.DoubleSide,
+                    transparent: true,
+                    opacity: 0.88
+                });
+                this.lockOuterRing = new THREE.Mesh(outerRingGeo, outerRingMat);
+                this.lockReticleGroup.add(this.lockOuterRing);
+
+                const innerRingGeo = new THREE.RingGeometry(4.6, 4.95, 24);
+                const innerRingMat = new THREE.MeshBasicMaterial({
+                    color: 0x38bdf8,
+                    side: THREE.DoubleSide,
+                    transparent: true,
+                    opacity: 0.75
+                });
+                this.lockInnerRing = new THREE.Mesh(innerRingGeo, innerRingMat);
+                this.lockReticleGroup.add(this.lockInnerRing);
+
+                this.lockReticleGroup.visible = false;
+                this.scene.add(this.lockReticleGroup);
+            }
+
+            /**
+             * プレイヤーの3D宇宙ロケット戦闘機メッシュを構築
+             */
+            buildPlayerSpaceship() {
+                this.shipGroup = new THREE.Group();
+                this.thrusterCones = [];
+
+                // センター機体（メタリックコーン＆シリンダー）
+                const bodyGeo = new THREE.ConeGeometry(2.2, 7.5, 16);
+                const bodyMat = new THREE.MeshStandardMaterial({
+                    color: 0xe0f2fe,
+                    emissive: 0x0369a1,
+                    emissiveIntensity: 0.35,
+                    metalness: 0.85,
+                    roughness: 0.2
+                });
+                const bodyMesh = new THREE.Mesh(bodyGeo, bodyMat);
+                bodyMesh.position.y = 0.5;
+                this.shipGroup.add(bodyMesh);
+
+                // 先端ゴールデン・ノーズコーン
+                const noseGeo = new THREE.ConeGeometry(1.15, 2.8, 16);
+                const noseMat = new THREE.MeshStandardMaterial({
+                    color: 0xfacc15,
+                    emissive: 0xd97706,
+                    emissiveIntensity: 0.6,
+                    metalness: 0.7,
+                    roughness: 0.15
+                });
+                const noseMesh = new THREE.Mesh(noseGeo, noseMat);
+                noseMesh.position.y = 3.6;
+                this.shipGroup.add(noseMesh);
+
+                // ガラスコックピット・キャノピー
+                const canopyGeo = new THREE.SphereGeometry(1.05, 16, 16);
+                canopyGeo.scale(0.75, 1.6, 0.7);
+                const canopyMat = new THREE.MeshStandardMaterial({
+                    color: 0x38bdf8,
+                    emissive: 0x0284c7,
+                    emissiveIntensity: 0.7,
+                    metalness: 0.9,
+                    roughness: 0.1
+                });
+                const canopyMesh = new THREE.Mesh(canopyGeo, canopyMat);
+                canopyMesh.position.set(0, 0.6, 1.1);
+                this.shipGroup.add(canopyMesh);
+
+                // デルタウイング（左右主翼）
+                const wingShape = new THREE.Shape();
+                wingShape.moveTo(0, 2.2);
+                wingShape.lineTo(-5.2, -2.4);
+                wingShape.lineTo(-4.4, -3.2);
+                wingShape.lineTo(0, -1.8);
+                wingShape.lineTo(4.4, -3.2);
+                wingShape.lineTo(5.2, -2.4);
+                wingShape.closePath();
+
+                const wingGeo = new THREE.ExtrudeGeometry(wingShape, { depth: 0.35, bevelEnabled: true, bevelThickness: 0.1, bevelSize: 0.1 });
+                const wingMat = new THREE.MeshStandardMaterial({
+                    color: 0x0284c7,
+                    emissive: 0x075985,
+                    metalness: 0.8,
+                    roughness: 0.25
+                });
+                const wingMesh = new THREE.Mesh(wingGeo, wingMat);
+                wingMesh.position.set(0, -0.3, -0.2);
+                this.shipGroup.add(wingMesh);
+
+                // ツイン・アフターバーナー噴射炎コーン
+                const coneGeo = new THREE.ConeGeometry(0.65, 2.8, 12);
+                const coneMat = new THREE.MeshBasicMaterial({
+                    color: 0x38bdf8,
+                    transparent: true,
+                    opacity: 0.88
+                });
+                [-1.6, 1.6].forEach(tx => {
+                    const cone = new THREE.Mesh(coneGeo, coneMat);
+                    cone.rotation.x = Math.PI;
+                    cone.position.set(tx, -3.8, 0);
+                    this.shipGroup.add(cone);
+                    this.thrusterCones.push(cone);
+                });
+
+                // 機体周囲を公転する電子ビット（e- オービター）
+                this.orbiterGroup = new THREE.Group();
+                const bitGeo = new THREE.SphereGeometry(0.5, 12, 12);
+                const bitMat = new THREE.MeshBasicMaterial({ color: 0x7dd3fc });
+                [-5.5, 5.5].forEach(bx => {
+                    const bit = new THREE.Mesh(bitGeo, bitMat);
+                    bit.position.set(bx, 0, 0);
+                    this.orbiterGroup.add(bit);
+                });
+                this.shipGroup.add(this.orbiterGroup);
+
+                this.scene.add(this.shipGroup);
+            }
+
+            /**
+             * 元素記号パネル用の高解像度キャンバステクスチャを生成・キャッシュ
+             */
+            getSymbolTexture(el) {
+                if (this.symbolTextures.has(el.sym)) {
+                    return this.symbolTextures.get(el.sym);
+                }
+                const c = document.createElement('canvas');
+                c.width = 256;
+                c.height = 160;
+                const ctx = c.getContext('2d');
+
+                // 背景グラデーション
+                const grad = ctx.createLinearGradient(0, 0, 0, c.height);
+                grad.addColorStop(0, '#1e3a5f');
+                grad.addColorStop(0.55, '#122844');
+                grad.addColorStop(1, '#091526');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, c.width, c.height);
+
+                // 外枠ネオンボーダー
+                ctx.strokeStyle = '#38bdf8';
+                ctx.lineWidth = 8;
+                ctx.strokeRect(6, 6, c.width - 12, c.height - 12);
+
+                // 左上の炎色インジケータードット
+                ctx.fillStyle = el.flame;
+                ctx.beginPath();
+                ctx.arc(28, 28, 8, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 元素記号テキスト
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 84px "Inter", "Noto Sans JP", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowColor = '#38bdf8';
+                ctx.shadowBlur = 12;
+                ctx.fillText(el.sym, c.width / 2, c.height / 2 + 4);
+
+                const tex = new THREE.CanvasTexture(c);
+                this.symbolTextures.set(el.sym, tex);
+                return tex;
+            }
+
+            /**
+             * 3D元素インベーダーポッドメッシュを作成（3Dメタル装甲＋前面発光元素パネル＋二重立体交差する電子軌道リング）
+             */
+            createInvaderMesh(inv) {
+                const group = new THREE.Group();
+
+                // 1. 立体3D装甲ボックス
+                const boxGeo = new THREE.BoxGeometry(10.8, 6.4, 3.0);
+                const sideMat = new THREE.MeshStandardMaterial({
+                    color: 0x1e3a5f,
+                    emissive: 0x0a223d,
+                    metalness: 0.82,
+                    roughness: 0.22
+                });
+                const frontMat = new THREE.MeshBasicMaterial({
+                    map: this.getSymbolTexture(inv.el)
+                });
+
+                const materials = [sideMat, sideMat, sideMat, sideMat, frontMat, sideMat];
+                const bodyMesh = new THREE.Mesh(boxGeo, materials);
+                group.add(bodyMesh);
+
+                // 2. 外周のネオンフレーム枠
+                const edgeGeo = new THREE.EdgesGeometry(boxGeo);
+                const edgeMat = new THREE.LineBasicMaterial({ color: 0x38bdf8 });
+                const edgeLines = new THREE.LineSegments(edgeGeo, edgeMat);
+                group.add(edgeLines);
+
+                // 3. 下部の3Dホバースラスター脚＋発光ジェットコーン
+                const legGeo = new THREE.CylinderGeometry(0.65, 0.95, 1.1, 12);
+                const legMat = new THREE.MeshStandardMaterial({
+                    color: 0x38bdf8,
+                    emissive: 0x0284c7,
+                    metalness: 0.65,
+                    roughness: 0.2
+                });
+                const jetGeo = new THREE.ConeGeometry(0.55, 1.6, 10);
+                const jetMat = new THREE.MeshBasicMaterial({
+                    color: inv.el.flame,
+                    transparent: true,
+                    opacity: 0.78
+                });
+                const jets = [];
+                [-3.2, 3.2].forEach(lx => {
+                    const leg = new THREE.Mesh(legGeo, legMat);
+                    leg.position.set(lx, -3.6, 0);
+                    group.add(leg);
+
+                    const jet = new THREE.Mesh(jetGeo, jetMat);
+                    jet.rotation.x = Math.PI;
+                    jet.position.set(lx, -4.6, 0);
+                    group.add(jet);
+                    jets.push(jet);
+                });
+
+                // 4. 周囲を3D立体交差して回転する二重ボーア電子軌道リング＋発光電子球×2
+                const orbitGroup = new THREE.Group();
+                const torusGeo = new THREE.TorusGeometry(6.6, 0.11, 12, 48);
+                const torusMat1 = new THREE.MeshBasicMaterial({
+                    color: inv.el.flame,
+                    transparent: true,
+                    opacity: 0.45
+                });
+                const torusMesh1 = new THREE.Mesh(torusGeo, torusMat1);
+                torusMesh1.rotation.x = Math.PI * 0.36;
+                torusMesh1.rotation.y = 0.25;
+                orbitGroup.add(torusMesh1);
+
+                const torusMat2 = new THREE.MeshBasicMaterial({
+                    color: 0x38bdf8,
+                    transparent: true,
+                    opacity: 0.32
+                });
+                const torusMesh2 = new THREE.Mesh(torusGeo, torusMat2);
+                torusMesh2.rotation.x = -Math.PI * 0.36;
+                torusMesh2.rotation.y = -0.25;
+                orbitGroup.add(torusMesh2);
+
+                const elecGeo = new THREE.SphereGeometry(0.48, 12, 12);
+                const elecMat1 = new THREE.MeshBasicMaterial({ color: inv.el.flame });
+                const elecMesh1 = new THREE.Mesh(elecGeo, elecMat1);
+                orbitGroup.add(elecMesh1);
+
+                const elecMat2 = new THREE.MeshBasicMaterial({ color: 0x7dd3fc });
+                const elecMesh2 = new THREE.Mesh(elecGeo, elecMat2);
+                orbitGroup.add(elecMesh2);
+
+                group.add(orbitGroup);
+
+                group.userData = {
+                    bodyMesh,
+                    edgeMat,
+                    orbitGroup,
+                    elecMesh1,
+                    elecMesh2,
+                    jets
+                };
+
+                this.scene.add(group);
+                return group;
+            }
+
+            /**
+             * 正解撃破時・誤射時の3Dポリゴン破片バースト＋3D立体衝撃波トーラスリング追加
+             */
+            spawn3DBurst(x2d, y2d, hexColor, count = 22) {
+                if (!this.enabled || !this.scene) return;
+                const wx = this.to3DX(x2d);
+                const wy = this.to3DY(y2d);
+                const col = new THREE.Color(hexColor);
+
+                // 3D立体衝撃波トーラスリング
+                const ringGeo = new THREE.TorusGeometry(1.2, 0.18, 12, 40);
+                const ringMat = new THREE.MeshBasicMaterial({
+                    color: col,
+                    transparent: true,
+                    opacity: 0.95
+                });
+                const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+                ringMesh.position.set(wx, wy, 0.8);
+                ringMesh.rotation.x = 0.25;
+                ringMesh.userData = { scaleSpd: 0.42, life: 26, maxLife: 26 };
+                this.scene.add(ringMesh);
+                this.shockwaveRings.push(ringMesh);
+
+                for (let i = 0; i < count; i++) {
+                    const geo = new THREE.OctahedronGeometry(Math.random() * 0.68 + 0.28, 0);
+                    const mat = new THREE.MeshStandardMaterial({
+                        color: col,
+                        emissive: col,
+                        emissiveIntensity: 0.8,
+                        metalness: 0.85,
+                        roughness: 0.15,
+                        transparent: true,
+                        opacity: 1
+                    });
+                    const mesh = new THREE.Mesh(geo, mat);
+                    mesh.position.set(wx, wy, 0.5);
+
+                    const angle = Math.random() * Math.PI * 2;
+                    const spd = Math.random() * 0.72 + 0.22;
+                    mesh.userData = {
+                        vx: Math.cos(angle) * spd,
+                        vy: Math.sin(angle) * spd,
+                        vz: (Math.random() - 0.3) * 0.65,
+                        rx: (Math.random() - 0.5) * 0.28,
+                        ry: (Math.random() - 0.5) * 0.28,
+                        life: 36,
+                        maxLife: 36
+                    };
+                    this.scene.add(mesh);
+                    this.explosionMeshes.push(mesh);
+                }
+            }
+
+            /**
+             * 毎フレームの3Dシーン更新＆レンダリング
+             */
+            render() {
+                if (!this.enabled || !this.renderer) return;
+                const g = this.game;
+
+                // 1. カメラアングル制御（ダイナミック追従 / コックピット背後視点 / スタンダード正面視点）
+                const shipX = this.to3DX(g.turret.x);
+                const shipY = this.to3DY(g.turret.y);
+
+                if (this.camMode === 'dynamic') {
+                    this.camera.position.x += (shipX * 0.28 - this.camera.position.x) * 0.08;
+                    this.camera.position.y += (-15 + Math.sin(g.tick * 0.02) * 0.8 - this.camera.position.y) * 0.08;
+                    this.camera.position.z += (66 - this.camera.position.z) * 0.08;
+                    this.camera.lookAt(shipX * 0.12, 2.5, 0);
+                } else if (this.camMode === 'cockpit') {
+                    this.camera.position.x += (shipX * 0.62 - this.camera.position.x) * 0.1;
+                    this.camera.position.y += (-26 - this.camera.position.y) * 0.1;
+                    this.camera.position.z += (54 - this.camera.position.z) * 0.1;
+                    this.camera.lookAt(shipX * 0.25, 6.5, 0);
+                } else {
+                    this.camera.position.x += (0 - this.camera.position.x) * 0.1;
+                    this.camera.position.y += (-2 - this.camera.position.y) * 0.1;
+                    this.camera.position.z += (72 - this.camera.position.z) * 0.1;
+                    this.camera.lookAt(0, -1, 0);
+                }
+
+                // 画面シェイク反映
+                if (g.screenShake > 0.5) {
+                    this.camera.position.x += (Math.random() - 0.5) * g.screenShake * 0.08;
+                    this.camera.position.y += (Math.random() - 0.5) * g.screenShake * 0.08;
+                }
+
+                // 2. 背景の3D惑星＆結晶フィールド＆星空＆グリッドのアニメーション
+                if (this.planetMesh) {
+                    this.planetMesh.rotation.y += 0.004;
+                    this.planetGroup.rotation.z = Math.sin(g.tick * 0.005) * 0.05;
+                }
+                if (this.bgCrystals) {
+                    this.bgCrystals.forEach((c, idx) => {
+                        c.rotation.x += 0.004 * (idx % 2 === 0 ? 1 : -1);
+                        c.rotation.y += 0.006;
+                    });
+                }
+                if (this.starField) {
+                    this.starField.rotation.z = Math.sin(g.tick * 0.002) * 0.03;
+                }
+                if (this.gridHelper) {
+                    this.gridHelper.position.z = -18 + ((g.tick * 0.18) % 4.0);
+                }
+
+                // 3. 3D宇宙戦闘機ロケットの位置・ロール角・ジェット噴射更新
+                if (this.shipGroup) {
+                    this.shipGroup.position.set(shipX, shipY - g.turret.recoil * 0.1, 1.2);
+                    this.shipGroup.rotation.z = -g.turret.bankAngle * 1.1;
+                    this.shipGroup.rotation.y = g.turret.bankAngle * 1.85;
+                    this.shipGroup.rotation.x = 0.18;
+
+                    if (this.orbiterGroup) {
+                        this.orbiterGroup.rotation.y = g.tick * 0.09;
+                        this.orbiterGroup.rotation.z = Math.sin(g.tick * 0.05) * 0.35;
+                    }
+                    this.thrusterCones.forEach((cone, idx) => {
+                        const s = 0.85 + Math.sin(g.tick * 0.6 + idx) * 0.28;
+                        cone.scale.set(1, s, 1);
+                    });
+                    this.shipLight.position.set(shipX, shipY + 2, 6);
+                }
+
+                // 3.5 3D空間レーザー照準＆3Dロックオンリングの同期（どの3D視点でも正確にロックオン！）
+                let lockedInv = g.getLockedInvader();
+                if (this.laserSightMesh) {
+                    if (g.laserSightOn && !g.isGameOver) {
+                        this.laserSightMesh.visible = true;
+                        const startY = shipY + 3.2;
+                        const targetY = lockedInv ? this.to3DY(lockedInv.y + lockedInv.h / 2) : 26;
+                        const len = Math.max(1, targetY - startY);
+                        this.laserSightMesh.position.set(shipX, startY, 1.0);
+                        this.laserSightMesh.scale.set(lockedInv ? 1.6 : 0.85, len, lockedInv ? 1.6 : 0.85);
+                        this.sightMat.color.setHex(lockedInv ? 0xfde047 : 0x38bdf8);
+                        this.sightMat.opacity = lockedInv ? 0.68 : 0.32;
+                    } else {
+                        this.laserSightMesh.visible = false;
+                    }
+                }
+
+                if (this.lockReticleGroup) {
+                    if (lockedInv && !g.isGameOver) {
+                        const bobY = Math.sin(g.tick * 0.075 + lockedInv.hoverOffset) * 3.8;
+                        this.lockReticleGroup.visible = true;
+                        this.lockReticleGroup.position.set(
+                            this.to3DX(lockedInv.x),
+                            this.to3DY(lockedInv.y + bobY),
+                            1.85
+                        );
+                        this.lockOuterRing.rotation.z = g.tick * 0.04;
+                        this.lockInnerRing.rotation.z = -g.tick * 0.06;
+                        const pulse = 1 + Math.sin(g.tick * 0.2) * 0.06;
+                        this.lockReticleGroup.scale.set(pulse, pulse, 1);
+                    } else {
+                        this.lockReticleGroup.visible = false;
+                    }
+                }
+
+                // 4. 3D元素インベーダーポッド群の同期＆二重電子軌道回転
+                const activeSet = new Set(g.invaders);
+                for (const [inv, mesh] of this.invaderMeshes.entries()) {
+                    if (!activeSet.has(inv)) {
+                        this.scene.remove(mesh);
+                        this.invaderMeshes.delete(inv);
+                    }
+                }
+
+                g.invaders.forEach(inv => {
+                    let mesh = this.invaderMeshes.get(inv);
+                    if (!mesh) {
+                        mesh = this.createInvaderMesh(inv);
+                        this.invaderMeshes.set(inv, mesh);
+                    }
+
+                    const bobY = Math.sin(g.tick * 0.075 + inv.hoverOffset) * 3.8;
+                    const wx = this.to3DX(inv.x);
+                    const wy = this.to3DY(inv.y + bobY);
+
+                    mesh.position.set(wx, wy, 0);
+                    const isAimed = lockedInv === inv;
+                    const isHint = g.hintHighlightTimer > 0 && g.targetElement && inv.el.sym === g.targetElement.sym;
+                    const sc = Math.max(0.01, inv.scaleAnim * (isAimed ? 1.06 : 1.0));
+                    mesh.scale.set(sc, sc, sc);
+
+                    mesh.rotation.y = Math.sin(g.tick * 0.04 + inv.hoverOffset) * 0.16;
+                    mesh.rotation.x = isAimed ? 0.14 : Math.cos(g.tick * 0.035 + inv.hoverOffset) * 0.08;
+
+                    if (inv.flashRedTimer > 0) {
+                        mesh.userData.edgeMat.color.setHex(0xef4444);
+                    } else if (isHint || isAimed) {
+                        mesh.userData.edgeMat.color.setHex(0xfde047);
+                    } else {
+                        mesh.userData.edgeMat.color.setHex(0x38bdf8);
+                    }
+
+                    // 2つの電子の3D立体公転アニメーション
+                    const eAngle1 = g.tick * 0.075 + inv.hoverOffset;
+                    mesh.userData.elecMesh1.position.set(
+                        Math.cos(eAngle1) * 6.6,
+                        Math.sin(eAngle1) * 6.6 * Math.cos(Math.PI * 0.36),
+                        Math.sin(eAngle1) * 6.6 * Math.sin(Math.PI * 0.36)
+                    );
+                    const eAngle2 = -g.tick * 0.065 + inv.hoverOffset;
+                    mesh.userData.elecMesh2.position.set(
+                        Math.cos(eAngle2) * 6.6,
+                        Math.sin(eAngle2) * 6.6 * Math.cos(-Math.PI * 0.36),
+                        Math.sin(eAngle2) * 6.6 * Math.sin(-Math.PI * 0.36)
+                    );
+
+                    // ホバージェットの揺らぎ
+                    if (mesh.userData.jets) {
+                        mesh.userData.jets.forEach((jet, jIdx) => {
+                            jet.scale.y = 0.8 + Math.sin(g.tick * 0.45 + jIdx + inv.hoverOffset) * 0.3;
+                        });
+                    }
+                });
+
+                // 5. 3Dプラズマレーザー弾の同期
+                while (this.bulletMeshes.length < g.bullets.length) {
+                    const bGeo = new THREE.CylinderGeometry(0.35, 0.35, 3.0, 12);
+                    const bMat = new THREE.MeshBasicMaterial({ color: 0x7dd3fc });
+                    const bMesh = new THREE.Mesh(bGeo, bMat);
+                    this.scene.add(bMesh);
+                    this.bulletMeshes.push(bMesh);
+                }
+                for (let i = 0; i < this.bulletMeshes.length; i++) {
+                    const bMesh = this.bulletMeshes[i];
+                    if (i < g.bullets.length) {
+                        const b = g.bullets[i];
+                        bMesh.visible = true;
+                        bMesh.position.set(this.to3DX(b.x), this.to3DY(b.y), 0.8);
+                    } else {
+                        bMesh.visible = false;
+                    }
+                }
+
+                // 6. 3D立体衝撃波リングの更新
+                for (let i = this.shockwaveRings.length - 1; i >= 0; i--) {
+                    const sr = this.shockwaveRings[i];
+                    const u = sr.userData;
+                    sr.scale.x += u.scaleSpd;
+                    sr.scale.y += u.scaleSpd;
+                    sr.rotation.z += 0.08;
+                    u.life--;
+                    sr.material.opacity = (u.life / u.maxLife) * 0.9;
+                    if (u.life <= 0) {
+                        this.scene.remove(sr);
+                        this.shockwaveRings.splice(i, 1);
+                    }
+                }
+
+                // 7. 3D爆破ポリゴン破片の更新
+                for (let i = this.explosionMeshes.length - 1; i >= 0; i--) {
+                    const em = this.explosionMeshes[i];
+                    const u = em.userData;
+                    em.position.x += u.vx;
+                    em.position.y += u.vy;
+                    em.position.z += u.vz;
+                    em.rotation.x += u.rx;
+                    em.rotation.y += u.ry;
+                    u.life--;
+                    em.material.opacity = u.life / u.maxLife;
+                    if (u.life <= 0) {
+                        this.scene.remove(em);
+                        this.explosionMeshes.splice(i, 1);
+                    }
+                }
+
+                this.renderer.render(this.scene, this.camera);
+            }
+        }
+
+        /**
+         * ============================================================================
+         * 3. 元素インベーダー メインゲームクラス（13元素完全対応＆3D/2Dハイブリッド）
+         * ============================================================================
+         */
+        class ElementQuizInvaders {
+            constructor() {
+                this.canvas = document.getElementById('gameCanvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.W = 960;
+                this.H = 600;
+
+                // ゲーム設定（デフォルトで3DモードON！）
+                this.is3DMode = true;
+                this.speedMode = 'normal'; // 'slow', 'normal', 'fast', 'super'
+                this.laserSightOn = true;
+
+                // ステータス
+                this.score = 0;
+                this.timeLeft = 90;
+                this.maxTime = 90;
+                this.misses = 0;
+                this.maxMisses = 5;
+                this.highScore = Number(localStorage.getItem('elemQuizInvaders_best') || 5);
+
+                this.combo = 0;
+                this.maxCombo = 0;
+                this.wave = 1;
+                this.cryoCount = 3;
+                this.cryoTimer = 0;
+                this.hintHighlightTimer = 0;
+
+                this.isPaused = false;
+                this.isGameOver = false;
+                this.tick = 0;
+                this.screenShake = 0;
+
+                // 現在のお題元素（🎯 狙う元素）
+                this.targetElement = null;
+                this.mistakeHistory = [];
+
+                // プレイヤー宇宙ロケット戦闘機（リアルな3Dメタリック造形＋バンク角＋ジェット噴射）
+                this.turret = {
+                    x: this.W / 2,
+                    y: this.H - 54,
+                    w: 78,
+                    h: 50,
+                    vx: 0,
+                    bankAngle: 0,
+                    muzzleFlash: 0,
+                    speed: 9.0,
+                    targetX: null,
+                    cooldown: 0,
+                    recoil: 0
+                };
+
+                // インベーダー隊列（2段千鳥配置・8機編成）
+                this.invaders = [];
+                this.fleetDir = 1;
+                this.bullets = [];
+                this.particles = [];
+                this.debris = [];         // 撃破時の3D回転金属破片デブリ
+                this.lightningArcs = [];  // 正解・誤射時のプラズマ放電アーク
+                this.thrusterFlames = [];
+                this.shockwaves = [];
+                this.popups = [];
+                this.meteors = [];        // 宇宙背景を横切る流星
+
+                // 多層パララックス星空（遠景・中景・近景の3レイヤー）
+                const starColors = ['#ffffff', '#bae6fd', '#fde68a', '#ddd6fe', '#fecdd3'];
+                this.stars = Array.from({ length: 145 }, () => {
+                    const layer = Math.random() < 0.5 ? 1 : Math.random() < 0.8 ? 2 : 3;
+                    return {
+                        x: Math.random() * this.W,
+                        y: Math.random() * this.H,
+                        r: layer * 0.65 + Math.random() * 0.55,
+                        speed: layer * 0.32,
+                        alpha: Math.random() * 0.6 + 0.25,
+                        twinkleSpeed: Math.random() * 0.06 + 0.015,
+                        color: starColors[Math.floor(Math.random() * starColors.length)],
+                        layer: layer
+                    };
+                });
+
+                // 宇宙空間のリアルな星雲（ネビュラ）クラウド
+                this.nebulae = [
+                    { x: 220, y: 170, r: 280, color: 'rgba(14, 165, 233, 0.11)', vx: 0.08 },
+                    { x: 740, y: 250, r: 320, color: 'rgba(99, 102, 241, 0.09)', vx: -0.06 },
+                    { x: 480, y: 420, r: 250, color: 'rgba(16, 185, 129, 0.07)', vx: 0.05 }
+                ];
+
+                // 背景に浮かぶ3D風分子構造ホログラム
+                this.hexHolograms = Array.from({ length: 6 }, (_, i) => ({
+                    x: 120 + i * 155,
+                    y: 110 + (i % 2) * 240,
+                    r: 36 + (i % 3) * 14,
+                    angle: Math.random() * Math.PI * 2,
+                    rotSpeed: (i % 2 === 0 ? 1 : -1) * 0.004
+                }));
+
+                // キー入力状態
+                this.keys = {};
+                this.holdLeft = false;
+                this.holdRight = false;
+                this.hasInteracted = false; // 初回タッチ時の誤発射防止フラグ
+                this.pointerDownState = null;
+                this.lastLockedSym = null;
+
+                // Three.js 3Dレンダラー初期化
+                this.threeStage = new ThreeStageRenderer(this);
+
+                this.bindEvents();
+                this.renderGuideModal();
+                this.restartGame(false);
+                this.startTimerInterval();
+            }
+
+            /**
+             * 現在レーザー照準が合っている最前列のインベーダーを取得
+             */
+            getLockedInvader() {
+                let lockInv = null;
+                for (const inv of this.invaders) {
+                    if (Math.abs(this.turret.x - inv.x) <= inv.w / 2) {
+                        if (!lockInv || inv.y > lockInv.y) lockInv = inv;
+                    }
+                }
+                return lockInv;
+            }
+
+            /**
+             * 3Dグラフィックモード ON / OFF 切替（フォーカス奪取バグ対策済み）
+             */
+            toggle3DMode() {
+                if (document.activeElement && document.activeElement !== document.body) {
+                    document.activeElement.blur();
+                }
+                this.is3DMode = !this.is3DMode;
+                const webglCanvas = document.getElementById('webglCanvas');
+                const lbl = document.getElementById('lbl3DMode');
+                const btnCam = document.getElementById('btnCamAngle');
+                if (this.is3DMode && this.threeStage && this.threeStage.enabled) {
+                    webglCanvas.classList.remove('hidden');
+                    lbl.textContent = '3Dモード: ON';
+                    if (btnCam) btnCam.classList.remove('hidden');
+                } else {
+                    this.is3DMode = false;
+                    webglCanvas.classList.add('hidden');
+                    lbl.textContent = '3Dモード: OFF (2D)';
+                    if (btnCam) btnCam.classList.add('hidden');
+                }
+                this.canvas.focus();
+            }
+
+            /**
+             * 3Dカメラアングルの切替（ダイナミック / コックピット背後 / スタンダード）
+             */
+            cycleCameraMode() {
+                if (document.activeElement && document.activeElement !== document.body) {
+                    document.activeElement.blur();
+                }
+                if (!this.threeStage) return;
+                const modes = [
+                    { key: 'dynamic',  label: '視点: ダイナミック' },
+                    { key: 'cockpit',  label: '視点: コックピット' },
+                    { key: 'standard', label: '視点: 正面ワイド' }
+                ];
+                const idx = modes.findIndex(m => m.key === this.threeStage.camMode);
+                const next = modes[(idx + 1) % modes.length];
+                this.threeStage.camMode = next.key;
+                document.getElementById('lblCamAngle').textContent = next.label;
+                this.canvas.focus();
+            }
+
+            bindEvents() {
+                // Captureフェーズでキー入力を確実にキャッチし、ボタンのフォーカス奪取による誤動作を完全防止！
+                window.addEventListener('keydown', (e) => {
+                    const code = e.code || '';
+                    const key = e.key || '';
+                    const isLeft = code === 'ArrowLeft' || code === 'KeyA' || key === 'ArrowLeft' || key === 'a' || key === 'A';
+                    const isRight = code === 'ArrowRight' || code === 'KeyD' || key === 'ArrowRight' || key === 'd' || key === 'D';
+                    const isFire = code === 'Space' || code === 'Enter' || code === 'ArrowUp' || key === ' ' || key === 'Enter' || key === 'ArrowUp';
+
+                    if (isLeft || isRight || isFire) {
+                        e.preventDefault();
+                        // ボタンやセレクトにフォーカスが残っていたら即座に解除
+                        if (document.activeElement && document.activeElement !== document.body && document.activeElement !== this.canvas) {
+                            document.activeElement.blur();
+                        }
+                    }
+
+                    if (isLeft) this.keys['ArrowLeft'] = true;
+                    if (isRight) this.keys['ArrowRight'] = true;
+                    this.keys[code] = true;
+
+                    if (isFire) {
+                        this.hasInteracted = true;
+                        sound.init();
+                        this.fireBeam();
+                    }
+                    if (code === 'KeyH' || key === 'h' || key === 'H') this.useScannerHint();
+                    if (code === 'KeyC' || key === 'c' || key === 'C') this.activateCryoFreeze();
+                }, { capture: true });
+
+                window.addEventListener('keyup', (e) => {
+                    const code = e.code || '';
+                    const key = e.key || '';
+                    if (code === 'ArrowLeft' || code === 'KeyA' || key === 'ArrowLeft' || key === 'a' || key === 'A') {
+                        this.keys['ArrowLeft'] = false;
+                    }
+                    if (code === 'ArrowRight' || code === 'KeyD' || key === 'ArrowRight' || key === 'd' || key === 'D') {
+                        this.keys['ArrowRight'] = false;
+                    }
+                    this.keys[code] = false;
+                }, { capture: true });
+
+                /**
+                 * タップ＆マウス操作の改善：
+                 * 1. 画面に触れた瞬間 (touchstart / mousedown) は絶対に発射しない（照準移動のみ）。
+                 * 2. 初回タッチ（サウンド有効化時）や、指をスライドしてドラッグ移動した際も誤発射しない。
+                 * 3. 2回目以降のタッチで、ドラッグせず「元素インベーダーを直接チョンとタップ」した時のみ、その真下へ移動して発射する。
+                 */
+                const getCanvasCoords = (clientX, clientY) => {
+                    const rect = this.canvas.getBoundingClientRect();
+                    return {
+                        cx: ((clientX - rect.left) / rect.width) * this.W,
+                        cy: ((clientY - rect.top) / rect.height) * this.H
+                    };
+                };
+
+                const onPointerStart = (clientX, clientY) => {
+                    if (this.isPaused || this.isGameOver) return;
+                    sound.init();
+                    const { cx, cy } = getCanvasCoords(clientX, clientY);
+                    const wasAlreadyInteracted = this.hasInteracted;
+                    this.hasInteracted = true;
+
+                    this.pointerDownState = {
+                        startX: cx,
+                        startY: cy,
+                        isDragging: false,
+                        wasAlreadyInteracted: wasAlreadyInteracted,
+                        time: performance.now()
+                    };
+
+                    // 触れた位置へロケットのX座標を合わせる（発射はしない！）
+                    this.turret.x = Math.max(55, Math.min(this.W - 55, cx));
+                };
+
+                const onPointerMove = (clientX, clientY) => {
+                    if (!this.pointerDownState || this.isPaused || this.isGameOver) return;
+                    const { cx, cy } = getCanvasCoords(clientX, clientY);
+                    if (Math.hypot(cx - this.pointerDownState.startX, cy - this.pointerDownState.startY) > 10) {
+                        this.pointerDownState.isDragging = true;
+                    }
+                    this.turret.x = Math.max(55, Math.min(this.W - 55, cx));
+                };
+
+                const onPointerEnd = (clientX, clientY) => {
+                    if (!this.pointerDownState || this.isPaused || this.isGameOver) {
+                        this.pointerDownState = null;
+                        return;
+                    }
+                    const st = this.pointerDownState;
+                    this.pointerDownState = null;
+
+                    // 初回タッチ時やドラッグ移動時は発射しない！
+                    if (!st.wasAlreadyInteracted || st.isDragging) return;
+
+                    const { cx, cy } = getCanvasCoords(clientX, clientY);
+                    const tapDuration = performance.now() - st.time;
+                    if (tapDuration > 380) return;
+
+                    // インベーダーを直接タップしていた場合のみ、そのインベーダーの位置へ合わせてショット発射！
+                    let tappedInv = null;
+                    for (const inv of this.invaders) {
+                        if (Math.abs(cx - inv.x) <= inv.w / 2 + 16 && Math.abs(cy - inv.y) <= inv.h / 2 + 16) {
+                            tappedInv = inv;
+                            break;
+                        }
+                    }
+
+                    if (tappedInv) {
+                        this.turret.x = Math.max(55, Math.min(this.W - 55, tappedInv.x));
+                        this.fireBeam();
+                    }
+                };
+
+                this.canvas.addEventListener('mousedown', (e) => {
+                    onPointerStart(e.clientX, e.clientY);
+                });
+
+                this.canvas.addEventListener('mousemove', (e) => {
+                    if (e.buttons === 1) {
+                        onPointerMove(e.clientX, e.clientY);
+                    }
+                });
+
+                this.canvas.addEventListener('mouseup', (e) => {
+                    onPointerEnd(e.clientX, e.clientY);
+                });
+
+                this.canvas.addEventListener('touchstart', (e) => {
+                    if (this.isPaused || this.isGameOver) return;
+                    e.preventDefault();
+                    const t = e.touches[0];
+                    onPointerStart(t.clientX, t.clientY);
+                }, { passive: false });
+
+                this.canvas.addEventListener('touchmove', (e) => {
+                    if (this.isPaused || this.isGameOver) return;
+                    e.preventDefault();
+                    const t = e.touches[0];
+                    onPointerMove(t.clientX, t.clientY);
+                }, { passive: false });
+
+                this.canvas.addEventListener('touchend', (e) => {
+                    if (this.isPaused || this.isGameOver) return;
+                    e.preventDefault();
+                    const t = e.changedTouches[0];
+                    if (t) onPointerEnd(t.clientX, t.clientY);
+                }, { passive: false });
+
+                // 下部ボタンイベント
+                const bindHold = (id, prop) => {
+                    const btn = document.getElementById(id);
+                    if (!btn) return;
+                    const on = (e) => { e.preventDefault(); this.hasInteracted = true; sound.init(); this[prop] = true; };
+                    const off = (e) => { e.preventDefault(); this[prop] = false; };
+                    btn.addEventListener('mousedown', on);
+                    btn.addEventListener('mouseup', off);
+                    btn.addEventListener('mouseleave', off);
+                    btn.addEventListener('touchstart', on, { passive: false });
+                    btn.addEventListener('touchend', off, { passive: false });
+                };
+                bindHold('btnLeft', 'holdLeft');
+                bindHold('btnRight', 'holdRight');
+
+                const fireBtn = document.getElementById('btnFire');
+                if (fireBtn) {
+                    const triggerFire = (e) => {
+                        e.preventDefault();
+                        this.hasInteracted = true;
+                        sound.init();
+                        this.fireBeam();
+                    };
+                    fireBtn.addEventListener('mousedown', triggerFire);
+                    fireBtn.addEventListener('touchstart', triggerFire, { passive: false });
+                }
+            }
+
+            /**
+             * 1秒ごとの残り時間カウントダウンタイマー
+             */
+            startTimerInterval() {
+                setInterval(() => {
+                    if (this.isPaused || this.isGameOver) return;
+                    if (this.cryoTimer > 0) return; // 凍結中はタイマー停止
+                    this.timeLeft = Math.max(0, this.timeLeft - 1);
+                    this.updateHud();
+                    if (this.timeLeft <= 0) {
+                        this.endGame('TIME UP!', '制限時間 90秒 が経過しました！');
+                    }
+                }, 1000);
+            }
+
+            /**
+             * 速さ変更・一時停止・ヒント・時間凍結・リスタート制御
+             */
+            changeSpeed(val) {
+                this.speedMode = val;
+            }
+
+            togglePause() {
+                if (this.isGameOver) return;
+                this.isPaused = !this.isPaused;
+                document.getElementById('lblPause').textContent = this.isPaused ? '再開' : '一時停止';
+                document.getElementById('iconPause').className = `fa-solid ${this.isPaused ? 'fa-play' : 'fa-pause'} text-xs`;
+            }
+
+            useScannerHint() {
+                if (this.isPaused || this.isGameOver || !this.targetElement) return;
+                sound.init();
+                this.hintHighlightTimer = 160;
+                this.addPopup(
+                    this.W / 2,
+                    this.H / 2 - 40,
+                    `💡 ヒント：${this.targetElement.name} の元素記号は「${this.targetElement.sym}」！`,
+                    '#fde047',
+                    18
+                );
+            }
+
+            activateCryoFreeze() {
+                if (this.isPaused || this.isGameOver || this.cryoCount <= 0 || this.cryoTimer > 0) return;
+                sound.init();
+                this.cryoCount--;
+                this.cryoTimer = 300; // 5秒間凍結
+                document.getElementById('lblCryoCount').textContent = this.cryoCount;
+                this.addPopup(this.W / 2, this.H / 2, '❄️ 時間凍結！ 5秒間インベーダー減速＆タイマー停止！', '#38bdf8', 18);
+            }
+
+            restartGame(playAudio = true) {
+                this.score = 0;
+                this.timeLeft = this.maxTime;
+                this.misses = 0;
+                this.combo = 0;
+                this.maxCombo = 0;
+                this.wave = 1;
+                this.cryoCount = 3;
+                this.cryoTimer = 0;
+                this.hintHighlightTimer = 0;
+                this.isPaused = false;
+                this.isGameOver = false;
+                this.mistakeHistory = [];
+                this.bullets = [];
+                this.particles = [];
+                this.debris = [];
+                this.lightningArcs = [];
+                this.shockwaves = [];
+                this.popups = [];
+
+                document.getElementById('lblCryoCount').textContent = this.cryoCount;
+                document.getElementById('lblPause').textContent = '一時停止';
+                document.getElementById('iconPause').className = 'fa-solid fa-pause text-xs';
+                document.getElementById('overlayResult').classList.add('hidden');
+
+                this.spawnWaveFleet();
+                this.chooseNextTarget(false);
+                this.updateHud();
+
+                if (playAudio) {
+                    sound.init();
+                    if (sound.bgmOn) sound.startBgm();
+                }
+            }
+
+            /**
+             * 13種類の元素から8機を選び、オリジナルと同じ2段千鳥配置（上段4機・下段4機）で編成
+             */
+            spawnWaveFleet() {
+                this.invaders = [];
+                const shuffled = [...ELEMENTS_LIST].sort(() => Math.random() - 0.5).slice(0, 8);
+
+                const topY = 165;
+                const botY = 250;
+                const spacingX = 165;
+
+                for (let i = 0; i < 8; i++) {
+                    const row = i < 4 ? 0 : 1;
+                    const col = i % 4;
+                    const xOffset = row === 0 ? -38 : 38;
+                    const startX = (this.W / 2) - (1.5 * spacingX) + col * spacingX + xOffset;
+
+                    this.invaders.push({
+                        el: shuffled[i],
+                        x: startX,
+                        y: row === 0 ? topY : botY,
+                        w: 112,
+                        h: 64,
+                        scaleAnim: 0.1,
+                        flashRedTimer: 0,
+                        hoverOffset: i * 0.85
+                    });
+                }
+            }
+
+            /**
+             * 画面内のインベーダーから次の「🎯 狙う元素」を選出（全滅時は次WAVE補充）
+             */
+            chooseNextTarget(fromHit = false) {
+                if (this.invaders.length === 0) {
+                    this.wave++;
+                    this.timeLeft = Math.min(99, this.timeLeft + 5);
+                    sound.playWaveClear();
+                    this.addPopup(this.W / 2, this.H / 2 - 20, `🎉 WAVE ${this.wave - 1} CLEAR! 残り時間+5秒！`, '#fde047', 22);
+                    this.spawnWaveFleet();
+                }
+
+                const nextInv = this.invaders[Math.floor(Math.random() * this.invaders.length)];
+                this.targetElement = nextInv.el;
+
+                const nameEl = document.getElementById('uiTargetName');
+                const hintEl = document.getElementById('uiTargetHint');
+                const bannerEl = document.getElementById('targetBanner');
+
+                if (nameEl) nameEl.textContent = this.targetElement.name;
+                if (hintEl) hintEl.textContent = `原子番号${this.targetElement.z} / ${this.targetElement.hint}`;
+
+                if (bannerEl) {
+                    bannerEl.classList.remove('pop-anim');
+                    void bannerEl.offsetWidth;
+                    bannerEl.classList.add('pop-anim');
+                    setTimeout(() => bannerEl.classList.remove('pop-anim'), 220);
+                }
+
+                if (fromHit && this.hasInteracted) {
+                    sound.speakJa(this.targetElement.name);
+                }
+            }
+
+            /**
+             * 砲台からプラズマ弾を発射（自機のX座標に応じた3Dステレオ定位サウンド付き）
+             */
+            fireBeam() {
+                if (this.isPaused || this.isGameOver) return;
+                if (this.turret.cooldown > 0) return;
+
+                // 画面内に同時に撃てる弾は2発まで（誤射を防ぎ狙い撃ちしやすくする）
+                if (this.bullets.length >= 2) return;
+
+                this.turret.cooldown = 10;
+                this.turret.recoil = 8;
+                this.turret.muzzleFlash = 6;
+                const panVal = (this.turret.x / this.W) * 1.6 - 0.8;
+                sound.playShot(panVal);
+
+                this.bullets.push({
+                    x: this.turret.x,
+                    y: this.turret.y - 34,
+                    vy: -16.5,
+                    r: 6,
+                    trail: []
+                });
+            }
+
+            /**
+             * インベーダーに弾が当たった時の正誤判定（ここがこのゲームの核心！）
+             */
+            onHitInvader(inv, bullet) {
+                const isCorrect = this.targetElement && inv.el.sym === this.targetElement.sym;
+                const hitPan = (inv.x / this.W) * 1.6 - 0.8;
+
+                if (isCorrect) {
+                    // ⭕ 正解！！
+                    this.combo++;
+                    if (this.combo > this.maxCombo) this.maxCombo = this.combo;
+
+                    const gain = 1;
+                    this.score += gain;
+                    if (this.score > this.highScore) {
+                        this.highScore = this.score;
+                        localStorage.setItem('elemQuizInvaders_best', String(this.highScore));
+                    }
+
+                    // 3連続正解ごとに残り時間+2秒ボーナス！
+                    if (this.combo > 0 && this.combo % 3 === 0) {
+                        this.timeLeft = Math.min(99, this.timeLeft + 2);
+                        this.addPopup(inv.x, inv.y - 45, `🔥 ${this.combo}連続正解！ 残り時間+2秒！`, '#38bdf8', 16);
+                    }
+
+                    sound.playCorrect(this.combo, hitPan);
+                    // 元素固有のリアルな炎色反応スパーク＆3D金属破片デブリ＆プラズマ放電＆二段衝撃波リング
+                    this.spawnExplosion(inv.x, inv.y, inv.el.flame, 56);
+                    this.spawnMetalDebris(inv.x, inv.y, inv.el.flame, 14);
+                    if (this.threeStage) {
+                        this.threeStage.spawn3DBurst(inv.x, inv.y, inv.el.flame, 24);
+                    }
+                    this.spawnLightningArc(this.turret.x, this.turret.y - 38, inv.x, inv.y, inv.el.flame);
+
+                    this.shockwaves.push({
+                        x: inv.x,
+                        y: inv.y,
+                        r: 10,
+                        maxR: 120,
+                        color: inv.el.flame,
+                        alpha: 1.0,
+                        lineWidth: 4.5
+                    });
+                    this.shockwaves.push({
+                        x: inv.x,
+                        y: inv.y,
+                        r: 4,
+                        maxR: 74,
+                        color: '#ffffff',
+                        alpha: 0.9,
+                        lineWidth: 2.2
+                    });
+
+                    this.addPopup(
+                        inv.x,
+                        inv.y - 12,
+                        `⭕ 正解！ ${inv.el.sym} ＝ ${inv.el.name}`,
+                        '#4ade80',
+                        19
+                    );
+
+                    // 撃破したインベーダーをリストから削除し、次のお題を選出
+                    const idx = this.invaders.indexOf(inv);
+                    if (idx !== -1) this.invaders.splice(idx, 1);
+
+                    this.updateHud();
+                    this.chooseNextTarget(true);
+
+                } else {
+                    // ❌ 不正解（違う元素記号を撃ってしまった！）
+                    this.misses++;
+                    this.combo = 0;
+                    inv.flashRedTimer = 38;
+                    this.screenShake = 14;
+
+                    // 間違えた元素を復習リストに記録
+                    if (this.targetElement && !this.mistakeHistory.some(m => m.sym === this.targetElement.sym)) {
+                        this.mistakeHistory.push(this.targetElement);
+                    }
+
+                    sound.playWrong(hitPan);
+                    this.spawnExplosion(bullet.x, bullet.y, '#ef4444', 28);
+                    if (this.threeStage) {
+                        this.threeStage.spawn3DBurst(bullet.x, bullet.y, '#ef4444', 12);
+                    }
+                    this.spawnLightningArc(inv.x - 45, inv.y, inv.x + 45, inv.y, '#ef4444');
+                    this.shockwaves.push({
+                        x: inv.x,
+                        y: inv.y,
+                        r: 25,
+                        maxR: 82,
+                        color: '#ef4444',
+                        alpha: 0.95,
+                        lineWidth: 3.5
+                    });
+
+                    // 撃ってしまった元素が何だったのかをその場で教えてくれる学習ポップアップ！
+                    this.addPopup(
+                        inv.x,
+                        inv.y - 16,
+                        `❌ ミス！ ${inv.el.sym} は「${inv.el.name}」です`,
+                        '#f87171',
+                        17
+                    );
+
+                    // ミスカードの赤シェイク演出
+                    const missCard = document.getElementById('cardMiss');
+                    const wrapper = document.getElementById('canvasWrapper');
+                    [missCard, wrapper].forEach(el => {
+                        if (!el) return;
+                        el.classList.remove('animate-miss');
+                        void el.offsetWidth;
+                        el.classList.add('animate-miss');
+                    });
+
+                    this.updateHud();
+
+                    // ミスが 5 / 5 に達したらゲームオーバー
+                    if (this.misses >= this.maxMisses) {
+                        this.endGame('GAME OVER', 'ミスが 5回 に達しました！');
+                    }
+                }
+            }
+
+            spawnExplosion(x, y, color, count = 36) {
+                for (let i = 0; i < count; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const spd = Math.random() * 7.5 + 1.2;
+                    const isSmoke = i % 5 === 0;
+                    this.particles.push({
+                        x,
+                        y,
+                        vx: Math.cos(angle) * spd,
+                        vy: Math.sin(angle) * spd,
+                        r: isSmoke ? Math.random() * 9 + 5 : Math.random() * 4.4 + 1.5,
+                        color: isSmoke ? 'rgba(148, 163, 184, 0.35)' : (Math.random() < 0.35 ? '#ffffff' : color),
+                        isSmoke: isSmoke,
+                        life: Math.floor(Math.random() * 28 + 18),
+                        maxLife: 46
+                    });
+                }
+            }
+
+            // 撃破時に飛び散るリアルな3D回転メタリック装甲破片
+            spawnMetalDebris(x, y, glowColor, count = 10) {
+                for (let i = 0; i < count; i++) {
+                    const angle = Math.random() * Math.PI * 2;
+                    const spd = Math.random() * 6.2 + 2.0;
+                    this.debris.push({
+                        x,
+                        y,
+                        vx: Math.cos(angle) * spd,
+                        vy: Math.sin(angle) * spd - 1.2,
+                        w: Math.random() * 9 + 5,
+                        h: Math.random() * 5 + 3,
+                        rot: Math.random() * Math.PI * 2,
+                        vRot: (Math.random() - 0.5) * 0.28,
+                        color: Math.random() < 0.5 ? '#38bdf8' : glowColor,
+                        life: 36,
+                        maxLife: 36
+                    });
+                }
+            }
+
+            // プラズマ稲妻アーク放電エフェクト生成
+            spawnLightningArc(x1, y1, x2, y2, color) {
+                const pts = [{ x: x1, y: y1 }];
+                const steps = 6;
+                for (let i = 1; i < steps; i++) {
+                    const t = i / steps;
+                    pts.push({
+                        x: x1 + (x2 - x1) * t + (Math.random() - 0.5) * 32,
+                        y: y1 + (y2 - y1) * t + (Math.random() - 0.5) * 24
+                    });
+                }
+                pts.push({ x: x2, y: y2 });
+                this.lightningArcs.push({ pts, color, life: 10, maxLife: 10 });
+            }
+
+            addPopup(x, y, text, color = '#ffffff', size = 16) {
+                this.popups.push({
+                    x: Math.max(130, Math.min(this.W - 130, x)),
+                    y,
+                    text,
+                    color,
+                    size,
+                    life: 52,
+                    maxLife: 52
+                });
+            }
+
+            updateHud() {
+                document.getElementById('uiScore').textContent = this.score;
+                document.getElementById('uiTime').textContent = this.timeLeft;
+                document.getElementById('uiMiss').textContent = `${this.misses} / ${this.maxMisses}`;
+                document.getElementById('uiHighScore').textContent = this.highScore;
+
+                // 残り時間バー更新
+                const bar = document.getElementById('uiTimeBar');
+                if (bar) {
+                    const pct = Math.max(0, (this.timeLeft / this.maxTime) * 100);
+                    bar.style.width = `${pct}%`;
+                    bar.className = `h-full transition-all duration-300 ${this.timeLeft <= 15 ? 'bg-rose-500' : this.timeLeft <= 35 ? 'bg-amber-400' : 'bg-sky-400'}`;
+                }
+
+                // コンボバッジ更新
+                const comboBadge = document.getElementById('uiComboBadge');
+                if (comboBadge) {
+                    if (this.combo >= 2) {
+                        comboBadge.textContent = `🔥${this.combo}連続!`;
+                        comboBadge.classList.remove('hidden');
+                    } else {
+                        comboBadge.classList.add('hidden');
+                    }
+                }
+            }
+
+            endGame(badgeText, reasonText) {
+                this.isGameOver = true;
+                sound.stopBgm();
+
+                document.getElementById('resultBadge').textContent = badgeText;
+                document.getElementById('resultSub').textContent = reasonText;
+                document.getElementById('resFinalScore').textContent = this.score;
+                document.getElementById('resMaxCombo').textContent = `${this.maxCombo} 連続`;
+                document.getElementById('resBestScore').textContent = this.highScore;
+
+                // 復習リストの作成
+                const reviewList = document.getElementById('reviewList');
+                const itemsToReview = this.mistakeHistory.length > 0
+                    ? this.mistakeHistory
+                    : this.invaders.map(i => i.el).slice(0, 6);
+
+                reviewList.innerHTML = itemsToReview.map(el => `
+                    <div class="px-2.5 py-1.5 rounded-lg bg-slate-800 border border-slate-600 flex items-center gap-2">
+                        <span class="font-cyber font-black text-base text-sky-300">${el.sym}</span>
+                        <span class="font-bold text-white">${el.name}</span>
+                        <span class="text-[11px] text-slate-400">(${el.hint})</span>
+                    </div>
+                `).join('');
+
+                document.getElementById('overlayResult').classList.remove('hidden');
+            }
+
+            /**
+             * ============================================================================
+             * 4. メインフレーム更新処理 (update)
+             * ============================================================================
+             */
+            update() {
+                this.tick++;
+                if (this.isPaused || this.isGameOver) return;
+
+                if (this.screenShake > 0) this.screenShake *= 0.84;
+                if (this.cryoTimer > 0) this.cryoTimer--;
+                if (this.hintHighlightTimer > 0) this.hintHighlightTimer--;
+
+                // 0. 背景の多層パララックス星空・星雲・分子ホログラムの更新
+                this.stars.forEach(s => {
+                    s.y += s.speed * (this.cryoTimer > 0 ? 0.2 : 1.0);
+                    if (s.y > this.H) {
+                        s.y = -4;
+                        s.x = Math.random() * this.W;
+                    }
+                });
+                this.nebulae.forEach(nb => {
+                    nb.x += nb.vx;
+                    if (nb.x < 100 || nb.x > this.W - 100) nb.vx *= -1;
+                });
+                this.hexHolograms.forEach(hx => {
+                    hx.angle += hx.rotSpeed;
+                });
+
+                // ランダムな流星の生成と更新
+                if (Math.random() < 0.015) {
+                    this.meteors.push({
+                        x: Math.random() * this.W,
+                        y: -20,
+                        vx: -3.5 - Math.random() * 2.5,
+                        vy: 5.5 + Math.random() * 3.5,
+                        len: 45 + Math.random() * 35,
+                        life: 40
+                    });
+                }
+                for (let i = this.meteors.length - 1; i >= 0; i--) {
+                    const m = this.meteors[i];
+                    m.x += m.vx;
+                    m.y += m.vy;
+                    m.life--;
+                    if (m.life <= 0 || m.y > this.H) this.meteors.splice(i, 1);
+                }
+
+                // 1. ロケット（自機）の左右移動＆バンク角（機体の傾き）＆ジェット噴射パーティクル
+                const t = this.turret;
+                const prevX = t.x;
+                if (t.cooldown > 0) t.cooldown--;
+                if (t.recoil > 0) t.recoil *= 0.76;
+                if (t.muzzleFlash > 0) t.muzzleFlash--;
+
+                let moveDir = 0;
+                if (this.keys['ArrowLeft'] || this.keys['KeyA'] || this.holdLeft) {
+                    t.x -= t.speed;
+                    moveDir = -1;
+                }
+                if (this.keys['ArrowRight'] || this.keys['KeyD'] || this.holdRight) {
+                    t.x += t.speed;
+                    moveDir = 1;
+                }
+                t.x = Math.max(55, Math.min(this.W - 55, t.x));
+                t.vx = t.x - prevX;
+
+                // 移動方向に応じたリアルな機体ロール角補間
+                const targetBank = moveDir !== 0 ? moveDir * 0.22 : Math.max(-0.22, Math.min(0.22, t.vx * 0.025));
+                t.bankAngle += (targetBank - t.bankAngle) * 0.22;
+
+                // 照準が新しいインベーダーを捉えた瞬間に心地よいSFロックオン音を鳴らす
+                const curLock = this.getLockedInvader();
+                const curLockSym = curLock ? curLock.el.sym : null;
+                if (curLockSym && curLockSym !== this.lastLockedSym && this.hasInteracted) {
+                    const lockPan = (curLock.x / this.W) * 1.6 - 0.8;
+                    sound.playLockOn(lockPan);
+                }
+                this.lastLockedSym = curLockSym;
+
+                // ロケット下部のツイン・スラスターから噴射炎パーティクルを生成
+                for (let side of [-14, 14]) {
+                    this.thrusterFlames.push({
+                        x: t.x + side + (Math.random() - 0.5) * 3,
+                        y: t.y + 22 + t.recoil,
+                        vx: (Math.random() - 0.5) * 0.9 - t.vx * 0.08,
+                        vy: Math.random() * 2.8 + 2.2,
+                        r: Math.random() * 3.5 + 2.2,
+                        life: 14,
+                        maxLife: 14,
+                        color: Math.random() < 0.45 ? '#38bdf8' : Math.random() < 0.8 ? '#f59e0b' : '#ffffff'
+                    });
+                }
+                for (let i = this.thrusterFlames.length - 1; i >= 0; i--) {
+                    const fl = this.thrusterFlames[i];
+                    fl.x += fl.vx;
+                    fl.y += fl.vy;
+                    fl.r *= 0.92;
+                    fl.life--;
+                    if (fl.life <= 0) this.thrusterFlames.splice(i, 1);
+                }
+
+                // 2. インベーダー隊列の左右移動＆端での折り返し降下（狙いやすいよう全体的に移動速度をマイルドに調整！）
+                const speedMap = { slow: 0.42, normal: 0.78, fast: 1.35, super: 2.15 };
+                const baseSpd = speedMap[this.speedMode] || 0.78;
+                const cryoMult = this.cryoTimer > 0 ? 0.08 : 1.0;
+                const vx = this.fleetDir * baseSpd * cryoMult;
+
+                let hitEdge = false;
+                this.invaders.forEach(inv => {
+                    inv.x += vx;
+                    if (inv.scaleAnim < 1) inv.scaleAnim = Math.min(1, inv.scaleAnim + 0.08);
+                    if (inv.flashRedTimer > 0) inv.flashRedTimer--;
+
+                    if (inv.x + inv.w / 2 >= this.W - 28 && this.fleetDir > 0) hitEdge = true;
+                    if (inv.x - inv.w / 2 <= 28 && this.fleetDir < 0) hitEdge = true;
+                });
+
+                if (hitEdge) {
+                    this.fleetDir *= -1;
+                    this.invaders.forEach(inv => {
+                        inv.y += 12;
+                        if (inv.y + inv.h / 2 >= this.turret.y - 34) {
+                            inv.y -= 220;
+                        }
+                    });
+                }
+
+                // 3. プラズマビーム弾の移動＆残光トレイル記録＆インベーダーとの当たり判定
+                for (let i = this.bullets.length - 1; i >= 0; i--) {
+                    const b = this.bullets[i];
+                    b.trail.push({ x: b.x, y: b.y });
+                    if (b.trail.length > 7) b.trail.shift();
+                    b.y += b.vy;
+
+                    if (b.y < -20) {
+                        this.bullets.splice(i, 1);
+                        continue;
+                    }
+
+                    let hit = false;
+                    for (let j = 0; j < this.invaders.length; j++) {
+                        const inv = this.invaders[j];
+                        if (
+                            Math.abs(b.x - inv.x) <= inv.w / 2 + b.r - 2 &&
+                            Math.abs(b.y - inv.y) <= inv.h / 2 + b.r - 2
+                        ) {
+                            this.onHitInvader(inv, b);
+                            hit = true;
+                            break;
+                        }
+                    }
+                    if (hit) {
+                        this.bullets.splice(i, 1);
+                    }
+                }
+
+                // 4. パーティクル・ショックウェーブ・ポップアップ更新
+                for (let i = this.particles.length - 1; i >= 0; i--) {
+                    const pt = this.particles[i];
+                    pt.x += pt.vx;
+                    pt.y += pt.vy;
+                    pt.vx *= 0.96;
+                    pt.vy *= 0.96;
+                    pt.life--;
+                    if (pt.life <= 0) this.particles.splice(i, 1);
+                }
+                for (let i = this.debris.length - 1; i >= 0; i--) {
+                    const db = this.debris[i];
+                    db.x += db.vx;
+                    db.y += db.vy;
+                    db.vy += 0.14; // 微小重力
+                    db.rot += db.vRot;
+                    db.life--;
+                    if (db.life <= 0) this.debris.splice(i, 1);
+                }
+                for (let i = this.lightningArcs.length - 1; i >= 0; i--) {
+                    this.lightningArcs[i].life--;
+                    if (this.lightningArcs[i].life <= 0) this.lightningArcs.splice(i, 1);
+                }
+                for (let i = this.shockwaves.length - 1; i >= 0; i--) {
+                    const sw = this.shockwaves[i];
+                    sw.r += (sw.maxR - sw.r) * 0.18;
+                    sw.alpha -= 0.04;
+                    if (sw.alpha <= 0) this.shockwaves.splice(i, 1);
+                }
+                for (let i = this.popups.length - 1; i >= 0; i--) {
+                    const pp = this.popups[i];
+                    pp.y -= 0.85;
+                    pp.life--;
+                    if (pp.life <= 0) this.popups.splice(i, 1);
+                }
+            }
+
+            /**
+             * ============================================================================
+             * 5. キャンバス描画処理 (超リアルな宇宙背景・3Dインベーダー・本格ロケット戦闘機)
+             * ============================================================================
+             */
+            draw() {
+                const ctx = this.ctx;
+                const use3D = this.is3DMode && this.threeStage && this.threeStage.enabled;
+
+                // 3Dモード有効時はThree.jsのWebGLシーンをレンダリングし、2Dキャンバスは透過オーバーレイ（照準・スペクトラム・ポップアップ・衝撃波）として機能させる
+                if (use3D) {
+                    this.threeStage.render();
+                    ctx.clearRect(0, 0, this.W, this.H);
+                }
+
+                ctx.save();
+
+                if (this.screenShake > 0.5) {
+                    ctx.translate(
+                        (Math.random() - 0.5) * this.screenShake,
+                        (Math.random() - 0.5) * this.screenShake
+                    );
+                }
+
+                if (!use3D) {
+                    // 1. ディープスペース宇宙背景グラデーション (2Dモード時)
+                    const bgGrad = ctx.createRadialGradient(this.W / 2, this.H * 0.28, 40, this.W / 2, this.H * 0.5, this.W * 0.75);
+                    bgGrad.addColorStop(0, '#0c1e3b');
+                    bgGrad.addColorStop(0.55, '#050d1d');
+                    bgGrad.addColorStop(1, '#02050c');
+                    ctx.fillStyle = bgGrad;
+                    ctx.fillRect(0, 0, this.W, this.H);
+
+                    // 1.2 リアルな星雲（ネビュラ）ガス雲のブレンド描画
+                    this.nebulae.forEach(nb => {
+                        const nGrad = ctx.createRadialGradient(nb.x, nb.y, 10, nb.x, nb.y, nb.r);
+                        nGrad.addColorStop(0, nb.color);
+                        nGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
+                        ctx.fillStyle = nGrad;
+                        ctx.beginPath();
+                        ctx.arc(nb.x, nb.y, nb.r, 0, Math.PI * 2);
+                        ctx.fill();
+                    });
+
+                    // 1.25 遠景の巨大環付き惑星（土星風リングプラネット）と大気グロー
+                    ctx.save();
+                    const px = 835, py = 105, pr = 44;
+                    const atmoGrad = ctx.createRadialGradient(px, py, pr * 0.8, px, py, pr * 1.55);
+                    atmoGrad.addColorStop(0, 'rgba(56, 189, 248, 0.18)');
+                    atmoGrad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+                    ctx.fillStyle = atmoGrad;
+                    ctx.beginPath();
+                    ctx.arc(px, py, pr * 1.55, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    const plGrad = ctx.createRadialGradient(px - 16, py - 16, 6, px, py, pr);
+                    plGrad.addColorStop(0, '#38bdf8');
+                    plGrad.addColorStop(0.55, '#1e3a8a');
+                    plGrad.addColorStop(1, '#020617');
+                    ctx.fillStyle = plGrad;
+                    ctx.beginPath();
+                    ctx.arc(px, py, pr, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    ctx.strokeStyle = 'rgba(125, 211, 252, 0.28)';
+                    ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.ellipse(px, py, pr * 1.95, pr * 0.42, -0.32, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                }
+
+                // 流星の描画
+                this.meteors.forEach(m => {
+                    ctx.save();
+                    const mGrad = ctx.createLinearGradient(m.x, m.y, m.x - m.vx * 6, m.y - m.vy * 6);
+                    mGrad.addColorStop(0, 'rgba(255, 255, 255, 0.85)');
+                    mGrad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+                    ctx.strokeStyle = mGrad;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(m.x, m.y);
+                    ctx.lineTo(m.x - m.vx * 6, m.y - m.vy * 6);
+                    ctx.stroke();
+                    ctx.restore();
+                });
+
+                // 時間凍結中の氷クリスタルフィールド演出
+                if (this.cryoTimer > 0) {
+                    ctx.fillStyle = 'rgba(56, 189, 248, 0.11)';
+                    ctx.fillRect(0, 0, this.W, this.H);
+                }
+
+                if (!use3D) {
+                    // 2. 多層パララックス恒星（2Dモード時）
+                    this.stars.forEach(s => {
+                        const tw = s.alpha + Math.sin(this.tick * s.twinkleSpeed) * 0.25;
+                        ctx.save();
+                        ctx.globalAlpha = Math.max(0.1, Math.min(1, tw));
+                        ctx.fillStyle = s.color;
+                        ctx.beginPath();
+                        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        if (s.layer === 3 && tw > 0.65) {
+                            ctx.strokeStyle = s.color;
+                            ctx.lineWidth = 0.8;
+                            ctx.beginPath();
+                            ctx.moveTo(s.x - 4.5, s.y);
+                            ctx.lineTo(s.x + 4.5, s.y);
+                            ctx.moveTo(s.x, s.y - 4.5);
+                            ctx.lineTo(s.x, s.y + 4.5);
+                            ctx.stroke();
+                        }
+                        ctx.restore();
+                    });
+
+                    // 3. 下部のサイバー防衛グリッド＆レールライン (2Dモード時)
+                    ctx.save();
+                    const horizonY = this.H - 42;
+                    ctx.strokeStyle = 'rgba(56, 189, 248, 0.45)';
+                    ctx.shadowColor = '#38bdf8';
+                    ctx.shadowBlur = 8;
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(0, horizonY);
+                    ctx.lineTo(this.W, horizonY);
+                    ctx.stroke();
+
+                    ctx.shadowBlur = 0;
+                    ctx.strokeStyle = 'rgba(56, 189, 248, 0.14)';
+                    ctx.lineWidth = 1;
+                    for (let i = -6; i <= 6; i++) {
+                        ctx.beginPath();
+                        ctx.moveTo(this.W / 2 + i * 75, horizonY);
+                        ctx.lineTo(this.W / 2 + i * 135, this.H);
+                        ctx.stroke();
+                    }
+                    ctx.restore();
+                }
+
+                // 3.5 BGM立体音響リアルタイム・スペクトラム波形ビジュアライザー
+                const spec = sound.getSpectrum();
+                if (spec) {
+                    ctx.save();
+                    const barCount = 24;
+                    const barW = this.W / barCount;
+                    for (let i = 0; i < barCount; i++) {
+                        const val = spec[i] || 0;
+                        const barH = (val / 255) * 46;
+                        ctx.fillStyle = `rgba(56, 189, 248, ${0.08 + (val / 255) * 0.18})`;
+                        ctx.fillRect(i * barW + 2, this.H - barH, barW - 4, barH);
+                    }
+                    ctx.restore();
+                }
+
+                // 4. 照準ガイドレーザー（ロックオン時はゴールドシアンに輝き、ターゲットサークル＆元素記号ロックオン表示）
+                if (this.laserSightOn && !this.isGameOver) {
+                    const lockInv = this.getLockedInvader();
+
+                    ctx.save();
+                    const endY = lockInv ? lockInv.y + lockInv.h / 2 : 36;
+                    const laserGrad = ctx.createLinearGradient(0, this.turret.y - 34, 0, endY);
+                    laserGrad.addColorStop(0, 'rgba(56, 189, 248, 0.55)');
+                    laserGrad.addColorStop(1, lockInv ? 'rgba(250, 204, 21, 0.78)' : 'rgba(56, 189, 248, 0.08)');
+                    ctx.strokeStyle = laserGrad;
+                    ctx.lineWidth = lockInv ? 2.6 : 1.8;
+                    ctx.setLineDash([7, 6]);
+                    ctx.lineDashOffset = -this.tick * 0.8;
+                    ctx.beginPath();
+                    ctx.moveTo(this.turret.x, this.turret.y - 34);
+                    ctx.lineTo(this.turret.x, endY);
+                    ctx.stroke();
+
+                    if (lockInv) {
+                        ctx.setLineDash([]);
+                        ctx.strokeStyle = '#fde047';
+                        ctx.lineWidth = 2.2;
+                        ctx.beginPath();
+                        ctx.arc(this.turret.x, endY, 8, 0, Math.PI * 2);
+                        ctx.stroke();
+
+                        // 照準中の元素記号をロックオンバッジ表示（誤射防止＆サイバー演出）
+                        ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+                        ctx.strokeStyle = '#fde047';
+                        ctx.lineWidth = 1.5;
+                        ctx.beginPath();
+                        ctx.roundRect(this.turret.x - 36, endY + 12, 72, 22, 6);
+                        ctx.fill();
+                        ctx.stroke();
+
+                        ctx.fillStyle = '#fef08a';
+                        ctx.font = '800 12px "Orbitron", "Noto Sans JP", sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(`LOCK: ${lockInv.el.sym}`, this.turret.x, endY + 23);
+                    }
+                    ctx.restore();
+                }
+
+                // 5. ショックウェーブ描画
+                this.shockwaves.forEach(sw => {
+                    ctx.save();
+                    ctx.strokeStyle = sw.color;
+                    ctx.shadowColor = sw.color;
+                    ctx.shadowBlur = 14;
+                    ctx.globalAlpha = Math.max(0, sw.alpha);
+                    ctx.lineWidth = sw.lineWidth || 3.5;
+                    ctx.beginPath();
+                    ctx.arc(sw.x, sw.y, sw.r, 0, Math.PI * 2);
+                    ctx.stroke();
+                    ctx.restore();
+                });
+
+                if (!use3D) {
+                    // 6. 元素インベーダーポッド描画（2Dモード時）
+                    this.invaders.forEach(inv => {
+                        this.drawInvaderPod(ctx, inv);
+                    });
+
+                    // 7. プラズマビーム弾＆残光トレイルの描画（2Dモード時）
+                    this.bullets.forEach(b => {
+                        ctx.save();
+                        for (let i = 0; i < b.trail.length; i++) {
+                            const tr = b.trail[i];
+                            const ratio = (i + 1) / b.trail.length;
+                            ctx.fillStyle = `rgba(56, 189, 248, ${ratio * 0.45})`;
+                            ctx.beginPath();
+                            ctx.arc(tr.x, tr.y, b.r * ratio * 0.9, 0, Math.PI * 2);
+                            ctx.fill();
+                        }
+
+                        ctx.shadowColor = '#38bdf8';
+                        ctx.shadowBlur = 18;
+                        const bGrad = ctx.createLinearGradient(b.x, b.y - 16, b.x, b.y + 10);
+                        bGrad.addColorStop(0, '#ffffff');
+                        bGrad.addColorStop(1, '#38bdf8');
+                        ctx.fillStyle = bGrad;
+                        ctx.beginPath();
+                        ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                        ctx.fill();
+                        ctx.restore();
+                    });
+
+                    // 8. プレイヤー宇宙ロケット戦闘機の描画（2Dモード時）
+                    this.drawTurret(ctx);
+                }
+
+                // 9. パーティクル（リアルな炎色反応スパーク＆流体煙）＋3D金属破片デブリ＋稲妻アーク描画
+                this.particles.forEach(pt => {
+                    ctx.save();
+                    ctx.globalAlpha = pt.life / pt.maxLife;
+                    if (!pt.isSmoke) {
+                        ctx.shadowColor = pt.color;
+                        ctx.shadowBlur = 10;
+                    }
+                    ctx.fillStyle = pt.color;
+                    ctx.beginPath();
+                    ctx.arc(pt.x, pt.y, pt.r, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                });
+
+                this.debris.forEach(db => {
+                    ctx.save();
+                    ctx.globalAlpha = db.life / db.maxLife;
+                    ctx.translate(db.x, db.y);
+                    ctx.rotate(db.rot);
+                    ctx.fillStyle = '#1e293b';
+                    ctx.strokeStyle = db.color;
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.rect(-db.w / 2, -db.h / 2, db.w, db.h);
+                    ctx.fill();
+                    ctx.stroke();
+                    ctx.restore();
+                });
+
+                this.lightningArcs.forEach(arc => {
+                    ctx.save();
+                    ctx.globalAlpha = arc.life / arc.maxLife;
+                    ctx.strokeStyle = arc.color;
+                    ctx.shadowColor = arc.color;
+                    ctx.shadowBlur = 14;
+                    ctx.lineWidth = 2.5;
+                    ctx.beginPath();
+                    arc.pts.forEach((p, idx) => {
+                        if (idx === 0) ctx.moveTo(p.x, p.y);
+                        else ctx.lineTo(p.x, p.y);
+                    });
+                    ctx.stroke();
+                    ctx.restore();
+                });
+
+                // 11. 正解／ミスポップアップテキスト描画
+                this.popups.forEach(pp => {
+                    ctx.save();
+                    ctx.globalAlpha = Math.min(1, (pp.life / pp.maxLife) * 1.4);
+                    ctx.font = `900 ${pp.size}px "Noto Sans JP", "Inter", sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.shadowColor = 'rgba(0, 0, 0, 0.95)';
+                    ctx.shadowBlur = 10;
+                    ctx.fillStyle = pp.color;
+                    ctx.fillText(pp.text, pp.x, pp.y);
+                    ctx.restore();
+                });
+
+                // 一時停止中オーバーレイ
+                if (this.isPaused) {
+                    ctx.fillStyle = 'rgba(3, 7, 18, 0.75)';
+                    ctx.fillRect(0, 0, this.W, this.H);
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.font = '900 36px "Noto Sans JP", sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('⏸ 一時停止中', this.W / 2, this.H / 2);
+                }
+
+                ctx.restore();
+            }
+
+            /**
+             * 元素インベーダーポッド（視認性抜群の元素記号はそのままに、3Dメタリック装甲＆回転電子軌道で超リアル化）
+             */
+            drawInvaderPod(ctx, inv) {
+                const isHintTarget = this.hintHighlightTimer > 0 && this.targetElement && inv.el.sym === this.targetElement.sym;
+                const isWrongFlash = inv.flashRedTimer > 0;
+                const isAimed = this.laserSightOn && Math.abs(this.turret.x - inv.x) <= inv.w / 2;
+
+                const bobY = Math.sin(this.tick * 0.075 + inv.hoverOffset) * 3.8;
+
+                ctx.save();
+                ctx.translate(inv.x, inv.y + bobY);
+                ctx.scale(inv.scaleAnim, inv.scaleAnim);
+
+                const hw = inv.w / 2;
+                const hh = inv.h / 2;
+
+                // 0. 背後のボーア模型・電子軌道リング（立体的に交差回転する電子 e-）
+                ctx.save();
+                const orbitAngle = this.tick * 0.03 + inv.hoverOffset;
+                ctx.strokeStyle = isHintTarget ? 'rgba(253, 224, 71, 0.45)' : isAimed ? 'rgba(56, 189, 248, 0.38)' : 'rgba(56, 189, 248, 0.16)';
+                ctx.lineWidth = 1.3;
+                ctx.beginPath();
+                ctx.ellipse(0, 0, hw + 10, hh - 6, Math.sin(orbitAngle) * 0.25, 0, Math.PI * 2);
+                ctx.stroke();
+
+                // 軌道上を公転する発光電子ドット
+                const ex = Math.cos(this.tick * 0.07 + inv.hoverOffset) * (hw + 10);
+                const ey = Math.sin(this.tick * 0.07 + inv.hoverOffset) * (hh - 6);
+                ctx.fillStyle = isHintTarget ? '#fde047' : inv.el.flame;
+                ctx.shadowColor = inv.el.flame;
+                ctx.shadowBlur = 8;
+                ctx.beginPath();
+                ctx.arc(ex, ey, 3.2, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                // 1. 下部の2つのホバースラスター脚＋プラズマ噴射光
+                const legColor = isWrongFlash ? '#ef4444' : isHintTarget ? '#fde047' : '#38bdf8';
+                for (let lx of [-hw + 20, hw - 36]) {
+                    // 噴射グロー
+                    const jetH = 5 + Math.sin(this.tick * 0.35 + inv.hoverOffset) * 2.5;
+                    const jetGrad = ctx.createLinearGradient(0, hh, 0, hh + 7 + jetH);
+                    jetGrad.addColorStop(0, legColor);
+                    jetGrad.addColorStop(1, 'rgba(56, 189, 248, 0)');
+                    ctx.fillStyle = jetGrad;
+                    ctx.beginPath();
+                    ctx.arc(lx + 8, hh + 5, 6, 0, Math.PI * 2);
+                    ctx.fill();
+
+                    // スラスター脚装甲
+                    ctx.fillStyle = '#0f2942';
+                    ctx.strokeStyle = legColor;
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.roundRect(lx, hh - 2, 16, 8, 2.5);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+
+                // 2. 3Dメタリック角丸インベーダーボディ
+                const grad = ctx.createLinearGradient(0, -hh, 0, hh);
+                if (isWrongFlash) {
+                    grad.addColorStop(0, '#991b1b');
+                    grad.addColorStop(0.5, '#7f1d1d');
+                    grad.addColorStop(1, '#450a0a');
+                } else if (isHintTarget) {
+                    grad.addColorStop(0, '#a16207');
+                    grad.addColorStop(0.5, '#713f12');
+                    grad.addColorStop(1, '#422006');
+                } else {
+                    grad.addColorStop(0, '#234e7a');
+                    grad.addColorStop(0.55, '#163554');
+                    grad.addColorStop(1, '#0c1f36');
+                }
+
+                ctx.shadowColor = isWrongFlash ? '#ef4444' : isHintTarget ? '#fde047' : isAimed ? '#38bdf8' : 'rgba(56, 189, 248, 0.38)';
+                ctx.shadowBlur = isHintTarget ? 24 : isAimed ? 18 : 10;
+
+                ctx.fillStyle = grad;
+                ctx.strokeStyle = isWrongFlash ? '#f87171' : isHintTarget ? '#fde047' : isAimed ? '#7dd3fc' : '#38bdf8';
+                ctx.lineWidth = isHintTarget || isAimed ? 3.2 : 2.4;
+
+                ctx.beginPath();
+                ctx.roundRect(-hw, -hh, inv.w, inv.h, 16);
+                ctx.fill();
+                ctx.stroke();
+
+                // 2.2 内側のメタリックベゼル枠＆四隅のリベット装飾
+                ctx.shadowBlur = 0;
+                ctx.strokeStyle = 'rgba(186, 230, 253, 0.16)';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.roundRect(-hw + 5, -hh + 5, inv.w - 10, inv.h - 10, 12);
+                ctx.stroke();
+
+                // 上部のガラスキャノピー光沢ハイライト
+                const glossGrad = ctx.createLinearGradient(0, -hh + 3, 0, -4);
+                glossGrad.addColorStop(0, 'rgba(255, 255, 255, 0.22)');
+                glossGrad.addColorStop(1, 'rgba(255, 255, 255, 0.0)');
+                ctx.fillStyle = glossGrad;
+                ctx.beginPath();
+                ctx.roundRect(-hw + 8, -hh + 4, inv.w - 16, hh * 0.65, 10);
+                ctx.fill();
+
+                // 左上の元素炎色インジケーターLEDドット
+                ctx.fillStyle = inv.el.flame;
+                ctx.shadowColor = inv.el.flame;
+                ctx.shadowBlur = 6;
+                ctx.beginPath();
+                ctx.arc(-hw + 14, -hh + 13, 3, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 3. 中央の大きく見やすい元素記号（Cu, S, C, Fe, N, Ag, Ca, Mg...）
+                ctx.fillStyle = '#ffffff';
+                ctx.font = '900 31px "Inter", "Noto Sans JP", sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.shadowColor = isAimed ? '#38bdf8' : 'rgba(0, 0, 0, 0.75)';
+                ctx.shadowBlur = isAimed ? 10 : 5;
+                ctx.fillText(inv.el.sym, 0, 2);
+
+                ctx.restore();
+            }
+
+            /**
+             * プレイヤーの本格SF宇宙ロケット戦闘機（3Dメタリック船体・ウイング・コックピット・アフターバーナー・電子ビット）
+             */
+            drawTurret(ctx) {
+                const t = this.turret;
+                ctx.save();
+                ctx.translate(t.x, t.y + t.recoil);
+                ctx.rotate(t.bankAngle);
+
+                // 0. 機体周囲を公転するサポート電子ビット (e- オービター)
+                for (let i = 0; i < 2; i++) {
+                    const a = this.tick * 0.08 + i * Math.PI;
+                    const ox = Math.cos(a) * 44;
+                    const oy = Math.sin(a) * 11;
+                    ctx.save();
+                    ctx.fillStyle = '#38bdf8';
+                    ctx.shadowColor = '#38bdf8';
+                    ctx.shadowBlur = 10;
+                    ctx.beginPath();
+                    ctx.arc(ox, oy, 3.5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                // 1. 下部ツイン・アフターバーナーの青いプラズマジェットコア
+                const flameLen = 14 + Math.sin(this.tick * 0.5) * 4;
+                for (let nx of [-14, 14]) {
+                    const fGrad = ctx.createLinearGradient(nx, 16, nx, 16 + flameLen);
+                    fGrad.addColorStop(0, '#ffffff');
+                    fGrad.addColorStop(0.4, '#38bdf8');
+                    fGrad.addColorStop(1, 'rgba(2, 132, 199, 0)');
+                    ctx.fillStyle = fGrad;
+                    ctx.beginPath();
+                    ctx.moveTo(nx - 6, 16);
+                    ctx.lineTo(nx + 6, 16);
+                    ctx.lineTo(nx, 16 + flameLen);
+                    ctx.closePath();
+                    ctx.fill();
+
+                    // ノズルリング
+                    ctx.fillStyle = '#334155';
+                    ctx.strokeStyle = '#94a3b8';
+                    ctx.lineWidth = 1.2;
+                    ctx.beginPath();
+                    ctx.roundRect(nx - 6, 13, 12, 6, 2);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+
+                // 2. 左右のデルタウイング（主翼＋翼端ナビゲーションライト）
+                const wingGrad = ctx.createLinearGradient(-38, -6, 38, 16);
+                wingGrad.addColorStop(0, '#0284c7');
+                wingGrad.addColorStop(0.5, '#38bdf8');
+                wingGrad.addColorStop(1, '#0369a1');
+                ctx.fillStyle = wingGrad;
+                ctx.strokeStyle = '#bae6fd';
+                ctx.lineWidth = 1.6;
+                ctx.beginPath();
+                ctx.moveTo(0, -18);
+                ctx.lineTo(-38, 12);
+                ctx.lineTo(-32, 18);
+                ctx.lineTo(-12, 14);
+                ctx.lineTo(12, 14);
+                ctx.lineTo(32, 18);
+                ctx.lineTo(38, 12);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // 主翼のパネルライン装飾
+                ctx.strokeStyle = 'rgba(15, 23, 42, 0.45)';
+                ctx.lineWidth = 1.2;
+                ctx.beginPath();
+                ctx.moveTo(-16, -2);
+                ctx.lineTo(-28, 13);
+                ctx.moveTo(16, -2);
+                ctx.lineTo(28, 13);
+                ctx.stroke();
+
+                // 3. センターロケット機体（立体メタリックホワイト＆シアン装甲）
+                const hullGrad = ctx.createLinearGradient(-16, -26, 16, 16);
+                hullGrad.addColorStop(0, '#f8fafc');
+                hullGrad.addColorStop(0.55, '#bae6fd');
+                hullGrad.addColorStop(1, '#0284c7');
+                ctx.fillStyle = hullGrad;
+                ctx.strokeStyle = '#e0f2fe';
+                ctx.lineWidth = 1.6;
+                ctx.beginPath();
+                ctx.moveTo(0, -26);
+                ctx.lineTo(-15, 4);
+                ctx.lineTo(-12, 16);
+                ctx.lineTo(12, 16);
+                ctx.lineTo(15, 4);
+                ctx.closePath();
+                ctx.fill();
+                ctx.stroke();
+
+                // 4. 先端のゴールデン・プラズマノーズコーン（オリジナルの黄色い三角先端をリアルSF化！）
+                ctx.save();
+                ctx.shadowColor = '#f59e0b';
+                ctx.shadowBlur = 14;
+                const coneGrad = ctx.createLinearGradient(0, -38, 0, -18);
+                coneGrad.addColorStop(0, '#fef08a');
+                coneGrad.addColorStop(0.5, '#f59e0b');
+                coneGrad.addColorStop(1, '#b45309');
+                ctx.fillStyle = coneGrad;
+                ctx.beginPath();
+                ctx.moveTo(0, -38);
+                ctx.lineTo(-9, -18);
+                ctx.lineTo(9, -18);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+
+                // 5. ガラスコックピット・キャノピー
+                const GlassGrad = ctx.createLinearGradient(0, -14, 0, 6);
+                GlassGrad.addColorStop(0, '#0f172a');
+                GlassGrad.addColorStop(0.4, '#0284c7');
+                GlassGrad.addColorStop(1, '#38bdf8');
+                ctx.fillStyle = GlassGrad;
+                ctx.strokeStyle = '#7dd3fc';
+                ctx.lineWidth = 1.2;
+                ctx.beginPath();
+                ctx.ellipse(0, -3, 6, 11, 0, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.stroke();
+
+                // キャノピーのハイライト反射
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.65)';
+                ctx.beginPath();
+                ctx.ellipse(-2, -6, 1.8, 4.5, -0.2, 0, Math.PI * 2);
+                ctx.fill();
+
+                // 6. 発射時のマズルフラッシュ発光
+                if (t.muzzleFlash > 0) {
+                    ctx.save();
+                    ctx.shadowColor = '#fde047';
+                    ctx.shadowBlur = 20;
+                    ctx.fillStyle = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(0, -39, 7, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.restore();
+                }
+
+                ctx.restore();
+            }
+
+            /**
+             * 元素記号の暗記一覧モーダル（プリントと完全一致する左右2列テーブル形式で表示！）
+             */
+            renderGuideModal() {
+                const grid = document.getElementById('guideGrid');
+                if (!grid) return;
+
+                const leftItems = ELEMENTS_LIST.filter(e => e.colGroup === 'left');
+                const rightItems = ELEMENTS_LIST.filter(e => e.colGroup === 'right');
+
+                const renderColumnTable = (items) => `
+                    <div class="rounded-xl overflow-hidden border border-slate-700 bg-slate-950">
+                        <div class="grid grid-cols-2 bg-slate-800/90 text-slate-200 font-black text-xs sm:text-sm py-2 px-3 border-b border-slate-700 text-center">
+                            <div>元素名</div>
+                            <div>元素記号</div>
+                        </div>
+                        <div class="divide-y divide-slate-800">
+                            ${items.map(el => `
+                                <button onclick="sound.speakJa('${el.name}')" class="w-full grid grid-cols-2 items-center py-2.5 px-3 hover:bg-sky-950/60 transition text-center group">
+                                    <div class="flex flex-col items-center">
+                                        <span class="font-black text-base sm:text-lg text-white group-hover:text-amber-300 transition">${el.name}</span>
+                                        <span class="text-[10px] text-slate-400">${el.hint}</span>
+                                    </div>
+                                    <div class="font-cyber font-black text-2xl sm:text-3xl text-sky-300 group-hover:scale-110 transition-transform">
+                                        ${el.sym}
+                                    </div>
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+
+                grid.innerHTML = renderColumnTable(leftItems) + renderColumnTable(rightItems);
+            }
+
+            openGuideModal() {
+                this.pausedByGuide = !this.isPaused && !this.isGameOver;
+                if (this.pausedByGuide) this.togglePause();
+                document.getElementById('modalGuide').classList.remove('hidden');
+            }
+
+            closeGuideModal() {
+                document.getElementById('modalGuide').classList.add('hidden');
+                // 説明を開く時に止めた場合だけ、閉じた時に再開する（自分で止めた時は止めたままにする）
+                if (this.pausedByGuide) { this.pausedByGuide = false; if (this.isPaused && !this.isGameOver) this.togglePause(); }
+            }
+        }
+
+        // ゲーム起動
+        let game;
+        window.onload = function () {
+            game = new ElementQuizInvaders();
+            function animate() {
+                game.update();
+                game.draw();
+                requestAnimationFrame(animate);
+            }
+            requestAnimationFrame(animate);
+        };
+    </script>
+</body>
+</html>
