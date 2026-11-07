@@ -668,6 +668,22 @@ button,a,[role=button]{touch-action:manipulation}
 /* ===== 17.33：元素シューティングの操作（ページを動かさない） ===== */
 html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 #psc { touch-action: none; display: block; }
+/* ===== 17.34：実績の進み具合・レベル特典・音楽のYouTube検索 ===== */
+.bdg .bp{display:block;height:6px;border-radius:3px;background:var(--s3);overflow:hidden;margin-top:8px}
+.bdg .bp::after{content:'';display:block;height:100%;width:calc(var(--p) * 1%);background:var(--primary);border-radius:3px}
+.bdg .bpn{display:block;margin-top:4px;font-size:.8rem;font-variant-numeric:tabular-nums;opacity:.85}
+.lvr{margin:0 0 14px}
+.lvr-l{display:grid;gap:6px;margin-top:8px}
+.lvr-l>div{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:14px;background:var(--s2);color:var(--on-v);font-weight:600;font-size:.92rem}
+.lvr-l>div.on{background:color-mix(in srgb,var(--primary) 16%,var(--s2));color:var(--on)}
+.lvr-l>div span{min-width:3.4em;font-weight:800;color:var(--primary)}
+.sw.lk{opacity:.55}
+.mu-yt{margin-top:12px}
+.mu-yth{display:flex;align-items:center;gap:8px;font-size:1.02rem;font-weight:700}
+.mu-ytq{display:flex;gap:8px;align-items:center}
+.mu-ytq input{flex:1;min-width:0;height:46px;padding:0 16px;border:0;border-radius:23px;background:var(--s2);color:var(--on);font:inherit;outline:none}
+.mu-ytq input:focus{box-shadow:0 0 0 3px var(--primary)}
+.mu-ytl{display:grid;gap:6px;margin-top:12px;max-height:380px;overflow:auto}
 </style>
 </head>
 <body>
@@ -691,7 +707,7 @@ html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.33';
+const APP_VERSION = '17.34';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -714,19 +730,50 @@ const ICONS = ['menu_book','auto_stories','calculate','functions','translate','l
 const E2I = {'📖':'menu_book','📐':'calculate','🔤':'translate','🔬':'science','🌏':'public','🎵':'music_note','🎨':'palette','⚽':'sports_soccer','🔧':'build','💻':'computer','⚛️':'bolt','🧪':'experiment','🧬':'biotech','🏯':'castle','📜':'auto_stories','🖌️':'brush','🏛️':'account_balance','🗺️':'map','✏️':'edit_note','📚':'menu_book','🧮':'calculate','🗣️':'translate','🎹':'piano','📘':'menu_book'};
 const DEF_SET = { theme: 'auto', hue: 222, scope: 'all', lastBackup: 0, fs: 'm', anim: true, confetti: false, sound: true, goalMode: 'auto', goal: 30, focus: 25, brk: 5, lbrk: 15, cycles: 4, timerAnim: true, natStop: true, nav: null, navPos: 'auto', homeTools: [] };
 const BADGES = [
-  ['first', 'flag', 'はじめの一歩', '課題を1つ完了', c => c.done >= 1],
-  ['p100', 'menu_book', '100ページ', '累計100ページ', c => c.pages >= 100],
-  ['p500', 'auto_stories', '500ページ', '累計500ページ', c => c.pages >= 500],
-  ['p1000', 'workspace_premium', '1000ページ', '累計1000ページ', c => c.pages >= 1000],
-  ['s3', 'local_fire_department', '3日連続', '3日続けて勉強', c => c.bestStreak >= 3],
-  ['s7', 'whatshot', '1週間連続', '7日続けて勉強', c => c.bestStreak >= 7],
-  ['s14', 'military_tech', '2週間連続', '14日続けて勉強', c => c.bestStreak >= 14],
-  ['d30', 'bolt', '1日30ページ', '1日で30ページ以上', c => c.best >= 30],
-  ['f1', 'timer', '集中1時間', '集中が累計1時間', c => c.min >= 60],
-  ['f10', 'hourglass_top', '集中10時間', '集中が累計10時間', c => c.min >= 600],
+  ['first', 'flag', 'はじめの一歩', '課題を1つ完了', c => c.done >= 1, c => [c.done, 1]],
+  ['t10', 'checklist', '課題マスター見習い', '課題を10個完了', c => c.done >= 10, c => [c.done, 10]],
+  ['t50', 'task_alt', '課題マスター', '課題を50個完了', c => c.done >= 50, c => [c.done, 50]],
+  ['t100', 'verified', '課題の達人', '課題を100個完了', c => c.done >= 100, c => [c.done, 100]],
+  ['p100', 'menu_book', '100ページ', '累計100ページ', c => c.pages >= 100, c => [c.pages, 100]],
+  ['p500', 'auto_stories', '500ページ', '累計500ページ', c => c.pages >= 500, c => [c.pages, 500]],
+  ['p1000', 'workspace_premium', '1000ページ', '累計1000ページ', c => c.pages >= 1000, c => [c.pages, 1000]],
+  ['p2000', 'library_books', '2000ページ', '累計2000ページ', c => c.pages >= 2000, c => [c.pages, 2000]],
+  ['p5000', 'collections_bookmark', '5000ページ', '累計5000ページ', c => c.pages >= 5000, c => [c.pages, 5000]],
+  ['s3', 'local_fire_department', '3日連続', '3日続けて勉強', c => c.bestStreak >= 3, c => [c.bestStreak, 3]],
+  ['s7', 'whatshot', '1週間連続', '7日続けて勉強', c => c.bestStreak >= 7, c => [c.bestStreak, 7]],
+  ['s14', 'military_tech', '2週間連続', '14日続けて勉強', c => c.bestStreak >= 14, c => [c.bestStreak, 14]],
+  ['s30', 'calendar_month', '1か月連続', '30日続けて勉強', c => c.bestStreak >= 30, c => [c.bestStreak, 30]],
+  ['s60', 'event_available', '2か月連続', '60日続けて勉強', c => c.bestStreak >= 60, c => [c.bestStreak, 60]],
+  ['d30', 'bolt', '1日30ページ', '1日で30ページ以上', c => c.best >= 30, c => [c.best, 30]],
+  ['d50', 'speed', '1日50ページ', '1日で50ページ以上', c => c.best >= 50, c => [c.best, 50]],
+  ['d100', 'rocket_launch', '1日100ページ', '1日で100ページ以上', c => c.best >= 100, c => [c.best, 100]],
+  ['f1', 'timer', '集中1時間', '集中が累計1時間', c => c.min >= 60, c => [c.min, 60]],
+  ['f10', 'hourglass_top', '集中10時間', '集中が累計10時間', c => c.min >= 600, c => [c.min, 600]],
+  ['f25', 'schedule', '集中25時間', '集中が累計25時間', c => c.min >= 1500, c => [c.min, 1500]],
+  ['f50', 'hourglass_bottom', '集中50時間', '集中が累計50時間', c => c.min >= 3000, c => [c.min, 3000]],
   ['sub', 'task_alt', '教科コンプリート', '1教科の課題を全部完了', c => c.subClear],
-  ['req', 'emoji_events', '必須コンプリート', '必須の課題を全部完了', c => c.reqClear]
+  ['sub3', 'library_add_check', '3教科コンプリート', '3教科の課題を全部完了', c => c.subDone >= 3, c => [c.subDone, 3]],
+  ['req', 'emoji_events', '必須コンプリート', '必須の課題を全部完了', c => c.reqClear],
+  ['wc50', 'style', '単語を50個覚えた', '単語帳で「覚えた」を50個', c => c.known >= 50, c => [c.known, 50]],
+  ['wc200', 'psychology', '単語を200個覚えた', '単語帳で「覚えた」を200個', c => c.known >= 200, c => [c.known, 200]],
+  ['tu5', 'build', 'ツールを5種類使った', '違うツールを5種類開く', c => c.tools >= 5, c => [c.tools, 5]],
+  ['tu15', 'apps', 'ツール好き', '違うツールを15種類開く', c => c.tools >= 15, c => [c.tools, 15]],
+  ['lab10', 'experiment', '元素ハンター', '元素ラボで10種類の元素を見つける', c => c.lab >= 10, c => [c.lab, 10]],
+  ['ps100', 'rocket_launch', 'シューティング100点', '元素シューティングで100点', c => c.ps >= 100, c => [c.ps, 100]],
+  ['ps1000', 'military_tech', 'シューティング1000点', '元素シューティングで1000点', c => c.ps >= 1000, c => [c.ps, 1000]],
+  ['lv5', 'trending_up', 'レベル5到達', 'レベル5になる', c => c.lv >= 5, c => [c.lv, 5]],
+  ['lv10', 'stars', 'レベル10到達', 'レベル10になる', c => c.lv >= 10, c => [c.lv, 10]],
+  ['lv20', 'diamond', 'レベル20到達', 'レベル20になる', c => c.lv >= 20, c => [c.lv, 20]]
 ];
+function badgeHtml(b, i, c) {
+  const [id, ic, name, desc, , prog] = b, on = !!S.badges[id], pg = prog && !on ? prog(c) : null;
+  const pr = pg ? `<span class="bp" style="--p:${Math.min(100, Math.round(pg[0] / pg[1] * 100))}"></span><span class="bpn">${Math.min(Math.floor(pg[0]), pg[1])} / ${pg[1]}</span>` : '';
+  return `<div class="bdg ${on ? 'unl' : 'lock'}"><span class="av sc" style="--sh:${S.set.hue};width:56px;height:56px"><svg viewBox="0 0 48 48"><path d="${pathOf(SHAPES[i % 6], 21, 24, 24)}" style="fill:${on ? 'var(--primary)' : 'var(--s3)'}"/></svg>${ms(on ? ic : 'lock', 'f', `font-size:28px;color:${on ? 'var(--on-primary)' : 'var(--on-v)'}`)}</span>${name}<small>${desc}</small>${pr}</div>`;
+}
+function lvCardHtml(L) {
+  const rw = [...LV_TITLES.map(([n, s]) => ({ n, t: `称号「${s}」` })), ...LV_HUES.map(([, nm, n]) => ({ n, t: `アプリの色「${nm}」` }))].sort((a, b) => a.n - b.n);
+  return `<div class="card lvr"><b>レベルの特典</b><div class="lvr-l">${rw.map(r => `<div class="${L >= r.n ? 'on' : ''}"><span>Lv.${r.n}</span>${esc(r.t)}${ms(L >= r.n ? 'check_circle' : 'lock', L >= r.n ? 'f' : '', 'margin-left:auto;font-size:20px')}</div>`).join('')}</div></div>`;
+}
 const ms = (n, c = '', st = '') => `<i class="ms ${c}" ${st ? `style="${st}"` : ''} aria-hidden="true">${n}</i>`;
 const $ = (s, e = document) => e.querySelector(s);
 const $$ = (s, e = document) => [...e.querySelectorAll(s)];
@@ -881,23 +928,36 @@ function bestStreak() {
   for (const k of ks) { cur = prev && daysBetween(prev, k) === 1 ? cur + 1 : 1; best = Math.max(best, cur); prev = k; }
   return best;
 }
+// ---- レベルと称号 ----
+const LV_KEY = 'kosa-lvl', TU_KEY = 'kosa-tu';
+const LV_TITLES = [[1, 'はじめの一歩'], [3, 'コツコツ派'], [5, '習慣づくりの達人'], [8, '計画の名人'], [11, '集中のプロ'], [15, '努力の職人'], [20, '勉強マスター'], [30, '伝説の受験生']];
+const LV_HUES = [[350, 'さくら', 3], [24, 'オレンジ', 5], [46, 'きいろ', 8], [140, 'みどり', 11], [312, 'むらさき', 15]];
+const titleOf = L => { let t = LV_TITLES[0][1]; for (const [n, s] of LV_TITLES) if (L >= n) t = s; return t; };
+const safeN = f => { try { return +f() || 0; } catch (e) { return 0; } };
+// 使ったツールの一覧（違うツールを開いたときだけ、この端末に記録する）
+const tuList = () => { try { const a = JSON.parse(localStorage.getItem(TU_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } };
+function tuNote(id) { if (!id) return; const a = tuList(); if (a.includes(id)) return; a.push(id); try { localStorage.setItem(TU_KEY, JSON.stringify(a)); } catch (e) { } checkBadges(false); }
 function totals() {
   let pages = 0, min = 0, best = 0;
   for (const k in S.log) { const l = S.log[k]; pages += l.a; min += l.m || 0; best = Math.max(best, l.a); }
-  const ex = examTasks(), rq = ex.filter(t => t.req);
+  const ex = examTasks(), rq = ex.filter(t => t.req), xp = pages + min * .5 + S.tasks.filter(isDone).length * 20;
+  const subDone = S.subjects.filter(s => { const ts = tasksOfSub(s.id); return ts.length && ts.every(isDone); }).length;
   return { pages, min, best, done: S.tasks.filter(isDone).length, streak: streak(), bestStreak: bestStreak(),
-    subClear: S.subjects.some(s => { const ts = tasksOfSub(s.id); return ts.length && ts.every(isDone); }),
-    reqClear: rq.length > 0 && rq.every(isDone) };
+    subClear: subDone > 0, subDone, reqClear: rq.length > 0 && rq.every(isDone), xp, lv: Math.floor(Math.sqrt(xp / 25)) + 1,
+    known: (S.cards || []).filter(c => c.k).length, tools: tuList().length, lab: safeN(() => LAB.found.size), ps: safeN(() => PS.best) };
 }
 function level() {
-  const c = totals(), xp = c.pages + c.min * .5 + c.done * 20;
-  const L = Math.floor(Math.sqrt(xp / 25)) + 1, lo = 25 * (L - 1) ** 2, hi = 25 * L * L;
+  const c = totals(), xp = c.xp, L = c.lv, lo = 25 * (L - 1) ** 2, hi = 25 * L * L;
   return { L, xp: Math.round(xp), p: (xp - lo) / (hi - lo), need: Math.ceil(hi - xp) };
 }
 function checkBadges(silent) {
   const c = totals(); let fresh_ = [];
   for (const [id, , name, , test] of BADGES) if (!S.badges[id] && test(c)) { S.badges[id] = Date.now(); fresh_.push(name); }
   if (fresh_.length && !silent) { setTimeout(() => { toast(`達成：${fresh_.join('・')}`); confetti(innerWidth / 2, innerHeight / 3, 60); }, 350); }
+  // レベルアップ：上がったときに、お祝いと称号を知らせる
+  const L = c.lv; let pl = 0; try { pl = +(localStorage.getItem(LV_KEY) || 0) || 0; } catch (e) { }
+  if (pl !== L) { try { localStorage.setItem(LV_KEY, String(L)); } catch (e) { } }
+  if (pl && L > pl && !silent) setTimeout(() => { toast(`レベルアップ！ Lv.${L}「${titleOf(L)}」`); confetti(innerWidth / 2, innerHeight / 3, 90); }, 900);
 }
 
 /* ====================== 図形（Expressiveのシェイプ） ====================== */
@@ -984,6 +1044,7 @@ function navTrack() {
 }
 function render() {
   navTrack();
+  if (ui.tab === 'tools' && ui.tool) tuNote(ui.tool);
   if (ui.tab === 'ai' && !aiOpened()) { try { localStorage.setItem('kosa-ai-opened', '1'); } catch (e) { } }
   const y = window.scrollY, v = $('#view');
   if (ui.anim) ui._cu = true;
@@ -1203,6 +1264,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.34', t: '世界史年表・音楽でYouTubeの曲を流す・実績とレベルの特典', n: ['「世界史年表」を追加しました（古代〜現代。重要な語は暗記モードで確かめられます）', '音楽のツールで、YouTubeから曲を探して流せるようにしました（曲名・アーティスト名、またはURLで探せます）。小さな画面で再生されます', '実績を増やしました（課題・ページ・連続日数・集中時間・単語・使ったツール・元素・シューティングの点数など）。進み具合も見られます', 'レベルに称号を付け、レベルが上がるとお知らせします。レベルが上がると、アプリの色が増えます', 'ツールの「戻る」で、確実にツール一覧へ戻るようにしました', '元素シューティング：ちがう記号は弾が通りぬけるので、後ろの列の記号も当てられます。ライフは時間切れで減ります'] },
   { v: '17.33', t: '元素シューティングを大幅に強化', n: ['記号は前に近づかず、一定の間隔でシャッフルされるようにしました', '撃つ元素の制限時間・コンボ・パワーアップ（三連発・盾・ライフ・スロー）を追加しました', '効果音・一時停止・音のオンオフを追加しました', 'スペースキーを押してもページが動かないようにしました', '宇宙の背景・炎・爆発などの見た目を強化しました'] },
   { v: '17.32', t: '元素シューティングを追加・AIの画面の幅・更新の進み具合', n: ['元素ラボに「シューティング」を追加しました。ロケットで、上に出ている元素名の正しい原子記号を撃ちます（13種類）', 'AIに質問の画面を、左右いっぱいに広げました', '更新中に、どこまで進んだかが分かる直線の表示にしました', '「○日連続」の光の残りを消しました', 'ツールタブの上に残っていた「AI」の文字を消しました'] },
   { v: '17.31', t: '常に動くアニメーションを止めて、動きを軽くしました', n: ['タブやページの、上下に動くアイコンのアニメーションを止めました（タブを切り替えるときの動きは残しています）', '「○日連続」の光の動きと、ホームの飾りの回転、＋ボタンの光るアニメーションを止めました', 'ホーム上部の色がゆっくり動く演出は残しています'] },
@@ -1590,10 +1652,10 @@ function viewStats() {
   const rows = subs.map(s => { const ts = tasksOfSub(s.id); return { s, a: agg(ts), r: agg(ts.filter(t => t.req)) }; }).sort((x, y) => x.a.p - y.a.p);
   h += `<div class="h-sec"><h2>${ms('leaderboard')}教科の達成率</h2><span class="muted" style="font-weight:500;font-size:.8rem">進んでいない順</span></div><div class="card rank">${rows.map(({ s, a, r }) => `<div class="rk sc" style="--sh:${s.hue}">${avatar(s, 46)}<div><div class="nm"><span>${esc(s.name)}</span><span>${a.total ? pct(a.p) + '%' : '—'} ・ 残り ${a.rem}p（必須 ${r.rem}p）</span></div>${wave(a.p, 'rk' + s.id)}</div></div>`).join('')}</div>`;
 
-  // 実績
-  const unl = BADGES.filter(b => S.badges[b[0]]).length;
-  h += `<div class="h-sec"><h2>${ms('emoji_events')}実績</h2><span class="sp"></span><span class="pillchip">${ms('stars', 'f')}Lv.${lv.L}　次まで ${lv.need}XP</span></div><p class="muted" style="margin:-6px 4px 14px;font-weight:500">${unl} / ${BADGES.length} 解除　・　経験値 ${lv.xp}XP（ページ数・集中時間・完了した課題でたまります）</p><div class="badges stg">${BADGES.map(([id, ic, name, desc]) => { const on = !!S.badges[id]; return `<div class="bdg ${on ? 'unl' : 'lock'}"><span class="av sc" style="--sh:${S.set.hue};width:56px;height:56px"><svg viewBox="0 0 48 48"><path d="${pathOf(SHAPES[BADGES.findIndex(b => b[0] === id) % 6], 21, 24, 24)}" style="fill:${on ? 'var(--primary)' : 'var(--s3)'}"/></svg>${ms(on ? ic : 'lock', 'f', `font-size:28px;color:${on ? 'var(--on-primary)' : 'var(--on-v)'}`)}</span>${name}<small>${desc}</small></div>`; }).join('')}</div>
-  <div style="margin-top:26px;display:flex;justify-content:center"><button class="btn tonal" data-act="share">${ms('ios_share')}進み具合をシェア</button></div>`;
+  // 実績・レベル
+  const unl = BADGES.filter(b => S.badges[b[0]]).length, bc = totals();
+  h += `<div class="h-sec"><h2>${ms('emoji_events')}実績</h2><span class="sp"></span><span class="pillchip">${ms('stars', 'f')}Lv.${lv.L}　次まで ${lv.need}XP</span></div><p class="muted" style="margin:-6px 4px 14px;font-weight:500">${unl} / ${BADGES.length} 解除　・　称号「${esc(titleOf(lv.L))}」　・　経験値 ${lv.xp}XP（ページ数・集中時間・課題・覚えた単語などでたまります）</p>${lvCardHtml(lv.L)}<div class="badges stg">${BADGES.map((b, i) => badgeHtml(b, i, bc)).join('')}</div>`;
+  h += `<div style="margin-top:26px;display:flex;justify-content:center"><button class="btn tonal" data-act="share">${ms('ios_share')}進み具合をシェア</button></div>`;
   return h;
 }
 
@@ -1625,7 +1687,7 @@ function viewSettings() {
 
   <div class="h-sec"><h2>${ms('palette')}見た目と演出</h2></div>
   <div class="card"><div class="fld"><div class="lbl">テーマ</div><div class="seg">${[['auto', '自動', 'brightness_auto'], ['light', 'ライト', 'light_mode'], ['dark', 'ダーク', 'dark_mode']].map(([v, l, i]) => `<button class="${st.theme === v ? 'on' : ''}" data-act="theme" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div></div>
-  <div class="fld"><div class="lbl">アプリの色（青系）</div><div class="swatches">${SEEDS.map(([h, n]) => `<label class="sw"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} data-act="hue" data-id="${h}" aria-label="${n}"><span style="background:hsl(${h} 66% 48%)"></span></label>`).join('')}</div></div>
+  <div class="fld"><div class="lbl">アプリの色</div><div class="swatches">${[...SEEDS.map(([h, n]) => [h, n, 0]), ...LV_HUES].map(([h, n, need]) => { const ok = level().L >= need; return `<label class="sw ${ok ? '' : 'lk'}"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} ${ok ? `data-act="hue" data-id="${h}"` : 'disabled'} aria-label="${n}${ok ? '' : `（Lv.${need}で使えます）`}"><span style="background:hsl(${h} 66% 48%)">${ok ? '' : ms('lock', '', 'font-size:16px;color:#fff')}</span></label>`; }).join('')}</div><p class="muted" style="font-size:.8rem;margin:8px 4px 0">レベルが上がると、色が増えます（${LV_HUES.map(([, n, l]) => `Lv.${l}：${n}`).join('、')}）</p></div>
   <div class="fld"><div class="lbl">文字の大きさ</div><div class="seg">${[['s', '小'], ['m', '標準'], ['l', '大']].map(([v, l]) => `<button class="${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}">${l}</button>`).join('')}</div></div>
   ${swRow('wx', '今日の天気をホームに出す', '位置情報を使います（一度だけ確認します）')}${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}${swRow('timerAnim', 'タイマー画面のアニメーション', 'オフにすると、円の動きなどを止めます')}${swRow('natStop', 'タイマー終了で自然の音を止める', '時間が終わると、自然の音を自動で止めます')}</div>
 
@@ -2305,7 +2367,7 @@ const ACT = {
   subjup(id) { moveSubj(id, -1); }, subjdown(id) { moveSubj(id, 1); },
   theme(id) { S.set.theme = id; applyTheme(); commit(); },
   navpos(id) { S.set.navPos = id === 'bottom' ? 'bottom' : 'auto'; applyTheme(); commit(); },
-  hue(id) { S.set.hue = +id; applyTheme(); save(); },
+  hue(id) { const h = +id; if (!SEEDS.some(s => s[0] === h) && !LV_HUES.some(x => x[0] === h && level().L >= x[2])) { toast('このレベルになると使えます'); return; } S.set.hue = h; applyTheme(); save(); },
   fs(id) { S.set.fs = id; applyTheme(); commit(); },
   goalmode(id) { S.set.goalMode = id; commit(); },
   undo() { if (lastUndo) { S = migrate(JSON.parse(lastUndo)); lastUndo = null; applyTheme(); save(); render(); $('#toast').classList.remove('show'); } },
@@ -2498,9 +2560,12 @@ const ACT = {
   vbmode(id) { VB.mode = id; VB.rev = {}; vbPaint(); }, vbrev(id) { VB.rev[id] = !VB.rev[id]; vbPaint(); }, vbclear() { VB.rev = {}; vbPaint(); },
   uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; ui.vin = true; ui.dir = 1; render(); scrollTo(0, 0); }, toolback() {
     if (ui.tool === 'quiz') { QZ.from = ''; QZ.phase = 'setup'; }
-    const prev = NAVH.stack.pop();
-    if (prev) { ui.tab = prev.tab; ui.tool = prev.tool; if (prev.wct) WC.tab = prev.wct; NAVH.skip = true; }   // 前の画面に戻る
-    else { ui.tool = ''; }   // 履歴がないときは、ツール一覧
+    const prev = NAVH.stack.pop(), cur = ui.tool || '';
+    // 「ツール一覧へ戻る」：ツールの中から開いたツール（単語帳→クイズなど）だけ、そのツールへ戻る。それ以外は、必ずツール一覧へ
+    if (prev && prev.tab === 'tools' && prev.tool && prev.tool !== cur) { ui.tool = prev.tool; if (prev.wct) WC.tab = prev.wct; }
+    else ui.tool = '';
+    ui.tab = 'tools';
+    if (('tools|' + ui.tool) !== NAVH.k) NAVH.skip = true;   // 戻った操作は、履歴に積まない
     ui.vin = true; ui.dir = -1; render(); scrollTo(0, 0);
   }, ck(id) { calcKey(id); }, gz(id) { graphZoom(id); }, cswap() { const a = CR.from; CR.from = CR.to; CR.to = a; render(); }, crupd() { crFetch(); },
   trswap() { const f = TR.from === 'auto' ? 'ja-JP' : TR.from; TR.from = TR.to; TR.to = f; if (TR.out) { TR.text = TR.out; TR.out = ''; } render(); }, trgo() { trRun(); }, trclr() { TR.text = ''; TR.out = ''; TR.err = ''; render(); },
@@ -3622,15 +3687,15 @@ function trHtml() {
   ${TR.out || TR.err ? `<div class="card" style="margin-top:12px">${TR.err ? `<p class="muted">${esc(TR.err)}</p>` : `<div class="trout">${esc(TR.out).replace(/\n/g, '<br>')}</div><div class="dact" style="margin:10px 0 0"><button class="btn text" data-act="trspeak">${ms('volume_up')}読み上げ</button><button class="btn text" data-act="trcopy">${ms('content_copy')}コピー</button></div>`}</div>` : ''}
   <p class="muted" style="font-size:.8rem;margin-top:10px">入力した文章がGoogleのAIに送られます。個人情報は入力しないでください。</p>`;
 }
-const TOOLS = [['music', '音楽', 'library_music', '端末の音楽を、アプリの中でずっと流せる', 300, 'e'], ['sensei', 'AI先生', 'school', '問題の写真を送ると、解き方を教えてくれる', 250, 'x'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
+const TOOLS = [['music', '音楽', 'library_music', '端末の音楽や、YouTubeで探した曲を、アプリの中でずっと流せる', 300, 'e'], ['sensei', 'AI先生', 'school', '問題の写真を送ると、解き方を教えてくれる', 250, 'x'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
   ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], 
-  ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['mol', '分子量・物質の量', 'science', '化学（中学・高校）：化学式の分子量と、g・molの換算', 300, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
+  ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['mol', '分子量・物質の量', 'science', '化学（中学・高校）：化学式の分子量と、g・molの換算', 300, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -5644,6 +5709,7 @@ function muAudio() {
 }
 function muOrder() { if (!MU.shuffle) return MU.list.map(t => t.id); const ids = MU.list.map(t => t.id); if (MU.order.length !== ids.length || ids.some(i => !MU.order.includes(i))) { MU.order = ids.slice().sort(() => Math.random() - .5); } return MU.order; }
 async function muPlay(id, pos) {
+  if (yx.playing) { try { yxAct.pp(); } catch (e) { } }   // YouTubeの曲を流しているときは、止めてから流す
   const a = muAudio(); if (!MU.unlocked) { MU.unlocked = true; try { a.src = MU_SILENT; const p = a.play(); if (p && p.catch) p.catch(() => { }); } catch (e) { } }   // iPad / iPhone：最初のタップで、音を出せる状態にしておく
   await muLoad(); const m = MU.list.find(t => t.id === id); if (!m) return;
   let blob; try { blob = await muBlob(id); } catch (e) { } if (!blob) return toast('ファイルが見つかりません');
@@ -5702,6 +5768,35 @@ function muState(structure) {
 function muPaintCtl() { const b = $('#mubig'); if (b) { b.innerHTML = ms(MU.playing ? 'pause' : 'play_arrow', '', 'font-size:40px'); b.setAttribute('aria-label', MU.playing ? '一時停止' : '再生'); } document.querySelectorAll('.mu-r').forEach(r => r.classList.toggle('pl', MU.playing && r.dataset.id === MU.cur)); }
 const muRefresh = () => { if (ui.tab === 'tools' && ui.tool === 'music' && !(dlg && dlg.open)) toolsRefresh(); };
 /* ---- ツールの画面 ---- */
+/* ---- 音楽のツール：YouTubeの曲を探して流す（公開の検索サーバーを使う。動画ツールと同じ仕組み） ---- */
+const MY = { q: '', list: [], busy: false, fail: false, last: '' };
+function ytInner() {
+  if (MY.busy) return `<div class="yx-empty">${gspin(36)}<p>探しています…</p></div>`;
+  if (MY.fail) return `<div class="yx-empty">${ms('cloud_off')}<p>検索サーバーにつながりませんでした。少し待ってから、もう一度試すか、動画のURLを貼り付けてください。</p></div>`;
+  if (!MY.list.length) return MY.last ? '<p class="muted" style="margin:6px 2px">見つかりませんでした</p>' : '';
+  return `<div class="mu-ytl">${MY.list.map((v, i) => `<button type="button" class="yx-it" data-act="muytplay" data-id="${i}"><span class="yx-th"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg">${v.len ? `<em>${yxLen(v.len)}</em>` : ''}</span><span class="yx-tx"><b>${esc(v.title || v.id)}</b><small>${esc(v.author || '')}${v.views ? ' ・ ' + esc(v.views) : ''}</small></span></button>`).join('')}</div>`;
+}
+function ytHtml() {
+  return `<div class="card mu-yt"><div class="mu-yth">${ms('smart_display')}<span>YouTubeから曲を探す</span></div><p class="muted" style="margin:4px 2px 10px;font-size:.84rem;line-height:1.6">曲名やアーティスト名、またはYouTubeのURLを入れてください。再生は、小さな画面（ピクチャ・イン・ピクチャ）で流れます。</p><div class="mu-ytq"><input id="muyq" type="search" value="${esc(MY.q)}" placeholder="例：曲名 アーティスト名" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="YouTubeで曲を探す"><button type="button" class="btn" data-act="muytgo">${ms('search')}探す</button></div><div id="muyt">${ytInner()}</div></div>`;
+}
+function muYtPaint() { const el = $('#muyt'); if (el) el.innerHTML = ytInner(); }
+// 曲を流す：音楽ファイルの再生は止めて、YouTubeの小さな画面で流す
+function muYtStart(v, list, i) {
+  yxDom(); yxDiscover();
+  if (MU.audio && !MU.audio.paused) MU.audio.pause();
+  if (list) { yx.q = list; yx.qi = i; } else { yx.q = []; yx.qi = -1; }
+  if (yx.mode === 'off' || yx.mode === 'page') yx.mode = 'pip';
+  yxPlay(v); yxHist(v);
+}
+function muYtPlay(i) { const v = MY.list[+i]; if (!v) return; muYtStart({ id: v.id, title: v.title, author: v.author }, MY.list.slice(), +i); }
+async function muYtGo() {
+  const q = MY.q.trim(); if (!q || MY.busy) return;
+  const p = yxParse(q);
+  if (p) { MY.q = ''; const el = $('#muyq'); if (el) el.value = ''; muYtStart(p); return; }
+  MY.busy = true; MY.fail = false; MY.last = q; muYtPaint();
+  try { MY.list = await yxQuery('search', q); } catch (e) { MY.list = []; MY.fail = true; }
+  MY.busy = false; muYtPaint();
+}
 function muHtml() {
   if (!MU.loaded) { muLoad().then(() => muRefresh()); return `<div class="card aq-load">${gspin(40)}<b>読み込んでいます…</b></div>`; }
   const cur = muCur(), n = MU.list.length, total = MU.list.reduce((a, t) => a + (t.size || 0), 0);
@@ -5709,7 +5804,7 @@ function muHtml() {
   const now = cur ? `<div class="card mu-np"><div class="mu-ncv ${cur.cover ? '' : 'no'}" ${cur.cover ? `style="background-image:url('${muCovUrl(cur)}')"` : ''}>${cur.cover ? '' : ms('music_note', '', 'font-size:56px')}</div><div class="mu-nt"><b>${esc(cur.title)}</b><small>${esc(cur.artist || '')}</small></div><div class="mu-sk"><input type="range" id="museek" min="0" max="${Math.max(1, Math.round(cur.dur))}" value="${Math.round((MU.audio && MU.audio.currentTime) || 0)}" step="1" aria-label="再生位置" style="--p:${cur.dur ? Math.min(100, ((MU.audio && MU.audio.currentTime) || 0) / cur.dur * 100) : 0}"><div class="mu-tm"><span id="mutc">${muFmt(MU.audio ? MU.audio.currentTime : 0)}</span><span id="mutd">${muFmt(cur.dur)}</span></div></div><div class="mu-ct"><button type="button" class="mu-s ${MU.shuffle ? 'on' : ''}" data-act="mushuf" aria-pressed="${MU.shuffle}" aria-label="シャッフル">${ms('shuffle')}</button><button type="button" class="mu-s" data-act="muprev" aria-label="前の曲">${ms('skip_previous', '', 'font-size:32px')}</button><button type="button" class="mu-big" id="mubig" data-act="muplay" aria-label="${MU.playing ? '一時停止' : '再生'}">${ms(MU.playing ? 'pause' : 'play_arrow', '', 'font-size:40px')}</button><button type="button" class="mu-s" data-act="munext" aria-label="次の曲">${ms('skip_next', '', 'font-size:32px')}</button><button type="button" class="mu-s ${MU.repeat !== 'off' ? 'on' : ''}" data-act="murep" aria-label="くり返し：${MU.repeat === 'one' ? '1曲' : MU.repeat === 'all' ? '全曲' : 'なし'}">${ms(MU.repeat === 'one' ? 'repeat_one' : 'repeat')}</button></div><div class="mu-sl"><span class="muted">${ms('bedtime', '', 'font-size:18px;vertical-align:-4px')} スリープタイマー</span><div class="chips">${[[0, 'なし'], [15, '15分'], [30, '30分'], [60, '60分']].map(([k, t]) => `<button type="button" class="sn-sc ${(!MU.sleepAt && !k) || (MU.sleepAt && k && MU._sl === k) ? 'on' : ''}" data-act="musleep" data-id="${k}">${t}</button>`).join('')}</div><small class="muted" id="musl"></small></div><div class="dact" style="margin:6px 0 0"><span class="sp"></span><button type="button" class="btn text" data-act="muclose">${ms('stop')}止める</button></div></div>` : '';
   const rows = MU.list.map(t => { const u = muCovUrl(t), on = t.id === MU.cur; return `<div class="mu-r ${on ? 'on' : ''} ${on && MU.playing ? 'pl' : ''}" data-id="${t.id}"><button type="button" class="mu-b" data-act="muplay" data-id="${t.id}"><span class="mu-cv ${u ? '' : 'no'}" ${u ? `style="background-image:url('${u}')"` : ''}>${u ? '' : ms('music_note', '', 'font-size:22px')}</span><span class="mu-t"><b>${esc(t.title)}</b><small>${esc(t.artist ? t.artist + ' ・ ' : '')}${muFmt(t.dur)}</small></span><span class="mu-eq" aria-hidden="true"><i></i><i></i><i></i></span></button><button type="button" class="ibtn" data-act="mudel" data-id="${t.id}" aria-label="削除：${esc(t.title)}">${ms('delete')}</button></div>`; }).join('');
   const help = `<details class="ax-n mu-help" ${n ? '' : 'open'}><summary>${ms('info')}使いかた・保存について</summary><p>端末の中の音楽ファイル（MP3・M4A・AAC・WAV・FLAC など）を追加すると、アプリを開いている間は、どの画面でも流せます。再生中は、右上のアカウントの左に、小さなプレーヤーが出ます。<br>ファイルは、<b>この端末の中だけ</b>に保存されます（クラウドには送りません。ほかの端末には、移りません）。<br>ほかのアプリを開いたときも、止まらずに流れる場合があります（端末と、OSのバージョンによります）。ロック画面やイヤホンの操作ボタンにも、対応しています。<br>iPad・iPhone では、「ファイル」アプリに入れた音楽を選べます。使える形式は、端末によって違います。</p></details>`;
-  return `<div class="mu-w"><div class="card mu-h"><div class="mu-hi">${ms('library_music', '', 'font-size:34px')}</div><div class="mu-ht"><b>${n ? `${n}曲` : 'まだ音楽がありません'}</b><small id="mustore">${n ? `${(total / 1048576).toFixed(0)}MB ・ この端末の中に保存` : '下のボタンから、追加できます'}</small></div></div>${add}${now}${n ? `<div class="mu-l stg">${rows}</div>` : ''}${help}${n ? `<div class="dact" style="margin-top:12px"><span class="sp"></span><button type="button" class="btn text danger" data-act="muclear">${ms('delete_sweep')}すべて消す</button></div>` : ''}</div>`;
+  return `<div class="mu-w"><div class="card mu-h"><div class="mu-hi">${ms('library_music', '', 'font-size:34px')}</div><div class="mu-ht"><b>${n ? `${n}曲` : 'まだ音楽がありません'}</b><small id="mustore">${n ? `${(total / 1048576).toFixed(0)}MB ・ この端末の中に保存` : '下のボタンから、追加できます'}</small></div></div>${add}${ytHtml()}${now}${n ? `<div class="mu-l stg">${rows}</div>` : ''}${help}${n ? `<div class="dact" style="margin-top:12px"><span class="sp"></span><button type="button" class="btn text danger" data-act="muclear">${ms('delete_sweep')}すべて消す</button></div>` : ''}</div>`;
 }
 Object.assign(ACT, {
   muadd() { const i = $('#mufile'); if (i) i.click(); },
@@ -5724,6 +5819,9 @@ Object.assign(ACT, {
   mudel(id) { const m = MU.list.find(t => t.id === id); if (!m) return; confirmDlg(`「${m.title.slice(0, 24)}」を、消しますか？`, 'この端末の中から、消えます。元にもどせません。', '消す', async () => { if (MU.cur === id) muStop(); try { await muRemove(id); } catch (e) { } MU.list = MU.list.filter(t => t.id !== id); if (MU.cov[id]) { URL.revokeObjectURL(MU.cov[id]); delete MU.cov[id]; } MU.order = []; try { localStorage.setItem(MU_N, String(MU.list.length)); } catch (e) { } muRefresh(); }); },
   muclear() { confirmDlg('すべての音楽を、消しますか？', `${MU.list.length}曲が、この端末の中から消えます。元にもどせません。`, 'すべて消す', async () => { muStop(); for (const t of MU.list.slice()) { try { await muRemove(t.id); } catch (e) { } } Object.values(MU.cov).forEach(u => URL.revokeObjectURL(u)); MU.cov = {}; MU.list = []; MU.order = []; try { localStorage.setItem(MU_N, '0'); } catch (e) { } muRefresh(); }); }
 });
+Object.assign(ACT, { muytgo() { muYtGo(); }, muytplay(id) { muYtPlay(id); }, muytclear() { MY.list = []; MY.last = ''; MY.fail = false; muYtPaint(); } });
+document.addEventListener('input', e => { if (e.target && e.target.id === 'muyq') MY.q = e.target.value; });
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target && e.target.id === 'muyq') { e.preventDefault(); muYtGo(); } });
 document.addEventListener('change', e => { const t = e.target; if (t && t.id === 'mufile') { const fl = [...t.files]; t.value = ''; muImport(fl); } });
 document.addEventListener('input', e => { const t = e.target; if (t && t.id === 'museek') { MU.seeking = true; const tc = $('#mutc'); if (tc) tc.textContent = muFmt(t.value); t.style.setProperty('--p', (+t.value / (+t.max || 1)) * 100); } });
 document.addEventListener('change', e => { const t = e.target; if (t && t.id === 'museek') { MU.seeking = false; if (MU.audio) MU.audio.currentTime = +t.value; } });
@@ -6429,6 +6527,154 @@ Object.assign(ACT, {
   jnall(id) { const all = {}; if (id === 'show') JN_DATA.forEach((r, i) => { const n = (r[3].match(/\{/g) || []).length; for (let j = 0; j < n; j++) all[i + '-' + j] = true; }); JN.open = all; toolsRefresh(); }
 });
 document.addEventListener('input', e => { if (e.target && e.target.id === 'jnq') { JN.q = e.target.value; const l = $('#jnlist'); if (l) l.innerHTML = jnList(); } });
+/* ====================== 世界史年表（17.34）：古代〜現代。重要な語は、暗記モードでタップして確かめる ====================== */
+const SK_ERAS = ['古代', '中世', '近世', '近代', '現代'];
+// [年の表示, 並び用の年, 時代, 出来事（重要な語は {　} で囲む）]
+const SK_DATA = [
+  ['紀元前3000年ごろ', -3000, '古代', 'メソポタミアで{都市国家}が生まれ、{楔形文字}が使われ始める（シュメール人）'],
+  ['紀元前2600年ごろ', -2600, '古代', 'インダス川流域で{インダス文明}が栄える（{モヘンジョ＝ダロ}など）'],
+  ['紀元前2560年ごろ', -2560, '古代', 'エジプトで{ギザの大ピラミッド}が造られる（{クフ王}の時代）'],
+  ['紀元前1750年ごろ', -1750, '古代', 'バビロニア王国の{ハンムラビ王}が、{ハンムラビ法典}を定める'],
+  ['紀元前1600年ごろ', -1600, '古代', '中国で{殷}（いん）王朝が栄える。{甲骨文字}が使われた'],
+  ['紀元前1500年ごろ', -1500, '古代', 'アーリア人がインド北西部に入り、{ヴェーダ}の文化が生まれる'],
+  ['紀元前1046年ごろ', -1046, '古代', '中国で{周}が殷を滅ぼし、{封建制}を始める'],
+  ['紀元前800年ごろ', -800, '古代', 'ギリシャで{ポリス}（都市国家）が生まれる'],
+  ['紀元前770年', -770, '古代', '中国で{春秋時代}が始まる（周が都を東へ移す）'],
+  ['紀元前6世紀ごろ', -560, '古代', 'インドで{仏教}が生まれる（{ブッダ（釈迦）}が教えを説く。諸説あり）'],
+  ['紀元前509年', -509, '古代', '{ローマ}が王を追放し、{共和政}を始める'],
+  ['紀元前490年', -490, '古代', 'ギリシャのアテネが{ペルシャ戦争}で、{マラトンの戦い}に勝つ'],
+  ['紀元前431年', -431, '古代', '{ペロポネソス戦争}が始まる（アテネとスパルタの戦い。〜前404年）'],
+  ['紀元前403年', -403, '古代', '中国で{戦国時代}が始まる'],
+  ['紀元前399年', -399, '古代', 'ギリシャの哲学者{ソクラテス}が処刑される'],
+  ['紀元前334年', -334, '古代', '{アレクサンドロス大王}が東方遠征を始める（〜前323年）。ヘレニズム文化が広がる'],
+  ['紀元前264年', -264, '古代', 'ローマと{カルタゴ}の争い（{ポエニ戦争}。〜前146年）'],
+  ['紀元前221年', -221, '古代', '中国で{秦}の{始皇帝}が統一する。{万里の長城}を建設し、文字・貨幣・度量衡を統一'],
+  ['紀元前206年', -206, '古代', '中国で{漢}が成立する（〜西暦220年）'],
+  ['紀元前138年', -138, '古代', '{張騫}が西域へ派遣され、{シルクロード}（東西の交易路）が開かれる'],
+  ['紀元前58〜51年', -58, '古代', '{カエサル}が{ガリア}（フランス付近）を征服する'],
+  ['紀元前44年', -44, '古代', 'カエサルが暗殺される'],
+  ['紀元前27年', -27, '古代', '{オクタウィアヌス}が初代皇帝（{アウグストゥス}）となり、{ローマ帝国}が成立する'],
+  ['1世紀ごろ', 30, '古代', 'イエス（{キリスト}）の教えから、{キリスト教}が生まれる'],
+  ['25年', 25, '古代', '中国で{後漢}が成立する（都は洛陽）'],
+  ['220年', 220, '古代', '中国で{三国時代}が始まる（魏・呉・蜀）'],
+  ['313年', 313, '古代', 'ローマ皇帝{コンスタンティヌス}が、{キリスト教}を公認する（ミラノ勅令）'],
+  ['395年', 395, '古代', 'ローマ帝国が、東と西に{分裂}する'],
+  ['476年', 476, '古代', '{西ローマ帝国}が滅亡する'],
+  ['589年', 589, '中世', '中国で{隋}が統一する（〜618年）'],
+  ['618年', 618, '中世', '中国で{唐}が成立する（〜907年）。長安は国際都市として栄える'],
+  ['622年', 622, '中世', '{ムハンマド}が{メディナ}へ移る（ヒジュラ）。{イスラーム教}の共同体が生まれる'],
+  ['661年', 661, '中世', 'イスラーム世界で{ウマイヤ朝}が成立する'],
+  ['750年', 750, '中世', 'イスラーム世界で{アッバース朝}が成立する'],
+  ['800年', 800, '中世', 'フランク王国の{カール大帝}が、西ローマ皇帝の位につく'],
+  ['843年', 843, '中世', '{ヴェルダン条約}：フランク王国が3つに分かれる'],
+  ['962年', 962, '中世', 'オットー1世が皇帝となり、{神聖ローマ帝国}が成立する（ドイツ中心）'],
+  ['1066年', 1066, '中世', '{ノルマンディー公ウィリアム}がイングランドを征服する（{ノルマン征服}）'],
+  ['1096年', 1096, '中世', 'ローマ教皇の呼びかけで、{十字軍}の遠征が始まる（〜13世紀後半）'],
+  ['1206年', 1206, '中世', '{チンギス・ハン}がモンゴルを統一し、{モンゴル帝国}を建国する'],
+  ['1215年', 1215, '中世', 'イングランドで、王の権力を制限する{マグナ・カルタ}（大憲章）が出される'],
+  ['1258年', 1258, '中世', 'モンゴル軍が{バグダード}を攻略し、アッバース朝が滅びる'],
+  ['1271年', 1271, '中世', 'モンゴル帝国のフビライ・ハンが、中国に{元}を建てる'],
+  ['1339年', 1339, '中世', '{百年戦争}が始まる（イングランドとフランス。〜1453年）'],
+  ['1347年', 1347, '中世', 'ヨーロッパで{黒死病}（ペスト）が大流行する'],
+  ['1368年', 1368, '中世', '中国で{明}が成立する（朱元璋）'],
+  ['1453年', 1453, '中世', '{オスマン帝国}が{コンスタンティノープル}を占領し、{東ローマ帝国}が滅亡する'],
+  ['1400年ごろ', 1400, '近世', 'イタリアで{ルネサンス}（文芸復興）が始まる'],
+  ['1450年ごろ', 1450, '近世', 'ドイツの{グーテンベルク}が{活版印刷}を発明する'],
+  ['1492年', 1492, '近世', '{コロンブス}が大西洋を横断し、{西インド諸島}に到達する'],
+  ['1498年', 1498, '近世', '{バスコ・ダ・ガマ}が、インドへの航路を開く（{喜望峰}まわり）'],
+  ['1517年', 1517, '近世', '{ルター}が「95か条の論題」を発表し、{宗教改革}が始まる'],
+  ['1522年', 1522, '近世', '{マゼラン}の船隊が世界一周を達成する（マゼラン本人は途中で死去）'],
+  ['1534年', 1534, '近世', '{イエズス会}が結成される（ロヨラ）。海外布教が広がる'],
+  ['1588年', 1588, '近世', 'イギリスが{アルマダの海戦}で、スペインの{無敵艦隊}を破る'],
+  ['1600年', 1600, '近世', 'イギリスの{東インド会社}が設立される'],
+  ['1602年', 1602, '近世', 'オランダの{東インド会社}が設立される'],
+  ['1618年', 1618, '近世', '{三十年戦争}が始まる（〜1648年）。宗教の争いから、ヨーロッパ全体の戦争へ'],
+  ['1642年', 1642, '近世', 'イギリスで{清教徒革命}（ピューリタン革命）が始まる'],
+  ['1643年', 1643, '近世', 'フランスで{ルイ14世}が即位する。{絶対王政}の全盛期へ'],
+  ['1648年', 1648, '近世', '{ウェストファリア条約}：主権国家による国際秩序の出発点となる'],
+  ['1688年', 1688, '近世', 'イギリスで{名誉革命}が起こり、{立憲君主制}が確立する'],
+  ['1707年', 1707, '近世', 'イングランドとスコットランドが合併し、{グレートブリテン王国}が成立する'],
+  ['1769年', 1769, '近代', 'イギリスの{ワット}が蒸気機関を改良し、{産業革命}が進む'],
+  ['1775年', 1775, '近代', 'アメリカで{独立戦争}が始まる（〜1783年）'],
+  ['1776年', 1776, '近代', 'アメリカが{独立宣言}を発表する（トマス・ジェファーソンが起草）'],
+  ['1787年', 1787, '近代', 'アメリカで{合衆国憲法}が制定される'],
+  ['1789年', 1789, '近代', '{フランス革命}が始まる。{人権宣言}（人間と市民の権利の宣言）が出される'],
+  ['1793年', 1793, '近代', 'フランスで{ルイ16世}が処刑される。{恐怖政治}が行われる'],
+  ['1804年', 1804, '近代', '{ナポレオン}がフランス皇帝に即位する（{ナポレオン法典}を制定）'],
+  ['1815年', 1815, '近代', '{ウィーン会議}のあと{ウィーン体制}が成立する。{ワーテルローの戦い}でナポレオンが敗れる'],
+  ['1848年', 1848, '近代', 'ヨーロッパ各地で{諸国民の春}（革命）が起こる。{マルクス}と{エンゲルス}が『共産党宣言』を発表'],
+  ['1859年', 1859, '近代', 'ダーウィンが『{種の起源}』を発表し、{進化論}を唱える'],
+  ['1861年', 1861, '近代', 'アメリカで{南北戦争}が始まる（〜1865年）。ロシアでは{農奴解放令}が出される'],
+  ['1863年', 1863, '近代', 'アメリカのリンカーン大統領が{奴隷解放宣言}を出す'],
+  ['1869年', 1869, '近代', '{スエズ運河}が開通する'],
+  ['1871年', 1871, '近代', 'プロイセンの{ビスマルク}の指導で、{ドイツ帝国}が成立する'],
+  ['1884〜1885年', 1884, '近代', '{ベルリン会議}：ヨーロッパ列強がアフリカを分割する（{帝国主義}の時代）'],
+  ['1898年', 1898, '近代', 'アメリカが{米西戦争}に勝ち、フィリピンなどを獲得する'],
+  ['1900年', 1900, '近代', '中国で{義和団事件}が起こる（列強が出兵）'],
+  ['1911年', 1911, '近代', '中国で{辛亥革命}が起こり、清が滅びる（翌年、{中華民国}が成立。孫文）'],
+  ['1914年', 1914, '近代', '{サライエボ事件}をきっかけに、{第一次世界大戦}が始まる（〜1918年）'],
+  ['1917年', 1917, '近代', 'ロシアで{ロシア革命}が起こり、{レーニン}らが社会主義政権を樹立する'],
+  ['1919年', 1919, '近代', '{ヴェルサイユ条約}：ドイツは領土と軍備を制限され、多額の{賠償金}を課される'],
+  ['1920年', 1920, '近代', '{国際連盟}が発足する（アメリカは参加せず）'],
+  ['1922年', 1922, '近代', '{ソビエト連邦}（ソ連）が成立する'],
+  ['1929年', 1929, '近代', 'アメリカの株価の大暴落から、{世界恐慌}が始まる'],
+  ['1933年', 1933, '近代', 'ドイツで{ヒトラー}を首相とする{ナチス}政権が成立する'],
+  ['1939年', 1939, '近代', 'ドイツがポーランドに侵攻し、{第二次世界大戦}が始まる'],
+  ['1941年', 1941, '近代', 'ドイツがソ連に侵攻し（{独ソ戦}）、{太平洋戦争}が始まる。戦争が世界中に広がる'],
+  ['1944年', 1944, '近代', '連合軍が{ノルマンディー上陸作戦}を行い、フランスの解放が進む'],
+  ['1945年', 1945, '現代', 'ドイツが降伏する（5月）。{国際連合}（国連）が発足する（10月）'],
+  ['1947年', 1947, '現代', 'アメリカの{トルーマン・ドクトリン}や{マーシャル・プラン}で、{冷戦}が本格化する'],
+  ['1947年', 1947, '現代', '{インド}と{パキスタン}が独立する（インドは{ガンディー}らの非暴力の運動が実を結ぶ）'],
+  ['1948年', 1948, '現代', '{イスラエル}が建国される（第1次中東戦争）'],
+  ['1949年', 1949, '現代', '中華人民共和国が成立する（{毛沢東}）。{NATO}（北大西洋条約機構）が発足する'],
+  ['1950年', 1950, '現代', '{朝鮮戦争}が始まる（〜1953年）'],
+  ['1955年', 1955, '現代', 'アジア・アフリカ会議（{バンドン会議}）が開かれる'],
+  ['1957年', 1957, '現代', 'ソ連が人工衛星{スプートニク}1号を打ち上げ、{宇宙開発競争}が始まる'],
+  ['1962年', 1962, '現代', '{キューバ危機}：米ソの対立が、核戦争寸前まで高まる'],
+  ['1965年', 1965, '現代', 'アメリカが{ベトナム戦争}へ本格的に介入する'],
+  ['1969年', 1969, '現代', 'アメリカの{アポロ11号}が、人類で初めて月面着陸に成功する'],
+  ['1989年', 1989, '現代', '{ベルリンの壁}が崩壊する。{マルタ会談}で、冷戦の終結が宣言される'],
+  ['1991年', 1991, '現代', '{ソビエト連邦}が解体する'],
+  ['1993年', 1993, '現代', '{EU}（ヨーロッパ連合）が発足する（{マーストリヒト条約}）'],
+  ['2001年', 2001, '現代', 'アメリカで{同時多発テロ}事件が起こる'],
+  ['2008年', 2008, '現代', 'アメリカの{リーマン・ショック}をきっかけに、世界金融危機が広がる'],
+  ['2015年', 2015, '現代', '{パリ協定}が結ばれる（地球温暖化を防ぐための国際的な取り決め）'],
+  ['2020年', 2020, '現代', '{新型コロナウイルス}の感染が世界に広がる（パンデミック）'],
+  ['2022年', 2022, '現代', 'ロシアが{ウクライナ}に侵攻する']
+];
+const SK = { era: '', mode: false, open: {}, q: '' };
+function skText(i, t) {
+  let j = 0;
+  return jnParts(t).map(p => {
+    if (p.txt !== undefined) return esc(p.txt);
+    const id = i + '-' + (j++), show = !SK.mode || SK.open[id];
+    return show ? `<button type="button" class="jn-k ${SK.mode ? 'open' : ''}" data-act="skk" data-id="${id}">${esc(p.kw)}</button>` : `<button type="button" class="jn-k hid" data-act="skk" data-id="${id}" aria-label="答えを見る">？？？</button>`;
+  }).join('');
+}
+function skList() {
+  const q = SK.q.trim(), rows = SK_DATA.map((r, i) => ({ r, i })).filter(({ r }) => (!SK.era || r[2] === SK.era) && (!q || r[3].replace(/[{}]/g, '').includes(q) || r[0].includes(q)));
+  const out = []; let last = '';
+  for (const { r, i } of rows.sort((a, b) => (SK_ERAS.indexOf(a.r[2]) - SK_ERAS.indexOf(b.r[2])) || (a.r[1] - b.r[1]))) {
+    if (r[2] !== last) { last = r[2]; out.push(`<div class="jn-h">${esc(last)}時代</div>`); }
+    out.push(`<div class="jn-r"><b>${esc(r[0])}</b><span>${skText(i, r[3])}</span></div>`);
+  }
+  return out.length ? out.join('') : '<p class="muted" style="text-align:center;padding:18px 0">見つかりませんでした</p>';
+}
+function sekaiHtml() {
+  const kw = SK_DATA.reduce((a, r) => a + (r[3].match(/\{/g) || []).length, 0);
+  return `<div class="jn-top"><div class="jn-eras">${['', ...SK_ERAS].map(e => `<button type="button" class="sn-sc ${SK.era === e ? 'on' : ''}" data-act="skera" data-id="${e}">${e || 'すべて'}</button>`).join('')}</div>
+  <div class="jn-ctl"><button type="button" class="sn-sc ${SK.mode ? 'on' : ''}" data-act="skmode" aria-pressed="${SK.mode}">${ms(SK.mode ? 'visibility_off' : 'visibility')}暗記モード</button>${SK.mode ? `<button type="button" class="sn-sc" data-act="skall" data-id="show">すべて答える</button><button type="button" class="sn-sc" data-act="skall" data-id="hide">すべて隠す</button>` : ''}<span class="sp" style="flex:1"></span><span class="muted jn-n">${SK_DATA.length}件・重要語 ${kw}</span></div>
+  <div class="jn-q"><input id="skq" type="search" placeholder="出来事や年で探す" value="${esc(SK.q)}" autocomplete="off" aria-label="世界史の年表を探す"></div></div>
+  <p class="muted jn-f">${SK.mode ? '暗記モード：「？？？」の部分をタップすると、答えが出ます。もう一度タップで隠れます。' : '重要な語は、このまま読めます。「暗記モード」にすると、語を隠して確かめられます。'}</p>
+  <div id="sklist" class="jn-l">${skList()}</div>`;
+}
+Object.assign(ACT, {
+  skera(id) { SK.era = id; SK.open = {}; toolsRefresh(); },
+  skmode() { SK.mode = !SK.mode; SK.open = {}; toolsRefresh(); },
+  skk(id) { SK.open[id] = !SK.open[id]; const l = $('#sklist'); if (l) l.innerHTML = skList(); else toolsRefresh(); },
+  skall(id) { const all = {}; if (id === 'show') SK_DATA.forEach((r, i) => { const n = (r[3].match(/\{/g) || []).length; for (let j = 0; j < n; j++) all[i + '-' + j] = true; }); SK.open = all; toolsRefresh(); }
+});
+document.addEventListener('input', e => { if (e.target && e.target.id === 'skq') { SK.q = e.target.value; const l = $('#sklist'); if (l) l.innerHTML = skList(); } });
 /* ====================== 全体のアニメーション（18.2）：波紋・出現・オーロラ。設定の「アニメーション」をオフにすると止まる ====================== */
 function motionSync() { document.documentElement.classList.toggle('noanim', (S.set && S.set.anim === false) || matchMedia('(prefers-reduced-motion: reduce)').matches); }
 motionSync();
@@ -7605,7 +7851,7 @@ function psHit(t, p) {
     else { PS.msg = `正解！ ${t.s} ＝ ${t.n}`; PS.msgT = 1.4; psTarget(); }
   } else {
     t.hit = 0.5; PS.msg = `ちがう… ${PS.tgt.n}の記号は ${PS.tgt.s}`; PS.msgT = 2.2;
-    psBurst(p.x, p.y, '#ff6b6b', 12, 160); psLose();
+    psBurst(p.x, p.y, '#ff6b6b', 12, 160); PS.combo = 0; PS.mult = 1; PS.flash = 0.2; PS.flashC = 'rgba(255,60,80,'; PS.shake = 0.2; psSfx('bad');
   }
 }
 function psCapHit(c) {
@@ -7656,7 +7902,12 @@ function psUpdate(dt) {
     if (b.y < -20 || b.x < -20 || b.x > PS.W + 20) return false;
     for (const t of PS.tiles) {
       const p = psTilePos(t);
-      if (Math.abs(b.x - p.x) <= p.w / 2 && Math.abs(b.y - p.y) <= p.h / 2) { psHit(t, p); return false; }
+      if (Math.abs(b.x - p.x) <= p.w / 2 && Math.abs(b.y - p.y) <= p.h / 2) {
+        if (t.s === PS.tgt.s) { psHit(t, p); return false; }
+        // ちがう記号は弾が止まらず通りぬけるので、後ろの列の記号も当てられる。1発で同じ記号に2回反応しないようにする
+        if (!b.seen) b.seen = new Set();
+        if (!b.seen.has(t)) { b.seen.add(t); psHit(t, p); }
+      }
     }
     return true;
   });
@@ -7935,7 +8186,7 @@ function gameHtml() {
   return `<div class="ps"><div class="ps-cv"><canvas id="psc" role="img" aria-label="元素シューティングの画面"></canvas></div>
   <div class="ps-ctl"><button type="button" class="ps-mv" data-psm="-1" aria-label="左へ">${ms('arrow_back')}</button><button type="button" class="ps-fire" data-act="psfire">${ms('rocket_launch')}発射！</button><button type="button" class="ps-mv" data-psm="1" aria-label="右へ">${ms('arrow_forward')}</button></div>
   <div class="ps-row"><button type="button" class="btn tonal sm" id="psp" data-act="pspause">${ms('pause')}一時停止</button><button type="button" class="btn tonal sm" id="psm" data-act="psmute">${ms('volume_up')}音：オン</button><button type="button" class="btn tonal sm" data-act="psstart">${ms('restart_alt')}もういちど</button></div>
-  <p class="muted ps-note" style="margin:10px 4px 0">画面に出ている元素名の、正しい原子記号を撃ちます。記号は時々シャッフルされ、前には近づいてきません。ちがう記号を撃つとライフが減ります（時間切れも同じ）。コンボで得点が増え、落ちてくるカプセルでパワーアップできます。<br>iPad：画面をタップで発射、ドラッグで移動。パソコン：← → で移動、スペースで発射、Pで一時停止。</p></div>`;
+  <p class="muted ps-note" style="margin:10px 4px 0">画面に出ている元素名の、正しい原子記号を撃ちます。記号は時々シャッフルされ、前には近づいてきません。ちがう記号を撃つとコンボが切れます（弾は後ろの記号まで届きます）。時間切れになるとライフが減ります。コンボで得点が増え、落ちてくるカプセルでパワーアップできます。<br>iPad：画面をタップで発射、ドラッグで移動。パソコン：← → で移動、スペースで発射、Pで一時停止。</p></div>`;
 }
 Object.assign(ACT, { psfire() { psFire(); }, psstart() { psReset(); psPaint(); }, pspause() { psPause(); }, psmute() { psMute(); } });
 
