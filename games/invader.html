@@ -2149,6 +2149,7 @@
 
             restartGame(playAudio = true) {
                 this.score = 0;
+                this.hits = 0;
                 this.timeLeft = this.maxTime;
                 this.misses = 0;
                 this.combo = 0;
@@ -2282,6 +2283,7 @@
                     // ⭕ 正解！！
                     this.combo++;
                     if (this.combo > this.maxCombo) this.maxCombo = this.combo;
+                    this.hits = (this.hits || 0) + 1;
 
                     const gain = 1;
                     this.score += gain;
@@ -2492,6 +2494,11 @@
                 this.isGameOver = true;
                 sound.stopBgm();
 
+                // アプリ（課題マネージャー）へ結果を送る：実績・挑戦回数に使われる
+                try {
+                    if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'kosa-invader', score: this.score, hits: this.hits || 0, maxCombo: this.maxCombo }, '*');
+                } catch (e) { }
+                this.hits = 0;
                 document.getElementById('resultBadge').textContent = badgeText;
                 document.getElementById('resultSub').textContent = reasonText;
                 document.getElementById('resFinalScore').textContent = this.score;
