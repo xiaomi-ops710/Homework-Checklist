@@ -656,7 +656,7 @@ button,a,[role=button]{touch-action:manipulation}
 .ux-lin i::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.45),transparent) no-repeat 0 0/60% 100%;animation:uxShim 1.6s linear infinite}
 .ux-pct{margin:0;font-size:.9rem;font-weight:700;color:var(--on-v)}
 @keyframes uxShim{from{background-position:-60% 0}to{background-position:160% 0}}
-.ps{max-width:900px;margin:0 auto}
+.ps{max-width:none;margin:0 auto}
 .ps-cv{width:100%;border-radius:28px;overflow:hidden;box-shadow:0 18px 48px rgba(0,0,0,.35);border:1px solid rgba(120,190,255,.25);background:#040819;touch-action:none;-webkit-user-select:none;user-select:none}
 .ps-cv canvas{display:block}
 .ps-ctl{display:grid;grid-template-columns:1fr 2fr 1fr;gap:10px;margin-top:12px}
@@ -668,9 +668,15 @@ button,a,[role=button]{touch-action:manipulation}
 /* ===== 17.33：元素シューティングの操作（ページを動かさない） ===== */
 html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 #psc { touch-action: none; display: block; }
-/* ===== 17.35：元素インベーダー ULTRA を埋め込む枠 ===== */
-.ps-frame{width:100%;border-radius:28px;overflow:hidden;border:1px solid rgba(120,190,255,.25);box-shadow:0 18px 48px rgba(0,0,0,.35);background:#040819}
-.ps-frame iframe{display:block;width:100%;height:min(82vh,780px);min-height:560px;border:0}
+/* ===== 17.36：元素インベーダー ULTRA の枠（横いっぱい・全画面） ===== */
+.tbody:has(.ps){max-width:none}
+.ps-bar{display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap;margin:0 0 10px}
+.ps-frame{position:relative;width:100%;border-radius:24px;overflow:hidden;border:1px solid rgba(120,190,255,.25);box-shadow:0 18px 48px rgba(0,0,0,.35);background:#040819}
+.ps-frame iframe{display:block;width:100%;height:clamp(560px,calc(100dvh - 290px),960px);border:0}
+.ps-exit{display:none;position:absolute;top:12px;right:12px;z-index:3;align-items:center;gap:6px;border:0;border-radius:999px;padding:8px 14px;background:rgba(4,8,25,.78);color:#e6f0ff;font:inherit;font-weight:700;cursor:pointer}
+.ps-frame.ps-full{position:fixed;inset:0;z-index:9000;width:100vw;height:100dvh;border-radius:0;border:0;box-shadow:none;margin:0}
+.ps-frame.ps-full iframe{height:100%;min-height:0}
+.ps-frame.ps-full .ps-exit{display:flex}
 /* ===== 17.34：実績の進み具合・レベル特典・音楽のYouTube検索 ===== */
 .bdg .bp{display:block;height:6px;border-radius:3px;background:var(--s3);overflow:hidden;margin-top:8px}
 .bdg .bp::after{content:'';display:block;height:100%;width:calc(var(--p) * 1%);background:var(--primary);border-radius:3px}
@@ -710,7 +716,7 @@ html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.35';
+const APP_VERSION = '17.36';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1267,6 +1273,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.36', t: '元素インベーダーを大きく・全画面に対応', n: ['元素インベーダーの表示を、横いっぱいに広げました', '下の操作ボタンが隠れないように、画面の高さに合わせて調整しました', '「全画面」ボタンで、ゲームを画面いっぱいに広げられます（「戻す」で元に戻ります）', '「読み直す」ボタンで、ゲームの動きがおかしい時に作り直せます'] },
   { v: '17.35', t: '元素シューティングを「元素インベーダー ULTRA」に差し替え', n: ['元素ラボのシューティングを、新しいゲーム「元素インベーダー ULTRA」に差し替えました', '新しいゲームは、アプリの中の games フォルダにあります（画面の中で遊べます）', '説明を閉じた時、止まっていたゲームが再開するようにしました', '古いiPadでも、ゲームの絵が止まらないように直しました'] },
   { v: '17.34', t: '世界史年表・音楽でYouTubeの曲を流す・実績とレベルの特典', n: ['「世界史年表」を追加しました（古代〜現代。重要な語は暗記モードで確かめられます）', '音楽のツールで、YouTubeから曲を探して流せるようにしました（曲名・アーティスト名、またはURLで探せます）。小さな画面で再生されます', '実績を増やしました（課題・ページ・連続日数・集中時間・単語・使ったツール・元素・シューティングの点数など）。進み具合も見られます', 'レベルに称号を付け、レベルが上がるとお知らせします。レベルが上がると、アプリの色が増えます', 'ツールの「戻る」で、確実にツール一覧へ戻るようにしました', '元素シューティング：ちがう記号は弾が通りぬけるので、後ろの列の記号も当てられます。ライフは時間切れで減ります'] },
   { v: '17.33', t: '元素シューティングを大幅に強化', n: ['記号は前に近づかず、一定の間隔でシャッフルされるようにしました', '撃つ元素の制限時間・コンボ・パワーアップ（三連発・盾・ライフ・スロー）を追加しました', '効果音・一時停止・音のオンオフを追加しました', 'スペースキーを押してもページが動かないようにしました', '宇宙の背景・炎・爆発などの見た目を強化しました'] },
@@ -7748,9 +7755,26 @@ Object.assign(ACT, {
 const PS = { best: 0 };
 try { PS.best = +(localStorage.getItem('kosa-ps-best') || 0) || 0; } catch (e) { }
 function gameHtml() {
-  return `<div class="ps"><div class="ps-frame"><iframe src="games/invader.html" title="元素インベーダー ULTRA（元素シューティング）" allow="fullscreen"></iframe></div>
-  <p class="muted ps-note" style="margin:10px 4px 0">画面の中のボタンやキーで操作します。音を出すと、ゲームの中で音が鳴ります。うまく動かないときは、いちどアプリを開き直してください。</p></div>`;
+  return `<div class="ps"><div class="ps-bar"><button type="button" class="btn tonal sm" data-act="psreload">${ms('refresh')}読み直す</button><button type="button" class="btn tonal sm" id="psfb" data-act="psfull">${ms('fullscreen')}全画面</button></div>
+  <div class="ps-frame" id="psframe"><iframe src="games/invader.html" title="元素インベーダー ULTRA（元素シューティング）"></iframe><button type="button" class="ps-exit" data-act="psfull">${ms('fullscreen_exit')}戻す</button></div>
+  <p class="muted ps-note" style="margin:10px 4px 0">画面の中のボタンやキーで操作します。キーで遊ぶときは、先に画面をタップしてください。うまく動かないときは「読み直す」を押してください。</p></div>`;
 }
+// 全画面：枠を画面いっぱいに広げる（iframe は作り直さないので、ゲームは途中から続く）。端末が対応していれば本当の全画面にもする
+function psFullOn(on) {
+  const f = $('#psframe'); if (!f) return;
+  if (on) {
+    f.classList.add('ps-full');
+    if (f.requestFullscreen && !document.fullscreenElement) { try { const p = f.requestFullscreen(); if (p && p.catch) p.catch(() => { }); } catch (e) { } }
+  } else {
+    f.classList.remove('ps-full');
+    if (document.fullscreenElement) { try { const p = document.exitFullscreen(); if (p && p.catch) p.catch(() => { }); } catch (e) { } }
+  }
+  const b = $('#psfb'); if (b) b.innerHTML = `${ms(on ? 'fullscreen_exit' : 'fullscreen')}${on ? '戻す' : '全画面'}`;
+}
+function psReload() { const i = document.querySelector('#psframe iframe'); if (i) i.src = 'games/invader.html?r=' + Date.now(); }
+document.addEventListener('fullscreenchange', () => { if (!document.fullscreenElement) { const f = $('#psframe'); if (f && f.classList.contains('ps-full')) psFullOn(false); } });
+Object.assign(ACT, { psfull() { const f = $('#psframe'); psFullOn(!(f && f.classList.contains('ps-full'))); }, psreload() { psReload(); } });
+
 
 bootApp();
 </script>

@@ -85,7 +85,7 @@
 <body class="min-h-screen flex flex-col justify-between py-2 px-2 sm:px-4">
 
     <!-- ==================== メインコンテナ ==================== -->
-    <div class="max-w-5xl w-full mx-auto flex flex-col gap-2.5">
+    <div class="max-w-[1500px] w-full mx-auto flex flex-col gap-2.5 flex-1">
 
         <!-- 1. 最上部コントロールバー（速さ・出題範囲・一時停止・音・BGM・最初から・図鑑） -->
         <header class="flex flex-wrap items-center justify-center sm:justify-between gap-2 bg-slate-900/80 backdrop-blur-md px-3 py-2 rounded-xl border border-slate-700/70">
@@ -207,11 +207,11 @@
         </div>
 
         <!-- 4. メインゲームキャンバスエリア（WebGL 3D Canvas ＋ 2D HUD Canvas ハイブリッド構造） -->
-        <div id="canvasWrapper" class="canvas-frame rounded-2xl relative overflow-hidden w-full aspect-[16/10] max-h-[62vh] flex items-center justify-center">
+        <div id="canvasWrapper" class="canvas-frame rounded-2xl relative overflow-hidden w-full flex-1 min-h-[240px] flex items-center justify-center">
             <!-- Three.js 超高精細3Dレンダリング層 -->
-            <canvas id="webglCanvas" width="960" height="600" class="absolute inset-0 w-full h-full object-contain pointer-events-none"></canvas>
+            <canvas id="webglCanvas" width="960" height="600" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></canvas>
             <!-- 2D UI・照準・エフェクト＆タッチ操作層 -->
-            <canvas id="gameCanvas" tabindex="0" width="960" height="600" class="relative z-10 w-full h-full object-contain cursor-crosshair focus:outline-none"></canvas>
+            <canvas id="gameCanvas" tabindex="0" width="960" height="600" class="relative z-10 cursor-crosshair focus:outline-none"></canvas>
 
             <!-- ゲームオーバー時のモーダルオーバーレイ -->
             <div id="overlayResult" class="hidden absolute inset-0 bg-slate-950/90 backdrop-blur-md flex flex-col items-center justify-center p-4 z-20 text-center animate-fade-in">
@@ -3361,6 +3361,21 @@
             }
             requestAnimationFrame(animate);
         };
+        // キャンバスの表示の大きさを、枠の中で16:10のまま最大にする（操作の座標がずれないように、表示と計算の大きさを同じにする）
+        function fitBoard() {
+            const w = document.getElementById('canvasWrapper');
+            if (!w) return;
+            const bw = w.clientWidth, bh = w.clientHeight;
+            if (!bw || !bh) return;
+            let cw = bw, ch = bw * 10 / 16;
+            if (ch > bh) { ch = bh; cw = bh * 16 / 10; }
+            ['webglCanvas', 'gameCanvas'].forEach(id => {
+                const c = document.getElementById(id);
+                if (c) { c.style.width = Math.floor(cw) + 'px'; c.style.height = Math.floor(ch) + 'px'; }
+            });
+        }
+        window.addEventListener('load', fitBoard);
+        window.addEventListener('resize', fitBoard);
     </script>
 </body>
 </html>
