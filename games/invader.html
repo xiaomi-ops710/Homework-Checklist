@@ -680,15 +680,15 @@
                         const kickOsc = this.ctx.createOscillator();
                         const kickGain = this.ctx.createGain();
                         kickOsc.type = 'sine';
-                        kickOsc.frequency.setValueAtTime(145, now);
+                        kickOsc.frequency.setValueAtTime(175, now);
                         kickOsc.frequency.exponentialRampToValueAtTime(46, now + 0.055);
-                        kickOsc.frequency.exponentialRampToValueAtTime(34, now + 0.22);
-                        kickGain.gain.setValueAtTime(0.38, now);
-                        kickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.23);
+                        kickOsc.frequency.exponentialRampToValueAtTime(30, now + 0.3);
+                        kickGain.gain.setValueAtTime(0.62, now);
+                        kickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.34);
                         kickOsc.connect(kickGain);
                         kickGain.connect(dest);
                         kickOsc.start(now);
-                        kickOsc.stop(now + 0.24);
+                        kickOsc.stop(now + 0.35);
                     }
 
                     // 2. クリスプ・リムスネア＆シルキー・ステレオハイハット
@@ -709,6 +709,22 @@
                             if (this.convolver) nGain.connect(this.convolver);
                             noise.start(now);
                             noise.stop(now + 0.17);
+                            // 手拍子（クラップ）を重ねて、スネアを厚くする
+                            const cl = this.ctx.createBufferSource();
+                            cl.buffer = this.noiseBuffer;
+                            const cf = this.ctx.createBiquadFilter();
+                            cf.type = 'bandpass';
+                            cf.frequency.setValueAtTime(1150, now);
+                            cf.Q.setValueAtTime(0.9, now);
+                            const cg = this.ctx.createGain();
+                            cg.gain.setValueAtTime(0.0001, now);
+                            cg.gain.linearRampToValueAtTime(0.11, now + 0.006);
+                            cg.gain.exponentialRampToValueAtTime(0.001, now + 0.2);
+                            cl.connect(cf);
+                            cf.connect(cg);
+                            cg.connect(dest);
+                            cl.start(now);
+                            cl.stop(now + 0.21);
                         }
 
                         // ステレオに揺れるシルキーハイハット
@@ -737,34 +753,50 @@
                             const subSine = this.ctx.createOscillator();
                             const subGain = this.ctx.createGain();
                             subSine.type = 'sine';
-                            subSine.frequency.setValueAtTime(subFreq, now);
-                            subGain.gain.setValueAtTime(isDrop ? 0.20 : 0.15, now);
-                            subGain.gain.exponentialRampToValueAtTime(0.01, now + 0.13);
+                            subSine.frequency.setValueAtTime(subFreq * 1.9, now);
+                            subSine.frequency.exponentialRampToValueAtTime(subFreq, now + 0.07);
+                            subGain.gain.setValueAtTime(isDrop ? 0.34 : 0.26, now);
+                            subGain.gain.exponentialRampToValueAtTime(0.01, now + 0.24);
                             subSine.connect(subGain);
                             subGain.connect(dest);
                             subSine.start(now);
-                            subSine.stop(now + 0.14);
+                            subSine.stop(now + 0.25);
                         }
                     }
 
                     const bFreq = cur.bass[s32];
                     if (bFreq > 0) {
-                        const bOsc = this.ctx.createOscillator();
-                        const bFilter = this.ctx.createBiquadFilter();
-                        const bGain = this.ctx.createGain();
-                        bOsc.type = 'sawtooth';
-                        bOsc.frequency.setValueAtTime(bFreq, now);
-                        bFilter.type = 'lowpass';
-                        bFilter.Q.setValueAtTime(3.2, now);
-                        bFilter.frequency.setValueAtTime(isDrop ? 1350 : 950, now);
-                        bFilter.frequency.exponentialRampToValueAtTime(130, now + 0.12);
-                        bGain.gain.setValueAtTime(0.08, now);
-                        bGain.gain.exponentialRampToValueAtTime(0.001, now + 0.125);
-                        bOsc.connect(bFilter);
-                        bFilter.connect(bGain);
-                        bGain.connect(dest);
-                        bOsc.start(now);
-                        bOsc.stop(now + 0.13);
+                        // 重低音のリース・ベース：少しずらした2本のノコギリ波を重ねて、厚く唸らせる
+                        [-11, 11].forEach(det => {
+                            const bOsc = this.ctx.createOscillator();
+                            const bFilter = this.ctx.createBiquadFilter();
+                            const bGain = this.ctx.createGain();
+                            bOsc.type = 'sawtooth';
+                            bOsc.frequency.setValueAtTime(bFreq, now);
+                            bOsc.detune.setValueAtTime(det, now);
+                            bFilter.type = 'lowpass';
+                            bFilter.Q.setValueAtTime(7, now);
+                            bFilter.frequency.setValueAtTime(isDrop ? 1500 : 1000, now);
+                            bFilter.frequency.exponentialRampToValueAtTime(110, now + 0.2);
+                            bGain.gain.setValueAtTime(0.075, now);
+                            bGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+                            bOsc.connect(bFilter);
+                            bFilter.connect(bGain);
+                            bGain.connect(dest);
+                            bOsc.start(now);
+                            bOsc.stop(now + 0.23);
+                        });
+                        // 1オクターブ下の正弦波（床が震えるような低さ）
+                        const low = this.ctx.createOscillator();
+                        const lowG = this.ctx.createGain();
+                        low.type = 'sine';
+                        low.frequency.setValueAtTime(bFreq / 2, now);
+                        lowG.gain.setValueAtTime(0.12, now);
+                        lowG.gain.exponentialRampToValueAtTime(0.001, now + 0.18);
+                        low.connect(lowG);
+                        lowG.connect(dest);
+                        low.start(now);
+                        low.stop(now + 0.19);
                     }
 
                     // 4. 3Dワイドステレオ・シンフォニックパッド和音（左右の空間に広がる美しいコードパッド）
@@ -858,6 +890,20 @@
                             lOsc.start(now);
                             lOsc.stop(now + 0.28);
                         });
+                    }
+                // 節の頭（最初と後半）に、腹に響く重低音のブーン
+                    if (step === 0 || step === 64) {
+                        const bo = this.ctx.createOscillator();
+                        const bg = this.ctx.createGain();
+                        bo.type = 'sine';
+                        bo.frequency.setValueAtTime(62, now);
+                        bo.frequency.exponentialRampToValueAtTime(26, now + 1.4);
+                        bg.gain.setValueAtTime(0.5, now);
+                        bg.gain.exponentialRampToValueAtTime(0.001, now + 1.6);
+                        bo.connect(bg);
+                        bg.connect(dest);
+                        bo.start(now);
+                        bo.stop(now + 1.65);
                     }
                 } catch (e) {}
             }
