@@ -699,6 +699,55 @@ html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 .mu-ytq input{flex:1;min-width:0;height:46px;padding:0 16px;border:0;border-radius:23px;background:var(--s2);color:var(--on);font:inherit;outline:none}
 .mu-ytq input:focus{box-shadow:0 0 0 3px var(--primary)}
 .mu-ytl{display:grid;gap:6px;margin-top:12px;max-height:380px;overflow:auto}
+/* ===== 17.40：音楽ツール（YouTube Music風・Material 3 Expressive） ===== */
+.mz{display:flex;flex-direction:column;gap:22px;padding-bottom:28px;min-width:0}
+.mz .card{border-radius:32px}
+.mz-hd{display:flex;align-items:center;gap:16px;margin:6px 2px 0}
+.mz-hi{width:64px;height:64px;border-radius:26px 30px 22px 30px;display:grid;place-items:center;background:var(--pc);color:var(--on-pc);flex:none;animation:obBlob 9s ease-in-out infinite}
+.mz-ht h2{margin:0;font-size:2rem;font-weight:800;letter-spacing:-.02em;line-height:1.1}
+.mz-ht small{color:var(--on-v);font-weight:600;font-size:.9rem}
+.mz-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding:2px;margin:0 -2px}
+.mz-chips::-webkit-scrollbar{display:none}
+.mz-chip{flex:none;display:inline-flex;align-items:center;gap:6px;height:42px;padding:0 18px;border:0;border-radius:21px;background:var(--s2);color:var(--on);font:inherit;font-weight:700;font-size:.92rem;cursor:pointer;transition:border-radius .4s var(--spring),background .3s,color .3s,transform .25s var(--spring)}
+.mz-chip:active{transform:scale(.94)}
+.mz-chip.on{background:var(--primary);color:var(--on-primary);border-radius:14px}
+.mz-chip .ms{font-size:20px}
+.mz-sec{display:flex;flex-direction:column;gap:12px;min-width:0}
+.mz-sh{display:flex;align-items:center;gap:8px;padding:0 4px}
+.mz-sh h3{margin:0;font-size:1.25rem;font-weight:800;flex:1;min-width:0}
+.mz-sh small{color:var(--on-v);font-weight:600}
+.mz-sh button{flex:none;border:0;background:none;color:var(--primary);font:inherit;font-weight:700;cursor:pointer;padding:8px 12px;border-radius:16px}
+.mz-hs{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding:4px 4px 10px;scrollbar-width:none}
+.mz-hs::-webkit-scrollbar{display:none}
+.mz-cd{flex:none;width:176px;scroll-snap-align:start;border:0;background:none;color:var(--on);text-align:left;font:inherit;padding:0;cursor:pointer;display:flex;flex-direction:column;gap:8px;transition:transform .25s var(--spring)}
+.mz-cd:active{transform:scale(.96)}
+.mz-cth{position:relative;display:block;width:176px;height:176px;border-radius:36px;overflow:hidden;background:var(--s3)}
+.mz-cth img{width:100%;height:100%;object-fit:cover;display:block}
+.mz-cd b{font-size:.95rem;font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3;padding:0 4px}
+.mz-cd small{color:var(--on-v);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px}
+.mz-len{position:absolute;right:8px;bottom:8px;padding:2px 8px;border-radius:10px;background:rgba(0,0,0,.7);color:#fff;font-style:normal;font-size:.74rem;font-weight:700}
+.mz-list{display:flex;flex-direction:column;gap:8px;min-width:0}
+.mz-row{display:flex;align-items:center;gap:8px;border-radius:28px;background:var(--s1);padding:6px;min-width:0}
+.mz-rb{flex:1;min-width:0;display:flex;align-items:center;gap:14px;border:0;background:none;color:var(--on);font:inherit;text-align:left;padding:2px;cursor:pointer;border-radius:22px}
+.mz-th{position:relative;flex:none;width:120px;height:68px;border-radius:20px;overflow:hidden;background:var(--s3)}
+.mz-th img{width:100%;height:100%;object-fit:cover;display:block}
+.mz-th .mz-len{font-size:.7rem;padding:1px 6px;right:5px;bottom:5px}
+.mz-tx{min-width:0;flex:1;display:flex;flex-direction:column;gap:4px}
+.mz-tx b{font-size:.96rem;font-weight:700;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.3}
+.mz-tx small{color:var(--on-v);font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mz-ic{flex:none;width:48px;height:48px;border:0;border-radius:20px;background:var(--s3);color:var(--on);display:grid;place-items:center;cursor:pointer;transition:border-radius .35s var(--spring),transform .2s var(--spring)}
+.mz-ic.on{background:var(--ter-c);color:var(--ter)}
+.mz-ic:active{transform:scale(.88);border-radius:14px}
+.mz-search{display:flex;align-items:center;gap:6px;height:64px;padding:0 6px 0 22px;border-radius:32px;background:var(--s2);min-width:0;max-width:100%;overflow:hidden;box-sizing:border-box}
+.mz-search:focus-within{box-shadow:0 0 0 3px var(--primary)}
+.mz .mz-search input{flex:1 1 0% !important;width:auto !important;min-width:0 !important;max-width:100%;height:100%;padding:0 !important;margin:0 !important;border:0;background:transparent;color:var(--on);font:inherit;font-size:1rem;outline:none;-webkit-appearance:none;appearance:none;box-sizing:border-box}
+.mz-go{flex:none;width:52px;height:52px;border:0;border-radius:22px;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;cursor:pointer;transition:border-radius .35s var(--spring),transform .2s}
+.mz-go:active{transform:scale(.9);border-radius:16px}
+.mz-note{margin:-4px 4px 0;color:var(--on-v);font-size:.84rem;line-height:1.6}
+.mz-empty{padding:22px 18px;border-radius:28px;background:var(--s1);color:var(--on-v);text-align:center;font-weight:600;display:flex;flex-direction:column;align-items:center;gap:10px}
+.mz .mu-r{border-radius:28px;background:var(--s1)}
+.mz .mu-add{display:flex;gap:10px;flex-wrap:wrap}
+.mz .mu-add .btn{border-radius:24px;min-height:52px}
 </style>
 </head>
 <body>
@@ -722,7 +771,7 @@ html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.39';
+const APP_VERSION = '17.40';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1282,6 +1331,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.40', t: '音楽ツールを新しくデザイン・おすすめとお気に入り', n: ['音楽ツールを、YouTube Musicのような画面（ホーム・検索・お気に入り・端末の曲）に作り直しました', 'おすすめ（YouTubeの急上昇）・最近聴いた・お気に入りを、ホームからすぐ開けます', '動画の ♡ で、お気に入りに保存できます（動画ツールと同じ保存先です）', '検索ボタンが枠からはみ出していたのを直しました', 'デザインを、Material 3 Expressive（大きな角丸・ピル型のボタン）の雰囲気に寄せました（まずは音楽ツールから）'] },
   { v: '17.39', t: '元素インベーダーの操作・音・全画面のバグ修正', n: ['シューティングのキーボード操作が、そのまま効くようにしました（画面を開くと、ゲームに焦点が移ります）', '最初のタップかキー操作で、BGMが自動で流れるようにしました', '全画面の「通常の画面に戻す」ボタンが大きくなりすぎていた不具合を直しました'] },
   { v: '17.38', t: '元素インベーダーのBGMを重低音に・全画面の修正', n: ['元素インベーダーのBGMを、重低音が効いた迫力のある音に変えました（音程や曲の流れはそのままです）', '全画面が、iPadの上部に隠れないようにしました', '全画面から戻せるように、画面の上と下に「戻す」ボタンを付けました（Escキーでも戻せます）'] },
   { v: '17.37', t: '元素インベーダーと実績をつなぐ・全画面をアプリの外に出す', n: ['元素インベーダーの結果（点数・正解数）が、実績に反映されます', '実績「元素インベーダーに挑戦」「インベーダー常連（10回）」「正解500回」を追加しました', '元素ラボのシューティングの画面に、最高点・挑戦回数・正解数を表示します', '全画面にすると、アプリの左側のバーなどを隠して、ゲームだけが画面いっぱいに出ます（ゲームは最初からになります）'] },
@@ -5792,17 +5842,26 @@ function muPaintCtl() { const b = $('#mubig'); if (b) { b.innerHTML = ms(MU.play
 const muRefresh = () => { if (ui.tab === 'tools' && ui.tool === 'music' && !(dlg && dlg.open)) toolsRefresh(); };
 /* ---- ツールの画面 ---- */
 /* ---- 音楽のツール：YouTubeの曲を探して流す（公開の検索サーバーを使う。動画ツールと同じ仕組み） ---- */
-const MY = { q: '', list: [], busy: false, fail: false, last: '' };
-function ytInner() {
-  if (MY.busy) return `<div class="yx-empty">${gspin(36)}<p>探しています…</p></div>`;
-  if (MY.fail) return `<div class="yx-empty">${ms('cloud_off')}<p>検索サーバーにつながりませんでした。少し待ってから、もう一度試すか、動画のURLを貼り付けてください。</p></div>`;
-  if (!MY.list.length) return MY.last ? '<p class="muted" style="margin:6px 2px">見つかりませんでした</p>' : '';
-  return `<div class="mu-ytl">${MY.list.map((v, i) => `<button type="button" class="yx-it" data-act="muytplay" data-id="${i}"><span class="yx-th"><img loading="lazy" alt="" src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg">${v.len ? `<em>${yxLen(v.len)}</em>` : ''}</span><span class="yx-tx"><b>${esc(v.title || v.id)}</b><small>${esc(v.author || '')}${v.views ? ' ・ ' + esc(v.views) : ''}</small></span></button>`).join('')}</div>`;
+const MY = { q: '', list: [], busy: false, fail: false, last: '', view: 'home', home: [], hBusy: false, hFail: false };
+function ytMeta(id) {
+  const f = [...MY.list, ...MY.home, ...YXS.hist, ...YXS.fav].find(x => x && x.id === id);
+  return f ? { id, title: f.title || '', author: f.author || '', len: f.len || 0 } : null;
 }
-function ytHtml() {
-  return `<div class="card mu-yt"><div class="mu-yth">${ms('smart_display')}<span>YouTubeから曲を探す</span></div><p class="muted" style="margin:4px 2px 10px;font-size:.84rem;line-height:1.6">曲名やアーティスト名、またはYouTubeのURLを入れてください。再生は、小さな画面（ピクチャ・イン・ピクチャ）で流れます。</p><div class="mu-ytq"><input id="muyq" type="search" value="${esc(MY.q)}" placeholder="例：曲名 アーティスト名" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="YouTubeで曲を探す"><button type="button" class="btn" data-act="muytgo">${ms('search')}探す</button></div><div id="muyt">${ytInner()}</div></div>`;
+const ytThumb = id => `https://i.ytimg.com/vi/${id}/mqdefault.jpg`;
+const ytLenTag = v => v.len ? `<em class="mz-len">${yxLen(v.len)}</em>` : '';
+function ytCardHtml(v) { return `<button type="button" class="mz-cd" data-act="muyplay" data-id="${esc(v.id)}" aria-label="再生：${esc(v.title || v.id)}"><span class="mz-cth"><img loading="lazy" alt="" src="${ytThumb(v.id)}">${ytLenTag(v)}</span><b>${esc(v.title || v.id)}</b><small>${esc(v.author || '')}</small></button>`; }
+function ytRowHtml(v) {
+  const f = yxIsFav(v.id);
+  return `<div class="mz-row"><button type="button" class="mz-rb" data-act="muyplay" data-id="${esc(v.id)}" aria-label="再生：${esc(v.title || v.id)}"><span class="mz-th"><img loading="lazy" alt="" src="${ytThumb(v.id)}">${ytLenTag(v)}</span><span class="mz-tx"><b>${esc(v.title || v.id)}</b><small>${esc(v.author || '')}${v.views ? ' ・ ' + esc(v.views) : ''}</small></span></button><button type="button" class="mz-ic ${f ? 'on' : ''}" data-act="muyfav" data-id="${esc(v.id)}" aria-pressed="${f}" aria-label="${f ? 'お気に入りから外す' : 'お気に入りに保存'}">${ms('favorite', f ? 'f' : '')}</button></div>`;
+}
+function ytInner() {
+  if (MY.busy) return `<div class="mz-empty">${gspin(36)}<p>探しています…</p></div>`;
+  if (MY.fail) return `<div class="mz-empty">${ms('cloud_off')}<p>検索サーバーにつながりませんでした。少し待ってから、もう一度試すか、動画のURLを貼り付けてください。</p></div>`;
+  if (!MY.list.length) return MY.last ? '<div class="mz-empty">見つかりませんでした</div>' : '<div class="mz-empty">曲名やアーティスト名を入れて、探してください</div>';
+  return `<div class="mz-list">${MY.list.map(ytRowHtml).join('')}</div>`;
 }
 function muYtPaint() { const el = $('#muyt'); if (el) el.innerHTML = ytInner(); }
+function muYtPlayId(id) { const m = ytMeta(id); if (!m) return; muYtStart({ id, title: m.title, author: m.author }); }
 // 曲を流す：音楽ファイルの再生は止めて、YouTubeの小さな画面で流す
 function muYtStart(v, list, i) {
   yxDom(); yxDiscover();
@@ -5820,14 +5879,55 @@ async function muYtGo() {
   try { MY.list = await yxQuery('search', q); } catch (e) { MY.list = []; MY.fail = true; }
   MY.busy = false; muYtPaint();
 }
-function muHtml() {
-  if (!MU.loaded) { muLoad().then(() => muRefresh()); return `<div class="card aq-load">${gspin(40)}<b>読み込んでいます…</b></div>`; }
-  const cur = muCur(), n = MU.list.length, total = MU.list.reduce((a, t) => a + (t.size || 0), 0);
+async function muYtHome() {
+  if (MY.hBusy || MY.home.length) return;
+  MY.hBusy = true; MY.hFail = false; yxDiscover(); muRefresh();
+  try { MY.home = await yxQuery('trending', ''); } catch (e) { MY.home = []; MY.hFail = true; }
+  MY.hBusy = false; muRefresh();
+}
+function muRowHtml(t) {
+  const u = muCovUrl(t), on = t.id === MU.cur;
+  return `<div class="mu-r ${on ? 'on' : ''} ${on && MU.playing ? 'pl' : ''}" data-id="${t.id}"><button type="button" class="mu-b" data-act="muplay" data-id="${t.id}"><span class="mu-cv ${u ? '' : 'no'}" ${u ? `style="background-image:url('${u}')"` : ''}>${u ? '' : ms('music_note', '', 'font-size:22px')}</span><span class="mu-t"><b>${esc(t.title)}</b><small>${esc(t.artist ? t.artist + ' ・ ' : '')}${muFmt(t.dur)}</small></span><span class="mu-eq" aria-hidden="true"><i></i><i></i><i></i></span></button><button type="button" class="ibtn" data-act="mudel" data-id="${t.id}" aria-label="削除：${esc(t.title)}">${ms('delete')}</button></div>`;
+}
+function muSec(title, more, body) {
+  return `<section class="mz-sec"><div class="mz-sh"><h3>${title}</h3>${more ? `<button type="button" data-act="muview" data-id="${more}">すべて</button>` : ''}</div>${body}</section>`;
+}
+function muHomeHtml(n) {
+  const hist = YXS.hist.slice(0, 10), favs = YXS.fav.slice(0, 10);
+  const hs = list => `<div class="mz-hs">${list.map(ytCardHtml).join('')}</div>`;
+  let trend;
+  if (MY.hBusy) trend = `<div class="mz-empty">${gspin(36)}<p>おすすめを探しています…</p></div>`;
+  else if (MY.hFail) trend = `<div class="mz-empty">${ms('cloud_off')}<p>おすすめを読み込めませんでした。</p><button type="button" class="btn tonal" data-act="muytretry">もう一度</button></div>`;
+  else trend = MY.home.length ? hs(MY.home.slice(0, 14)) : '<div class="mz-empty">おすすめを準備しています…</div>';
+  return muSec('おすすめ（急上昇）', '', trend)
+    + muSec('最近聴いた', '', hist.length ? hs(hist) : '<div class="mz-empty">動画を再生すると、ここに残ります</div>')
+    + muSec('お気に入り', favs.length ? 'fav' : '', favs.length ? hs(favs) : '<div class="mz-empty">動画の ♡ を押すと、ここに保存されます</div>')
+    + (n ? muSec('端末の曲', 'local', `<div class="mz-list">${MU.list.slice(0, 4).map(muRowHtml).join('')}</div>`) : '');
+}
+function muSearchHtml() {
+  return `<div class="mz-search"><input id="muyq" type="search" value="${esc(MY.q)}" placeholder="曲名・アーティスト・URL" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="YouTubeで曲を探す"><button type="button" class="mz-go" data-act="muytgo" aria-label="探す">${ms('search')}</button></div><p class="mz-note">再生は、小さな画面（ピクチャ・イン・ピクチャ）で流れます。♡ で、お気に入りに保存できます。</p><div id="muyt">${ytInner()}</div>`;
+}
+function muFavHtml() {
+  const f = YXS.fav;
+  return `<section class="mz-sec"><div class="mz-sh"><h3>お気に入り（${f.length}）</h3></div>${f.length ? `<div class="mz-list">${f.map(ytRowHtml).join('')}</div>` : '<div class="mz-empty">動画の ♡ を押すと、ここに保存されます</div>'}</section>`;
+}
+function muLocalHtml(n, cur) {
+  const total = MU.list.reduce((a, t) => a + (t.size || 0), 0);
   const add = `<div class="mu-add"><button type="button" class="btn" data-act="muadd">${ms('library_add')}音楽を追加</button>${n ? `<button type="button" class="btn tonal" data-act="muresume">${ms('play_arrow')}${cur ? 'つづきから' : '再生する'}</button>` : ''}<input type="file" id="mufile" accept="audio/*,.mp3,.m4a,.m4b,.aac,.wav,.flac,.ogg,.oga,.opus,.caf,.aif,.aiff" multiple hidden></div>`;
   const now = cur ? `<div class="card mu-np"><div class="mu-ncv ${cur.cover ? '' : 'no'}" ${cur.cover ? `style="background-image:url('${muCovUrl(cur)}')"` : ''}>${cur.cover ? '' : ms('music_note', '', 'font-size:56px')}</div><div class="mu-nt"><b>${esc(cur.title)}</b><small>${esc(cur.artist || '')}</small></div><div class="mu-sk"><input type="range" id="museek" min="0" max="${Math.max(1, Math.round(cur.dur))}" value="${Math.round((MU.audio && MU.audio.currentTime) || 0)}" step="1" aria-label="再生位置" style="--p:${cur.dur ? Math.min(100, ((MU.audio && MU.audio.currentTime) || 0) / cur.dur * 100) : 0}"><div class="mu-tm"><span id="mutc">${muFmt(MU.audio ? MU.audio.currentTime : 0)}</span><span id="mutd">${muFmt(cur.dur)}</span></div></div><div class="mu-ct"><button type="button" class="mu-s ${MU.shuffle ? 'on' : ''}" data-act="mushuf" aria-pressed="${MU.shuffle}" aria-label="シャッフル">${ms('shuffle')}</button><button type="button" class="mu-s" data-act="muprev" aria-label="前の曲">${ms('skip_previous', '', 'font-size:32px')}</button><button type="button" class="mu-big" id="mubig" data-act="muplay" aria-label="${MU.playing ? '一時停止' : '再生'}">${ms(MU.playing ? 'pause' : 'play_arrow', '', 'font-size:40px')}</button><button type="button" class="mu-s" data-act="munext" aria-label="次の曲">${ms('skip_next', '', 'font-size:32px')}</button><button type="button" class="mu-s ${MU.repeat !== 'off' ? 'on' : ''}" data-act="murep" aria-label="くり返し：${MU.repeat === 'one' ? '1曲' : MU.repeat === 'all' ? '全曲' : 'なし'}">${ms(MU.repeat === 'one' ? 'repeat_one' : 'repeat')}</button></div><div class="mu-sl"><span class="muted">${ms('bedtime', '', 'font-size:18px;vertical-align:-4px')} スリープタイマー</span><div class="chips">${[[0, 'なし'], [15, '15分'], [30, '30分'], [60, '60分']].map(([k, t]) => `<button type="button" class="sn-sc ${(!MU.sleepAt && !k) || (MU.sleepAt && k && MU._sl === k) ? 'on' : ''}" data-act="musleep" data-id="${k}">${t}</button>`).join('')}</div><small class="muted" id="musl"></small></div><div class="dact" style="margin:6px 0 0"><span class="sp"></span><button type="button" class="btn text" data-act="muclose">${ms('stop')}止める</button></div></div>` : '';
-  const rows = MU.list.map(t => { const u = muCovUrl(t), on = t.id === MU.cur; return `<div class="mu-r ${on ? 'on' : ''} ${on && MU.playing ? 'pl' : ''}" data-id="${t.id}"><button type="button" class="mu-b" data-act="muplay" data-id="${t.id}"><span class="mu-cv ${u ? '' : 'no'}" ${u ? `style="background-image:url('${u}')"` : ''}>${u ? '' : ms('music_note', '', 'font-size:22px')}</span><span class="mu-t"><b>${esc(t.title)}</b><small>${esc(t.artist ? t.artist + ' ・ ' : '')}${muFmt(t.dur)}</small></span><span class="mu-eq" aria-hidden="true"><i></i><i></i><i></i></span></button><button type="button" class="ibtn" data-act="mudel" data-id="${t.id}" aria-label="削除：${esc(t.title)}">${ms('delete')}</button></div>`; }).join('');
   const help = `<details class="ax-n mu-help" ${n ? '' : 'open'}><summary>${ms('info')}使いかた・保存について</summary><p>端末の中の音楽ファイル（MP3・M4A・AAC・WAV・FLAC など）を追加すると、アプリを開いている間は、どの画面でも流せます。再生中は、右上のアカウントの左に、小さなプレーヤーが出ます。<br>ファイルは、<b>この端末の中だけ</b>に保存されます（クラウドには送りません。ほかの端末には、移りません）。<br>ほかのアプリを開いたときも、止まらずに流れる場合があります（端末と、OSのバージョンによります）。ロック画面やイヤホンの操作ボタンにも、対応しています。<br>iPad・iPhone では、「ファイル」アプリに入れた音楽を選べます。使える形式は、端末によって違います。</p></details>`;
-  return `<div class="mu-w"><div class="card mu-h"><div class="mu-hi">${ms('library_music', '', 'font-size:34px')}</div><div class="mu-ht"><b>${n ? `${n}曲` : 'まだ音楽がありません'}</b><small id="mustore">${n ? `${(total / 1048576).toFixed(0)}MB ・ この端末の中に保存` : '下のボタンから、追加できます'}</small></div></div>${add}${ytHtml()}${now}${n ? `<div class="mu-l stg">${rows}</div>` : ''}${help}${n ? `<div class="dact" style="margin-top:12px"><span class="sp"></span><button type="button" class="btn text danger" data-act="muclear">${ms('delete_sweep')}すべて消す</button></div>` : ''}</div>`;
+  const head = `<div class="mz-sh"><h3>${n ? `${n}曲` : 'まだ音楽がありません'}</h3><small>${n ? `${(total / 1048576).toFixed(0)}MB ・ この端末の中に保存` : '下のボタンから、追加できます'}</small></div>`;
+  const clear = n ? `<div class="dact" style="margin-top:12px"><span class="sp"></span><button type="button" class="btn text danger" data-act="muclear">${ms('delete_sweep')}すべて消す</button></div>` : '';
+  return `<section class="mz-sec">${head}${add}${now}${n ? `<div class="mz-list stg">${MU.list.map(muRowHtml).join('')}</div>` : ''}${help}${clear}</section>`;
+}
+function muHtml() {
+  if (!MU.loaded) { muLoad().then(() => muRefresh()); return `<div class="card aq-load">${gspin(40)}<b>読み込んでいます…</b></div>`; }
+  const v = MY.view || 'home', n = MU.list.length, cur = muCur();
+  if (v === 'home' && !MY.home.length && !MY.hFail && !MY.hBusy) setTimeout(muYtHome, 0);
+  const chips = [['home', 'ホーム', 'home'], ['search', '検索', 'search'], ['fav', 'お気に入り', 'favorite'], ['local', '端末の曲', 'library_music']]
+    .map(([id, t, ic]) => `<button type="button" class="mz-chip ${v === id ? 'on' : ''}" data-act="muview" data-id="${id}" aria-pressed="${v === id}">${ms(ic)}${t}</button>`).join('');
+  const body = v === 'home' ? muHomeHtml(n) : v === 'search' ? muSearchHtml() : v === 'fav' ? muFavHtml() : muLocalHtml(n, cur);
+  return `<div class="mz"><div class="mz-chips">${chips}</div>${body}</div>`;
 }
 Object.assign(ACT, {
   muadd() { const i = $('#mufile'); if (i) i.click(); },
@@ -5843,6 +5943,17 @@ Object.assign(ACT, {
   muclear() { confirmDlg('すべての音楽を、消しますか？', `${MU.list.length}曲が、この端末の中から消えます。元にもどせません。`, 'すべて消す', async () => { muStop(); for (const t of MU.list.slice()) { try { await muRemove(t.id); } catch (e) { } } Object.values(MU.cov).forEach(u => URL.revokeObjectURL(u)); MU.cov = {}; MU.list = []; MU.order = []; try { localStorage.setItem(MU_N, '0'); } catch (e) { } muRefresh(); }); }
 });
 Object.assign(ACT, { muytgo() { muYtGo(); }, muytplay(id) { muYtPlay(id); }, muytclear() { MY.list = []; MY.last = ''; MY.fail = false; muYtPaint(); } });
+Object.assign(ACT, {
+  muview(id) { MY.view = id || 'home'; if (MY.view === 'home' && !MY.home.length && !MY.hFail) setTimeout(muYtHome, 0); muRefresh(); },
+  muyplay(id) { muYtPlayId(id); },
+  muyfav(id) {
+    const m = ytMeta(id); if (!m) return;
+    const i = YXS.fav.findIndex(x => x.id === id);
+    if (i >= 0) { YXS.fav.splice(i, 1); toast('お気に入りから外しました'); } else { YXS.fav.unshift({ id, title: m.title, author: m.author }); toast('お気に入りに保存しました'); }
+    yx.lists.fav = YXS.fav; yxSave(); muRefresh(); muYtPaint();
+  },
+  muytretry() { MY.hFail = false; MY.home = []; muYtHome(); }
+});
 document.addEventListener('input', e => { if (e.target && e.target.id === 'muyq') MY.q = e.target.value; });
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target && e.target.id === 'muyq') { e.preventDefault(); muYtGo(); } });
 document.addEventListener('change', e => { const t = e.target; if (t && t.id === 'mufile') { const fl = [...t.files]; t.value = ''; muImport(fl); } });
