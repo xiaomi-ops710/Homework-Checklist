@@ -3414,6 +3414,21 @@
             }
             requestAnimationFrame(animate);
         };
+        // iPadは「タップやキーを押す」まで音を出せないので、最初の操作でBGMを始める。キーが効くように、ゲームに入力の焦点を置く
+        (function () {
+            const unlock = () => {
+                try {
+                    sound.init();
+                    if (sound.ctx && sound.ctx.state === 'suspended') sound.ctx.resume();
+                    if (sound.bgmOn && !sound.bgmTimer && game && !game.isGameOver) sound.startBgm();
+                } catch (e) { }
+                try { window.focus(); } catch (e) { }
+            };
+            window.addEventListener('pointerdown', unlock, true);
+            window.addEventListener('touchstart', unlock, { capture: true, passive: true });
+            window.addEventListener('keydown', unlock, true);
+        })();
+
         // キャンバスの表示の大きさを、枠の中で16:10のまま最大にする（操作の座標がずれないように、表示と計算の大きさを同じにする）
         function fitBoard() {
             const w = document.getElementById('canvasWrapper');

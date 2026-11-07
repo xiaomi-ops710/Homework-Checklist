@@ -677,7 +677,7 @@ html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 .ps-ov{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;box-sizing:border-box;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);background:#040819;overflow:hidden;overscroll-behavior:none}
 .ps-ov .ps-exit{display:flex;position:absolute;z-index:9500;align-items:center;gap:6px;border:0;border-radius:999px;padding:10px 16px;background:rgba(4,8,25,.85);color:#e6f0ff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5)}
 .ps-ov .ps-exit-ov{top:calc(env(safe-area-inset-top,0px) + 12px);right:12px}
-.ps-ov .ps-exit-bot{bottom:calc(env(safe-area-inset-bottom,0px) + 12px);left:50%;transform:translateX(-50%)}
+.ps-ov .ps-exit-bot{top:auto;right:auto;bottom:calc(env(safe-area-inset-bottom,0px) + 12px);left:50%;transform:translateX(-50%);width:max-content;white-space:nowrap}
 .ps-ov .ps-frame.ps-full{position:relative;flex:1 1 auto;min-height:0;width:100%;height:auto;border-radius:0;border:0;box-shadow:none;margin:0}
 .ps-st{display:flex;gap:18px;flex-wrap:wrap;align-items:baseline;margin:0 0 12px;padding:12px 16px;font-size:.92rem}
 .ps-st b{font-size:1.15rem}
@@ -722,7 +722,7 @@ html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.38';
+const APP_VERSION = '17.39';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1282,6 +1282,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.39', t: '元素インベーダーの操作・音・全画面のバグ修正', n: ['シューティングのキーボード操作が、そのまま効くようにしました（画面を開くと、ゲームに焦点が移ります）', '最初のタップかキー操作で、BGMが自動で流れるようにしました', '全画面の「通常の画面に戻す」ボタンが大きくなりすぎていた不具合を直しました'] },
   { v: '17.38', t: '元素インベーダーのBGMを重低音に・全画面の修正', n: ['元素インベーダーのBGMを、重低音が効いた迫力のある音に変えました（音程や曲の流れはそのままです）', '全画面が、iPadの上部に隠れないようにしました', '全画面から戻せるように、画面の上と下に「戻す」ボタンを付けました（Escキーでも戻せます）'] },
   { v: '17.37', t: '元素インベーダーと実績をつなぐ・全画面をアプリの外に出す', n: ['元素インベーダーの結果（点数・正解数）が、実績に反映されます', '実績「元素インベーダーに挑戦」「インベーダー常連（10回）」「正解500回」を追加しました', '元素ラボのシューティングの画面に、最高点・挑戦回数・正解数を表示します', '全画面にすると、アプリの左側のバーなどを隠して、ゲームだけが画面いっぱいに出ます（ゲームは最初からになります）'] },
   { v: '17.36', t: '元素インベーダーを大きく・全画面に対応', n: ['元素インベーダーの表示を、横いっぱいに広げました', '下の操作ボタンが隠れないように、画面の高さに合わせて調整しました', '「全画面」ボタンで、ゲームを画面いっぱいに広げられます（「戻す」で元に戻ります）', '「読み直す」ボタンで、ゲームの動きがおかしい時に作り直せます'] },
@@ -4194,7 +4195,7 @@ function ptDetail() {
   ${LI[sym] ? `<div class="dact" style="margin:10px 0 0;justify-content:flex-start"><button class="btn tonal" data-act="ptlab" data-id="${sym}">${ms('experiment')}ラボで使ってみる</button></div>` : ''}${ptRel(sym)}`;
 }
 function ptPaint() {
-  if (PT.mode === 'game') return;
+  if (PT.mode === 'game') { psFocusFrame(document.querySelector('#psframe iframe')); return; }
   if (PT.mode === 'lab') return labPaint();
   const g = $('#ptg'); if (!g) return;
   const q = PT.q.trim(), ql = q.toLowerCase(), qz = /^\d+$/.test(q) ? +q : 0;
@@ -6994,11 +6995,14 @@ function bootApp() {
   requestAnimationFrame(() => setTimeout(() => { bootStep('badges', () => checkBadges(true)); idle(() => bootStep('cloud', cloudInit), 1500); }, 0));
 }
 
-try { if (!localStorage.getItem('kosa-guide-seen')) setTimeout(() => { if (!dlg.open) guideDlg(); }, 900); } catch (e) { }
+// 元素インベーダーを遊んでいる間は、案内の画面を開かない（キーやタップが案内に取られないように）。離れてから開く
+function playingGame() { return !!document.getElementById('psov') || (ui.tab === 'tools' && ui.tool === 'ptable' && PT.mode === 'game'); }
+function showWhenFree(fn, delay) { setTimeout(function go() { if (dlg.open) return; if (playingGame()) return setTimeout(go, 2000); fn(); }, delay); }
+try { if (!localStorage.getItem('kosa-guide-seen')) showWhenFree(() => guideDlg(), 900); } catch (e) { }
 // アップデートのあと最初に開いたとき、新しくなった点を表示する（初めて使うときは表示しない）
 try {
   const seen = localStorage.getItem('kosa-seen-ver'), gs = localStorage.getItem('kosa-guide-seen'), last = seen || (gs && /^\d+(\.\d+)*$/.test(gs) ? gs : null);
-  if (seen !== APP_VERSION) { localStorage.setItem('kosa-seen-ver', APP_VERSION); if (last && verCmp(APP_VERSION, last) > 0) setTimeout(() => { if (!dlg.open) whatsNewDlg(last); }, 1100); }
+  if (seen !== APP_VERSION) { localStorage.setItem('kosa-seen-ver', APP_VERSION); if (last && verCmp(APP_VERSION, last) > 0) showWhenFree(() => whatsNewDlg(last), 1100); }
 } catch (e) { }
 
 /* 画面を引っぱったときのバウンスで、下のバーが動かないようにする（スマホ） */
@@ -7807,6 +7811,7 @@ function psFullOn(on) {
     o.appendChild(mk('ps-exit-bot', '通常の画面に戻す'));
     document.body.appendChild(o);
     f.classList.add('ps-full');
+    psFocusFrame(f.querySelector('iframe'));
   } else if (!on && ov) {
     const f2 = $('#psframe'); const ph = document.getElementById('psph');
     if (f2) { f2.classList.remove('ps-full'); if (ph && ph.parentNode) { ph.parentNode.insertBefore(f2, ph); } else f2.remove(); }
@@ -7816,6 +7821,12 @@ function psFullOn(on) {
   const b = $('#psfb'); if (b) b.innerHTML = `${ms(document.getElementById('psov') ? 'fullscreen_exit' : 'fullscreen')}${document.getElementById('psov') ? '戻す' : '全画面'}`;
 }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('psov')) psFullOn(false); });
+// 枠（iframe）に入力の焦点を移す。読み込みが終わったあとにも、もう一度移す
+function psFocusFrame(i) {
+  if (!i) return;
+  const go = () => { try { i.focus(); if (i.contentWindow) i.contentWindow.focus(); } catch (e) { } };
+  go(); i.addEventListener('load', go);
+}
 function psReload() { const i = document.querySelector('#psframe iframe'); if (i) i.src = 'games/invader.html?r=' + Date.now(); }
 Object.assign(ACT, { psfull() { psFullOn(!document.getElementById('psov')); }, psreload() { psReload(); } });
 
