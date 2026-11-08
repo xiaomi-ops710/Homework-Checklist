@@ -958,6 +958,11 @@ body{overflow-x:clip}
 .obm-chat .obm-bub.ai{align-self:flex-start}
 .obm-chat .obm-inp{align-self:stretch;height:52px}
 .ac-pill,.ac-pill:focus,.ac-pill:focus-visible,.ac-row,.ac-row:focus,.ac-row:focus-visible{outline:none!important;box-shadow:none!important}
+/* ===== 17.50：歴打（レベル5で解放） ===== */
+.rk-frame iframe{display:block;width:100%;height:min(80dvh,760px);border:0;background:#040819}
+.rk-lock{text-align:center;padding:28px 22px}
+.rk-lk{display:grid;place-items:center;width:96px;height:96px;margin:0 auto 12px;border-radius:50%;background:var(--s3);color:var(--on-v)}
+.rk-lock h3{margin:0 0 8px}
 </style>
 </head>
 <body>
@@ -981,7 +986,7 @@ body{overflow-x:clip}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.49';
+const APP_VERSION = '17.50';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1038,6 +1043,9 @@ const BADGES = [
   ['inv1', 'sports_esports', '元素インベーダーに挑戦', '元素インベーダーを1回遊ぶ', c => c.invPlays >= 1, c => [c.invPlays, 1]],
   ['inv10', 'sports_esports', 'インベーダー常連', '元素インベーダーに10回挑戦', c => c.invPlays >= 10, c => [c.invPlays, 10]],
   ['inv500', 'bolt', '正解500回', '元素インベーダーで正解を500回', c => c.invHits >= 500, c => [c.invHits, 500]],
+  ['rk1000', 'history_edu', '石高1000', '歴打で1ゲームの石高を1000以上', c => c.rk >= 1000, c => [c.rk, 1000]],
+  ['rk4500', 'emoji_events', '征夷大将軍', '歴打で1ゲームの石高を4500以上', c => c.rk >= 4500, c => [c.rk, 4500]],
+  ['rkt10000', 'workspace_premium', '天下の蓄え', '歴打で石高を累計10000集める', c => c.rkt >= 10000, c => [c.rkt, 10000]],
   ['lv5', 'trending_up', 'レベル5到達', 'レベル5になる', c => c.lv >= 5, c => [c.lv, 5]],
   ['lv10', 'stars', 'レベル10到達', 'レベル10になる', c => c.lv >= 10, c => [c.lv, 10]],
   ['lv20', 'diamond', 'レベル20到達', 'レベル20になる', c => c.lv >= 20, c => [c.lv, 20]]
@@ -1221,7 +1229,7 @@ function totals() {
   const subDone = S.subjects.filter(s => { const ts = tasksOfSub(s.id); return ts.length && ts.every(isDone); }).length;
   return { pages, min, best, done: S.tasks.filter(isDone).length, streak: streak(), bestStreak: bestStreak(),
     subClear: subDone > 0, subDone, reqClear: rq.length > 0 && rq.every(isDone), xp, lv: Math.floor(Math.sqrt(xp / 25)) + 1,
-    known: (S.cards || []).filter(c => c.k).length, tools: tuList().length, lab: safeN(() => LAB.found.size), ps: safeN(() => PS.best), invPlays: invStat().plays || 0, invHits: invStat().hits || 0 };
+    known: (S.cards || []).filter(c => c.k).length, tools: tuList().length, lab: safeN(() => LAB.found.size), ps: safeN(() => PS.best), invPlays: invStat().plays || 0, invHits: invStat().hits || 0, rk: rkStat().best || 0, rkt: rkStat().total || 0 };
 }
 function level() {
   const c = totals(), xp = c.xp, L = c.lv, lo = 25 * (L - 1) ** 2, hi = 25 * L * L;
@@ -1543,6 +1551,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.50', d: '2026/11/08 20:09', t: '歴打を追加（レベル5で解放・石高で実績）', n: ['タイピングゲーム「歴打」をツールに追加しました。レベル5になると遊べます', '歴打の石高が、実績「石高1000」「征夷大将軍」「天下の蓄え」に反映されます'] },
   { v: '17.49', d: '2026/11/08 10:39', t: 'AIの説明の表示修正・アカウント画面の整理・ログアウトの確認', n: ['iPadで、アプリの説明の「AIに質問する」の文字が縦に崩れる問題を直しました', 'アカウント画面に「通知」「アップデートを確認」「設定」を追加し、フィードバックのまわりの線を消しました', 'ログアウトする前に、確認の画面を出すようにしました'] },
   { v: '17.48', d: '2026/11/08 10:20', t: '管理者からのお知らせ・カレンダー通知の修正', n: ['管理者から、全員へお知らせを送れるようにしました（エラーの状況などを伝えるときに）', 'お知らせが届くと、画面の中央に「管理者からのお知らせ」が出て、通知にも残ります', 'カレンダーなどの通知を消したあと、また出てくる問題を直しました'] },
   { v: '17.47', d: '2026/11/08 10:10', t: 'アカウント画面の刷新・invaderの戻るボタン整理・ホームの色の修正・背景を追加', n: ['アカウントの画面を、Googleのアカウントメニューのような見た目にしました（丸いアイコン・楕円のボタン3つ・リスト）', '元素インベーターの全画面で、下の「通常の画面に戻す」を消し、右上の「戻す」だけにしました', 'ホームの上部の色が、途中で切れて見える問題を直しました', 'XPショップの背景に、森・ラベンダー・砂浜・ミント・雪景色・紅葉・銀河・ネオンを追加しました', '更新履歴に、リリースの日時を表示するようにしました'] },
@@ -4019,13 +4028,13 @@ function trHtml() {
 }
 const TOOLS = [['music', '音楽', 'library_music', '端末の音楽や、YouTubeで探した曲を、アプリの中でずっと流せる', 300, 'e'], ['sensei', 'AI先生', 'school', '問題の写真を送ると、解き方を教えてくれる', 250, 'x'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
-  ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], 
+  ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], 
   ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['mol', '分子量・物質の量', 'science', '化学（中学・高校）：化学式の分子量と、g・molの換算', 300, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { rekida: rekidaHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -8570,6 +8579,27 @@ Object.assign(ACT, {
     });
   }
 });
+
+/* ====================== 歴打（REKIDA）：レベル5で解放。games/rekida.html を埋め込み、石高を実績へつなぐ ====================== */
+const RK_LV = 5;
+function rkStat() { try { return JSON.parse(localStorage.getItem('kosa-rekida') || '{}') || {}; } catch (e) { return {}; } }
+function rkStatHtml() { const v = rkStat(); return `<span>1ゲームの最高石高 <b>${v.best || 0}</b></span><span>累計石高 <b>${v.total || 0}</b></span><span>挑戦 <b>${v.plays || 0}</b>回</span>`; }
+window.addEventListener('message', e => {
+  const d = e.data; if (!d || d.type !== 'kosa-rekida') return;
+  const fr = document.querySelector('#rkframe iframe'); if (!fr || e.source !== fr.contentWindow) return;
+  const score = Math.max(0, Math.min(10000000, Math.floor(Number(d.score) || 0)));
+  const total = Math.max(0, Math.min(100000000, Math.floor(Number(d.total) || 0)));
+  const v = rkStat();
+  v.plays = (v.plays || 0) + 1; v.best = Math.max(v.best || 0, score); v.total = Math.max(v.total || 0, total);
+  try { localStorage.setItem('kosa-rekida', JSON.stringify(v)); } catch (x) { }
+  const el = document.getElementById('rkstat'); if (el) el.innerHTML = rkStatHtml();
+  checkBadges(false); save();
+});
+function rekidaHtml() {
+  const lv = level().L;
+  if (lv < RK_LV) return `<div class="rk-lock card"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>歴打は、レベル${RK_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。課題を進めたり、アプリを使ってレベルを上げると、遊べるようになります。あと${RK_LV - lv}レベルです。</p></div>`;
+  return `<div class="ps"><div class="card ps-st" id="rkstat">${rkStatHtml()}</div><div class="ps-frame rk-frame" id="rkframe"><iframe src="games/rekida.html" title="歴打 -REKIDA-"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">1ゲームの石高や累計は、実績「石高1000」などに反映されます。</p></div>`;
+}
 
 /* ====================== 元素シューティング（17.35）：「元素インベーダー ULTRA」を games/invader.html から埋め込む ====================== */
 // 点数の保存（実績「シューティング100点」などで使う）。新しいゲームでは、この値は更新されない
