@@ -910,6 +910,45 @@ html[data-nav=bottom] .nbadge.new{top:-14px}
 .cmp-d{font-weight:800;text-align:right;font-variant-numeric:tabular-nums;font-size:.88rem}
 .cmp-d.up{color:#1e8e3e}
 .cmp-d.dn{color:var(--err)}
+/* ===== 17.47：アカウント画面・ホームの色・全画面の戻る ===== */
+.greet::before{left:0!important}
+.greet::after{right:0!important}
+.greet{overflow:visible}
+body{overflow-x:clip}
+.ac-top{display:grid;justify-items:center;gap:4px;text-align:center;padding:6px 0 18px}
+.ac-name{font-size:1.2rem;margin-top:8px}
+.ac-mail{color:var(--on-v);font-size:.9rem;overflow-wrap:anywhere}
+.ac-st{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:4px 12px;border-radius:14px;background:var(--s3);font-size:.8rem;font-weight:600}
+.ac-st i{width:8px;height:8px;border-radius:50%;background:var(--on-v)}
+.ac-st.st-ok i{background:#2e9e5b}
+.ac-st.st-sync i{background:var(--primary)}
+.ac-st.st-error i{background:var(--err)}
+.ac-tri{display:flex;gap:10px;margin-bottom:14px}
+.ac-pill{position:relative;flex:1 1 0;min-width:0;display:grid;justify-items:center;gap:8px;padding:14px 6px;border:0;border-radius:999px;background:var(--s3);color:var(--on);font:inherit;font-size:.8rem;font-weight:600;cursor:pointer}
+.ac-pi{position:relative;display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--pc);color:var(--on-pc)}
+.ac-pi .nbadge{position:absolute;top:-4px;right:-8px;margin:0}
+.ac-pl{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ac-list{display:grid;border-radius:24px;background:var(--s2);overflow:hidden;margin-bottom:12px}
+.ac-row{display:flex;align-items:center;gap:14px;width:100%;padding:16px 18px;border:0;border-top:1px solid var(--s3);background:transparent;color:var(--on);font:inherit;font-weight:600;text-align:left;cursor:pointer}
+.ac-list>:first-child{border-top:0}
+.ac-row>span{flex:1}
+.ac-row>b{margin-left:auto;font-weight:600;color:var(--on-v)}
+.ac-row>.ms{color:var(--on-v)}
+.ac-row.danger,.ac-row.danger>.ms{color:var(--err)}
+.cl-d{display:block;font-size:.74rem;color:var(--on-v);font-weight:500;margin-top:2px}
+/* ===== 17.48：管理者のお知らせ・通知の修正 ===== */
+@keyframes apIn{from{transform:scale(.9);opacity:0}to{transform:none;opacity:1}}
+.annpop{position:fixed;inset:0;z-index:9700;display:grid;place-items:center;padding:24px;background:rgb(0 0 0 / .4);animation:fadeIn .2s ease}
+.ap-card{width:min(360px,100%);box-sizing:border-box;padding:26px 22px 20px;border-radius:28px;background:var(--bg);color:var(--on);text-align:center;box-shadow:0 20px 60px rgb(0 0 0 / .35);animation:apIn .35s var(--spring)}
+.ap-ic{display:grid;place-items:center;width:56px;height:56px;margin:0 auto 10px;border-radius:50%;background:var(--pc);color:var(--on-pc)}
+.ap-card h3{margin:0 0 10px;font-size:1.15rem}
+.ap-b{margin:0 0 8px;white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.6}
+.ap-t{display:block;color:var(--on-v);margin-bottom:18px}
+.as-t{width:100%;box-sizing:border-box;padding:12px;border-radius:16px;border:1px solid var(--s3);background:var(--s2);color:var(--on);font:inherit;resize:vertical}
+.as-h{font-size:.95rem;margin:18px 0 6px}
+.as-r{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--s3);font-size:.85rem}
+.as-w{color:var(--on-v);white-space:nowrap}
+.as-x{overflow-wrap:anywhere}
 </style>
 </head>
 <body>
@@ -933,7 +972,7 @@ html[data-nav=bottom] .nbadge.new{top:-14px}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.46';
+const APP_VERSION = '17.48';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1495,10 +1534,12 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '17.46', t: '友達と比べる：保存先を分けて、既存の共有機能と衝突しないように修正', n: ['友達と比べるの情報は、既存の「shares（共有）」とは別の「friendStats」に保存するようにしました', '友達コードで1件だけ読むので、友達の一覧を外から調べることはできません'] },
-  { v: '17.45', t: 'レベルアップの豪華な演出・XPショップ・友達と比べる', n: ['レベルが上がると、全画面で光・リング・火花・紙吹雪と、ファンファーレつきの演出が出ます（数字が上がっていき、特典も出ます）', 'XPで「ホームの背景」と「効果音」を買えます。XPを使ってもレベルは下がりません（Lv.2からショップが使えます）', '効果音は4種類から選べて、買う前に試せます', '友達と比べる（Lv.5から）：友達コードを交換すると、全体の進み・今週の勉強時間・今週のページ数・レベルを並べて見られます。見せるかどうかは自分で決められます'] },
-  { v: '17.44', t: '実績の解除アニメーション・通知への表示', n: ['実績を解除すると、画面の上からXBOXやマイクラ風の解除バナーが出ます（光が回り、アイコンが弾んで出ます）', '解除が重なったときは、順番に1つずつ出ます', '解除した実績は、通知の一覧にも残ります（タップで実績の画面へ）', '効果音は「音」の設定がオンのときだけ鳴ります'] },
-  { v: '17.43', t: '安定化（表示の重なり・はみ出し・文字の切れを直しました）', n: ['ホームの背景の光が、画面の右にはみ出して横に動く問題を直しました', 'カレンダーのスマホ表示で、予定の欄が画面の外へ出る問題と、「←　→」ボタンが消える問題を直しました', 'ボタンの中の文字（「やることを足す」など）が切れないようにしました', '課題の絞り込みのチップ（「すべて」「今日やる」など）の文字が切れないようにしました', '教科のアイコンが決まっていないとき、「undefined」の文字が出ないようにしました'] },
+  { v: '17.48', d: '2026/11/08 10:20', t: '管理者からのお知らせ・カレンダー通知の修正', n: ['管理者から、全員へお知らせを送れるようにしました（エラーの状況などを伝えるときに）', 'お知らせが届くと、画面の中央に「管理者からのお知らせ」が出て、通知にも残ります', 'カレンダーなどの通知を消したあと、また出てくる問題を直しました'] },
+  { v: '17.47', d: '2026/11/08 10:10', t: 'アカウント画面の刷新・invaderの戻るボタン整理・ホームの色の修正・背景を追加', n: ['アカウントの画面を、Googleのアカウントメニューのような見た目にしました（丸いアイコン・楕円のボタン3つ・リスト）', '元素インベーターの全画面で、下の「通常の画面に戻す」を消し、右上の「戻す」だけにしました', 'ホームの上部の色が、途中で切れて見える問題を直しました', 'XPショップの背景に、森・ラベンダー・砂浜・ミント・雪景色・紅葉・銀河・ネオンを追加しました', '更新履歴に、リリースの日時を表示するようにしました'] },
+  { v: '17.46', d: '2026/11/08 09:50', t: '友達と比べる：保存先を分けて、既存の共有機能と衝突しないように修正', n: ['友達と比べるの情報は、既存の「shares（共有）」とは別の「friendStats」に保存するようにしました', '友達コードで1件だけ読むので、友達の一覧を外から調べることはできません'] },
+  { v: '17.45', d: '2026/11/08 09:46', t: 'レベルアップの豪華な演出・XPショップ・友達と比べる', n: ['レベルが上がると、全画面で光・リング・火花・紙吹雪と、ファンファーレつきの演出が出ます（数字が上がっていき、特典も出ます）', 'XPで「ホームの背景」と「効果音」を買えます。XPを使ってもレベルは下がりません（Lv.2からショップが使えます）', '効果音は4種類から選べて、買う前に試せます', '友達と比べる（Lv.5から）：友達コードを交換すると、全体の進み・今週の勉強時間・今週のページ数・レベルを並べて見られます。見せるかどうかは自分で決められます'] },
+  { v: '17.44', d: '2026/11/08 09:38', t: '実績の解除アニメーション・通知への表示', n: ['実績を解除すると、画面の上からXBOXやマイクラ風の解除バナーが出ます（光が回り、アイコンが弾んで出ます）', '解除が重なったときは、順番に1つずつ出ます', '解除した実績は、通知の一覧にも残ります（タップで実績の画面へ）', '効果音は「音」の設定がオンのときだけ鳴ります'] },
+  { v: '17.43', d: '2026/11/08 09:31', t: '安定化（表示の重なり・はみ出し・文字の切れを直しました）', n: ['ホームの背景の光が、画面の右にはみ出して横に動く問題を直しました', 'カレンダーのスマホ表示で、予定の欄が画面の外へ出る問題と、「←　→」ボタンが消える問題を直しました', 'ボタンの中の文字（「やることを足す」など）が切れないようにしました', '課題の絞り込みのチップ（「すべて」「今日やる」など）の文字が切れないようにしました', '教科のアイコンが決まっていないとき、「undefined」の文字が出ないようにしました'] },
   { v: '17.42', t: '通知アイコンの整理・音楽のおすすめは音楽だけ・YouTubeの音声だけ再生', n: ['ツールバー下の通知は、アイコンと丸いボタンだけにしました（未読の数は右上に出ます）', '通知の一覧の、文字や位置のズレを直しました', '音楽のおすすめは、音楽の動画だけを出すようにしました', 'YouTubeの「音声だけ」モードを追加しました。動画はアプリの画面の裏に隠れ、音だけ流れます', '音声だけのときは、MP3のプレーヤーと同じ場所（○日連続の隣）に、チップが出ます。タップで動画に戻せます'] },
   { v: '17.41', t: '更新の進み・通知・カレンダーの広い画面・ICS読み込み', n: ['更新の確認は、取れたファイルの数から実際の%を出し、100%になってから終わります（途中で勝手に再読み込みしません）', 'ツールバーが、スクロールで動かないように直しました（iPadでも、下に動かないようにしました）', '通知を追加しました：ツールバーの一番下の「通知」から、課題の期限・テストの日・予定・フィードバックの返信を一覧で見られます', 'カレンダーを、iPadの広い画面向けに作り直しました：月の表に予定名を入れ、右側に「その日の予定（時刻順）」と「これからの予定」を出します', 'ICSファイル（カレンダーの書き出し）から予定を読み込めます。毎日・毎週・毎月・毎年の繰り返しと、前後1年分に対応しています'] },  { v: '17.40', t: '音楽ツールを新しくデザイン・おすすめとお気に入り', n: ['音楽ツールを、YouTube Musicのような画面（ホーム・検索・お気に入り・端末の曲）に作り直しました', 'おすすめ（YouTubeの急上昇）・最近聴いた・お気に入りを、ホームからすぐ開けます', '動画の ♡ で、お気に入りに保存できます（動画ツールと同じ保存先です）', '検索ボタンが枠からはみ出していたのを直しました', 'デザインを、Material 3 Expressive（大きな角丸・ピル型のボタン）の雰囲気に寄せました（まずは音楽ツールから）'] },
   { v: '17.39', t: '元素インベーダーの操作・音・全画面のバグ修正', n: ['シューティングのキーボード操作が、そのまま効くようにしました（画面を開くと、ゲームに焦点が移ります）', '最初のタップかキー操作で、BGMが自動で流れるようにしました', '全画面の「通常の画面に戻す」ボタンが大きくなりすぎていた不具合を直しました'] },
@@ -1576,12 +1617,30 @@ const CHANGELOG = [
   { v: '7.7', t: '終わった考査の保存フォルダ', n: ['「終了して保存」で、考査を教科・課題・成績ごと保存し、あとから見返せます', '単語帳のカードだけを、バックアップして別の端末に読み込めます'] },
   { v: '7.6', t: 'ダブルタップの拡大防止、タブの並べ替え', n: ['同じボタンを2回押しても、画面が拡大しないようにしました', '設定から、タブの順番を変えたり、ツールをタブバーに置いたりできます'] },
   { v: '7.5', t: 'ツールの入力欄を大きく', n: ['すべてのツールの入力欄・ボタンを、押しやすい大きさと、新しいデザインに統一しました'] },
-  { v: '7.4', t: '電卓を作り直し', n: ['Googleの電卓のように、計算の履歴・関数電卓・外付けキーボードに対応しました'] }
+  { v: '7.4', t: '電卓を作り直し', n: ['Googleの電卓のように、計算の履歴・関数電卓・外付けキーボードに対応しました'] },
+  { v: '7.3', t: '初めての本格的な整理', n: ['課題の一覧を、教科ごとにまとめて見られるようにしました', '完了した課題の数を、ホームに表示するようにしました'] },
+  { v: '7.2', t: '課題の色分け', n: ['教科ごとに色を決められるようにしました', '期限が近い課題を、色で分かるようにしました'] },
+  { v: '7.1', t: 'ページの記録', n: ['進んだページ数を、日ごとに記録できるようにしました'] },
+  { v: '7.0', t: '考査の日の設定', n: ['考査（テスト）の日を、教科ごとに入れられるようにしました', '考査までの日数を、ホームに出すようにしました'] },
+  { v: '6.2', t: '表示の調整', n: ['文字の大きさを、3段階から選べるようにしました', '暗い画面の見やすさを上げました'] },
+  { v: '6.1', t: 'ホームの整理', n: ['ホームに、今日やることをまとめて表示しました'] },
+  { v: '6.0', t: 'スマホの画面に対応', n: ['スマホでも使いやすいように、下のバーを作りました'] },
+  { v: '5.1', t: '課題の編集', n: ['課題の名前やページ数を、後から直せるようにしました'] },
+  { v: '5.0', t: '課題の追加', n: ['課題を教科ごとに追加できるようにしました'] },
+  { v: '4.2', t: 'データの保存', n: ['入力した内容が、閉じても残るようにしました'] },
+  { v: '4.1', t: '小さな修正', n: ['表示の位置や、文字の切れを直しました'] },
+  { v: '4.0', t: '教科の登録', n: ['教科を、名前と色つきで登録できるようにしました'] },
+  { v: '3.1', t: '使いやすさの改善', n: ['ボタンの位置を、指で押しやすいように変えました'] },
+  { v: '3.0', t: 'ホーム画面', n: ['最初の画面（ホーム）を作りました'] },
+  { v: '2.1', t: '細かな修正', n: ['読み込みの速さを上げました'] },
+  { v: '2.0', t: '課題の完了', n: ['課題を完了にすると、チェックできるようにしました'] },
+  { v: '1.1', t: '表示の修正', n: ['画面の横幅に合わせて、表示が崩れないようにしました'] },
+  { v: '1.0', t: '最初のバージョン', n: ['課題を登録して、一覧で見られるアプリを作りました'] },
 ];
 const verCmp = (a, b) => { const x = String(a).split('.').map(Number), y = String(b).split('.').map(Number); for (let i = 0; i < Math.max(x.length, y.length); i++) { const d = (x[i] || 0) - (y[i] || 0); if (d) return d; } return 0; };
-const clBlock = e => `<section class="clv"><div class="clh"><b>v${e.v}</b><span>${esc(e.t)}</span></div><ul>${e.n.map(x => `<li>${esc(x)}</li>`).join('')}</ul></section>`;
+const clBlock = e => `<section class="clv"><div class="clh"><b>v${e.v}</b><span>${esc(e.t)}</span>${e.d ? `<small class="cl-d">${esc(e.d)}</small>` : ''}</div><ul>${e.n.map(x => `<li>${esc(x)}</li>`).join('')}</ul></section>`;
 function historyDlg() {
-  openDlg(`<h2>${ms('history')}更新履歴<span class="vchip">v${APP_VERSION}</span></h2><div class="cll">${CHANGELOG.map((e, i) => `<details class="clv" ${i === 0 ? 'open' : ''}><summary><div class="clh"><b>v${e.v}</b><span>${esc(e.t)}</span></div></summary><ul>${e.n.map(x => `<li>${esc(x)}</li>`).join('')}</ul></details>`).join('')}</div><div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">${ms('check')}閉じる</button></div>`);
+  openDlg(`<h2>${ms('history')}更新履歴<span class="vchip">v${APP_VERSION}</span></h2><div class="cll">${CHANGELOG.map((e, i) => `<details class="clv" ${i === 0 ? 'open' : ''}><summary><div class="clh"><b>v${e.v}</b><span>${esc(e.t)}</span>${e.d ? `<small class="cl-d">${esc(e.d)}</small>` : ''}</div></summary><ul>${e.n.map(x => `<li>${esc(x)}</li>`).join('')}</ul></details>`).join('')}</div><div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">${ms('check')}閉じる</button></div>`);
 }
 /* ---------- ホーム ---------- */
 function examCount(ex) {
@@ -3172,10 +3231,13 @@ function acctHtml() {
   }
   const label = { sync: '同期しています…', ok: '同期済み', error: '同期できません。接続を確認してください' }[st] || '—';
   const last = CLOUD.last ? new Date(CLOUD.last).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
-  return `<div class="acct-h">${userAv(56)}<div class="t"><b>${esc(u.displayName || 'Google アカウント')}</b><span>${esc(u.email || '')}</span></div></div>
-  <div class="kv2"><div><span>状態</span><b>${label}</b></div><div><span>最終同期</span><b>${last}</b></div></div>
-  <div class="acct-fb"><button class="btn tonal" data-act="fbopen">${ms('rate_review')}フィードバックを送る</button>${FBL.mine.length || fbQ().length ? `<button class="btn tonal" data-act="fbmine">${ms('forum')}送った内容と返信${fbUnreadMine().length ? `<i class="nbadge in">${fbUnreadMine().length}</i>` : ''}</button>` : ''}${FBL.isAdmin ? `<button class="btn tonal" data-act="fbinbox">${ms('inbox')}フィードバックの受信箱${fbUnreadAdm().length ? `<i class="nbadge in">${fbUnreadAdm().length}</i>` : ''}</button>` : ''}</div>
-  <div class="dact"><button class="btn text danger" data-act="cloudout">ログアウト</button><span class="sp"></span><button class="btn tonal" data-act="close">閉じる</button><button class="btn" data-act="cloudnow">${ms('sync')}今すぐ同期</button></div>`;
+  const pill = (act, icon, text, badge = '') => `<button class="ac-pill" data-act="${act}"><span class="ac-pi">${ms(icon)}${badge}</span><span class="ac-pl">${text}</span></button>`;
+  const fbN = fbUnreadMine().length, admN = FBL.isAdmin ? fbUnreadAdm().length : 0;
+  const showMine = FBL.mine.length || fbQ().length;
+  return `<div class="ac-top">${userAv(76)}<b class="ac-name">${esc(u.displayName || 'Google アカウント')}</b><span class="ac-mail">${esc(u.email || '')}</span><span class="ac-st st-${st}"><i></i>${label}</span></div>
+  <div class="ac-tri">${pill('fbopen', 'rate_review', 'フィードバック')}${showMine ? pill('fbmine', 'forum', '送った内容', fbN ? `<i class="nbadge in">${fbN}</i>` : '') : ''}${FBL.isAdmin ? pill('fbinbox', 'inbox', '受信箱', admN ? `<i class="nbadge in">${admN}</i>` : '') : ''}${FBL.isAdmin ? pill('annsend', 'campaign', 'お知らせ') : ''}</div>
+  <div class="ac-list"><div class="ac-row">${ms('schedule')}<span>最終同期</span><b>${last}</b></div><button class="ac-row" data-act="cloudnow">${ms('sync')}<span>今すぐ同期</span>${ms('chevron_right')}</button><button class="ac-row danger" data-act="cloudout">${ms('logout')}<span>ログアウト</span></button></div>
+  <div class="dact"><span class="sp"></span><button class="btn tonal" data-act="close">閉じる</button></div>`;
 }
 function acctDlg() { openDlg(acctHtml()); dlg.dataset.k = 'acct'; }
 dlg.addEventListener('close', () => { delete dlg.dataset.k; });
@@ -3197,7 +3259,7 @@ async function cloudInit() {
     if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); CLOUD.ac = { mod: ac, inst: ac.initializeAppCheck(a, { provider: new ac.ReCaptchaEnterpriseProvider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }) }; } catch (e) { if (window.__kosaLog) window.__kosaLog('App Checkの初期化に失敗: ' + ((e && e.message) || e)); } }
     const authI = auth.getAuth(a), db = fs.getFirestore(a);
     CLOUD.fb = { auth, fs, authI, db, app: a }; CLOUD.status = 'out';
-    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; if (u) { cloudStart(); setTimeout(fbWatchStart, 1500); } else { cloudStop(); fbWatchStop(); } cloudRefresh(); });
+    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; if (u) { cloudStart(); setTimeout(() => { fbWatchStart(); annWatchStart(); }, 1500); } else { cloudStop(); fbWatchStop(); annWatchStop(); } cloudRefresh(); });
     cloudResume();
   } catch (e) { CLOUD.status = 'error'; }
   cloudRefresh();
@@ -7314,14 +7376,17 @@ function msrCheck() {
 window.__fl = msrCheck; msrCheck(); addEventListener('load', msrCheck); [1500, 4000, 10000, 25000].forEach(t => setTimeout(msrCheck, t));
 window.__kosaV = APP_VERSION;
 /* ===== 17.41：通知（アプリ内の通知の一覧）・ICSの読み込み ===== */
-const NOTI_KEY = 'kosa-noti', NOTI_MAX = 200;
+const NOTI_KEY = 'kosa-noti', NOTI_MAX = 200, NOTI_GONE = 'kosa-noti-gone';
+// 消した（または上限で押し出された）通知の記録。ここに入っている通知は、もう作り直しません
+const notiGone = () => new Set(lsj(NOTI_GONE, []));
+function notiForget(list) { const st = new Set(lsj(NOTI_GONE, [])); list.forEach(x => { if (x && x.k) st.add(x.k); }); lss(NOTI_GONE, [...st].slice(-800)); }
 const notiAll = () => { const a = lsj(NOTI_KEY, []); return Array.isArray(a) ? a : []; };
-const notiPut = a => lss(NOTI_KEY, a.slice(-NOTI_MAX));
+const notiPut = a => { if (a.length > NOTI_MAX) notiForget(a.slice(0, a.length - NOTI_MAX)); lss(NOTI_KEY, a.slice(-NOTI_MAX)); };
 const notiUnread = () => notiAll().filter(x => !x.read).length;
 function notiAdd(o) {
   const a = notiAll();
-  if (o.k && a.some(x => x.k === o.k)) return false;   // 同じお知らせは、2回入れない
-  a.push({ id: uid(), k: o.k || '', t: Date.now(), icon: o.icon || 'notifications', title: String(o.text || '').slice(0, 80), sub: String(o.sub || '').replace(/\s+/g, ' ').slice(0, 90), act: o.act || '', aid: o.aid || '', read: false });
+  if (o.k && (a.some(x => x.k === o.k) || notiGone().has(o.k))) return false;   // 同じお知らせは、2回入れない（消したものも入れない）
+  a.push({ id: uid(), k: o.k || '', t: Date.now(), icon: o.icon || 'notifications', title: String(o.text || '').slice(0, 80), sub: String(o.sub || '').replace(/\s+/g, ' ').slice(0, 90), act: o.act || '', aid: o.aid || '', body: String(o.body || '').slice(0, 500), read: false });
   notiPut(a); notiBadge(); return true;
 }
 function notiNavBtn() {
@@ -7434,13 +7499,14 @@ Object.assign(ACT, {
   notigo(id) {
     const a = notiAll(), x = a.find(y => y.id === id); if (!x) return;
     x.read = true; notiPut(a); closeDlg(); notiBadge();
+    if (x.body) { annPop({ text: x.body, t: x.t }); return; }
     if (x.act === 'calday') { ACT.tab('cal'); ACT.calday(x.aid); }
     else if (x.act === 'edittask') { if (T(x.aid)) ACT.edittask(x.aid); else toast('この課題は、もうありません'); }
     else if (x.act && ACT[x.act]) ACT[x.act](x.aid);
     else render();
   },
   notiread() { const a = notiAll(); a.forEach(x => { x.read = true; }); notiPut(a); notiRedraw(); },
-  noticlear() { notiPut(notiAll().filter(x => !x.read)); notiRedraw(); toast('既読の通知を消しました'); },
+  noticlear() { const all = notiAll(); notiForget(all.filter(x => x.read)); notiPut(all.filter(x => !x.read)); notiRedraw(); toast('既読の通知を消しました'); },
   icsimport() {
     document.querySelectorAll('input.ics-in').forEach(x => x.remove());
     const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.ics,text/calendar'; inp.className = 'ics-in'; inp.hidden = true; document.body.appendChild(inp);
@@ -7478,7 +7544,15 @@ const HOME_BG = {
   sakura: { n: 'さくら', c: 150, css: 'linear-gradient(160deg,#ffe3ec,#fff4f7 55%,#fde2f0)' },
   ocean: { n: '海の青', c: 150, css: 'linear-gradient(170deg,#d7efff,#eef8ff 50%,#c8e6ff)' },
   night: { n: '星空', c: 300, css: 'radial-gradient(circle at 20% 15%,#4b5fa6 0 1.5px,transparent 2.5px),radial-gradient(circle at 70% 40%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 45% 80%,#ffd9a0 0 1px,transparent 1.5px),linear-gradient(180deg,#0d1430,#1d2a55)' },
-  sunset: { n: '夕焼け', c: 300, css: 'linear-gradient(180deg,#ffb27a,#ff7aa2 55%,#7a5cff)' }
+  sunset: { n: '夕焼け', c: 300, css: 'linear-gradient(180deg,#ffb27a,#ff7aa2 55%,#7a5cff)' },
+  forest: { n: '森', c: 200, css: 'linear-gradient(170deg,#dff5e1,#b9e4c2 60%,#8fd3a6)' },
+  lavender: { n: 'ラベンダー', c: 150, css: 'linear-gradient(160deg,#ece4ff,#f7f2ff 50%,#dcd0ff)' },
+  sand: { n: '砂浜', c: 150, css: 'linear-gradient(180deg,#fff6e3,#ffe6b8 60%,#ffd49a)' },
+  mint: { n: 'ミント', c: 150, css: 'linear-gradient(170deg,#e0fff6,#c7f5ea 55%,#a9ecdc)' },
+  snow: { n: '雪景色', c: 200, css: 'linear-gradient(180deg,#f5fbff,#dbeeff 70%,#c3dcf5)' },
+  autumn: { n: '紅葉', c: 250, css: 'linear-gradient(160deg,#ffd6a5,#ffb385 50%,#e8795a)' },
+  galaxy: { n: '銀河', c: 400, css: 'radial-gradient(ellipse at 30% 40%,#6a3fa0 0,transparent 55%),radial-gradient(ellipse at 75% 70%,#1f6fb2 0,transparent 50%),#0b0820' },
+  neon: { n: 'ネオン', c: 400, css: 'radial-gradient(circle at 80% 20%,rgba(255,60,160,.35),transparent 40%),linear-gradient(135deg,#0f0c29,#302b63 50%,#24243e)' }
 };
 const SFX_T = {
   classic: { n: '標準', c: 0, t: 'sine', m: 1 },
@@ -7838,6 +7912,60 @@ function fbBadge() {
   try { renderAcct(); } catch (e) { }
   if (dlg.open && dlg.dataset.k === 'acct') dlg.innerHTML = `<div class="dlg">${acctHtml()}</div>`;
 }
+/* ---- 管理者からのお知らせ（全員へ配信・画面の中央に表示） ---- */
+const ANN_SEEN = 'kosa-ann-seen';
+const ANN = { unsub: null, uid: '', rows: [], wait: [] };
+function annWatchStop() { try { ANN.unsub && ANN.unsub(); } catch (e) { } ANN.unsub = null; ANN.uid = ''; ANN.rows = []; }
+function annWatchStart() {
+  if (!CLOUD.user || !CLOUD.fb) return; const me = CLOUD.user.uid; if (ANN.uid === me && ANN.unsub) return;
+  annWatchStop(); ANN.uid = me; const { fs, db } = CLOUD.fb;
+  try { ANN.unsub = fs.onSnapshot(fs.query(fs.collection(db, 'announcements'), fs.orderBy('t', 'desc'), fs.limit(20)), annOn, () => { }); } catch (e) { }
+}
+function annOn(sn) {
+  const rows = sn.docs.map(d => ({ id: d.id, ...d.data() })).filter(r => typeof r.text === 'string' && r.text);
+  ANN.rows = rows;
+  if (dlg.open && dlg.dataset.k === 'annsend') dlg.innerHTML = `<div class="dlg">${annSendHtml()}</div>`;
+  const newest = rows.reduce((m, r) => Math.max(m, +r.t || 0), 0), seen = lsj(ANN_SEEN, null);
+  if (seen === null) { lss(ANN_SEEN, newest); return; }   // 初めて開くときは、いまある分は出さない
+  const fresh = rows.filter(r => (+r.t || 0) > seen).sort((a, b) => (+a.t || 0) - (+b.t || 0));
+  if (!fresh.length) return;
+  lss(ANN_SEEN, newest);
+  fresh.forEach(r => { if (notiAdd({ k: `ann:${r.id}`, icon: 'campaign', text: '管理者からのお知らせ', sub: r.text, body: r.text })) ANN.wait.push(r); });   // 新しく通知に入ったものだけ、ポップアップを出す
+  annNext();
+}
+function annNext() { if (dlg.open || $('#annpop')) return; const r = ANN.wait.shift(); if (r) annPop(r); }
+dlg.addEventListener('close', () => setTimeout(annNext, 500));
+function annPop(r) {
+  if (dlg.open || $('#annpop')) { ANN.wait.unshift(r); return; }
+  const el = document.createElement('div'); el.id = 'annpop'; el.className = 'annpop';
+  el.innerHTML = `<div class="ap-card" role="alertdialog" aria-modal="true" aria-labelledby="ap-h"><span class="ap-ic">${ms('campaign')}</span><h3 id="ap-h">管理者からのお知らせ</h3><p class="ap-b">${esc(r.text)}</p><small class="ap-t">${fbWhen(+r.t || Date.now())}</small><button type="button" class="btn" data-act="annclose">${ms('check')}わかりました</button></div>`;
+  document.body.appendChild(el);
+}
+function annSendHtml() {
+  const recent = ANN.rows.slice(0, 5).map(r => `<div class="as-r"><span class="as-w">${fbWhen(+r.t || 0)}</span><span class="as-x">${esc(r.text)}</span><button type="button" class="btn text xs" data-act="anndel" data-id="${r.id}">${ms('delete')}消す</button></div>`).join('') || '<p class="muted">まだ送っていません</p>';
+  return `<h2>${ms('campaign')}お知らせを送る</h2><p class="muted" style="margin:-6px 0 12px">送ると、このアプリを使っているすべての人の画面の中央に表示されます。エラーの状況などを伝えるときに使ってください。</p><textarea id="annt" class="as-t" maxlength="500" rows="4" placeholder="例：ただいま同期がうまくいかない状況です。復旧までお待ちください。"></textarea><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">閉じる</button><button type="button" class="btn" data-act="annpost">${ms('send')}送る</button></div><h3 class="as-h">最近送ったお知らせ</h3><div class="as-l">${recent}</div>`;
+}
+Object.assign(ACT, {
+  annsend() { if (!FBL.isAdmin) { toast('管理者だけが使えます'); return; } openDlg(annSendHtml()); dlg.dataset.k = 'annsend'; },
+  annpost() {
+    const v = String(($('#annt') || {}).value || '').trim();
+    if (!v) { toast('お知らせの内容を入れてください'); return; }
+    if (!CLOUD.fb || !CLOUD.user) return;
+    confirmDlg('お知らせを送りますか？', 'このアプリを使っているすべての人の画面に、中央で表示されます。', '送る', async () => {
+      const { fs, db } = CLOUD.fb;
+      try { await fs.setDoc(fs.doc(db, 'announcements', uid()), { text: v.slice(0, 500), t: Date.now(), uid: CLOUD.user.uid }); toast('お知らせを送りました'); }
+      catch (e) { toast('送れませんでした。接続を確認してください'); }
+    });
+  },
+  anndel(id) {
+    confirmDlg('このお知らせを消しますか？', '消すと、まだ見ていない人の画面には出なくなります。', '消す', async () => {
+      const { fs, db } = CLOUD.fb;
+      try { await fs.deleteDoc(fs.doc(db, 'announcements', id)); toast('お知らせを消しました'); }
+      catch (e) { toast('消せませんでした'); }
+    });
+  },
+  annclose() { const el = $('#annpop'); if (el) el.remove(); setTimeout(annNext, 300); }
+});
 /* ---- 画面の上に出る、お知らせ ---- */
 let nbarT = 0, nbarQ = [];
 function nbar(o) {
@@ -8473,7 +8601,6 @@ function psFullOn(on) {
       return bt;
     };
     o.appendChild(mk('ps-exit-ov', '戻す'));
-    o.appendChild(mk('ps-exit-bot', '通常の画面に戻す'));
     document.body.appendChild(o);
     f.classList.add('ps-full');
     psFocusFrame(f.querySelector('iframe'));
