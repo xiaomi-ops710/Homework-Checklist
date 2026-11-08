@@ -809,6 +809,107 @@ html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 /* 音声だけ：動画は、アプリの画面の裏に隠す（再生は止めない） */
 #yxp.m-bg{z-index:-1;opacity:0;pointer-events:none;border-radius:0;box-shadow:none}
 #yxp.m-bg .yx-bar,#yxp.m-bg .yx-x{display:none}
+/* ===== 17.43：安定化（はみ出し・切れ・重なり） ===== */
+.greet{overflow:clip}
+@media(max-width:999px){.cal-wrap{grid-template-columns:minmax(0,1fr)}}
+.cal-wrap,.cal-side,.cal-wrap>.card,.cal-side .dayp{min-width:0}
+.cal-side{grid-template-columns:minmax(0,1fr)}
+.cal-side .chips{flex-wrap:wrap}
+.cal-h{flex-wrap:wrap;row-gap:8px}
+.cal-h h2{white-space:nowrap;flex:1 1 auto;font-size:1.45rem}
+.cal-h .ibtn{width:44px!important;height:44px!important;min-width:44px;flex:none}
+.dayp-a{display:flex;flex-wrap:wrap;gap:8px}
+.dayp-a .btn{flex:1 1 auto;min-height:44px;height:auto;padding:10px 14px;white-space:normal;text-align:center;justify-content:center;line-height:1.3}
+.chips.scroll .chip,.chip{flex:0 0 auto;white-space:nowrap;width:auto;min-width:max-content}
+.td-add .btn,.td-add button{white-space:normal;height:auto;min-height:44px;padding:10px 14px;line-height:1.3;flex:1 1 auto;justify-content:center;text-align:center}
+.td-add{display:flex;flex-wrap:wrap;gap:8px}
+html[data-nav=bottom] .nbadge:not(.new){min-width:0;max-width:64px;overflow:hidden;text-overflow:ellipsis;font-size:.6rem;padding:0 5px}
+html[data-nav=bottom] .nbadge.new{top:-14px}
+/* ===== 17.44：実績の解除バナー ===== */
+.achfx{position:fixed;left:0;right:0;top:calc(10px + env(safe-area-inset-top));z-index:9500;display:flex;justify-content:center;pointer-events:none;padding:0 14px}
+.achfx-in{position:relative;overflow:hidden;display:flex;align-items:center;gap:14px;width:min(560px,100%);padding:14px 22px 14px 14px;border-radius:22px;background:linear-gradient(135deg,#0f1a2e,#17243f 60%,#1f3157);color:#fff;box-shadow:0 18px 50px rgba(0,0,0,.45),0 0 0 1px rgba(255,255,255,.14);animation:achIn .6s var(--spring) both}
+.achfx-in::after{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.22),transparent);transform:skewX(-20deg);animation:achShine 1.6s .5s ease-out both;pointer-events:none}
+.achfx.out .achfx-in{animation:achOut .6s ease-in both}
+.achfx-ray{position:absolute;left:-30%;top:-150%;width:160%;height:400%;background:conic-gradient(from 0deg,transparent 0 10deg,rgba(255,220,120,.2) 14deg,transparent 22deg 60deg,rgba(120,200,255,.18) 68deg,transparent 76deg 140deg,rgba(255,220,120,.2) 148deg,transparent 156deg);animation:achSpin 5s linear infinite;pointer-events:none}
+.achfx-ic{position:relative;flex:none;display:grid;place-items:center;width:64px;height:64px;border-radius:20px;background:radial-gradient(circle at 35% 30%,#fff3c4,#f2b24a 70%);color:#4a2a00;box-shadow:0 0 0 4px rgba(255,220,120,.25),0 0 28px rgba(255,200,90,.6);animation:achPop .8s var(--spring) .15s both}
+.achfx-ic .ms{font-size:36px}
+.achfx-t{position:relative;display:grid;gap:2px;min-width:0}
+.achfx-t small{font-size:.7rem;letter-spacing:.14em;font-weight:700;color:#ffd977}
+.achfx-t b{font-size:1.15rem;font-weight:800;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.achfx-t span{font-size:.85rem;color:rgba(255,255,255,.78);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@keyframes achIn{from{transform:translateY(-140%) scale(.92);opacity:0}to{transform:none;opacity:1}}
+@keyframes achOut{to{transform:translateY(-140%);opacity:0}}
+@keyframes achSpin{to{transform:rotate(360deg)}}
+@keyframes achPop{0%{transform:scale(.2) rotate(-30deg);opacity:0}70%{transform:scale(1.15) rotate(6deg);opacity:1}100%{transform:none}}
+@keyframes achShine{from{left:-60%}to{left:130%}}
+@media(prefers-reduced-motion:reduce){.achfx-ray,.achfx-in::after{animation:none}}
+/* ===== 17.45：レベルアップ演出・XPショップ・友達と比べる ===== */
+#hbg{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.lvfx{position:fixed;inset:0;z-index:9800;display:grid;place-items:center;overflow:hidden;cursor:pointer;color:#fff;animation:lvIn .35s ease-out both}
+.lvfx.out{animation:lvOut .5s ease-in both}
+.lvfx-bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 42%,rgba(255,226,140,.55),rgba(40,20,90,.93) 55%,#080614)}
+.lvfx-ray{position:absolute;left:50%;top:42%;width:260vmax;height:260vmax;margin:-130vmax 0 0 -130vmax;background:conic-gradient(from 0deg,transparent 0 6deg,rgba(255,235,170,.38) 9deg,transparent 14deg 30deg,rgba(255,235,170,.3) 33deg,transparent 38deg 60deg,rgba(255,235,170,.36) 63deg,transparent 68deg 100deg);animation:lvSpin 10s linear infinite}
+.lvfx-ring{position:absolute;left:50%;top:42%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;border:4px solid #ffe08a;opacity:0;animation:lvRing 1.8s ease-out .2s infinite}
+.lvfx-ring.r2{animation-delay:.1s;border-color:#9fd8ff}
+.lvfx-ring.r2{animation-delay:1s}
+.lvfx-sp{position:absolute;left:50%;top:42%;width:0;height:0}
+.lvfx-sp i{position:absolute;left:-4px;top:-4px;width:8px;height:8px;border-radius:50%;background:#ffe9a8;box-shadow:0 0 12px #ffd76a;opacity:0;animation:lvSpark 1.8s ease-out var(--t) infinite}
+.lvfx-c{position:relative;display:grid;justify-items:center;gap:8px;text-align:center;padding:20px}
+.lvfx-w{display:flex;font-size:clamp(2rem,9vw,3.6rem);font-weight:900;letter-spacing:.06em;text-shadow:0 0 24px #ffd76a,0 4px 0 #6a3b00}
+.lvfx-w span{display:inline-block;animation:lvLetter .7s cubic-bezier(.2,1.6,.4,1) both;animation-delay:calc(.3s + var(--i) * .06s)}
+.lvfx-n{display:flex;align-items:baseline;gap:8px;font-weight:900;color:#ffe08a}
+.lvfx-n small{font-size:clamp(1.2rem,4vw,1.8rem)}
+.lvfx-n b{font-size:clamp(4.5rem,22vw,9rem);line-height:1;font-variant-numeric:tabular-nums;text-shadow:0 0 40px rgba(255,215,106,.8);animation:lvNum .6s .2s both}
+.lvfx-t{font-size:1.1rem;font-weight:700;opacity:0;animation:lvFade .6s 1s forwards}
+.lvfx-r{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;opacity:0;animation:lvFade .6s 1.4s forwards}
+.lvfx-r span{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:20px;background:rgba(255,255,255,.16);font-weight:700;font-size:.9rem}
+.lvfx-h{margin:10px 0 0;font-size:.8rem;opacity:0;animation:lvFade .8s 2s forwards}
+@keyframes lvSpark{0%{opacity:0;transform:rotate(var(--a)) translateY(0) scale(.4)}20%{opacity:1}100%{opacity:0;transform:rotate(var(--a)) translateY(calc(var(--d) * -1)) scale(1)}}
+@keyframes lvLetter{from{transform:translateY(-60px) scale(.4) rotate(-20deg);opacity:0}to{transform:none;opacity:1}}
+@keyframes lvNum{from{transform:scale(.3);opacity:0}to{transform:none;opacity:1}}
+@keyframes lvFade{to{opacity:1}}
+@keyframes lvRing{from{transform:scale(.4);opacity:.9}to{transform:scale(9);opacity:0}}
+@keyframes lvSpin{to{transform:rotate(360deg)}}
+@keyframes lvIn{from{opacity:0}}
+@keyframes lvOut{to{opacity:0}}
+@media(prefers-reduced-motion:reduce){.lvfx-ray,.lvfx-ring,.lvfx-sp i{display:none}}
+.grow{display:grid;gap:12px;margin:0 0 14px}
+.grow-h{display:flex;gap:12px;align-items:center}
+.grow-h .ms{font-size:28px;color:var(--primary)}
+.grow-h small{display:block;color:var(--on-v);font-weight:500}
+.grow-b{display:flex;gap:8px;flex-wrap:wrap}
+.grow-b .btn{flex:1 1 200px}
+.grow-b .btn[disabled]{opacity:.5}
+.shop-h{font-size:.95rem;margin:14px 2px 8px}
+.shop-l{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.shop-i{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px;border-radius:20px;background:var(--s2)}
+.shop-i.eq{outline:2px solid var(--primary);outline-offset:-2px}
+.shop-sw{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:var(--s3);color:var(--primary);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
+.shop-t{min-width:0;display:grid;gap:2px}
+.shop-t b{font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.shop-t small{color:var(--on-v);font-size:.78rem}
+.shop-a{display:flex;flex-direction:column;gap:4px;align-items:stretch}
+.shop-a .btn{min-height:36px;height:36px;padding:0 12px;white-space:nowrap}
+.shop-a .btn[disabled]{opacity:.5}
+.fr-me{display:grid;gap:10px;padding:14px;margin-bottom:12px}
+.fr-code{display:block;font-size:1.5rem;letter-spacing:.2em;font-weight:800;color:var(--primary)}
+.fr-add{display:flex;gap:8px;margin:12px 0}
+.fr-add input{flex:1;min-width:0}
+.fr-card{display:grid;gap:8px;margin-bottom:10px}
+.cmp-lg{display:flex;gap:12px;font-size:.78rem;font-weight:700}
+.cmp-lg .me{color:var(--primary)}
+.cmp-lg .fr{color:var(--ter)}
+.cmp-r{display:grid;grid-template-columns:96px minmax(0,1fr) 56px;gap:10px;align-items:center;padding:6px 0;border-bottom:1px solid var(--s3)}
+.cmp-k{font-weight:700;font-size:.88rem}
+.cmp-bars{display:grid;gap:4px;min-width:0}
+.cmp-b{position:relative;height:20px;border-radius:10px;background:var(--s3);overflow:hidden}
+.cmp-b i{position:absolute;left:0;top:0;bottom:0;border-radius:10px;transition:width .6s var(--spring)}
+.cmp-b.me i{background:var(--primary)}
+.cmp-b.fr i{background:var(--ter)}
+.cmp-b span{position:relative;padding-left:8px;font-size:.74rem;font-weight:700;line-height:20px;white-space:nowrap}
+.cmp-d{font-weight:800;text-align:right;font-variant-numeric:tabular-nums;font-size:.88rem}
+.cmp-d.up{color:#1e8e3e}
+.cmp-d.dn{color:var(--err)}
 </style>
 </head>
 <body>
@@ -832,7 +933,7 @@ html.ps-lock, html.ps-lock body { overflow: hidden; overscroll-behavior: none; }
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.42';
+const APP_VERSION = '17.46';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -902,7 +1003,7 @@ function lvCardHtml(L) {
   const rw = [...LV_TITLES.map(([n, s]) => ({ n, t: `称号「${s}」` })), ...LV_HUES.map(([, nm, n]) => ({ n, t: `アプリの色「${nm}」` }))].sort((a, b) => a.n - b.n);
   return `<div class="card lvr"><b>レベルの特典</b><div class="lvr-l">${rw.map(r => `<div class="${L >= r.n ? 'on' : ''}"><span>Lv.${r.n}</span>${esc(r.t)}${ms(L >= r.n ? 'check_circle' : 'lock', L >= r.n ? 'f' : '', 'margin-left:auto;font-size:20px')}</div>`).join('')}</div></div>`;
 }
-const ms = (n, c = '', st = '') => `<i class="ms ${c}" ${st ? `style="${st}"` : ''} aria-hidden="true">${n}</i>`;
+const ms = (n, c = '', st = '') => n ? `<i class="ms ${c}" ${st ? `style="${st}"` : ''} aria-hidden="true">${n}</i>` : '';
 const $ = (s, e = document) => e.querySelector(s);
 const $$ = (s, e = document) => [...e.querySelectorAll(s)];
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -1080,8 +1181,9 @@ function level() {
 }
 function checkBadges(silent) {
   const c = totals(); let fresh_ = [];
-  for (const [id, , name, , test] of BADGES) if (!S.badges[id] && test(c)) { S.badges[id] = Date.now(); fresh_.push(name); }
-  if (fresh_.length && !silent) { setTimeout(() => { toast(`達成：${fresh_.join('・')}`); confetti(innerWidth / 2, innerHeight / 3, 60); }, 350); }
+  for (const [id, icon, name, desc, test] of BADGES) if (!S.badges[id] && test(c)) { S.badges[id] = Date.now(); fresh_.push(name); if (!silent) achQueue({ id, icon, name, desc }); }
+  lvCheck(silent);
+  if (fresh_.length && !silent) { setTimeout(() => { confetti(innerWidth / 2, innerHeight / 3, 60); }, 350); }
   // レベルアップ：上がったときに、お祝いと称号を知らせる
   const L = c.lv; let pl = 0; try { pl = +(localStorage.getItem(LV_KEY) || 0) || 0; } catch (e) { }
   if (pl !== L) { try { localStorage.setItem(LV_KEY, String(L)); } catch (e) { } }
@@ -1171,6 +1273,7 @@ function navTrack() {
   NAVH.skip = false; NAVH.k = k; NAVH.tab = ui.tab; NAVH.tool = ui.tool || '';
 }
 function render() {
+  applyHomeBg();
   navTrack();
   if (ui.tab === 'tools' && ui.tool) tuNote(ui.tool);
   if (ui.tab === 'ai' && !aiOpened()) { try { localStorage.setItem('kosa-ai-opened', '1'); } catch (e) { } }
@@ -1392,6 +1495,10 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.46', t: '友達と比べる：保存先を分けて、既存の共有機能と衝突しないように修正', n: ['友達と比べるの情報は、既存の「shares（共有）」とは別の「friendStats」に保存するようにしました', '友達コードで1件だけ読むので、友達の一覧を外から調べることはできません'] },
+  { v: '17.45', t: 'レベルアップの豪華な演出・XPショップ・友達と比べる', n: ['レベルが上がると、全画面で光・リング・火花・紙吹雪と、ファンファーレつきの演出が出ます（数字が上がっていき、特典も出ます）', 'XPで「ホームの背景」と「効果音」を買えます。XPを使ってもレベルは下がりません（Lv.2からショップが使えます）', '効果音は4種類から選べて、買う前に試せます', '友達と比べる（Lv.5から）：友達コードを交換すると、全体の進み・今週の勉強時間・今週のページ数・レベルを並べて見られます。見せるかどうかは自分で決められます'] },
+  { v: '17.44', t: '実績の解除アニメーション・通知への表示', n: ['実績を解除すると、画面の上からXBOXやマイクラ風の解除バナーが出ます（光が回り、アイコンが弾んで出ます）', '解除が重なったときは、順番に1つずつ出ます', '解除した実績は、通知の一覧にも残ります（タップで実績の画面へ）', '効果音は「音」の設定がオンのときだけ鳴ります'] },
+  { v: '17.43', t: '安定化（表示の重なり・はみ出し・文字の切れを直しました）', n: ['ホームの背景の光が、画面の右にはみ出して横に動く問題を直しました', 'カレンダーのスマホ表示で、予定の欄が画面の外へ出る問題と、「←　→」ボタンが消える問題を直しました', 'ボタンの中の文字（「やることを足す」など）が切れないようにしました', '課題の絞り込みのチップ（「すべて」「今日やる」など）の文字が切れないようにしました', '教科のアイコンが決まっていないとき、「undefined」の文字が出ないようにしました'] },
   { v: '17.42', t: '通知アイコンの整理・音楽のおすすめは音楽だけ・YouTubeの音声だけ再生', n: ['ツールバー下の通知は、アイコンと丸いボタンだけにしました（未読の数は右上に出ます）', '通知の一覧の、文字や位置のズレを直しました', '音楽のおすすめは、音楽の動画だけを出すようにしました', 'YouTubeの「音声だけ」モードを追加しました。動画はアプリの画面の裏に隠れ、音だけ流れます', '音声だけのときは、MP3のプレーヤーと同じ場所（○日連続の隣）に、チップが出ます。タップで動画に戻せます'] },
   { v: '17.41', t: '更新の進み・通知・カレンダーの広い画面・ICS読み込み', n: ['更新の確認は、取れたファイルの数から実際の%を出し、100%になってから終わります（途中で勝手に再読み込みしません）', 'ツールバーが、スクロールで動かないように直しました（iPadでも、下に動かないようにしました）', '通知を追加しました：ツールバーの一番下の「通知」から、課題の期限・テストの日・予定・フィードバックの返信を一覧で見られます', 'カレンダーを、iPadの広い画面向けに作り直しました：月の表に予定名を入れ、右側に「その日の予定（時刻順）」と「これからの予定」を出します', 'ICSファイル（カレンダーの書き出し）から予定を読み込めます。毎日・毎週・毎月・毎年の繰り返しと、前後1年分に対応しています'] },  { v: '17.40', t: '音楽ツールを新しくデザイン・おすすめとお気に入り', n: ['音楽ツールを、YouTube Musicのような画面（ホーム・検索・お気に入り・端末の曲）に作り直しました', 'おすすめ（YouTubeの急上昇）・最近聴いた・お気に入りを、ホームからすぐ開けます', '動画の ♡ で、お気に入りに保存できます（動画ツールと同じ保存先です）', '検索ボタンが枠からはみ出していたのを直しました', 'デザインを、Material 3 Expressive（大きな角丸・ピル型のボタン）の雰囲気に寄せました（まずは音楽ツールから）'] },
   { v: '17.39', t: '元素インベーダーの操作・音・全画面のバグ修正', n: ['シューティングのキーボード操作が、そのまま効くようにしました（画面を開くと、ゲームに焦点が移ります）', '最初のタップかキー操作で、BGMが自動で流れるようにしました', '全画面の「通常の画面に戻す」ボタンが大きくなりすぎていた不具合を直しました'] },
@@ -1805,7 +1912,7 @@ function viewStats() {
 
   // 実績・レベル
   const unl = BADGES.filter(b => S.badges[b[0]]).length, bc = totals();
-  h += `<div class="h-sec"><h2>${ms('emoji_events')}実績</h2><span class="sp"></span><span class="pillchip">${ms('stars', 'f')}Lv.${lv.L}　次まで ${lv.need}XP</span></div><p class="muted" style="margin:-6px 4px 14px;font-weight:500">${unl} / ${BADGES.length} 解除　・　称号「${esc(titleOf(lv.L))}」　・　経験値 ${lv.xp}XP（ページ数・集中時間・課題・覚えた単語などでたまります）</p>${lvCardHtml(lv.L)}<div class="badges stg">${BADGES.map((b, i) => badgeHtml(b, i, bc)).join('')}</div>`;
+  h += `<div class="h-sec"><h2>${ms('emoji_events')}実績</h2><span class="sp"></span><span class="pillchip">${ms('stars', 'f')}Lv.${lv.L}　次まで ${lv.need}XP</span></div><p class="muted" style="margin:-6px 4px 14px;font-weight:500">${unl} / ${BADGES.length} 解除　・　称号「${esc(titleOf(lv.L))}」　・　経験値 ${lv.xp}XP（ページ数・集中時間・課題・覚えた単語などでたまります）</p>${lvCardHtml(lv.L)}${growEntryHtml(lv.L)}<div class="badges stg">${BADGES.map((b, i) => badgeHtml(b, i, bc)).join('')}</div>`;
   h += `<div style="margin-top:26px;display:flex;justify-content:center"><button class="btn tonal" data-act="share">${ms('ios_share')}進み具合をシェア</button></div>`;
   return h;
 }
@@ -2141,8 +2248,7 @@ async function lockOn() { try { wl = await navigator.wakeLock?.request('screen')
 function lockOff() { try { wl && wl.release(); } catch (e) { } wl = null; }
 function audio() { if (!AC) { try { AC = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { } } if (AC && AC.state === 'suspended') AC.resume(); }
 function beep() {
-  if (!S.set.sound) return; audio(); if (!AC) return;
-  [0, .28, .56].forEach((d, i) => { const o = AC.createOscillator(), g = AC.createGain(), t0 = AC.currentTime + d; o.type = 'sine'; o.frequency.value = [784, 988, 1319][i]; g.gain.setValueAtTime(0, t0); g.gain.linearRampToValueAtTime(.28, t0 + .02); g.gain.exponentialRampToValueAtTime(.001, t0 + .6); o.connect(g); g.connect(AC.destination); o.start(t0); o.stop(t0 + .65); });
+  if (!S.set.sound) return; sfxSeq([784, 988, 1319], .28, .6, .26);
 }
 const durOf = m => (m === 'focus' ? S.set.focus : m === 'break' ? S.set.brk : S.set.lbrk) * 60;
 function tmReset(mode) { flushFocus(true); lockOff(); TM.mode = mode; TM.total = durOf(mode); TM.remain = TM.total; TM.running = false; }
@@ -7348,6 +7454,191 @@ Object.assign(ACT, {
 // 通知は、起動したとき・30分ごとに見直す
 setTimeout(() => { notiScan(); }, 2000);
 setInterval(() => { notiScan(); }, 30 * 60 * 1000);
+/* ===== 17.44：実績の解除アニメーション（XBOX・マイクラ風の解除バナー） ===== */
+const achQ = []; let achBusy = false;
+function achSound() { sfxSeq([523, 659, 784, 1047], .11, .5, .18); }
+function achQueue(a) {
+  notiAdd({ k: 'ach:' + a.id, icon: a.icon, text: '実績を解除：' + a.name, sub: a.desc, act: 'tab', aid: 'stats' });
+  achQ.push(a); if (!achBusy) achNext();
+}
+function achNext() {
+  const a = achQ.shift(); if (!a) { achBusy = false; return; }
+  achBusy = true;
+  const el = document.createElement('div'); el.className = 'achfx'; el.setAttribute('role', 'status');
+  el.innerHTML = `<div class="achfx-in"><div class="achfx-ray"></div><div class="achfx-ic">${ms(a.icon)}</div><div class="achfx-t"><small>実績を解除</small><b>${esc(a.name)}</b><span>${esc(a.desc)}</span></div></div>`;
+  document.body.appendChild(el);
+  try { achSound(); } catch (e) { }
+  setTimeout(() => { el.classList.add('out'); }, 3400);
+  setTimeout(() => { el.remove(); achNext(); }, 4000);
+}
+/* ===== 17.45：レベルアップ演出・XPショップ・友達と比べる ===== */
+const GROW_KEY = 'kosa-grow', SHOP_LV = 2, FRIEND_LV = 5;
+const HOME_BG = {
+  aurora: { n: 'オーロラ', c: 0, css: '' },
+  sakura: { n: 'さくら', c: 150, css: 'linear-gradient(160deg,#ffe3ec,#fff4f7 55%,#fde2f0)' },
+  ocean: { n: '海の青', c: 150, css: 'linear-gradient(170deg,#d7efff,#eef8ff 50%,#c8e6ff)' },
+  night: { n: '星空', c: 300, css: 'radial-gradient(circle at 20% 15%,#4b5fa6 0 1.5px,transparent 2.5px),radial-gradient(circle at 70% 40%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 45% 80%,#ffd9a0 0 1px,transparent 1.5px),linear-gradient(180deg,#0d1430,#1d2a55)' },
+  sunset: { n: '夕焼け', c: 300, css: 'linear-gradient(180deg,#ffb27a,#ff7aa2 55%,#7a5cff)' }
+};
+const SFX_T = {
+  classic: { n: '標準', c: 0, t: 'sine', m: 1 },
+  chime: { n: 'きらめき', c: 120, t: 'triangle', m: 1.33 },
+  retro: { n: 'ピコピコ', c: 200, t: 'square', m: 1 },
+  soft: { n: 'やさしい', c: 200, t: 'sine', m: .75 }
+};
+const LV_REWARD = { 2: 'XPショップが使えるようになりました', 5: '友達と比べる機能が使えるようになりました' };
+function growGet() { const g = lsj(GROW_KEY, null) || {}; return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', lvSeen: g.lvSeen, code: g.code || '', shared: !!g.shared, friends: Array.isArray(g.friends) ? g.friends : [] }; }
+function growPut(g) { lss(GROW_KEY, g); }
+const spendXp = () => Math.max(0, Math.floor(totals().xp) - growGet().spent);
+// 効果音（テーマで音色を変える）
+function sfxSeq(freqs, gap, dur, vol, th) {
+  if (!S.set.sound) return; audio(); if (!AC) return;
+  th = th || SFX_T[growGet().sfx] || SFX_T.classic;
+  freqs.forEach((f, i) => { const o = AC.createOscillator(), g = AC.createGain(), t0 = AC.currentTime + i * gap; o.type = th.t; o.frequency.value = f * th.m; g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + .02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur); o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0 + dur + .05); });
+}
+// ホームの背景（ホームの画面だけ、後ろに出す）
+function applyHomeBg() {
+  try {
+    const g = growGet(), it = HOME_BG[g.bg], on = ui.tab === 'home' && it && it.css;
+    let hb = document.getElementById('hbg'); if (!hb) { hb = document.createElement('div'); hb.id = 'hbg'; hb.setAttribute('aria-hidden', 'true'); document.body.prepend(hb); }
+    hb.style.background = on ? it.css : ''; hb.hidden = !on;
+  } catch (e) { }
+}
+// レベルアップ
+const lvQ = []; let lvBusy = false;
+function lvCheck(silent) {
+  const L = level().L, g = growGet();
+  if (g.lvSeen == null) { g.lvSeen = L; growPut(g); return; }
+  if (L <= g.lvSeen) return;
+  const from = g.lvSeen; g.lvSeen = L; growPut(g);
+  if (silent) return;
+  for (let l = from + 1; l <= L; l++) notiAdd({ k: 'lv:' + l, icon: 'military_tech', text: `レベル${l}になりました`, sub: `称号「${titleOf(l)}」`, act: 'tab', aid: 'stats' });
+  lvQ.push({ lo: from + 1, hi: L }); if (!lvBusy) lvNext();
+}
+function lvNext() {
+  const q = lvQ.shift(); if (!q) { lvBusy = false; return; }
+  const l = q.hi, lo = q.lo;
+  lvBusy = true;
+  const el = document.createElement('div'); el.className = 'lvfx'; el.setAttribute('role', 'dialog'); el.setAttribute('aria-label', `レベル${l}になりました`);
+  const rw = Object.entries(LV_REWARD).filter(([k]) => +k >= lo && +k <= l).map(([, v]) => v);
+  const word = 'LEVEL UP'.split('').map((c, i) => `<span style="--i:${i}">${c === ' ' ? '&nbsp;' : c}</span>`).join('');
+  const sp = Array.from({ length: 28 }, (_, i) => `<i style="--a:${(i * 360 / 28).toFixed(1)}deg;--d:${120 + (i % 5) * 40}px;--t:${((i % 6) * .08).toFixed(2)}s"></i>`).join('');
+  el.innerHTML = `<div class="lvfx-bg"></div><div class="lvfx-ray"></div><div class="lvfx-ring"></div><div class="lvfx-ring r2"></div><div class="lvfx-sp">${sp}</div><div class="lvfx-c"><div class="lvfx-w">${word}</div><div class="lvfx-n"><small>Lv.</small><b id="lvfxN">${Math.max(1, lo - 1, l - 3)}</b></div><div class="lvfx-t">称号「${esc(titleOf(l))}」</div>${rw.length ? `<div class="lvfx-r">${rw.map(r => `<span>${ms('redeem')}${esc(r)}</span>`).join('')}</div>` : ''}<p class="lvfx-h">タップで閉じる</p></div>`;
+  document.body.appendChild(el);
+  const num = el.querySelector('#lvfxN'); let v = Math.max(1, lo - 1, l - 3);
+  const tick = setInterval(() => { v++; num.textContent = v; if (v >= l) clearInterval(tick); }, 260);
+  let closed = false;
+  const close = () => { if (closed) return; closed = true; clearInterval(tick); el.classList.add('out'); setTimeout(() => { el.remove(); lvNext(); }, 500); };
+  el.addEventListener('click', close);
+  setTimeout(close, 7000);
+  try { sfxSeq([523, 659, 784, 1047, 1319], .13, .9, .22); } catch (e) { }
+  setTimeout(() => confetti(innerWidth / 2, innerHeight * .4, 140), 300);
+  setTimeout(() => confetti(innerWidth * .2, innerHeight * .6, 70), 900);
+  setTimeout(() => confetti(innerWidth * .8, innerHeight * .6, 70), 1200);
+}
+// XPの使い道の入口（統計の画面）
+function growEntryHtml(L) {
+  return `<div class="card grow"><div class="grow-h">${ms('storefront')}<div><b>XPの使い道</b><small>使えるXP ${spendXp()}　・　レベルは下がりません</small></div></div><div class="grow-b"><button class="btn tonal" data-act="shopopen" ${L >= SHOP_LV ? '' : 'disabled'}>${ms('shopping_bag')}XPショップ${L >= SHOP_LV ? '' : `（Lv.${SHOP_LV}で解放）`}</button><button class="btn tonal" data-act="friendsopen" ${L >= FRIEND_LV ? '' : 'disabled'}>${ms('group')}友達と比べる${L >= FRIEND_LV ? '' : `（Lv.${FRIEND_LV}で解放）`}</button></div></div>`;
+}
+// XPショップ
+function shopHtml() {
+  const g = growGet(), sp = spendXp();
+  const card = (kind, id, it) => {
+    const own = g.owned[kind].includes(id), eq = g[kind] === id;
+    const sw = kind === 'bg' ? (it.css ? `background:${it.css}` : 'background:linear-gradient(135deg,var(--pc),var(--s3))') : '';
+    const act = eq ? `<button class="btn xs" disabled>${ms('check')}使用中</button>` : own ? `<button class="btn tonal xs" data-act="shopeq" data-id="${kind}:${id}">${ms('done')}使う</button>` : `<button class="btn xs" data-act="shopbuy" data-id="${kind}:${id}" ${sp < it.c ? 'disabled' : ''}>${ms('shopping_cart')}${it.c} XP</button>`;
+    return `<div class="shop-i ${eq ? 'eq' : ''}"><div class="shop-sw" style="${sw}">${kind === 'sfx' ? ms('music_note') : ''}</div><div class="shop-t"><b>${esc(it.n)}</b><small>${eq ? '使用中' : own ? '購入済み' : `${it.c} XP`}</small></div><div class="shop-a">${kind === 'sfx' ? `<button class="btn text xs" data-act="shoptry" data-id="${id}">${ms('play_arrow')}試す</button>` : ''}${act}</div></div>`;
+  };
+  return `<h2 class="noti-h">${ms('storefront')}<span>XPショップ</span><em class="noti-cnt">使えるXP ${sp}</em></h2><p class="muted" style="font-weight:500;margin:0 0 6px">XPを使っても、レベルは下がりません。</p><h3 class="shop-h">ホームの背景</h3><div class="shop-l">${Object.entries(HOME_BG).map(([id, it]) => card('bg', id, it)).join('')}</div><h3 class="shop-h">効果音</h3><div class="shop-l">${Object.entries(SFX_T).map(([id, it]) => card('sfx', id, it)).join('')}</div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
+}
+function shopRedraw() { if (dlg.open && dlg.dataset.k === 'shop') dlg.innerHTML = `<div class="dlg">${shopHtml()}</div>`; }
+// 友達と比べる（Firestore の shares：見せると決めた人だけ）
+const FR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join(''); return g.code; }
+function growWeek() { const nb = parse(today()), from = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() - 6)), to = today(); let min = 0, pg = 0; for (const k in S.log) if (k >= from && k <= to) { min += S.log[k].m || 0; pg += S.log[k].a || 0; } return { min, pg }; }
+function growPct() { const tot = S.tasks.reduce((a, t) => a + (t.total || 0), 0), dn = S.tasks.reduce((a, t) => a + Math.min(t.done || 0, t.total || 0), 0); return tot ? Math.round(dn / tot * 100) : 0; }
+function growMine(g) { const w = growWeek(); return { code: growCode(g), name: (CLOUD.user && CLOUD.user.displayName) || '名前なし', lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg }; }
+async function growPublish() {
+  const g = growGet(), m = growMine(g); growPut(g);
+  const { fs, db } = CLOUD.fb;
+  await fs.setDoc(fs.doc(db, 'friendStats', m.code), { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() });
+}
+async function growUnpublish() { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'friendStats', growGet().code)); }
+async function growAddFriend(code) {
+  code = String(code || '').trim().toUpperCase(); if (!code) return;
+  if (!CLOUD.user) return toast('Googleログインが必要です');
+  try {
+    const { fs, db } = CLOUD.fb;
+    const d = await fs.getDoc(fs.doc(db, 'friendStats', code));
+    if (!d.exists()) return toast('その友達コードは見つかりません（相手が「見せる」をオンにしているか確認してください）');
+    const data = d.data();
+    if (data.owner === CLOUD.user.uid) return toast('それは、あなたのコードです');
+    const g = growGet(); if (g.friends.some(f => f.uid === data.owner)) return toast('もう友達に入っています');
+    g.friends.push({ uid: data.owner, code, name: data.name || '名前なし' }); growPut(g);
+    toast('友達を追加しました'); friendsRedraw();
+  } catch (e) { toast('友達を追加できませんでした（Firestoreの設定を確認してください）'); }
+}
+async function friendsLoad() {
+  const { fs, db } = CLOUD.fb, out = [];
+  for (const f of growGet().friends) { try { const d = await fs.getDoc(fs.doc(db, 'friendStats', f.code)); out.push({ f, data: d.exists() ? d.data() : null }); } catch (e) { out.push({ f, data: null, err: true }); } }
+  return out;
+}
+function cmpRow(label, mine, theirs, unit) {
+  const mx = Math.max(mine, theirs, 1), diff = mine - theirs;
+  return `<div class="cmp-r"><div class="cmp-k">${label}</div><div class="cmp-bars"><div class="cmp-b me"><i style="width:${Math.round(mine / mx * 100)}%"></i><span>${mine}${unit}</span></div><div class="cmp-b fr"><i style="width:${Math.round(theirs / mx * 100)}%"></i><span>${theirs}${unit}</span></div></div><div class="cmp-d ${diff >= 0 ? 'up' : 'dn'}">${diff > 0 ? '+' : ''}${diff}${unit}</div></div>`;
+}
+function friendsHtml(me, rows) {
+  if (!rows.length) return `<div class="card"><p class="muted" style="font-weight:500;margin:0">まだ友達がいません。友達の「友達コード」を上の入力欄に入れて追加してください。</p></div>`;
+  return rows.map(({ f, data, err }) => {
+    if (err || !data) return `<div class="card"><b>${esc(f.name)}</b><p class="muted" style="font-weight:500;margin:6px 0">${err ? '読み込めませんでした' : '今は、進み具合を見せていないようです'}</p><button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button></div>`;
+    const nm = esc(data.name || f.name);
+    return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div><div class="cmp-lg"><span class="me">自分</span><span class="fr">${nm}</span></div>${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}<button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button></div>`;
+  }).join('');
+}
+function friendsShell() {
+  if (!CLOUD.user) return `<h2 class="noti-h">${ms('group')}<span>友達と比べる</span></h2><p class="muted" style="font-weight:500">友達と進み具合を比べるには、Googleログインが必要です。</p><div class="noti-a"><span class="sp"></span><button class="btn" data-act="cloudin">Googleでログイン</button><button class="btn text" data-act="close">閉じる</button></div>`;
+  const g = growGet(), code = growCode(g); growPut(g);
+  return `<h2 class="noti-h">${ms('group')}<span>友達と比べる</span></h2>
+    <div class="card fr-me"><div class="grow-h">${ms('qr_code_2')}<div><small>あなたの友達コード</small><b class="fr-code">${code}</b></div></div>
+    <button class="btn ${g.shared ? 'tonal' : ''}" data-act="frtoggle">${ms(g.shared ? 'visibility_off' : 'visibility')}${g.shared ? '見せるのを止める' : '進み具合を友達に見せる'}</button>
+    <p class="muted" style="font-size:.8rem;font-weight:500;margin:8px 0 0">見せるのは、表示名・レベル・全体の進み・今週の勉強時間・今週のページ数です。いつでも止められます。</p></div>
+    <div class="fr-add"><input id="frcode" type="text" placeholder="友達コード（6文字）" maxlength="6" autocapitalize="characters" autocomplete="off" spellcheck="false"><button class="btn tonal" data-act="fradd">${ms('person_add')}追加</button></div>
+    <div id="frc"><p class="muted" style="font-weight:500">読み込み中…</p></div>
+    <div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
+}
+async function friendsRefresh() {
+  const el = document.getElementById('frc'); if (!el || !CLOUD.user) return;
+  try {
+    const g = growGet();
+    if (g.shared) await growPublish();
+    const rows = await friendsLoad();
+    el.innerHTML = friendsHtml(growMine(growGet()), rows);
+  } catch (e) { el.innerHTML = `<p class="muted" style="font-weight:500">友達の情報を読めませんでした。共有の設定（Firestore）が未設定か、通信できない状態です。</p>`; }
+}
+function friendsRedraw() { if (dlg.open && dlg.dataset.k === 'friends') { dlg.innerHTML = `<div class="dlg">${friendsShell()}</div>`; friendsRefresh(); } }
+Object.assign(ACT, {
+  shopopen() { if (level().L < SHOP_LV) return toast(`Lv.${SHOP_LV}で使えるようになります`); openDlg(shopHtml()); dlg.dataset.k = 'shop'; },
+  shopbuy(v) {
+    const [kind, id] = String(v).split(':'), it = (kind === 'bg' ? HOME_BG : SFX_T)[id]; if (!it) return;
+    const g = growGet(); if (g.owned[kind].includes(id)) return;
+    const sp = spendXp(); if (sp < it.c) return toast(`XPが${it.c - sp}足りません`);
+    g.spent += it.c; g.owned[kind].push(id); g[kind] = id; growPut(g);
+    applyHomeBg(); toast(`${it.n}を買って、使い始めました`); shopRedraw();
+  },
+  shopeq(v) { const [kind, id] = String(v).split(':'), g = growGet(); if (!g.owned[kind].includes(id)) return; g[kind] = id; growPut(g); applyHomeBg(); toast('使うものを変えました'); shopRedraw(); },
+  shoptry(id) { if (!S.set.sound) return toast('効果音がオフになっています（設定の「音」）'); sfxSeq([784, 988, 1319], .2, .5, .18, SFX_T[id]); },
+  friendsopen() { if (level().L < FRIEND_LV) return toast(`Lv.${FRIEND_LV}で使えるようになります`); openDlg(friendsShell()); dlg.dataset.k = 'friends'; friendsRefresh(); },
+  async frtoggle() {
+    if (!CLOUD.user) return;
+    const g = growGet();
+    try { if (g.shared) { await growUnpublish(); g.shared = false; } else { await growPublish(); g.shared = true; } growPut(g); toast(g.shared ? '友達に見せるようにしました' : '見せるのを止めました'); }
+    catch (e) { toast('共有の設定を変えられませんでした（Firestoreの設定を確認してください）'); }
+    friendsRedraw();
+  },
+  async fradd() { const el = document.getElementById('frcode'); await growAddFriend(el ? el.value : ''); },
+  frdel(uid) { const g = growGet(); g.friends = g.friends.filter(f => f.uid !== uid); growPut(g); toast('友達から外しました'); friendsRedraw(); }
+});
+setTimeout(applyHomeBg, 0);
 /* 最初の描画は、スクリプトの最後（すべての const / let の宣言が終わったあと）に行う。
    途中で呼ぶと、あとの行で宣言する部品（例：ymdOf・bagSplit）を使う画面で、「宣言前に参照」の例外になり、画面が空になる */
 function bootApp() {

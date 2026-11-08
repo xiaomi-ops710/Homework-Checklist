@@ -1,0 +1,51 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 既存のusersコレクションのルール
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // 既存のsharesコレクション（科目・カードの共有）
+    match /shares/{code} {
+      allow get: if true;
+      allow list: if false;
+      allow create: if request.auth != null
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.keys().hasOnly(['owner','name','hue','n','json','mt']);
+      allow update: if request.auth != null
+        && resource.data.owner == request.auth.uid
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.keys().hasOnly(['owner','name','hue','n','json','mt']);
+      allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
+    }
+
+    // フィードバック（送信・投稿者本人の閲覧・管理者による閲覧/返信/削除）
+    match /feedback/{id} {
+      allow create: if request.auth != null
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.keys().hasOnly(['uid','name','cat','text','ver','env','t']);
+      allow read: if request.auth != null
+        && (resource.data.uid == request.auth.uid || request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2');
+      allow update: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['reply','rt']);
+      allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
+    }
+
+    // 友達と比べる（進み具合）：ドキュメントIDは友達コード。一覧は作れません（コードを知っている人だけが1件読めます）
+    match /friendStats/{code} {
+      allow get: if request.auth != null;
+      allow list: if false;
+      allow create: if request.auth != null
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.keys().hasOnly(['owner','name','lv','pct','wkMin','wkPg','t']);
+      allow update: if request.auth != null
+        && resource.data.owner == request.auth.uid
+        && request.resource.data.owner == request.auth.uid
+        && request.resource.data.keys().hasOnly(['owner','name','lv','pct','wkMin','wkPg','t']);
+      allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
+    }
+
+  }
+}
