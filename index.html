@@ -949,6 +949,15 @@ body{overflow-x:clip}
 .as-r{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center;padding:8px 0;border-top:1px solid var(--s3);font-size:.85rem}
 .as-w{color:var(--on-v);white-space:nowrap}
 .as-x{overflow-wrap:anywhere}
+/* ===== 17.49：AIの説明の枠・アカウントの見た目 ===== */
+.obm-wrap:has(.obm-chat){height:auto;align-self:center}
+.obm-chat{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;align-self:center;gap:10px;height:auto;flex:none;min-width:0}
+.obm-chat>*{flex:none;height:auto;min-height:0}
+.obm-chat .obm-bub{display:block;width:fit-content;min-width:0;max-width:86%;height:auto;white-space:normal}
+.obm-chat .obm-bub.me{align-self:flex-end}
+.obm-chat .obm-bub.ai{align-self:flex-start}
+.obm-chat .obm-inp{align-self:stretch;height:52px}
+.ac-pill,.ac-pill:focus,.ac-pill:focus-visible,.ac-row,.ac-row:focus,.ac-row:focus-visible{outline:none!important;box-shadow:none!important}
 </style>
 </head>
 <body>
@@ -972,7 +981,7 @@ body{overflow-x:clip}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.48';
+const APP_VERSION = '17.49';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1534,6 +1543,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.49', d: '2026/11/08 10:39', t: 'AIの説明の表示修正・アカウント画面の整理・ログアウトの確認', n: ['iPadで、アプリの説明の「AIに質問する」の文字が縦に崩れる問題を直しました', 'アカウント画面に「通知」「アップデートを確認」「設定」を追加し、フィードバックのまわりの線を消しました', 'ログアウトする前に、確認の画面を出すようにしました'] },
   { v: '17.48', d: '2026/11/08 10:20', t: '管理者からのお知らせ・カレンダー通知の修正', n: ['管理者から、全員へお知らせを送れるようにしました（エラーの状況などを伝えるときに）', 'お知らせが届くと、画面の中央に「管理者からのお知らせ」が出て、通知にも残ります', 'カレンダーなどの通知を消したあと、また出てくる問題を直しました'] },
   { v: '17.47', d: '2026/11/08 10:10', t: 'アカウント画面の刷新・invaderの戻るボタン整理・ホームの色の修正・背景を追加', n: ['アカウントの画面を、Googleのアカウントメニューのような見た目にしました（丸いアイコン・楕円のボタン3つ・リスト）', '元素インベーターの全画面で、下の「通常の画面に戻す」を消し、右上の「戻す」だけにしました', 'ホームの上部の色が、途中で切れて見える問題を直しました', 'XPショップの背景に、森・ラベンダー・砂浜・ミント・雪景色・紅葉・銀河・ネオンを追加しました', '更新履歴に、リリースの日時を表示するようにしました'] },
   { v: '17.46', d: '2026/11/08 09:50', t: '友達と比べる：保存先を分けて、既存の共有機能と衝突しないように修正', n: ['友達と比べるの情報は、既存の「shares（共有）」とは別の「friendStats」に保存するようにしました', '友達コードで1件だけ読むので、友達の一覧を外から調べることはできません'] },
@@ -2689,7 +2699,7 @@ const ACT = {
   undo() { if (lastUndo) { S = migrate(JSON.parse(lastUndo)); lastUndo = null; applyTheme(); save(); render(); $('#toast').classList.remove('show'); } },
   export() { exportData(); }, csv() { exportCsv(); }, share() { shareProgress(); },
   import() { $('#imp').click(); },
-  acct() { acctDlg(); }, cloudin() { closeDlg(); cloudLogin(); }, cloudout() { closeDlg(); cloudLogout(); }, cloudnow() { cloudPushNow().then(() => toast(CLOUD.status === 'ok' ? '同期しました' : '同期できませんでした')); },
+  acct() { acctDlg(); }, cloudin() { closeDlg(); cloudLogin(); }, cloudout() { confirmDlg('ログアウトしますか？', 'ログアウトしても、この端末のデータは消えません。同期は止まります。', 'ログアウト', () => { closeDlg(); cloudLogout(); }); }, cloudnow() { cloudPushNow().then(() => toast(CLOUD.status === 'ok' ? '同期しました' : '同期できませんでした')); },
   expsub() { exportSubjects(); }, impsub() { $('#impsub').click(); },
   expcards() { closeDlg(); exportCards(false); }, expcardsall() { closeDlg(); exportCards(true); }, impcards() { closeDlg(); $('#impcards').click(); },
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); S.cleared = Date.now(); ui.sid = ''; ui.tab = 'home'; })); },
@@ -3236,6 +3246,7 @@ function acctHtml() {
   const showMine = FBL.mine.length || fbQ().length;
   return `<div class="ac-top">${userAv(76)}<b class="ac-name">${esc(u.displayName || 'Google アカウント')}</b><span class="ac-mail">${esc(u.email || '')}</span><span class="ac-st st-${st}"><i></i>${label}</span></div>
   <div class="ac-tri">${pill('fbopen', 'rate_review', 'フィードバック')}${showMine ? pill('fbmine', 'forum', '送った内容', fbN ? `<i class="nbadge in">${fbN}</i>` : '') : ''}${FBL.isAdmin ? pill('fbinbox', 'inbox', '受信箱', admN ? `<i class="nbadge in">${admN}</i>` : '') : ''}${FBL.isAdmin ? pill('annsend', 'campaign', 'お知らせ') : ''}</div>
+  <div class="ac-list ac-app"><button class="ac-row" data-act="notiopen">${ms('notifications')}<span>通知</span>${ms('chevron_right')}</button><button class="ac-row" data-act="updcheck">${ms('system_update')}<span>アップデートを確認</span><b>v${APP_VERSION}</b></button><button class="ac-row" data-act="setopen">${ms('settings')}<span>設定</span>${ms('chevron_right')}</button></div>
   <div class="ac-list"><div class="ac-row">${ms('schedule')}<span>最終同期</span><b>${last}</b></div><button class="ac-row" data-act="cloudnow">${ms('sync')}<span>今すぐ同期</span>${ms('chevron_right')}</button><button class="ac-row danger" data-act="cloudout">${ms('logout')}<span>ログアウト</span></button></div>
   <div class="dact"><span class="sp"></span><button class="btn tonal" data-act="close">閉じる</button></div>`;
 }
@@ -7946,6 +7957,8 @@ function annSendHtml() {
   return `<h2>${ms('campaign')}お知らせを送る</h2><p class="muted" style="margin:-6px 0 12px">送ると、このアプリを使っているすべての人の画面の中央に表示されます。エラーの状況などを伝えるときに使ってください。</p><textarea id="annt" class="as-t" maxlength="500" rows="4" placeholder="例：ただいま同期がうまくいかない状況です。復旧までお待ちください。"></textarea><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">閉じる</button><button type="button" class="btn" data-act="annpost">${ms('send')}送る</button></div><h3 class="as-h">最近送ったお知らせ</h3><div class="as-l">${recent}</div>`;
 }
 Object.assign(ACT, {
+  updcheck() { updDlg(); },
+  setopen() { closeDlg(); ACT.tab('settings'); },
   annsend() { if (!FBL.isAdmin) { toast('管理者だけが使えます'); return; } openDlg(annSendHtml()); dlg.dataset.k = 'annsend'; },
   annpost() {
     const v = String(($('#annt') || {}).value || '').trim();
