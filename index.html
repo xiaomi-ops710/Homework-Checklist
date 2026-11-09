@@ -1209,6 +1209,43 @@ button.gr-ch .ms{font-size:18px}
   .tcard span,.tcard b{white-space:normal;overflow-wrap:anywhere;min-width:0}
   .tcard{grid-template-columns:minmax(0,1fr)!important;min-width:0}
 }
+
+/* ===== 17.60：人気の帯・豪華なツールのカード・友達の棒グラフ ===== */
+.tcard.pop{position:relative;overflow:hidden}
+.tc-pop{position:absolute;top:18px;right:-44px;transform:rotate(40deg);width:170px;text-align:center;padding:5px 0;font-size:.74rem;font-weight:800;letter-spacing:.12em;color:#fff;background:linear-gradient(90deg,#ff3d7f,#ff8a3d);box-shadow:0 4px 14px rgba(255,61,127,.4);pointer-events:none;z-index:2}
+.tcard.lux::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.24) 50%,transparent 65%);transform:translateX(-120%);animation:luxShine 4.8s ease-in-out infinite;pointer-events:none}
+@keyframes luxShine{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+.tcard.lux-card{background:linear-gradient(150deg,#1b1640 0%,#3b2a7a 48%,#c2439a 100%)!important;border:1px solid rgba(255,220,140,.5)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),0 14px 32px rgba(120,60,200,.35)}
+.tcard.lux-card b{background:linear-gradient(90deg,#fff3c4,#ffd86b,#fff3c4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tcard.lux-card .tc-i{background:linear-gradient(145deg,#ffe38a,#c2439a)!important;box-shadow:0 0 18px rgba(255,200,120,.6)!important}
+.tcard.lux-ptable{background:linear-gradient(150deg,#06313a 0%,#0f5b5a 50%,#2ea88b 100%)!important;border:1px solid rgba(180,255,230,.5)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),0 14px 32px rgba(20,140,120,.35)}
+.tcard.lux-ptable b{background:linear-gradient(90deg,#d8fff4,#7ef0cf,#d8fff4);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tcard.lux-ptable .tc-i{background:linear-gradient(145deg,#a8ffe0,#1b8a7a)!important;box-shadow:0 0 18px rgba(150,255,220,.55)!important}
+@media(prefers-reduced-motion:reduce){.tcard.lux::after{animation:none}}
+.cm-row{padding:12px 0;border-bottom:1px dashed var(--s3)}
+.cm-row:last-child{border-bottom:0}
+.cm-h{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.cm-h>b{font-size:1rem;font-weight:800;color:var(--on)}
+.cm-h>.ms{font-size:20px;color:var(--primary)}
+.cm-lead{margin-left:auto;font-size:.82rem;font-weight:800;padding:3px 10px;border-radius:999px;white-space:nowrap}
+.cm-lead small{font-size:.78rem;font-weight:700}
+.cm-lead.me{background:color-mix(in srgb,var(--primary) 22%,transparent);color:var(--primary)}
+.cm-lead.fr{background:color-mix(in srgb,#b06ad9 22%,transparent);color:#b06ad9}
+.cm-lead.eq{background:var(--s3);color:var(--on-v)}
+.cm-bar{display:grid;grid-template-columns:3.4em minmax(0,1fr) auto;align-items:center;gap:8px;margin:5px 0}
+.cm-n{font-size:.82rem;font-weight:800;color:var(--on-v);white-space:nowrap}
+.cm-tr{height:16px;border-radius:8px;background:var(--s3);overflow:hidden;min-width:0}
+.cm-tr i{display:block;height:100%;width:var(--w);border-radius:8px;transition:width .6s var(--smooth)}
+.cm-bar.me .cm-tr i{background:linear-gradient(90deg,color-mix(in srgb,var(--primary) 70%,#fff),var(--primary))}
+.cm-bar.fr .cm-tr i{background:linear-gradient(90deg,#d7a6f2,#b06ad9)}
+.cm-v{font-size:1rem;font-weight:800;color:var(--on);min-width:4.6em;text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+@media(max-width:699px){.cm-v{min-width:3.8em;font-size:.95rem}.cm-n{font-size:.78rem;width:3em}}
+
+/* ===== 17.60：ゲームの全画面（枠をその場で広げる。読み込み直しなし） ===== */
+.ps-frame.ps-pin{position:fixed;inset:0;z-index:9000;width:100%;height:100%;max-width:none;margin:0;border:0;border-radius:0;box-shadow:none;background:#040819;overflow:hidden}
+.ps-frame.ps-pin iframe{position:absolute;top:env(safe-area-inset-top,0px);left:env(safe-area-inset-left,0px);width:calc(100% - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px));height:calc(100% - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:0;max-height:none}
+.ps-exit.ps-exit-pin{display:flex;position:absolute;z-index:9500;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;align-items:center;gap:6px;border:0;border-radius:999px;padding:10px 16px;background:rgba(4,8,25,.85);color:#e6f0ff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5)}
+.tcard.lux-card>span:not(.tc-i):not(.tc-pop),.tcard.lux-ptable>span:not(.tc-i):not(.tc-pop){color:rgba(255,255,255,.88)!important}
 </style>
 </head>
 <body>
@@ -1232,7 +1269,7 @@ button.gr-ch .ms{font-size:18px}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.59';
+const APP_VERSION = '17.60';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1575,6 +1612,7 @@ function navTrack() {
   NAVH.skip = false; NAVH.k = k; NAVH.tab = ui.tab; NAVH.tool = ui.tool || '';
 }
 function render() {
+  if (gameOv()) return;   // 全画面のゲーム中は、画面を描き直さない（ゲームの枠を守る）
   applyHomeBg();
   navTrack();
   if (ui.tab === 'tools' && ui.tool) tuNote(ui.tool);
@@ -1797,6 +1835,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.60', d: '2026-11-09', t: 'ツールの人気・更新内容の表示設定・プロフィールの同期・友達の比較の見やすさ・全画面のバグ', n: ['ツールの「歴打」「元素ラボ」「単語帳」に「人気」の帯を付けました。元素ラボと単語帳のカードも豪華にしました', 'アップデート後の「更新内容」を表示しないように設定できるようにしました（設定と、更新の確認の画面から変えられます）', '友達・プロフィール（名前・アイコン・友達コード・見せる設定）を、アカウントに保存して、どの端末でも同じになるようにしました', '友達と比べるの画面を、棒グラフで見やすくしました（数値を棒の外に出し、どちらが上かを表示）', '歴打・元素インベーダーで、全画面から戻ったときにゲームの画面が消える問題を直しました'] },
   { v: '17.59', d: '2026-11-09', t: 'スマホ・iPadの表示崩れを修正', n: ['スマホのグラフで、式の入力欄と削除ボタンが右にはみ出していたのを直しました', 'スマホで計算機のキーボードを出すとき、右下の＋ボタンと重ならないようにしました', 'スマホの下のバーの期限の表示を、小さな点にして、文字がはみ出さないようにしました', 'iPad（横）のタイピングの全画面が、右にはみ出していたのを直しました'] },
   { v: '17.58', d: '2026-11-09', t: 'タイピングの修正・友達の全員表示・スマホの画面の整理', n: ['タイピングで、日本語の答えのとき、入力欄が見えて打った文字が表示されるように（以前は見えずに打てていなかったことがありました）', 'iPhoneで、英字のタイピングの文字が打った時点で表示されるように（変換中の文字も表示）', '友達の一覧を読み込む途中で、古い結果が新しい結果を上書きしないようにしました（友達が全員出るように）', '友達が、新しく追加する人の情報を送れなかった場合でも、古いFirestoreのルールで動くようにしました', 'スマホの下のバーは、ホーム・課題・予定・記録・ツールだけにしました（設定・AI・通知は他の場所から開けます）', 'スマホの画面で、文字が縦に並んだり隠れたりしないように整理しました（単語帳・集中モード・下のバーのまるい背景）'] },
   { v: '17.57', d: '2026-11-09', t: '友達のつながり（友達の友達）・合計の表示・タイピングの修正', n: ['タイピングで、日本語入力のままでも、英字の問題には英字（半角）だけが入ります', 'タイピングで、まちがえた文字は入らないようにしました（消さずに、そのまま次の文字を打てます）', 'タイピングで打った文字数は、打った時点で記録に入ります（途中でやめても残ります）', '友達を追加されたとき、その人も自動で友達になり、一覧に出るようにしました', '友達の友達も表示されるようにしました（友達の友達は「友達に追加」できます）', '友達と比べるに、合計勉強時間と合計タイピングを出すようにしました'] },
@@ -2280,7 +2319,7 @@ function viewSettings() {
   <div class="card"><div class="fld"><div class="lbl">テーマ</div><div class="seg">${[['auto', '自動', 'brightness_auto'], ['light', 'ライト', 'light_mode'], ['dark', 'ダーク', 'dark_mode']].map(([v, l, i]) => `<button class="${st.theme === v ? 'on' : ''}" data-act="theme" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div></div>
   <div class="fld"><div class="lbl">アプリの色</div><div class="swatches">${[...SEEDS.map(([h, n]) => [h, n, 0]), ...LV_HUES].map(([h, n, need]) => { const ok = level().L >= need; return `<label class="sw ${ok ? '' : 'lk'}"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} ${ok ? `data-act="hue" data-id="${h}"` : 'disabled'} aria-label="${n}${ok ? '' : `（Lv.${need}で使えます）`}"><span style="background:hsl(${h} 66% 48%)">${ok ? '' : ms('lock', '', 'font-size:16px;color:#fff')}</span></label>`; }).join('')}</div><p class="muted" style="font-size:.8rem;margin:8px 4px 0">レベルが上がると、色が増えます（${LV_HUES.map(([, n, l]) => `Lv.${l}：${n}`).join('、')}）</p></div>
   <div class="fld"><div class="lbl">文字の大きさ</div><div class="seg">${[['s', '小'], ['m', '標準'], ['l', '大']].map(([v, l]) => `<button class="${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}">${l}</button>`).join('')}</div></div>
-  ${swRow('wx', '今日の天気をホームに出す', '位置情報を使います（一度だけ確認します）')}${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}${swRow('timerAnim', 'タイマー画面のアニメーション', 'オフにすると、円の動きなどを止めます')}${swRow('natStop', 'タイマー終了で自然の音を止める', '時間が終わると、自然の音を自動で止めます')}</div>
+  ${swRow('wx', '今日の天気をホームに出す', '位置情報を使います（一度だけ確認します）')}${swRow('noWhatsNew', 'アップデート後の更新内容を出さない', 'オンにすると、アップデートしたあとに「何が変わったか」の案内を出しません（更新の確認の画面からも変えられます）')}${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}${swRow('timerAnim', 'タイマー画面のアニメーション', 'オフにすると、円の動きなどを止めます')}${swRow('natStop', 'タイマー終了で自然の音を止める', '時間が終わると、自然の音を自動で止めます')}</div>
 
   <div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>
   ${navSettings()}
@@ -4281,7 +4320,7 @@ const TOOLS = [['music', '音楽', 'library_music', '端末の音楽や、YouTub
   ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['mol', '分子量・物質の量', 'science', '化学（中学・高校）：化学式の分子量と、g・molの換算', 300, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
-  const card = ([id, l, i, d, h]) => `<button class="tcard sc${id === 'rekida' ? ' rk-tcard' : ''}" style="--sh:${h}" data-act="tool" data-id="${id}"><span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
+  const card = ([id, l, i, d, h]) => `<button class="tcard sc${id === 'rekida' ? ' rk-tcard' : ''}${['rekida', 'ptable', 'card'].includes(id) ? ' pop' : ''}${id === 'ptable' || id === 'card' ? ' lux lux-' + id : ''}" style="--sh:${h}" data-act="tool" data-id="${id}">${['rekida', 'ptable', 'card'].includes(id) ? '<span class="tc-pop">人気</span>' : ''}<span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
   const T = TOOLS.find(x => x[0] === tl), body = { rekida: rekidaHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
@@ -5648,7 +5687,7 @@ TPAINT.seq = () => {
   const [b, r, m] = ['ga', 'gr', 'gn2'].map(nv);
   put('sq3', [b, r, m].some(isNaN) || !Number.isInteger(m) || m < 1 ? '' : `第n項：<b>${pf(b * Math.pow(r, m - 1))}</b><br>初項から第n項までの和：<b>${pf(r === 1 ? b * m : b * (Math.pow(r, m) - 1) / (r - 1))}</b>${Math.abs(r) < 1 ? `<br>無限等比級数の和：<b>${pf(b / (1 - r))}</b>` : ''}<br><span class="muted">${Array.from({ length: Math.min(8, m) }, (_, i) => pf(b * Math.pow(r, i))).join('、') + (m > 8 ? '、…' : '')}</span>`);
 };
-function toolsRefresh() { navTrack(); if (ui.tab === 'tools') { const y = scrollY; $('#view').innerHTML = viewTools(); toolsPost(); scrollTo(0, y); } }
+function toolsRefresh() { if (gameOv()) return; navTrack(); if (ui.tab === 'tools') { const y = scrollY; $('#view').innerHTML = viewTools(); toolsPost(); scrollTo(0, y); } }
 /* ====================== AI先生（写真の問題を読み取って、解き方を教える） ====================== */
 const SN_DEF = { name: 'ミライ先生', call: '', tone: 'gentle', style: 'step', grade: 'm2', custom: '', icon: 'school', hue: 222 };
 // [id, 名前, アイコン, 説明, AIへの指示, あいさつ（{n}＝先生の名前）]
@@ -7607,7 +7646,8 @@ function updGo(n, dir) { UPG.i = n; UPG.dir = dir; const d = dlg.querySelector('
 Object.assign(ACT, {
   updnext() { if (UPG.i < UPG.pages.length - 1) updGo(UPG.i + 1, 'fwd'); },
   updprev() { if (UPG.i > 0) updGo(UPG.i - 1, 'back'); },
-  updclose() { closeDlg(); }
+  updclose() { closeDlg(); },
+  wnoff() { S.set = S.set || {}; S.set.noWhatsNew = !S.set.noWhatsNew; save(); toast(S.set.noWhatsNew ? 'アップデート後の更新内容を出さないようにしました' : '更新内容を出すようにしました'); if (dlg.open && dlg.dataset.k === 'upd') { openDlg(updHtml()); dlg.dataset.k = 'upd'; } }
 });
 // 更新の読み込み中：ローディング画面（アプリのアイコンが形を変えて回る）
 function updLoadShow() {
@@ -7748,7 +7788,7 @@ function updHtml() {
   const chip = av && UPD.next ? `<span class="ux-chip">${ms('new_releases')}v${APP_VERSION} → v${UPD.next}</span>` : (busy || av ? '' : `<span class="ux-ver">v${APP_VERSION}</span>`);
   const btns = av
     ? `<button class="ux-btn p" data-act="reload">${ms('download')}今すぐ更新</button><button class="ux-btn x" data-act="close">あとで</button>`
-    : `<button class="ux-btn t" data-act="updchk" ${busy ? 'disabled' : ''}>${ms('refresh')}更新を確認</button>${busy ? '' : `<button class="ux-btn x" data-act="hardrefresh">${ms('cleaning_services')}うまく更新されないとき</button>`}<button class="ux-btn x" data-act="close">閉じる</button>`;
+    : `<button class="ux-btn t" data-act="updchk" ${busy ? 'disabled' : ''}>${ms('refresh')}更新を確認</button><button class="ux-btn x" data-act="wnoff">${ms(S.set && S.set.noWhatsNew ? 'notifications_active' : 'notifications_off')}${S.set && S.set.noWhatsNew ? '更新内容を出す' : '更新内容を出さない'}</button>${busy ? '' : `<button class="ux-btn x" data-act="hardrefresh">${ms('cleaning_services')}うまく更新されないとき</button>`}<button class="ux-btn x" data-act="close">閉じる</button>`;
   return `<div class="ux" role="status" aria-live="polite">
     <div class="ux-top"><img src="icon-192.png" alt="" width="32" height="32"><span>考査課題マネージャー</span></div>
     <div class="ux-hero ${tone} ${busy ? 'busy' : ''}">${ms(ic, '', 'font-size:76px')}</div>
@@ -8036,9 +8076,17 @@ const SFX_T = {
   soft: { n: 'やさしい', c: 200, t: 'sine', m: .75 }
 };
 const LV_REWARD = { 2: 'XPショップが使えるようになりました', 5: '歴打が使えるようになりました' };
-function growGet() { const g = lsj(GROW_KEY, null) || {}; return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', lvSeen: g.lvSeen, code: g.code || '', nick: g.nick || '', av: g.av || '', shared: !!g.shared, friends: Array.isArray(g.friends) ? g.friends : [] }; }
-function growPut(g) { lss(GROW_KEY, g); }
-const spendXp = () => Math.max(0, Math.floor(totals().xp) - growGet().spent);
+function growGet() {
+  // 友達・プロフィールは、アカウントの状態（S.soc）に入れて、どの端末でも同じにする（以前の端末ごとの保存も引き継ぐ）
+  const g = lsj(GROW_KEY, null) || {}, so = (S.soc && typeof S.soc === 'object') ? S.soc : g;
+  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', lvSeen: g.lvSeen, code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [] };
+}
+function growPut(g) {
+  const soc = { code: g.code || '', nick: g.nick || '', av: g.av || '', shared: !!g.shared, friends: g.friends || [] };
+  lss(GROW_KEY, { spent: g.spent || 0, owned: g.owned, bg: g.bg, sfx: g.sfx, lvSeen: g.lvSeen });
+  const before = JSON.stringify(S.soc || null); S.soc = soc;
+  if (JSON.stringify(soc) !== before) save();
+}
 // 効果音（テーマで音色を変える）
 function sfxSeq(freqs, gap, dur, vol, th) {
   if (!S.set.sound) return; audio(); if (!AC) return;
@@ -8229,9 +8277,9 @@ function myStatCard() {
 // --- 友達との比較（ホームのカード。読み込みは、ときどき一度だけ） ---
 const FR_HOME = { at: 0, rows: null, me: null, busy: false, err: false, seq: 0 };
 function cmpRow(label, mine, theirs, unit, icon) {
-  const mx = Math.max(mine, theirs, 1), diff = mine - theirs, pm = Math.round(mine / mx * 100), pt = Math.round(theirs / mx * 100);
-  const cls = diff > 0 ? 'up' : diff < 0 ? 'dn' : 'eq', ic = diff > 0 ? 'arrow_upward' : diff < 0 ? 'arrow_downward' : 'drag_handle';
-  return `<div class="fcm-r"><div class="fcm-k">${icon ? ms(icon) : ''}<b>${label}</b></div><div class="fcm-bars"><div class="fcm-b me${diff > 0 ? ' win' : ''}"><i style="--w:${pm}%"></i><span>${mine}${unit}</span></div><div class="fcm-b fr${diff < 0 ? ' win' : ''}"><i style="--w:${pt}%"></i><span>${theirs}${unit}</span></div></div><div class="fcm-d ${cls}">${ms(ic)}${diff > 0 ? '+' : ''}${diff}${unit}</div></div>`;
+  const mx = Math.max(mine, theirs, 1), diff = mine - theirs, pm = mine > 0 ? Math.max(3, Math.round(mine / mx * 100)) : 0, pt = theirs > 0 ? Math.max(3, Math.round(theirs / mx * 100)) : 0;
+  const lead = diff > 0 ? `<b class="cm-lead me">あなたが上 <small>+${diff}${unit}</small></b>` : diff < 0 ? `<b class="cm-lead fr">相手が上 <small>${diff}${unit}</small></b>` : '<b class="cm-lead eq">同じ</b>';
+  return `<div class="cm-row"><div class="cm-h">${icon ? ms(icon) : ''}<b>${label}</b>${lead}</div><div class="cm-bar me"><span class="cm-n">あなた</span><div class="cm-tr"><i style="--w:${pm}%"></i></div><span class="cm-v">${mine}${unit}</span></div><div class="cm-bar fr"><span class="cm-n">相手</span><div class="cm-tr"><i style="--w:${pt}%"></i></div><span class="cm-v">${theirs}${unit}</span></div></div>`;
 }
 function frCardHtml(me, data, nm) {
   return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}</div>`;
@@ -8446,7 +8494,7 @@ try { if (!localStorage.getItem('kosa-guide-seen')) showWhenFree(() => guideDlg(
 // アップデートのあと最初に開いたとき、新しくなった点を表示する（初めて使うときは表示しない）
 try {
   const seen = localStorage.getItem('kosa-seen-ver'), gs = localStorage.getItem('kosa-guide-seen'), last = seen || (gs && /^\d+(\.\d+)*$/.test(gs) ? gs : null);
-  if (seen !== APP_VERSION) { localStorage.setItem('kosa-seen-ver', APP_VERSION); if (last && verCmp(APP_VERSION, last) > 0) showWhenFree(() => whatsNewDlg(last), 1100); }
+  if (seen !== APP_VERSION) { localStorage.setItem('kosa-seen-ver', APP_VERSION); if (last && verCmp(APP_VERSION, last) > 0 && !(S.set && S.set.noWhatsNew)) showWhenFree(() => whatsNewDlg(last), 1100); }
 } catch (e) { }
 
 /* 画面を引っぱったときのバウンスで、下のバーが動かないようにする（スマホ） */
@@ -9288,28 +9336,26 @@ window.addEventListener('message', e => {
   checkBadges(false); save();
 });
 // 全画面：枠を画面いっぱいに広げる。iframe は作り直さないので、ゲームは途中から続く
-function rkFullOn(on) {
-  const f = $('#rkframe'); if (!f) return;
-  const ov = document.getElementById('rkov');
-  if (on && !ov) {
-    const ph = document.createElement('div'); ph.id = 'rkph'; f.parentNode.insertBefore(ph, f);
-    const o = document.createElement('div'); o.id = 'rkov'; o.className = 'ps-ov';
-    o.appendChild(f);
+const gameOv = () => !!(document.getElementById('psov') || document.getElementById('rkov'));
+function gameFull(k, on) {
+  const f = document.getElementById(k + 'frame'); if (!f) return;
+  const mark = document.getElementById(k + 'ov');
+  if (on && !mark) {
+    // 印（非表示）を置き、枠に全画面の見た目を付ける。枠を別の場所へ動かさないので、ゲームは読み込み直されない
+    const m = document.createElement('i'); m.id = k + 'ov'; m.hidden = true; document.body.appendChild(m);
+    f.classList.add('ps-pin');
     const bt = document.createElement('button');
-    bt.type = 'button'; bt.className = 'ps-exit ps-exit-ov'; bt.innerHTML = `${ms('fullscreen_exit')}戻す`;
-    bt.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); rkFullOn(false); });
-    o.appendChild(bt);
-    document.body.appendChild(o);
-    f.classList.add('ps-full');
+    bt.type = 'button'; bt.className = 'ps-exit ps-exit-pin'; bt.innerHTML = `${ms('fullscreen_exit')}戻す`;
+    bt.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); gameFull(k, false); });
+    f.appendChild(bt);
     psFocusFrame(f.querySelector('iframe'));
-  } else if (!on && ov) {
-    const f2 = $('#rkframe'); const ph = document.getElementById('rkph');
-    if (f2) { f2.classList.remove('ps-full'); if (ph && ph.parentNode) ph.parentNode.insertBefore(f2, ph); else f2.remove(); }
-    if (ph) ph.remove();
-    ov.remove();
+  } else if (!on && mark) {
+    mark.remove(); f.classList.remove('ps-pin'); f.querySelectorAll('.ps-exit-pin').forEach(x => x.remove());
   }
-  const b = $('#rkfb'); if (b) b.innerHTML = `${ms(document.getElementById('rkov') ? 'fullscreen_exit' : 'fullscreen')}${document.getElementById('rkov') ? '戻す' : '全画面'}`;
+  const now = !!document.getElementById(k + 'ov');
+  const b = document.getElementById(k + 'fb'); if (b) b.innerHTML = `${ms(now ? 'fullscreen_exit' : 'fullscreen')}${now ? '戻す' : '全画面'}`;
 }
+function rkFullOn(on) { gameFull('rk', on); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('rkov')) rkFullOn(false); });
 Object.assign(ACT, { rkfull() { rkFullOn(!document.getElementById('rkov')); } });
 function rekidaHtml() {
@@ -9347,32 +9393,7 @@ function gameHtml() {
   <p class="muted ps-note" style="margin:10px 4px 0">画面の中のボタンやキーで操作します。キーで遊ぶときは、先に画面をタップしてください。うまく動かないときは「読み直す」を押してください。</p></div>`;
 }
 // 全画面：枠を画面いっぱいに広げる（iframe は作り直さないので、ゲームは途中から続く）。端末が対応していれば本当の全画面にもする
-function psFullOn(on) {
-  const f = $('#psframe'); if (!f) return;
-  const ov = document.getElementById('psov');
-  if (on && !ov) {
-    // 枠をアプリの外（画面の一番上の層）へ移す。iPadの上部の表示を避けるため、安全な余白を取る
-    const ph = document.createElement('div'); ph.id = 'psph'; f.parentNode.insertBefore(ph, f);
-    const o = document.createElement('div'); o.id = 'psov'; o.className = 'ps-ov';
-    o.appendChild(f);
-    const mk = (cls, label) => {
-      const bt = document.createElement('button');
-      bt.type = 'button'; bt.className = 'ps-exit ' + cls; bt.innerHTML = `${ms('fullscreen_exit')}${label}`;
-      bt.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); psFullOn(false); });
-      return bt;
-    };
-    o.appendChild(mk('ps-exit-ov', '戻す'));
-    document.body.appendChild(o);
-    f.classList.add('ps-full');
-    psFocusFrame(f.querySelector('iframe'));
-  } else if (!on && ov) {
-    const f2 = $('#psframe'); const ph = document.getElementById('psph');
-    if (f2) { f2.classList.remove('ps-full'); if (ph && ph.parentNode) { ph.parentNode.insertBefore(f2, ph); } else f2.remove(); }
-    if (ph) ph.remove();
-    ov.remove();
-  }
-  const b = $('#psfb'); if (b) b.innerHTML = `${ms(document.getElementById('psov') ? 'fullscreen_exit' : 'fullscreen')}${document.getElementById('psov') ? '戻す' : '全画面'}`;
-}
+function psFullOn(on) { gameFull('ps', on); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('psov')) psFullOn(false); });
 // 枠（iframe）に入力の焦点を移す。読み込みが終わったあとにも、もう一度移す
 function psFocusFrame(i) {
