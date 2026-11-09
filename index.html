@@ -1246,6 +1246,22 @@ button.gr-ch .ms{font-size:18px}
 .ps-frame.ps-pin iframe{position:absolute;top:env(safe-area-inset-top,0px);left:env(safe-area-inset-left,0px);width:calc(100% - env(safe-area-inset-left,0px) - env(safe-area-inset-right,0px));height:calc(100% - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));min-height:0;max-height:none}
 .ps-exit.ps-exit-pin{display:flex;position:absolute;z-index:9500;top:calc(env(safe-area-inset-top,0px) + 12px);right:12px;align-items:center;gap:6px;border:0;border-radius:999px;padding:10px 16px;background:rgba(4,8,25,.85);color:#e6f0ff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5)}
 .tcard.lux-card>span:not(.tc-i):not(.tc-pop),.tcard.lux-ptable>span:not(.tc-i):not(.tc-pop){color:rgba(255,255,255,.88)!important}
+
+/* ===== 17.61：大きな画面のポップアップ・カードの追加・全画面 ===== */
+@media (min-width:700px){
+  dialog#dlg:not(.ty-full){width:min(900px,calc(100vw - 48px))!important;max-width:calc(100vw - 48px)!important}
+  dialog#dlg:not(.ty-full) .dlg{padding:28px 32px}
+  dialog#dlg:not(.ty-full) .cf{grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);gap:8px 18px;align-items:start}
+  dialog#dlg:not(.ty-full) .cf>.cf-lab:nth-child(1){grid-column:1;grid-row:1}
+  dialog#dlg:not(.ty-full) .cf>.cf-in:nth-child(2){grid-column:1;grid-row:2;min-height:200px}
+  dialog#dlg:not(.ty-full) .cf>.cf-mid{grid-column:2;grid-row:2;align-self:center}
+  dialog#dlg:not(.ty-full) .cf>.cf-lab:nth-child(4){grid-column:3;grid-row:1}
+  dialog#dlg:not(.ty-full) .cf>.cf-in:nth-child(5){grid-column:3;grid-row:2;min-height:200px}
+}
+.cf-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:6px}
+.cf-hd h2{margin:0}
+#dlg.ty-full{width:100vw!important}
+.ps-ov .ps-frame.ps-full iframe{height:100%}
 </style>
 </head>
 <body>
@@ -1269,7 +1285,7 @@ button.gr-ch .ms{font-size:18px}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.60';
+const APP_VERSION = '17.61';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1835,6 +1851,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.61', d: '2026-11-09', t: '全画面の修正・ポップアップを広く・単語帳の受け取りと番号・AIで追加・タイピングの自動で次へ', n: ['歴打・元素インベーダーの全画面を、画面いっぱいに表示するように直しました', '大きな画面（iPad）では、ポップアップを横に広げて、入力しやすくしました', '単語帳の共有ボタンの右に「コードで受け取る」、全画面とシャッフルの間に「番号で絞る」を置きました', '単語帳の追加の画面の右上に「AIで追加」を置きました', '単語帳のタイピングで、正解したら自動で次の問題に進むようにしました（設定で切り替えられます）'] },
   { v: '17.60', d: '2026-11-09', t: 'ツールの人気・更新内容の表示設定・プロフィールの同期・友達の比較の見やすさ・全画面のバグ', n: ['ツールの「歴打」「元素ラボ」「単語帳」に「人気」の帯を付けました。元素ラボと単語帳のカードも豪華にしました', 'アップデート後の「更新内容」を表示しないように設定できるようにしました（設定と、更新の確認の画面から変えられます）', '友達・プロフィール（名前・アイコン・友達コード・見せる設定）を、アカウントに保存して、どの端末でも同じになるようにしました', '友達と比べるの画面を、棒グラフで見やすくしました（数値を棒の外に出し、どちらが上かを表示）', '歴打・元素インベーダーで、全画面から戻ったときにゲームの画面が消える問題を直しました'] },
   { v: '17.59', d: '2026-11-09', t: 'スマホ・iPadの表示崩れを修正', n: ['スマホのグラフで、式の入力欄と削除ボタンが右にはみ出していたのを直しました', 'スマホで計算機のキーボードを出すとき、右下の＋ボタンと重ならないようにしました', 'スマホの下のバーの期限の表示を、小さな点にして、文字がはみ出さないようにしました', 'iPad（横）のタイピングの全画面が、右にはみ出していたのを直しました'] },
   { v: '17.58', d: '2026-11-09', t: 'タイピングの修正・友達の全員表示・スマホの画面の整理', n: ['タイピングで、日本語の答えのとき、入力欄が見えて打った文字が表示されるように（以前は見えずに打てていなかったことがありました）', 'iPhoneで、英字のタイピングの文字が打った時点で表示されるように（変換中の文字も表示）', '友達の一覧を読み込む途中で、古い結果が新しい結果を上書きしないようにしました（友達が全員出るように）', '友達が、新しく追加する人の情報を送れなかった場合でも、古いFirestoreのルールで動くようにしました', 'スマホの下のバーは、ホーム・課題・予定・記録・ツールだけにしました（設定・AI・通知は他の場所から開けます）', 'スマホの画面で、文字が縦に並んだり隠れたりしないように整理しました（単語帳・集中モード・下のバーのまるい背景）'] },
@@ -4489,6 +4506,7 @@ function wcType() {
        <p class="muted" style="margin:0 0 14px;font-size:.85rem;line-height:1.6">AIの問題は、単語帳には保存されません。${CLOUD.user ? 'AIは間違うことがあります。' : 'Googleログイン後に使えます。'}</p>`}
   <div class="fld"><label>答えるもの</label><div class="wx-seg">${seg(TT.src === 'deck' ? [['f', '表（単語）を打つ'], ['b', '裏（意味）を打つ'], ['h', 'ヘボン式（ローマ字）で打つ']] : [['f', '表（単語）を打つ'], ['b', '裏（意味）を打つ']], TT.dir, 'dir')}</div></div>
   <div class="fld"><label>スペルの表示</label><div class="wx-seg">${seg(TY_SPELL, TT.spell, 'sp')}</div><p class="muted" style="margin:6px 0 0;font-size:.82rem;font-weight:500;line-height:1.6">「かくす」にすると、答えのつづりは打つまで見えません。ヒントで1文字ずつ出せます（ヒントを使うと結果に残ります）。</p></div>
+  <div class="fld"><label>正解したとき</label><div class="wx-seg">${seg([['1', '自動で次の問題へ'], ['0', 'ボタンで次へ']], tyAutoOn() ? '1' : '0', 'au')}</div></div>
   <div class="dact"><button type="button" class="btn text" data-act="close">やめる</button><span class="sp"></span><button type="button" class="btn" id="ttgo" data-act="ttgo">${ms('play_arrow')}${TT.src === 'ai' ? 'AIで問題を作る' : 'はじめる'}</button></div></div>`);
 }
 function ttStart() {
@@ -4622,6 +4640,7 @@ function ttTick() {
   const min = TT.t0 ? (Date.now() - TT.t0) / 60000 : 0;
   const w = $('#tywpm'); if (w) w.textContent = min > 0.02 ? Math.round((TT.chars - TT.miss) / min) : 0;
 }
+function tyAutoOn() { return !(S.set && S.set.tyAuto === false); }
 function ttCheck() {
   if (TT.judged === TT.i) return; TT.judged = TT.i;
   const q = TT.list[TT.i], ans = ttSides(q).ans, v = $('#tta') ? $('#tta').value : '', ok = ttOk(v, ans);
@@ -4631,6 +4650,12 @@ function ttCheck() {
   if (ok) { TT.streak++; if (TT.streak > TT.best) TT.best = TT.streak; } else { TT.streak = 0; }
   const last = TT.i + 1 >= TT.list.length;
   const mile = ok && [5, 10, 20, 30].includes(TT.streak) ? TT.streak : 0;
+  if (ok && tyAutoOn()) {   // 正解なら、ボタンを押さずに次へ（まちがえたときは、答えを見てから次へ）
+    tyBurst(); toast(TT.streak >= 2 ? `正解！ ${TT.streak}れんぞく` : '正解！');
+    const idx = TT.i;
+    setTimeout(() => { if (TT.i === idx && TT.judged === idx) ACT.ttnext(); }, 650);
+    return;
+  }
   if (ok) tyBurst();
   tyOpen(`<div class="ty-stage ty-check ${ok ? 'ok' : 'ng'}"><div class="ty-bg"></div>
   <div class="ty-top"><span class="ty-no">${TT.i + 1}<small> / ${TT.list.length}</small></span><span class="ty-st ty-flame ${TT.streak >= 5 ? 'hot' : ''}">${ms('local_fire_department')}<b>${TT.streak}</b></span></div>
@@ -4665,6 +4690,7 @@ Object.assign(ACT, {
     if (k === 'cnt') TT.cnt = +v;
     else if (k === 'src') { TT.src = v; return wcType(); }
     else if (k === 'sp') TT.spell = v;
+    else if (k === 'au') { S.set = S.set || {}; S.set.tyAuto = v === '1'; save(); }
     else TT.dir = v;
     wcType();
   },
@@ -6772,7 +6798,7 @@ Object.assign(ACT, { sugai() { if (!CLOUD.user) return toast('AIは、Googleロ�
 const CF = { n: 0, rec: [] };
 function cardsHtml() {
   ensureDecks(); const d = wcDeck(), all = wcAll(), k = all.filter(c => c.k).length;
-  return `<div class="wx"><aside class="wx-side"><div class="wx-sh">単語帳</div><div class="wc-decks">${S.decks.map(dk => `<button class="wc-dk sc ${dk.id === d.id ? 'on' : ''}" style="--sh:${dk.hue}" data-act="wcdeck" data-id="${dk.id}"><i></i><b>${esc(dk.name)}</b><small>${S.cards.filter(c => c.d === dk.id).length}</small></button>`).join('')}<p class="wc-lp">長押しで、名前と色を変えられます</p><div class="wc-side-acts"><button class="wc-ib" data-act="wcdeckadd" aria-label="新しい単語帳" title="新しい単語帳">${ms('add')}</button><button class="wc-ib" data-act="wcbackup" aria-label="共有・バックアップ" title="共有・バックアップ">${ms('share')}</button></div></div></aside>
+  return `<div class="wx"><aside class="wx-side"><div class="wx-sh">単語帳</div><div class="wc-decks">${S.decks.map(dk => `<button class="wc-dk sc ${dk.id === d.id ? 'on' : ''}" style="--sh:${dk.hue}" data-act="wcdeck" data-id="${dk.id}"><i></i><b>${esc(dk.name)}</b><small>${S.cards.filter(c => c.d === dk.id).length}</small></button>`).join('')}<p class="wc-lp">長押しで、名前と色を変えられます</p><div class="wc-side-acts"><button class="wc-ib" data-act="wcdeckadd" aria-label="新しい単語帳" title="新しい単語帳">${ms('add')}</button><button class="wc-ib" data-act="wcbackup" aria-label="共有・バックアップ" title="共有・バックアップ">${ms('share')}</button><button class="wc-ib" data-act="wcrecv" aria-label="コードで受け取る" title="コードで受け取る">${ms('key')}</button></div></div></aside>
   <section class="wx-main"><div class="wx-top"><div class="wx-acts"><button class="btn" data-act="wcmanual" aria-label="カードを追加" title="カードを追加">${ms('add')}<span class="bl">追加</span></button><button class="ibtn wc-more" data-act="wcmore" aria-label="その他の操作" title="その他の操作">${ms('more_vert')}</button></div></div>
   <div class="wc-meta"><span id="wcstat">${wcStatText()}</span></div><div class="wc-prog"><i id="wcprog" style="width:${all.length ? k / all.length * 100 : 0}%"></i></div>
   <div class="wx-tabs" role="tablist">${[['study', 'style', '学習'], ['list', 'list', '一覧'], ['test', 'quiz', 'テスト']].map(([t, ic, l]) => `<button type="button" role="tab" aria-selected="${WC.tab === t}" class="wx-tab ${WC.tab === t ? 'on' : ''}" data-act="wctab" data-id="${t}">${ms(ic)}${l}</button>`).join('')}</div>
@@ -6787,7 +6813,7 @@ function wcStudyTab() {
   if (WC.sel === 'weak') act.push(['wcsel', 'all', 'priority_high', '苦手だけ']);
   if (WC.rev) act.push(['wcrev', '', 'swap_horiz', '裏から出す']);
   return `<div class="wx-seg" role="radiogroup" aria-label="出すカード">${[['new', '覚えていない', c.nw], ['all', 'すべて', c.all], ['known', '覚えた', c.known], ['rev', '見直し', c.rev]].map(([k, t, n]) => `<button type="button" role="radio" aria-checked="${WC.filt === k}" class="wx-sg ${WC.filt === k ? 'on' : ''}" data-act="wcfilt" data-id="${k}">${t}<small id="wcn-${k}">${n}</small></button>`).join('')}</div>
-  <div class="wc-bar"><div class="wc-act">${act.map(([a, id, ic, t]) => `<button type="button" class="wc-chip" data-act="${a}" data-id="${id}" aria-label="${t}を解除">${ms(ic, '', 'font-size:17px')}${t}${ms('close', '', 'font-size:16px')}</button>`).join('')}</div><div class="wc-quick"><button type="button" class="wc-ib" data-act="wcfocus" aria-label="集中モード（全画面）" title="集中モード（全画面）">${ms('fullscreen')}</button><button type="button" class="wc-ib ${shuf ? 'on' : ''}" data-act="${shuf ? 'wcunshuf' : 'wcshuf'}" aria-pressed="${shuf}" aria-label="${shuf ? '順番にもどす' : 'シャッフル'}" title="${shuf ? '順番にもどす' : 'シャッフル'}">${ms('shuffle')}</button></div></div>
+  <div class="wc-bar"><div class="wc-act">${act.map(([a, id, ic, t]) => `<button type="button" class="wc-chip" data-act="${a}" data-id="${id}" aria-label="${t}を解除">${ms(ic, '', 'font-size:17px')}${t}${ms('close', '', 'font-size:16px')}</button>`).join('')}</div><div class="wc-quick"><button type="button" class="wc-ib" data-act="wcfocus" aria-label="集中モード（全画面）" title="集中モード（全画面）">${ms('fullscreen')}</button><button type="button" class="wc-ib ${rg ? 'on' : ''}" data-act="wcrng" aria-pressed="${!!rg}" aria-label="番号で絞る" title="番号で絞る">${ms('pin')}</button><button type="button" class="wc-ib ${shuf ? 'on' : ''}" data-act="${shuf ? 'wcunshuf' : 'wcshuf'}" aria-pressed="${shuf}" aria-label="${shuf ? '順番にもどす' : 'シャッフル'}" title="${shuf ? '順番にもどす' : 'シャッフル'}">${ms('shuffle')}</button></div></div>
   <div id="wcstage">${wcStageHtml()}</div>`;
 }
 function wcMoreHtml() {
@@ -6818,7 +6844,7 @@ Object.assign(ACT, {
   wcmx(id) { const [a, arg] = String(id).split('|'); if (!ACT[a] || a === 'wcmx') return; closeDlg(); ACT[a](arg || undefined); },
   wcmanual() {
     CF.n = 0; CF.rec = [];
-    openDlg(`<h2>${ms('add')}カードを追加</h2><p class="muted cf-sub">「${esc(wcDeck().name)}」に追加します。表 → 裏の順に入れて、Enterで追加します。続けて何枚でも入力できます。</p>
+    openDlg(`<div class="cf-hd"><h2>${ms('add')}カードを追加</h2><button type="button" class="btn tonal sm" data-act="wcaiadd">${gem(18)}AIで追加</button></div><p class="muted cf-sub">「${esc(wcDeck().name)}」に追加します。表 → 裏の順に入れて、Enterで追加します。続けて何枚でも入力できます。</p>
     <div class="cf">
       <label class="cf-lab" for="cff"><span class="cf-tag">表</span><span>問題・単語</span></label>
       <textarea id="cff" class="cf-in" rows="2" enterkeyhint="next" autocomplete="off" placeholder="例：apple"></textarea>
@@ -9339,18 +9365,26 @@ window.addEventListener('message', e => {
 const gameOv = () => !!(document.getElementById('psov') || document.getElementById('rkov'));
 function gameFull(k, on) {
   const f = document.getElementById(k + 'frame'); if (!f) return;
-  const mark = document.getElementById(k + 'ov');
-  if (on && !mark) {
-    // 印（非表示）を置き、枠に全画面の見た目を付ける。枠を別の場所へ動かさないので、ゲームは読み込み直されない
-    const m = document.createElement('i'); m.id = k + 'ov'; m.hidden = true; document.body.appendChild(m);
-    f.classList.add('ps-pin');
+  const ov = document.getElementById(k + 'ov');
+  if (on && !ov) {
+    // 元の場所に印を残して、枠を画面の一番上の層（body直下）へ移す。アプリの中の位置や変形の影響を受けない
+    const ph = document.createElement('div'); ph.id = k + 'ph'; f.parentNode.insertBefore(ph, f);
+    const o = document.createElement('div'); o.id = k + 'ov'; o.className = 'ps-ov';
+    o.appendChild(f);
     const bt = document.createElement('button');
-    bt.type = 'button'; bt.className = 'ps-exit ps-exit-pin'; bt.innerHTML = `${ms('fullscreen_exit')}戻す`;
+    bt.type = 'button'; bt.className = 'ps-exit ps-exit-ov'; bt.innerHTML = `${ms('fullscreen_exit')}戻す`;
     bt.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); gameFull(k, false); });
-    f.appendChild(bt);
+    o.appendChild(bt);
+    document.body.appendChild(o);
+    f.classList.add('ps-full');
     psFocusFrame(f.querySelector('iframe'));
-  } else if (!on && mark) {
-    mark.remove(); f.classList.remove('ps-pin'); f.querySelectorAll('.ps-exit-pin').forEach(x => x.remove());
+  } else if (!on && ov) {
+    const ph = document.getElementById(k + 'ph');
+    f.classList.remove('ps-full');
+    if (ph && ph.parentNode) ph.parentNode.insertBefore(f, ph);
+    else { const h = document.querySelector('.tbody') || document.getElementById('view'); if (h) h.appendChild(f); }
+    if (ph) ph.remove();
+    ov.remove();
   }
   const now = !!document.getElementById(k + 'ov');
   const b = document.getElementById(k + 'fb'); if (b) b.innerHTML = `${ms(now ? 'fullscreen_exit' : 'fullscreen')}${now ? '戻す' : '全画面'}`;
