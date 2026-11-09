@@ -1083,6 +1083,64 @@ button.gr-ch .ms{font-size:18px}
 .gr-row .scin{flex:1;min-width:0}
 .gr-list{display:grid;gap:6px;margin-bottom:8px}
 .gr-it{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:14px;background:var(--s2);font-weight:600;font-size:.9rem;word-break:break-all}
+/* ===== 17.54：タイピング（全画面・ヒント・スペル非表示・演出）／友達のアイコン ===== */
+dialog.ty-full{width:100vw!important;max-width:100vw!important;height:100vh!important;height:100dvh!important;max-height:100dvh!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:#0c1230!important}
+dialog.ty-full::backdrop{background:#0c1230}
+dialog.ty-full>.dlg{width:100%;height:100%;max-width:none;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;overflow-y:auto;box-sizing:border-box}
+dialog.ty-full .ty-stage{min-height:100%;max-width:780px;margin:0 auto;border-radius:0;border:0;box-shadow:none;box-sizing:border-box;padding:max(18px,env(safe-area-inset-top)) 20px max(22px,env(safe-area-inset-bottom));align-content:center;overflow:hidden}
+.ty-stage{overflow:hidden}
+.ty-stage>.ty-bg{position:absolute;inset:-20%;z-index:0;pointer-events:none;background:radial-gradient(40% 35% at 20% 30%,rgba(248,217,120,.2),transparent 70%),radial-gradient(45% 40% at 85% 75%,rgba(120,140,255,.24),transparent 70%),radial-gradient(35% 30% at 60% 10%,rgba(240,120,108,.16),transparent 70%);animation:tyDrift 14s ease-in-out infinite alternate}
+@keyframes tyDrift{to{transform:translate3d(4%,-3%,0) scale(1.06)}}
+.ty-stage>*:not(.ty-bg){position:relative;z-index:1}
+.ty-x{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid rgba(217,174,63,.5);background:rgba(10,14,34,.5);color:#f5e6b8;cursor:pointer}
+.ty-x .ms{font-size:22px}
+.ty-top{gap:10px 12px}
+.ty-flame{display:inline-flex;align-items:center;gap:4px;transition:color .3s}
+.ty-flame .ms{font-size:20px}
+.ty-flame.hot{color:#ffb36b}
+.ty-flame.hot .ms{animation:tyFlick 1s ease-in-out infinite alternate}
+@keyframes tyFlick{from{transform:scale(1);filter:drop-shadow(0 0 4px rgba(255,120,40,.6))}to{transform:scale(1.18);filter:drop-shadow(0 0 12px rgba(255,140,60,1))}}
+.ty-sl.blank{background:transparent;border:0;border-bottom:2px solid rgba(233,201,122,.6);border-radius:0;min-width:1.8rem;height:2.6rem;box-shadow:none}
+.ty-sl.hint{background:rgba(248,217,120,.16);border-color:#f8d977;color:#ffe9a6;box-shadow:0 0 12px rgba(248,217,120,.35)}
+.ty-sl.pop{animation:tyPop .34s cubic-bezier(.34,1.56,.64,1)}
+@keyframes tyPop{0%{transform:scale(.3);opacity:.2}100%{transform:scale(1);opacity:1}}
+.ty-sl.ph{opacity:.42}
+.ty-mask{margin-top:8px;font-size:.8rem;letter-spacing:.12em;color:#e9c97a;opacity:.9}
+.ty-combo{min-height:1.9rem;text-align:center;font-weight:800;color:#ffe08a;font-size:1.05rem;text-shadow:0 0 14px rgba(248,217,120,.6)}
+.ty-acts{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:6px}
+.ty-acts .btn.tonal{background:rgba(248,217,120,.16);color:#fff2b8;border:1px solid rgba(248,217,120,.45)}
+.ty-acts .btn.text{color:#f5e6b8}
+.ty-judge .ms{animation:tyJudge .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes tyJudge{0%{transform:scale(.3) rotate(-20deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.ty-mile{display:inline-flex;gap:6px;align-items:center;justify-self:center;padding:6px 14px;border-radius:999px;background:linear-gradient(90deg,#8a4a12,#f08a2c,#f8d977);color:#2a1400;font-weight:900;animation:tyHot .6s ease-out both}
+@keyframes tyHot{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.14);opacity:1}100%{transform:scale(1)}}
+.ty-hn{color:#e9c97a;font-size:.82rem;text-align:center}
+.ty-ringwrap{position:relative;width:150px;height:150px;justify-self:center}
+.ty-ring{width:100%;height:100%;transform:rotate(-90deg)}
+.ty-ring .rb{fill:none;stroke:rgba(255,255,255,.12);stroke-width:10}
+.ty-ring .rf{fill:none;stroke:#f8d977;stroke-width:10;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100;animation:tyRing 1.3s .25s ease-out forwards;filter:drop-shadow(0 0 6px rgba(248,217,120,.7))}
+@keyframes tyRing{to{stroke-dashoffset:calc(100 - var(--p))}}
+.ty-ringwrap b{position:absolute;inset:0;display:grid;place-items:center;font-size:1.9rem;color:#fff2b8;font-variant-numeric:tabular-nums}
+.ty-rgrid{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:center}
+.ty-rgrid .ty-score{text-align:left;color:#f5e6b8}
+.ty-stars{display:flex;gap:8px;justify-content:center;font-size:2.2rem;color:#5a4a20}
+.ty-stars .ms{transition:transform .3s}
+.ty-stars .ms.on{color:#ffd65c;text-shadow:0 0 16px rgba(255,214,92,.9);animation:tyJudge .6s cubic-bezier(.34,1.56,.64,1) both}
+.ty-res .ty-stats{grid-template-columns:repeat(4,1fr)}
+@media (max-width:520px){.ty-res .ty-stats{grid-template-columns:repeat(2,1fr)}.ty-rgrid{grid-template-columns:1fr;justify-items:center}.ty-rgrid .ty-score{text-align:center}}
+.ty-sl.ok,.ty-sl.ng{transition:transform .12s}
+.ty-play .ty-q{animation:tyRise .5s ease-out both}
+@keyframes tyRise{from{transform:translateY(10px);opacity:0}to{transform:none;opacity:1}}
+.fr-rec{padding:16px}
+.fr-av{width:52px;height:52px;border-radius:50%;overflow:hidden;flex:none;display:grid;place-items:center;background:linear-gradient(145deg,var(--primary),color-mix(in srgb,var(--primary) 60%,#000));color:#fff;font-weight:800;font-size:1.3rem}
+.fr-nm{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fr-code{letter-spacing:.12em}
+.av-img{width:100%;height:100%;object-fit:cover;display:block;border-radius:50%}
+.av-ch{display:grid;place-items:center;width:100%;height:100%}
+.fcm-av{overflow:hidden}
+.pf-pv{display:grid;place-items:center;margin:0 0 14px}
+.pf-pv>.av-img,.pf-pv>.av-ch{width:104px;height:104px;border-radius:50%;background:linear-gradient(145deg,var(--primary),var(--ter));color:#fff;font-size:2.6rem;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.pf-pv>.av-ch{display:grid;place-items:center}
 </style>
 </head>
 <body>
@@ -1106,7 +1164,7 @@ button.gr-ch .ms{font-size:18px}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.53';
+const APP_VERSION = '17.54';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1671,8 +1729,9 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '17.53', d: '2026/11/09 09:48', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
-  { v: '17.52', d: '2026/11/09 09:48', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
+  { v: '17.54', d: '2026/11/09 10:07', t: 'タイピング（全画面・ヒント・スペル非表示・演出）、友達のニックネームとアイコン、記録タブのカード、ホームの編集ボタンを一つに', n: ['入力テストを「タイピング」に名前を変えて、全画面で表示するようにしました', 'タイピングに、スペルの表示（表示・最初の1文字だけ・かくす）と、ヒントを追加しました', 'タイピングに、正解の紙吹雪、連続の炎と節目の表示、結果の円グラフと星の評価を追加しました', '友達と比べるで、ニックネームとアイコン画像を変えられるようにしました', '「自分の統計」と「友達と比べる」を、記録タブにカードとして表示します（ボタンを押さずに見られます）', 'ホームの「配置」と「文字」を、ひとつの「編集」ボタンにまとめました。編集の中で文字も変えられます'] },
+  { v: '17.53', d: '2026/11/09 10:07', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
+  { v: '17.52', d: '2026/11/09 10:07', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
   { v: '17.51', d: '2026/11/09 07:38', t: '歴打の和風化・全画面・iPad対応・自己ベスト連撃', n: ['ツールの「歴打」のカードを、和風の金と朱のデザインと明朝体にしました', '歴打を全画面で遊べるようにしました（右上の「戻す」で戻ります）', 'タイトルの「歴打」が金色に輝き、花びらが舞う演出を加えました', '結果の画面に「自己ベストの連撃」を表示し、更新したときは知らせます', '実績「レベル5到達」の説明に、歴打が解放されることを書きました'] },
   { v: '17.50', d: '2026/11/08 20:09', t: '歴打を追加（レベル5で解放・石高で実績）', n: ['タイピングゲーム「歴打」をツールに追加しました。レベル5になると遊べます', '歴打の石高が、実績「石高1000」「征夷大将軍」「天下の蓄え」に反映されます'] },
   { v: '17.49', d: '2026/11/08 10:39', t: 'AIの説明の表示修正・アカウント画面の整理・ログアウトの確認', n: ['iPadで、アプリの説明の「AIに質問する」の文字が縦に崩れる問題を直しました', 'アカウント画面に「通知」「アップデートを確認」「設定」を追加し、フィードバックのまわりの線を消しました', 'ログアウトする前に、確認の画面を出すようにしました'] },
@@ -1806,7 +1865,7 @@ function viewHome() {
   let h = `<div class="greet"><div style="flex:1 1 280px;min-width:240px"><h1 class="${rotSmall(ROT.phase, ROT.text || greeting()[0]) ? 'tip' : ''}"><span class="rot" id="rot">${rotHtml()}</span><small>${gd}</small></h1></div>
     ${urg ? `<span class="pillchip warnp">${ms('warning')}提出期限が近い課題 ${urg}件</span>` : ''}
     
-    <button class="pillchip hsearch" data-act="gsearch" aria-label="さがす" title="さがす">${ms('search')}<span>さがす</span></button><button class="pillchip hedit" data-act="greetset" aria-label="ホームの一番上の文字" title="ホームの一番上の文字">${ms('edit_note')}文字</button><button class="pillchip hedit" data-act="homeedit" aria-label="ホームの配置を編集" title="ホームの配置を編集">${ms('dashboard_customize')}配置</button><span class="pillchip ver" data-act="upd" role="button" aria-label="バージョン">v${APP_VERSION}</span>
+    <button class="pillchip hsearch" data-act="gsearch" aria-label="さがす" title="さがす">${ms('search')}<span>さがす</span></button><button class="pillchip hedit" data-act="homeedit" aria-label="ホームを編集" title="ホームを編集">${ms('edit')}編集</button><span class="pillchip ver" data-act="upd" role="button" aria-label="バージョン">v${APP_VERSION}</span>
     <button class="pillchip rp" data-act="tab" data-id="stats" aria-label="レベル"><span class="lv"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" style="stroke:color-mix(in srgb,var(--on-sec-c) 18%,transparent)"/><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--primary)" stroke-dasharray="${(C * lv.p).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 16 16)"/></svg>${ms('stars', 'f', 'font-size:16px;color:var(--primary)')}</span>Lv.${lv.L}</button></div>`;
   { const past = pastExams();
     h += `<div class="chips scroll mb">${activeExams().map(e => `<button class="chip ${e.id === ex.id ? 'on' : ''}" data-act="exam" data-id="${e.id}">${esc(e.name)}</button>`).join('')}${past.length ? `<button class="chip ${ex.arc ? 'on' : ''}" data-act="pastlist">${ms('inventory_2')}${ex.arc ? esc(ex.name) : '保存した考査 ' + past.length}</button>` : ''}<button class="chip" data-act="addexam">${ms('add')}考査を追加</button></div>`;
@@ -1883,7 +1942,7 @@ function homeSave(L) { S.set.home = { order: L.order, half: L.half, hide: L.hide
 function homeMove(id, d) { const L = homeLay(), i = L.order.indexOf(id), j = i + d; if (j < 0 || j >= L.order.length) return; [L.order[i], L.order[j]] = [L.order[j], L.order[i]]; homeSave(L); }
 function homeAssemble(P) {
   const L = homeLay(), ed = !!ui.homeEdit;
-  let out = ed ? `<div class="hed-top"><div><b>${ms('dashboard_customize')}ホームの配置を編集中</b><small>つまみをドラッグするか、矢印で並べ替えます</small></div><span class="sp" style="flex:1"></span><button class="btn text" data-act="homereset">${ms('restart_alt')}もとにもどす</button><button class="btn" data-act="homedone">${ms('check')}完了</button></div>` : '';
+  let out = ed ? `<div class="hed-top"><div><b>${ms('dashboard_customize')}ホームを編集中</b><small>つまみをドラッグするか、矢印で並べ替えます</small></div><span class="sp" style="flex:1"></span><button class="btn tonal" data-act="greetset">${ms('edit_note')}上の文字</button><button class="btn text" data-act="homereset">${ms('restart_alt')}もとにもどす</button><button class="btn" data-act="homedone">${ms('check')}完了</button></div>` : '';
   out += `<div class="hlay ${ed ? 'hed' : ''}">` + L.order.map((id, i) => {
     const body = P[id] || '', hid = !!L.hide[id], half = !!L.half[id], meta = HOME_SECS.find(x => x[0] === id);
     if (!ed) return hid || !body ? '' : `<div class="hsec ${half ? 'half' : ''}" data-sec="${id}">${body}</div>`;
@@ -2057,14 +2116,14 @@ function lastDays(n) {
 }
 function viewStats() {
   const subs = subjects();
-  if (!subs.length) return emptyHome();
+  if (!subs.length) return myStatCard() + friendRecordCard() + emptyHome();
   const all = examTasks(), Rq = agg(all.filter(t => t.req)), Op = agg(all.filter(t => !t.req));
   const days = lastDays(ui.period), n = days.length, isM = ui.metric === 'min', V = d => isM ? d.m : d.a;
   const sum = days.reduce((a, d) => a + V(d), 0), max = Math.max(isM ? 30 : 5, ...days.map(V));
   const best = days.reduce((b, d) => V(d) > V(b) ? d : b, days[0]), unit = isM ? '分' : 'p';
   const lab = (d, i) => n <= 7 ? WD[d.d.getDay()] : n <= 14 ? d.d.getDate() : (i % 5 === 0 || i === n - 1 ? `${d.d.getMonth() + 1}/${d.d.getDate()}` : '');
   const tt = totals(), lv = level();
-  let h = wkReview() + scoreCard() + scoreTrend() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
+  let h = myStatCard() + friendRecordCard() + wkReview() + scoreCard() + scoreTrend() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
   <div class="chips mb"><div class="seg" role="group">${[7, 14, 30].map(p => `<button class="${ui.period === p ? 'on' : ''}" data-act="period" data-id="${p}">${p}日</button>`).join('')}</div></div>
   <div class="card"><div class="bars" style="--n:${n}">${days.map((d, i) => `<div class="bcol ${d.k === today() ? 'today' : ''}"><div class="bval">${n <= 14 && V(d) ? V(d) : ''}</div><div class="bar">${isM ? `<i class="m" style="height:${V(d) / max * 100}%"></i>` : `<i class="o" style="height:${d.a / max * 100}%"></i><i class="r" style="height:${d.r / max * 100}%"></i>`}</div><div class="blab">${lab(d, i)}</div></div>`).join('')}</div>
   ${isM ? '' : `<div class="chips" style="margin-top:14px"><span class="lg"><i style="background:var(--primary)"></i><span>必須</span></span><span class="lg"><i style="background:var(--ter-c)"></i><span>任意</span></span></div>`}</div>
@@ -2190,7 +2249,7 @@ function backupPage() {
 
 /* ====================== ダイアログ ====================== */
 const dlg = $('#dlg');
-function openDlg(html) { dlg.innerHTML = `<div class="dlg">${html}</div>`; if (!dlg.open) dlg.showModal(); }
+function openDlg(html) { dlg.classList.remove('ty-full'); dlg.innerHTML = `<div class="dlg">${html}</div>`; if (!dlg.open) dlg.showModal(); }
 const closeDlg = () => { if (dlg.open) dlg.close(); };
 dlg.addEventListener('click', e => { if (e.target === dlg) closeDlg(); });
 const err = m => { const e = $('#err'); if (e) e.textContent = m; };
@@ -4268,11 +4327,11 @@ function wcTestTab() {
   return `<div class="card wx-tr"><div class="wx-trh"><b>テストの範囲</b><span class="muted">対象：<b id="wxtn">${pool}</b>枚</span></div>
   <div class="wc-opts" style="justify-content:flex-start"><button class="tchip ${tr ? 'on' : ''}" data-act="wctrng">${ms('pin')}${tr ? `番号 ${tr[0]}〜${tr[1]}` : '番号：全部'}</button>${tr ? `<button class="tchip" data-act="wctrngclr">${ms('close')}範囲を解除</button>` : ''}</div>
   <div class="wx-seg wx-tsel" role="radiogroup" aria-label="テストに出すカード">${[['all', 'すべて'], ['new', '覚えていない'], ['known', '覚えた'], ['star', '★'], ['weak', '苦手']].map(([k, t]) => `<button type="button" role="radio" aria-checked="${WC.tsel === k}" class="wx-sg ${WC.tsel === k ? 'on' : ''}" data-act="wctsel" data-id="${k}">${t}<small>${cnt[k]}</small></button>`).join('')}</div>${qzDirSeg()}</div>
-  <div class="wx-tg stg">${card('quiz', `${qzN()}択クイズ`, qzDesc(), 'wcquiz', pool < 2)}${card('keyboard', '入力テスト', '意味を見て、単語を自分で入力します', 'wctype', pool < 1)}${card('headphones', '聞き流し', 'カードを自動でめくって、読み上げます', 'wcauto', pool < 1)}</div>`;
+  <div class="wx-tg stg">${card('quiz', `${qzN()}択クイズ`, qzDesc(), 'wcquiz', pool < 2)}${card('keyboard', 'タイピング', '意味を見て、単語を自分で入力します', 'wctype', pool < 1)}${card('headphones', '聞き流し', 'カードを自動でめくって、読み上げます', 'wcauto', pool < 1)}</div>`;
 }
 const wcTabHtml = () => WC.tab === 'list' ? wcListTab() : WC.tab === 'test' ? wcTestTab() : wcStudyTab();
 /* ---- 入力テスト ---- */
-const TT = { list: [], i: 0, ok: [], ng: [], cnt: 10, dir: 'f', src: 'deck', theme: '', t0: 0, chars: 0, miss: 0, streak: 0, best: 0, clk: 0, prevLen: 0, done: false, busy: false, judged: -1 };
+const TT = { list: [], i: 0, ok: [], ng: [], cnt: 10, dir: 'f', src: 'deck', spell: 'show', theme: '', t0: 0, chars: 0, miss: 0, streak: 0, best: 0, clk: 0, prevLen: 0, done: false, busy: false, judged: -1, hint: 0, hints: 0, slots: false, ans: '' };
 const TT_AI_SYS = 'あなたは中学・高校の語学と社会の先生です。タイピング練習の問題を、指示どおりのJSONで作ります。';
 const ttNorm = x => String(x || '').normalize('NFKC').toLowerCase().replace(/[\s]+/g, ' ').replace(/[。.!?！？]+$/, '').trim();
 function ttOk(v, ans) {
@@ -4281,20 +4340,32 @@ function ttOk(v, ans) {
   return alts.includes(n);
 }
 const ttAscii = s => /^[\x20-\x7e]+$/.test(String(s)) && String(s).trim().length > 0;
-// 答えの枠（英字のとき）。打った文字は色で分かる。まだ打っていない文字は薄く出す
-function ttSlots(ans, v) {
+const TY_SPELL = [['show', '表示する'], ['first', '最初の1文字だけ'], ['hide', 'かくす']];
+// 全画面の表示（ダイアログを画面いっぱいにする）
+function tyOpen(html) { openDlg(html); dlg.classList.add('ty-full'); }
+// 答えの枠：打った文字は色で、ヒントは黄色で、まだの文字は設定によって隠す
+function ttSlots(ans, v, mode, hint) {
+  const n = v.length;
   return [...ans].map((ch, j) => {
     if (ch === ' ') return '<span class="ty-sp"></span>';
-    const typed = j < v.length ? v[j] : '';
-    const cls = !typed ? 'ph' : (typed.toLowerCase() === ch.toLowerCase() ? 'ok' : 'ng');
-    return `<span class="ty-sl ${cls}${j === v.length ? ' cur' : ''}">${esc(typed || ch)}</span>`;
+    const cur = j === n ? ' cur' : '';
+    if (j < n) { const ok = v[j].toLowerCase() === ch.toLowerCase(); return `<span class="ty-sl ${ok ? 'ok' : 'ng'}${j === n - 1 ? ' pop' : ''}${cur}">${esc(v[j])}</span>`; }
+    if (j < hint) return `<span class="ty-sl hint${cur}">${esc(ch)}</span>`;
+    if (mode === 'show' || (mode === 'first' && j === 0)) return `<span class="ty-sl ph${cur}">${esc(ch)}</span>`;
+    return `<span class="ty-sl blank${cur}"></span>`;
   }).join('');
 }
+function ttRender(v) {
+  const el = $('#tyslots'); if (el) el.innerHTML = ttSlots(TT.ans, v, TT.spell, TT.hint);
+  const h = $('#tyhint'); if (h) h.disabled = TT.hint >= TT.ans.length - 1;
+  const fl = $('#tyfl'); if (fl) fl.classList.toggle('hot', TT.streak >= 5);
+}
+function tyBurst() { try { confetti(innerWidth / 2, innerHeight * .42, 42); } catch (e) { } }
 function wcType() {
   const pool = TT.src === 'deck' ? wcTestPool() : [];
   if (TT.src === 'deck' && !pool.length) return toast('カードがありません');
   const seg = (list, cur, kind) => list.map(([v, t]) => `<button type="button" class="wx-sg ${cur === v ? 'on' : ''}" data-act="ttopt" data-id="${kind}:${v}">${t}</button>`).join('');
-  openDlg(`<div class="ty-setup"><h2>${ms('keyboard')}入力テスト</h2>
+  openDlg(`<div class="ty-setup"><h2>${ms('keyboard')}タイピング</h2>
   <p class="muted" style="margin:-6px 0 14px;line-height:1.7">問題を見て、答えをキーボードで打ちます。打った文字は、その場で色が変わります。</p>
   <div class="fld"><label>問題の出どころ</label><div class="wx-seg">${seg([['deck', '単語帳のカード'], ['ai', 'AIで作る']], TT.src, 'src')}</div></div>
   ${TT.src === 'deck'
@@ -4304,10 +4375,11 @@ function wcType() {
        <div class="fld"><label>問題の数</label><div class="wx-seg">${seg([[5, '5問'], [10, '10問'], [20, '20問']], TT.cnt || 10, 'cnt')}</div></div>
        <p class="muted" style="margin:0 0 14px;font-size:.85rem;line-height:1.6">AIの問題は、単語帳には保存されません。${CLOUD.user ? 'AIは間違うことがあります。' : 'Googleログイン後に使えます。'}</p>`}
   <div class="fld"><label>答えるもの</label><div class="wx-seg">${seg([['f', '表（単語）を打つ'], ['b', '裏（意味）を打つ']], TT.dir, 'dir')}</div></div>
+  <div class="fld"><label>スペルの表示</label><div class="wx-seg">${seg(TY_SPELL, TT.spell, 'sp')}</div><p class="muted" style="margin:6px 0 0;font-size:.82rem;font-weight:500;line-height:1.6">「かくす」にすると、答えのつづりは打つまで見えません。ヒントで1文字ずつ出せます（ヒントを使うと結果に残ります）。</p></div>
   <div class="dact"><button type="button" class="btn text" data-act="close">やめる</button><span class="sp"></span><button type="button" class="btn" id="ttgo" data-act="ttgo">${ms('play_arrow')}${TT.src === 'ai' ? 'AIで問題を作る' : 'はじめる'}</button></div></div>`);
 }
 function ttStart() {
-  TT.judged = -1; TT.i = 0; TT.ok = []; TT.ng = []; TT.t0 = 0; TT.chars = 0; TT.miss = 0; TT.streak = 0; TT.best = 0;
+  TT.i = 0; TT.ok = []; TT.ng = []; TT.t0 = 0; TT.chars = 0; TT.miss = 0; TT.streak = 0; TT.best = 0; TT.hints = 0; TT.judged = -1;
   if (TT.list.length) ttAsk();
 }
 async function ttAiMake() {
@@ -4328,37 +4400,45 @@ async function ttAiMake() {
 }
 function ttAsk() {
   const q = TT.list[TT.i], ask = TT.dir === 'f' ? q.b : q.f, ans = TT.dir === 'f' ? q.f : q.b;
-  const slots = ttAscii(ans) && ans.length <= 60;
-  TT.prevLen = 0; TT.done = false;
-  openDlg(`<div class="ty-stage">
-    <div class="ty-top"><span class="ty-no">${TT.i + 1}<small> / ${TT.list.length}</small></span><span class="ty-st" id="tyclk">0:00</span><span class="ty-st"><b id="tywpm">0</b> 字/分</span><span class="ty-st">連続 <b id="tystk">${TT.streak}</b></span></div>
+  TT.slots = ttAscii(ans) && ans.length <= 60; TT.ans = ans;
+  TT.prevLen = 0; TT.done = false; TT.hint = 0;
+  const showSlots = TT.slots;
+  tyOpen(`<div class="ty-stage ty-play ${TT.streak >= 5 ? 'hot' : ''}"><div class="ty-bg"></div>
+    <div class="ty-top"><button type="button" class="ty-x" data-act="ttquit" aria-label="やめる">${ms('close')}</button><span class="ty-no">${TT.i + 1}<small> / ${TT.list.length}</small></span><span class="ty-st" id="tyclk">0:00</span><span class="ty-st"><b id="tywpm">0</b> 字/分</span><span class="ty-st ty-flame ${TT.streak >= 5 ? 'hot' : ''}" id="tyfl">${ms('local_fire_department')}<b id="tystk">${TT.streak}</b></span></div>
     <div class="ty-prog"><i style="width:${TT.i / TT.list.length * 100}%"></i></div>
-    <div class="ty-prompt"><small>${TT.dir === 'f' ? '意味' : '単語'}</small><div class="ty-q">${wcNl(ask)}</div></div>
-    <div class="ty-slots" id="tyslots">${slots ? ttSlots(ans, '') : ''}</div>
+    <div class="ty-prompt"><small>${TT.dir === 'f' ? '意味' : '単語'}</small><div class="ty-q">${wcNl(ask)}</div>${showSlots && TT.spell === 'hide' ? '<div class="ty-mask">スペルは かくしています</div>' : ''}</div>
+    ${showSlots ? `<div class="ty-slots" id="tyslots">${ttSlots(ans, '', TT.spell, 0)}</div>` : ''}
+    <div class="ty-combo" id="tycombo"></div>
     <form id="ttf" autocomplete="off"><input id="tta" class="ty-hid" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" aria-label="答えを入力">
-      <p class="ty-hint">${slots ? '打つと文字が色で分かります。正しく打つと、自動で次へ進みます' : 'ひらがな・漢字で入力して、「こたえる」を押してください'}</p>
-      <div class="dact"><button type="button" class="btn text" data-act="ttquit">やめる</button><span class="sp"></span><button class="btn" type="submit">${ms('check')}こたえる</button></div></form></div>`);
-  const inp = $('#tta');
-  inp.addEventListener('input', () => ttType(ans, slots));
+      <p class="ty-hint">${showSlots ? '打つと文字が色で分かります。正しく打つと、自動で次へ進みます' : 'ひらがな・漢字で入力して、「こたえる」を押してください'}</p>
+      <div class="ty-acts">${showSlots ? `<button type="button" class="btn tonal" id="tyhint" data-act="tyhint">${ms('lightbulb')}ヒント</button>` : ''}<span class="sp"></span><button class="btn" type="submit">${ms('check')}こたえる</button></div></form></div>`);
+  $('#tta').addEventListener('input', ttType);
   $('#ttf').onsubmit = ev => { ev.preventDefault(); ttCheck(); };
   if (!TT.clk) TT.clk = setInterval(ttTick, 500);
   setTimeout(() => { const el = $('#tta'); el && el.focus(); }, 120);
 }
-function ttType(ans, slots) {
+function ttType() {
   const inp = $('#tta'); if (!inp || TT.done) return;
   const v = inp.value;
   if (!TT.t0 && v.length) TT.t0 = Date.now();
   if (v.length > TT.prevLen) {
     TT.chars++;
     const j = v.length - 1;
-    if (slots && ans[j] !== undefined && v[j].toLowerCase() !== ans[j].toLowerCase()) {
+    if (TT.slots && TT.ans[j] !== undefined && v[j].toLowerCase() !== TT.ans[j].toLowerCase()) {
       TT.miss++; TT.streak = 0; const st = $('#tystk'); if (st) st.textContent = 0;
       const sl = $('#tyslots'); if (sl) { sl.classList.remove('ty-shake'); void sl.offsetWidth; sl.classList.add('ty-shake'); }
     }
   }
   TT.prevLen = v.length;
-  if (slots) { const sl = $('#tyslots'); if (sl) sl.innerHTML = ttSlots(ans, v); }
-  if (slots && ttOk(v, ans)) { TT.done = true; setTimeout(ttCheck, 180); }
+  if (TT.slots) ttRender(v);
+  if (TT.slots && ttOk(v, TT.ans)) { TT.done = true; setTimeout(ttCheck, 220); }
+}
+function tyhintAct() {
+  if (TT.done || !TT.slots) return;
+  if (TT.hint >= TT.ans.length - 1) return toast('これ以上は出せません');
+  TT.hint++; TT.hints++;
+  ttRender(($('#tta') || {}).value || '');
+  const sl = $('#tyslots'); if (sl) { sl.classList.remove('ty-shake'); void sl.offsetWidth; }
 }
 function ttTick() {
   const el = $('#tyclk'); if (!el) { clearInterval(TT.clk); TT.clk = 0; return; }
@@ -4375,11 +4455,15 @@ function ttCheck() {
   if (!q.ai) { if (ok) q.m = Math.max(0, (q.m || 0) - 1); else { q.k = 0; q.m = (q.m || 0) + 1; } save(); wcDayAdd(1); }
   if (ok) { TT.streak++; if (TT.streak > TT.best) TT.best = TT.streak; } else { TT.streak = 0; }
   const last = TT.i + 1 >= TT.list.length;
-  openDlg(`<div class="ty-stage ty-check ${ok ? 'ok' : 'ng'}">
-  <div class="ty-top"><span class="ty-no">${TT.i + 1}<small> / ${TT.list.length}</small></span><span class="ty-st">連続 <b>${TT.streak}</b></span></div>
+  const mile = ok && [5, 10, 20, 30].includes(TT.streak) ? TT.streak : 0;
+  if (ok) tyBurst();
+  tyOpen(`<div class="ty-stage ty-check ${ok ? 'ok' : 'ng'}"><div class="ty-bg"></div>
+  <div class="ty-top"><span class="ty-no">${TT.i + 1}<small> / ${TT.list.length}</small></span><span class="ty-st ty-flame ${TT.streak >= 5 ? 'hot' : ''}">${ms('local_fire_department')}<b>${TT.streak}</b></span></div>
   <div class="ty-judge">${ms(ok ? 'check_circle' : 'cancel')}<b>${ok ? '正解！' : 'ちがいます'}</b></div>
+  ${mile ? `<div class="ty-mile">${ms('local_fire_department')}${mile}れんぞく！</div>` : ''}
   <div class="ty-ans">${ok ? '' : `<small>あなたの答え</small><span class="ty-yours">${esc(v) || '（空）'}</span>`}<small>正しい答え</small><span class="ty-right">${wcNl(ans)}</span></div>
-  <div class="dact"><span class="sp"></span><button type="button" class="btn" id="ttn" data-act="ttnext">${last ? '結果を見る' : 'つぎへ'}${ms('arrow_forward')}</button></div></div>`);
+  ${TT.hint ? `<small class="ty-hn">ヒントを${TT.hint}文字使いました</small>` : ''}
+  <div class="ty-acts"><span class="sp"></span><button type="button" class="btn" id="ttn" data-act="ttnext">${last ? '結果を見る' : 'つぎへ'}${ms('arrow_forward')}</button></div></div>`);
   setTimeout(() => { const b = $('#ttn'); b && b.focus(); }, 120);
 }
 function ttResult() {
@@ -4389,12 +4473,15 @@ function ttResult() {
   const acc = TT.chars ? Math.round((TT.chars - TT.miss) / TT.chars * 100) : 100;
   const mins = TT.t0 ? Math.max(0.05, (Date.now() - TT.t0) / 60000) : 0;
   const wpm = mins ? Math.round((TT.chars - TT.miss) / mins) : 0;
-  openDlg(`<div class="ty-stage ty-res">
-  <h2 class="ty-h">${ms(pc >= 80 ? 'emoji_events' : 'task_alt')}結果</h2>
-  <div class="ty-score"><b>${ok}</b><span> / ${n}問 正解（${pc}%）</span></div>
-  <div class="ty-stats"><div><small>正確さ</small><b>${acc}%</b></div><div><small>打つ速さ</small><b>${wpm}<em>字/分</em></b></div><div><small>最高の連続</small><b>${TT.best}</b></div></div>
-  ${TT.ng.length ? `<div class="ty-ng-l">まちがえた${TT.src === 'ai' ? '問題' : 'カード'}</div><div class="ty-ng">${TT.ng.map(c => `<div><b>${esc(c.f)}</b><span>${esc(c.b)}</span></div>`).join('')}</div>` : '<p class="muted" style="text-align:center">全問正解です！</p>'}
-  <div class="dact" style="flex-wrap:wrap;gap:10px"><button type="button" class="btn text" data-act="close">閉じる</button><span class="sp"></span>${TT.ng.length && TT.src === 'deck' ? `<button type="button" class="btn tonal" data-act="ttstar">${ms('star')}まちがえたものに★</button><button type="button" class="btn" data-act="ttretry">${ms('replay')}まちがえたものを、もう一度</button>` : ''}${TT.src === 'ai' ? `<button type="button" class="btn" data-act="ttai">${ms('auto_awesome')}もう一度作る</button>` : ''}</div></div>`);
+  const stars = pc >= 100 && acc >= 95 ? 3 : pc >= 70 ? 2 : 1;
+  const ring = `<div class="ty-ringwrap"><svg class="ty-ring" viewBox="0 0 120 120"><circle class="rb" cx="60" cy="60" r="50"/><circle class="rf" cx="60" cy="60" r="50" pathLength="100" style="--p:${pc}"/></svg><b>${pc}%</b></div>`;
+  tyOpen(`<div class="ty-stage ty-res"><div class="ty-bg"></div>
+  <h2 class="ty-h">${ms('emoji_events')}結果</h2>
+  <div class="ty-stars">${[1, 2, 3].map(k => `<span class="ms ${k <= stars ? 'on' : ''}" style="animation-delay:${k * .15}s">${ms('star', k <= stars ? 'f' : '')}</span>`).join('')}</div>
+  <div class="ty-rgrid">${ring}<div class="ty-score"><b>${ok}</b><span> / ${n}問 正解</span></div></div>
+  <div class="ty-stats"><div><small>正確さ</small><b>${acc}%</b></div><div><small>打つ速さ</small><b>${wpm}<em>字/分</em></b></div><div><small>最高の連続</small><b>${TT.best}</b></div><div><small>ヒント</small><b>${TT.hints}</b></div></div>
+  ${TT.ng.length ? `<div class="ty-ng-l">まちがえた${TT.src === 'ai' ? '問題' : 'カード'}</div><div class="ty-ng">${TT.ng.map(c => `<div><b>${esc(c.f)}</b><span>${esc(c.b)}</span></div>`).join('')}</div>` : '<p class="muted" style="text-align:center;color:#f5e6b8">全問正解です！</p>'}
+  <div class="ty-acts" style="flex-wrap:wrap"><button type="button" class="btn text" data-act="close">閉じる</button><span class="sp"></span>${TT.ng.length && TT.src === 'deck' ? `<button type="button" class="btn tonal" data-act="ttstar">${ms('star')}まちがえたものに★</button><button type="button" class="btn" data-act="ttretry">${ms('replay')}まちがえたものを、もう一度</button>` : ''}${TT.src === 'ai' ? `<button type="button" class="btn" data-act="ttai">${ms('auto_awesome')}もう一度作る</button>` : ''}</div></div>`);
   toolsRefresh();
 }
 Object.assign(ACT, {
@@ -4402,6 +4489,7 @@ Object.assign(ACT, {
     const [k, v] = id.split(':');
     if (k === 'cnt') TT.cnt = +v;
     else if (k === 'src') { TT.src = v; return wcType(); }
+    else if (k === 'sp') TT.spell = v;
     else TT.dir = v;
     wcType();
   },
@@ -4414,6 +4502,7 @@ Object.assign(ACT, {
   ttai() { TT.src = 'ai'; wcType(); },
   ttnext() { TT.i++; if (TT.i >= TT.list.length) ttResult(); else ttAsk(); },
   ttquit() { if (TT.ok.length + TT.ng.length) ttResult(); else closeDlg(); },
+  tyhint() { tyhintAct(); },
   ttstar() { TT.ng.forEach(c => { c.s = 1; }); save(); toast('★をつけました'); toolsRefresh(); },
   ttretry() { TT.list = wcShuffled(TT.ng.slice(), 7 + Math.floor(Math.random() * 1e6)); ttStart(); },
 });
@@ -7807,7 +7896,7 @@ const SFX_T = {
   soft: { n: 'やさしい', c: 200, t: 'sine', m: .75 }
 };
 const LV_REWARD = { 2: 'XPショップが使えるようになりました', 5: '友達と比べる機能が使えるようになりました' };
-function growGet() { const g = lsj(GROW_KEY, null) || {}; return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', lvSeen: g.lvSeen, code: g.code || '', shared: !!g.shared, friends: Array.isArray(g.friends) ? g.friends : [] }; }
+function growGet() { const g = lsj(GROW_KEY, null) || {}; return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', lvSeen: g.lvSeen, code: g.code || '', nick: g.nick || '', av: g.av || '', shared: !!g.shared, friends: Array.isArray(g.friends) ? g.friends : [] }; }
 function growPut(g) { lss(GROW_KEY, g); }
 const spendXp = () => Math.max(0, Math.floor(totals().xp) - growGet().spent);
 // 効果音（テーマで音色を変える）
@@ -7858,7 +7947,7 @@ function lvNext() {
 }
 // XPの使い道の入口（統計の画面）
 function growEntryHtml(L) {
-  return `<div class="card grow"><div class="grow-h">${ms('storefront')}<div><b>XPの使い道</b><small>使えるXP ${spendXp()}　・　レベルは下がりません</small></div></div><div class="grow-b"><button class="btn tonal" data-act="shopopen" ${L >= SHOP_LV ? '' : 'disabled'}>${ms('shopping_bag')}XPショップ${L >= SHOP_LV ? '' : `（Lv.${SHOP_LV}で解放）`}</button><button class="btn tonal" data-act="friendsopen" ${L >= FRIEND_LV ? '' : 'disabled'}>${ms('group')}友達と比べる${L >= FRIEND_LV ? '' : `（Lv.${FRIEND_LV}で解放）`}</button></div></div>`;
+  return `<div class="card grow"><div class="grow-h">${ms('storefront')}<div><b>XPの使い道</b><small>使えるXP ${spendXp()}　・　レベルは下がりません</small></div></div><div class="grow-b"><button class="btn tonal" data-act="shopopen" ${L >= SHOP_LV ? '' : 'disabled'}>${ms('shopping_bag')}XPショップ${L >= SHOP_LV ? '' : `（Lv.${SHOP_LV}で解放）`}</button></div></div>`;
 }
 // XPショップ
 function shopHtml() {
@@ -7877,11 +7966,11 @@ const FR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join(''); return g.code; }
 function growWeek() { const nb = parse(today()), from = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() - 6)), to = today(); let min = 0, pg = 0; for (const k in S.log) if (k >= from && k <= to) { min += S.log[k].m || 0; pg += S.log[k].a || 0; } return { min, pg }; }
 function growPct() { const tot = S.tasks.reduce((a, t) => a + (t.total || 0), 0), dn = S.tasks.reduce((a, t) => a + Math.min(t.done || 0, t.total || 0), 0); return tot ? Math.round(dn / tot * 100) : 0; }
-function growMine(g) { const w = growWeek(); return { code: growCode(g), name: (CLOUD.user && CLOUD.user.displayName) || '名前なし', lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg }; }
+function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg }; }
 async function growPublish() {
   const g = growGet(), m = growMine(g); growPut(g);
   const { fs, db } = CLOUD.fb;
-  await fs.setDoc(fs.doc(db, 'friendStats', m.code), { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() });
+  await fs.setDoc(fs.doc(db, 'friendStats', m.code), { owner: CLOUD.user.uid, name: m.name, av: m.av || '', lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() });
 }
 async function growUnpublish() { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'friendStats', growGet().code)); }
 async function growAddFriend(code) {
@@ -7911,27 +8000,6 @@ function friendsHtml(me, rows) {
     return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div>${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}<button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button></div>`;
   }).join('');
 }
-function friendsShell() {
-  if (!CLOUD.user) return `<h2 class="noti-h">${ms('group')}<span>友達と比べる</span></h2><p class="muted" style="font-weight:500">友達と進み具合を比べるには、Googleログインが必要です。</p><div class="noti-a"><span class="sp"></span><button class="btn" data-act="cloudin">Googleでログイン</button><button class="btn text" data-act="close">閉じる</button></div>`;
-  const g = growGet(), code = growCode(g); growPut(g);
-  return `<h2 class="noti-h">${ms('group')}<span>友達と比べる</span></h2>
-    <div class="card fr-me"><div class="grow-h">${ms('qr_code_2')}<div><small>あなたの友達コード</small><b class="fr-code">${code}</b></div></div>
-    <button class="btn ${g.shared ? 'tonal' : ''}" data-act="frtoggle">${ms(g.shared ? 'visibility_off' : 'visibility')}${g.shared ? '見せるのを止める' : '進み具合を友達に見せる'}</button>
-    <p class="muted" style="font-size:.8rem;font-weight:500;margin:8px 0 0">見せるのは、表示名・レベル・全体の進み・今週の勉強時間・今週のページ数です。いつでも止められます。</p></div>
-    <div class="fr-add"><input id="frcode" type="text" placeholder="友達コード（6文字）" maxlength="6" autocapitalize="characters" autocomplete="off" spellcheck="false"><button class="btn tonal" data-act="fradd">${ms('person_add')}追加</button></div>
-    <div id="frc"><p class="muted" style="font-weight:500">読み込み中…</p></div>
-    <div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
-}
-async function friendsRefresh() {
-  const el = document.getElementById('frc'); if (!el || !CLOUD.user) return;
-  try {
-    const g = growGet();
-    if (g.shared) await growPublish();
-    const rows = await friendsLoad();
-    el.innerHTML = friendsHtml(growMine(growGet()), rows);
-  } catch (e) { el.innerHTML = `<p class="muted" style="font-weight:500">友達の情報を読めませんでした。共有の設定（Firestore）が未設定か、通信できない状態です。</p>`; }
-}
-function friendsRedraw() { if (dlg.open && dlg.dataset.k === 'friends') { dlg.innerHTML = `<div class="dlg">${friendsShell()}</div>`; friendsRefresh(); } }
 Object.assign(ACT, {
   shopopen() { if (level().L < SHOP_LV) return toast(`Lv.${SHOP_LV}で使えるようになります`); openDlg(shopHtml()); dlg.dataset.k = 'shop'; },
   shopbuy(v) {
@@ -8012,17 +8080,12 @@ function myStatCard() {
   return `<section class="card mst"><div class="mst-h">${ms('monitoring')}<b>自分の統計</b><small>いまの記録</small></div><div class="mst-g">
     <div class="mst-t">${ms('timer')}<small>合計勉強時間</small><b>${Math.floor(t.min / 60)}<em>時間</em>${t.min % 60}<em>分</em></b><i>集中タイマーの記録</i></div>
     <div class="mst-t">${ms('stars')}<small>実績レベル</small><b>Lv.${lv.L}</b><div class="mst-bar"><i style="width:${Math.round(lv.p * 100)}%"></i></div><i>次のレベルまで あと${lv.need}XP</i></div>
-    <div class="mst-t">${ms('keyboard')}<small>合計タイピング</small><b>${typed.toLocaleString('ja-JP')}<em>文字</em></b><i>入力テストと歴打の合計</i></div>
+    <div class="mst-t">${ms('keyboard')}<small>合計タイピング</small><b>${typed.toLocaleString('ja-JP')}<em>文字</em></b><i>タイピングと歴打の合計</i></div>
     <div class="mst-t">${ms('emoji_events')}<small>獲得した実績</small><b>${badges}<em>/ ${all}</em></b><i>連続 ${t.streak}日</i></div>
   </div></section>`;
 }
 // --- 友達との比較（ホームのカード。読み込みは、ときどき一度だけ） ---
 const FR_HOME = { at: 0, rows: null, me: null, busy: false, err: false };
-function frVs(me, data, nm) {
-  const ini = s => Array.from(String(s || '？'))[0] || '？';
-  const myName = (CLOUD.user && CLOUD.user.displayName) || '自分';
-  return `<div class="fcm-vs"><div class="fcm-p me"><span class="fcm-av">${esc(ini(myName))}</span><b>${esc(myName)}</b><small>Lv.${me.lv}</small></div><div class="fcm-mid"><span>VS</span></div><div class="fcm-p fr"><span class="fcm-av">${esc(ini(nm))}</span><b>${nm}</b><small>Lv.${data.lv || 0}</small></div></div>`;
-}
 function cmpRow(label, mine, theirs, unit, icon) {
   const mx = Math.max(mine, theirs, 1), diff = mine - theirs, pm = Math.round(mine / mx * 100), pt = Math.round(theirs / mx * 100);
   const cls = diff > 0 ? 'up' : diff < 0 ? 'dn' : 'eq', ic = diff > 0 ? 'arrow_upward' : diff < 0 ? 'arrow_downward' : 'drag_handle';
@@ -8085,6 +8148,86 @@ Object.assign(ACT, {
   greetdel(i) { const c = rotCfg(); greetPut({ own: c.own.filter((_, j) => j !== +i) }); },
   greetreset() { if (S.set && S.set.greet) delete S.set.greet; save(); rotApply(); if (dlg.open && dlg.dataset.k === 'greet') openDlg(greetHtml()); toast('もとに戻しました'); },
   frhome() { frHomeLoad(true); },
+});
+// --- 友達と比べる：ニックネームとアイコン、記録タブのカード ---
+const FRR = { at: 0, html: '' };
+const PF = { av: '' };
+function safeAv(v) { return typeof v === 'string' && v.length < 200000 && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(v) ? v : ''; }
+function avHtml(av, ch, cls = '') { const s = safeAv(av); return s ? `<img class="av-img ${cls}" src="${s}" alt="">` : `<span class="av-ch ${cls}">${esc(Array.from(String(ch || '？'))[0] || '？')}</span>`; }
+function frVs(me, data, nm) {
+  return `<div class="fcm-vs"><div class="fcm-p me"><span class="fcm-av">${avHtml(me.av, me.name)}</span><b>${esc(me.name)}</b><small>Lv.${me.lv}</small></div><div class="fcm-mid"><span>VS</span></div><div class="fcm-p fr"><span class="fcm-av">${avHtml(data.av, nm)}</span><b>${nm}</b><small>Lv.${data.lv || 0}</small></div></div>`;
+}
+function profDlg() {
+  const g = growGet(); PF.av = g.av || '';
+  openDlg(`<h2>${ms('account_circle')}プロフィール</h2>
+  <p class="muted" style="margin:-6px 0 14px;font-weight:500;line-height:1.7">友達に見える名前とアイコンです。見せる設定のときに、友達に届きます。</p>
+  <div class="pf-pv" id="pfpv">${avHtml(PF.av, g.nick || (CLOUD.user && CLOUD.user.displayName) || '自分', 'pf-img')}</div>
+  <div class="fld"><label for="pfn">ニックネーム（12文字まで）</label><input id="pfn" class="scin" maxlength="12" value="${esc(g.nick)}" placeholder="${esc((CLOUD.user && CLOUD.user.displayName) || '例：ゆうと')}"></div>
+  <div class="fld"><label>アイコン画像</label><div class="gr-row"><label class="btn tonal" style="cursor:pointer">${ms('photo_camera')}画像を選ぶ<input id="avf" type="file" accept="image/*" hidden></label><button type="button" class="btn text" data-act="profnoav">${ms('delete')}アイコンを消す</button></div>
+  <p class="muted" style="margin:8px 0 0;font-size:.8rem;font-weight:500;line-height:1.6">まん中を正方形に切り取って、小さく保存します。</p></div>
+  <div class="dact"><button type="button" class="btn text" data-act="close">やめる</button><span class="sp"></span><button type="button" class="btn" data-act="profsave">${ms('check')}保存</button></div>`);
+  dlg.dataset.k = 'prof';
+  $('#avf').addEventListener('change', pfPick);
+}
+async function pfPick(ev) {
+  const f = ev.target.files && ev.target.files[0]; if (!f) return;
+  try {
+    const url = URL.createObjectURL(f), img = new Image(); img.src = url; await img.decode(); URL.revokeObjectURL(url);
+    const N = 128, c = document.createElement('canvas'); c.width = c.height = N;
+    const m = Math.min(img.naturalWidth, img.naturalHeight);
+    c.getContext('2d').drawImage(img, (img.naturalWidth - m) / 2, (img.naturalHeight - m) / 2, m, m, 0, 0, N, N);
+    PF.av = c.toDataURL('image/jpeg', .86);
+    const pv = $('#pfpv'); if (pv) pv.innerHTML = avHtml(PF.av, '自分', 'pf-img');
+  } catch (e) { toast('画像を読み込めませんでした'); }
+}
+async function profSave() {
+  const nick = (($('#pfn') || {}).value || '').trim().slice(0, 12);
+  const g = growGet(); g.nick = nick; g.av = safeAv(PF.av); growPut(g);
+  if (g.shared && CLOUD.user) { try { await growPublish(); } catch (e) { toast('友達への公開を更新できませんでした'); } }
+  closeDlg(); toast('プロフィールを保存しました'); friendsRedraw();
+}
+function friendsInner() {
+  const g = growGet(), code = growCode(g); growPut(g);
+  const me = growMine(g);
+  return `<div class="card fr-me"><div class="grow-h"><div class="fr-av">${avHtml(me.av, me.name)}</div><div style="flex:1;min-width:0"><b class="fr-nm">${esc(me.name)}</b><small>友達コード <b class="fr-code">${code}</b></small></div><button class="btn tonal xs" data-act="profedit">${ms('edit')}プロフィール</button></div>
+    <button class="btn ${g.shared ? 'tonal' : ''}" data-act="frtoggle">${ms(g.shared ? 'visibility_off' : 'visibility')}${g.shared ? '見せるのを止める' : '進み具合を友達に見せる'}</button>
+    <p class="muted" style="font-size:.8rem;font-weight:500;margin:8px 0 0">見せるのは、名前・アイコン・レベル・全体の進み・今週の勉強時間・今週のページ数です。いつでも止められます。</p></div>
+    <div class="fr-add"><input id="frcode" type="text" placeholder="友達コード（6文字）" maxlength="6" autocapitalize="characters" autocomplete="off" spellcheck="false"><button class="btn tonal" data-act="fradd">${ms('person_add')}追加</button></div>
+    <div id="frc">${FRR.html || '<p class="muted" style="font-weight:500">読み込み中…</p>'}</div>`;
+}
+function friendsShell() {
+  if (!CLOUD.user) return `<h2 class="noti-h">${ms('group')}<span>友達と比べる</span></h2><p class="muted" style="font-weight:500">友達と進み具合を比べるには、Googleログインが必要です。</p><div class="noti-a"><span class="sp"></span><button class="btn" data-act="cloudin">Googleでログイン</button><button class="btn text" data-act="close">閉じる</button></div>`;
+  return `<h2 class="noti-h">${ms('group')}<span>友達と比べる</span></h2>${friendsInner()}<div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
+}
+// 記録タブのカード（ボタンなしで、いつでも見える）
+function friendRecordCard() {
+  const lv = level().L;
+  let body;
+  if (lv < FRIEND_LV) body = `<p class="fh-lock">${ms('lock')}Lv.${FRIEND_LV}で使えるようになります</p>`;
+  else if (!CLOUD.user) body = `<p class="fh-lock">${ms('lock')}友達と比べるには、Googleログインが必要です</p>`;
+  else { setTimeout(() => friendsRefresh(false), 0); body = friendsInner(); }
+  return `<section class="card fr-rec"><div class="fh-h">${ms('group')}<b>友達と比べる</b><small>記録タブで、いつでも見られます</small></div><div id="frrec">${body}</div></section>`;
+}
+async function friendsRefresh(force = true) {
+  const el = document.getElementById('frc'); if (!el || !CLOUD.user) return;
+  if (!force && FRR.html && Date.now() - FRR.at < 60000) { el.innerHTML = FRR.html; return; }
+  try {
+    const g = growGet();
+    if (g.shared) await growPublish();
+    const rows = await friendsLoad();
+    el.innerHTML = friendsHtml(growMine(growGet()), rows);
+    FRR.html = el.innerHTML; FRR.at = Date.now();
+  } catch (e) { el.innerHTML = `<p class="muted" style="font-weight:500">友達の情報を読めませんでした。共有の設定（Firestore）が未設定か、通信できない状態です。</p>`; }
+}
+function friendsRedraw() {
+  const rc = document.getElementById('frrec'); if (rc && CLOUD.user) rc.innerHTML = friendsInner();
+  if (dlg.open && dlg.dataset.k === 'friends') dlg.innerHTML = `<div class="dlg">${friendsShell()}</div>`;
+  if (CLOUD.user && (rc || (dlg.open && dlg.dataset.k === 'friends'))) friendsRefresh(true);
+}
+Object.assign(ACT, {
+  profedit() { profDlg(); },
+  profsave() { profSave(); },
+  profnoav() { PF.av = ''; const pv = $('#pfpv'); if (pv) pv.innerHTML = avHtml('', (($('#pfn') || {}).value || '自分'), 'pf-img'); },
 });
 /* 最初の描画は、スクリプトの最後（すべての const / let の宣言が終わったあと）に行う。
    途中で呼ぶと、あとの行で宣言する部品（例：ymdOf・bagSplit）を使う画面で、「宣言前に参照」の例外になり、画面が空になる */
