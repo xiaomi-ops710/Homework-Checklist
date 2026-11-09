@@ -39,11 +39,11 @@ service cloud.firestore {
       allow list: if false;
       allow create: if request.auth != null
         && request.resource.data.owner == request.auth.uid
-        && request.resource.data.keys().hasOnly(['owner','name','lv','pct','wkMin','wkPg','t','av']) && (!('av' in request.resource.data) || request.resource.data.av.size() < 200000);
+        && request.resource.data.keys().hasOnly(['owner','name','lv','pct','wkMin','wkPg','t','av','tt','typed','fr']) && (!('av' in request.resource.data) || request.resource.data.av.size() < 200000) && (!('fr' in request.resource.data) || request.resource.data.fr.size() <= 30);
       allow update: if request.auth != null
         && resource.data.owner == request.auth.uid
         && request.resource.data.owner == request.auth.uid
-        && request.resource.data.keys().hasOnly(['owner','name','lv','pct','wkMin','wkPg','t','av']) && (!('av' in request.resource.data) || request.resource.data.av.size() < 200000);
+        && request.resource.data.keys().hasOnly(['owner','name','lv','pct','wkMin','wkPg','t','av','tt','typed','fr']) && (!('av' in request.resource.data) || request.resource.data.av.size() < 200000) && (!('fr' in request.resource.data) || request.resource.data.fr.size() <= 30);
       allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
     }
 
@@ -51,8 +51,8 @@ service cloud.firestore {
     // 友達の通知（友達に追加されたとき。自分の受信箱だけ読んで消せます）
     match /friendInbox/{uid}/items/{id} {
       allow create: if request.auth != null && request.resource.data.from == request.auth.uid
-        && request.resource.data.keys().hasOnly(['from','name','t'])
-        && request.resource.data.name.size() <= 40;
+        && request.resource.data.keys().hasOnly(['from','name','code','t'])
+        && request.resource.data.name.size() <= 40 && request.resource.data.code.size() <= 6;
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow update: if false;
     }

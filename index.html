@@ -1194,7 +1194,7 @@ button.gr-ch .ms{font-size:18px}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.56';
+const APP_VERSION = '17.57';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1759,6 +1759,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.57', d: '2026-11-09', t: '友達のつながり（友達の友達）・合計の表示・タイピングの修正', n: ['タイピングで、日本語入力のままでも、英字の問題には英字（半角）だけが入ります', 'タイピングで、まちがえた文字は入らないようにしました（消さずに、そのまま次の文字を打てます）', 'タイピングで打った文字数は、打った時点で記録に入ります（途中でやめても残ります）', '友達を追加されたとき、その人も自動で友達になり、一覧に出るようにしました', '友達の友達も表示されるようにしました（友達の友達は「友達に追加」できます）', '友達と比べるに、合計勉強時間と合計タイピングを出すようにしました'] },
   { v: '17.56', d: '2026-11-09', t: '友達の表示と速さ・レベルの特典・称号・タイピングのヘボン式', n: ['単語帳の共有コードの発行・受け取り・最新の取り込みで、事前の確認をやめて速くしました', '友達が複数いても、全員を表示するようにしました（ホームの「ほかにN人」の省略をなくしました）', '友達を追加・外したあと、ホームと記録タブにすぐ反映されるようにしました（古い表示を残しません）', '友達と比べるは、レベル0から使えるようになりました', '実績の「レベルの特典」に、すべての特典（XPショップ・歴打・友達と比べる・称号・アプリの色）を書きました', '称号を変えました：Lv5「何回言っても分かるんだ」、Lv15「努力の噴火」、Lv31「伝説の大網」を追加しました', 'タイピングに「ヘボン式（ローマ字）」を追加しました。ひらがな・カタカナはそのまま変換し、漢字などの読みはAIで調べます（Googleログイン後）'] },
   { v: '17.55', d: '2026-11-09', t: '友達の表示の修正・通知・記録の数字を大きく・タイピングのiPad最適化', n: ['友達と比べるで、ログイン確認の前に「Googleログインが必要」と出ていた表示を直しました（確認中は読み込み中と出ます）', '友達の名前とアイコンが、友達の画面に反映されないことがあった問題を直しました（アイコンが未許可のルールでも、名前と進み具合は届きます）', '友達が、あなたを友達に追加したとき、通知が届くようにしました（Firestoreのルールの更新が必要です）', '友達コードの入力欄を、Material 3のデザインにしました', '自分の統計の数字を、さらに大きく見やすくしました', 'タイピングを、iPad（横向き）で左右の余白がなく全幅で使えるように最適化しました'] },
   { v: '17.54', d: '2026-11-09', t: 'タイピング（全画面・ヒント・スペル非表示・演出）、友達のニックネームとアイコン、記録タブのカード、ホームの編集ボタンを一つに', n: ['入力テストを「タイピング」に名前を変えて、全画面で表示するようにしました', 'タイピングに、スペルの表示（表示・最初の1文字だけ・かくす）と、ヒントを追加しました', 'タイピングに、正解の紙吹雪、連続の炎と節目の表示、結果の円グラフと星の評価を追加しました', '友達と比べるで、ニックネームとアイコン画像を変えられるようにしました', '「自分の統計」と「友達と比べる」を、記録タブにカードとして表示します（ボタンを押さずに見られます）', 'ホームの「配置」と「文字」を、ひとつの「編集」ボタンにまとめました。編集の中で文字も変えられます'] },
@@ -4494,25 +4495,32 @@ function ttAsk() {
     <div class="ty-prompt"><small>${TT.dir === 'f' ? '意味' : '単語'}</small><div class="ty-q">${wcNl(ask)}</div>${showSlots && TT.spell === 'hide' ? '<div class="ty-mask">スペルは かくしています</div>' : ''}</div>
     ${showSlots ? `<div class="ty-slots" id="tyslots">${ttSlots(ans, '', TT.spell, 0)}</div>` : ''}
     <div class="ty-combo" id="tycombo"></div>
-    <form id="ttf" autocomplete="off"><input id="tta" class="ty-hid" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" aria-label="答えを入力">
+    <form id="ttf" autocomplete="off"><input id="tta" class="ty-hid" type="text" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="done" lang="en" inputmode="latin" autocomplete="off" aria-label="答えを入力">
       <p class="ty-hint">${showSlots ? '打つと文字が色で分かります。正しく打つと、自動で次へ進みます' : 'ひらがな・漢字で入力して、「こたえる」を押してください'}</p>
       <div class="ty-acts">${showSlots ? `<button type="button" class="btn tonal" id="tyhint" data-act="tyhint">${ms('lightbulb')}ヒント</button>` : ''}<span class="sp"></span><button class="btn" type="submit">${ms('check')}こたえる</button></div></form></div>`);
-  $('#tta').addEventListener('input', ttType);
+  $('#tta').addEventListener('input', ev => ttType(ev));
   $('#ttf').onsubmit = ev => { ev.preventDefault(); ttCheck(); };
   if (!TT.clk) TT.clk = setInterval(ttTick, 500);
   setTimeout(() => { const el = $('#tta'); el && el.focus(); }, 120);
 }
-function ttType() {
+function ttType(ev) {
   const inp = $('#tta'); if (!inp || TT.done) return;
-  const v = inp.value;
+  if (ev && ev.isComposing) return;   // 日本語入力の変換中は、そのままにする（確定したあとで整えます）
+  if (TT.slots) {   // 英字の問題：日本語は入れず、全角の英数字は半角にそろえる
+    const cl = inp.value.normalize('NFKC').replace(/[^\x20-\x7e]/g, '');
+    if (cl !== inp.value) inp.value = cl;
+  }
+  let v = inp.value;
   if (!TT.t0 && v.length) TT.t0 = Date.now();
   if (v.length > TT.prevLen) {
+    const j = v.length - 1, want = TT.slots ? TT.ans[j] : undefined;
     TT.chars++;
-    const j = v.length - 1;
-    if (TT.slots && TT.ans[j] !== undefined && v[j].toLowerCase() !== TT.ans[j].toLowerCase()) {
+    if (want !== undefined && v[j].toLowerCase() !== want.toLowerCase()) {
+      // まちがえた文字は入れない（消さなくても、そのまま次の文字を打てます）
+      inp.value = v.slice(0, -1); v = inp.value;
       TT.miss++; TT.streak = 0; const st = $('#tystk'); if (st) st.textContent = 0;
       const sl = $('#tyslots'); if (sl) { sl.classList.remove('ty-shake'); void sl.offsetWidth; sl.classList.add('ty-shake'); }
-    }
+    } else { S.typed = (S.typed || 0) + 1; save(); }
   }
   TT.prevLen = v.length;
   if (TT.slots) ttRender(v);
@@ -4553,7 +4561,7 @@ function ttCheck() {
 }
 function ttResult() {
   if (TT.clk) { clearInterval(TT.clk); TT.clk = 0; }
-  S.typed = (S.typed || 0) + (TT.chars || 0); save();
+  save();
   const n = TT.list.length, ok = TT.ok.length, pc = Math.round(ok / n * 100);
   const acc = TT.chars ? Math.round((TT.chars - TT.miss) / TT.chars * 100) : 100;
   const mins = TT.t0 ? Math.max(0.05, (Date.now() - TT.t0) / 60000) : 0;
@@ -8055,7 +8063,7 @@ const FR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join(''); return g.code; }
 function growWeek() { const nb = parse(today()), from = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() - 6)), to = today(); let min = 0, pg = 0; for (const k in S.log) if (k >= from && k <= to) { min += S.log[k].m || 0; pg += S.log[k].a || 0; } return { min, pg }; }
 function growPct() { const tot = S.tasks.reduce((a, t) => a + (t.total || 0), 0), dn = S.tasks.reduce((a, t) => a + Math.min(t.done || 0, t.total || 0), 0); return tot ? Math.round(dn / tot * 100) : 0; }
-function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg }; }
+function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0 }; }
 async function growUnpublish() { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'friendStats', growGet().code)); }
 async function growAddFriend(code) {
   code = String(code || '').trim().toUpperCase(); if (!code) return;
@@ -8072,15 +8080,23 @@ async function growAddFriend(code) {
   } catch (e) { toast('友達を追加できませんでした（Firestoreの設定を確認してください）'); }
 }
 async function friendsLoad() {
-  const { fs, db } = CLOUD.fb;
-  return Promise.all(growGet().friends.map(async f => { try { const d = await fs.getDoc(fs.doc(db, 'friendStats', f.code)); return { f, data: d.exists() ? d.data() : null }; } catch (e) { return { f, data: null, err: true }; } }));
+  const { fs, db } = CLOUD.fb, me = CLOUD.user ? CLOUD.user.uid : '', g = growGet();
+  // undefined = 読めなかった、null = 見せていない
+  const one = async (code) => { try { const d = await fs.getDoc(fs.doc(db, 'friendStats', code)); return d.exists() ? d.data() : null; } catch (e) { return undefined; } };
+  const direct = await Promise.all(g.friends.map(async f => { const d = await one(f.code); return { f, data: d || null, err: d === undefined }; }));
+  // 友達の友達：自分の友達が登録している人（自分と、直接の友達を除く）
+  const seen = new Set([me, ...g.friends.map(f => f.uid)]), want = [];
+  direct.forEach(r => { (r.data && Array.isArray(r.data.fr) ? r.data.fr : []).forEach(x => { if (x && x.o && x.c && !seen.has(x.o)) { seen.add(x.o); want.push({ o: String(x.o), c: String(x.c).toUpperCase(), n: String(x.n || '') }); } }); });
+  const fof = await Promise.all(want.slice(0, 30).map(async x => { const d = await one(x.c); return { f: { uid: x.o, code: x.c, name: x.n }, data: d ? { ...d, name: `${String(d.name || x.n || '名前なし').slice(0, 20)}（友達の友達）` } : null, err: d === undefined, fof: true }; }));
+  return [...direct, ...fof];
 }
 function friendsHtml(me, rows) {
   if (!rows.length) return `<div class="card"><p class="muted" style="font-weight:500;margin:0">まだ友達がいません。友達の「友達コード」を上の入力欄に入れて追加してください。</p></div>`;
-  return rows.map(({ f, data, err }) => {
-    if (err || !data) return `<div class="card"><b>${esc(f.name)}</b><p class="muted" style="font-weight:500;margin:6px 0">${err ? '読み込めませんでした' : '今は、進み具合を見せていないようです'}</p><button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button></div>`;
+  return rows.map(({ f, data, err, fof }) => {
+    const del = fof ? `<button class="btn tonal xs" data-act="fofadd" data-id="${f.code}">${ms('person_add')}友達に追加</button>` : `<button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button>`;
+    if (err || !data) return `<div class="card"><b>${esc(f.name)}</b><p class="muted" style="font-weight:500;margin:6px 0">${err ? '読み込めませんでした' : '今は、進み具合を見せていないようです'}</p>${del}</div>`;
     const nm = esc(data.name || f.name);
-    return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div>${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}<button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button></div>`;
+    return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div>${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${del}</div>`;
   }).join('');
 }
 Object.assign(ACT, {
@@ -8175,7 +8191,7 @@ function cmpRow(label, mine, theirs, unit, icon) {
   return `<div class="fcm-r"><div class="fcm-k">${icon ? ms(icon) : ''}<b>${label}</b></div><div class="fcm-bars"><div class="fcm-b me${diff > 0 ? ' win' : ''}"><i style="--w:${pm}%"></i><span>${mine}${unit}</span></div><div class="fcm-b fr${diff < 0 ? ' win' : ''}"><i style="--w:${pt}%"></i><span>${theirs}${unit}</span></div></div><div class="fcm-d ${cls}">${ms(ic)}${diff > 0 ? '+' : ''}${diff}${unit}</div></div>`;
 }
 function frCardHtml(me, data, nm) {
-  return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}</div>`;
+  return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}</div>`;
 }
 function frHomeInner() {
   if (FR_HOME.err) return `<p class="muted" style="font-weight:500;margin:0">友達の情報を読めませんでした。通信の状態を確かめて、「更新」を押してください。</p>`;
@@ -8303,7 +8319,8 @@ async function friendsRefresh(force = true) {
   } catch (e) { el.innerHTML = `<p class="muted" style="font-weight:500">友達の情報を読めませんでした。共有の設定（Firestore）が未設定か、通信できない状態です。</p>`; }
 }
 // 友達の一覧が変わったら、ホームと記録タブの両方を、すぐ読み直す（古い表示を残さない）
-function frChanged() { FRR.at = 0; FR_HOME.at = 0; frHomeLoad(true); if (CLOUD.user) friendsRedraw(); }
+function frChanged() { FRR.at = 0; FR_HOME.at = 0; if (CLOUD.user && growGet().shared) growPublish().catch(() => { }); frHomeLoad(true); if (CLOUD.user) friendsRedraw(); }
+Object.assign(ACT, { fofadd(code) { growAddFriend(code); } });
 function friendsRedraw() {
   const rc = document.getElementById('frrec'); if (rc && CLOUD.user) rc.innerHTML = friendsInner();
   if (dlg.open && dlg.dataset.k === 'friends') dlg.innerHTML = `<div class="dlg">${friendsShell()}</div>`;
@@ -8321,7 +8338,7 @@ async function growPublish() {
   PUB_AT = Date.now();
   const g = growGet(), m = growMine(g); growPut(g);
   const { fs, db } = CLOUD.fb;
-  const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() };
+  const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, tt: m.tt, typed: m.typed, t: Date.now(), fr: g.friends.slice(0, 30).map(f => ({ o: String(f.uid || ''), c: String(f.code || ''), n: String(f.name || '').slice(0, 20) })) };
   if (!m.av) return fs.setDoc(fs.doc(db, 'friendStats', m.code), base);
   try { await fs.setDoc(fs.doc(db, 'friendStats', m.code), { ...base, av: m.av }); FR_AV_OK = true; }
   catch (e) {   // アイコンの項目がルールで許可されていないときも、名前と進み具合は届ける
@@ -8331,7 +8348,7 @@ async function growPublish() {
 async function friendNotify(ownerUid) {
   try {
     const { fs, db } = CLOUD.fb, me = growMine(growGet());
-    await fs.setDoc(fs.doc(fs.collection(db, 'friendInbox', ownerUid, 'items')), { from: CLOUD.user.uid, name: me.name, t: Date.now() });
+    await fs.setDoc(fs.doc(fs.collection(db, 'friendInbox', ownerUid, 'items')), { from: CLOUD.user.uid, name: me.name, code: me.code, t: Date.now() });
   } catch (e) { }
 }
 function inboxStart() {
@@ -8343,8 +8360,10 @@ function inboxStart() {
       snap.docChanges().forEach(ch => {
         if (ch.type !== 'added') return;
         const d = ch.doc.data() || {}, nm = String(d.name || '名前なし').slice(0, 20);
-        notiAdd({ k: 'friend-' + ch.doc.id, icon: 'group', text: `${nm}さんが、あなたを友達に追加しました`, sub: '記録タブの「友達と比べる」で、進み具合を比べられます', act: 'tab', aid: 'stats' });
-        toast(`${nm}さんが、あなたを友達に追加しました`);
+        const g = growGet(), cd = String(d.code || '').toUpperCase();
+        if (/^[A-Z0-9]{6}$/.test(cd) && d.from && d.from !== CLOUD.user.uid && !g.friends.some(f => f.uid === d.from)) { g.friends.push({ uid: String(d.from), code: cd, name: nm }); growPut(g); frChanged(); }
+        notiAdd({ k: 'friend-' + ch.doc.id, icon: 'group', text: `${nm}さんと友達になりました`, sub: '記録タブの「友達と比べる」で、進み具合を比べられます', act: 'tab', aid: 'stats' });
+        toast(`${nm}さんと友達になりました`);
         fs.deleteDoc(ch.doc.ref).catch(() => { });
       });
     }, () => { });
