@@ -1084,10 +1084,10 @@ button.gr-ch .ms{font-size:18px}
 .gr-list{display:grid;gap:6px;margin-bottom:8px}
 .gr-it{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:14px;background:var(--s2);font-weight:600;font-size:.9rem;word-break:break-all}
 /* ===== 17.54：タイピング（全画面・ヒント・スペル非表示・演出）／友達のアイコン ===== */
-dialog.ty-full{width:100vw!important;max-width:100vw!important;height:100vh!important;height:100dvh!important;max-height:100dvh!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:#0c1230!important}
-dialog.ty-full::backdrop{background:#0c1230}
-dialog.ty-full>.dlg{width:100%;height:100%;max-width:none;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;overflow-y:auto;box-sizing:border-box}
-dialog.ty-full .ty-stage{min-height:100%;max-width:780px;margin:0 auto;border-radius:0;border:0;box-shadow:none;box-sizing:border-box;padding:max(18px,env(safe-area-inset-top)) 20px max(22px,env(safe-area-inset-bottom));align-content:center;overflow:hidden}
+#dlg.ty-full{width:100vw!important;max-width:100vw!important;height:100vh!important;height:100dvh!important;max-height:100dvh!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;background:#0c1230!important}
+#dlg.ty-full::backdrop{background:#0c1230}
+#dlg.ty-full>.dlg{width:100%;height:100%;max-width:none;margin:0;padding:0;border:0;border-radius:0;background:none;box-shadow:none;overflow-y:auto;box-sizing:border-box}
+#dlg.ty-full .ty-stage{min-height:100%;max-width:780px;margin:0 auto;border-radius:0;border:0;box-shadow:none;box-sizing:border-box;padding:max(18px,env(safe-area-inset-top)) 20px max(22px,env(safe-area-inset-bottom));align-content:center;overflow:hidden}
 .ty-stage{overflow:hidden}
 .ty-stage>.ty-bg{position:absolute;inset:-20%;z-index:0;pointer-events:none;background:radial-gradient(40% 35% at 20% 30%,rgba(248,217,120,.2),transparent 70%),radial-gradient(45% 40% at 85% 75%,rgba(120,140,255,.24),transparent 70%),radial-gradient(35% 30% at 60% 10%,rgba(240,120,108,.16),transparent 70%);animation:tyDrift 14s ease-in-out infinite alternate}
 @keyframes tyDrift{to{transform:translate3d(4%,-3%,0) scale(1.06)}}
@@ -1141,6 +1141,36 @@ dialog.ty-full .ty-stage{min-height:100%;max-width:780px;margin:0 auto;border-ra
 .pf-pv{display:grid;place-items:center;margin:0 0 14px}
 .pf-pv>.av-img,.pf-pv>.av-ch{width:104px;height:104px;border-radius:50%;background:linear-gradient(145deg,var(--primary),var(--ter));color:#fff;font-size:2.6rem;font-weight:800;box-shadow:0 8px 24px rgba(0,0,0,.18)}
 .pf-pv>.av-ch{display:grid;place-items:center}
+/* ===== 17.55：友達（Material 3の入力欄）・記録の数字を大きく・タイピングのiPad最適化 ===== */
+.fr-add{display:flex;gap:10px;align-items:stretch;margin:14px 0 6px}
+.fr-add .btn{height:56px;border-radius:999px;padding:0 22px}
+.m3f{position:relative;flex:1;min-width:0}
+.m3f input{width:100%;height:56px;box-sizing:border-box;padding:18px 16px 6px;border:1px solid var(--out);border-radius:4px;background:var(--s1);color:var(--on);font:inherit;font-size:1.05rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;outline:none;transition:border-color .15s,box-shadow .15s}
+.m3f input:hover{border-color:var(--on)}
+.m3f input:focus{border:2px solid var(--primary);padding:17px 15px 5px}
+.m3f label{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--on-v);font-size:1rem;font-weight:500;pointer-events:none;transition:top .15s,font-size .15s,color .15s;background:var(--s1);padding:0 4px;letter-spacing:0;text-transform:none}
+.m3f input:focus+label,.m3f input:not(:placeholder-shown)+label{top:0;font-size:.74rem;font-weight:700;color:var(--primary)}
+.m3-sup{margin:6px 16px 0;font-size:.8rem;font-weight:500;color:var(--on-v);line-height:1.6}
+.mst-t{padding:18px 18px 16px}
+.mst-t small{font-size:.86rem}
+.mst-t b{font-size:clamp(2.2rem,4.4vw,3.3rem);line-height:1.05;letter-spacing:-.01em}
+.mst-t b em{font-size:.9rem}
+.mst-t i{font-size:.84rem}
+.mst-g{gap:12px}
+@media (min-width:700px){
+  #dlg.ty-full .ty-stage{max-width:none;padding:clamp(24px,5vh,56px) clamp(24px,7vw,120px)}
+  #dlg.ty-full .ty-q{font-size:clamp(1.6rem,3.6vw,2.7rem)}
+  #dlg.ty-full .ty-sl{min-width:3rem;height:3.8rem;font-size:clamp(1.5rem,3vw,2.2rem)}
+  #dlg.ty-full .ty-slots{gap:10px;min-height:90px}
+  #dlg.ty-full .ty-prompt small{font-size:.95rem}
+  #dlg.ty-full .ty-top{font-size:1.05rem}
+  #dlg.ty-full .ty-acts .btn{height:56px;padding:0 28px;font-size:1.05rem}
+  #dlg.ty-full .ty-hint{font-size:.95rem}
+  #dlg.ty-full .ty-judge{font-size:2.2rem}
+  #dlg.ty-full .ty-right{font-size:1.8rem}
+  #dlg.ty-full .ty-ringwrap{width:200px;height:200px}
+  #dlg.ty-full .ty-ng{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
 </style>
 </head>
 <body>
@@ -1164,7 +1194,7 @@ dialog.ty-full .ty-stage{min-height:100%;max-width:780px;margin:0 auto;border-ra
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.54';
+const APP_VERSION = '17.55';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1729,9 +1759,10 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '17.54', d: '2026/11/09 10:07', t: 'タイピング（全画面・ヒント・スペル非表示・演出）、友達のニックネームとアイコン、記録タブのカード、ホームの編集ボタンを一つに', n: ['入力テストを「タイピング」に名前を変えて、全画面で表示するようにしました', 'タイピングに、スペルの表示（表示・最初の1文字だけ・かくす）と、ヒントを追加しました', 'タイピングに、正解の紙吹雪、連続の炎と節目の表示、結果の円グラフと星の評価を追加しました', '友達と比べるで、ニックネームとアイコン画像を変えられるようにしました', '「自分の統計」と「友達と比べる」を、記録タブにカードとして表示します（ボタンを押さずに見られます）', 'ホームの「配置」と「文字」を、ひとつの「編集」ボタンにまとめました。編集の中で文字も変えられます'] },
-  { v: '17.53', d: '2026/11/09 10:07', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
-  { v: '17.52', d: '2026/11/09 10:07', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
+  { v: '17.55', d: '2026/11/09 10:19', t: '友達の表示の修正・通知・記録の数字を大きく・タイピングのiPad最適化', n: ['友達と比べるで、ログイン確認の前に「Googleログインが必要」と出ていた表示を直しました（確認中は読み込み中と出ます）', '友達の名前とアイコンが、友達の画面に反映されないことがあった問題を直しました（アイコンが未許可のルールでも、名前と進み具合は届きます）', '友達が、あなたを友達に追加したとき、通知が届くようにしました（Firestoreのルールの更新が必要です）', '友達コードの入力欄を、Material 3のデザインにしました', '自分の統計の数字を、さらに大きく見やすくしました', 'タイピングを、iPad（横向き）で左右の余白がなく全幅で使えるように最適化しました'] },
+  { v: '17.54', d: '2026/11/09 10:19', t: 'タイピング（全画面・ヒント・スペル非表示・演出）、友達のニックネームとアイコン、記録タブのカード、ホームの編集ボタンを一つに', n: ['入力テストを「タイピング」に名前を変えて、全画面で表示するようにしました', 'タイピングに、スペルの表示（表示・最初の1文字だけ・かくす）と、ヒントを追加しました', 'タイピングに、正解の紙吹雪、連続の炎と節目の表示、結果の円グラフと星の評価を追加しました', '友達と比べるで、ニックネームとアイコン画像を変えられるようにしました', '「自分の統計」と「友達と比べる」を、記録タブにカードとして表示します（ボタンを押さずに見られます）', 'ホームの「配置」と「文字」を、ひとつの「編集」ボタンにまとめました。編集の中で文字も変えられます'] },
+  { v: '17.53', d: '2026/11/09 10:19', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
+  { v: '17.52', d: '2026/11/09 10:19', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
   { v: '17.51', d: '2026/11/09 07:38', t: '歴打の和風化・全画面・iPad対応・自己ベスト連撃', n: ['ツールの「歴打」のカードを、和風の金と朱のデザインと明朝体にしました', '歴打を全画面で遊べるようにしました（右上の「戻す」で戻ります）', 'タイトルの「歴打」が金色に輝き、花びらが舞う演出を加えました', '結果の画面に「自己ベストの連撃」を表示し、更新したときは知らせます', '実績「レベル5到達」の説明に、歴打が解放されることを書きました'] },
   { v: '17.50', d: '2026/11/08 20:09', t: '歴打を追加（レベル5で解放・石高で実績）', n: ['タイピングゲーム「歴打」をツールに追加しました。レベル5になると遊べます', '歴打の石高が、実績「石高1000」「征夷大将軍」「天下の蓄え」に反映されます'] },
   { v: '17.49', d: '2026/11/08 10:39', t: 'AIの説明の表示修正・アカウント画面の整理・ログアウトの確認', n: ['iPadで、アプリの説明の「AIに質問する」の文字が縦に崩れる問題を直しました', 'アカウント画面に「通知」「アップデートを確認」「設定」を追加し、フィードバックのまわりの線を消しました', 'ログアウトする前に、確認の画面を出すようにしました'] },
@@ -3455,7 +3486,7 @@ async function cloudInit() {
     if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); CLOUD.ac = { mod: ac, inst: ac.initializeAppCheck(a, { provider: new ac.ReCaptchaEnterpriseProvider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }) }; } catch (e) { if (window.__kosaLog) window.__kosaLog('App Checkの初期化に失敗: ' + ((e && e.message) || e)); } }
     const authI = auth.getAuth(a), db = fs.getFirestore(a);
     CLOUD.fb = { auth, fs, authI, db, app: a }; CLOUD.status = 'out';
-    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; if (u) { cloudStart(); setTimeout(() => { fbWatchStart(); annWatchStart(); }, 1500); } else { cloudStop(); fbWatchStop(); annWatchStop(); } cloudRefresh(); });
+    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; CLOUD.authed = true; if (u) inboxStart(); else inboxStop(); if (u) { cloudStart(); setTimeout(() => { fbWatchStart(); annWatchStart(); }, 1500); } else { cloudStop(); fbWatchStop(); annWatchStop(); } cloudRefresh(); frAuthRedraw(); });
     cloudResume();
   } catch (e) { CLOUD.status = 'error'; }
   cloudRefresh();
@@ -7967,11 +7998,6 @@ function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_
 function growWeek() { const nb = parse(today()), from = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() - 6)), to = today(); let min = 0, pg = 0; for (const k in S.log) if (k >= from && k <= to) { min += S.log[k].m || 0; pg += S.log[k].a || 0; } return { min, pg }; }
 function growPct() { const tot = S.tasks.reduce((a, t) => a + (t.total || 0), 0), dn = S.tasks.reduce((a, t) => a + Math.min(t.done || 0, t.total || 0), 0); return tot ? Math.round(dn / tot * 100) : 0; }
 function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg }; }
-async function growPublish() {
-  const g = growGet(), m = growMine(g); growPut(g);
-  const { fs, db } = CLOUD.fb;
-  await fs.setDoc(fs.doc(db, 'friendStats', m.code), { owner: CLOUD.user.uid, name: m.name, av: m.av || '', lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() });
-}
 async function growUnpublish() { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'friendStats', growGet().code)); }
 async function growAddFriend(code) {
   code = String(code || '').trim().toUpperCase(); if (!code) return;
@@ -7984,7 +8010,7 @@ async function growAddFriend(code) {
     if (data.owner === CLOUD.user.uid) return toast('それは、あなたのコードです');
     const g = growGet(); if (g.friends.some(f => f.uid === data.owner)) return toast('もう友達に入っています');
     g.friends.push({ uid: data.owner, code, name: data.name || '名前なし' }); growPut(g);
-    toast('友達を追加しました'); friendsRedraw();
+    await friendNotify(data.owner); toast('友達を追加しました'); friendsRedraw();
   } catch (e) { toast('友達を追加できませんでした（Firestoreの設定を確認してください）'); }
 }
 async function friendsLoad() {
@@ -8109,7 +8135,7 @@ function frHomeCard() {
   const lv = level().L;
   let body, foot = '';
   if (lv < FRIEND_LV) body = `<p class="fh-lock">${ms('lock')}Lv.${FRIEND_LV}で使えるようになります</p>`;
-  else if (!CLOUD.user) body = `<p class="fh-lock">${ms('lock')}友達と比べるには、Googleログインが必要です</p>`;
+  else if (!CLOUD.authed) body = frLoadingHtml(); else if (!CLOUD.user) body = `<p class="fh-lock">${ms('lock')}友達と比べるには、Googleログインが必要です</p>`;
   else {
     body = `<div id="frhome">${frHomeInner()}</div>`;
     foot = `<div class="fh-f"><button class="btn tonal xs" data-act="friendsopen">${ms('group')}友達を見る・追加</button><button class="btn text xs" data-act="frhome">${ms('refresh')}更新</button></div>`;
@@ -8192,7 +8218,7 @@ function friendsInner() {
   return `<div class="card fr-me"><div class="grow-h"><div class="fr-av">${avHtml(me.av, me.name)}</div><div style="flex:1;min-width:0"><b class="fr-nm">${esc(me.name)}</b><small>友達コード <b class="fr-code">${code}</b></small></div><button class="btn tonal xs" data-act="profedit">${ms('edit')}プロフィール</button></div>
     <button class="btn ${g.shared ? 'tonal' : ''}" data-act="frtoggle">${ms(g.shared ? 'visibility_off' : 'visibility')}${g.shared ? '見せるのを止める' : '進み具合を友達に見せる'}</button>
     <p class="muted" style="font-size:.8rem;font-weight:500;margin:8px 0 0">見せるのは、名前・アイコン・レベル・全体の進み・今週の勉強時間・今週のページ数です。いつでも止められます。</p></div>
-    <div class="fr-add"><input id="frcode" type="text" placeholder="友達コード（6文字）" maxlength="6" autocapitalize="characters" autocomplete="off" spellcheck="false"><button class="btn tonal" data-act="fradd">${ms('person_add')}追加</button></div>
+    <div class="fr-add"><div class="m3f"><input id="frcode" type="text" placeholder=" " maxlength="6" autocapitalize="characters" autocomplete="off" spellcheck="false"><label for="frcode">友達コード（6文字）</label></div><button class="btn" data-act="fradd">${ms('person_add')}追加</button></div><p class="m3-sup">友達のコードを入れると、相手に「追加されました」と通知が届きます。</p>
     <div id="frc">${FRR.html || '<p class="muted" style="font-weight:500">読み込み中…</p>'}</div>`;
 }
 function friendsShell() {
@@ -8204,7 +8230,7 @@ function friendRecordCard() {
   const lv = level().L;
   let body;
   if (lv < FRIEND_LV) body = `<p class="fh-lock">${ms('lock')}Lv.${FRIEND_LV}で使えるようになります</p>`;
-  else if (!CLOUD.user) body = `<p class="fh-lock">${ms('lock')}友達と比べるには、Googleログインが必要です</p>`;
+  else if (!CLOUD.authed) body = frLoadingHtml(); else if (!CLOUD.user) body = `<p class="fh-lock">${ms('lock')}友達と比べるには、Googleログインが必要です</p>`;
   else { setTimeout(() => friendsRefresh(false), 0); body = friendsInner(); }
   return `<section class="card fr-rec"><div class="fh-h">${ms('group')}<b>友達と比べる</b><small>記録タブで、いつでも見られます</small></div><div id="frrec">${body}</div></section>`;
 }
@@ -8229,6 +8255,44 @@ Object.assign(ACT, {
   profsave() { profSave(); },
   profnoav() { PF.av = ''; const pv = $('#pfpv'); if (pv) pv.innerHTML = avHtml('', (($('#pfn') || {}).value || '自分'), 'pf-img'); },
 });
+// --- 友達：ログイン状態の待ち・通知の受け取り・公開（ルールが古くても名前は届くように） ---
+let INBOX_UNSUB = null, FR_AV_OK = true;
+function frLoadingHtml() { return `<p class="muted" style="font-weight:500;margin:0">読み込み中…</p>`; }
+async function growPublish() {
+  const g = growGet(), m = growMine(g); growPut(g);
+  const { fs, db } = CLOUD.fb;
+  const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() };
+  if (!m.av) return fs.setDoc(fs.doc(db, 'friendStats', m.code), base);
+  try { await fs.setDoc(fs.doc(db, 'friendStats', m.code), { ...base, av: m.av }); FR_AV_OK = true; }
+  catch (e) {   // アイコンの項目がルールで許可されていないときも、名前と進み具合は届ける
+    FR_AV_OK = false; await fs.setDoc(fs.doc(db, 'friendStats', m.code), base);
+  }
+}
+async function friendNotify(ownerUid) {
+  try {
+    const { fs, db } = CLOUD.fb, me = growMine(growGet());
+    await fs.setDoc(fs.doc(fs.collection(db, 'friendInbox', ownerUid, 'items')), { from: CLOUD.user.uid, name: me.name, t: Date.now() });
+  } catch (e) { }
+}
+function inboxStart() {
+  inboxStop();
+  if (!CLOUD.fb || !CLOUD.user) return;
+  try {
+    const { fs, db } = CLOUD.fb;
+    INBOX_UNSUB = fs.onSnapshot(fs.collection(db, 'friendInbox', CLOUD.user.uid, 'items'), snap => {
+      snap.docChanges().forEach(ch => {
+        if (ch.type !== 'added') return;
+        const d = ch.doc.data() || {}, nm = String(d.name || '名前なし').slice(0, 20);
+        notiAdd({ k: 'friend-' + ch.doc.id, icon: 'group', text: `${nm}さんが、あなたを友達に追加しました`, sub: '記録タブの「友達と比べる」で、進み具合を比べられます', act: 'tab', aid: 'stats' });
+        toast(`${nm}さんが、あなたを友達に追加しました`);
+        fs.deleteDoc(ch.doc.ref).catch(() => { });
+      });
+    }, () => { });
+  } catch (e) { }
+}
+function inboxStop() { if (INBOX_UNSUB) { try { INBOX_UNSUB(); } catch (e) { } INBOX_UNSUB = null; } }
+// ログインの確認が終わったら、友達の画面を描き直す
+function frAuthRedraw() { if (ui.tab === 'stats' || ui.tab === 'home') render(); }
 /* 最初の描画は、スクリプトの最後（すべての const / let の宣言が終わったあと）に行う。
    途中で呼ぶと、あとの行で宣言する部品（例：ymdOf・bagSplit）を使う画面で、「宣言前に参照」の例外になり、画面が空になる */
 function bootApp() {
