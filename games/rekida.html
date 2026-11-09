@@ -2952,7 +2952,7 @@
             savedData.playCount = (savedData.playCount || 0) + 1;
             persistSaveData();
             // 親ページ（アプリ）へ結果を届ける。実績「石高」などに使う（単独で開いたときは何もしない）
-            try { if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'kosa-rekida', score: gameState.score, total: savedData.totalKokudaka, difficulty: gameState.difficulty }, '*'); } catch (e) { }
+            try { if (window.parent && window.parent !== window) window.parent.postMessage({ type: 'kosa-rekida', score: gameState.score, total: savedData.totalKokudaka, difficulty: gameState.difficulty, keys: gameState.correctKeyCount || 0 }, '*'); } catch (e) { }
 
             // 現在挑戦中だった問題も復習できるよう履歴に追加
             const currentQ = gameState.currentQuestion;

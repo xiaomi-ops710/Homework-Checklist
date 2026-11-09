@@ -1021,6 +1021,68 @@ body{overflow-x:clip}
 .ty-ng>div{display:flex;justify-content:space-between;gap:10px;align-items:center;padding:10px 14px;border-radius:14px;background:rgba(10,14,34,.6);border:1px solid rgba(240,120,108,.45)}
 .ty-ng b{font-family:'JetBrains Mono',monospace;color:#ffb3a8;font-size:1rem;overflow-wrap:anywhere}
 .ty-ng span{color:#fff3d1;flex:none}
+.mst{padding:16px}
+.mst-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.mst-h b{font-size:1.05rem}
+.mst-h small{margin-left:auto;color:var(--on-v);font-weight:600;font-size:.74rem}
+.mst-g{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.mst-t{position:relative;overflow:hidden;padding:14px;border-radius:18px;display:grid;gap:4px;min-width:0;background:radial-gradient(120% 90% at 100% 0%,color-mix(in srgb,var(--ter) 18%,transparent),transparent 60%),linear-gradient(150deg,color-mix(in srgb,var(--pc) 80%,transparent),var(--s2));border:1px solid color-mix(in srgb,var(--primary) 18%,transparent)}
+.mst-t>.ms{color:var(--primary)}
+.mst-t small{font-size:.74rem;font-weight:700;color:var(--on-v);letter-spacing:.04em}
+.mst-t b{font-size:1.45rem;font-weight:800;font-variant-numeric:tabular-nums;color:var(--on);line-height:1.2}
+.mst-t b em{font-style:normal;font-size:.72rem;margin:0 3px 0 2px;color:var(--on-v);font-weight:700}
+.mst-t i{font-style:normal;font-size:.72rem;color:var(--on-v)}
+.mst-bar{height:7px;border-radius:99px;background:color-mix(in srgb,var(--on) 12%,transparent);overflow:hidden;margin:4px 0 2px}
+.mst-bar i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--primary),color-mix(in srgb,var(--ter) 80%,#fff));animation:fcmGrow .9s var(--spring) both}
+.fh{padding:16px;position:relative;overflow:hidden}
+.fh-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.fh-h b{font-size:1.05rem}
+.fh-h small{margin-left:auto;color:var(--on-v);font-weight:600;font-size:.74rem}
+.fh-lock{display:flex;gap:8px;align-items:center;margin:0;font-weight:600;color:var(--on-v)}
+.fh-f{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.fh-one{padding:10px 0;display:grid;gap:2px}
+.fh-one small{color:var(--on-v)}
+.fcm-wrap{margin-bottom:10px}
+.fcm{position:relative;overflow:hidden;display:grid;gap:4px;padding:14px;border-radius:22px;background:radial-gradient(120% 80% at 0% 0%,color-mix(in srgb,var(--primary) 16%,transparent),transparent 60%),radial-gradient(120% 80% at 100% 100%,color-mix(in srgb,var(--ter) 16%,transparent),transparent 60%),var(--s1);border:1px solid color-mix(in srgb,var(--primary) 22%,transparent);box-shadow:0 10px 30px color-mix(in srgb,var(--primary) 12%,transparent)}
+.fcm::after{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(110deg,transparent 35%,rgba(255,255,255,.22) 50%,transparent 65%);transform:translateX(-120%);animation:fcmShine 4.5s ease-in-out infinite}
+@keyframes fcmShine{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@keyframes fcmGrow{from{width:0}}
+.fcm-vs{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px;margin-bottom:10px}
+.fcm-p{display:grid;justify-items:center;gap:2px;min-width:0;text-align:center}
+.fcm-p b{font-size:.9rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.fcm-p small{font-size:.72rem;font-weight:700;color:var(--on-v)}
+.fcm-av{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;font-size:1.3rem;font-weight:800;color:#fff;box-shadow:0 6px 18px rgba(0,0,0,.18),inset 0 0 0 2px rgba(255,255,255,.35)}
+.fcm-p.me .fcm-av{background:linear-gradient(145deg,var(--primary),color-mix(in srgb,var(--primary) 60%,#000))}
+.fcm-p.fr .fcm-av{background:linear-gradient(145deg,var(--ter),color-mix(in srgb,var(--ter) 60%,#000))}
+.fcm-mid span{display:grid;place-items:center;width:42px;height:42px;border-radius:50%;font-weight:900;font-size:.8rem;letter-spacing:.06em;color:#3d2a00;background:linear-gradient(145deg,#fff1b8,#e7b64a 55%,#b7842a);box-shadow:0 0 0 3px color-mix(in srgb,#e7b64a 30%,transparent),0 0 18px rgba(231,182,74,.55)}
+.fcm-r{display:grid;grid-template-columns:minmax(0,96px) minmax(0,1fr) 64px;gap:10px;align-items:center;padding:8px 0;border-top:1px dashed color-mix(in srgb,var(--on) 12%,transparent)}
+.fcm-k{display:flex;gap:6px;align-items:center;font-size:.82rem;font-weight:700;min-width:0}
+.fcm-k .ms{font-size:18px;color:var(--primary)}
+.fcm-bars{display:grid;gap:5px;min-width:0}
+.fcm-b{position:relative;height:22px;border-radius:12px;background:color-mix(in srgb,var(--on) 9%,transparent);overflow:hidden}
+.fcm-b i{position:absolute;left:0;top:0;bottom:0;width:var(--w);border-radius:12px;animation:fcmGrow .9s var(--spring) both;box-shadow:inset 0 -2px 0 rgba(0,0,0,.12),inset 0 2px 0 rgba(255,255,255,.3)}
+.fcm-b.me i{background:linear-gradient(90deg,color-mix(in srgb,var(--primary) 65%,#fff),var(--primary))}
+.fcm-b.fr i{background:linear-gradient(90deg,color-mix(in srgb,var(--ter) 65%,#fff),var(--ter))}
+.fcm-b span{position:relative;padding-left:9px;font-size:.74rem;font-weight:800;line-height:22px;white-space:nowrap;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.3);font-variant-numeric:tabular-nums}
+.fcm-b.win{box-shadow:0 0 0 2px #f1cf6a,0 0 14px rgba(241,207,106,.5)}
+.fcm-b.win span::after{content:' ★';color:#ffe9a6}
+.fcm-d{display:flex;align-items:center;justify-content:flex-end;gap:2px;font-weight:800;font-variant-numeric:tabular-nums;font-size:.86rem}
+.fcm-d .ms{font-size:16px}
+.fcm-d.up{color:#1e8e3e}
+.fcm-d.dn{color:var(--err)}
+.fcm-d.eq{color:var(--on-v)}
+.fr-card{padding:12px}
+.fr-card .fcm-vs{margin-top:0}
+.wc-dk{-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.wc-lp{margin:8px 4px 0;font-size:.74rem;font-weight:600;color:var(--on-v)}
+.gr-chips{display:flex;flex-wrap:wrap;gap:8px}
+button.gr-ch{display:inline-flex;gap:6px;align-items:center;padding:8px 12px;border-radius:999px;border:1px solid var(--out-v);background:var(--s2);color:var(--on-v);font:inherit;font-weight:700;font-size:.86rem;cursor:pointer}
+button.gr-ch.on{background:var(--pc);color:var(--on-pc);border-color:transparent}
+button.gr-ch .ms{font-size:18px}
+.gr-row{display:flex;gap:8px;align-items:center}
+.gr-row .scin{flex:1;min-width:0}
+.gr-list{display:grid;gap:6px;margin-bottom:8px}
+.gr-it{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:14px;background:var(--s2);font-weight:600;font-size:.9rem;word-break:break-all}
 </style>
 </head>
 <body>
@@ -1044,7 +1106,7 @@ body{overflow-x:clip}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.52';
+const APP_VERSION = '17.53';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1609,7 +1671,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '17.52', d: '2026/11/09 08:15', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
+  { v: '17.53', d: '2026/11/09 09:48', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
+  { v: '17.52', d: '2026/11/09 09:48', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
   { v: '17.51', d: '2026/11/09 07:38', t: '歴打の和風化・全画面・iPad対応・自己ベスト連撃', n: ['ツールの「歴打」のカードを、和風の金と朱のデザインと明朝体にしました', '歴打を全画面で遊べるようにしました（右上の「戻す」で戻ります）', 'タイトルの「歴打」が金色に輝き、花びらが舞う演出を加えました', '結果の画面に「自己ベストの連撃」を表示し、更新したときは知らせます', '実績「レベル5到達」の説明に、歴打が解放されることを書きました'] },
   { v: '17.50', d: '2026/11/08 20:09', t: '歴打を追加（レベル5で解放・石高で実績）', n: ['タイピングゲーム「歴打」をツールに追加しました。レベル5になると遊べます', '歴打の石高が、実績「石高1000」「征夷大将軍」「天下の蓄え」に反映されます'] },
   { v: '17.49', d: '2026/11/08 10:39', t: 'AIの説明の表示修正・アカウント画面の整理・ログアウトの確認', n: ['iPadで、アプリの説明の「AIに質問する」の文字が縦に崩れる問題を直しました', 'アカウント画面に「通知」「アップデートを確認」「設定」を追加し、フィードバックのまわりの線を消しました', 'ログアウトする前に、確認の画面を出すようにしました'] },
@@ -1743,7 +1806,7 @@ function viewHome() {
   let h = `<div class="greet"><div style="flex:1 1 280px;min-width:240px"><h1 class="${rotSmall(ROT.phase, ROT.text || greeting()[0]) ? 'tip' : ''}"><span class="rot" id="rot">${rotHtml()}</span><small>${gd}</small></h1></div>
     ${urg ? `<span class="pillchip warnp">${ms('warning')}提出期限が近い課題 ${urg}件</span>` : ''}
     
-    <button class="pillchip hsearch" data-act="gsearch" aria-label="さがす" title="さがす">${ms('search')}<span>さがす</span></button><button class="pillchip hedit" data-act="homeedit" aria-label="ホームの配置を編集" title="ホームの配置を編集">${ms('dashboard_customize')}配置</button><span class="pillchip ver" data-act="upd" role="button" aria-label="バージョン">v${APP_VERSION}</span>
+    <button class="pillchip hsearch" data-act="gsearch" aria-label="さがす" title="さがす">${ms('search')}<span>さがす</span></button><button class="pillchip hedit" data-act="greetset" aria-label="ホームの一番上の文字" title="ホームの一番上の文字">${ms('edit_note')}文字</button><button class="pillchip hedit" data-act="homeedit" aria-label="ホームの配置を編集" title="ホームの配置を編集">${ms('dashboard_customize')}配置</button><span class="pillchip ver" data-act="upd" role="button" aria-label="バージョン">v${APP_VERSION}</span>
     <button class="pillchip rp" data-act="tab" data-id="stats" aria-label="レベル"><span class="lv"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" style="stroke:color-mix(in srgb,var(--on-sec-c) 18%,transparent)"/><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--primary)" stroke-dasharray="${(C * lv.p).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 16 16)"/></svg>${ms('stars', 'f', 'font-size:16px;color:var(--primary)')}</span>Lv.${lv.L}</button></div>`;
   { const past = pastExams();
     h += `<div class="chips scroll mb">${activeExams().map(e => `<button class="chip ${e.id === ex.id ? 'on' : ''}" data-act="exam" data-id="${e.id}">${esc(e.name)}</button>`).join('')}${past.length ? `<button class="chip ${ex.arc ? 'on' : ''}" data-act="pastlist">${ms('inventory_2')}${ex.arc ? esc(ex.name) : '保存した考査 ' + past.length}</button>` : ''}<button class="chip" data-act="addexam">${ms('add')}考査を追加</button></div>`;
@@ -1757,7 +1820,7 @@ function viewHome() {
     ${dly ? dailyTiles(DS) : `<div class="tiles"><div class="tile"><div class="v">${cu(R.rem)}<small>p</small></div><div class="k">必須の残り</div></div><div class="tile"><div class="v">${cu(A.rem)}<small>p</small></div><div class="k">全体の残り</div></div><div class="tile"><div class="v">${cu(A.nd)}<small>/ ${A.n}冊</small></div><div class="k">完了した課題</div></div></div>`}
     <div class="seg" role="group" aria-label="集計の対象"><button class="${S.set.scope === 'all' ? 'on' : ''}" data-act="scope" data-id="all">すべて</button><button class="${S.set.scope === 'req' ? 'on' : ''}" data-act="scope" data-id="req">必須のみ</button></div></div>
     ${donut({ key: 'hero', size, stroke: Math.round(size * .105), segs, total: sc.total, center: pcCenter(sc), sub: S.set.scope === 'req' ? '必須の達成率' : '全体の達成率' })}</section>`;
-  P.tools = homeTools();
+  P.tools = homeTools(); P.mystat = myStatCard(); P.friend = frHomeCard(); setTimeout(() => frHomeLoad(false), 0);
 
   // 今日のプラン
   P.__h = h; h = '';
@@ -1810,10 +1873,10 @@ function viewHome() {
 }
 
 /* ===== ホームの配置の編集 ===== */
-const HOME_SECS = [['hero', '達成率', 'donut_large'], ['sug', 'きょうのおすすめ', 'tips_and_updates'], ['tools', 'よく使うツール', 'apps'], ['plan', '今日のプラン', 'today'], ['due', '期限が近い課題・提出スケジュール', 'event_upcoming'], ['week', '今週の勉強', 'insights'], ['rev', '単語帳の見直し', 'style'], ['ai', 'AIの学習アドバイス', 'auto_awesome'], ['tt', 'あしたの時間割', 'calendar_view_week'], ['memo', 'ふせんメモ', 'sticky_note_2'], ['subj', '教科ごとの進み具合', 'donut_large']];
+const HOME_SECS = [['hero', '達成率', 'donut_large'], ['mystat', '自分の統計', 'monitoring'], ['friend', '友達との比較', 'group'], ['sug', 'きょうのおすすめ', 'tips_and_updates'], ['tools', 'よく使うツール', 'apps'], ['plan', '今日のプラン', 'today'], ['due', '期限が近い課題・提出スケジュール', 'event_upcoming'], ['week', '今週の勉強', 'insights'], ['rev', '単語帳の見直し', 'style'], ['ai', 'AIの学習アドバイス', 'auto_awesome'], ['tt', 'あしたの時間割', 'calendar_view_week'], ['memo', 'ふせんメモ', 'sticky_note_2'], ['subj', '教科ごとの進み具合', 'donut_large']];
 function homeLay() {
   const o = (S.set && S.set.home) || {}, ids = HOME_SECS.map(x => x[0]), order = (Array.isArray(o.order) ? o.order : ids).filter(i => ids.includes(i));
-  ids.forEach(i => { if (!order.includes(i)) { const af = i === 'sug' ? 'hero' : i === 'rev' ? 'week' : '', k = af ? order.indexOf(af) : -1; if (k >= 0) order.splice(k + 1, 0, i); else order.push(i); } });   // 新しい部分は、「今週の勉強」の次に入れる
+  ids.forEach(i => { if (!order.includes(i)) { const AF = { sug: 'hero', mystat: 'hero', friend: 'mystat', rev: 'week' }, af = AF[i] || '', k = af ? order.indexOf(af) : -1; if (k >= 0) order.splice(k + 1, 0, i); else order.push(i); } });   // 新しい部分は、「今週の勉強」の次に入れる
   return { order, half: o.half || { plan: 1, due: 1 }, hide: o.hide || {}, sv: o.sv || 'card' };
 }
 function homeSave(L) { S.set.home = { order: L.order, half: L.half, hide: L.hide, sv: L.sv }; save(); render(); }
@@ -4321,6 +4384,7 @@ function ttCheck() {
 }
 function ttResult() {
   if (TT.clk) { clearInterval(TT.clk); TT.clk = 0; }
+  S.typed = (S.typed || 0) + (TT.chars || 0); save();
   const n = TT.list.length, ok = TT.ok.length, pc = Math.round(ok / n * 100);
   const acc = TT.chars ? Math.round((TT.chars - TT.miss) / TT.chars * 100) : 100;
   const mins = TT.t0 ? Math.max(0.05, (Date.now() - TT.t0) / 60000) : 0;
@@ -6440,7 +6504,7 @@ Object.assign(ACT, { sugai() { if (!CLOUD.user) return toast('AIは、Googleロ�
 const CF = { n: 0, rec: [] };
 function cardsHtml() {
   ensureDecks(); const d = wcDeck(), all = wcAll(), k = all.filter(c => c.k).length;
-  return `<div class="wx"><aside class="wx-side"><div class="wx-sh">単語帳</div><div class="wc-decks">${S.decks.map(dk => `<button class="wc-dk sc ${dk.id === d.id ? 'on' : ''}" style="--sh:${dk.hue}" data-act="wcdeck" data-id="${dk.id}"><i></i><b>${esc(dk.name)}</b><small>${S.cards.filter(c => c.d === dk.id).length}</small></button>`).join('')}<div class="wc-side-acts"><button class="wc-ib" data-act="wcdeckadd" aria-label="新しい単語帳" title="新しい単語帳">${ms('add')}</button><button class="wc-ib" data-act="wcbackup" aria-label="共有・バックアップ" title="共有・バックアップ">${ms('share')}</button></div></div></aside>
+  return `<div class="wx"><aside class="wx-side"><div class="wx-sh">単語帳</div><div class="wc-decks">${S.decks.map(dk => `<button class="wc-dk sc ${dk.id === d.id ? 'on' : ''}" style="--sh:${dk.hue}" data-act="wcdeck" data-id="${dk.id}"><i></i><b>${esc(dk.name)}</b><small>${S.cards.filter(c => c.d === dk.id).length}</small></button>`).join('')}<p class="wc-lp">長押しで、名前と色を変えられます</p><div class="wc-side-acts"><button class="wc-ib" data-act="wcdeckadd" aria-label="新しい単語帳" title="新しい単語帳">${ms('add')}</button><button class="wc-ib" data-act="wcbackup" aria-label="共有・バックアップ" title="共有・バックアップ">${ms('share')}</button></div></div></aside>
   <section class="wx-main"><div class="wx-top"><div class="wx-acts"><button class="btn" data-act="wcmanual" aria-label="カードを追加" title="カードを追加">${ms('add')}<span class="bl">追加</span></button><button class="ibtn wc-more" data-act="wcmore" aria-label="その他の操作" title="その他の操作">${ms('more_vert')}</button></div></div>
   <div class="wc-meta"><span id="wcstat">${wcStatText()}</span></div><div class="wc-prog"><i id="wcprog" style="width:${all.length ? k / all.length * 100 : 0}%"></i></div>
   <div class="wx-tabs" role="tablist">${[['study', 'style', '学習'], ['list', 'list', '一覧'], ['test', 'quiz', 'テスト']].map(([t, ic, l]) => `<button type="button" role="tab" aria-selected="${WC.tab === t}" class="wx-tab ${WC.tab === t ? 'on' : ''}" data-act="wctab" data-id="${t}">${ms(ic)}${l}</button>`).join('')}</div>
@@ -6667,7 +6731,7 @@ const rotPick = list => { const pool = list.filter(x => x !== ROT.last); const c
 function rotGreet() { const h = new Date().getHours(), band = h < 5 ? 'late' : h < 11 ? 'morning' : h < 18 ? 'day' : 'evening'; return rotPick([...ROT_GREET[band], ...ROT_COMMON]); }
 
 const rotSmall = (phase, text) => Array.from(text || '').length > 12;   // 豆知識と、長い挨拶は、小さめの文字に
-function rotHtml() { if (!ROT.text) ROT.text = greeting()[0]; return esc(ROT.text); }
+function rotHtml() { if (!ROT.text) { const c = rotCfg(); ROT.text = c.speed === 0 && c.fixed ? c.fixed : greeting()[0]; } return esc(ROT.text); }
 function rotShow(el, text, next) {
   const h1 = el.parentElement, swap = () => { el.textContent = text; if (h1) h1.classList.toggle('tip', rotSmall(next, text)); };
   if (reduced() || !el.animate) { swap(); return; }
@@ -6677,7 +6741,7 @@ function rotShow(el, text, next) {
 // 挨拶・豆知識・自分に合う話題を、ひとつの山にして、5秒ごとにランダムに出す。一度出たものは、なるべく出さない
 function rotPool() {
   const h = new Date().getHours(), band = h < 5 ? 'late' : h < 11 ? 'morning' : h < 18 ? 'day' : 'evening';
-  return [...new Set([...ROT_GREET[band], ...ROT_COMMON, ...ROT_TIPS, ...rotPersonal()])];
+  return rotSrc(band);
 }
 function rotNext() {
   let pool = rotPool().filter(x => !ROT.seen.has(x) && x !== ROT.last);
@@ -6686,14 +6750,15 @@ function rotNext() {
   ROT.seen.add(pick); return pick;
 }
 function rotTick() {
+  if (rotCfg().speed === 0) { ROT.timer = 0; return; }   // 「固定」のときは出し替えない
   const el = $('#rot');
   if (!el || ui.tab !== 'home') { ROT.timer = setTimeout(rotTick, 1000); return; }   // ホーム以外の画面では、出し替えを待つ
   const text = rotNext();
   rotShow(el, text, 'greet');
   ROT.text = text; ROT.last = text;
-  ROT.timer = setTimeout(rotTick, 5000);   // すべて5秒ごと
+  ROT.timer = setTimeout(rotTick, rotCfg().speed * 1000);   // 設定した速さで出し替え
 }
-ROT.timer = setTimeout(rotTick, 5000);
+setTimeout(() => rotApply(true), 0);
 // アカウントの左の、連続日数
 function stkHtml() { return `<span class="stk" id="stk">${ms('event_repeat')}${streak()}日連続</span>`; }
 /* ====================== 今日の天気と、自分に合った豆知識（17.11） ====================== */
@@ -7838,16 +7903,12 @@ async function friendsLoad() {
   for (const f of growGet().friends) { try { const d = await fs.getDoc(fs.doc(db, 'friendStats', f.code)); out.push({ f, data: d.exists() ? d.data() : null }); } catch (e) { out.push({ f, data: null, err: true }); } }
   return out;
 }
-function cmpRow(label, mine, theirs, unit) {
-  const mx = Math.max(mine, theirs, 1), diff = mine - theirs;
-  return `<div class="cmp-r"><div class="cmp-k">${label}</div><div class="cmp-bars"><div class="cmp-b me"><i style="width:${Math.round(mine / mx * 100)}%"></i><span>${mine}${unit}</span></div><div class="cmp-b fr"><i style="width:${Math.round(theirs / mx * 100)}%"></i><span>${theirs}${unit}</span></div></div><div class="cmp-d ${diff >= 0 ? 'up' : 'dn'}">${diff > 0 ? '+' : ''}${diff}${unit}</div></div>`;
-}
 function friendsHtml(me, rows) {
   if (!rows.length) return `<div class="card"><p class="muted" style="font-weight:500;margin:0">まだ友達がいません。友達の「友達コード」を上の入力欄に入れて追加してください。</p></div>`;
   return rows.map(({ f, data, err }) => {
     if (err || !data) return `<div class="card"><b>${esc(f.name)}</b><p class="muted" style="font-weight:500;margin:6px 0">${err ? '読み込めませんでした' : '今は、進み具合を見せていないようです'}</p><button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button></div>`;
     const nm = esc(data.name || f.name);
-    return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div><div class="cmp-lg"><span class="me">自分</span><span class="fr">${nm}</span></div>${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}<button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button></div>`;
+    return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div>${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}<button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button></div>`;
   }).join('');
 }
 function friendsShell() {
@@ -7894,6 +7955,137 @@ Object.assign(ACT, {
   frdel(uid) { const g = growGet(); g.friends = g.friends.filter(f => f.uid !== uid); growPut(g); toast('友達から外しました'); friendsRedraw(); }
 });
 setTimeout(applyHomeBg, 0);
+/* ===== 17.53：ホームの統計・友達との比較（ホームにも）・一番上の文字の設定・単語帳の長押しで名前変更 ===== */
+// --- ホームの一番上の文字 ---
+function rotCfg() {
+  const g = (S.set && S.set.greet) || {};
+  const on = Object.assign({ greet: true, tip: true, personal: true, card: false, own: true }, g.on || {});
+  return {
+    speed: [5, 15, 60, 0].includes(g.speed) ? g.speed : 5,   // 0 は「固定」
+    fixed: String(g.fixed || '').slice(0, 60),
+    on,
+    own: Array.isArray(g.own) ? g.own.map(x => String(x || '').trim().slice(0, 60)).filter(Boolean).slice(0, 40) : []
+  };
+}
+function rotSrc(band) {
+  const c = rotCfg(), out = [];
+  if (c.on.greet) out.push(...ROT_GREET[band], ...ROT_COMMON);
+  if (c.on.tip) out.push(...ROT_TIPS);
+  if (c.on.personal) out.push(...rotPersonal());
+  if (c.on.card) out.push(...(S.cards || []).filter(x => x.f && x.b).slice(0, 300).map(x => `${String(x.f).slice(0, 30)}＝${String(x.b).slice(0, 40)}`));
+  if (c.on.own) out.push(...c.own);
+  if (!out.length) out.push(...ROT_GREET[band]);   // 全部オフのときは、挨拶だけ
+  return [...new Set(out)];
+}
+function rotApply(first) {
+  clearTimeout(ROT.timer); ROT.timer = 0;
+  const c = rotCfg(), el = $('#rot');
+  if (c.speed === 0) {
+    const t = c.fixed || greeting()[0];
+    ROT.text = t; ROT.last = t;
+    if (el) { el.textContent = t; if (el.parentElement) el.parentElement.classList.toggle('tip', rotSmall('greet', t)); }
+    return;
+  }
+  ROT.timer = setTimeout(rotTick, first ? 5000 : 300);
+}
+function greetPut(p) {
+  const c = rotCfg(); Object.assign(c, p);
+  S.set = S.set || {}; S.set.greet = c; save(); rotApply();
+  if (dlg.open && dlg.dataset.k === 'greet') openDlg(greetHtml());
+}
+function greetHtml() {
+  const c = rotCfg();
+  const chip = (k, lb, ic) => `<button type="button" class="gr-ch ${c.on[k] ? 'on' : ''}" data-act="greettog" data-id="${k}">${ms(ic)}${lb}</button>`;
+  return `<h2>${ms('edit_note')}ホームの一番上の文字</h2>
+  <p class="muted" style="margin:-6px 0 14px;font-weight:500;line-height:1.7">上に出る文字を、自分で決められます。出すものは、いくつでも組み合わせられます。</p>
+  <div class="fld"><div class="lbl">出すもの</div><div class="gr-chips">${chip('greet', '挨拶', 'waving_hand')}${chip('tip', '教科の豆知識', 'lightbulb')}${chip('personal', '自分に合う話題', 'person_pin')}${chip('card', '単語帳のカード', 'style')}${chip('own', '自分で追加した文', 'edit_note')}</div></div>
+  <div class="fld"><div class="lbl">切り替えの速さ</div><div class="wx-seg">${[[5, '5秒'], [15, '15秒'], [60, '1分'], [0, '固定']].map(([v, t]) => `<button type="button" class="wx-sg ${c.speed === v ? 'on' : ''}" data-act="greetspd" data-id="${v}">${t}</button>`).join('')}</div></div>
+  <div class="fld"><label for="grfix">固定で出す文（「固定」のときに出ます）</label><div class="gr-row"><input id="grfix" class="scin" maxlength="60" value="${esc(c.fixed)}" placeholder="例：単語帳で、毎日10語ずつ"><button type="button" class="btn tonal" data-act="greetfix">${ms('check')}設定</button></div></div>
+  <div class="fld"><div class="lbl">自分で追加した文（${c.own.length} / 40）</div>
+    <div class="gr-list">${c.own.length ? c.own.map((x, i) => `<div class="gr-it"><span>${esc(x)}</span><button type="button" class="ibtn" data-act="greetdel" data-id="${i}" aria-label="この文を消す">${ms('delete')}</button></div>`).join('') : '<p class="muted" style="margin:0;font-weight:500">まだありません。下の欄から追加できます</p>'}</div>
+    ${c.own.length < 40 ? `<div class="gr-row"><input id="gradd" class="scin" maxlength="60" placeholder="例：今日も、ひとつずつ"><button type="button" class="btn" data-act="greetadd">${ms('add')}追加</button></div>` : ''}</div>
+  <div class="dact"><button type="button" class="btn text" data-act="greetreset">${ms('restart_alt')}もとに戻す</button><span class="sp"></span><button type="button" class="btn" data-act="close">${ms('check')}閉じる</button></div>`;
+}
+// --- 自分の統計（ホームのカード） ---
+function myStatCard() {
+  const t = totals(), lv = level(), typed = S.typed || 0, badges = Object.keys(S.badges || {}).length, all = BADGES.length;
+  return `<section class="card mst"><div class="mst-h">${ms('monitoring')}<b>自分の統計</b><small>いまの記録</small></div><div class="mst-g">
+    <div class="mst-t">${ms('timer')}<small>合計勉強時間</small><b>${Math.floor(t.min / 60)}<em>時間</em>${t.min % 60}<em>分</em></b><i>集中タイマーの記録</i></div>
+    <div class="mst-t">${ms('stars')}<small>実績レベル</small><b>Lv.${lv.L}</b><div class="mst-bar"><i style="width:${Math.round(lv.p * 100)}%"></i></div><i>次のレベルまで あと${lv.need}XP</i></div>
+    <div class="mst-t">${ms('keyboard')}<small>合計タイピング</small><b>${typed.toLocaleString('ja-JP')}<em>文字</em></b><i>入力テストと歴打の合計</i></div>
+    <div class="mst-t">${ms('emoji_events')}<small>獲得した実績</small><b>${badges}<em>/ ${all}</em></b><i>連続 ${t.streak}日</i></div>
+  </div></section>`;
+}
+// --- 友達との比較（ホームのカード。読み込みは、ときどき一度だけ） ---
+const FR_HOME = { at: 0, rows: null, me: null, busy: false, err: false };
+function frVs(me, data, nm) {
+  const ini = s => Array.from(String(s || '？'))[0] || '？';
+  const myName = (CLOUD.user && CLOUD.user.displayName) || '自分';
+  return `<div class="fcm-vs"><div class="fcm-p me"><span class="fcm-av">${esc(ini(myName))}</span><b>${esc(myName)}</b><small>Lv.${me.lv}</small></div><div class="fcm-mid"><span>VS</span></div><div class="fcm-p fr"><span class="fcm-av">${esc(ini(nm))}</span><b>${nm}</b><small>Lv.${data.lv || 0}</small></div></div>`;
+}
+function cmpRow(label, mine, theirs, unit, icon) {
+  const mx = Math.max(mine, theirs, 1), diff = mine - theirs, pm = Math.round(mine / mx * 100), pt = Math.round(theirs / mx * 100);
+  const cls = diff > 0 ? 'up' : diff < 0 ? 'dn' : 'eq', ic = diff > 0 ? 'arrow_upward' : diff < 0 ? 'arrow_downward' : 'drag_handle';
+  return `<div class="fcm-r"><div class="fcm-k">${icon ? ms(icon) : ''}<b>${label}</b></div><div class="fcm-bars"><div class="fcm-b me${diff > 0 ? ' win' : ''}"><i style="--w:${pm}%"></i><span>${mine}${unit}</span></div><div class="fcm-b fr${diff < 0 ? ' win' : ''}"><i style="--w:${pt}%"></i><span>${theirs}${unit}</span></div></div><div class="fcm-d ${cls}">${ms(ic)}${diff > 0 ? '+' : ''}${diff}${unit}</div></div>`;
+}
+function frCardHtml(me, data, nm) {
+  return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}</div>`;
+}
+function frHomeInner() {
+  if (FR_HOME.err) return `<p class="muted" style="font-weight:500;margin:0">友達の情報を読めませんでした。通信の状態を確かめて、「更新」を押してください。</p>`;
+  const g = growGet();
+  if (!g.friends.length) return `<p class="muted" style="font-weight:500;margin:0">まだ友達がいません。「友達を見る・追加」から、友達コードを入れて追加できます。</p>`;
+  if (!FR_HOME.rows) return `<p class="muted" style="font-weight:500;margin:0">読み込み中…</p>`;
+  const me = FR_HOME.me || growMine(g);
+  return FR_HOME.rows.slice(0, 2).map(({ f, data, err }) => {
+    if (err || !data) return `<div class="fh-one"><b>${esc(f.name)}</b><small>${err ? '読み込めませんでした' : '今は、進み具合を見せていないようです'}</small></div>`;
+    return `<div class="fcm-wrap">${frCardHtml(me, data, esc(data.name || f.name))}</div>`;
+  }).join('') + (g.friends.length > 2 ? `<p class="muted" style="font-weight:600;margin:6px 0 0;font-size:.85rem">ほかに${g.friends.length - 2}人の友達がいます</p>` : '');
+}
+function frHomeCard() {
+  const lv = level().L;
+  let body, foot = '';
+  if (lv < FRIEND_LV) body = `<p class="fh-lock">${ms('lock')}Lv.${FRIEND_LV}で使えるようになります</p>`;
+  else if (!CLOUD.user) body = `<p class="fh-lock">${ms('lock')}友達と比べるには、Googleログインが必要です</p>`;
+  else {
+    body = `<div id="frhome">${frHomeInner()}</div>`;
+    foot = `<div class="fh-f"><button class="btn tonal xs" data-act="friendsopen">${ms('group')}友達を見る・追加</button><button class="btn text xs" data-act="frhome">${ms('refresh')}更新</button></div>`;
+  }
+  return `<section class="card fh"><div class="fh-h">${ms('group')}<b>友達との比較</b><small>実績タブと同じ情報</small></div>${body}${foot}</section>`;
+}
+function frHomeRedraw() { const el = document.getElementById('frhome'); if (el) el.innerHTML = frHomeInner(); }
+async function frHomeLoad(force) {
+  if (!CLOUD.user || level().L < FRIEND_LV || FR_HOME.busy) return;
+  if (!force && FR_HOME.rows && Date.now() - FR_HOME.at < 300000) return;   // 5分以内は読み直さない
+  if (!growGet().friends.length) { FR_HOME.rows = []; FR_HOME.me = growMine(growGet()); FR_HOME.at = Date.now(); return frHomeRedraw(); }
+  FR_HOME.busy = true; FR_HOME.err = false; frHomeRedraw();
+  try { FR_HOME.rows = await friendsLoad(); FR_HOME.me = growMine(growGet()); FR_HOME.at = Date.now(); }
+  catch (e) { FR_HOME.err = true; }
+  FR_HOME.busy = false; frHomeRedraw();
+}
+// --- 単語帳の長押しで、名前と色を変える ---
+const LP = { t: 0, fired: false, x: 0, y: 0 };
+document.addEventListener('pointerdown', e => {
+  const el = e.target.closest && e.target.closest('.wc-dk[data-id]'); if (!el) return;
+  LP.fired = false; LP.x = e.clientX; LP.y = e.clientY;
+  clearTimeout(LP.t);
+  LP.t = setTimeout(() => { LP.t = 0; LP.fired = true; try { navigator.vibrate && navigator.vibrate(18); } catch (x) { } deckDlg(el.dataset.id); }, 550);
+});
+document.addEventListener('pointermove', e => { if (LP.t && Math.hypot(e.clientX - LP.x, e.clientY - LP.y) > 10) { clearTimeout(LP.t); LP.t = 0; } });
+document.addEventListener('pointerup', () => { clearTimeout(LP.t); LP.t = 0; });
+document.addEventListener('pointercancel', () => { clearTimeout(LP.t); LP.t = 0; });
+document.addEventListener('click', e => { if (LP.fired) { LP.fired = false; e.stopPropagation(); e.preventDefault(); } }, true);
+document.addEventListener('contextmenu', e => { if (e.target.closest && e.target.closest('.wc-dk')) e.preventDefault(); });
+Object.assign(ACT, {
+  greetset() { openDlg(greetHtml()); dlg.dataset.k = 'greet'; },
+  greettog(k) { const c = rotCfg(); c.on[k] = !c.on[k]; if (!Object.values(c.on).some(Boolean)) return toast('1つは選んでください'); greetPut({ on: c.on }); },
+  greetspd(v) { greetPut({ speed: +v }); },
+  greetfix() { const v = (($('#grfix') || {}).value || '').trim().slice(0, 60); greetPut({ fixed: v }); toast(rotCfg().speed === 0 ? '固定の文を変えました' : '保存しました（「固定」にすると出ます）'); },
+  greetadd() { const v = (($('#gradd') || {}).value || '').trim().slice(0, 60); if (!v) return toast('文を入れてください'); const c = rotCfg(); if (c.own.length >= 40) return toast('追加できるのは40個までです'); greetPut({ own: [...c.own, v] }); },
+  greetdel(i) { const c = rotCfg(); greetPut({ own: c.own.filter((_, j) => j !== +i) }); },
+  greetreset() { if (S.set && S.set.greet) delete S.set.greet; save(); rotApply(); if (dlg.open && dlg.dataset.k === 'greet') openDlg(greetHtml()); toast('もとに戻しました'); },
+  frhome() { frHomeLoad(true); },
+});
 /* 最初の描画は、スクリプトの最後（すべての const / let の宣言が終わったあと）に行う。
    途中で呼ぶと、あとの行で宣言する部品（例：ymdOf・bagSplit）を使う画面で、「宣言前に参照」の例外になり、画面が空になる */
 function bootApp() {
@@ -8752,6 +8944,7 @@ window.addEventListener('message', e => {
   const total = Math.max(0, Math.min(100000000, Math.floor(Number(d.total) || 0)));
   const v = rkStat();
   v.plays = (v.plays || 0) + 1; v.best = Math.max(v.best || 0, score); v.total = Math.max(v.total || 0, total);
+  S.typed = (S.typed || 0) + Math.max(0, Math.min(1000000, Math.floor(Number(d.keys) || 0)));
   try { localStorage.setItem('kosa-rekida', JSON.stringify(v)); } catch (x) { }
   const el = document.getElementById('rkstat'); if (el) el.innerHTML = rkStatHtml();
   checkBadges(false); save();
