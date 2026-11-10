@@ -331,7 +331,7 @@
                 <div class="flex items-center gap-2">
                     <h1 class="font-brush text-xl sm:text-2xl text-amber-100 tracking-wider">歴打 -REKIDA-</h1>
                     <span class="text-[11px] font-bold bg-gradient-to-r from-amber-600 to-amber-700 text-amber-50 px-2 py-0.5 rounded-full border border-amber-300/60 shadow-sm">
-                        全240問収録
+                        全274問収録
                     </span>
                     <span id="headerRankBadge" class="hidden sm:inline-block text-[11px] font-brush bg-stone-800 text-amber-300 border border-amber-500/50 px-2.5 py-0.5 rounded-full">
                         官位：見習い足軽
@@ -398,7 +398,7 @@
                         </h2>
                         <p class="text-xs sm:text-sm md:text-base text-stone-700 max-w-3xl mx-auto leading-relaxed">
                             歴史問題の<strong class="text-red-800 underline decoration-red-500/50">正解をローマ字でタイピング</strong>！制限時間は<strong class="text-amber-900">2分間（120秒）</strong>。<br class="hidden sm:inline">
-                            <strong>「ローマ字（スペル）非表示」</strong>や<strong>「答え非表示（暗記真剣勝負）」</strong>にも対応し、全240問で定期テスト・入試対策は万全！
+                            <strong>「ローマ字（スペル）非表示」</strong>や<strong>「答え非表示（暗記真剣勝負）」</strong>にも対応し、全274問で定期テスト・入試対策は万全！
                         </p>
                     </div>
 
@@ -465,7 +465,7 @@
                             </div>
                             <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-2 gap-1.5 text-xs">
                                 <button type="button" onclick="setEraFilter('all')" id="eraBtn-all" class="era-filter-btn px-2.5 py-1.5 rounded bg-amber-500 text-stone-950 font-bold border border-amber-200 text-left truncate shadow">
-                                    🏯 全時代 (240問)
+                                    🏯 全時代 (274問)
                                 </button>
                                 <button type="button" onclick="setEraFilter('medieval')" id="eraBtn-medieval" class="era-filter-btn px-2.5 py-1.5 rounded bg-stone-800 text-stone-300 hover:bg-stone-700 border border-stone-600 text-left truncate">
                                     🌸 平安・鎌倉・室町
@@ -483,7 +483,7 @@
                         </div>
                     </div>
 
-                    <!-- 難易度選択（3段階：各80問＝計240問） -->
+                    <!-- 難易度選択（3段階：109・82・83問＝計274問） -->
                     <div class="space-y-2">
                         <h3 class="text-center font-brush text-xl sm:text-2xl text-stone-800 flex items-center justify-center gap-2">
                             <span class="w-8 h-0.5 bg-amber-800/40"></span>
@@ -496,7 +496,7 @@
                             <div onclick="startGame('easy')" class="btn-wafuu cursor-pointer rounded-xl bg-gradient-to-b from-emerald-50 to-emerald-100/95 border-2 border-emerald-800 p-4 flex flex-col justify-between group">
                                 <div>
                                     <div class="flex items-center justify-between mb-1">
-                                        <span class="px-2.5 py-0.5 rounded-md bg-emerald-800 text-emerald-50 text-xs font-bold">簡単（初級・全80問）</span>
+                                        <span class="px-2.5 py-0.5 rounded-md bg-emerald-800 text-emerald-50 text-xs font-bold">簡単（初級・全109問）</span>
                                         <span class="font-brush text-emerald-900 text-lg">★☆☆</span>
                                     </div>
                                     <h4 class="font-brush text-2xl sm:text-3xl text-emerald-950 group-hover:text-emerald-700 transition flex items-center gap-2">
@@ -522,7 +522,7 @@
                                 <div class="absolute -right-7 top-3 bg-red-700 text-amber-100 text-[10px] font-bold px-7 py-0.5 rotate-45 shadow">一番人気</div>
                                 <div>
                                     <div class="flex items-center justify-between mb-1">
-                                        <span class="px-2.5 py-0.5 rounded-md bg-amber-800 text-amber-50 text-xs font-bold">中（中級・全80問）</span>
+                                        <span class="px-2.5 py-0.5 rounded-md bg-amber-800 text-amber-50 text-xs font-bold">中（中級・全82問）</span>
                                         <span class="font-brush text-amber-900 text-lg">★★☆</span>
                                     </div>
                                     <h4 class="font-brush text-2xl sm:text-3xl text-amber-950 group-hover:text-amber-700 transition flex items-center gap-2">
@@ -547,7 +547,7 @@
                             <div onclick="startGame('hard')" class="btn-wafuu cursor-pointer rounded-xl bg-gradient-to-b from-red-50 to-red-100/95 border-2 border-red-900 p-4 flex flex-col justify-between group">
                                 <div>
                                     <div class="flex items-center justify-between mb-1">
-                                        <span class="px-2.5 py-0.5 rounded-md bg-red-900 text-red-50 text-xs font-bold">難しい（上級・全80問）</span>
+                                        <span class="px-2.5 py-0.5 rounded-md bg-red-900 text-red-50 text-xs font-bold">難しい（上級・全83問）</span>
                                         <span class="font-brush text-red-900 text-lg">★★★</span>
                                     </div>
                                     <h4 class="font-brush text-2xl sm:text-3xl text-red-950 group-hover:text-red-700 transition flex items-center gap-2">
@@ -873,13 +873,13 @@
         </div>
     </div>
 
-    <!-- 歴史用語大図鑑（全240問・赤シート暗記機能付き）モーダル -->
+    <!-- 歴史用語大図鑑（全274問・赤シート暗記機能付き）モーダル -->
     <div id="encyclopediaModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-2 sm:p-4">
         <div class="washi-scroll rounded-xl max-w-5xl w-full max-h-[90dvh] flex flex-col p-4 sm:p-6 space-y-3.5">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b-2 border-amber-900/20 pb-2.5">
                 <div>
                     <h3 class="font-brush text-2xl sm:text-3xl text-stone-900 flex items-center gap-2">
-                        <i class="fa-solid fa-book-journal-whills text-red-800"></i> 歴打・歴史用語大図鑑（全240問）
+                        <i class="fa-solid fa-book-journal-whills text-red-800"></i> 歴打・歴史用語大図鑑（全274問）
                     </h3>
                     <p class="text-xs text-stone-600">一度でも正解した用語には「討伐済」の朱印が押されます。赤シート機能で定期テスト・高校入試前の暗記にも使えます！</p>
                 </div>
@@ -904,9 +904,9 @@
                     </select>
                     <select id="encDiffSelect" onchange="renderEncyclopediaList()" class="bg-stone-800 border border-stone-600 rounded px-2.5 py-1.5 text-amber-100">
                         <option value="all">すべての難易度</option>
-                        <option value="easy">足軽コース（基本80問）</option>
-                        <option value="normal">侍大将コース（標準80問）</option>
-                        <option value="hard">征夷大将軍コース（応用80問）</option>
+                        <option value="easy">足軽コース（基本109問）</option>
+                        <option value="normal">侍大将コース（標準82問）</option>
+                        <option value="hard">征夷大将軍コース（応用83問）</option>
                     </select>
                     <input id="encSearchInput" oninput="renderEncyclopediaList()" type="text" placeholder="用語・解説キーワード検索..." class="bg-stone-800 border border-stone-600 rounded px-2.5 py-1.5 text-amber-100 placeholder-stone-400 text-xs">
                 </div>
@@ -926,17 +926,46 @@
 
     <!-- フッター -->
     <footer class="relative z-10 text-center py-2 text-[11px] text-stone-400">
-        歴打 -REKIDA- | 中学歴史タイピング道場（平安時代〜昭和時代・全240問 / iPad・PC対応 / 立体音響和楽器シンセ搭載）
+        歴打 -REKIDA- | 中学歴史タイピング道場（平安時代〜昭和時代・全274問 / iPad・PC対応 / 立体音響和楽器シンセ搭載）
     </footer>
 
     <script>
         /* =========================================================================
-         * 1. 中学歴史問題データベース（全240問：各難易度80問ずつ収録！）
+         * 1. 中学歴史問題データベース（全274問：難易度ごとに収録！）
          *    平安〜昭和まで網羅し、何度遊んでも飽きない圧倒的ボリューム
          * ========================================================================= */
         const HISTORY_QUESTIONS = {
             // 【簡単（初級・足軽コース）】：2〜6文字の基本重要語句（全80問）
             easy: [
+                { t: "p", era: "大正時代", q: "『銀河鉄道の夜』などを書いた、大正・昭和初期の詩人・童話作家は？", kanji: "宮沢賢治", kana: "みやざわけんじ", note: "岩手県出身。詩や童話を多く残した。" },
+                { t: "p", era: "大正時代", q: "元老として、大正時代の政党内閣の成立を支えた人物は？", kanji: "西園寺公望", kana: "さいおんじきんもち", note: "明治・大正期に首相を務めた元老。" },
+                { t: "p", era: "大正時代", q: "護憲三派の内閣を組織し、普通選挙法を成立させた首相は？", kanji: "加藤高明", kana: "かとうたかあき", note: "1925年に普通選挙法を成立させた。" },
+                { t: "p", era: "室町時代", q: "1338年に征夷大将軍となり、室町幕府を開いた人物は？", kanji: "足利尊氏", kana: "あしかがたかうじ", note: "後醍醐天皇と対立し、京都に幕府を開いた。" },
+                { t: "p", era: "室町時代", q: "能を芸術として大成し、『風姿花伝』を残した人物は？", kanji: "世阿弥", kana: "ぜあみ", note: "観阿弥の子。能楽を完成させた。" },
+                { t: "p", era: "室町時代", q: "「一休さん」として知られ、足利義満を風刺したとされる禅僧は？", kanji: "一休宗純", kana: "いっきゅうそうじゅん", note: "とんちの逸話で有名な室町時代の禅僧。" },
+                { t: "p", era: "室町時代", q: "東山文化を築き、応仁の乱の時の8代将軍は？", kanji: "足利義政", kana: "あしかがよしまさ", note: "銀閣を建て、東山文化を築いた。" },
+                { t: "p", era: "室町時代", q: "本願寺を大きくし、浄土真宗を広めた僧は？", kanji: "蓮如", kana: "れんにょ", note: "門徒を増やし、浄土真宗の教えを広めた。" },
+                { t: "p", era: "安土桃山時代", q: "1582年、本能寺の変で織田信長を討った武将は？", kanji: "明智光秀", kana: "あけちみつひで", note: "信長の家臣だったが、主君を討った。" },
+                { t: "p", era: "安土桃山時代", q: "安土桃山時代を代表する絵師で、城の障壁画を描いた人物は？", kanji: "狩野永徳", kana: "かのうえいとく", note: "『唐獅子図屏風』などが有名。" },
+                { t: "p", era: "安土桃山時代", q: "「かぶき踊り」を始めたとされる女性の芸能者は？", kanji: "出雲阿国", kana: "いずものおくに", note: "江戸時代のかぶき・歌舞伎の始まりとされる。" },
+                { t: "p", era: "明治時代", q: "立憲改進党を結成し、東京専門学校を創設した人物は？", kanji: "大隈重信", kana: "おおくましげのぶ", note: "東京専門学校は、のちの早稲田大学。" },
+                { t: "p", era: "明治時代", q: "『吾輩は猫である』『坊っちゃん』を書いた明治の作家は？", kanji: "夏目漱石", kana: "なつめそうせき", note: "明治を代表する小説家。" },
+                { t: "p", era: "明治時代", q: "破傷風菌の純粋培養に成功した医学者は？", kanji: "北里柴三郎", kana: "きたざとしばさぶろう", note: "ペスト菌の発見にも関わった。" },
+                { t: "p", era: "明治時代", q: "岩倉使節団に同行し、女子英学塾を開いた人物は？", kanji: "津田梅子", kana: "つだうめこ", note: "のちの津田塾大学。女子教育に力を尽くした。" },
+                { t: "p", era: "明治時代", q: "日英通商航海条約を結び、領事裁判権の撤廃を実現した外務大臣は？", kanji: "陸奥宗光", kana: "むつむねみつ", note: "1894年に条約を締結した。" },
+                { t: "p", era: "明治時代", q: "女性解放をめざす雑誌『青鞜』を創刊した人物は？", kanji: "平塚らいてう", kana: "ひらつからいてう", note: "明治末期に創刊された。" },
+                { t: "p", era: "大正時代", q: "民本主義を唱え、大正デモクラシーの理論的指導者となった人物は？", kanji: "吉野作造", kana: "よしのさくぞう", note: "政党政治の発展を理論面から支えた。" },
+                { t: "p", era: "昭和時代", q: "中間子理論を提唱し、日本人初のノーベル物理学賞を受賞した人物は？", kanji: "湯川秀樹", kana: "ゆかわひでき", note: "1949年に受賞した。" },
+                { t: "p", era: "昭和時代", q: "サンフランシスコ平和条約で、日本の独立を回復させた首相は？", kanji: "吉田茂", kana: "よしだしげる", note: "戦後の日本の独立を果たした首相。" },
+                { t: "p", era: "昭和時代", q: "非核三原則を打ち出し、沖縄の日本への返還を実現した首相は？", kanji: "佐藤栄作", kana: "さとうえいさく", note: "1974年にノーベル平和賞を受賞した。" },
+                { t: "p", era: "昭和時代", q: "「所得倍増計画」を掲げ、高度経済成長を進めた首相は？", kanji: "池田勇人", kana: "いけだはやと", note: "1960年代の経済成長を進めた。" },
+                { t: "p", era: "昭和時代", q: "1972年に中華人民共和国と国交を正常化させた首相は？", kanji: "田中角栄", kana: "たなかかくえい", note: "日中共同声明に調印した。" },
+                { t: "p", era: "昭和時代", q: "「小日本主義」を唱え、1956年に首相になった人物は？", kanji: "石橋湛山", kana: "いしばしたんざん", note: "短命に終わった首相。" },
+                { t: "p", era: "昭和時代", q: "『雪国』で日本人初のノーベル文学賞を受賞した作家は？", kanji: "川端康成", kana: "かわばたやすなり", note: "1968年に受賞した。" },
+                { t: "p", era: "昭和時代", q: "『走れメロス』などを書いた昭和の小説家は？", kanji: "太宰治", kana: "だざいおさむ", note: "戦後の無頼派の代表的な作家。" },
+                { t: "p", era: "昭和時代", q: "『蟹工船』を書き、プロレタリア文学を代表する作家は？", kanji: "小林多喜二", kana: "こばやしたきじ", note: "1929年に発表された。" },
+                { t: "p", era: "昭和時代", q: "『七人の侍』などを撮り、世界的に評価された映画監督は？", kanji: "黒澤明", kana: "くろさわあきら", note: "日本の映画を世界に広めた。" },
+                { t: "p", era: "昭和時代", q: "『鉄腕アトム』などを描いた「漫画の神様」は？", kanji: "手塚治虫", kana: "てづかおさむ", note: "『ブラック・ジャック』なども有名。" },
                 { t: "e", era: "平安時代", q: "794年に桓武天皇が現在の京都市に遷した都は？", kanji: "平安京", kana: "へいあんきょう", note: "「鳴くよ（794）ウグイス平安京」。唐の都・長安にならって造られました。" },
                 { t: "p", era: "平安時代", q: "平安京に都を遷し、蝦夷の平定や国司の監督強化を行った天皇は？", kanji: "桓武天皇", kana: "かんむてんのう", note: "仏教勢力の影響を避けるため、長岡京を経て794年に平安京へ遷都しました。" },
                 { t: "p", era: "平安時代", q: "桓武天皇に征夷大将軍に任命され、東北地方の蝦夷を平定した人物は？", kanji: "坂上田村麻呂", kana: "さかのうえのたむらまろ", note: "胆沢城を築いて蝦夷の指導者アテルイを降伏させました。" },
@@ -1021,6 +1050,8 @@
 
             // 【中（中級・侍大将コース）】：5〜9文字のテスト頻出重要語句（全80問）
             normal: [
+                { t: "e", era: "昭和時代", q: "1964年、アジアで初めて開かれた夏季オリンピックは？", kanji: "東京オリンピック", kana: "とうきょうおりんぴっく", note: "同じ年に新幹線も開業した。" },
+                { t: "e", era: "昭和時代", q: "1950年代半ばから1970年代初めまで続いた、急速な経済成長は？", kanji: "高度経済成長", kana: "こうどけいざいせいちょう", note: "日本の経済が大きく発展した時期。" },
                 { t: "p", era: "平安時代", q: "平安時代中期に摂関政治の全盛期を築き、「この世をば…」の歌を詠んだ人物は？", kanji: "藤原道長", kana: "ふじわらのみちなが", note: "4人の娘を次々と天皇のきさきにし、外戚として最大の権力を握りました。" },
                 { t: "p", era: "平安時代", q: "藤原道長の子で、京都の宇治に平等院鳳凰堂を建てた関白は？", kanji: "藤原頼通", kana: "ふじわらのよりみち", note: "10円玉の表に描かれている平等院鳳凰堂は、極楽浄土を現した浄土信仰の建築です。" },
                 { t: "p", era: "平安時代", q: "894年に遣唐使の停止を建議し、のちに太宰府へ左遷された学者・政治家は？", kanji: "菅原道真", kana: "すがわらのみちざね", note: "死後は「学問の神様」として北野天満宮に祀られました。" },
@@ -1105,6 +1136,9 @@
 
             // 【難しい（上級・征夷大将軍コース）】：8〜15文字の長い法令・条約・複合語句（全80問）
             hard: [
+                { t: "e", era: "昭和時代", q: "1945年8月、日本が連合国の降伏条件を受け入れたことは？", kanji: "ポツダム宣言の受諾", kana: "ぽつだむせんげんのじゅだく", note: "この受諾によって太平洋戦争が終わった。" },
+                { t: "e", era: "昭和時代", q: "1951年、日本の独立を回復させた講和条約は？", kanji: "サンフランシスコ平和条約", kana: "さんふらんしすこへいわじょうやく", note: "この条約で日本は主権を回復した。" },
+                { t: "e", era: "昭和時代", q: "1951年、サンフランシスコ平和条約と同時に結ばれた条約は？", kanji: "日米安全保障条約", kana: "にちべいあんぜんほしょうじょうやく", note: "アメリカ軍の日本への駐留を定めた。" },
                 { t: "e", era: "平安時代", q: "797年に坂上田村麻呂が征夷大将軍として蝦夷の指導者アテルイを降伏させた後に築いた城は？", kanji: "胆沢城とアテルイ", kana: "いさわじょうとあてるい", note: "現在の岩手県奥州市に胆沢城を築き、東北地方の朝廷による支配を広げました。" },
                 { t: "e", era: "平安時代", q: "905年に醍醐天皇の命で紀貫之らが編集した、最初の勅撰和歌集は？", kanji: "古今和歌集と紀貫之", kana: "こきんわかしゅうときのつらゆき", note: "かな文字の序文（仮名序）がつけられ、日本独自の感情を詠む国風文化の代表作となりました。" },
                 { t: "e", era: "平安時代", q: "藤原氏が天皇のきさきに娘を入れて外祖父となり、摂政や関白として実権を握った政治は？", kanji: "摂関政治と藤原道長", kana: "せっかんせいじとふじわらのみちなが", note: "他氏を排斥して藤原北家が政権を独占し、道長・頼通の親子二代で全盛期を迎えました。" },
@@ -2015,7 +2049,7 @@
         let savedData = {
             highScores: { easy: 0, normal: 0, hard: 0 },
             totalKokudaka: 0,     // 累計獲得石高（永代官位・段位の昇進に使用）
-            clearedKanjiList: [], // 一度でも正解した漢字の配列（全240問図鑑登録用）
+            clearedKanjiList: [], // 一度でも正解した漢字の配列（全274問図鑑登録用）
             weakKanjiList: [],    // パスまたは時間切れになった問題の漢字配列
             bestCombo: 0,         // 自己ベストの連撃
             playCount: 0          // 挑戦回数
@@ -2292,8 +2326,8 @@
                 modern: ['明治時代', '大正時代', '昭和時代']
             };
             const targetEras = eraGroups[filter] || [];
-            const filtered = list.filter(q => targetEras.includes(q.era));
-            return filtered.length >= 10 ? filtered : list;
+            // 選んだ時代の問題だけを出す（問題が少なくても、他の時代には広げない）
+            return list.filter(q => targetEras.includes(q.era));
         }
 
         /* =========================================================================
@@ -2351,6 +2385,7 @@
 
             // 重複しない問題キューを構築
             gameState.questionQueue = buildNonRepeatingQuestionQueue(difficulty, gameState.eraFilter);
+            if (!gameState.questionQueue.length) { alert('この時代・出題の組み合わせには、まだ問題がありません。時代かタイプを変えてください。'); return; }
 
             // 画面切り替え
             document.getElementById('titleScreen').classList.add('hidden');

@@ -1289,7 +1289,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.63';
+const APP_VERSION = '17.64';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1861,6 +1861,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.64', d: '2026-11-10', t: '元素インベーダーの点数・友達との比較に点数・歴打の時代の絞り込みと問題追加', n: ['元素インベーダーは、1つ当てると50点。連続で当てるほど加点が増えます（最大150点）', '友達と比べるの画面に、元素インベーダーの最高点と、歴打の最高石高を追加しました', '歴打で、人物や出来事を時代で絞ったときに、他の時代の問題が出る不具合を直しました', '歴打の問題を、全部で274問に増やしました（人物問題と昭和・大正の問題を中心に）'] },
   { v: '17.63', d: '2026-11-10', t: 'アップデート案内の位置・動作の高速化', n: ['アップデート内容や、最初の使い方の画面が左に寄る問題を直しました', 'ポップアップの背景のぼかしをやめ、ポップアップの後ろの動きを止めて、動作を軽くしました'] },
   { v: '17.62', d: '2026-11-10', t: '記録などが開けない不具合を修正・画面が一つ壊れてもアプリ全体は止まらないように', n: ['記録のタブなどが「読み込めない」になる不具合を直しました（XPの計算の関数が消えていたのが原因でした）', 'どこかの画面で問題が起きても、その画面だけに「もう一度」を出し、ほかの画面は使えるようにしました', '考査が一つもないときも、アプリが止まらないようにしました'] },
   { v: '17.61', d: '2026-11-10', t: '全画面の修正・ポップアップを広く・単語帳の受け取りと番号・AIで追加・タイピングの自動で次へ', n: ['歴打・元素インベーダーの全画面を、画面いっぱいに表示するように直しました', '大きな画面（iPad）では、ポップアップを横に広げて、入力しやすくしました', '単語帳の共有ボタンの右に「コードで受け取る」、全画面とシャッフルの間に「番号で絞る」を置きました', '単語帳の追加の画面の右上に「AIで追加」を置きました', '単語帳のタイピングで、正解したら自動で次の問題に進むようにしました（設定で切り替えられます）'] },
@@ -8195,7 +8196,7 @@ const FR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join(''); return g.code; }
 function growWeek() { const nb = parse(today()), from = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() - 6)), to = today(); let min = 0, pg = 0; for (const k in S.log) if (k >= from && k <= to) { min += S.log[k].m || 0; pg += S.log[k].a || 0; } return { min, pg }; }
 function growPct() { const tot = S.tasks.reduce((a, t) => a + (t.total || 0), 0), dn = S.tasks.reduce((a, t) => a + Math.min(t.done || 0, t.total || 0), 0); return tot ? Math.round(dn / tot * 100) : 0; }
-function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0 }; }
+function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0 }; }
 async function growUnpublish() { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'friendStats', growGet().code)); }
 async function growAddFriend(code) {
   code = String(code || '').trim().toUpperCase(); if (!code) return;
@@ -8323,7 +8324,7 @@ function cmpRow(label, mine, theirs, unit, icon) {
   return `<div class="cm-row"><div class="cm-h">${icon ? ms(icon) : ''}<b>${label}</b>${lead}</div><div class="cm-bar me"><span class="cm-n">あなた</span><div class="cm-tr"><i style="--w:${pm}%"></i></div><span class="cm-v">${mine}${unit}</span></div><div class="cm-bar fr"><span class="cm-n">相手</span><div class="cm-tr"><i style="--w:${pt}%"></i></div><span class="cm-v">${theirs}${unit}</span></div></div>`;
 }
 function frCardHtml(me, data, nm) {
-  return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}</div>`;
+  return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${cmpRow('元素インベーダーの最高点', me.iv || 0, data.iv || 0, '点', 'rocket_launch')}${cmpRow('歴打の最高石高', me.rk || 0, data.rk || 0, '石', 'castle')}</div>`;
 }
 function frHomeInner() {
   if (FR_HOME.err) return `<p class="muted" style="font-weight:500;margin:0">友達の情報を読めませんでした。通信の状態を確かめて、「更新」を押してください。</p>`;
@@ -8477,8 +8478,9 @@ async function growPublish() {
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'friendStats', m.code);
   const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() };
   const ext = { ...base, tt: m.tt, typed: m.typed, fr: g.friends.slice(0, 30).map(f => ({ o: String(f.uid || ''), c: String(f.code || ''), n: String(f.name || '').slice(0, 20) })) };
-  // 新しい項目 → 名前とアイコン → 名前と進み具合だけ（ルールが古いときも、最低限は届く）
-  const tries = m.av ? [{ ...ext, av: m.av }, ext, base] : [ext, base];
+  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0 };
+  // 新しい項目 → 点数を抜いた項目 → 名前とアイコン → 名前と進み具合だけ（ルールが古いときも、最低限は届く）
+  const tries = m.av ? [{ ...full, av: m.av }, { ...ext, av: m.av }, full, ext, base] : [full, ext, base];
   let err = null;
   for (const data of tries) {
     try { await fs.setDoc(ref, data); FR_AV_OK = !!data.av || !m.av; return; } catch (e) { err = e; }
@@ -9374,7 +9376,7 @@ window.addEventListener('message', e => {
   S.typed = (S.typed || 0) + Math.max(0, Math.min(1000000, Math.floor(Number(d.keys) || 0)));
   try { localStorage.setItem('kosa-rekida', JSON.stringify(v)); } catch (x) { }
   const el = document.getElementById('rkstat'); if (el) el.innerHTML = rkStatHtml();
-  checkBadges(false); save();
+  checkBadges(false); save(); frChanged();
 });
 // 全画面：枠を画面いっぱいに広げる。iframe は作り直さないので、ゲームは途中から続く
 const gameOv = () => !!(document.getElementById('psov') || document.getElementById('rkov'));
@@ -9434,7 +9436,7 @@ window.addEventListener('message', e => {
   try { localStorage.setItem('kosa-inv', JSON.stringify(v)); } catch (x) { }
   if (v.best > PS.best) { PS.best = v.best; try { localStorage.setItem('kosa-ps-best', String(PS.best)); } catch (x) { } }
   const el = document.getElementById('invstat'); if (el) el.innerHTML = invStatHtml();
-  checkBadges(false); save();
+  checkBadges(false); save(); frChanged();
 });
 function gameHtml() {
   return `<div class="ps"><div class="card ps-st" id="invstat">${invStatHtml()}</div><div class="ps-bar"><button type="button" class="btn tonal sm" data-act="psreload">${ms('refresh')}読み直す</button><button type="button" class="btn tonal sm" id="psfb" data-act="psfull">${ms('fullscreen')}全画面</button></div>

@@ -39,11 +39,11 @@ service cloud.firestore {
       allow list: if false;
       allow create: if request.auth != null
         && request.resource.data.owner == request.auth.uid
-        && request.resource.data.keys().hasOnly(['owner','name','lv','pct','wkMin','wkPg','t','av','tt','typed','fr']) && (!('av' in request.resource.data) || request.resource.data.av.size() < 200000) && (!('fr' in request.resource.data) || request.resource.data.fr.size() <= 30);
+        && request.resource.data.keys().hasOnly(['owner','name','lv','pct','wkMin','wkPg','t','av','tt','typed','fr','iv','rk']) && (!('av' in request.resource.data) || request.resource.data.av.size() < 200000) && (!('fr' in request.resource.data) || request.resource.data.fr.size() <= 30);
       allow update: if request.auth != null
         && resource.data.owner == request.auth.uid
         && request.resource.data.owner == request.auth.uid
-        && request.resource.data.keys().hasOnly(['owner','name','lv','pct','wkMin','wkPg','t','av','tt','typed','fr']) && (!('av' in request.resource.data) || request.resource.data.av.size() < 200000) && (!('fr' in request.resource.data) || request.resource.data.fr.size() <= 30);
+        && request.resource.data.keys().hasOnly(['owner','name','lv','pct','wkMin','wkPg','t','av','tt','typed','fr','iv','rk']) && (!('av' in request.resource.data) || request.resource.data.av.size() < 200000) && (!('fr' in request.resource.data) || request.resource.data.fr.size() <= 30);
       allow delete: if request.auth != null && resource.data.owner == request.auth.uid;
     }
 

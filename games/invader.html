@@ -1814,7 +1814,7 @@
                 this.maxTime = 90;
                 this.misses = 0;
                 this.maxMisses = 5;
-                this.highScore = Number(localStorage.getItem('elemQuizInvaders_best') || 5);
+                this.highScore = Number(localStorage.getItem('elemQuizInvaders_best') || 0);
 
                 this.combo = 0;
                 this.maxCombo = 0;
@@ -2331,8 +2331,10 @@
                     if (this.combo > this.maxCombo) this.maxCombo = this.combo;
                     this.hits = (this.hits || 0) + 1;
 
-                    const gain = 1;
+                    // 1つ当てると50点。連続で当てるほど加点が増える（2つ目は60点、11つ目以降は150点）
+                    const gain = 50 + Math.min(this.combo - 1, 10) * 10;
                     this.score += gain;
+                    this.addPopup(inv.x, inv.y - 20, `+${gain}`, '#fde047', 14);
                     if (this.score > this.highScore) {
                         this.highScore = this.score;
                         localStorage.setItem('elemQuizInvaders_best', String(this.highScore));
