@@ -979,13 +979,24 @@ body{overflow-x:clip}
 .mg-rn{font-weight:800;color:var(--on-v)}
 .mg-rv{font-weight:800}
 .mg-buy{display:grid;gap:6px;justify-items:center;margin-top:14px}
-.fcm{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:0 34px;padding:12px 14px}
-.fcm .fcm-vs{grid-column:1/-1;margin-bottom:4px}
-.fcm .cm-row{padding:5px 0;border-bottom:0}
-.fcm .cm-h{margin-bottom:1px;gap:6px}
-.fcm .cm-h>b{font-size:.88rem}
-.fcm .cm-bar{margin:2px 0;gap:6px;grid-template-columns:3em minmax(0,1fr) auto}
-.fcm .cm-tr{height:9px}
+.fcm{grid-template-columns:repeat(auto-fill,minmax(min(100%,156px),1fr));gap:10px;padding:12px}
+.fcm .fcm-vs{grid-column:1/-1;margin-bottom:2px}
+.cmv{display:grid;gap:4px;min-width:0;padding:8px 8px 7px;border-radius:16px;background:color-mix(in srgb,var(--on) 5%,transparent)}
+.cmv-h{display:flex;align-items:center;gap:4px;min-width:0}
+.cmv-h>.ms{font-size:16px;color:var(--primary);flex:none}
+.cmv-h>b{font-size:.78rem;font-weight:800;min-width:0;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cmv-d{font-style:normal;font-size:.64rem;font-weight:800;padding:1px 6px;border-radius:10px;white-space:nowrap;flex:none}
+.cmv-d.me{background:color-mix(in srgb,var(--primary) 20%,transparent);color:var(--primary)}
+.cmv-d.fr{background:color-mix(in srgb,#b06ad9 22%,transparent);color:#8e3fc4}
+.cmv-d.eq{background:var(--s3);color:var(--on-v)}
+.cmv-c{display:grid;grid-template-columns:1fr 1fr;gap:12px;height:88px;padding:0 4px;border-bottom:1px solid color-mix(in srgb,var(--on) 14%,transparent)}
+.cmv-col{display:grid;justify-items:center;align-content:end;min-width:0}
+.cmv-col>span{font-size:.7rem;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap;margin-bottom:2px}
+.cmv-col>i{display:block;width:min(24px,80%);height:calc(var(--h) * .6px);min-height:2px;border-radius:7px 7px 3px 3px;transition:height .7s var(--smooth)}
+.cmv-col.me>i{background:linear-gradient(180deg,color-mix(in srgb,var(--primary) 70%,#fff),var(--primary))}
+.cmv-col.fr>i{background:linear-gradient(180deg,#e2c1f7,#b06ad9)}
+.cmv-lab{display:grid;grid-template-columns:1fr 1fr;gap:12px;text-align:center}
+.cmv-lab small{font-size:.64rem;font-weight:700;color:var(--on-v)}
 .fcm-wrap{margin-bottom:6px}
 .xp-l{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
 .xp-r{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px;border-radius:18px;background:var(--s2)}
@@ -1006,6 +1017,61 @@ body{overflow-x:clip}
 .tcard.lux-merge>span:not(.tc-i):not(.tc-pop){color:rgba(255,255,255,.88)!important}
 .card.mg-lux{background:linear-gradient(135deg,color-mix(in srgb,#22c3e6 16%,var(--s2)),color-mix(in srgb,#7c5cf0 12%,var(--s2)))!important;border:1px solid color-mix(in srgb,#22c3e6 38%,transparent)}
 .card.mg-lux .mg-rh{color:var(--on)}
+.ach-big{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;padding:18px 20px;margin:0 0 16px;border-radius:24px;border:0;background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 85%,#fff),color-mix(in srgb,var(--primary) 55%,#000));color:#fff;text-align:left;cursor:pointer;box-shadow:0 12px 28px color-mix(in srgb,var(--primary) 35%,transparent)}
+.ach-big-ic{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:rgba(255,255,255,.2);flex:none}
+.ach-big-ic .ms{font-size:30px}
+.ach-big-t{display:grid;gap:3px;min-width:0;flex:1}
+.ach-big-t b{font-size:1.25rem}
+.ach-big-t small{opacity:.92;font-size:.8rem;line-height:1.5}
+.ach-big>.ms{font-size:28px}
+.ach-hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;padding:18px;border-radius:24px;background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 16%,var(--s2)),var(--s2));margin-bottom:12px}
+.ach-lv{width:96px;height:96px;border-radius:50%;display:grid;place-content:center;justify-items:center;background:radial-gradient(circle at 30% 25%,#fff7c2,#f0c24b 55%,#b7842a);color:#3d2a00;box-shadow:0 0 0 4px rgba(241,207,106,.35),0 10px 24px rgba(183,132,42,.35)}
+.ach-lv small{font-size:.7rem;font-weight:800}
+.ach-lv b{font-size:2.4rem;font-weight:900;line-height:1}
+.ach-hi{display:grid;gap:6px;min-width:0}
+.ach-tt{display:flex;align-items:center;gap:6px;font-weight:800;font-size:1.05rem}
+.ach-xp{display:flex;align-items:baseline;gap:6px}
+.ach-xp b{font-size:1.8rem;font-variant-numeric:tabular-nums}
+.ach-bar{height:12px;border-radius:8px;background:var(--s3);overflow:hidden}
+.ach-bar i{display:block;height:100%;border-radius:8px;background:linear-gradient(90deg,var(--primary),color-mix(in srgb,var(--primary) 55%,#fff))}
+.ach-btns{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px}
+.ach-btn{display:flex;align-items:center;gap:10px;padding:14px;border-radius:20px;border:0;background:var(--s2);color:var(--on);text-align:left;cursor:pointer;min-width:0}
+.ach-btn>.ms{font-size:26px;color:var(--primary);flex:none}
+.ach-btn span{display:grid;gap:2px;min-width:0}
+.ach-btn small{color:var(--on-v);font-size:.74rem;line-height:1.4}
+.lad{display:grid;padding:6px 0 4px}
+.lad-n{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;align-items:stretch;position:relative;margin-left:min(calc(var(--k) * 10px),80px);padding-bottom:14px}
+.lad-n:not(:last-child)::after{content:'';position:absolute;left:36px;top:80px;bottom:0;width:4px;border-radius:2px;background:var(--s3)}
+.lad-n.on:not(:last-child)::after{background:linear-gradient(180deg,var(--primary),color-mix(in srgb,var(--primary) 40%,var(--s3)))}
+.lad-lv{width:76px;height:76px;border-radius:50%;display:grid;place-content:center;justify-items:center;background:var(--s3);color:var(--on-v);box-sizing:border-box;border:3px solid var(--s3)}
+.lad-n.on .lad-lv{background:linear-gradient(145deg,color-mix(in srgb,var(--primary) 70%,#fff),var(--primary));color:#fff;border-color:transparent}
+.lad-n.cur .lad-lv{box-shadow:0 0 0 6px color-mix(in srgb,var(--primary) 25%,transparent),0 10px 22px color-mix(in srgb,var(--primary) 40%,transparent);transform:scale(1.08)}
+.lad-lv b{font-size:1.4rem;font-weight:900;line-height:1}
+.lad-lv small{font-size:.66rem;font-weight:800}
+.lad-c{display:grid;gap:6px;padding:10px 12px;border-radius:20px;background:var(--s2);min-width:0;align-content:start}
+.lad-n.on .lad-c{background:color-mix(in srgb,var(--primary) 9%,var(--s2))}
+.lad-n.cur .lad-c{outline:2px solid var(--primary);outline-offset:-2px}
+.lad-tag{justify-self:start;font-style:normal;font-size:.7rem;font-weight:800;padding:2px 9px;border-radius:10px;background:var(--primary);color:#fff}
+.lad-tag.nx{background:var(--s3);color:var(--on)}
+.lad-i{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px;align-items:center;font-weight:700;font-size:.92rem;line-height:1.4}
+.lad-i>.ms{font-size:20px;color:var(--primary)}
+.lad-n:not(.on) .lad-i>.ms:first-child{color:var(--on-v)}
+.lad-i>.ms.f{color:#1e8e3e}
+.ar-l{display:grid;gap:8px}
+.ar{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;border-radius:20px;background:var(--s2)}
+.ar.on{background:color-mix(in srgb,var(--primary) 10%,var(--s2))}
+.ar-i{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;background:var(--s3);color:var(--on-v)}
+.ar.on .ar-i{background:linear-gradient(145deg,#fff1b8,#e7b64a);color:#3d2a00}
+.ar-t{display:grid;gap:2px;min-width:0}
+.ar-t b{font-size:.95rem}
+.ar-t small{color:var(--on-v);font-size:.78rem;line-height:1.4}
+.ar-bar{height:6px;border-radius:4px;background:var(--s3);overflow:hidden;margin-top:4px}
+.ar-bar i{display:block;height:100%;background:var(--primary)}
+.ar-s{display:grid;justify-items:end;gap:2px;font-size:.78rem;font-weight:800;white-space:nowrap;color:var(--on-v)}
+.ar-s>.ms{font-size:20px}
+.ar.on .ar-s{color:#1e8e3e}
+.ar-s em{font-style:normal;color:var(--primary);font-size:.78rem}
+.fbi-tag.read{background:var(--s3);color:var(--on-v)}
 
 /* ===== 17.52：入力テスト（タイピング風・金と藍） ===== */
 .ty-stage{position:relative;display:grid;gap:14px;padding:18px 18px 16px;border-radius:28px;color:#fff3d1;background:radial-gradient(ellipse at 50% 0,rgba(248,217,120,.16),transparent 60%),linear-gradient(170deg,#152247 0%,#1f1d46 55%,#3a1b2a 100%);border:1px solid rgba(248,217,120,.55);box-shadow:0 0 0 4px rgba(20,24,44,.6),0 16px 40px rgba(0,0,0,.35),inset 0 0 40px rgba(248,217,120,.06);font-family:'Shippori Mincho','Noto Serif JP',serif}
@@ -1249,7 +1315,7 @@ button.gr-ch .ms{font-size:18px}
 /* ===== 17.60：人気の帯・豪華なツールのカード・友達の棒グラフ ===== */
 .tcard.pop{position:relative;overflow:hidden}
 .tc-pop{position:absolute;top:18px;right:-44px;transform:rotate(40deg);width:170px;text-align:center;padding:5px 0;font-size:.74rem;font-weight:800;letter-spacing:.12em;color:#fff;background:linear-gradient(90deg,#ff3d7f,#ff8a3d);box-shadow:0 4px 14px rgba(255,61,127,.4);pointer-events:none;z-index:2}
-.tcard.lux::after{content:'';position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(255,255,255,.24) 50%,transparent 65%);transform:translateX(-120%);animation:luxShine 4.8s ease-in-out infinite;pointer-events:none}
+.tcard.lux::after{display:none}
 @keyframes luxShine{0%,55%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
 .tcard.lux-card{background:linear-gradient(150deg,#1b1640 0%,#3b2a7a 48%,#c2439a 100%)!important;border:1px solid rgba(255,220,140,.5)!important;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12),0 14px 32px rgba(120,60,200,.35)}
 .tcard.lux-card b{background:linear-gradient(90deg,#fff3c4,#ffd86b,#fff3c4);-webkit-background-clip:text;background-clip:text;color:transparent}
@@ -1325,7 +1391,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.68';
+const APP_VERSION = '17.69';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1898,23 +1964,24 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '17.68', d: '2026/11/10 18:19', t: 'XPのふやし方を追加・元素マージの友達ランキングとやめる・比較カードをコンパクトに', n: ['XPの増やし方を追加しました（かんたん・ふつう・むずかしい）。一度できたらXPがもらえ、もらったXPは減りません。「XPのふやし方」から見られます', '元素マージのランキングに、実際の友達の最高点が出るようになりました（オンラインの欄は「友達ランキング」になりました）', '元素マージのゲームオーバーの画面に「やめる」を追加しました。全画面のときは普通の画面に戻り、そうでないときはツール一覧に戻ります', '元素マージのカードを少し華やかにしました。ホームの友達との比較カードは、行の間隔を詰めて2列で見られるようにしました'] },
-  { v: '17.67', d: '2026/11/10 18:19', t: '元素マージをXPで買えるように・友達との最高点ランキング', n: ['元素マージは、レベル7になっていなくても、XPショップで500 XPで買えます（ロック画面からも買えます）', '元素マージの最高点を、友達と比べられるようになりました。ツールの画面で、自分と友達の順位を見られます', '友達の比較にも、元素マージの最高点が出ます（友達も、このバージョン以降で遊ぶと表示されます）'] },
-  { v: '17.66', d: '2026/11/10 18:19', t: '元素マージを追加（レベル7で解放）', n: ['新しいツール「元素マージ」を追加しました。レベル7で解放されます。同じ元素をくっつけて、次の段階へ進化させるパズルです', '元素マージは全画面でも遊べます。物理エンジンを読み込めない時は、その旨を表示します', 'ゲームの不具合を直しました：初回に架空の記録が出ないように、オンランキングの架空の順位を消し、触媒で最大の元素を選んだ時にEPを無駄に消費しないように、押しっぱなしで連続落下しないようにしました'] },
-  { v: '17.65', d: '2026/11/10 18:19', t: '友達が全員表示されない不具合を修正', n: ['友達の一覧を、端末どうしで合わせるようにしました（友達を追加・外したときも、どの端末でも同じになります）', '複数の友達と共有していると、一部の友達しか表示されなかった不具合を直しました'] },
-  { v: '17.64', d: '2026/11/10 18:19', t: '元素インベーダーの点数・友達との比較に点数・歴打の時代の絞り込みと問題追加', n: ['元素インベーダーは、1つ当てると50点。連続で当てるほど加点が増えます（最大150点）', '友達と比べるの画面に、元素インベーダーの最高点と、歴打の最高石高を追加しました', '歴打で、人物や出来事を時代で絞ったときに、他の時代の問題が出る不具合を直しました', '歴打の問題を、全部で274問に増やしました（人物問題と昭和・大正の問題を中心に）'] },
-  { v: '17.63', d: '2026/11/10 18:19', t: 'アップデート案内の位置・動作の高速化', n: ['アップデート内容や、最初の使い方の画面が左に寄る問題を直しました', 'ポップアップの背景のぼかしをやめ、ポップアップの後ろの動きを止めて、動作を軽くしました'] },
-  { v: '17.62', d: '2026/11/10 18:19', t: '記録などが開けない不具合を修正・画面が一つ壊れてもアプリ全体は止まらないように', n: ['記録のタブなどが「読み込めない」になる不具合を直しました（XPの計算の関数が消えていたのが原因でした）', 'どこかの画面で問題が起きても、その画面だけに「もう一度」を出し、ほかの画面は使えるようにしました', '考査が一つもないときも、アプリが止まらないようにしました'] },
-  { v: '17.61', d: '2026/11/10 18:19', t: '全画面の修正・ポップアップを広く・単語帳の受け取りと番号・AIで追加・タイピングの自動で次へ', n: ['歴打・元素インベーダーの全画面を、画面いっぱいに表示するように直しました', '大きな画面（iPad）では、ポップアップを横に広げて、入力しやすくしました', '単語帳の共有ボタンの右に「コードで受け取る」、全画面とシャッフルの間に「番号で絞る」を置きました', '単語帳の追加の画面の右上に「AIで追加」を置きました', '単語帳のタイピングで、正解したら自動で次の問題に進むようにしました（設定で切り替えられます）'] },
-  { v: '17.60', d: '2026/11/10 18:19', t: 'ツールの人気・更新内容の表示設定・プロフィールの同期・友達の比較の見やすさ・全画面のバグ', n: ['ツールの「歴打」「元素ラボ」「単語帳」に「人気」の帯を付けました。元素ラボと単語帳のカードも豪華にしました', 'アップデート後の「更新内容」を表示しないように設定できるようにしました（設定と、更新の確認の画面から変えられます）', '友達・プロフィール（名前・アイコン・友達コード・見せる設定）を、アカウントに保存して、どの端末でも同じになるようにしました', '友達と比べるの画面を、棒グラフで見やすくしました（数値を棒の外に出し、どちらが上かを表示）', '歴打・元素インベーダーで、全画面から戻ったときにゲームの画面が消える問題を直しました'] },
-  { v: '17.59', d: '2026/11/10 18:19', t: 'スマホ・iPadの表示崩れを修正', n: ['スマホのグラフで、式の入力欄と削除ボタンが右にはみ出していたのを直しました', 'スマホで計算機のキーボードを出すとき、右下の＋ボタンと重ならないようにしました', 'スマホの下のバーの期限の表示を、小さな点にして、文字がはみ出さないようにしました', 'iPad（横）のタイピングの全画面が、右にはみ出していたのを直しました'] },
-  { v: '17.58', d: '2026/11/10 18:19', t: 'タイピングの修正・友達の全員表示・スマホの画面の整理', n: ['タイピングで、日本語の答えのとき、入力欄が見えて打った文字が表示されるように（以前は見えずに打てていなかったことがありました）', 'iPhoneで、英字のタイピングの文字が打った時点で表示されるように（変換中の文字も表示）', '友達の一覧を読み込む途中で、古い結果が新しい結果を上書きしないようにしました（友達が全員出るように）', '友達が、新しく追加する人の情報を送れなかった場合でも、古いFirestoreのルールで動くようにしました', 'スマホの下のバーは、ホーム・課題・予定・記録・ツールだけにしました（設定・AI・通知は他の場所から開けます）', 'スマホの画面で、文字が縦に並んだり隠れたりしないように整理しました（単語帳・集中モード・下のバーのまるい背景）'] },
-  { v: '17.57', d: '2026/11/10 18:19', t: '友達のつながり（友達の友達）・合計の表示・タイピングの修正', n: ['タイピングで、日本語入力のままでも、英字の問題には英字（半角）だけが入ります', 'タイピングで、まちがえた文字は入らないようにしました（消さずに、そのまま次の文字を打てます）', 'タイピングで打った文字数は、打った時点で記録に入ります（途中でやめても残ります）', '友達を追加されたとき、その人も自動で友達になり、一覧に出るようにしました', '友達の友達も表示されるようにしました（友達の友達は「友達に追加」できます）', '友達と比べるに、合計勉強時間と合計タイピングを出すようにしました'] },
-  { v: '17.56', d: '2026/11/10 18:19', t: '友達の表示と速さ・レベルの特典・称号・タイピングのヘボン式', n: ['単語帳の共有コードの発行・受け取り・最新の取り込みで、事前の確認をやめて速くしました', '友達が複数いても、全員を表示するようにしました（ホームの「ほかにN人」の省略をなくしました）', '友達を追加・外したあと、ホームと記録タブにすぐ反映されるようにしました（古い表示を残しません）', '友達と比べるは、レベル0から使えるようになりました', '実績の「レベルの特典」に、すべての特典（XPショップ・歴打・友達と比べる・称号・アプリの色）を書きました', '称号を変えました：Lv5「何回言っても分かるんだ」、Lv15「努力の噴火」、Lv31「伝説の大網」を追加しました', 'タイピングに「ヘボン式（ローマ字）」を追加しました。ひらがな・カタカナはそのまま変換し、漢字などの読みはAIで調べます（Googleログイン後）'] },
-  { v: '17.55', d: '2026/11/10 18:19', t: '友達の表示の修正・通知・記録の数字を大きく・タイピングのiPad最適化', n: ['友達と比べるで、ログイン確認の前に「Googleログインが必要」と出ていた表示を直しました（確認中は読み込み中と出ます）', '友達の名前とアイコンが、友達の画面に反映されないことがあった問題を直しました（アイコンが未許可のルールでも、名前と進み具合は届きます）', '友達が、あなたを友達に追加したとき、通知が届くようにしました（Firestoreのルールの更新が必要です）', '友達コードの入力欄を、Material 3のデザインにしました', '自分の統計の数字を、さらに大きく見やすくしました', 'タイピングを、iPad（横向き）で左右の余白がなく全幅で使えるように最適化しました'] },
-  { v: '17.54', d: '2026/11/10 18:19', t: 'タイピング（全画面・ヒント・スペル非表示・演出）、友達のニックネームとアイコン、記録タブのカード、ホームの編集ボタンを一つに', n: ['入力テストを「タイピング」に名前を変えて、全画面で表示するようにしました', 'タイピングに、スペルの表示（表示・最初の1文字だけ・かくす）と、ヒントを追加しました', 'タイピングに、正解の紙吹雪、連続の炎と節目の表示、結果の円グラフと星の評価を追加しました', '友達と比べるで、ニックネームとアイコン画像を変えられるようにしました', '「自分の統計」と「友達と比べる」を、記録タブにカードとして表示します（ボタンを押さずに見られます）', 'ホームの「配置」と「文字」を、ひとつの「編集」ボタンにまとめました。編集の中で文字も変えられます'] },
-  { v: '17.53', d: '2026/11/10 18:19', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
-  { v: '17.52', d: '2026/11/10 18:19', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
+  { v: '17.69', d: '2026/11/10 22:00', t: '実績・レベルの画面を一新・ログインボーナス・フィードバックの既読・友達の比較を縦の棒に', n: ['記録タブの一番上に「実績・レベル」を追加しました。レベルとXP、ショップ、全実績（バッジとXPのふやし方を、達成と未達成で表示）、レベルごとの特典（階段のように表示）を見られます', '毎日アプリを開くと、ログインボーナスで50XPもらえます', 'フィードバックに既読を付けました。一度見たものは、次にアプリを開いても通知しません', 'ツールのカードの光が左から右へ流れるアニメーションをやめました', '友達との比較は縦の棒になり、コンパクトになりました'] },
+  { v: '17.68', d: '2026/11/10 22:00', t: 'XPのふやし方を追加・元素マージの友達ランキングとやめる・比較カードをコンパクトに', n: ['XPの増やし方を追加しました（かんたん・ふつう・むずかしい）。一度できたらXPがもらえ、もらったXPは減りません。「XPのふやし方」から見られます', '元素マージのランキングに、実際の友達の最高点が出るようになりました（オンラインの欄は「友達ランキング」になりました）', '元素マージのゲームオーバーの画面に「やめる」を追加しました。全画面のときは普通の画面に戻り、そうでないときはツール一覧に戻ります', '元素マージのカードを少し華やかにしました。ホームの友達との比較カードは、行の間隔を詰めて2列で見られるようにしました'] },
+  { v: '17.67', d: '2026/11/10 22:00', t: '元素マージをXPで買えるように・友達との最高点ランキング', n: ['元素マージは、レベル7になっていなくても、XPショップで500 XPで買えます（ロック画面からも買えます）', '元素マージの最高点を、友達と比べられるようになりました。ツールの画面で、自分と友達の順位を見られます', '友達の比較にも、元素マージの最高点が出ます（友達も、このバージョン以降で遊ぶと表示されます）'] },
+  { v: '17.66', d: '2026/11/10 22:00', t: '元素マージを追加（レベル7で解放）', n: ['新しいツール「元素マージ」を追加しました。レベル7で解放されます。同じ元素をくっつけて、次の段階へ進化させるパズルです', '元素マージは全画面でも遊べます。物理エンジンを読み込めない時は、その旨を表示します', 'ゲームの不具合を直しました：初回に架空の記録が出ないように、オンランキングの架空の順位を消し、触媒で最大の元素を選んだ時にEPを無駄に消費しないように、押しっぱなしで連続落下しないようにしました'] },
+  { v: '17.65', d: '2026/11/10 22:00', t: '友達が全員表示されない不具合を修正', n: ['友達の一覧を、端末どうしで合わせるようにしました（友達を追加・外したときも、どの端末でも同じになります）', '複数の友達と共有していると、一部の友達しか表示されなかった不具合を直しました'] },
+  { v: '17.64', d: '2026/11/10 22:00', t: '元素インベーダーの点数・友達との比較に点数・歴打の時代の絞り込みと問題追加', n: ['元素インベーダーは、1つ当てると50点。連続で当てるほど加点が増えます（最大150点）', '友達と比べるの画面に、元素インベーダーの最高点と、歴打の最高石高を追加しました', '歴打で、人物や出来事を時代で絞ったときに、他の時代の問題が出る不具合を直しました', '歴打の問題を、全部で274問に増やしました（人物問題と昭和・大正の問題を中心に）'] },
+  { v: '17.63', d: '2026/11/10 22:00', t: 'アップデート案内の位置・動作の高速化', n: ['アップデート内容や、最初の使い方の画面が左に寄る問題を直しました', 'ポップアップの背景のぼかしをやめ、ポップアップの後ろの動きを止めて、動作を軽くしました'] },
+  { v: '17.62', d: '2026/11/10 22:00', t: '記録などが開けない不具合を修正・画面が一つ壊れてもアプリ全体は止まらないように', n: ['記録のタブなどが「読み込めない」になる不具合を直しました（XPの計算の関数が消えていたのが原因でした）', 'どこかの画面で問題が起きても、その画面だけに「もう一度」を出し、ほかの画面は使えるようにしました', '考査が一つもないときも、アプリが止まらないようにしました'] },
+  { v: '17.61', d: '2026/11/10 22:00', t: '全画面の修正・ポップアップを広く・単語帳の受け取りと番号・AIで追加・タイピングの自動で次へ', n: ['歴打・元素インベーダーの全画面を、画面いっぱいに表示するように直しました', '大きな画面（iPad）では、ポップアップを横に広げて、入力しやすくしました', '単語帳の共有ボタンの右に「コードで受け取る」、全画面とシャッフルの間に「番号で絞る」を置きました', '単語帳の追加の画面の右上に「AIで追加」を置きました', '単語帳のタイピングで、正解したら自動で次の問題に進むようにしました（設定で切り替えられます）'] },
+  { v: '17.60', d: '2026/11/10 22:00', t: 'ツールの人気・更新内容の表示設定・プロフィールの同期・友達の比較の見やすさ・全画面のバグ', n: ['ツールの「歴打」「元素ラボ」「単語帳」に「人気」の帯を付けました。元素ラボと単語帳のカードも豪華にしました', 'アップデート後の「更新内容」を表示しないように設定できるようにしました（設定と、更新の確認の画面から変えられます）', '友達・プロフィール（名前・アイコン・友達コード・見せる設定）を、アカウントに保存して、どの端末でも同じになるようにしました', '友達と比べるの画面を、棒グラフで見やすくしました（数値を棒の外に出し、どちらが上かを表示）', '歴打・元素インベーダーで、全画面から戻ったときにゲームの画面が消える問題を直しました'] },
+  { v: '17.59', d: '2026/11/10 22:00', t: 'スマホ・iPadの表示崩れを修正', n: ['スマホのグラフで、式の入力欄と削除ボタンが右にはみ出していたのを直しました', 'スマホで計算機のキーボードを出すとき、右下の＋ボタンと重ならないようにしました', 'スマホの下のバーの期限の表示を、小さな点にして、文字がはみ出さないようにしました', 'iPad（横）のタイピングの全画面が、右にはみ出していたのを直しました'] },
+  { v: '17.58', d: '2026/11/10 22:00', t: 'タイピングの修正・友達の全員表示・スマホの画面の整理', n: ['タイピングで、日本語の答えのとき、入力欄が見えて打った文字が表示されるように（以前は見えずに打てていなかったことがありました）', 'iPhoneで、英字のタイピングの文字が打った時点で表示されるように（変換中の文字も表示）', '友達の一覧を読み込む途中で、古い結果が新しい結果を上書きしないようにしました（友達が全員出るように）', '友達が、新しく追加する人の情報を送れなかった場合でも、古いFirestoreのルールで動くようにしました', 'スマホの下のバーは、ホーム・課題・予定・記録・ツールだけにしました（設定・AI・通知は他の場所から開けます）', 'スマホの画面で、文字が縦に並んだり隠れたりしないように整理しました（単語帳・集中モード・下のバーのまるい背景）'] },
+  { v: '17.57', d: '2026/11/10 22:00', t: '友達のつながり（友達の友達）・合計の表示・タイピングの修正', n: ['タイピングで、日本語入力のままでも、英字の問題には英字（半角）だけが入ります', 'タイピングで、まちがえた文字は入らないようにしました（消さずに、そのまま次の文字を打てます）', 'タイピングで打った文字数は、打った時点で記録に入ります（途中でやめても残ります）', '友達を追加されたとき、その人も自動で友達になり、一覧に出るようにしました', '友達の友達も表示されるようにしました（友達の友達は「友達に追加」できます）', '友達と比べるに、合計勉強時間と合計タイピングを出すようにしました'] },
+  { v: '17.56', d: '2026/11/10 22:00', t: '友達の表示と速さ・レベルの特典・称号・タイピングのヘボン式', n: ['単語帳の共有コードの発行・受け取り・最新の取り込みで、事前の確認をやめて速くしました', '友達が複数いても、全員を表示するようにしました（ホームの「ほかにN人」の省略をなくしました）', '友達を追加・外したあと、ホームと記録タブにすぐ反映されるようにしました（古い表示を残しません）', '友達と比べるは、レベル0から使えるようになりました', '実績の「レベルの特典」に、すべての特典（XPショップ・歴打・友達と比べる・称号・アプリの色）を書きました', '称号を変えました：Lv5「何回言っても分かるんだ」、Lv15「努力の噴火」、Lv31「伝説の大網」を追加しました', 'タイピングに「ヘボン式（ローマ字）」を追加しました。ひらがな・カタカナはそのまま変換し、漢字などの読みはAIで調べます（Googleログイン後）'] },
+  { v: '17.55', d: '2026/11/10 22:00', t: '友達の表示の修正・通知・記録の数字を大きく・タイピングのiPad最適化', n: ['友達と比べるで、ログイン確認の前に「Googleログインが必要」と出ていた表示を直しました（確認中は読み込み中と出ます）', '友達の名前とアイコンが、友達の画面に反映されないことがあった問題を直しました（アイコンが未許可のルールでも、名前と進み具合は届きます）', '友達が、あなたを友達に追加したとき、通知が届くようにしました（Firestoreのルールの更新が必要です）', '友達コードの入力欄を、Material 3のデザインにしました', '自分の統計の数字を、さらに大きく見やすくしました', 'タイピングを、iPad（横向き）で左右の余白がなく全幅で使えるように最適化しました'] },
+  { v: '17.54', d: '2026/11/10 22:00', t: 'タイピング（全画面・ヒント・スペル非表示・演出）、友達のニックネームとアイコン、記録タブのカード、ホームの編集ボタンを一つに', n: ['入力テストを「タイピング」に名前を変えて、全画面で表示するようにしました', 'タイピングに、スペルの表示（表示・最初の1文字だけ・かくす）と、ヒントを追加しました', 'タイピングに、正解の紙吹雪、連続の炎と節目の表示、結果の円グラフと星の評価を追加しました', '友達と比べるで、ニックネームとアイコン画像を変えられるようにしました', '「自分の統計」と「友達と比べる」を、記録タブにカードとして表示します（ボタンを押さずに見られます）', 'ホームの「配置」と「文字」を、ひとつの「編集」ボタンにまとめました。編集の中で文字も変えられます'] },
+  { v: '17.53', d: '2026/11/10 22:00', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
+  { v: '17.52', d: '2026/11/10 22:00', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
   { v: '17.51', d: '2026/11/09 07:38', t: '歴打の和風化・全画面・iPad対応・自己ベスト連撃', n: ['ツールの「歴打」のカードを、和風の金と朱のデザインと明朝体にしました', '歴打を全画面で遊べるようにしました（右上の「戻す」で戻ります）', 'タイトルの「歴打」が金色に輝き、花びらが舞う演出を加えました', '結果の画面に「自己ベストの連撃」を表示し、更新したときは知らせます', '実績「レベル5到達」の説明に、歴打が解放されることを書きました'] },
   { v: '17.50', d: '2026/11/08 20:09', t: '歴打を追加（レベル5で解放・石高で実績）', n: ['タイピングゲーム「歴打」をツールに追加しました。レベル5になると遊べます', '歴打の石高が、実績「石高1000」「征夷大将軍」「天下の蓄え」に反映されます'] },
   { v: '17.49', d: '2026/11/08 10:39', t: 'AIの説明の表示修正・アカウント画面の整理・ログアウトの確認', n: ['iPadで、アプリの説明の「AIに質問する」の文字が縦に崩れる問題を直しました', 'アカウント画面に「通知」「アップデートを確認」「設定」を追加し、フィードバックのまわりの線を消しました', 'ログアウトする前に、確認の画面を出すようにしました'] },
@@ -2299,14 +2366,14 @@ function lastDays(n) {
 }
 function viewStats() {
   const subs = subjects();
-  if (!subs.length) return myStatCard() + friendRecordCard() + emptyHome();
+  if (!subs.length) return achBigHtml() + myStatCard() + friendRecordCard() + emptyHome();
   const all = examTasks(), Rq = agg(all.filter(t => t.req)), Op = agg(all.filter(t => !t.req));
   const days = lastDays(ui.period), n = days.length, isM = ui.metric === 'min', V = d => isM ? d.m : d.a;
   const sum = days.reduce((a, d) => a + V(d), 0), max = Math.max(isM ? 30 : 5, ...days.map(V));
   const best = days.reduce((b, d) => V(d) > V(b) ? d : b, days[0]), unit = isM ? '分' : 'p';
   const lab = (d, i) => n <= 7 ? WD[d.d.getDay()] : n <= 14 ? d.d.getDate() : (i % 5 === 0 || i === n - 1 ? `${d.d.getMonth() + 1}/${d.d.getDate()}` : '');
   const tt = totals(), lv = level();
-  let h = myStatCard() + friendRecordCard() + wkReview() + scoreCard() + scoreTrend() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
+  let h = achBigHtml() + myStatCard() + friendRecordCard() + wkReview() + scoreCard() + scoreTrend() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
   <div class="chips mb"><div class="seg" role="group">${[7, 14, 30].map(p => `<button class="${ui.period === p ? 'on' : ''}" data-act="period" data-id="${p}">${p}日</button>`).join('')}</div></div>
   <div class="card"><div class="bars" style="--n:${n}">${days.map((d, i) => `<div class="bcol ${d.k === today() ? 'today' : ''}"><div class="bval">${n <= 14 && V(d) ? V(d) : ''}</div><div class="bar">${isM ? `<i class="m" style="height:${V(d) / max * 100}%"></i>` : `<i class="o" style="height:${d.a / max * 100}%"></i><i class="r" style="height:${d.r / max * 100}%"></i>`}</div><div class="blab">${lab(d, i)}</div></div>`).join('')}</div>
   ${isM ? '' : `<div class="chips" style="margin-top:14px"><span class="lg"><i style="background:var(--primary)"></i><span>必須</span></span><span class="lg"><i style="background:var(--ter-c)"></i><span>任意</span></span></div>`}</div>
@@ -2353,11 +2420,70 @@ function viewStats() {
   const rows = subs.map(s => { const ts = tasksOfSub(s.id); return { s, a: agg(ts), r: agg(ts.filter(t => t.req)) }; }).sort((x, y) => x.a.p - y.a.p);
   h += `<div class="h-sec"><h2>${ms('leaderboard')}教科の達成率</h2><span class="muted" style="font-weight:500;font-size:.8rem">進んでいない順</span></div><div class="card rank">${rows.map(({ s, a, r }) => `<div class="rk sc" style="--sh:${s.hue}">${avatar(s, 46)}<div><div class="nm"><span>${esc(s.name)}</span><span>${a.total ? pct(a.p) + '%' : '—'} ・ 残り ${a.rem}p（必須 ${r.rem}p）</span></div>${wave(a.p, 'rk' + s.id)}</div></div>`).join('')}</div>`;
 
-  // 実績・レベル
-  const unl = BADGES.filter(b => S.badges[b[0]]).length, bc = totals();
-  h += `<div class="h-sec"><h2>${ms('emoji_events')}実績</h2><span class="sp"></span><span class="pillchip">${ms('stars', 'f')}Lv.${lv.L}　次まで ${lv.need}XP</span></div><p class="muted" style="margin:-6px 4px 14px;font-weight:500">${unl} / ${BADGES.length} 解除　・　称号「${esc(titleOf(lv.L))}」　・　経験値 ${lv.xp}XP（ページ数・集中時間・課題・覚えた単語などでたまります）</p>${lvCardHtml(lv.L)}${growEntryHtml(lv.L)}<div class="badges stg">${BADGES.map((b, i) => badgeHtml(b, i, bc)).join('')}</div>`;
   h += `<div style="margin-top:26px;display:flex;justify-content:center"><button class="btn tonal" data-act="share">${ms('ios_share')}進み具合をシェア</button></div>`;
   return h;
+}
+
+/* ====================== 実績・レベル（17.69）：記録タブの大きな入口 → レベルとXP・ショップ・全実績・レベルごとの特典（階段） ====================== */
+const ACHF = { f: 'all' };
+function achDoneN() {
+  const bd = BADGES.filter(b => S.badges[b[0]]).length, qd = XP_Q.filter(q => !q.daily && (S.xpq || {})[q.id]).length;
+  return { done: bd + qd, all: BADGES.length + XP_Q.filter(q => !q.daily).length };
+}
+function achBigHtml() {
+  const lv = level(), n = achDoneN();
+  return `<button type="button" class="ach-big" data-act="achopen"><span class="ach-big-ic">${ms('emoji_events', 'f')}</span><span class="ach-big-t"><b>実績・レベル</b><small>Lv.${lv.L}（${esc(titleOf(lv.L))}）　経験値 ${lv.xp.toLocaleString('ja-JP')}XP　・　実績 ${n.done} / ${n.all}</small></span>${ms('chevron_right')}</button>`;
+}
+function achHtml() {
+  const lv = level(), n = achDoneN();
+  return `<h2 class="noti-h">${ms('emoji_events')}<span>実績・レベル</span></h2>` +
+    `<div class="ach-hero"><div class="ach-lv"><small>レベル</small><b>${lv.L}</b></div><div class="ach-hi"><div class="ach-tt">${ms('military_tech')}${esc(titleOf(lv.L))}</div><div class="ach-xp"><b>${lv.xp.toLocaleString('ja-JP')}</b><small>XP</small></div><div class="ach-bar"><i style="width:${Math.max(0, Math.min(100, Math.round(lv.p * 100)))}%"></i></div><small class="muted">次のレベルまで あと ${lv.need.toLocaleString('ja-JP')} XP</small></div></div>` +
+    `<div class="ach-btns"><button type="button" class="ach-btn" data-act="shopopen">${ms('shopping_bag')}<span><b>ショップ</b><small>XPで背景・効果音・ツール</small></span></button><button type="button" class="ach-btn" data-act="achall">${ms('workspace_premium')}<span><b>全実績</b><small>${n.done} / ${n.all} 達成</small></span></button></div>` +
+    `<h3 class="shop-h">レベルごとの特典</h3>${ladderHtml(lv.L)}` +
+    `<div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
+}
+function achRow(icon, name, desc, on, pr, rew) {
+  const have = pr ? Math.min(pr[0], pr[1]) : 0, tgt = pr ? pr[1] : 0;
+  const bar = !on && tgt ? `<div class="ar-bar"><i style="width:${Math.min(100, Math.round(have / tgt * 100))}%"></i></div>` : '';
+  const pt = !on && tgt ? `<small>${have.toLocaleString('ja-JP')} / ${tgt.toLocaleString('ja-JP')}</small>` : '';
+  return `<div class="ar ${on ? 'on' : ''}"><span class="ar-i">${ms(icon, on ? 'f' : '')}</span><div class="ar-t"><b>${esc(name)}</b><small>${esc(desc)}</small>${bar}${pt}</div><div class="ar-s">${on ? `${ms('check_circle', 'f')}<span>達成</span>` : `${ms('lock')}<span>未達成</span>`}${rew ? `<em>${rew}</em>` : ''}</div></div>`;
+}
+function achAllHtml() {
+  const c = totals(), n = achDoneN(), f = ACHF.f;
+  const seg = [['all', 'すべて'], ['done', '達成'], ['todo', '未達成']].map(([k, t]) => `<button type="button" class="wx-sg ${f === k ? 'on' : ''}" data-act="achf" data-id="${k}">${t}</button>`).join('');
+  const bd = BADGES.map(b => { let pr = null; if (b[5]) { try { pr = b[5](c); } catch (e) { pr = null; } } return { on: !!S.badges[b[0]], ic: b[1], name: b[2], desc: b[3], pr }; });
+  const qs = XP_Q.map(q => { const key = q.daily ? q.id + '@' + today() : q.id, got = !!(S.xpq || {})[key]; let v = 0; try { v = +q.v() || 0; } catch (e) { v = 0; } return { on: got, ic: q.i, name: q.n + (q.daily ? '（毎日）' : ''), desc: q.d, pr: [v, q.t], rew: `+${q.xp} XP` }; });
+  const keep = x => f === 'all' || (f === 'done' ? x.on : !x.on);
+  const list = arr => arr.filter(keep).map(x => achRow(x.ic, x.name, x.desc, x.on, x.pr, x.rew)).join('') || '<p class="muted" style="text-align:center;padding:14px 0">この条件の実績はありません</p>';
+  return `<h2 class="noti-h">${ms('workspace_premium')}<span>全実績</span><em class="noti-cnt">${n.done} / ${n.all} 達成</em></h2>` +
+    `<div class="wx-seg" role="group" style="margin:0 0 10px">${seg}</div>` +
+    `<h3 class="shop-h">バッジ（${bd.filter(x => x.on).length} / ${bd.length}）</h3><div class="ar-l">${list(bd)}</div>` +
+    `<h3 class="shop-h">XPのふやし方</h3><p class="muted" style="font-weight:500;margin:0 0 8px;font-size:.82rem">できたときに、一度だけXPがもらえます（「毎日」のものは、毎日もらえます）</p><div class="ar-l">${list(qs)}</div>` +
+    `<div class="noti-a"><button class="btn text" data-act="achopen">${ms('arrow_back')}実績・レベルへ</button><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
+}
+// レベルごとの特典：称号・色・ツール（ツールは、描いてあるレベルの定義から集める）
+function achPerks() {
+  const p = [{ n: 0, ic: 'bolt', t: 'XPのふやし方（できたときにXPがもらえる）' }, { n: 0, ic: 'group', t: '友達と比べる（ホーム・記録タブ）' }, { n: 2, ic: 'shopping_bag', t: 'XPショップ（背景・効果音・ツール）' }];
+  for (const [n, s2] of LV_TITLES) p.push({ n, ic: 'workspace_premium', t: `称号「${s2}」` });
+  for (const [, nm, n] of LV_HUES) p.push({ n, ic: 'palette', t: `アプリの色「${nm}」` });
+  const free = [], byN = {};
+  for (const T of TOOLS) {
+    const m = /レベル(\d+)で解放/.exec(T[3] || '');
+    if (m) (byN[+m[1]] = byN[+m[1]] || []).push(T[1] + (T[0] === 'merge' ? '（XP500でも買えます）' : ''));
+    else free.push(T[1]);
+  }
+  if (free.length) p.push({ n: 0, ic: 'build', t: `はじめから使えるツール（${free.length}個）：計算・単語帳・集中タイマーなど` });
+  for (const k of Object.keys(byN)) p.push({ n: +k, ic: 'sports_esports', t: `ツール：${byN[k].join('・')}` });
+  return p.sort((a, b) => a.n - b.n);
+}
+function ladderHtml(L) {
+  const groups = [];
+  achPerks().forEach(p => { const g = groups.find(x => x.n === p.n); if (g) g.items.push(p); else groups.push({ n: p.n, items: [p] }); });
+  const cur = groups.filter(g => g.n <= L).pop(), nxt = groups.find(g => g.n > L);
+  return `<div class="lad">${groups.map((g, k) => {
+    const on = L >= g.n, isCur = !!cur && cur.n === g.n, tag = isCur ? '<em class="lad-tag">いまここ</em>' : (nxt && nxt.n === g.n ? '<em class="lad-tag nx">次の目標</em>' : '');
+    return `<div class="lad-n ${on ? 'on' : ''} ${isCur ? 'cur' : ''}" style="--k:${k}"><div class="lad-lv"><b>${g.n}</b><small>Lv</small></div><div class="lad-c">${tag}${g.items.map(p => `<div class="lad-i">${ms(p.ic)}<span>${esc(p.t)}</span>${ms(on ? 'check_circle' : 'lock', on ? 'f' : '')}</div>`).join('')}</div></div>`;
+  }).join('')}</div>`;
 }
 
 /* ---------- 設定 ---------- */
@@ -3998,6 +4124,11 @@ function evDlg(id, date) {
   const x = id ? evFind(id) : null; if (id && !x) return;
   openDlg(`<h2>${ms('event')}${x ? '予定を編集' : '予定を足す'}</h2><form id="evf" autocomplete="off" onsubmit="return false"><div class="fld"><label for="evt">予定の名前</label><input id="evt" name="evt" type="text" maxlength="40" value="${esc(x ? x.t : '')}" placeholder="例：三者面談 ／ 体育祭 ／ 修学旅行"></div><div class="fld2"><div class="fld"><label for="evd">日付</label><input id="evd" name="evd" type="date" value="${esc(x ? x.d : (date || today()))}"></div><div class="fld"><label for="evd2">終わりの日（複数日のとき）</label><input id="evd2" name="evd2" type="date" value="${esc(x ? x.d2 : '')}"></div></div><div class="fld"><label for="evtm">時刻（なくてもOK）</label><input id="evtm" name="evtm" type="time" value="${esc(x ? x.tm : '')}"></div><div class="fld"><label for="evn">メモ（場所・持ち物など）</label><input id="evn" name="evn" type="text" maxlength="60" value="${esc(x ? x.note : '')}"></div></form><div class="dact">${x ? `<button type="button" class="btn text danger" data-act="evdel" data-id="${x.id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="evsave" data-id="${x ? x.id : ''}">${ms('check')}保存</button></div>`);
 }
+Object.assign(ACT, {
+  achopen() { openDlg(achHtml()); dlg.dataset.k = 'ach'; },
+  achall() { openDlg(achAllHtml()); dlg.dataset.k = 'achall'; },
+  achf(id) { ACHF.f = id; if (dlg.open && dlg.dataset.k === 'achall') dlg.innerHTML = `<div class="dlg">${achAllHtml()}</div>`; },
+});
 Object.assign(ACT, {
   evadd(id) { evDlg('', id); }, evedit(id) { evDlg(id); },
   evsave(id) {
@@ -8018,6 +8149,7 @@ function notiNavBtn() {
 function notiBadge() { const b = document.querySelector('#nav .noti-b'); if (b) b.outerHTML = notiNavBtn(); }
 // 期限・テスト・予定・フィードバックの返信を見て、通知を作る（同じものは、日ごとに1回だけ）
 function notiScan() {
+  fbNotiSync();
   try {
     const td = today(), nb = parse(td), tmr = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() + 1));
     for (const s of subjects()) {
@@ -8244,6 +8376,7 @@ function lvNext() {
 /* ====================== XPのふやし方（17.68）：できたときに一度だけXPがもらえる（毎日のものは毎日）。もらったXPは減らない ====================== */
 const XP_GRP = { easy: 'かんたん', mid: 'ふつう', hard: 'むずかしい' };
 const XP_Q = [
+  { id: 'q_login', lv: 'easy', daily: true, n: 'ログインボーナス', d: '毎日アプリを開くと、1日1回もらえます', xp: 50, t: 1, i: 'login', v: () => 1 },
   { id: 'q_day5', lv: 'easy', daily: true, n: '今日の勉強', d: '今日、5ページ以上勉強する', xp: 10, t: 5, i: 'today', v: () => ((S.log || {})[today()] || {}).a || 0 },
   { id: 'q_cards10', lv: 'easy', n: '単語づくり', d: '単語帳に単語を10個つくる', xp: 10, t: 10, i: 'style', v: () => (S.cards || []).length },
   { id: 'q_type100', lv: 'easy', n: 'タイピング入門', d: 'タイピングで累計100字', xp: 10, t: 100, i: 'keyboard', v: () => S.typed || 0 },
@@ -8282,7 +8415,7 @@ function xpCheck(silent) {
   }
   if (!got.length) return;
   save();
-  if (!silent) toast(`XPを${got.reduce((a, q) => a + q.xp, 0)}もらいました：${got.map(q => q.n).join('、')}`);
+  if (!silent || got.some(q => q.id === 'q_login')) toast(`XPを${got.reduce((a, q) => a + q.xp, 0)}もらいました：${got.map(q => q.n).join('、')}`);
 }
 function xpRow(q) {
   const key = q.daily ? q.id + '@' + today() : q.id, got = !!(S.xpq || {})[key];
@@ -8442,9 +8575,10 @@ function myStatCard() {
 // --- 友達との比較（ホームのカード。読み込みは、ときどき一度だけ） ---
 const FR_HOME = { at: 0, rows: null, me: null, busy: false, err: false, seq: 0 };
 function cmpRow(label, mine, theirs, unit, icon) {
-  const mx = Math.max(mine, theirs, 1), diff = mine - theirs, pm = mine > 0 ? Math.max(3, Math.round(mine / mx * 100)) : 0, pt = theirs > 0 ? Math.max(3, Math.round(theirs / mx * 100)) : 0;
-  const lead = diff > 0 ? `<b class="cm-lead me">あなたが上 <small>+${diff}${unit}</small></b>` : diff < 0 ? `<b class="cm-lead fr">相手が上 <small>${diff}${unit}</small></b>` : '<b class="cm-lead eq">同じ</b>';
-  return `<div class="cm-row"><div class="cm-h">${icon ? ms(icon) : ''}<b>${label}</b>${lead}</div><div class="cm-bar me"><span class="cm-n">あなた</span><div class="cm-tr"><i style="--w:${pm}%"></i></div><span class="cm-v">${mine}${unit}</span></div><div class="cm-bar fr"><span class="cm-n">相手</span><div class="cm-tr"><i style="--w:${pt}%"></i></div><span class="cm-v">${theirs}${unit}</span></div></div>`;
+  const mx = Math.max(mine, theirs, 1), diff = mine - theirs;
+  const hm = mine > 0 ? Math.max(4, Math.round(mine / mx * 100)) : 0, ht = theirs > 0 ? Math.max(4, Math.round(theirs / mx * 100)) : 0;
+  const tag = diff > 0 ? `<em class="cmv-d me">+${diff}${unit}</em>` : diff < 0 ? `<em class="cmv-d fr">${diff}${unit}</em>` : '<em class="cmv-d eq">同じ</em>';
+  return `<div class="cmv"><div class="cmv-h">${icon ? ms(icon) : ''}<b>${label}</b>${tag}</div><div class="cmv-c"><div class="cmv-col me"><span>${mine}${unit}</span><i style="--h:${hm}"></i></div><div class="cmv-col fr"><span>${theirs}${unit}</span><i style="--h:${ht}"></i></div></div><div class="cmv-lab"><small>あなた</small><small>相手</small></div></div>`;
 }
 function frCardHtml(me, data, nm) {
   return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${cmpRow('元素インベーダーの最高点', me.iv || 0, data.iv || 0, '点', 'rocket_launch')}${cmpRow('歴打の最高石高', me.rk || 0, data.rk || 0, '石', 'castle')}${cmpRow('元素マージの最高点', me.mg || 0, data.mg || 0, '点', 'bubble_chart')}</div>`;
@@ -8938,10 +9072,25 @@ function fbOnAdm(sn) {
   if (first && un.length) nbar({ icon: 'inbox', text: `未読のフィードバックが ${un.length}件あります`, label: '開く', act: 'fbinbox' });
   else if (added.length) nbar({ icon: 'mark_email_unread', text: added.length > 1 ? `新しいフィードバックが ${added.length}件届きました` : '新しいフィードバックが届きました', sub: `${fbCat(added[0].cat)[1]}：${String(added[0].text).replace(/\s+/g, ' ').slice(0, 30)}`, label: '開く', act: 'fbinbox' });
 }
-function fbAdmSeen() { const s = lsj(FB_ASEEN, null), ids = new Set((s && s.ids) || []); FBL.adm.forEach(r => ids.add(r.id)); lss(FB_ASEEN, { ids: [...ids].slice(-400) }); fbBadge(); }
+// 見たフィードバックの通知は、既読にする（次にアプリを開いても、通知しない）
+function fbNotiSync() {
+  try {
+    const a = notiAll(), mine = lsj(FB_SEEN, {}), as = lsj(FB_ASEEN, null), aset = new Set((as && as.ids) || []);
+    let ch = false;
+    a.forEach(x => {
+      if (x.read || !x.k) return;
+      let m = /^fbr:([^:]+):(\d+)$/.exec(x.k), seen = false;
+      if (m) seen = (+m[2] || 0) <= (mine[m[1]] || 0);
+      else { m = /^fbn:(.+)$/.exec(x.k); if (m) seen = aset.has(m[1]); }
+      if (seen) { x.read = true; ch = true; }
+    });
+    if (ch) { notiPut(a); notiBadge(); }
+  } catch (e) { }
+}
+function fbAdmSeen() { const s = lsj(FB_ASEEN, null), ids = new Set((s && s.ids) || []); FBL.adm.forEach(r => ids.add(r.id)); lss(FB_ASEEN, { ids: [...ids].slice(-400) }); fbBadge(); fbNotiSync(); }
 /* ---- 送った人：自分のフィードバックと、返信 ---- */
 function fbMineHtml() {
-  const rows = FBL.mine, lq = fbQ(), item = (x, local) => { const c = fbCat(x.cat), nw = FBM_NEW.has(x.id); return `<div class="fbi"><div class="fbi-h"><span class="fbi-c">${ms(c[2])}${c[1]}</span><small>${fbWhen(x.t)}${local ? ' ・ 未送信' : x.reply ? '' : ' ・ 返信まち'}</small></div><p>${esc(x.text).replace(/\n/g, '<br>')}</p>${x.reply ? `<div class="fbr ${nw ? 'new' : ''}"><div class="fbr-h">${ms('support_agent')}管理者からの返信${nw ? '<em class="fbi-tag">新着</em>' : ''}<small>${fbWhen(x.rt || x.t)}</small></div><p>${esc(x.reply).replace(/\n/g, '<br>')}</p></div>` : ''}</div>`; };
+  const rows = FBL.mine, lq = fbQ(), item = (x, local) => { const c = fbCat(x.cat), nw = FBM_NEW.has(x.id); return `<div class="fbi"><div class="fbi-h"><span class="fbi-c">${ms(c[2])}${c[1]}</span><small>${fbWhen(x.t)}${local ? ' ・ 未送信' : x.reply ? '' : ' ・ 返信まち'}</small></div><p>${esc(x.text).replace(/\n/g, '<br>')}</p>${x.reply ? `<div class="fbr ${nw ? 'new' : ''}"><div class="fbr-h">${ms('support_agent')}管理者からの返信${nw ? '<em class="fbi-tag">新着</em>' : '<em class="fbi-tag read">既読</em>'}<small>${fbWhen(x.rt || x.t)}</small></div><p>${esc(x.reply).replace(/\n/g, '<br>')}</p></div>` : ''}</div>`; };
   return `<h2>${ms('forum')}送った内容と返信</h2><div class="fbi-l">${lq.length ? `<div class="gs-h">${ms('schedule_send')}未送信（${lq.length}件）</div>${lq.map(x => item(x, true)).join('')}` : ''}${rows.length ? rows.map(x => item(x, false)).join('') : (lq.length ? '' : '<p class="muted" style="text-align:center;padding:20px 0">まだ、送ったフィードバックはありません</p>')}</div><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="fbopen">${ms('rate_review')}新しく送る</button><button type="button" class="btn" data-act="close">閉じる</button></div>`;
 }
 function fbMineDlg(keep) {
@@ -8949,13 +9098,13 @@ function fbMineDlg(keep) {
   if (keep && dlg.open && dlg.dataset.k === 'fbmine') { const l = dlg.querySelector('.fbi-l'), top = l ? l.scrollTop : 0; dlg.innerHTML = `<div class="dlg">${fbMineHtml()}</div>`; const l2 = dlg.querySelector('.fbi-l'); if (l2) l2.scrollTop = top; }
   else { openDlg(fbMineHtml()); dlg.dataset.k = 'fbmine'; }
   const m = lsj(FB_SEEN, {}); FBL.mine.forEach(r => { if (r.reply) m[r.id] = r.rt || 1; });
-  lss(FB_SEEN, Object.fromEntries(Object.entries(m).slice(-120))); fbBadge();
+  lss(FB_SEEN, Object.fromEntries(Object.entries(m).slice(-120))); fbBadge(); fbNotiSync();
 }
 /* ---- 管理者：受信箱と、返信 ---- */
 const FB_TPL = ['ありがとうございます！とても助かります。', '対応しました。次の更新で直ります。', '検討します。もう少し、くわしく教えてもらえますか？'];
 function fbInboxHtml() {
   const rows = FBL.adm, all = rows.length, nr = rows.filter(r => !r.reply).length, list = rows.filter(r => FBA.filt === 'all' || (FBA.filt === 'no' ? !r.reply : !!r.reply));
-  const item = x => { const c = fbCat(x.cat), nw = FBA.newIds.has(x.id); return `<div class="fbi ${nw ? 'new' : ''}"><div class="fbi-h"><span class="fbi-c">${ms(c[2])}${c[1]}</span><small>${fbWhen(x.t)}${x.name ? ' ・ ' + esc(x.name) : ''}${x.ver ? ' ・ v' + esc(x.ver) : ''}</small>${nw ? '<em class="fbi-tag">新着</em>' : ''}${x.reply ? `<em class="fbi-tag ok">返信ずみ</em>` : ''}<button type="button" class="ibtn" data-act="fbdel" data-id="${x.id}" aria-label="削除">${ms('delete')}</button></div><p>${esc(x.text).replace(/\n/g, '<br>')}</p>${x.env ? `<small class="muted">${esc(x.env)}</small>` : ''}${x.reply ? `<div class="fbr"><div class="fbr-h">${ms('support_agent')}あなたの返信<small>${fbWhen(x.rt || x.t)}</small></div><p>${esc(x.reply).replace(/\n/g, '<br>')}</p></div>` : ''}
+  const item = x => { const c = fbCat(x.cat), nw = FBA.newIds.has(x.id); return `<div class="fbi ${nw ? 'new' : ''}"><div class="fbi-h"><span class="fbi-c">${ms(c[2])}${c[1]}</span><small>${fbWhen(x.t)}${x.name ? ' ・ ' + esc(x.name) : ''}${x.ver ? ' ・ v' + esc(x.ver) : ''}</small>${nw ? '<em class="fbi-tag">新着</em>' : '<em class="fbi-tag read">既読</em>'}${x.reply ? `<em class="fbi-tag ok">返信ずみ</em>` : ''}<button type="button" class="ibtn" data-act="fbdel" data-id="${x.id}" aria-label="削除">${ms('delete')}</button></div><p>${esc(x.text).replace(/\n/g, '<br>')}</p>${x.env ? `<small class="muted">${esc(x.env)}</small>` : ''}${x.reply ? `<div class="fbr"><div class="fbr-h">${ms('support_agent')}あなたの返信<small>${fbWhen(x.rt || x.t)}</small></div><p>${esc(x.reply).replace(/\n/g, '<br>')}</p></div>` : ''}
     <details class="fbi-rp"><summary>${ms('reply')}${x.reply ? '返信を編集' : '返信する'}</summary><div class="chips">${FB_TPL.map((t, k) => `<button type="button" class="sn-sc" data-act="fbtpl" data-id="${x.id}" data-t="${k}">${esc(t.slice(0, 10))}…</button>`).join('')}</div><textarea id="fbrt-${x.id}" rows="3" maxlength="1000" data-orig="${esc(x.reply || '')}" placeholder="返信を書く（送った人に、アプリの中で通知されます）">${esc(x.reply || '')}</textarea><div class="fbi-ra">${x.reply ? `<button type="button" class="btn text danger xs" data-act="fbunreply" data-id="${x.id}">返信を取り消す</button>` : ''}<span class="sp"></span><button type="button" class="btn xs" data-act="fbsend" data-id="${x.id}">${ms('send')}返信する</button></div></details></div>`; };
   return `<h2>${ms('inbox')}フィードバック <small style="font-weight:500;color:var(--on-v)">${all}件</small></h2><div class="wx-seg" role="group" style="margin:0 0 10px">${[['all', 'すべて', all], ['no', '未返信', nr], ['yes', '返信ずみ', all - nr]].map(([k, t, n]) => `<button type="button" class="wx-sg ${FBA.filt === k ? 'on' : ''}" data-act="fbfilt" data-id="${k}">${t} ${n}</button>`).join('')}</div><div class="fbi-new" id="fbnew" hidden>新しい内容があります<button type="button" class="btn text xs" data-act="fbreload">更新</button></div><div class="fbi-l">${list.length ? list.map(item).join('') : '<p class="muted" style="text-align:center;padding:20px 0">該当するフィードバックはありません</p>'}</div><div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">閉じる</button></div>`;
 }
