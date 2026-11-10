@@ -1017,13 +1017,13 @@ body{overflow-x:clip}
 .tcard.lux-merge>span:not(.tc-i):not(.tc-pop){color:rgba(255,255,255,.88)!important}
 .card.mg-lux{background:linear-gradient(135deg,color-mix(in srgb,#22c3e6 16%,var(--s2)),color-mix(in srgb,#7c5cf0 12%,var(--s2)))!important;border:1px solid color-mix(in srgb,#22c3e6 38%,transparent)}
 .card.mg-lux .mg-rh{color:var(--on)}
-.ach-big{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;padding:18px 20px;margin:0 0 16px;border-radius:24px;border:0;background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 85%,#fff),color-mix(in srgb,var(--primary) 55%,#000));color:#fff;text-align:left;cursor:pointer;box-shadow:0 12px 28px color-mix(in srgb,var(--primary) 35%,transparent)}
-.ach-big-ic{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:rgba(255,255,255,.2);flex:none}
+.ach-big{display:flex;align-items:center;gap:14px;width:100%;box-sizing:border-box;padding:18px 20px;margin:0 0 16px;border-radius:24px;border:0;background:color-mix(in srgb,var(--primary) 20%,var(--s2));color:var(--on);text-align:left;cursor:pointer;box-shadow:0 10px 24px color-mix(in srgb,var(--primary) 16%,transparent)}
+.ach-big-ic{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:color-mix(in srgb,var(--primary) 26%,transparent);color:var(--primary);flex:none}
 .ach-big-ic .ms{font-size:30px}
 .ach-big-t{display:grid;gap:3px;min-width:0;flex:1}
 .ach-big-t b{font-size:1.25rem}
-.ach-big-t small{opacity:.92;font-size:.8rem;line-height:1.5}
-.ach-big>.ms{font-size:28px}
+.ach-big-t small{color:var(--on-v);font-size:.8rem;line-height:1.5}
+.ach-big>.ms{font-size:28px;color:var(--primary)}
 .ach-hero{display:grid;grid-template-columns:auto minmax(0,1fr);gap:16px;align-items:center;padding:18px;border-radius:24px;background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 16%,var(--s2)),var(--s2));margin-bottom:12px}
 .ach-lv{width:96px;height:96px;border-radius:50%;display:grid;place-content:center;justify-items:center;background:radial-gradient(circle at 30% 25%,#fff7c2,#f0c24b 55%,#b7842a);color:#3d2a00;box-shadow:0 0 0 4px rgba(241,207,106,.35),0 10px 24px rgba(183,132,42,.35)}
 .ach-lv small{font-size:.7rem;font-weight:800}
@@ -1040,7 +1040,7 @@ body{overflow-x:clip}
 .ach-btn span{display:grid;gap:2px;min-width:0}
 .ach-btn small{color:var(--on-v);font-size:.74rem;line-height:1.4}
 .lad{display:grid;padding:6px 0 4px}
-.lad-n{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;align-items:stretch;position:relative;margin-left:min(calc(var(--k) * 10px),80px);padding-bottom:14px}
+.lad-n{display:grid;grid-template-columns:76px minmax(0,1fr);gap:12px;align-items:stretch;position:relative;padding-bottom:14px}
 .lad-n:not(:last-child)::after{content:'';position:absolute;left:36px;top:80px;bottom:0;width:4px;border-radius:2px;background:var(--s3)}
 .lad-n.on:not(:last-child)::after{background:linear-gradient(180deg,var(--primary),color-mix(in srgb,var(--primary) 40%,var(--s3)))}
 .lad-lv{width:76px;height:76px;border-radius:50%;display:grid;place-content:center;justify-items:center;background:var(--s3);color:var(--on-v);box-sizing:border-box;border:3px solid var(--s3)}
@@ -1072,6 +1072,43 @@ body{overflow-x:clip}
 .ar.on .ar-s{color:#1e8e3e}
 .ar-s em{font-style:normal;color:var(--primary);font-size:.78rem}
 .fbi-tag.read{background:var(--s3);color:var(--on-v)}
+.subbar{display:flex;align-items:center;gap:10px;margin:0 0 14px}
+.subbar h2{display:flex;align-items:center;gap:8px;margin:0;font-size:1.4rem}
+.subbar h2>.ms{color:var(--primary)}
+.fr-list{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 12px;-webkit-overflow-scrolling:touch}
+.fr-list>*{flex:0 0 min(100%,520px);min-width:0;scroll-snap-align:start;margin:0!important}
+.mc{display:grid;grid-template-columns:minmax(260px,300px) minmax(0,1fr);gap:16px;align-items:start}
+.mc-side{display:grid;gap:10px;position:sticky;top:12px}
+.mc-pct{padding:18px;border-radius:28px;background:linear-gradient(145deg,color-mix(in srgb,var(--primary) 26%,var(--s2)),var(--s2));display:grid;gap:4px;justify-items:start}
+.mc-pct>b{font-size:3.2rem;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.mc-pct>small{font-weight:700;color:var(--on-v)}
+.mc-seg{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;width:100%;margin-top:10px}
+.mc-seg i{height:12px;border-radius:6px;background:var(--s3)}
+.mc-seg i.on{background:linear-gradient(180deg,#ffe38a,#e7b64a)}
+.mc-st{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:12px 14px;border-radius:22px;background:var(--s2)}
+.mc-st>.ms{font-size:24px;color:var(--primary)}
+.mc-st>small{color:var(--on-v);font-weight:700;font-size:.78rem;min-width:0}
+.mc-st>b{font-size:1.15rem;font-variant-numeric:tabular-nums}
+.mc-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.mc-tabs button{padding:12px 6px;border-radius:999px;border:0;background:var(--s2);color:var(--on-v);font-weight:800;cursor:pointer}
+.mc-tabs button.on{background:var(--primary);color:#fff}
+.mc-list{display:grid;gap:8px;padding:10px;border-radius:28px;background:color-mix(in srgb,var(--on) 4%,var(--s2));border:3px solid color-mix(in srgb,var(--on) 12%,transparent);box-sizing:border-box}
+.mc-r{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:14px;align-items:center;padding:10px;border-radius:20px;background:var(--s2)}
+.mc-r.on{background:color-mix(in srgb,#e7b64a 16%,var(--s2))}
+.mc-ic{width:64px;height:64px;border-radius:16px;display:grid;place-items:center;background:var(--s3);border:3px solid var(--s3);box-sizing:border-box;color:var(--on-v)}
+.mc-r.on .mc-ic{border-color:#e7b64a;background:linear-gradient(145deg,#fff1b8,#e7b64a);color:#3d2a00}
+.mc-ic .ms{font-size:30px}
+.mc-t{display:grid;gap:3px;min-width:0}
+.mc-t>b{font-size:1rem}
+.mc-t>small{color:var(--on-v);font-size:.8rem;line-height:1.4}
+.mc-bar{height:8px;border-radius:4px;background:var(--s3);overflow:hidden;margin-top:4px}
+.mc-bar i{display:block;height:100%;background:linear-gradient(90deg,#7ad7ff,#3b82f6)}
+.mc-t em{font-style:normal;font-size:.74rem;color:var(--on-v);font-variant-numeric:tabular-nums}
+.mc-rw{display:grid;justify-items:end;gap:4px;font-weight:800;white-space:nowrap;color:var(--on-v);font-size:.8rem}
+.mc-rw>b{color:#c99a2e;font-size:.95rem}
+.mc-rw>.ms{font-size:22px}
+.mc-r.on .mc-rw>.ms{color:#1e8e3e}
+@media(max-width:820px){.mc{grid-template-columns:1fr}.mc-side{position:static;grid-template-columns:1fr 1fr}.mc-pct{grid-column:1/-1}}
 
 /* ===== 17.52：入力テスト（タイピング風・金と藍） ===== */
 .ty-stage{position:relative;display:grid;gap:14px;padding:18px 18px 16px;border-radius:28px;color:#fff3d1;background:radial-gradient(ellipse at 50% 0,rgba(248,217,120,.16),transparent 60%),linear-gradient(170deg,#152247 0%,#1f1d46 55%,#3a1b2a 100%);border:1px solid rgba(248,217,120,.55);box-shadow:0 0 0 4px rgba(20,24,44,.6),0 16px 40px rgba(0,0,0,.35),inset 0 0 40px rgba(248,217,120,.06);font-family:'Shippori Mincho','Noto Serif JP',serif}
@@ -1391,7 +1428,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.69';
+const APP_VERSION = '17.70';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1750,7 +1787,8 @@ function render() {
   v.className = (ui.anim ? 'anim' : '') + (go ? (fade ? ' vinf' : ' vin') : '');
   v.style.setProperty('--dx', ((ui.dir || 1) * 24) + 'px'); ui.vin = false;
   let html = '';
-  try { html = (['tasks', 'cal', 'stats'].includes(ui.tab) && curExam().arc ? pastBar() : '') + VIEWS[ui.tab](); }
+  if (ui.sub && ui.subTab !== ui.tab) { ui.sub = ''; ui.stack = []; }
+  try { html = ui.sub ? subView() : (['tasks', 'cal', 'stats'].includes(ui.tab) && curExam().arc ? pastBar() : '') + VIEWS[ui.tab](); }
   catch (e) { errLog('画面 ' + ui.tab + '：' + ((e && e.message) || e)); html = viewBroken(); }
   v.innerHTML = html;
   ui.anim = false;
@@ -1964,24 +2002,25 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '17.69', d: '2026/11/10 22:00', t: '実績・レベルの画面を一新・ログインボーナス・フィードバックの既読・友達の比較を縦の棒に', n: ['記録タブの一番上に「実績・レベル」を追加しました。レベルとXP、ショップ、全実績（バッジとXPのふやし方を、達成と未達成で表示）、レベルごとの特典（階段のように表示）を見られます', '毎日アプリを開くと、ログインボーナスで50XPもらえます', 'フィードバックに既読を付けました。一度見たものは、次にアプリを開いても通知しません', 'ツールのカードの光が左から右へ流れるアニメーションをやめました', '友達との比較は縦の棒になり、コンパクトになりました'] },
-  { v: '17.68', d: '2026/11/10 22:00', t: 'XPのふやし方を追加・元素マージの友達ランキングとやめる・比較カードをコンパクトに', n: ['XPの増やし方を追加しました（かんたん・ふつう・むずかしい）。一度できたらXPがもらえ、もらったXPは減りません。「XPのふやし方」から見られます', '元素マージのランキングに、実際の友達の最高点が出るようになりました（オンラインの欄は「友達ランキング」になりました）', '元素マージのゲームオーバーの画面に「やめる」を追加しました。全画面のときは普通の画面に戻り、そうでないときはツール一覧に戻ります', '元素マージのカードを少し華やかにしました。ホームの友達との比較カードは、行の間隔を詰めて2列で見られるようにしました'] },
-  { v: '17.67', d: '2026/11/10 22:00', t: '元素マージをXPで買えるように・友達との最高点ランキング', n: ['元素マージは、レベル7になっていなくても、XPショップで500 XPで買えます（ロック画面からも買えます）', '元素マージの最高点を、友達と比べられるようになりました。ツールの画面で、自分と友達の順位を見られます', '友達の比較にも、元素マージの最高点が出ます（友達も、このバージョン以降で遊ぶと表示されます）'] },
-  { v: '17.66', d: '2026/11/10 22:00', t: '元素マージを追加（レベル7で解放）', n: ['新しいツール「元素マージ」を追加しました。レベル7で解放されます。同じ元素をくっつけて、次の段階へ進化させるパズルです', '元素マージは全画面でも遊べます。物理エンジンを読み込めない時は、その旨を表示します', 'ゲームの不具合を直しました：初回に架空の記録が出ないように、オンランキングの架空の順位を消し、触媒で最大の元素を選んだ時にEPを無駄に消費しないように、押しっぱなしで連続落下しないようにしました'] },
-  { v: '17.65', d: '2026/11/10 22:00', t: '友達が全員表示されない不具合を修正', n: ['友達の一覧を、端末どうしで合わせるようにしました（友達を追加・外したときも、どの端末でも同じになります）', '複数の友達と共有していると、一部の友達しか表示されなかった不具合を直しました'] },
-  { v: '17.64', d: '2026/11/10 22:00', t: '元素インベーダーの点数・友達との比較に点数・歴打の時代の絞り込みと問題追加', n: ['元素インベーダーは、1つ当てると50点。連続で当てるほど加点が増えます（最大150点）', '友達と比べるの画面に、元素インベーダーの最高点と、歴打の最高石高を追加しました', '歴打で、人物や出来事を時代で絞ったときに、他の時代の問題が出る不具合を直しました', '歴打の問題を、全部で274問に増やしました（人物問題と昭和・大正の問題を中心に）'] },
-  { v: '17.63', d: '2026/11/10 22:00', t: 'アップデート案内の位置・動作の高速化', n: ['アップデート内容や、最初の使い方の画面が左に寄る問題を直しました', 'ポップアップの背景のぼかしをやめ、ポップアップの後ろの動きを止めて、動作を軽くしました'] },
-  { v: '17.62', d: '2026/11/10 22:00', t: '記録などが開けない不具合を修正・画面が一つ壊れてもアプリ全体は止まらないように', n: ['記録のタブなどが「読み込めない」になる不具合を直しました（XPの計算の関数が消えていたのが原因でした）', 'どこかの画面で問題が起きても、その画面だけに「もう一度」を出し、ほかの画面は使えるようにしました', '考査が一つもないときも、アプリが止まらないようにしました'] },
-  { v: '17.61', d: '2026/11/10 22:00', t: '全画面の修正・ポップアップを広く・単語帳の受け取りと番号・AIで追加・タイピングの自動で次へ', n: ['歴打・元素インベーダーの全画面を、画面いっぱいに表示するように直しました', '大きな画面（iPad）では、ポップアップを横に広げて、入力しやすくしました', '単語帳の共有ボタンの右に「コードで受け取る」、全画面とシャッフルの間に「番号で絞る」を置きました', '単語帳の追加の画面の右上に「AIで追加」を置きました', '単語帳のタイピングで、正解したら自動で次の問題に進むようにしました（設定で切り替えられます）'] },
-  { v: '17.60', d: '2026/11/10 22:00', t: 'ツールの人気・更新内容の表示設定・プロフィールの同期・友達の比較の見やすさ・全画面のバグ', n: ['ツールの「歴打」「元素ラボ」「単語帳」に「人気」の帯を付けました。元素ラボと単語帳のカードも豪華にしました', 'アップデート後の「更新内容」を表示しないように設定できるようにしました（設定と、更新の確認の画面から変えられます）', '友達・プロフィール（名前・アイコン・友達コード・見せる設定）を、アカウントに保存して、どの端末でも同じになるようにしました', '友達と比べるの画面を、棒グラフで見やすくしました（数値を棒の外に出し、どちらが上かを表示）', '歴打・元素インベーダーで、全画面から戻ったときにゲームの画面が消える問題を直しました'] },
-  { v: '17.59', d: '2026/11/10 22:00', t: 'スマホ・iPadの表示崩れを修正', n: ['スマホのグラフで、式の入力欄と削除ボタンが右にはみ出していたのを直しました', 'スマホで計算機のキーボードを出すとき、右下の＋ボタンと重ならないようにしました', 'スマホの下のバーの期限の表示を、小さな点にして、文字がはみ出さないようにしました', 'iPad（横）のタイピングの全画面が、右にはみ出していたのを直しました'] },
-  { v: '17.58', d: '2026/11/10 22:00', t: 'タイピングの修正・友達の全員表示・スマホの画面の整理', n: ['タイピングで、日本語の答えのとき、入力欄が見えて打った文字が表示されるように（以前は見えずに打てていなかったことがありました）', 'iPhoneで、英字のタイピングの文字が打った時点で表示されるように（変換中の文字も表示）', '友達の一覧を読み込む途中で、古い結果が新しい結果を上書きしないようにしました（友達が全員出るように）', '友達が、新しく追加する人の情報を送れなかった場合でも、古いFirestoreのルールで動くようにしました', 'スマホの下のバーは、ホーム・課題・予定・記録・ツールだけにしました（設定・AI・通知は他の場所から開けます）', 'スマホの画面で、文字が縦に並んだり隠れたりしないように整理しました（単語帳・集中モード・下のバーのまるい背景）'] },
-  { v: '17.57', d: '2026/11/10 22:00', t: '友達のつながり（友達の友達）・合計の表示・タイピングの修正', n: ['タイピングで、日本語入力のままでも、英字の問題には英字（半角）だけが入ります', 'タイピングで、まちがえた文字は入らないようにしました（消さずに、そのまま次の文字を打てます）', 'タイピングで打った文字数は、打った時点で記録に入ります（途中でやめても残ります）', '友達を追加されたとき、その人も自動で友達になり、一覧に出るようにしました', '友達の友達も表示されるようにしました（友達の友達は「友達に追加」できます）', '友達と比べるに、合計勉強時間と合計タイピングを出すようにしました'] },
-  { v: '17.56', d: '2026/11/10 22:00', t: '友達の表示と速さ・レベルの特典・称号・タイピングのヘボン式', n: ['単語帳の共有コードの発行・受け取り・最新の取り込みで、事前の確認をやめて速くしました', '友達が複数いても、全員を表示するようにしました（ホームの「ほかにN人」の省略をなくしました）', '友達を追加・外したあと、ホームと記録タブにすぐ反映されるようにしました（古い表示を残しません）', '友達と比べるは、レベル0から使えるようになりました', '実績の「レベルの特典」に、すべての特典（XPショップ・歴打・友達と比べる・称号・アプリの色）を書きました', '称号を変えました：Lv5「何回言っても分かるんだ」、Lv15「努力の噴火」、Lv31「伝説の大網」を追加しました', 'タイピングに「ヘボン式（ローマ字）」を追加しました。ひらがな・カタカナはそのまま変換し、漢字などの読みはAIで調べます（Googleログイン後）'] },
-  { v: '17.55', d: '2026/11/10 22:00', t: '友達の表示の修正・通知・記録の数字を大きく・タイピングのiPad最適化', n: ['友達と比べるで、ログイン確認の前に「Googleログインが必要」と出ていた表示を直しました（確認中は読み込み中と出ます）', '友達の名前とアイコンが、友達の画面に反映されないことがあった問題を直しました（アイコンが未許可のルールでも、名前と進み具合は届きます）', '友達が、あなたを友達に追加したとき、通知が届くようにしました（Firestoreのルールの更新が必要です）', '友達コードの入力欄を、Material 3のデザインにしました', '自分の統計の数字を、さらに大きく見やすくしました', 'タイピングを、iPad（横向き）で左右の余白がなく全幅で使えるように最適化しました'] },
-  { v: '17.54', d: '2026/11/10 22:00', t: 'タイピング（全画面・ヒント・スペル非表示・演出）、友達のニックネームとアイコン、記録タブのカード、ホームの編集ボタンを一つに', n: ['入力テストを「タイピング」に名前を変えて、全画面で表示するようにしました', 'タイピングに、スペルの表示（表示・最初の1文字だけ・かくす）と、ヒントを追加しました', 'タイピングに、正解の紙吹雪、連続の炎と節目の表示、結果の円グラフと星の評価を追加しました', '友達と比べるで、ニックネームとアイコン画像を変えられるようにしました', '「自分の統計」と「友達と比べる」を、記録タブにカードとして表示します（ボタンを押さずに見られます）', 'ホームの「配置」と「文字」を、ひとつの「編集」ボタンにまとめました。編集の中で文字も変えられます'] },
-  { v: '17.53', d: '2026/11/10 22:00', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
-  { v: '17.52', d: '2026/11/10 22:00', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
+  { v: '17.70', d: '2026/11/10 23:00 JST', t: '実績・ショップ・友達との比較を全画面に・全実績をマイクラ風に・ダークモードの文字・特典の線・友達を横一列に', n: ['実績・レベル、全実績、ショップ、友達と比較を、ポップアップではなく、他のタブのように全画面で表示するようにしました', '全実績は、マイクラの実績画面のような左右の並びにしました（進み具合・完了・未解除で絞り込めます）', 'ダークモードで、上の実績・友達と比較のボタンの文字が見えるようにしました', 'レベルごとの特典の線を、縦にまっすぐにしました', '友達は2人ずつではなく、横一列に全員を並べて、横へスクロールして見られます'] },
+  { v: '17.69', d: '2026/11/10 23:00 JST', t: '実績・レベルの画面を一新・ログインボーナス・フィードバックの既読・友達の比較を縦の棒に', n: ['記録タブの一番上に「実績・レベル」を追加しました。レベルとXP、ショップ、全実績（バッジとXPのふやし方を、達成と未達成で表示）、レベルごとの特典（階段のように表示）を見られます', '毎日アプリを開くと、ログインボーナスで50XPもらえます', 'フィードバックに既読を付けました。一度見たものは、次にアプリを開いても通知しません', 'ツールのカードの光が左から右へ流れるアニメーションをやめました', '友達との比較は縦の棒になり、コンパクトになりました'] },
+  { v: '17.68', d: '2026/11/10 23:00 JST', t: 'XPのふやし方を追加・元素マージの友達ランキングとやめる・比較カードをコンパクトに', n: ['XPの増やし方を追加しました（かんたん・ふつう・むずかしい）。一度できたらXPがもらえ、もらったXPは減りません。「XPのふやし方」から見られます', '元素マージのランキングに、実際の友達の最高点が出るようになりました（オンラインの欄は「友達ランキング」になりました）', '元素マージのゲームオーバーの画面に「やめる」を追加しました。全画面のときは普通の画面に戻り、そうでないときはツール一覧に戻ります', '元素マージのカードを少し華やかにしました。ホームの友達との比較カードは、行の間隔を詰めて2列で見られるようにしました'] },
+  { v: '17.67', d: '2026/11/10 23:00 JST', t: '元素マージをXPで買えるように・友達との最高点ランキング', n: ['元素マージは、レベル7になっていなくても、XPショップで500 XPで買えます（ロック画面からも買えます）', '元素マージの最高点を、友達と比べられるようになりました。ツールの画面で、自分と友達の順位を見られます', '友達の比較にも、元素マージの最高点が出ます（友達も、このバージョン以降で遊ぶと表示されます）'] },
+  { v: '17.66', d: '2026/11/10 23:00 JST', t: '元素マージを追加（レベル7で解放）', n: ['新しいツール「元素マージ」を追加しました。レベル7で解放されます。同じ元素をくっつけて、次の段階へ進化させるパズルです', '元素マージは全画面でも遊べます。物理エンジンを読み込めない時は、その旨を表示します', 'ゲームの不具合を直しました：初回に架空の記録が出ないように、オンランキングの架空の順位を消し、触媒で最大の元素を選んだ時にEPを無駄に消費しないように、押しっぱなしで連続落下しないようにしました'] },
+  { v: '17.65', d: '2026/11/10 23:00 JST', t: '友達が全員表示されない不具合を修正', n: ['友達の一覧を、端末どうしで合わせるようにしました（友達を追加・外したときも、どの端末でも同じになります）', '複数の友達と共有していると、一部の友達しか表示されなかった不具合を直しました'] },
+  { v: '17.64', d: '2026/11/10 23:00 JST', t: '元素インベーダーの点数・友達との比較に点数・歴打の時代の絞り込みと問題追加', n: ['元素インベーダーは、1つ当てると50点。連続で当てるほど加点が増えます（最大150点）', '友達と比べるの画面に、元素インベーダーの最高点と、歴打の最高石高を追加しました', '歴打で、人物や出来事を時代で絞ったときに、他の時代の問題が出る不具合を直しました', '歴打の問題を、全部で274問に増やしました（人物問題と昭和・大正の問題を中心に）'] },
+  { v: '17.63', d: '2026/11/10 23:00 JST', t: 'アップデート案内の位置・動作の高速化', n: ['アップデート内容や、最初の使い方の画面が左に寄る問題を直しました', 'ポップアップの背景のぼかしをやめ、ポップアップの後ろの動きを止めて、動作を軽くしました'] },
+  { v: '17.62', d: '2026/11/10 23:00 JST', t: '記録などが開けない不具合を修正・画面が一つ壊れてもアプリ全体は止まらないように', n: ['記録のタブなどが「読み込めない」になる不具合を直しました（XPの計算の関数が消えていたのが原因でした）', 'どこかの画面で問題が起きても、その画面だけに「もう一度」を出し、ほかの画面は使えるようにしました', '考査が一つもないときも、アプリが止まらないようにしました'] },
+  { v: '17.61', d: '2026/11/10 23:00 JST', t: '全画面の修正・ポップアップを広く・単語帳の受け取りと番号・AIで追加・タイピングの自動で次へ', n: ['歴打・元素インベーダーの全画面を、画面いっぱいに表示するように直しました', '大きな画面（iPad）では、ポップアップを横に広げて、入力しやすくしました', '単語帳の共有ボタンの右に「コードで受け取る」、全画面とシャッフルの間に「番号で絞る」を置きました', '単語帳の追加の画面の右上に「AIで追加」を置きました', '単語帳のタイピングで、正解したら自動で次の問題に進むようにしました（設定で切り替えられます）'] },
+  { v: '17.60', d: '2026/11/10 23:00 JST', t: 'ツールの人気・更新内容の表示設定・プロフィールの同期・友達の比較の見やすさ・全画面のバグ', n: ['ツールの「歴打」「元素ラボ」「単語帳」に「人気」の帯を付けました。元素ラボと単語帳のカードも豪華にしました', 'アップデート後の「更新内容」を表示しないように設定できるようにしました（設定と、更新の確認の画面から変えられます）', '友達・プロフィール（名前・アイコン・友達コード・見せる設定）を、アカウントに保存して、どの端末でも同じになるようにしました', '友達と比べるの画面を、棒グラフで見やすくしました（数値を棒の外に出し、どちらが上かを表示）', '歴打・元素インベーダーで、全画面から戻ったときにゲームの画面が消える問題を直しました'] },
+  { v: '17.59', d: '2026/11/10 23:00 JST', t: 'スマホ・iPadの表示崩れを修正', n: ['スマホのグラフで、式の入力欄と削除ボタンが右にはみ出していたのを直しました', 'スマホで計算機のキーボードを出すとき、右下の＋ボタンと重ならないようにしました', 'スマホの下のバーの期限の表示を、小さな点にして、文字がはみ出さないようにしました', 'iPad（横）のタイピングの全画面が、右にはみ出していたのを直しました'] },
+  { v: '17.58', d: '2026/11/10 23:00 JST', t: 'タイピングの修正・友達の全員表示・スマホの画面の整理', n: ['タイピングで、日本語の答えのとき、入力欄が見えて打った文字が表示されるように（以前は見えずに打てていなかったことがありました）', 'iPhoneで、英字のタイピングの文字が打った時点で表示されるように（変換中の文字も表示）', '友達の一覧を読み込む途中で、古い結果が新しい結果を上書きしないようにしました（友達が全員出るように）', '友達が、新しく追加する人の情報を送れなかった場合でも、古いFirestoreのルールで動くようにしました', 'スマホの下のバーは、ホーム・課題・予定・記録・ツールだけにしました（設定・AI・通知は他の場所から開けます）', 'スマホの画面で、文字が縦に並んだり隠れたりしないように整理しました（単語帳・集中モード・下のバーのまるい背景）'] },
+  { v: '17.57', d: '2026/11/10 23:00 JST', t: '友達のつながり（友達の友達）・合計の表示・タイピングの修正', n: ['タイピングで、日本語入力のままでも、英字の問題には英字（半角）だけが入ります', 'タイピングで、まちがえた文字は入らないようにしました（消さずに、そのまま次の文字を打てます）', 'タイピングで打った文字数は、打った時点で記録に入ります（途中でやめても残ります）', '友達を追加されたとき、その人も自動で友達になり、一覧に出るようにしました', '友達の友達も表示されるようにしました（友達の友達は「友達に追加」できます）', '友達と比べるに、合計勉強時間と合計タイピングを出すようにしました'] },
+  { v: '17.56', d: '2026/11/10 23:00 JST', t: '友達の表示と速さ・レベルの特典・称号・タイピングのヘボン式', n: ['単語帳の共有コードの発行・受け取り・最新の取り込みで、事前の確認をやめて速くしました', '友達が複数いても、全員を表示するようにしました（ホームの「ほかにN人」の省略をなくしました）', '友達を追加・外したあと、ホームと記録タブにすぐ反映されるようにしました（古い表示を残しません）', '友達と比べるは、レベル0から使えるようになりました', '実績の「レベルの特典」に、すべての特典（XPショップ・歴打・友達と比べる・称号・アプリの色）を書きました', '称号を変えました：Lv5「何回言っても分かるんだ」、Lv15「努力の噴火」、Lv31「伝説の大網」を追加しました', 'タイピングに「ヘボン式（ローマ字）」を追加しました。ひらがな・カタカナはそのまま変換し、漢字などの読みはAIで調べます（Googleログイン後）'] },
+  { v: '17.55', d: '2026/11/10 23:00 JST', t: '友達の表示の修正・通知・記録の数字を大きく・タイピングのiPad最適化', n: ['友達と比べるで、ログイン確認の前に「Googleログインが必要」と出ていた表示を直しました（確認中は読み込み中と出ます）', '友達の名前とアイコンが、友達の画面に反映されないことがあった問題を直しました（アイコンが未許可のルールでも、名前と進み具合は届きます）', '友達が、あなたを友達に追加したとき、通知が届くようにしました（Firestoreのルールの更新が必要です）', '友達コードの入力欄を、Material 3のデザインにしました', '自分の統計の数字を、さらに大きく見やすくしました', 'タイピングを、iPad（横向き）で左右の余白がなく全幅で使えるように最適化しました'] },
+  { v: '17.54', d: '2026/11/10 23:00 JST', t: 'タイピング（全画面・ヒント・スペル非表示・演出）、友達のニックネームとアイコン、記録タブのカード、ホームの編集ボタンを一つに', n: ['入力テストを「タイピング」に名前を変えて、全画面で表示するようにしました', 'タイピングに、スペルの表示（表示・最初の1文字だけ・かくす）と、ヒントを追加しました', 'タイピングに、正解の紙吹雪、連続の炎と節目の表示、結果の円グラフと星の評価を追加しました', '友達と比べるで、ニックネームとアイコン画像を変えられるようにしました', '「自分の統計」と「友達と比べる」を、記録タブにカードとして表示します（ボタンを押さずに見られます）', 'ホームの「配置」と「文字」を、ひとつの「編集」ボタンにまとめました。編集の中で文字も変えられます'] },
+  { v: '17.53', d: '2026/11/10 23:00 JST', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
+  { v: '17.52', d: '2026/11/10 23:00 JST', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
   { v: '17.51', d: '2026/11/09 07:38', t: '歴打の和風化・全画面・iPad対応・自己ベスト連撃', n: ['ツールの「歴打」のカードを、和風の金と朱のデザインと明朝体にしました', '歴打を全画面で遊べるようにしました（右上の「戻す」で戻ります）', 'タイトルの「歴打」が金色に輝き、花びらが舞う演出を加えました', '結果の画面に「自己ベストの連撃」を表示し、更新したときは知らせます', '実績「レベル5到達」の説明に、歴打が解放されることを書きました'] },
   { v: '17.50', d: '2026/11/08 20:09', t: '歴打を追加（レベル5で解放・石高で実績）', n: ['タイピングゲーム「歴打」をツールに追加しました。レベル5になると遊べます', '歴打の石高が、実績「石高1000」「征夷大将軍」「天下の蓄え」に反映されます'] },
   { v: '17.49', d: '2026/11/08 10:39', t: 'AIの説明の表示修正・アカウント画面の整理・ログアウトの確認', n: ['iPadで、アプリの説明の「AIに質問する」の文字が縦に崩れる問題を直しました', 'アカウント画面に「通知」「アップデートを確認」「設定」を追加し、フィードバックのまわりの線を消しました', 'ログアウトする前に、確認の画面を出すようにしました'] },
@@ -2366,14 +2405,14 @@ function lastDays(n) {
 }
 function viewStats() {
   const subs = subjects();
-  if (!subs.length) return achBigHtml() + myStatCard() + friendRecordCard() + emptyHome();
+  if (!subs.length) return achBigHtml() + frBigHtml() + myStatCard() + emptyHome();
   const all = examTasks(), Rq = agg(all.filter(t => t.req)), Op = agg(all.filter(t => !t.req));
   const days = lastDays(ui.period), n = days.length, isM = ui.metric === 'min', V = d => isM ? d.m : d.a;
   const sum = days.reduce((a, d) => a + V(d), 0), max = Math.max(isM ? 30 : 5, ...days.map(V));
   const best = days.reduce((b, d) => V(d) > V(b) ? d : b, days[0]), unit = isM ? '分' : 'p';
   const lab = (d, i) => n <= 7 ? WD[d.d.getDay()] : n <= 14 ? d.d.getDate() : (i % 5 === 0 || i === n - 1 ? `${d.d.getMonth() + 1}/${d.d.getDate()}` : '');
   const tt = totals(), lv = level();
-  let h = achBigHtml() + myStatCard() + friendRecordCard() + wkReview() + scoreCard() + scoreTrend() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
+  let h = achBigHtml() + frBigHtml() + myStatCard() + wkReview() + scoreCard() + scoreTrend() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
   <div class="chips mb"><div class="seg" role="group">${[7, 14, 30].map(p => `<button class="${ui.period === p ? 'on' : ''}" data-act="period" data-id="${p}">${p}日</button>`).join('')}</div></div>
   <div class="card"><div class="bars" style="--n:${n}">${days.map((d, i) => `<div class="bcol ${d.k === today() ? 'today' : ''}"><div class="bval">${n <= 14 && V(d) ? V(d) : ''}</div><div class="bar">${isM ? `<i class="m" style="height:${V(d) / max * 100}%"></i>` : `<i class="o" style="height:${d.a / max * 100}%"></i><i class="r" style="height:${d.r / max * 100}%"></i>`}</div><div class="blab">${lab(d, i)}</div></div>`).join('')}</div>
   ${isM ? '' : `<div class="chips" style="margin-top:14px"><span class="lg"><i style="background:var(--primary)"></i><span>必須</span></span><span class="lg"><i style="background:var(--ter-c)"></i><span>任意</span></span></div>`}</div>
@@ -2434,32 +2473,59 @@ function achBigHtml() {
   const lv = level(), n = achDoneN();
   return `<button type="button" class="ach-big" data-act="achopen"><span class="ach-big-ic">${ms('emoji_events', 'f')}</span><span class="ach-big-t"><b>実績・レベル</b><small>Lv.${lv.L}（${esc(titleOf(lv.L))}）　経験値 ${lv.xp.toLocaleString('ja-JP')}XP　・　実績 ${n.done} / ${n.all}</small></span>${ms('chevron_right')}</button>`;
 }
-function achHtml() {
-  const lv = level(), n = achDoneN();
-  return `<h2 class="noti-h">${ms('emoji_events')}<span>実績・レベル</span></h2>` +
-    `<div class="ach-hero"><div class="ach-lv"><small>レベル</small><b>${lv.L}</b></div><div class="ach-hi"><div class="ach-tt">${ms('military_tech')}${esc(titleOf(lv.L))}</div><div class="ach-xp"><b>${lv.xp.toLocaleString('ja-JP')}</b><small>XP</small></div><div class="ach-bar"><i style="width:${Math.max(0, Math.min(100, Math.round(lv.p * 100)))}%"></i></div><small class="muted">次のレベルまで あと ${lv.need.toLocaleString('ja-JP')} XP</small></div></div>` +
-    `<div class="ach-btns"><button type="button" class="ach-btn" data-act="shopopen">${ms('shopping_bag')}<span><b>ショップ</b><small>XPで背景・効果音・ツール</small></span></button><button type="button" class="ach-btn" data-act="achall">${ms('workspace_premium')}<span><b>全実績</b><small>${n.done} / ${n.all} 達成</small></span></button></div>` +
-    `<h3 class="shop-h">レベルごとの特典</h3>${ladderHtml(lv.L)}` +
-    `<div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
+// 全画面の移動（実績・ショップ・友達と比較）。タブを変えたら、自動で元に戻る
+function subGo(k) { if (ui.sub) (ui.stack = ui.stack || []).push(ui.sub); else ui.stack = []; ui.sub = k; ui.subTab = ui.tab; ui.vin = true; ui.dir = 1; render(); scrollTo(0, 0); }
+const SUB_T = { ach: ['実績・レベル', 'emoji_events'], achall: ['実績', 'workspace_premium'], shop: ['XPショップ', 'storefront'], friends: ['友達と比較', 'group'] };
+const SUB_V = { ach: () => achPage(), achall: () => achAllPage(), shop: () => shopPage(), friends: () => friendsPage() };
+function subView() {
+  const t = SUB_T[ui.sub], f = SUB_V[ui.sub]; if (!t || !f) return '';
+  return `<div class="subbar"><button type="button" class="ibtn" data-act="subback" aria-label="戻る">${ms('arrow_back')}</button><h2>${ms(t[1])}${t[0]}</h2></div>` + f();
 }
-function achRow(icon, name, desc, on, pr, rew) {
-  const have = pr ? Math.min(pr[0], pr[1]) : 0, tgt = pr ? pr[1] : 0;
-  const bar = !on && tgt ? `<div class="ar-bar"><i style="width:${Math.min(100, Math.round(have / tgt * 100))}%"></i></div>` : '';
-  const pt = !on && tgt ? `<small>${have.toLocaleString('ja-JP')} / ${tgt.toLocaleString('ja-JP')}</small>` : '';
-  return `<div class="ar ${on ? 'on' : ''}"><span class="ar-i">${ms(icon, on ? 'f' : '')}</span><div class="ar-t"><b>${esc(name)}</b><small>${esc(desc)}</small>${bar}${pt}</div><div class="ar-s">${on ? `${ms('check_circle', 'f')}<span>達成</span>` : `${ms('lock')}<span>未達成</span>`}${rew ? `<em>${rew}</em>` : ''}</div></div>`;
+function achPage() {
+  const lv = level();
+  return `<div class="ach-hero"><div class="ach-lv"><small>レベル</small><b>${lv.L}</b></div><div class="ach-hi"><div class="ach-tt">${ms('military_tech')}${esc(titleOf(lv.L))}</div><div class="ach-xp"><b>${lv.xp.toLocaleString('ja-JP')}</b><small>XP</small></div><div class="ach-bar"><i style="width:${Math.max(0, Math.min(100, Math.round(lv.p * 100)))}%"></i></div><small class="muted">次のレベルまで あと ${lv.need.toLocaleString('ja-JP')} XP</small></div></div>` +
+    `<div class="ach-btns"><button type="button" class="ach-btn" data-act="shopopen">${ms('shopping_bag')}<span><b>ショップ</b><small>XPで背景・効果音・ツール</small></span></button><button type="button" class="ach-btn" data-act="achall">${ms('workspace_premium')}<span><b>全実績</b><small>${achDoneN().done} / ${achDoneN().all} 達成</small></span></button></div>` +
+    `<h3 class="shop-h">レベルごとの特典</h3>${ladderHtml(lv.L)}`;
 }
-function achAllHtml() {
-  const c = totals(), n = achDoneN(), f = ACHF.f;
-  const seg = [['all', 'すべて'], ['done', '達成'], ['todo', '未達成']].map(([k, t]) => `<button type="button" class="wx-sg ${f === k ? 'on' : ''}" data-act="achf" data-id="${k}">${t}</button>`).join('');
-  const bd = BADGES.map(b => { let pr = null; if (b[5]) { try { pr = b[5](c); } catch (e) { pr = null; } } return { on: !!S.badges[b[0]], ic: b[1], name: b[2], desc: b[3], pr }; });
-  const qs = XP_Q.map(q => { const key = q.daily ? q.id + '@' + today() : q.id, got = !!(S.xpq || {})[key]; let v = 0; try { v = +q.v() || 0; } catch (e) { v = 0; } return { on: got, ic: q.i, name: q.n + (q.daily ? '（毎日）' : ''), desc: q.d, pr: [v, q.t], rew: `+${q.xp} XP` }; });
+// 全実績：マイクラの実績画面のように、左に進み具合、右に一覧（デザインはM3の角丸と色）
+function mcRow(x) {
+  const pr = x.pr, tgt = pr ? pr[1] : 0, have = pr ? Math.min(pr[0], tgt) : 0, pct = tgt ? Math.min(100, Math.round(have / tgt * 100)) : 0;
+  return `<div class="mc-r ${x.on ? 'on' : ''}"><div class="mc-ic">${ms(x.ic, x.on ? 'f' : '')}</div><div class="mc-t"><b>${esc(x.name)}</b><small>${esc(x.desc)}</small>${!x.on && tgt ? `<div class="mc-bar"><i style="width:${pct}%"></i></div><em>${have.toLocaleString('ja-JP')} / ${tgt.toLocaleString('ja-JP')}</em>` : ''}</div><div class="mc-rw">${x.rew ? `<b>${x.rew}</b>` : `<small>${x.tag}</small>`}${x.on ? ms('check_circle', 'f') : ms('lock')}</div></div>`;
+}
+function achAllPage() {
+  const c = totals(), n = achDoneN(), f = ACHF.f, pct = n.all ? Math.round(n.done / n.all * 100) : 0;
+  const bd = BADGES.map(b => { let pr = null; if (b[5]) { try { pr = b[5](c); } catch (e) { pr = null; } } return { on: !!S.badges[b[0]], ic: b[1], name: b[2], desc: b[3], pr, tag: 'バッジ' }; });
+  const qs = XP_Q.map(q => { const key = q.daily ? q.id + '@' + today() : q.id, got = !!(S.xpq || {})[key]; let v = 0; try { v = +q.v() || 0; } catch (e) { v = 0; } return { on: got, ic: q.i, name: q.n + (q.daily ? '（毎日）' : ''), desc: q.d, pr: [v, q.t], rew: `+${q.xp} XP`, tag: 'ふやし方' }; });
+  const all = [...bd, ...qs], inProg = all.filter(x => !x.on && x.pr && x.pr[0] > 0).length;
+  const xpGot = XP_Q.filter(q => !q.daily && (S.xpq || {})[q.id]).reduce((a, q) => a + q.xp, 0), xpAll = XP_Q.filter(q => !q.daily).reduce((a, q) => a + q.xp, 0);
+  const segs = Array.from({ length: 10 }, (_, i) => `<i class="${i < Math.round(pct / 10) ? 'on' : ''}"></i>`).join('');
   const keep = x => f === 'all' || (f === 'done' ? x.on : !x.on);
-  const list = arr => arr.filter(keep).map(x => achRow(x.ic, x.name, x.desc, x.on, x.pr, x.rew)).join('') || '<p class="muted" style="text-align:center;padding:14px 0">この条件の実績はありません</p>';
-  return `<h2 class="noti-h">${ms('workspace_premium')}<span>全実績</span><em class="noti-cnt">${n.done} / ${n.all} 達成</em></h2>` +
-    `<div class="wx-seg" role="group" style="margin:0 0 10px">${seg}</div>` +
-    `<h3 class="shop-h">バッジ（${bd.filter(x => x.on).length} / ${bd.length}）</h3><div class="ar-l">${list(bd)}</div>` +
-    `<h3 class="shop-h">XPのふやし方</h3><p class="muted" style="font-weight:500;margin:0 0 8px;font-size:.82rem">できたときに、一度だけXPがもらえます（「毎日」のものは、毎日もらえます）</p><div class="ar-l">${list(qs)}</div>` +
-    `<div class="noti-a"><button class="btn text" data-act="achopen">${ms('arrow_back')}実績・レベルへ</button><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
+  const rows = all.filter(keep).map(mcRow).join('') || '<p class="muted" style="text-align:center;padding:18px 0">この条件の実績はありません</p>';
+  const tabs = [['all', 'すべて'], ['todo', '未解除'], ['done', '完了']].map(([k, t]) => `<button type="button" class="${f === k ? 'on' : ''}" data-act="achf" data-id="${k}">${t}</button>`).join('');
+  return `<div class="mc"><aside class="mc-side">` +
+    `<div class="mc-pct"><small>実績の進み</small><b>${pct}%</b><small>${n.done} / ${n.all} 完了</small><div class="mc-seg">${segs}</div></div>` +
+    `<div class="mc-st">${ms('hourglass_bottom')}<small>進行中</small><b>${inProg}</b></div>` +
+    `<div class="mc-st">${ms('redeem')}<small>もらったXP（${xpGot.toLocaleString('ja-JP')} / ${xpAll.toLocaleString('ja-JP')}）</small><b>${xpGot}</b></div>` +
+    `<div class="mc-st">${ms('stars')}<small>いまのレベル</small><b>Lv.${level().L}</b></div>` +
+    `<div class="mc-st">${ms('local_fire_department')}<small>連続で勉強</small><b>${c.streak}日</b></div>` +
+    `</aside><section class="mc-main"><div class="mc-tabs">${tabs}</div><div class="mc-list">${rows}</div></section></div>`;
+}
+function shopPage() {
+  const body = shopHtml().replace(/<h2 class="noti-h">[\s\S]*?<\/h2>/, '').replace(/<div class="noti-a">[\s\S]*$/, '');
+  return `<p class="muted" style="font-weight:700;margin:0 0 8px">使えるXP ${spendXp()}</p>` + body;
+}
+// 友達と比較：全画面。友達は横に並べて、すべて見られる
+function frBigHtml() {
+  const n = growGet().friends.length;
+  return `<button type="button" class="ach-big fr-big" data-act="frsub"><span class="ach-big-ic">${ms('group', 'f')}</span><span class="ach-big-t"><b>友達と比較</b><small>友達（${n}人）の進み具合を、ならべて見られます</small></span>${ms('chevron_right')}</button>`;
+}
+function friendsPage() {
+  const lv = level().L;
+  if (lv < FRIEND_LV) return `<div class="card" style="padding:20px"><p class="fh-lock">${ms('lock')}Lv.${FRIEND_LV}で使えるようになります</p></div>`;
+  if (!CLOUD.authed) return frLoadingHtml();
+  if (!CLOUD.user) return `<div class="card" style="padding:20px"><p class="fh-lock">${ms('lock')}友達と比べるには、Googleログインが必要です</p></div>`;
+  setTimeout(() => friendsRefresh(false), 0);
+  return `<div id="frrec">${friendsInner()}</div>`;
 }
 // レベルごとの特典：称号・色・ツール（ツールは、描いてあるレベルの定義から集める）
 function achPerks() {
@@ -4125,9 +4191,11 @@ function evDlg(id, date) {
   openDlg(`<h2>${ms('event')}${x ? '予定を編集' : '予定を足す'}</h2><form id="evf" autocomplete="off" onsubmit="return false"><div class="fld"><label for="evt">予定の名前</label><input id="evt" name="evt" type="text" maxlength="40" value="${esc(x ? x.t : '')}" placeholder="例：三者面談 ／ 体育祭 ／ 修学旅行"></div><div class="fld2"><div class="fld"><label for="evd">日付</label><input id="evd" name="evd" type="date" value="${esc(x ? x.d : (date || today()))}"></div><div class="fld"><label for="evd2">終わりの日（複数日のとき）</label><input id="evd2" name="evd2" type="date" value="${esc(x ? x.d2 : '')}"></div></div><div class="fld"><label for="evtm">時刻（なくてもOK）</label><input id="evtm" name="evtm" type="time" value="${esc(x ? x.tm : '')}"></div><div class="fld"><label for="evn">メモ（場所・持ち物など）</label><input id="evn" name="evn" type="text" maxlength="60" value="${esc(x ? x.note : '')}"></div></form><div class="dact">${x ? `<button type="button" class="btn text danger" data-act="evdel" data-id="${x.id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="evsave" data-id="${x ? x.id : ''}">${ms('check')}保存</button></div>`);
 }
 Object.assign(ACT, {
-  achopen() { openDlg(achHtml()); dlg.dataset.k = 'ach'; },
-  achall() { openDlg(achAllHtml()); dlg.dataset.k = 'achall'; },
-  achf(id) { ACHF.f = id; if (dlg.open && dlg.dataset.k === 'achall') dlg.innerHTML = `<div class="dlg">${achAllHtml()}</div>`; },
+  achopen() { subGo('ach'); },
+  achall() { subGo('achall'); },
+  achf(id) { ACHF.f = id; render(); },
+  frsub() { subGo('friends'); },
+  subback() { ui.sub = (ui.stack || []).pop() || ''; ui.vin = true; ui.dir = -1; render(); scrollTo(0, 0); },
 });
 Object.assign(ACT, {
   evadd(id) { evDlg('', id); }, evedit(id) { evDlg(id); },
@@ -8446,7 +8514,7 @@ function shopHtml() {
   };
   return `<h2 class="noti-h">${ms('storefront')}<span>XPショップ</span><em class="noti-cnt">使えるXP ${sp}</em></h2><p class="muted" style="font-weight:500;margin:0 0 6px">XPを使っても、レベルは下がりません。</p><h3 class="shop-h">ホームの背景</h3><div class="shop-l">${Object.entries(HOME_BG).map(([id, it]) => card('bg', id, it)).join('')}</div><h3 class="shop-h">効果音</h3><div class="shop-l">${Object.entries(SFX_T).map(([id, it]) => card('sfx', id, it)).join('')}</div><h3 class="shop-h">ツール</h3><div class="shop-l">${Object.entries(TOOL_SHOP).map(([id, it]) => toolShopCard(id, it)).join('')}</div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
 }
-function shopRedraw() { if (dlg.open && dlg.dataset.k === 'shop') dlg.innerHTML = `<div class="dlg">${shopHtml()}</div>`; }
+function shopRedraw() { if (ui.sub === 'shop') return render(); if (dlg.open && dlg.dataset.k === 'shop') dlg.innerHTML = `<div class="dlg">${shopHtml()}</div>`; }
 // 友達と比べる（Firestore の shares：見せると決めた人だけ）
 const FR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join(''); return g.code; }
@@ -8481,15 +8549,15 @@ async function friendsLoad() {
 }
 function friendsHtml(me, rows) {
   if (!rows.length) return `<div class="card"><p class="muted" style="font-weight:500;margin:0">まだ友達がいません。友達の「友達コード」を上の入力欄に入れて追加してください。</p></div>`;
-  return rows.map(({ f, data, err, fof }) => {
+  return '<div class="fr-list">' + rows.map(({ f, data, err, fof }) => {
     const del = fof ? `<button class="btn tonal xs" data-act="fofadd" data-id="${f.code}">${ms('person_add')}友達に追加</button>` : `<button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button>`;
     if (err || !data) return `<div class="card"><b>${esc(f.name)}</b><p class="muted" style="font-weight:500;margin:6px 0">${err ? '読み込めませんでした' : '今は、進み具合を見せていないようです'}</p>${del}</div>`;
     const nm = esc(data.name || f.name);
     return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div>${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${cmpRow('元素マージの最高点', me.mg || 0, data.mg || 0, '点', 'bubble_chart')}${del}</div>`;
-  }).join('');
+  }).join('') + '</div>';
 }
 Object.assign(ACT, {
-  shopopen() { if (level().L < SHOP_LV) return toast(`Lv.${SHOP_LV}で使えるようになります`); openDlg(shopHtml()); dlg.dataset.k = 'shop'; },
+  shopopen() { if (level().L < SHOP_LV) return toast(`Lv.${SHOP_LV}で使えるようになります`); subGo('shop'); },
   shopbuy(v) {
     const [kind, id] = String(v).split(':'), it = (kind === 'bg' ? HOME_BG : SFX_T)[id]; if (!it) return;
     const g = growGet(); if (g.owned[kind].includes(id)) return;
@@ -8589,10 +8657,10 @@ function frHomeInner() {
   if (!g.friends.length) return `<p class="muted" style="font-weight:500;margin:0">まだ友達がいません。「友達を見る・追加」から、友達コードを入れて追加できます。</p>`;
   if (!FR_HOME.rows) return `<p class="muted" style="font-weight:500;margin:0">読み込み中…</p>`;
   const me = FR_HOME.me || growMine(g);
-  return FR_HOME.rows.map(({ f, data, err }) => {
+  return '<div class="fr-list">' + FR_HOME.rows.map(({ f, data, err }) => {
     if (err || !data) return `<div class="fh-one"><b>${esc(f.name)}</b><small>${err ? '読み込めませんでした' : '今は、進み具合を見せていないようです'}</small></div>`;
     return `<div class="fcm-wrap">${frCardHtml(me, data, esc(data.name || f.name))}</div>`;
-  }).join('');
+  }).join('') + '</div>';
 }
 function frHomeCard() {
   const lv = level().L;
