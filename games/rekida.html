@@ -2342,9 +2342,17 @@
             return copy;
         }
 
+        // 征夷大将軍コース：長い単語を先に出す。「AとB」のような複合の答えは後にまわす（同じ長さは順番をばらす）
+        function longTermsFirst(list) {
+            const isCompound = q => /[と・、や]/.test(q.kanji);
+            const byLen = (a, b) => b.kanji.length - a.kanji.length;
+            return [...list.filter(q => !isCompound(q)).sort(byLen), ...list.filter(isCompound).sort(byLen)];
+        }
+
         function buildNonRepeatingQuestionQueue(difficulty, eraFilter) {
             const primaryRaw = filterQuestionsByEra(HISTORY_QUESTIONS[difficulty], eraFilter);
-            const primaryPool = eraFilter === 'weak' ? primaryRaw : shuffleArray(primaryRaw);
+            let primaryPool = eraFilter === 'weak' ? primaryRaw : shuffleArray(primaryRaw);
+            if (difficulty === 'hard' && eraFilter !== 'weak') primaryPool = longTermsFirst(primaryPool);
 
             const otherDiffs = ['easy', 'normal', 'hard'].filter(d => d !== difficulty);
             let backupPool = [];
