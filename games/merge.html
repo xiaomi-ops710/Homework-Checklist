@@ -681,6 +681,7 @@
         <span class="material-symbols-rounded text-xl">science</span>
         <span>もう一度プレイする！</span>
       </button>
+      <button id="quitBtn" type="button" class="w-full mt-3 py-3 px-6 rounded-2xl bg-white border-2 border-amber-900/30 text-amber-900 font-black text-base shadow">やめる</button>
     </div>
   </div>
 
@@ -873,6 +874,7 @@
        */
       async fetchRankings(period = 'daily') {
         // 例: if (this.endpointUrl) { const res = await fetch(`${this.endpointUrl}?period=${period}`); return await res.json(); }
+        try { window.parent.postMessage({ type: 'kosa-merge-want-friends' }, '*'); } catch (e) { }
         await new Promise((r) => setTimeout(r, 180)); // 疑似ネットワーク遅延
         return this.cachedOnlineEntries.map((entry, idx) => ({ ...entry, rank: idx + 1 }));
       }
@@ -1869,6 +1871,21 @@
     const { Engine, World, Bodies, Body, Events, Composite } = (window.Matter || {});
     const audio = new SpatialLabAudioEngine();
     const rankingService = new RankingService();
+    // アプリ（友達との比較）から届いた、友達の最高点を「友達ランキング」に表示する
+    function setFriendBoard(rows) {
+      const list = (Array.isArray(rows) ? rows : [])
+        .map((r) => ({ name: String(r.name || '名前なし').slice(0, 20), score: Math.max(0, Math.floor(Number(r.score) || 0)), me: !!r.me }))
+        .sort((a, b) => b.score - a.score).slice(0, 10)
+        .map((r, i) => ({ rank: i + 1, score: r.score, playerName: r.name, maxLevel: 1, updatedAt: new Date().toISOString(), isSelf: r.me }));
+      rankingService.onlineAdapter.cachedOnlineEntries = list;
+      rankingService.onlineEntries = list;
+      if (rankingService.activeScope === 'online') renderRankingRowsUI();
+    }
+    window.addEventListener('message', (e) => {
+      if (e.source !== window.parent) return;
+      const d = e.data;
+      if (d && d.type === 'kosa-merge-friends') setFriendBoard(d.rows);
+    });
 
     const gameCanvas = document.getElementById('gameCanvas');
     const ctx = gameCanvas.getContext('2d');
@@ -3322,10 +3339,10 @@
         rankingService.activeScope = 'online';
         rankPanel.classList.remove('hidden');
         missionPanel.classList.add('hidden');
-        subTitle.textContent = '全国・デモ';
-        mainTitle.textContent = 'オンライン順位';
-        scopeIcon.textContent = 'public';
-        scopeText.textContent = 'オンライン';
+        subTitle.textContent = '実際の友達';
+        mainTitle.textContent = '友達ランキング';
+        scopeIcon.textContent = 'group';
+        scopeText.textContent = '友達';
         renderRankingRowsUI();
       } else {
         rankPanel.classList.add('hidden');
@@ -3475,6 +3492,9 @@
       reportMerge(score, maxReachedLevel);
       initPhysicsGame();
     });
+    document.getElementById('quitBtn').addEventListener('click', () => {
+      try { window.parent.postMessage({ type: 'kosa-merge-quit' }, '*'); } catch (e) { }
+    });
     document.getElementById('playAgainBtn').addEventListener('click', () => {
       ensureGameFocus();
       audio.init();
@@ -3487,6 +3507,7 @@
     });
 
     window.onload = async function () {
+      try { window.parent.postMessage({ type: 'kosa-merge-ready' }, '*'); } catch (e) { }
       if (!window.Matter) {
         const m = document.createElement('div');
         m.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;background:#fff;color:#334155;font:700 16px sans-serif;z-index:9999';
