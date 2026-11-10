@@ -1,10 +1,10 @@
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。index.html の APP_VERSION も同じ値にする
-const APP_VERSION = '17.64';
+const APP_VERSION = '17.67';
 const V = 'kosa-v' + APP_VERSION;
 // フォント用のキャッシュは、バージョンが変わっても消さない（更新のあと最初に開くときも、すぐに表示できるように）
 const FC = 'kosa-fonts';
 const CORE = ['./', 'index.html', 'firebase-config.js'];
-const EXTRA = ['manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'games/invader.html'];
+const EXTRA = ['manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'games/invader.html', 'games/merge.html'];
 const FONT = ['fonts.googleapis.com', 'fonts.gstatic.com', 'www.gstatic.com'];
 // 取り込むときは、ブラウザのキャッシュ（GitHub Pages は10分間キャッシュさせる）を使わず、必ずサーバーから取る。
 // そうしないと、新しいバージョンのキャッシュに「古い index.html」が入ってしまい、更新しても反映されない。

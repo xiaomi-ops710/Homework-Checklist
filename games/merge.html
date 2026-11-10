@@ -1,0 +1,3508 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>中2理科 元素マージ - Chemical Merge Puzzle</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Rounded Game Typography + Material Symbols Rounded -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=JetBrains+Mono:wght@700;800&family=M+PLUS+Rounded+1c:wght@700;800;900&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,600..700,1,0&display=swap" rel="stylesheet">
+  <!-- Matter.js 0.19.0 CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: 'M PLUS Rounded 1c', 'Fredoka', sans-serif;
+      color: #5C3D1E;
+      background-color: #F3DEC3;
+      outline: none;
+    }
+
+    /* Material Symbols Rounded アイコン共通設定 */
+    .material-symbols-rounded {
+      font-family: 'Material Symbols Rounded';
+      font-weight: normal;
+      font-style: normal;
+      font-size: 1.2em;
+      line-height: 1;
+      letter-spacing: normal;
+      text-transform: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+      word-wrap: normal;
+      direction: ltr;
+      -webkit-font-smoothing: antialiased;
+      font-variation-settings: 'FILL' 1, 'wght' 700, 'GRAD' 0, 'opsz' 24;
+      vertical-align: middle;
+    }
+
+    /* ======== スイカゲーム風 温かみのあるルーム・木目テーブル背景（GPU負荷ゼロの軽量CSS） ======== */
+    .game-room-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      display: flex;
+      flex-direction: column;
+      pointer-events: none;
+    }
+
+    .room-wall {
+      height: 45%;
+      width: 100%;
+      background: linear-gradient(180deg, #DFB382 0%, #E7BF91 65%, #ECC89D 100%);
+    }
+
+    .room-molding {
+      height: 22px;
+      width: 100%;
+      background: linear-gradient(180deg, #C78F52 0%, #B47A3C 55%, #9B662D 100%);
+      box-shadow: 0 3px 10px rgba(96, 58, 18, 0.18);
+      z-index: 2;
+    }
+
+    .room-floor {
+      flex: 1;
+      width: 100%;
+      background:
+        repeating-linear-gradient(
+          112deg,
+          rgba(255, 255, 255, 0.24) 0px,
+          rgba(255, 255, 255, 0.24) 76px,
+          rgba(232, 200, 156, 0.16) 76px,
+          rgba(232, 200, 156, 0.16) 152px
+        ),
+        linear-gradient(180deg, #F3DEC0 0%, #FBF0DF 48%, #F4E3C8 100%);
+    }
+
+    /* ゲーム風 袋文字（白フチ＋茶色フチ＋立体シャドウ） */
+    .game-heading {
+      font-family: 'M PLUS Rounded 1c', 'Fredoka', sans-serif;
+      font-weight: 900;
+      color: #FFFDF8;
+      letter-spacing: 0.04em;
+      -webkit-text-stroke: 5.5px #7D5227;
+      paint-order: stroke fill;
+      text-shadow: 0 3px 0 #583614, 0 5px 8px rgba(88, 54, 20, 0.28);
+    }
+
+    .game-heading-sm {
+      font-family: 'M PLUS Rounded 1c', 'Fredoka', sans-serif;
+      font-weight: 900;
+      color: #FFFDF8;
+      letter-spacing: 0.02em;
+      -webkit-text-stroke: 4px #835629;
+      paint-order: stroke fill;
+      text-shadow: 0 2px 0 #583614;
+    }
+
+    .game-score-num {
+      font-family: 'Fredoka', 'M PLUS Rounded 1c', sans-serif;
+      font-weight: 700;
+      color: #FFF2B2;
+      -webkit-text-stroke: 6px #82511F;
+      paint-order: stroke fill;
+      text-shadow: 0 4px 0 #59350F;
+    }
+
+    /* ======== 立体シャボン玉・ガラスオーブ枠（backdrop-filter不使用で超軽量＆高再現） ======== */
+    .glass-orb {
+      position: relative;
+      border-radius: 9999px;
+      background: radial-gradient(
+        circle at 38% 32%,
+        rgba(255, 248, 236, 0.55) 0%,
+        rgba(233, 193, 145, 0.52) 52%,
+        rgba(191, 138, 80, 0.68) 86%,
+        rgba(255, 244, 224, 0.85) 100%
+      );
+      box-shadow:
+        0 12px 24px -6px rgba(98, 60, 22, 0.28),
+        inset 0 0 20px rgba(255, 252, 244, 0.9),
+        inset 0 -10px 18px rgba(158, 105, 48, 0.32);
+      border: 2.5px solid rgba(255, 249, 238, 0.88);
+    }
+
+    .glass-orb::before {
+      content: '';
+      position: absolute;
+      top: 11%;
+      left: 15%;
+      width: 25%;
+      height: 12%;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.82);
+      transform: rotate(-28deg);
+      pointer-events: none;
+    }
+
+    .glass-orb::after {
+      content: '';
+      position: absolute;
+      bottom: 11%;
+      right: 15%;
+      width: 19%;
+      height: 8%;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.6);
+      transform: rotate(-24deg);
+      pointer-events: none;
+    }
+
+    /* ======== 左下：スコアランキングパネル（添付画像のクリーム色カード忠実再現） ======== */
+    .cream-card {
+      background: linear-gradient(180deg, #FFFDF5 0%, #FBF0D9 100%);
+      border: 3.5px solid #FFFFFF;
+      border-radius: 2rem;
+      box-shadow:
+        0 12px 24px -6px rgba(104, 66, 26, 0.22),
+        inset 0 0 14px rgba(244, 222, 182, 0.55);
+    }
+
+    /* ======== サイドUIの集中フェード制御 ======== */
+    .side-ui-panel {
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      will-change: opacity, transform;
+    }
+
+    body.ui-mode-subtle .side-ui-panel,
+    body.aiming-active .side-ui-panel {
+      opacity: 0.38;
+      transform: scale(0.97);
+    }
+    body.ui-mode-subtle .side-ui-panel:hover {
+      opacity: 0.96;
+      transform: scale(1);
+    }
+
+    body.ui-mode-minimal .side-ui-bottom {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px) scale(0.95);
+    }
+    body.ui-mode-minimal .side-ui-top {
+      opacity: 0.5;
+      transform: scale(0.92);
+    }
+
+    /* ボタンの軽快なアニメーション */
+    .jelly-btn {
+      transition: transform 0.14s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.14s ease;
+    }
+    .jelly-btn:hover:not(:disabled) {
+      transform: translateY(-1.5px) scale(1.03);
+    }
+    .jelly-btn:active:not(:disabled) {
+      transform: translateY(1px) scale(0.95);
+    }
+    .jelly-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+
+    /* シンカの輪のノード */
+    .ring-node-btn {
+      transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+      white-space: nowrap;
+    }
+    .ring-node-btn:hover {
+      transform: translate(-50%, -50%) scale(1.22) !important;
+      z-index: 30;
+    }
+    .ring-node-btn.unlocked-pulse {
+      animation: ringPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    @keyframes ringPop {
+      0% { transform: translate(-50%, -50%) scale(0.6); }
+      60% { transform: translate(-50%, -50%) scale(1.32); }
+      100% { transform: translate(-50%, -50%) scale(1.0); }
+    }
+
+    /* 中央プレイキャンバスラッパー（上下左右の見切れを防止） */
+    .stage-center-wrap {
+      height: min(calc(100vh - 58px), 740px);
+      max-width: 100%;
+      aspect-ratio: 500 / 640;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 1023px) {
+      .stage-center-wrap {
+        height: calc(100vh - 128px);
+        max-width: 96vw;
+      }
+    }
+
+    #gameCanvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      touch-action: none;
+      cursor: pointer;
+      outline: none;
+    }
+  </style>
+</head>
+<body class="select-none" tabindex="0">
+
+  <!-- ================= 1. 背景レイヤー（スイカゲーム風ルーム＋超軽量分子エフェクト） ================= -->
+  <div class="game-room-bg">
+    <div class="room-wall"></div>
+    <div class="room-molding"></div>
+    <div class="room-floor"></div>
+  </div>
+  <canvas id="bgParticlesCanvas" class="fixed inset-0 pointer-events-none z-[1] opacity-50"></canvas>
+
+  <!-- ================= 2. メインゲームステージ（左・中央・右 3カラム構成） ================= -->
+  <div class="relative z-10 w-full h-[calc(100vh-44px)] max-w-[1360px] mx-auto px-2 sm:px-6 pt-1 pb-1 flex flex-col lg:flex-row items-center justify-between gap-1 lg:gap-4">
+
+    <!-- ======== モバイル・iPad縦画面用 コンパクト上部バー (lg未満で表示) ======== -->
+    <div class="w-full flex lg:hidden items-center justify-between px-2 py-1 gap-2 shrink-0">
+      <div class="glass-orb px-4 py-1.5 rounded-full flex items-center gap-3">
+        <div>
+          <div class="text-[10px] font-black text-amber-900">スコア</div>
+          <div id="mobileScoreDisplay" class="game-score-num text-xl leading-none">0</div>
+        </div>
+        <div class="border-l border-amber-900/20 pl-2.5">
+          <div class="text-[9px] font-bold text-amber-900/80">BEST</div>
+          <div id="mobileBestDisplay" class="font-bold text-xs text-amber-950">0</div>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-1 text-xs font-black text-amber-950 bg-white/80 px-3 py-1 rounded-full border border-amber-800/20 shadow-sm">
+        <span class="material-symbols-rounded text-amber-600 text-base">science</span>
+        <span>中2理科 元素マージ</span>
+      </div>
+
+      <div class="flex items-center gap-1.5">
+        <div class="glass-orb px-3 py-1 rounded-full flex items-center gap-1.5">
+          <span class="text-[10px] font-black text-amber-900">NEXT</span>
+          <canvas id="mobileNextCanvas" width="36" height="36" class="w-8 h-8"></canvas>
+        </div>
+        <button id="mobileEncyclopediaBtn" type="button" class="jelly-btn w-9 h-9 rounded-full cream-card flex items-center justify-center text-amber-900 shadow">
+          <span class="material-symbols-rounded text-lg">menu_book</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ======== 左カラム（PC / iPad横画面）：「スコア」オーブ ＆ 「スコアランキング」 ======== -->
+    <aside class="hidden lg:flex flex-col items-center justify-between h-full max-h-[650px] w-[265px] xl:w-[290px] py-2 shrink-0">
+      
+      <!-- 左上：スイカゲーム風「スコア」シャボン玉オーブ -->
+      <div class="side-ui-panel side-ui-top flex flex-col items-center">
+        <h2 class="game-heading text-2xl xl:text-3xl -mb-3 relative z-10">スコア</h2>
+        <div class="glass-orb w-44 h-44 xl:w-48 xl:h-48 flex flex-col items-center justify-center text-center p-4">
+          <div id="scoreDisplay" class="game-score-num text-4xl xl:text-5xl tracking-tight leading-none mt-1">
+            0
+          </div>
+          <div class="mt-2.5 text-[11px] font-black tracking-wider text-white drop-shadow-[0_1.5px_2px_rgba(92,55,17,0.85)]">
+            BEST SCORE
+          </div>
+          <div id="bestScoreDisplay" class="font-extrabold text-xl xl:text-2xl text-white drop-shadow-[0_2px_3px_rgba(92,55,17,0.85)] leading-tight">
+            0
+          </div>
+        </div>
+      </div>
+
+      <!-- 左下：スイカゲーム風「スコアランキング ⇄ オンライン ⇄ ラボミッション」カード -->
+      <div class="side-ui-panel side-ui-bottom cream-card w-full p-3.5 xl:p-4 flex flex-col">
+        <!-- L / R タブヘッダー -->
+        <div class="flex items-center justify-between gap-1 mb-1.5">
+          <button id="leftTabPrevBtn" type="button" class="jelly-btn w-7 h-7 rounded-lg bg-white hover:bg-amber-50 text-amber-900 font-black text-xs flex items-center justify-center border border-amber-900/20 shadow-sm">
+            L
+          </button>
+          <div class="text-center">
+            <div id="leftCardSubTitle" class="game-heading-sm text-xs leading-none">個人・本日</div>
+            <h3 id="leftCardMainTitle" class="game-heading-sm text-base xl:text-lg leading-tight mt-0.5">スコアランキング</h3>
+          </div>
+          <button id="leftTabNextBtn" type="button" class="jelly-btn w-7 h-7 rounded-lg bg-white hover:bg-amber-50 text-amber-900 font-black text-xs flex items-center justify-center border border-amber-900/20 shadow-sm">
+            R
+          </button>
+        </div>
+
+        <!-- 人物シルエット＆ステータスバー（添付画像再現＋オンライン対応ヘッダー） -->
+        <div class="flex justify-between items-center px-2 py-0.5 border-b border-amber-900/10 mb-1.5">
+          <span id="rankingScopeBadge" class="text-[10px] font-black text-amber-800/75 flex items-center gap-0.5">
+            <span id="rankingScopeIcon" class="material-symbols-rounded text-sm">person</span>
+            <span id="rankingScopeText">マイルーム</span>
+          </span>
+          <button id="refreshRankingBtn" type="button" title="ランキングを更新 (Yキー)" class="jelly-btn text-[10px] font-black text-amber-800/80 hover:text-amber-950 flex items-center gap-0.5">
+            <span id="refreshRankingIcon" class="material-symbols-rounded text-xs">sync</span>
+            <span id="rankingSyncStatus">最新</span>
+          </button>
+        </div>
+
+        <!-- タブ1＆2：スコアランキング表示（ローカル / オンライン共通レンダリングコンテナ） -->
+        <div id="rankingTabPanel" class="space-y-1.5">
+          <div id="rankingRowsContainer" class="space-y-1.5">
+            <!-- RankingService から動的に描画 -->
+          </div>
+
+          <div class="text-center text-[10px] font-black text-amber-900/70 pt-0.5 tracking-wider">NOW</div>
+          <div class="flex items-center justify-between bg-[#F7E39C]/90 rounded-xl px-3 py-1.5 border border-amber-400/50">
+            <div class="flex items-center gap-1">
+              <span class="material-symbols-rounded text-amber-600 text-lg">military_tech</span>
+              <span class="text-xs font-black text-amber-950">現在</span>
+            </div>
+            <span id="rankNowScore" class="font-mono font-black text-lg text-[#7E5723]">0</span>
+          </div>
+        </div>
+
+        <!-- タブ3：中2理科ラボミッション -->
+        <div id="missionTabPanel" class="hidden space-y-1.5">
+          <div class="flex items-center justify-between text-[11px] font-bold text-amber-900 px-1">
+            <span>達成ミッション</span>
+            <span id="missionCountBadge" class="font-mono font-black text-amber-700">0 / 5</span>
+          </div>
+          <div id="missionListCompact" class="space-y-1 max-h-[168px] overflow-y-auto pr-0.5">
+            <!-- JSで生成 -->
+          </div>
+        </div>
+
+        <!-- ページドットインジケーター（個人 / オンライン / ミッション） -->
+        <div class="flex items-center justify-center gap-1.5 mt-2.5">
+          <span id="tabDot0" class="w-2.5 h-2.5 rounded-full bg-yellow-400 border border-amber-700/40"></span>
+          <span id="tabDot1" class="w-2.5 h-2.5 rounded-full bg-white border border-amber-700/30"></span>
+          <span id="tabDot2" class="w-2.5 h-2.5 rounded-full bg-white border border-amber-700/30"></span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ======== 中央カラム：3Dガラスボックス＆雲マスコット プレイエリア ======== -->
+    <main class="flex-1 flex flex-col items-center justify-center h-full relative min-h-0">
+      <div class="stage-center-wrap">
+        
+        <!-- 危険ライン警告バッジ -->
+        <div id="dangerBanner" class="pointer-events-none absolute top-14 left-1/2 -translate-x-1/2 z-30 opacity-0 scale-90 transition-all duration-200 bg-rose-600 text-white px-4 py-1 rounded-full shadow-lg border-2 border-white flex items-center gap-1.5">
+          <span class="material-symbols-rounded text-yellow-300 text-base animate-bounce">warning</span>
+          <span class="text-xs font-black tracking-wider">あふれそう！</span>
+          <span id="dangerCountdownText" class="font-mono text-xs font-black bg-black/25 px-1.5 py-0.5 rounded">2.5s</span>
+        </div>
+
+        <!-- コンボバッジ -->
+        <div id="comboFloatingBadge" class="pointer-events-none absolute top-20 right-6 z-30 opacity-0 scale-75 transition-all duration-200 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-3 py-1 rounded-full shadow-md border-2 border-white font-black text-xs flex items-center gap-1">
+          <span class="material-symbols-rounded text-sm">local_fire_department</span>
+          <span id="comboFloatingText">2 COMBO!</span>
+        </div>
+
+        <!-- 特殊スキルモード選択中の案内トースト -->
+        <div id="skillTargetBanner" class="pointer-events-none absolute top-24 left-1/2 -translate-x-1/2 z-30 hidden bg-sky-600 text-white px-4 py-1.5 rounded-full shadow-xl border-2 border-white text-xs font-black items-center gap-1.5">
+          <span class="material-symbols-rounded text-base">colorize</span>
+          <span id="skillTargetText">ピペット吸引：消したい元素をクリック！</span>
+        </div>
+
+        <!-- NaHCO3（炭酸水素ナトリウム）合成祝賀トースト -->
+        <div id="celebrationBanner" class="pointer-events-none absolute top-24 left-1/2 -translate-x-1/2 z-40 opacity-0 scale-90 transition-all duration-300 w-[90%] bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400 text-amber-950 p-3 rounded-2xl shadow-2xl border-4 border-white text-center">
+          <div class="text-[10px] font-black uppercase tracking-widest text-amber-800 flex items-center justify-center gap-1">
+            <span class="material-symbols-rounded text-sm">auto_awesome</span>
+            <span>MAXIMUM SYNTHESIS</span>
+            <span class="material-symbols-rounded text-sm">auto_awesome</span>
+          </div>
+          <div id="celebrationText" class="text-sm sm:text-base font-black mt-0.5">NaHCO₃（炭酸水素ナトリウム）合成成功！</div>
+        </div>
+
+        <!-- メイン物理＆3Dガラスボックス描画Canvas（左右に雲マスコット用の余白を確保） -->
+        <canvas id="gameCanvas" width="500" height="640" tabindex="0"></canvas>
+      </div>
+    </main>
+
+    <!-- ======== 右カラム（PC / iPad横画面）：「ネクスト」オーブ ＆ 「シンカの輪」 ======== -->
+    <aside class="hidden lg:flex flex-col items-center justify-between h-full max-h-[650px] w-[265px] xl:w-[290px] py-2 shrink-0">
+      
+      <!-- 右上：スイカゲーム風「ネクスト」シャボン玉オーブ -->
+      <div class="side-ui-panel side-ui-top flex flex-col items-center">
+        <h2 class="game-heading text-2xl xl:text-3xl -mb-3 relative z-10">ネクスト</h2>
+        <div class="glass-orb w-36 h-36 xl:w-40 xl:h-40 flex flex-col items-center justify-center relative p-2">
+          <canvas id="nextPreviewCanvas" width="110" height="110" class="w-24 h-24"></canvas>
+          <div class="-mt-2 text-center">
+            <span id="nextElementLabel" class="inline-block px-2.5 py-0.5 rounded-full bg-amber-950/65 text-white font-black text-[11px]">
+              H 水素
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右下：スイカゲーム風「シンカの輪（見切れ防止余白付きviewBox）」 -->
+      <div class="side-ui-panel side-ui-bottom flex flex-col items-center">
+        <h2 class="game-heading text-xl xl:text-2xl -mb-2 relative z-20">シンカの輪</h2>
+        
+        <div class="relative w-[244px] h-[244px] xl:w-[262px] xl:h-[262px] flex items-center justify-center p-1">
+          <!-- 外周とドロップシャドウが見切れないよう viewBox に十分な余白（-18〜296）を設定 -->
+          <svg class="w-full h-full overflow-visible" viewBox="-18 -18 296 296" fill="none">
+            <defs>
+              <linearGradient id="ringGrad" x1="100%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="#F6B969" />
+                <stop offset="48%" stop-color="#F9DF74" />
+                <stop offset="100%" stop-color="#98F550" />
+              </linearGradient>
+              <filter id="ringShadow" x="-20%" y="-20%" width="140%" height="140%">
+                <feDropShadow dx="0" dy="6" stdDeviation="5" flood-color="#6B441D" flood-opacity="0.24" />
+              </filter>
+            </defs>
+
+            <!-- 外周の太いC字型ドーナツリング（1時〜11時まで時計回り） -->
+            <path d="M 164 46 A 88 88 0 1 1 94 48" stroke="url(#ringGrad)" stroke-width="44" filter="url(#ringShadow)" stroke-linecap="round" fill="none" />
+            <path d="M 164 46 A 88 88 0 1 1 94 48" stroke="#FFFDF5" stroke-width="36" stroke-opacity="0.38" stroke-linecap="round" fill="none" />
+
+            <!-- 左上11時方向の立体黄緑アローヘッド（スイカ枠の位置） -->
+            <path d="M 66 26 L 122 24 L 105 76 Z" fill="#98F550" stroke="#D9F99D" stroke-width="4" stroke-linejoin="round" />
+          </svg>
+
+          <!-- 中央穴のミニボタン（クリックで理科解説モーダルを開く） -->
+          <button id="openEncyclopediaBtn" type="button"
+            class="jelly-btn absolute w-24 h-24 rounded-full bg-amber-950/15 hover:bg-amber-950/25 border-2 border-white/75 flex flex-col items-center justify-center text-center p-1 shadow-inner group">
+            <span class="text-[10px] font-black text-amber-950/80">発見済み</span>
+            <span id="discoveredCountText" class="font-mono text-base font-black text-amber-950">1 / 11</span>
+            <span class="text-[9px] font-bold text-amber-900 bg-white/85 px-2 py-0.5 rounded-full mt-0.5 group-hover:bg-white inline-flex items-center gap-0.5">
+              <span class="material-symbols-rounded text-xs">menu_book</span>
+              <span>理科図鑑</span>
+            </span>
+          </button>
+
+          <!-- 11個の元素アイコンを円周上に配置するコンテナ -->
+          <div id="evolutionRingNodes" class="absolute inset-0 pointer-events-none">
+            <!-- JSで生成 -->
+          </div>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+
+  <!-- ================= 3. 下部コンソール操作バー＆実験スキルバー ================= -->
+  <footer class="fixed bottom-0 inset-x-0 z-30 h-11 bg-gradient-to-r from-[#E5C190] via-[#F2D8B2] to-[#E5C190] border-t-2 border-white/80 px-2 sm:px-5 flex items-center justify-between gap-1.5 shadow-[0_-4px_14px_rgba(92,55,17,0.12)]">
+    
+    <!-- 左側：操作ガイド（スイカゲーム下部バー風・Material Symbols統一） -->
+    <div class="hidden md:flex items-center gap-2.5 text-xs font-black text-[#633E1B]">
+      <span class="inline-flex items-center gap-1">
+        <span class="px-1.5 py-0.5 rounded bg-[#633E1B] text-[#FFF8EB] text-[10px] inline-flex items-center">
+          <span class="material-symbols-rounded text-xs">sync_alt</span>
+        </span>
+        <span>移動</span>
+      </span>
+      <span class="inline-flex items-center gap-1">
+        <span class="px-1.5 py-0.5 rounded-full bg-[#633E1B] text-[#FFF8EB] text-[10px] font-mono">Space</span>
+        <span>落とす</span>
+      </span>
+      <button id="openLabModalBottomBtn" type="button" class="jelly-btn inline-flex items-center gap-1 hover:text-amber-700">
+        <span class="w-4 h-4 rounded-full bg-[#633E1B] text-[#FFF8EB] text-[10px] inline-flex items-center justify-center font-mono">X</span>
+        <span>図鑑</span>
+      </button>
+      <button id="bottomSwitchRankingBtn" type="button" class="jelly-btn hidden xl:inline-flex items-center gap-1 hover:text-amber-700">
+        <span class="px-1 py-0.2 rounded bg-[#633E1B] text-[#FFF8EB] text-[10px] font-mono">L/R</span>
+        <span>ランキング切替</span>
+      </button>
+    </div>
+
+    <!-- 中央：中2理科の実験スキルピルボタン -->
+    <div class="flex items-center gap-1 sm:gap-1.5 mx-auto md:mx-0">
+      <div class="flex items-center gap-0.5 bg-amber-950/85 text-amber-200 px-2.5 py-1 rounded-full text-[11px] font-black border border-amber-400/40 mr-0.5">
+        <span class="material-symbols-rounded text-amber-300 text-sm">bolt</span>
+        <span>EP</span>
+        <span id="epValueText" class="font-mono text-white text-xs ml-0.5">30</span>
+      </div>
+
+      <button id="skillSwapBtn" type="button" title="今の元素とNEXTを入れ替え (20 EP)"
+        class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
+        <span class="material-symbols-rounded text-amber-600 text-sm">swap_horiz</span>
+        <span class="hidden sm:inline">交換</span>
+        <span class="font-mono text-[10px] text-amber-700">20</span>
+      </button>
+
+      <button id="skillBurnerBtn" type="button" title="ガスバーナー対流で容器を揺らして合体を促す (40 EP)"
+        class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
+        <span class="material-symbols-rounded text-orange-500 text-sm">local_fire_department</span>
+        <span class="hidden sm:inline">加熱</span>
+        <span class="font-mono text-[10px] text-orange-600">40</span>
+      </button>
+
+      <button id="skillPipetteBtn" type="button" title="ピペットで選んだ元素1個を吸い取って消去 (60 EP)"
+        class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
+        <span class="material-symbols-rounded text-sky-500 text-sm">colorize</span>
+        <span class="hidden sm:inline">吸引</span>
+        <span class="font-mono text-[10px] text-sky-600">60</span>
+      </button>
+
+      <button id="skillCatalystBtn" type="button" title="触媒で選んだ元素を1段階上位へ進化 (100 EP)"
+        class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
+        <span class="material-symbols-rounded text-purple-600 text-sm">auto_awesome</span>
+        <span class="hidden sm:inline">触媒</span>
+        <span class="font-mono text-[10px] text-purple-600">100</span>
+      </button>
+    </div>
+
+    <!-- 右側：UI集中切替・顔/学習切替・BGM曲選択・BGM ON/OFF・SE・リセット -->
+    <div class="flex items-center gap-1">
+      <button id="uiFocusToggleBtn" type="button" title="左右の表示を控えめにして中央に集中します"
+        class="jelly-btn px-2 py-1 rounded-full bg-amber-900/15 hover:bg-amber-900/25 border border-amber-900/20 text-[11px] font-black text-[#5C3D1E] flex items-center gap-1">
+        <span class="material-symbols-rounded text-sm">visibility</span>
+        <span id="uiFocusLabel" class="hidden xl:inline">UI:通常</span>
+      </button>
+
+      <button id="faceStyleToggleBtn" type="button" title="元素ボールのキャラ顔表示を切り替えます"
+        class="jelly-btn px-2 py-1 rounded-full bg-amber-900/15 hover:bg-amber-900/25 border border-amber-900/20 text-[11px] font-black text-[#5C3D1E] flex items-center gap-1">
+        <span id="faceStyleIcon" class="material-symbols-rounded text-sm">sentiment_very_satisfied</span>
+        <span id="faceStyleLabel" class="hidden xl:inline">顔ON</span>
+      </button>
+
+      <!-- BGM 4曲切替ボタン -->
+      <button id="bgmTrackBtn" type="button" title="BGMの楽曲を切り替え（全4曲）"
+        class="jelly-btn px-2.5 py-1 rounded-full bg-amber-950/80 hover:bg-amber-950 text-amber-100 text-[11px] font-black flex items-center gap-1 shadow-sm">
+        <span class="material-symbols-rounded text-amber-300 text-sm">queue_music</span>
+        <span id="bgmTrackName" class="hidden sm:inline">1.陽だまりラグタイム</span>
+      </button>
+
+      <!-- BGM ON/OFF トグル -->
+      <button id="bgmToggleBtn" type="button" title="BGM ON/OFF"
+        class="jelly-btn px-2 py-1 rounded-full bg-amber-900/85 hover:bg-amber-900 text-amber-100 text-[11px] font-black flex items-center gap-1 shadow-sm">
+        <span id="bgmStatusDot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span class="material-symbols-rounded text-sm">music_note</span>
+        <canvas id="audioVisualizerCanvas" width="24" height="12" class="w-5 h-3 hidden sm:block"></canvas>
+      </button>
+
+      <!-- 効果音(SE) トグル -->
+      <button id="sfxToggleBtn" type="button" title="効果音 ON/OFF"
+        class="jelly-btn w-7 h-7 rounded-full bg-white/85 hover:bg-white border border-amber-900/20 text-amber-950 flex items-center justify-center">
+        <span id="sfxToggleIcon" class="material-symbols-rounded text-base">volume_up</span>
+      </button>
+
+      <!-- リセットボタン -->
+      <button id="resetBtn" type="button" title="最初からやり直す"
+        class="jelly-btn px-2.5 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-black shadow-sm flex items-center gap-0.5">
+        <span class="material-symbols-rounded text-sm">restart_alt</span>
+        <span class="hidden sm:inline">やり直す</span>
+      </button>
+    </div>
+  </footer>
+
+  <!-- ================= 4. 中2理科ラボ図鑑・解説モーダル ================= -->
+  <div id="encyclopediaModal" class="fixed inset-0 z-50 bg-black/45 hidden items-center justify-center p-4">
+    <div class="cream-card max-w-lg w-full p-5 sm:p-6 border-4 border-white shadow-2xl relative">
+      <div class="flex items-center justify-between border-b-2 border-amber-900/15 pb-3 mb-4">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-rounded text-amber-600 text-3xl">science</span>
+          <div>
+            <div class="text-[10px] font-black text-amber-700 uppercase tracking-wider">JUNIOR HIGH SCIENCE LAB NOTE</div>
+            <h2 class="game-heading-sm text-xl sm:text-2xl">中2理科 元素・化学式図鑑</h2>
+          </div>
+        </div>
+        <button id="closeEncyclopediaBtn" type="button" class="jelly-btn w-9 h-9 rounded-full bg-amber-900/15 hover:bg-amber-900/25 text-amber-950 flex items-center justify-center">
+          <span class="material-symbols-rounded text-xl">close</span>
+        </button>
+      </div>
+
+      <!-- 選択中の元素詳細カード -->
+      <div class="bg-white/90 border-2 border-amber-900/15 rounded-2xl p-4 mb-4 flex items-center gap-4 shadow-inner">
+        <canvas id="modalElementCanvas" width="88" height="88" class="w-20 h-20 shrink-0"></canvas>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span id="modalElementLevel" class="px-2 py-0.5 rounded-full bg-amber-500 text-white font-mono font-black text-xs">Lv.1</span>
+            <span id="modalElementCategory" class="px-2 py-0.5 rounded-full bg-amber-900/10 text-amber-900 font-bold text-xs">気体・非金属元素</span>
+          </div>
+          <h3 id="modalElementTitle" class="text-xl font-black text-amber-950 mt-1">H（水素）</h3>
+          <p id="modalElementDesc" class="text-xs sm:text-sm font-bold text-amber-900/90 mt-1 leading-relaxed">
+            宇宙で最も多く存在する、最も軽い気体。マッチの火を近づけると音を立てて燃え、酸素と結びついて水（H₂O）ができる。
+          </p>
+        </div>
+      </div>
+
+      <!-- 全11段階ミニセレクター -->
+      <div class="text-xs font-black text-amber-900 mb-2 flex items-center gap-1">
+        <span class="material-symbols-rounded text-sm">touch_app</span>
+        <span>アイコンをタップして解説を切り替え</span>
+      </div>
+      <div id="modalElementGrid" class="grid grid-cols-6 sm:grid-cols-11 gap-1.5 mb-4">
+        <!-- JSで生成 -->
+      </div>
+
+      <!-- 熱分解ボーナスのヒント -->
+      <div class="bg-amber-200/65 border border-amber-500/40 rounded-xl p-3 text-xs font-bold text-amber-950 flex items-start gap-2">
+        <span class="material-symbols-rounded text-amber-700 text-lg shrink-0 mt-0.5">lightbulb</span>
+        <div>
+          <strong>中2理科・熱分解ボーナス：</strong> 最大レベルの <strong>NaHCO₃（炭酸水素ナトリウム）同士を合体</strong>させると、化学反応式 <code class="bg-white/80 px-1.5 py-0.5 rounded font-mono">2NaHCO₃ → Na₂CO₃ + H₂O + CO₂</code> の熱分解ボーナス（+3,000点）が発生してスッキリ消滅します！
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 5. ゲームオーバーモーダル ================= -->
+  <div id="gameOverModal" class="fixed inset-0 z-50 bg-black/55 hidden items-center justify-center p-4">
+    <div class="cream-card max-w-md w-full p-6 sm:p-7 border-4 border-white text-center shadow-2xl">
+      <div class="inline-block px-4 py-1 rounded-full bg-rose-500 text-white text-xs font-black tracking-wider shadow">
+        EXPERIMENT FINISHED
+      </div>
+      <h2 class="game-heading text-3xl sm:text-4xl mt-2">ゲームオーバー！</h2>
+      <p class="text-xs sm:text-sm font-bold text-amber-900/80 mt-1">ガラスケースの上限ラインを超えてしまいました</p>
+
+      <div id="newRecordBadge" class="hidden mt-3 inline-flex items-center gap-1 px-4 py-1 rounded-full bg-yellow-400 border-2 border-white text-amber-950 text-xs font-black shadow">
+        <span class="material-symbols-rounded text-base">emoji_events</span>
+        <span>NEW RECORD! ハイスコア更新！</span>
+      </div>
+
+      <div class="grid grid-cols-2 gap-3 my-5">
+        <div class="bg-white/90 border-2 border-amber-900/15 rounded-2xl p-3.5 shadow-inner">
+          <div class="text-xs font-black text-amber-800">今回のスコア</div>
+          <div id="modalFinalScore" class="game-score-num text-3xl mt-1">0</div>
+        </div>
+        <div class="bg-amber-100/90 border-2 border-amber-400/50 rounded-2xl p-3.5 shadow-inner">
+          <div class="text-xs font-black text-amber-800">BEST SCORE</div>
+          <div id="modalBestScore" class="game-score-num text-3xl mt-1">0</div>
+        </div>
+      </div>
+
+      <div class="bg-white/80 border border-amber-900/15 rounded-2xl p-3 mb-5 flex items-center justify-center gap-3">
+        <span class="text-xs font-black text-amber-900">最大到達物質:</span>
+        <span id="modalMaxElement" class="text-sm sm:text-base font-black text-amber-950 px-3 py-1 rounded-xl bg-amber-300/60">
+          Lv.1 H（水素）
+        </span>
+      </div>
+
+      <button id="playAgainBtn" type="button"
+        class="jelly-btn w-full py-3.5 px-6 rounded-2xl bg-gradient-to-b from-lime-400 to-green-600 text-white font-black text-lg shadow-lg border-2 border-white flex items-center justify-center gap-2">
+        <span class="material-symbols-rounded text-xl">science</span>
+        <span>もう一度プレイする！</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= 6. 高速スプライトキャッシュ＆マルチトラック立体音響スクリプト ================= -->
+  <script>
+    /**
+     * 1. 進化ツリー定義（全11段階：中2理科準拠）
+     */
+    const ELEMENTS = [
+      {
+        level: 1, symbol: 'H', name: '水素', radius: 17,
+        color: '#F1F5F9', gradTop: '#FFFFFF', gradBot: '#CBD5E1', textColor: '#0F172A', borderColor: '#64748B',
+        pattern: 'gloss', mood: 'happy', category: '気体・非金属元素',
+        desc: '宇宙で最も多く存在する最も軽い気体。空気中で点火するとポンと音を立てて燃え、酸素と結びついて水（H₂O）ができる。'
+      },
+      {
+        level: 2, symbol: 'C', name: '炭素', radius: 23,
+        color: '#475569', gradTop: '#94A3B8', gradBot: '#1E293B', textColor: '#FFFFFF', borderColor: '#1E293B',
+        pattern: 'crystal', mood: 'determined', category: '非金属元素',
+        desc: '木炭や黒鉛（鉛筆の芯）、ダイヤモンドなどを構成する元素。燃えると二酸化炭素（CO₂）になる。'
+      },
+      {
+        level: 3, symbol: 'N', name: '窒素', radius: 30,
+        color: '#60A5FA', gradTop: '#BFDBFE', gradBot: '#2563EB', textColor: '#FFFFFF', borderColor: '#1D4ED8',
+        pattern: 'ring', mood: 'calm', category: '気体・非金属元素',
+        desc: '空気の体積の約78%を占める無色・無臭の気体。常温では他の物質と反応しにくく、スナック菓子の袋の充填にも使われる。'
+      },
+      {
+        level: 4, symbol: 'O', name: '酸素', radius: 37,
+        color: '#EF4444', gradTop: '#FCA5A5', gradBot: '#B91C1C', textColor: '#FFFFFF', borderColor: '#991B1B',
+        pattern: 'berry', mood: 'cheerful', category: '気体・非金属元素',
+        desc: '空気の約21%を占め、物質を燃やすはたらき（助燃性）がある気体。二酸化マンガンにうすい過酸化水素水を加えて発生させる。'
+      },
+      {
+        level: 5, symbol: 'Na', name: 'ナトリウム', radius: 45,
+        color: '#A855F7', gradTop: '#E9D5FF', gradBot: '#6B21A8', textColor: '#FFFFFF', borderColor: '#581C87',
+        pattern: 'spark', mood: 'wink', category: 'アルカリ金属',
+        desc: 'ナイフで切れるほど柔らかい金属。水や空気中の酸素と激しく反応するため、石油中に保存する。'
+      },
+      {
+        level: 6, symbol: 'Cl', name: '塩素', radius: 54,
+        color: '#84CC16', gradTop: '#D9F99D', gradBot: '#3F6212', textColor: '#FFFFFF', borderColor: '#365314',
+        pattern: 'bubbles', mood: 'smug', category: '気体・非金属元素',
+        desc: '刺激臭のある黄緑色の気体。空気より重く水に溶けやすい。漂白作用や殺菌作用があり、プールの消毒などに使われる。'
+      },
+      {
+        level: 7, symbol: 'Fe', name: '鉄', radius: 64,
+        color: '#94A3B8', gradTop: '#F1F5F9', gradBot: '#475569', textColor: '#0F172A', borderColor: '#334155',
+        pattern: 'metallic', mood: 'strong', category: '金属元素',
+        desc: '磁石によくつき、建築や機械に広く使われる金属。硫黄（S）と混ぜて加熱すると、別の物質である硫化鉄（FeS）になる。'
+      },
+      {
+        level: 8, symbol: 'Cu', name: '銅', radius: 75,
+        color: '#F97316', gradTop: '#FED7AA', gradBot: '#C2410C', textColor: '#FFFFFF', borderColor: '#9A3412',
+        pattern: 'citrus', mood: 'happy', category: '金属元素',
+        desc: '電気や熱を非常に通しやすい赤茶色の金属。空気中で加熱すると酸素と化合して黒色の酸化銅（CuO）になる。'
+      },
+      {
+        level: 9, symbol: 'H₂O', name: '水', radius: 88,
+        color: '#F472B6', gradTop: '#FBCFE8', gradBot: '#DB2777', textColor: '#FFFFFF', borderColor: '#9D174D',
+        pattern: 'peach', mood: 'relaxed', category: '化合物（分子）',
+        desc: '水素原子2個と酸素原子1個が結びついた分子。電気分解すると、陰極に水素（H₂）、陽極に酸素（O₂）が体積比2:1で発生する。'
+      },
+      {
+        level: 10, symbol: 'CO₂', name: '二酸化炭素', radius: 102,
+        color: '#38BDF8', gradTop: '#BAE6FD', gradBot: '#0284C7', textColor: '#FFFFFF', borderColor: '#075985',
+        pattern: 'planet', mood: 'proud', category: '化合物（分子）',
+        desc: '炭素原子1個と酸素原子2個からなる分子。石灰水を白くにごらせる性質があり、水に少し溶けて弱い酸性を示す。'
+      },
+      {
+        level: 11, symbol: 'NaHCO₃', name: '炭酸水素ナトリウム', radius: 118,
+        color: '#22C55E', gradTop: '#4ADE80', gradBot: '#15803D', textColor: '#FEF08A', borderColor: '#14532D',
+        pattern: 'suika_gold', mood: 'king', category: 'スイカ枠・化合物',
+        desc: '重曹やベーキングパウダーの主成分！加熱すると炭酸ナトリウム（Na₂CO₃）・水（H₂O）・二酸化炭素（CO₂）の3つに熱分解する。'
+      }
+    ];
+
+    const MISSIONS = [
+      { id: 'm_o', title: '酸素 (O) を合成しよう', check: (st) => st.discovered.has(4), rewardEp: 25 },
+      { id: 'm_fe', title: '金属の鉄 (Fe) に到達', check: (st) => st.discovered.has(7), rewardEp: 40 },
+      { id: 'm_h2o', title: '分子の水 (H₂O) を合成', check: (st) => st.discovered.has(9), rewardEp: 60 },
+      { id: 'm_combo', title: '3連続コンボを達成', check: (st) => st.maxCombo >= 3, rewardEp: 35 },
+      { id: 'm_nahco3', title: 'NaHCO₃（重曹）を完成！', check: (st) => st.discovered.has(11), rewardEp: 120 }
+    ];
+
+    /**
+     * 1.5 ランキング管理サービス（将来的なオンラインランキング実装にそのまま対応できるアダプター設計）
+     * -----------------------------------------------------------------------------------------
+     * 【オンライン化の手順】
+     * `OnlineRankingAdapter.fetchRankings()` と `OnlineRankingAdapter.submitScore()` 内の
+     * `TODO: Online API / Firebase / Supabase Integration` 部分に通信処理を入れるだけで、
+     * UI側（ローディング表示、L/R切替、Yキー更新、ゲームオーバー時の送信）は変更不要でそのまま動作します。
+     */
+    const STORAGE_KEY_SCORES = 'chem_suika_jhs2_scores_v3';
+
+    /**
+     * @typedef {Object} RankingEntry
+     * @property {number} rank - 順位 (1〜)
+     * @property {number} score - スコア
+     * @property {string} playerName - プレイヤー名
+     * @property {number} maxLevel - 到達した最大元素レベル (1〜11)
+     * @property {string} updatedAt - ISO日時文字列
+     * @property {boolean} [isSelf] - 自分のスコアかどうか
+     */
+
+    // 端末内（ローカル）ランキングアダプター
+    class LocalRankingAdapter {
+      constructor(storageKey) {
+        this.storageKey = storageKey;
+        this.defaultEntries = []; // 初回は空。架空の記録は表示・保存しない
+      }
+
+      async fetchRankings() {
+        try {
+          const raw = localStorage.getItem(this.storageKey);
+          if (!raw) return [...this.defaultEntries];
+          const parsed = JSON.parse(raw);
+
+          // 旧フォーマット（数値配列 [1908, 1648, 876]）との後方互換性を保持
+          if (Array.isArray(parsed) && typeof parsed[0] === 'number') {
+            return parsed.slice(0, 3).map((sc, i) => ({
+              rank: i + 1,
+              score: sc,
+              playerName: 'あなた',
+              maxLevel: 8,
+              updatedAt: new Date().toISOString(),
+              isSelf: true
+            }));
+          }
+
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            return parsed.slice(0, 3).map((item, i) => ({
+              rank: i + 1,
+              score: Number(item.score) || 0,
+              playerName: item.playerName || 'あなた',
+              maxLevel: Number(item.maxLevel) || 1,
+              updatedAt: item.updatedAt || new Date().toISOString(),
+              isSelf: true
+            }));
+          }
+        } catch (e) {
+          console.warn('LocalRanking read error:', e);
+        }
+        return [...this.defaultEntries];
+      }
+
+      async submitScore({ score, playerName = 'あなた', maxLevel = 1 }) {
+        const current = await this.fetchRankings();
+        current.push({
+          rank: 0,
+          score: Number(score) || 0,
+          playerName,
+          maxLevel,
+          updatedAt: new Date().toISOString(),
+          isSelf: true
+        });
+
+        // スコア降順ソート＆同スコア重複排除で上位5件を保存
+        current.sort((a, b) => b.score - a.score);
+        const unique = [];
+        const seenScores = new Set();
+        for (const item of current) {
+          if (!seenScores.has(item.score)) {
+            seenScores.add(item.score);
+            unique.push({ ...item, rank: unique.length + 1 });
+          }
+          if (unique.length >= 5) break;
+        }
+
+        try {
+          localStorage.setItem(this.storageKey, JSON.stringify(unique));
+        } catch (e) {
+          console.warn('LocalRanking write error:', e);
+        }
+        return unique.slice(0, 3);
+      }
+    }
+
+    // オンラインランキングアダプター（将来バックエンドAPIやFirebaseを接続するためのインターフェース）
+    class OnlineRankingAdapter {
+      constructor() {
+        // 将来ここに API エンドポイントや Firebase Firestore 参照を設定可能
+        this.endpointUrl = null;
+        this.cachedOnlineEntries = []; // 通信先が未接続のため、架空の順位は作らない
+      }
+
+      /**
+       * オンラインから上位ランキングを取得する非同期メソッド
+       * TODO: Online API / Firebase / Supabase Integration
+       */
+      async fetchRankings(period = 'daily') {
+        // 例: if (this.endpointUrl) { const res = await fetch(`${this.endpointUrl}?period=${period}`); return await res.json(); }
+        await new Promise((r) => setTimeout(r, 180)); // 疑似ネットワーク遅延
+        return this.cachedOnlineEntries.map((entry, idx) => ({ ...entry, rank: idx + 1 }));
+      }
+
+      /**
+       * オンラインへスコアを送信する非同期メソッド
+       * TODO: Online API / Firebase / Supabase Integration
+       */
+      async submitScore() {
+        // オンラインの通信先は未接続。架空の順位は作らず、保存もしない
+        return this.cachedOnlineEntries;
+      }
+    }
+
+    // UIと各アダプターを仲介する統合ランキングサービス
+    class RankingService {
+      constructor() {
+        this.localAdapter = new LocalRankingAdapter(STORAGE_KEY_SCORES);
+        this.onlineAdapter = new OnlineRankingAdapter();
+        this.activeScope = 'local'; // 'local' | 'online'
+        this.localEntries = [];
+        this.onlineEntries = [];
+        this.isSyncing = false;
+      }
+
+      async initialize() {
+        this.localEntries = await this.localAdapter.fetchRankings();
+        this.onlineEntries = await this.onlineAdapter.fetchRankings('daily');
+        return this.getActiveEntries();
+      }
+
+      getActiveEntries() {
+        return this.activeScope === 'online' ? this.onlineEntries : this.localEntries;
+      }
+
+      getBestLocalScore() {
+        return this.localEntries[0]?.score || 0;
+      }
+
+      async refresh(scope = this.activeScope) {
+        this.isSyncing = true;
+        try {
+          if (scope === 'online') {
+            this.onlineEntries = await this.onlineAdapter.fetchRankings('daily');
+          } else {
+            this.localEntries = await this.localAdapter.fetchRankings();
+          }
+        } finally {
+          this.isSyncing = false;
+        }
+        return this.getActiveEntries();
+      }
+
+      async recordGameScore(scoreVal, maxLevelVal) {
+        if (scoreVal <= 0) return;
+        this.localEntries = await this.localAdapter.submitScore({
+          score: scoreVal,
+          playerName: 'あなた',
+          maxLevel: maxLevelVal
+        });
+        this.onlineEntries = await this.onlineAdapter.submitScore({
+          score: scoreVal,
+          playerName: 'あなた',
+          maxLevel: maxLevelVal
+        });
+      }
+    }
+
+    /**
+     * 2. スイカゲーム風・高再現度マルチ楽器3D立体音響 Web Audio API エンジン（全4曲）
+     * - 本家スイカゲーム特有の「木琴（マリンバ）のコロコロした倍音＋打撃トランジェント」
+     * - 「クラリネット/木管の温かい奇数倍音＋ビブラート＋装飾音（グレースノート）」
+     * - 「チューバ/ウッドベースの1・3拍バウンス＆ストライドピアノの2・4拍裏打ち（ブン・チャッ・ブン・チャッ）」
+     * - 「ウッドブロック（カッ・コッ）とブラシスネア」を物理モデリング風に合成します。
+     */
+    const BGM_TRACKS = [
+      {
+        // Track 1: 本家スイカゲーム風の陽気でコミカルなラグタイム・マリンバ＆クラリネット（32ステップ×2展開）
+        name: '1.陽だまりラグタイム',
+        tempo: 126,
+        style: 'suika_rag',
+        chords: [
+          [60, 64, 67, 72], // C
+          [69, 73, 76, 79], // A7
+          [62, 65, 69, 72], // Dm7
+          [67, 71, 74, 77], // G7
+          [64, 67, 71, 74], // Em7
+          [69, 73, 76, 81], // A7
+          [62, 66, 69, 74], // D7
+          [67, 71, 74, 79]  // G7 -> C
+        ],
+        // 1拍目ルート、3拍目5度（またはウォーキング）のチューバ/ウッドベースライン
+        bass: [
+          [48, 55], [45, 52], [50, 57], [43, 50],
+          [52, 47], [45, 52], [50, 54], [43, 47]
+        ],
+        // g: 装飾音(Grace note), n: メイン音, d: 長さ(16分音符単位), inst: 'marimba' | 'clarinet'
+        melody: [
+          // Bar 1 (C)
+          [
+            { g: 75, n: 76, d: 2, inst: 'marimba' }, null, { n: 79, d: 2, inst: 'marimba' }, null,
+            { n: 84, d: 2, inst: 'marimba' }, { n: 81, d: 2, inst: 'marimba' }, { n: 79, d: 2, inst: 'marimba' }, { n: 76, d: 2, inst: 'marimba' },
+            { g: 73, n: 74, d: 2, inst: 'clarinet' }, { n: 76, d: 2, inst: 'clarinet' }, { n: 72, d: 3, inst: 'clarinet' }, null,
+            { n: 67, d: 2, inst: 'marimba' }, null, { n: 72, d: 2, inst: 'marimba' }, null
+          ],
+          // Bar 2 (A7)
+          [
+            { g: 75, n: 76, d: 2, inst: 'marimba' }, null, { n: 79, d: 2, inst: 'marimba' }, null,
+            { g: 80, n: 81, d: 3, inst: 'clarinet' }, null, { n: 79, d: 2, inst: 'clarinet' }, null,
+            { n: 76, d: 2, inst: 'marimba' }, { n: 73, d: 2, inst: 'marimba' }, { n: 69, d: 2, inst: 'marimba' }, { n: 73, d: 2, inst: 'marimba' },
+            { n: 76, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          // Bar 3 (Dm7)
+          [
+            { g: 73, n: 74, d: 2, inst: 'clarinet' }, null, { n: 77, d: 2, inst: 'clarinet' }, null,
+            { n: 81, d: 2, inst: 'marimba' }, { n: 79, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' },
+            { n: 72, d: 2, inst: 'clarinet' }, null, { n: 69, d: 2, inst: 'clarinet' }, null,
+            { n: 74, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          // Bar 4 (G7)
+          [
+            { g: 70, n: 71, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' }, { n: 79, d: 2, inst: 'marimba' },
+            { n: 83, d: 3, inst: 'clarinet' }, null, { n: 79, d: 2, inst: 'clarinet' }, null,
+            { n: 77, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' }, { n: 71, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' },
+            { n: 79, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          // Bar 5 (Em7)
+          [
+            { g: 78, n: 79, d: 2, inst: 'marimba' }, null, { n: 83, d: 2, inst: 'marimba' }, null,
+            { n: 86, d: 2, inst: 'clarinet' }, { n: 83, d: 2, inst: 'clarinet' }, { n: 79, d: 2, inst: 'marimba' }, { n: 76, d: 2, inst: 'marimba' },
+            { n: 74, d: 2, inst: 'marimba' }, { n: 76, d: 2, inst: 'marimba' }, { n: 79, d: 3, inst: 'clarinet' }, null,
+            { n: 76, d: 2, inst: 'marimba' }, null, null, null
+          ],
+          // Bar 6 (A7)
+          [
+            { g: 75, n: 76, d: 2, inst: 'clarinet' }, { n: 79, d: 2, inst: 'clarinet' }, { n: 81, d: 2, inst: 'marimba' }, { n: 85, d: 2, inst: 'marimba' },
+            { n: 88, d: 3, inst: 'marimba' }, null, { n: 85, d: 2, inst: 'marimba' }, null,
+            { n: 81, d: 2, inst: 'clarinet' }, { n: 79, d: 2, inst: 'clarinet' }, { n: 76, d: 2, inst: 'marimba' }, { n: 73, d: 2, inst: 'marimba' },
+            { n: 69, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          // Bar 7 (D7)
+          [
+            { g: 73, n: 74, d: 2, inst: 'marimba' }, null, { n: 78, d: 2, inst: 'marimba' }, null,
+            { n: 81, d: 2, inst: 'clarinet' }, null, { n: 84, d: 2, inst: 'clarinet' }, null,
+            { n: 83, d: 2, inst: 'marimba' }, { n: 81, d: 2, inst: 'marimba' }, { n: 78, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' },
+            { n: 79, d: 3, inst: 'clarinet' }, null, null, null
+          ],
+          // Bar 8 (G7 Turnaround)
+          [
+            { g: 83, n: 84, d: 3, inst: 'marimba' }, null, { n: 79, d: 2, inst: 'marimba' }, { n: 76, d: 2, inst: 'marimba' },
+            { n: 72, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' }, { n: 76, d: 2, inst: 'marimba' }, { n: 79, d: 2, inst: 'marimba' },
+            { n: 84, d: 3, inst: 'clarinet' }, null, null, null,
+            null, null, null, null
+          ]
+        ]
+      },
+      {
+        // Track 2: わくわく実験マーチ（トイ・グロッケン＆木管マーチ）
+        name: '2.わくわく実験マーチ',
+        tempo: 130,
+        style: 'lab_march',
+        chords: [
+          [65, 69, 72, 77], // F
+          [60, 64, 67, 70], // C7
+          [62, 65, 69, 74], // Dm
+          [58, 62, 65, 70], // Bb
+          [65, 69, 72, 77], // F
+          [67, 71, 74, 79], // G7
+          [60, 64, 67, 72], // C
+          [60, 64, 67, 70]  // C7
+        ],
+        bass: [
+          [41, 48], [36, 43], [38, 45], [34, 41],
+          [41, 48], [43, 50], [36, 43], [36, 40]
+        ],
+        melody: [
+          [
+            { n: 77, d: 2, inst: 'marimba' }, null, { n: 72, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' },
+            { n: 81, d: 3, inst: 'clarinet' }, null, { n: 77, d: 2, inst: 'clarinet' }, null,
+            { n: 84, d: 2, inst: 'marimba' }, { n: 81, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' }, { n: 72, d: 2, inst: 'marimba' },
+            { n: 77, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 76, d: 2, inst: 'clarinet' }, null, { n: 72, d: 2, inst: 'clarinet' }, { n: 76, d: 2, inst: 'clarinet' },
+            { n: 79, d: 3, inst: 'marimba' }, null, { n: 76, d: 2, inst: 'marimba' }, null,
+            { n: 82, d: 2, inst: 'clarinet' }, { n: 79, d: 2, inst: 'clarinet' }, { n: 76, d: 2, inst: 'clarinet' }, { n: 72, d: 2, inst: 'clarinet' },
+            { n: 76, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 74, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' }, { n: 81, d: 3, inst: 'marimba' }, null,
+            { n: 86, d: 3, inst: 'clarinet' }, null, { n: 81, d: 2, inst: 'clarinet' }, null,
+            { n: 77, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' }, { n: 69, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' },
+            { n: 77, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { g: 73, n: 74, d: 2, inst: 'clarinet' }, null, { n: 77, d: 2, inst: 'clarinet' }, null,
+            { n: 82, d: 3, inst: 'marimba' }, null, { n: 77, d: 2, inst: 'marimba' }, null,
+            { n: 74, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' }, { n: 82, d: 2, inst: 'marimba' }, { n: 86, d: 2, inst: 'marimba' },
+            { n: 84, d: 3, inst: 'clarinet' }, null, null, null
+          ],
+          [
+            { n: 81, d: 2, inst: 'marimba' }, null, { n: 77, d: 2, inst: 'marimba' }, { n: 81, d: 2, inst: 'marimba' },
+            { n: 84, d: 3, inst: 'clarinet' }, null, { n: 81, d: 2, inst: 'clarinet' }, null,
+            { n: 77, d: 2, inst: 'marimba' }, { n: 72, d: 2, inst: 'marimba' }, { n: 69, d: 2, inst: 'marimba' }, { n: 72, d: 2, inst: 'marimba' },
+            { n: 77, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 79, d: 2, inst: 'clarinet' }, { n: 83, d: 2, inst: 'clarinet' }, { n: 86, d: 3, inst: 'marimba' }, null,
+            { n: 83, d: 2, inst: 'marimba' }, { n: 79, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' }, { n: 79, d: 2, inst: 'marimba' },
+            { n: 83, d: 3, inst: 'clarinet' }, null, { n: 86, d: 2, inst: 'marimba' }, null,
+            { n: 84, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 84, d: 2, inst: 'marimba' }, { n: 79, d: 2, inst: 'marimba' }, { n: 76, d: 2, inst: 'marimba' }, { n: 72, d: 2, inst: 'marimba' },
+            { n: 74, d: 2, inst: 'clarinet' }, { n: 76, d: 2, inst: 'clarinet' }, { n: 79, d: 2, inst: 'clarinet' }, { n: 84, d: 2, inst: 'clarinet' },
+            { n: 88, d: 3, inst: 'marimba' }, null, { n: 84, d: 2, inst: 'marimba' }, null,
+            { n: 79, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 76, d: 2, inst: 'clarinet' }, { n: 79, d: 2, inst: 'clarinet' }, { n: 82, d: 2, inst: 'marimba' }, { n: 84, d: 2, inst: 'marimba' },
+            { n: 88, d: 3, inst: 'marimba' }, null, null, null,
+            null, null, null, null,
+            null, null, null, null
+          ]
+        ]
+      },
+      {
+        // Track 3: トロピカル分子ボサ（ヴィブラフォン＆アコースティックギター風ボサノヴァ）
+        name: '3.トロピカル分子ボサ',
+        tempo: 116,
+        style: 'bossa',
+        chords: [
+          [65, 69, 72, 76], // Fmaj7
+          [64, 67, 71, 74], // Em7
+          [62, 65, 69, 72], // Dm7
+          [60, 64, 67, 71], // Cmaj7
+          [58, 62, 65, 69], // Bbmaj7
+          [69, 72, 76, 79], // Am7
+          [62, 65, 69, 74], // Dm7
+          [67, 71, 74, 77]  // G7
+        ],
+        bass: [
+          [41, 48], [40, 47], [38, 45], [36, 43],
+          [34, 41], [45, 52], [38, 45], [43, 50]
+        ],
+        melody: [
+          [
+            { g: 79, n: 81, d: 3, inst: 'marimba' }, null, null, { n: 76, d: 2, inst: 'marimba' },
+            { n: 72, d: 2, inst: 'marimba' }, null, { n: 76, d: 2, inst: 'clarinet' }, { n: 81, d: 3, inst: 'clarinet' },
+            null, null, { n: 79, d: 2, inst: 'marimba' }, { n: 76, d: 2, inst: 'marimba' },
+            { n: 72, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 79, d: 3, inst: 'clarinet' }, null, null, { n: 74, d: 2, inst: 'clarinet' },
+            { n: 71, d: 2, inst: 'marimba' }, null, { n: 76, d: 2, inst: 'marimba' }, { n: 79, d: 3, inst: 'marimba' },
+            null, null, { n: 83, d: 2, inst: 'clarinet' }, { n: 79, d: 2, inst: 'clarinet' },
+            { n: 74, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 77, d: 3, inst: 'marimba' }, null, null, { n: 72, d: 2, inst: 'marimba' },
+            { n: 69, d: 2, inst: 'marimba' }, null, { n: 74, d: 2, inst: 'clarinet' }, { n: 77, d: 3, inst: 'clarinet' },
+            null, null, { n: 81, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' },
+            { n: 72, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 76, d: 3, inst: 'clarinet' }, null, { n: 79, d: 2, inst: 'marimba' }, null,
+            { n: 84, d: 4, inst: 'marimba' }, null, null, null,
+            { n: 83, d: 2, inst: 'clarinet' }, { n: 79, d: 2, inst: 'clarinet' }, { n: 76, d: 2, inst: 'marimba' }, { n: 72, d: 2, inst: 'marimba' },
+            { n: 71, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 74, d: 3, inst: 'marimba' }, null, null, { n: 70, d: 2, inst: 'marimba' },
+            { n: 74, d: 2, inst: 'clarinet' }, { n: 77, d: 2, inst: 'clarinet' }, { n: 81, d: 3, inst: 'marimba' }, null,
+            { n: 77, d: 2, inst: 'marimba' }, null, { n: 74, d: 2, inst: 'marimba' }, null,
+            { n: 70, d: 3, inst: 'clarinet' }, null, null, null
+          ],
+          [
+            { n: 76, d: 3, inst: 'clarinet' }, null, null, { n: 72, d: 2, inst: 'clarinet' },
+            { n: 76, d: 2, inst: 'marimba' }, { n: 79, d: 2, inst: 'marimba' }, { n: 84, d: 3, inst: 'clarinet' }, null,
+            { n: 79, d: 2, inst: 'marimba' }, null, { n: 76, d: 2, inst: 'marimba' }, null,
+            { n: 72, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 74, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' }, { n: 81, d: 3, inst: 'marimba' }, null,
+            { n: 84, d: 3, inst: 'clarinet' }, null, { n: 81, d: 2, inst: 'clarinet' }, null,
+            { n: 77, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' }, { n: 72, d: 2, inst: 'marimba' }, { n: 69, d: 2, inst: 'marimba' },
+            { n: 74, d: 3, inst: 'marimba' }, null, null, null
+          ],
+          [
+            { n: 79, d: 2, inst: 'clarinet' }, { n: 83, d: 2, inst: 'clarinet' }, { n: 86, d: 3, inst: 'marimba' }, null,
+            { n: 83, d: 2, inst: 'marimba' }, { n: 79, d: 2, inst: 'marimba' }, { n: 74, d: 2, inst: 'marimba' }, { n: 71, d: 2, inst: 'marimba' },
+            { n: 72, d: 4, inst: 'clarinet' }, null, null, null,
+            null, null, null, null
+          ]
+        ]
+      },
+      {
+        // Track 4: 星空の放課後オルゴール（チェレスタ・オルゴール＆ローファイ・チル）
+        name: '4.星空オルゴール',
+        tempo: 96,
+        style: 'musicbox',
+        chords: [
+          [63, 67, 70, 74], // Ebmaj7
+          [62, 65, 69, 72], // Dm7
+          [60, 63, 67, 70], // Cm7
+          [58, 62, 65, 69], // Bbmaj7
+          [56, 60, 63, 67], // Abmaj7
+          [55, 58, 62, 65], // Gm7
+          [60, 63, 67, 70], // Cm7
+          [53, 57, 60, 63]  // F7
+        ],
+        bass: [
+          [39, 46], [38, 45], [36, 43], [34, 41],
+          [32, 39], [31, 38], [36, 43], [41, 48]
+        ],
+        melody: [
+          [
+            { n: 79, d: 3, inst: 'marimba' }, null, { n: 75, d: 2, inst: 'marimba' }, null,
+            { n: 74, d: 3, inst: 'marimba' }, null, { n: 70, d: 2, inst: 'marimba' }, null,
+            { n: 75, d: 2, inst: 'clarinet' }, { n: 79, d: 2, inst: 'clarinet' }, { n: 82, d: 4, inst: 'marimba' }, null,
+            null, null, null, null
+          ],
+          [
+            { n: 77, d: 3, inst: 'marimba' }, null, { n: 74, d: 2, inst: 'marimba' }, null,
+            { n: 72, d: 3, inst: 'marimba' }, null, { n: 69, d: 2, inst: 'marimba' }, null,
+            { n: 74, d: 2, inst: 'clarinet' }, { n: 77, d: 2, inst: 'clarinet' }, { n: 81, d: 4, inst: 'marimba' }, null,
+            null, null, null, null
+          ],
+          [
+            { n: 75, d: 3, inst: 'marimba' }, null, { n: 72, d: 2, inst: 'marimba' }, null,
+            { n: 70, d: 3, inst: 'clarinet' }, null, { n: 67, d: 2, inst: 'clarinet' }, null,
+            { n: 72, d: 2, inst: 'marimba' }, { n: 75, d: 2, inst: 'marimba' }, { n: 79, d: 4, inst: 'marimba' }, null,
+            null, null, null, null
+          ],
+          [
+            { n: 74, d: 3, inst: 'clarinet' }, null, { n: 77, d: 2, inst: 'marimba' }, null,
+            { n: 82, d: 4, inst: 'marimba' }, null, null, null,
+            { n: 81, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' }, { n: 74, d: 4, inst: 'clarinet' }, null,
+            null, null, null, null
+          ],
+          [
+            { n: 75, d: 2, inst: 'marimba' }, { n: 79, d: 2, inst: 'marimba' }, { n: 84, d: 4, inst: 'marimba' }, null,
+            { n: 82, d: 2, inst: 'clarinet' }, { n: 79, d: 2, inst: 'clarinet' }, { n: 75, d: 4, inst: 'marimba' }, null,
+            null, null, null, null,
+            null, null, null, null
+          ],
+          [
+            { n: 74, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' }, { n: 82, d: 4, inst: 'marimba' }, null,
+            { n: 79, d: 2, inst: 'clarinet' }, { n: 74, d: 2, inst: 'clarinet' }, { n: 70, d: 4, inst: 'marimba' }, null,
+            null, null, null, null,
+            null, null, null, null
+          ],
+          [
+            { n: 72, d: 2, inst: 'marimba' }, { n: 75, d: 2, inst: 'marimba' }, { n: 79, d: 3, inst: 'marimba' }, null,
+            { n: 84, d: 3, inst: 'clarinet' }, null, { n: 79, d: 2, inst: 'marimba' }, null,
+            { n: 75, d: 2, inst: 'marimba' }, { n: 72, d: 2, inst: 'marimba' }, { n: 70, d: 3, inst: 'marimba' }, null,
+            null, null, null, null
+          ],
+          [
+            { n: 72, d: 2, inst: 'marimba' }, { n: 75, d: 2, inst: 'marimba' }, { n: 77, d: 2, inst: 'marimba' }, { n: 81, d: 2, inst: 'marimba' },
+            { n: 86, d: 5, inst: 'marimba' }, null, null, null,
+            null, null, null, null,
+            null, null, null, null
+          ]
+        ]
+      }
+    ];
+
+    class SpatialLabAudioEngine {
+      constructor() {
+        this.ctx = null;
+        this.masterGain = null;
+        this.bgmBus = null;
+        this.sfxBus = null;
+        this.analyser = null;
+        this.noiseBuffer = null;
+
+        this.bgmEnabled = true;
+        this.sfxEnabled = true;
+        this.isPlayingBgm = false;
+        this.trackIndex = 0;
+
+        this.currentStep = 0;
+        this.nextStepTime = 0;
+        this.schedulerTimer = null;
+      }
+
+      init() {
+        if (!this.ctx) {
+          const AudioCtx = window.AudioContext || window.webkitAudioContext;
+          if (!AudioCtx) return;
+          this.ctx = new AudioCtx();
+
+          // ダイナミクスを整えるマスターコンプレッサー
+          const comp = this.ctx.createDynamicsCompressor();
+          comp.threshold.value = -16;
+          comp.knee.value = 18;
+          comp.ratio.value = 3;
+
+          this.masterGain = this.ctx.createGain();
+          this.masterGain.gain.value = 0.85;
+
+          this.analyser = this.ctx.createAnalyser();
+          this.analyser.fftSize = 32;
+
+          this.bgmBus = this.ctx.createGain();
+          this.bgmBus.gain.value = this.bgmEnabled ? 0.52 : 0.0;
+
+          this.sfxBus = this.ctx.createGain();
+          this.sfxBus.gain.value = this.sfxEnabled ? 0.82 : 0.0;
+
+          // 温かい木製ルームリバーブ（1.0秒）
+          const reverb = this.createLightReverb(1.0, 3.6);
+          const reverbSend = this.ctx.createGain();
+          reverbSend.gain.value = 0.24;
+
+          this.noiseBuffer = this.createWhiteNoiseBuffer(0.25);
+
+          this.bgmBus.connect(comp);
+          this.bgmBus.connect(reverbSend);
+          this.sfxBus.connect(comp);
+          this.sfxBus.connect(reverbSend);
+
+          reverbSend.connect(reverb);
+          reverb.connect(comp);
+
+          comp.connect(this.masterGain);
+          this.masterGain.connect(this.analyser);
+          this.analyser.connect(this.ctx.destination);
+        }
+
+        if (this.ctx && this.ctx.state === 'suspended') {
+          this.ctx.resume();
+        }
+        if (this.bgmEnabled && !this.isPlayingBgm) {
+          this.startBgmLoop();
+        }
+      }
+
+      createWhiteNoiseBuffer(duration) {
+        const rate = this.ctx.sampleRate;
+        const len = Math.floor(rate * duration);
+        const buf = this.ctx.createBuffer(1, len, rate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) {
+          data[i] = Math.random() * 2 - 1;
+        }
+        return buf;
+      }
+
+      createLightReverb(duration, decay) {
+        const rate = this.ctx.sampleRate;
+        const length = Math.floor(rate * duration);
+        const impulse = this.ctx.createBuffer(2, length, rate);
+        const left = impulse.getChannelData(0);
+        const right = impulse.getChannelData(1);
+        for (let i = 0; i < length; i++) {
+          const env = Math.pow(1 - i / length, decay);
+          left[i] = (Math.random() * 2 - 1) * env;
+          right[i] = (Math.random() * 2 - 1) * env;
+        }
+        const conv = this.ctx.createConvolver();
+        conv.buffer = impulse;
+        return conv;
+      }
+
+      createPanner(panVal = 0) {
+        if (this.ctx.createStereoPanner) {
+          const p = this.ctx.createStereoPanner();
+          p.pan.value = Math.max(-1, Math.min(1, panVal));
+          return p;
+        }
+        return this.ctx.createGain();
+      }
+
+      mtof(midi) {
+        return 440 * Math.pow(2, (midi - 69) / 12);
+      }
+
+      nextTrack() {
+        this.init();
+        this.trackIndex = (this.trackIndex + 1) % BGM_TRACKS.length;
+        this.currentStep = 0;
+        return BGM_TRACKS[this.trackIndex].name;
+      }
+
+      /**
+       * アコースティック・ストライドピアノ / ウクレレ裏打ちコード（わずかなストラム時間差で人間味を再現）
+       */
+      playAcousticStrideChord(chordNotes, time, dur, style, pan = -0.3) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        const panner = this.createPanner(pan);
+        panner.connect(this.bgmBus);
+
+        chordNotes.forEach((midi, idx) => {
+          const noteTime = time + idx * 0.009; // 9msずつの自然なストローク/打鍵ズレ
+          const freq = this.mtof(midi);
+
+          const osc1 = this.ctx.createOscillator();
+          const osc2 = this.ctx.createOscillator();
+          const amp = this.ctx.createGain();
+
+          osc1.type = 'triangle';
+          osc2.type = 'sine';
+          osc1.frequency.setValueAtTime(freq, noteTime);
+          osc2.frequency.setValueAtTime(freq * 2, noteTime);
+
+          const peak = style === 'suika_rag' ? 0.062 : 0.052;
+          amp.gain.setValueAtTime(0.0001, noteTime);
+          amp.gain.linearRampToValueAtTime(peak, noteTime + 0.008);
+          amp.gain.exponentialRampToValueAtTime(0.0008, noteTime + dur);
+
+          const overtoneGain = this.ctx.createGain();
+          overtoneGain.gain.setValueAtTime(peak * 0.35, noteTime);
+          overtoneGain.gain.exponentialRampToValueAtTime(0.0001, noteTime + dur * 0.5);
+
+          osc1.connect(amp);
+          osc2.connect(overtoneGain);
+          overtoneGain.connect(amp);
+          amp.connect(panner);
+
+          osc1.start(noteTime);
+          osc2.start(noteTime);
+          osc1.stop(noteTime + dur + 0.02);
+          osc2.stop(noteTime + dur + 0.02);
+        });
+      }
+
+      /**
+       * スイカゲーム風 ローズウッド・マリンバ / シロフォン（基音 + 4倍音 + マレット打撃トランジェント）
+       */
+      playWoodyMarimba(midi, time, dur, style, pan = 0.25, graceMidi = null) {
+        if (!this.ctx || !this.bgmEnabled) return;
+
+        // 装飾音（グレースノート）がある場合は本音の32ms前にコロッと鳴らす
+        if (graceMidi) {
+          this.triggerMarimbaVoice(this.mtof(graceMidi), time, 0.05, 0.09, pan - 0.1, style);
+          this.triggerMarimbaVoice(this.mtof(midi), time + 0.034, dur, 0.17, pan, style);
+        } else {
+          this.triggerMarimbaVoice(this.mtof(midi), time, dur, 0.165, pan, style);
+        }
+      }
+
+      triggerMarimbaVoice(freq, time, dur, velocity, pan, style) {
+        const panner = this.createPanner(pan);
+        panner.connect(this.bgmBus);
+
+        // 1. 基音（温かいウッド共鳴）
+        const fund = this.ctx.createOscillator();
+        const fundAmp = this.ctx.createGain();
+        fund.type = 'sine';
+        fund.frequency.setValueAtTime(freq, time);
+
+        const release = style === 'musicbox' ? dur * 1.4 : Math.min(dur, 0.24);
+        fundAmp.gain.setValueAtTime(0.0001, time);
+        fundAmp.gain.linearRampToValueAtTime(velocity, time + 0.004);
+        fundAmp.gain.exponentialRampToValueAtTime(0.0008, time + release);
+
+        // 2. マリンバ特有の4倍音（3.98倍で木琴のコロコロした響きを作る）
+        const harm = this.ctx.createOscillator();
+        const harmAmp = this.ctx.createGain();
+        harm.type = 'triangle';
+        harm.frequency.setValueAtTime(freq * (style === 'musicbox' ? 3.0 : 3.98), time);
+
+        harmAmp.gain.setValueAtTime(0.0001, time);
+        harmAmp.gain.linearRampToValueAtTime(velocity * 0.42, time + 0.002);
+        harmAmp.gain.exponentialRampToValueAtTime(0.0001, time + 0.045);
+
+        // 3. マレットのアタッククリック音
+        const click = this.ctx.createOscillator();
+        const clickAmp = this.ctx.createGain();
+        click.type = 'sine';
+        click.frequency.setValueAtTime(freq * 6.5, time);
+        click.frequency.exponentialRampToValueAtTime(freq * 1.5, time + 0.014);
+        clickAmp.gain.setValueAtTime(velocity * 0.28, time);
+        clickAmp.gain.exponentialRampToValueAtTime(0.0001, time + 0.015);
+
+        fund.connect(fundAmp);
+        harm.connect(harmAmp);
+        click.connect(clickAmp);
+
+        fundAmp.connect(panner);
+        harmAmp.connect(panner);
+        clickAmp.connect(panner);
+
+        fund.start(time);
+        harm.start(time);
+        click.start(time);
+
+        fund.stop(time + release + 0.02);
+        harm.stop(time + 0.055);
+        click.stop(time + 0.02);
+      }
+
+      /**
+       * スイカゲーム風 クラリネット / 木管リード（奇数倍音＋ローパスフィルタ＋柔らかなビブラート）
+       */
+      playClarinetWoodwind(midi, time, dur, pan = -0.25, graceMidi = null) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        const startT = graceMidi ? time + 0.032 : time;
+        if (graceMidi) {
+          this.triggerClarinetVoice(this.mtof(graceMidi), time, 0.045, 0.06, pan);
+        }
+        this.triggerClarinetVoice(this.mtof(midi), startT, dur, 0.095, pan);
+      }
+
+      triggerClarinetVoice(freq, time, dur, velocity, pan) {
+        const osc = this.ctx.createOscillator();
+        const sub = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const amp = this.ctx.createGain();
+        const panner = this.createPanner(pan);
+
+        // クラリネット特有の矩形波（奇数倍音）＋三角波ブレンド
+        osc.type = 'square';
+        sub.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, time);
+        sub.frequency.setValueAtTime(freq, time);
+
+        // 心地よいビブラートLFO
+        const lfo = this.ctx.createOscillator();
+        const lfoGain = this.ctx.createGain();
+        lfo.frequency.value = 5.5;
+        lfoGain.gain.setValueAtTime(0, time);
+        lfoGain.gain.linearRampToValueAtTime(3.2, time + 0.08);
+        lfo.connect(lfoGain);
+        lfoGain.connect(osc.frequency);
+
+        // 木管の丸みを作るローパスフィルタ
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(freq * 2.8, time);
+        filter.Q.value = 1.4;
+
+        amp.gain.setValueAtTime(0.0001, time);
+        amp.gain.linearRampToValueAtTime(velocity, time + 0.018);
+        amp.gain.setValueAtTime(velocity * 0.85, time + dur * 0.65);
+        amp.gain.exponentialRampToValueAtTime(0.0008, time + dur);
+
+        osc.connect(filter);
+        sub.connect(filter);
+        filter.connect(amp);
+        amp.connect(panner);
+        panner.connect(this.bgmBus);
+
+        osc.start(time);
+        sub.start(time);
+        lfo.start(time);
+
+        osc.stop(time + dur + 0.02);
+        sub.stop(time + dur + 0.02);
+        lfo.stop(time + dur + 0.02);
+      }
+
+      /**
+       * チューバ / ウッドベース（弾むような低音ブン・チャッの「ブン」）
+       */
+      playUprightBass(midi, time, dur) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        const freq = this.mtof(midi);
+        const osc1 = this.ctx.createOscillator();
+        const osc2 = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const amp = this.ctx.createGain();
+
+        osc1.type = 'triangle';
+        osc2.type = 'sawtooth';
+        osc1.frequency.setValueAtTime(freq, time);
+        osc2.frequency.setValueAtTime(freq, time);
+
+        filter.type = 'lowpass';
+        filter.frequency.setValueAtTime(freq * 4.5, time);
+        filter.frequency.exponentialRampToValueAtTime(freq * 1.6, time + 0.14);
+
+        amp.gain.setValueAtTime(0.001, time);
+        amp.gain.linearRampToValueAtTime(0.21, time + 0.012);
+        amp.gain.exponentialRampToValueAtTime(0.001, time + dur);
+
+        const sawGain = this.ctx.createGain();
+        sawGain.gain.value = 0.28;
+
+        osc1.connect(filter);
+        osc2.connect(sawGain);
+        sawGain.connect(filter);
+        filter.connect(amp);
+        amp.connect(this.bgmBus);
+
+        osc1.start(time);
+        osc2.start(time);
+        osc1.stop(time + dur + 0.02);
+        osc2.stop(time + dur + 0.02);
+      }
+
+      /**
+       * トイ・パーカッション（ウッドブロック・ブラシスネア・アコースティックキック）
+       */
+      playToyPercussion(type, time) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        if (type === 'kick') {
+          const osc = this.ctx.createOscillator();
+          const amp = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(125, time);
+          osc.frequency.exponentialRampToValueAtTime(46, time + 0.09);
+          amp.gain.setValueAtTime(0.22, time);
+          amp.gain.exponentialRampToValueAtTime(0.001, time + 0.11);
+          osc.connect(amp);
+          amp.connect(this.bgmBus);
+          osc.start(time);
+          osc.stop(time + 0.12);
+        } else if (type === 'woodblock_hi' || type === 'woodblock_lo') {
+          const osc = this.ctx.createOscillator();
+          const amp = this.ctx.createGain();
+          const panner = this.createPanner(type === 'woodblock_hi' ? 0.38 : 0.25);
+          const baseF = type === 'woodblock_hi' ? 960 : 720;
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(baseF, time);
+          osc.frequency.exponentialRampToValueAtTime(baseF * 0.72, time + 0.028);
+          amp.gain.setValueAtTime(0.095, time);
+          amp.gain.exponentialRampToValueAtTime(0.0008, time + 0.035);
+          osc.connect(amp);
+          amp.connect(panner);
+          panner.connect(this.bgmBus);
+          osc.start(time);
+          osc.stop(time + 0.04);
+        } else if (type === 'brush' && this.noiseBuffer) {
+          const src = this.ctx.createBufferSource();
+          src.buffer = this.noiseBuffer;
+          const filter = this.ctx.createBiquadFilter();
+          filter.type = 'bandpass';
+          filter.frequency.value = 2600;
+          filter.Q.value = 1.2;
+          const amp = this.ctx.createGain();
+          const panner = this.createPanner(-0.25);
+          amp.gain.setValueAtTime(0.055, time);
+          amp.gain.exponentialRampToValueAtTime(0.0008, time + 0.055);
+          src.connect(filter);
+          filter.connect(amp);
+          amp.connect(panner);
+          panner.connect(this.bgmBus);
+          src.start(time);
+          src.stop(time + 0.06);
+        }
+      }
+
+      scheduleStep(step, time) {
+        const track = BGM_TRACKS[this.trackIndex];
+        const stepDur = 60 / track.tempo / 4;
+        const bar = Math.floor(step / 16) % track.chords.length;
+        const beatStep = step % 16;
+
+        const chord = track.chords[bar];
+        const bassPair = track.bass[bar];
+
+        if (track.style === 'suika_rag' || track.style === 'lab_march') {
+          // スイカゲーム特有の「ブン・チャッ・ブン・チャッ」ストライド伴奏
+          if (beatStep === 0 || beatStep === 8) {
+            const bNote = beatStep === 0 ? bassPair[0] : bassPair[1];
+            this.playUprightBass(bNote, time, stepDur * 3.1);
+            this.playToyPercussion('kick', time);
+          }
+          // 4拍目のウォーキング・ピックアップベース
+          if (beatStep === 14 && bar % 2 === 1) {
+            this.playUprightBass(bassPair[1] + 2, time, stepDur * 1.6);
+          }
+
+          // 2拍目・4拍目の裏打ちアコースティックコード＆ブラシスネア
+          if (beatStep === 4 || beatStep === 12) {
+            this.playAcousticStrideChord(chord, time, stepDur * 1.9, track.style, -0.32);
+            this.playToyPercussion('brush', time);
+          } else if (beatStep === 15 && bar % 2 === 0) {
+            // シンコペーションの軽いチャッ
+            this.playAcousticStrideChord(chord, time, stepDur * 1.2, track.style, -0.2);
+          }
+
+          // コミカルなウッドブロックの合いの手（カッ・コッ）
+          if (beatStep === 6) this.playToyPercussion('woodblock_hi', time);
+          if (beatStep === 7 && bar % 2 === 1) this.playToyPercussion('woodblock_lo', time);
+          if (beatStep === 14) this.playToyPercussion('woodblock_lo', time);
+        } else if (track.style === 'bossa') {
+          // ボサノヴァ・クラーヴェパターン
+          if (beatStep === 0 || beatStep === 3 || beatStep === 6 || beatStep === 10 || beatStep === 12) {
+            this.playAcousticStrideChord(chord, time, stepDur * 2.4, track.style, -0.3);
+          }
+          if (beatStep === 0 || beatStep === 6 || beatStep === 8 || beatStep === 14) {
+            const bNote = beatStep < 8 ? bassPair[0] : bassPair[1];
+            this.playUprightBass(bNote, time, stepDur * 2.5);
+          }
+          if (beatStep === 0 || beatStep === 8) this.playToyPercussion('kick', time);
+          if (beatStep === 2 || beatStep === 6 || beatStep === 10 || beatStep === 14) {
+            this.playToyPercussion('brush', time);
+          }
+          if (beatStep === 4 || beatStep === 11) this.playToyPercussion('woodblock_hi', time);
+        } else {
+          // オルゴール・アルペジオ伴奏
+          if (beatStep % 4 === 0) {
+            const noteIdx = (beatStep / 4) % chord.length;
+            this.playAcousticStrideChord([chord[noteIdx], chord[(noteIdx + 2) % chord.length]], time, stepDur * 3.8, track.style, -0.25);
+          }
+          if (beatStep === 0 || beatStep === 8) {
+            this.playUprightBass(beatStep === 0 ? bassPair[0] : bassPair[1], time, stepDur * 4.5);
+          }
+        }
+
+        // メロディパート（マリンバ ⇄ クラリネットの掛け合い＋立体パンニング）
+        const melEvent = track.melody[bar][beatStep];
+        if (melEvent) {
+          const noteDur = (melEvent.d || 2) * stepDur * 0.95;
+          const panPos = Math.sin(step * 0.35) * 0.45;
+          if (melEvent.inst === 'clarinet') {
+            this.playClarinetWoodwind(melEvent.n, time, noteDur, panPos, melEvent.g || null);
+          } else {
+            this.playWoodyMarimba(melEvent.n, time, noteDur, track.style, panPos, melEvent.g || null);
+          }
+        }
+      }
+
+      startBgmLoop() {
+        if (!this.ctx || this.isPlayingBgm) return;
+        this.isPlayingBgm = true;
+        this.nextStepTime = this.ctx.currentTime + 0.05;
+
+        const lookahead = () => {
+          if (!this.isPlayingBgm) return;
+          const track = BGM_TRACKS[this.trackIndex];
+          const stepDur = 60 / track.tempo / 4;
+          const totalSteps = track.chords.length * 16;
+          while (this.nextStepTime < this.ctx.currentTime + 0.12) {
+            this.scheduleStep(this.currentStep, this.nextStepTime);
+            this.nextStepTime += stepDur;
+            this.currentStep = (this.currentStep + 1) % totalSteps;
+          }
+          this.schedulerTimer = setTimeout(lookahead, 30);
+        };
+        lookahead();
+      }
+
+      toggleBgm() {
+        this.init();
+        this.bgmEnabled = !this.bgmEnabled;
+        if (this.bgmBus && this.ctx) {
+          this.bgmBus.gain.setTargetAtTime(this.bgmEnabled ? 0.45 : 0.0, this.ctx.currentTime, 0.06);
+        }
+        if (this.bgmEnabled && !this.isPlayingBgm) {
+          this.startBgmLoop();
+        }
+        return this.bgmEnabled;
+      }
+
+      toggleSfx() {
+        this.init();
+        this.sfxEnabled = !this.sfxEnabled;
+        if (this.sfxBus && this.ctx) {
+          this.sfxBus.gain.setTargetAtTime(this.sfxEnabled ? 0.78 : 0.0, this.ctx.currentTime, 0.05);
+        }
+        return this.sfxEnabled;
+      }
+
+      playDrop(normX = 0) {
+        if (!this.sfxEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const amp = this.ctx.createGain();
+        const panner = this.createPanner(normX);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(350, now);
+        osc.frequency.exponentialRampToValueAtTime(115, now + 0.1);
+        amp.gain.setValueAtTime(0.25, now);
+        amp.gain.exponentialRampToValueAtTime(0.001, now + 0.11);
+        osc.connect(amp);
+        amp.connect(panner);
+        panner.connect(this.sfxBus);
+        osc.start(now);
+        osc.stop(now + 0.11);
+      }
+
+      playMerge(level, normX = 0, combo = 1) {
+        if (!this.sfxEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+        if (level >= 11) {
+          this.playFanfare();
+          return;
+        }
+        const now = this.ctx.currentTime;
+        const baseFreq = 293.66 * Math.pow(1.065, level + Math.min(combo, 5) * 0.5);
+        [1, 1.25, 1.5, 2.0].forEach((r, idx) => {
+          const osc = this.ctx.createOscillator();
+          const amp = this.ctx.createGain();
+          const panner = this.createPanner(normX + (idx - 1.5) * 0.15);
+          osc.type = idx % 2 === 0 ? 'triangle' : 'sine';
+          const st = now + idx * 0.036;
+          const dur = 0.16;
+          osc.frequency.setValueAtTime(baseFreq * r, st);
+          amp.gain.setValueAtTime(0.001, st);
+          amp.gain.linearRampToValueAtTime(0.19, st + 0.01);
+          amp.gain.exponentialRampToValueAtTime(0.001, st + dur);
+          osc.connect(amp);
+          amp.connect(panner);
+          panner.connect(this.sfxBus);
+          osc.start(st);
+          osc.stop(st + dur);
+        });
+      }
+
+      playFanfare() {
+        if (!this.sfxEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        [
+          { f: 523.25, d: 0.0, l: 0.14, p: -0.4 },
+          { f: 659.25, d: 0.10, l: 0.14, p: 0.4 },
+          { f: 783.99, d: 0.20, l: 0.15, p: -0.2 },
+          { f: 1046.50, d: 0.32, l: 0.65, p: 0.0 }
+        ].forEach((n) => {
+          const osc = this.ctx.createOscillator();
+          const amp = this.ctx.createGain();
+          const panner = this.createPanner(n.p);
+          osc.type = 'triangle';
+          const st = now + n.d;
+          osc.frequency.setValueAtTime(n.f, st);
+          amp.gain.setValueAtTime(0.001, st);
+          amp.gain.linearRampToValueAtTime(0.22, st + 0.02);
+          amp.gain.exponentialRampToValueAtTime(0.001, st + n.l);
+          osc.connect(amp);
+          amp.connect(panner);
+          panner.connect(this.sfxBus);
+          osc.start(st);
+          osc.stop(st + n.l);
+        });
+      }
+
+      playDangerBeep() {
+        if (!this.sfxEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const amp = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(620, now);
+        osc.frequency.setValueAtTime(490, now + 0.05);
+        amp.gain.setValueAtTime(0.06, now);
+        amp.gain.exponentialRampToValueAtTime(0.001, now + 0.1);
+        osc.connect(amp);
+        amp.connect(this.sfxBus);
+        osc.start(now);
+        osc.stop(now + 0.1);
+      }
+
+      playGameOver() {
+        if (!this.sfxEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        [392.0, 349.23, 311.13, 261.63].forEach((f, idx) => {
+          const osc = this.ctx.createOscillator();
+          const amp = this.ctx.createGain();
+          osc.type = 'sawtooth';
+          const st = now + idx * 0.15;
+          const dur = idx === 3 ? 0.5 : 0.16;
+          osc.frequency.setValueAtTime(f, st);
+          amp.gain.setValueAtTime(0.13, st);
+          amp.gain.exponentialRampToValueAtTime(0.001, st + dur);
+          osc.connect(amp);
+          amp.connect(this.sfxBus);
+          osc.start(st);
+          osc.stop(st + dur);
+        });
+      }
+    }
+
+    /**
+     * 3. 超軽量スプライトキャッシュ＆物理パズル本体
+     * - 雲マスコットやガラスケースが端で見切れないよう、論理キャンバス幅を500pxに拡張し、
+     *   中央（X: 56〜444）にガラスケースを配置して左右に十分なマージンを確保しています。
+     */
+    const LOGICAL_WIDTH = 500;
+    const LOGICAL_HEIGHT = 640;
+
+    const BOX_LEFT = 56;
+    const BOX_RIGHT = 444;
+    const BOX_TOP_FRONT = 136;
+    const BOX_BOTTOM = 612;
+    const BOX_DEPTH_DX = 22;
+    const BOX_DEPTH_DY = 32;
+    const DROP_SPAWN_Y = 82;
+    const DANGER_LINE_Y = 164;
+    const DROP_COOLDOWN_MS = 450;
+    const DANGER_LIMIT_SEC = 2.5;
+
+    const { Engine, World, Bodies, Body, Events, Composite } = (window.Matter || {});
+    const audio = new SpatialLabAudioEngine();
+    const rankingService = new RankingService();
+
+    const gameCanvas = document.getElementById('gameCanvas');
+    const ctx = gameCanvas.getContext('2d');
+    const nextPreviewCanvas = document.getElementById('nextPreviewCanvas');
+    const nextCtx = nextPreviewCanvas.getContext('2d');
+    const mobileNextCanvas = document.getElementById('mobileNextCanvas');
+    const mobileNextCtx = mobileNextCanvas.getContext('2d');
+    const modalElementCanvas = document.getElementById('modalElementCanvas');
+    const modalElementCtx = modalElementCanvas.getContext('2d');
+    const bgCanvas = document.getElementById('bgParticlesCanvas');
+    const bgCtx = bgCanvas.getContext('2d');
+    const vizCanvas = document.getElementById('audioVisualizerCanvas');
+    const vizCtx = vizCanvas.getContext('2d');
+
+    // オフスクリーンスプライトキャッシュ
+    const sphereSpriteCache = new Map(); // key: `${level}_${showFaces}`
+    let boxBackSprite = null;
+    let boxFrontSprite = null;
+    const mascotSpriteCache = new Map(); // key: mood
+
+    // ゲーム状態
+    let engine = null;
+    let world = null;
+    let score = 0;
+    let ep = 30;
+    let currentDropLevel = 1;
+    let nextDropLevel = 2;
+    let pointerX = LOGICAL_WIDTH / 2;
+    let mascotX = LOGICAL_WIDTH / 2;
+    let mascotMoodTimer = 0;
+    let mascotMood = 'normal';
+
+    // 滑らかなキーボード移動用の状態管理
+    const keysHeld = { left: false, right: false };
+    let keyVelocityX = 0;
+
+    let isPointerDown = false;
+    let canDrop = true;
+    let isGameOver = false;
+    let showKawaiiFaces = true;
+    let uiFocusMode = 0;
+
+    let activeSkillMode = null;
+    let comboCount = 0;
+    let maxCombo = 1;
+    let lastMergeTime = 0;
+
+    let dangerTimer = 0;
+    let lastBeepSecond = -1;
+    let maxReachedLevel = 1;
+    let discoveredLevels = new Set([1]);
+    let completedMissions = new Set();
+
+    let particles = [];
+    let shockwaves = [];
+    let floatingTexts = [];
+    let bgMolecules = [];
+
+    /**
+     * スプライトキャッシュ構築（初期化時＆顔切替時のみ実行されるためフレーム中は超高速）
+     */
+    function buildAllSprites() {
+      const spriteDpr = 2;
+      sphereSpriteCache.clear();
+
+      ELEMENTS.forEach((el) => {
+        [true, false].forEach((withFace) => {
+          const pad = 6;
+          const size = (el.radius + pad) * 2;
+          const off = document.createElement('canvas');
+          off.width = size * spriteDpr;
+          off.height = size * spriteDpr;
+          const octx = off.getContext('2d');
+          octx.scale(spriteDpr, spriteDpr);
+
+          renderSphereToCache(octx, size / 2, size / 2, el.radius, el, withFace);
+          sphereSpriteCache.set(`${el.level}_${withFace}`, { canvas: off, size });
+        });
+      });
+
+      // 3Dガラスボックス背面・前面キャッシュ
+      boxBackSprite = document.createElement('canvas');
+      boxBackSprite.width = LOGICAL_WIDTH * spriteDpr;
+      boxBackSprite.height = LOGICAL_HEIGHT * spriteDpr;
+      const bctx = boxBackSprite.getContext('2d');
+      bctx.scale(spriteDpr, spriteDpr);
+      render3DBoxBackToCache(bctx);
+
+      boxFrontSprite = document.createElement('canvas');
+      boxFrontSprite.width = LOGICAL_WIDTH * spriteDpr;
+      boxFrontSprite.height = LOGICAL_HEIGHT * spriteDpr;
+      const fctx = boxFrontSprite.getContext('2d');
+      fctx.scale(spriteDpr, spriteDpr);
+      render3DBoxFrontToCache(fctx);
+
+      // 雲マスコットキャッシュ
+      mascotSpriteCache.clear();
+      ['normal', 'happy', 'panic'].forEach((mood) => {
+        const mCanvas = document.createElement('canvas');
+        mCanvas.width = 96 * spriteDpr;
+        mCanvas.height = 68 * spriteDpr;
+        const mctx = mCanvas.getContext('2d');
+        mctx.scale(spriteDpr, spriteDpr);
+        renderCloudMascotToCache(mctx, 48, 36, mood);
+        mascotSpriteCache.set(mood, mCanvas);
+      });
+    }
+
+    function renderSphereToCache(context, cx, cy, r, el, withFace) {
+      context.save();
+      context.translate(cx, cy);
+
+      // 1. ベース立体グラデーション
+      const grad = context.createRadialGradient(-r * 0.28, -r * 0.32, r * 0.08, 0, 0, r);
+      grad.addColorStop(0, el.gradTop);
+      grad.addColorStop(0.58, el.color);
+      grad.addColorStop(1, el.gradBot);
+
+      context.beginPath();
+      context.arc(0, 0, r, 0, Math.PI * 2);
+      context.fillStyle = grad;
+      context.fill();
+
+      // 2. 模様（スイカ縞・分子軌道・ピーチクレフトなど）
+      context.save();
+      context.beginPath();
+      context.arc(0, 0, r, 0, Math.PI * 2);
+      context.clip();
+
+      if (el.pattern === 'suika_gold') {
+        context.strokeStyle = 'rgba(20, 83, 45, 0.62)';
+        context.lineWidth = r * 0.14;
+        context.lineCap = 'round';
+        [-0.55, 0, 0.55].forEach((offset) => {
+          context.beginPath();
+          for (let py = -r; py <= r; py += 7) {
+            const zig = Math.sin(py * 0.22) * (r * 0.06);
+            const px = offset * r * (1 - (py * py) / (r * r * 1.35)) + zig;
+            if (py === -r) context.moveTo(px, py);
+            else context.lineTo(px, py);
+          }
+          context.stroke();
+        });
+      } else if (el.pattern === 'peach') {
+        context.strokeStyle = 'rgba(255, 255, 255, 0.32)';
+        context.lineWidth = Math.max(2, r * 0.05);
+        context.beginPath();
+        context.arc(r * 0.25, r * 0.3, r * 0.55, Math.PI * 0.65, Math.PI * 1.15);
+        context.stroke();
+      } else if (el.pattern === 'planet') {
+        context.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+        context.lineWidth = Math.max(2, r * 0.06);
+        context.beginPath();
+        context.arc(0, r * 0.2, r * 0.75, 0, Math.PI * 2);
+        context.stroke();
+      }
+      context.restore();
+
+      // 3. 外周輪郭線
+      context.beginPath();
+      context.arc(0, 0, r, 0, Math.PI * 2);
+      context.lineWidth = Math.max(2.2, r * 0.055);
+      context.strokeStyle = el.borderColor;
+      context.stroke();
+
+      // 4. スイカゲーム風の左上2連ホワイト光沢ハイライト
+      context.fillStyle = 'rgba(255, 255, 255, 0.85)';
+      context.beginPath();
+      context.ellipse(-r * 0.33, -r * 0.42, r * 0.21, r * 0.11, -Math.PI / 4, 0, Math.PI * 2);
+      context.fill();
+
+      context.beginPath();
+      context.arc(-r * 0.11, -r * 0.55, r * 0.065, 0, Math.PI * 2);
+      context.fill();
+
+      // 5. 可愛い顔パーツ
+      if (withFace && r >= 20) {
+        drawKawaiiFaceOnBall(context, r, el);
+      }
+
+      // 6. 元素記号・物質名（袋文字）
+      context.textAlign = 'center';
+      context.textBaseline = 'middle';
+      const symLen = el.symbol.length;
+      let symSize = r * 0.65;
+      if (symLen >= 6) symSize = r * 0.35;
+      else if (symLen >= 3) symSize = r * 0.45;
+      else if (symLen === 2) symSize = r * 0.53;
+      symSize = Math.max(10, symSize);
+
+      const symY = (withFace && r >= 28) ? -r * 0.22 : -r * 0.12;
+      context.font = `900 ${symSize}px "M PLUS Rounded 1c", "Fredoka", sans-serif`;
+      context.lineJoin = 'round';
+      context.lineWidth = Math.max(2.5, symSize * 0.16);
+      context.strokeStyle = el.textColor === '#0F172A' ? 'rgba(255,255,255,0.92)' : 'rgba(15, 23, 42, 0.72)';
+      context.strokeText(el.symbol, 0, symY);
+      context.fillStyle = el.textColor;
+      context.fillText(el.symbol, 0, symY);
+
+      const nameSize = Math.max(7.5, Math.min(r * 0.23, el.name.length > 5 ? r * 0.165 : r * 0.22));
+      const nameY = (withFace && r >= 28) ? r * 0.44 : r * 0.36;
+      context.font = `800 ${nameSize}px "M PLUS Rounded 1c", sans-serif`;
+      context.lineWidth = Math.max(2, nameSize * 0.18);
+      context.strokeText(el.name, 0, nameY);
+      context.fillText(el.name, 0, nameY);
+
+      context.restore();
+    }
+
+    function drawKawaiiFaceOnBall(context, r, el) {
+      context.save();
+      const faceY = r * 0.12;
+      const eyeOffsetX = r * 0.28;
+      const eyeR = Math.max(1.8, r * 0.075);
+
+      context.fillStyle = 'rgba(251, 113, 133, 0.5)';
+      context.beginPath();
+      context.ellipse(-eyeOffsetX * 1.25, faceY + eyeR * 1.1, eyeR * 1.35, eyeR * 0.75, 0, 0, Math.PI * 2);
+      context.ellipse(eyeOffsetX * 1.25, faceY + eyeR * 1.1, eyeR * 1.35, eyeR * 0.75, 0, 0, Math.PI * 2);
+      context.fill();
+
+      context.fillStyle = '#271709';
+      context.strokeStyle = '#271709';
+      context.lineWidth = Math.max(1.6, r * 0.042);
+      context.lineCap = 'round';
+      context.lineJoin = 'round';
+
+      if (el.mood === 'king' || el.mood === 'wink') {
+        context.beginPath();
+        context.moveTo(-eyeOffsetX - eyeR, faceY - eyeR * 0.7);
+        context.lineTo(-eyeOffsetX + eyeR * 0.5, faceY);
+        context.lineTo(-eyeOffsetX - eyeR, faceY + eyeR * 0.7);
+        context.stroke();
+
+        context.beginPath();
+        context.arc(eyeOffsetX, faceY, eyeR, 0, Math.PI * 2);
+        context.fill();
+      } else {
+        context.beginPath();
+        context.arc(-eyeOffsetX, faceY, eyeR, 0, Math.PI * 2);
+        context.arc(eyeOffsetX, faceY, eyeR, 0, Math.PI * 2);
+        context.fill();
+
+        context.fillStyle = '#FFFFFF';
+        context.beginPath();
+        context.arc(-eyeOffsetX - eyeR * 0.3, faceY - eyeR * 0.3, eyeR * 0.35, 0, Math.PI * 2);
+        context.arc(eyeOffsetX - eyeR * 0.3, faceY - eyeR * 0.3, eyeR * 0.35, 0, Math.PI * 2);
+        context.fill();
+      }
+
+      context.beginPath();
+      context.arc(0, faceY + eyeR * 0.45, eyeR * 0.9, 0.12 * Math.PI, 0.88 * Math.PI);
+      context.stroke();
+      context.restore();
+    }
+
+    // キャッシュ済みスプライトを使って高速に球体を描画
+    function drawCachedSphere(context, x, y, radius, el, angle = 0, scaleX = 1, scaleY = 1) {
+      const cached = sphereSpriteCache.get(`${el.level}_${showKawaiiFaces}`);
+      if (!cached) return;
+      context.save();
+      context.translate(x, y);
+      // 文字の視認性を保ちつつ物理の揺れを表現
+      context.rotate(Math.sin(angle) * 0.24);
+      context.scale(scaleX * (radius / el.radius), scaleY * (radius / el.radius));
+      context.drawImage(cached.canvas, -cached.size / 2, -cached.size / 2, cached.size, cached.size);
+      context.restore();
+    }
+
+    function renderCloudMascotToCache(context, cx, cy, mood) {
+      context.save();
+      context.translate(cx, cy);
+
+      // 黄色いふんわり外枠
+      context.fillStyle = '#FDE047';
+      const puffs = [
+        { dx: -20, dy: 4, r: 15 },
+        { dx: -8, dy: -7, r: 17 },
+        { dx: 10, dy: -6, r: 16 },
+        { dx: 22, dy: 4, r: 14 },
+        { dx: 0, dy: 8, r: 16 }
+      ];
+      context.beginPath();
+      puffs.forEach((p) => {
+        context.moveTo(p.dx + p.r, p.dy);
+        context.arc(p.dx, p.dy, p.r + 3.5, 0, Math.PI * 2);
+      });
+      context.fill();
+
+      // クリームホワイト雲ボディ
+      context.fillStyle = '#FFFBEB';
+      context.beginPath();
+      puffs.forEach((p) => {
+        context.moveTo(p.dx + p.r, p.dy);
+        context.arc(p.dx, p.dy, p.r, 0, Math.PI * 2);
+      });
+      context.fill();
+
+      // ほっぺ＆目＆口
+      context.fillStyle = '#FDA4AF';
+      context.beginPath();
+      context.ellipse(-11, 4, 3.8, 2.2, 0, 0, Math.PI * 2);
+      context.ellipse(11, 4, 3.8, 2.2, 0, 0, Math.PI * 2);
+      context.fill();
+
+      context.fillStyle = '#451A03';
+      context.strokeStyle = '#451A03';
+      context.lineWidth = 1.8;
+      context.lineCap = 'round';
+
+      if (mood === 'panic') {
+        context.beginPath();
+        context.moveTo(-9, -2); context.lineTo(-5, 1); context.lineTo(-9, 4);
+        context.moveTo(9, -2); context.lineTo(5, 1); context.lineTo(9, 4);
+        context.stroke();
+        context.fillStyle = '#38BDF8';
+        context.beginPath();
+        context.arc(20, -6, 3, 0, Math.PI * 2);
+        context.fill();
+      } else if (mood === 'happy') {
+        context.beginPath();
+        context.arc(-7, 1, 3, Math.PI, 0);
+        context.stroke();
+        context.beginPath();
+        context.arc(7, 1, 3, Math.PI, 0);
+        context.stroke();
+      } else {
+        context.beginPath();
+        context.arc(-7, 0, 2.3, 0, Math.PI * 2);
+        context.arc(7, 0, 2.3, 0, Math.PI * 2);
+        context.fill();
+      }
+
+      context.beginPath();
+      context.arc(0, 2, 2.5, 0.15 * Math.PI, 0.85 * Math.PI);
+      context.stroke();
+      context.restore();
+    }
+
+    function render3DBoxBackToCache(context) {
+      context.save();
+      const backLeft = BOX_LEFT + BOX_DEPTH_DX;
+      const backRight = BOX_RIGHT - BOX_DEPTH_DX;
+      const backTop = BOX_TOP_FRONT - BOX_DEPTH_DY;
+      const backBottom = BOX_BOTTOM - 16;
+
+      const glassGrad = context.createLinearGradient(0, backTop, 0, BOX_BOTTOM);
+      glassGrad.addColorStop(0, 'rgba(255, 250, 240, 0.25)');
+      glassGrad.addColorStop(0.5, 'rgba(255, 248, 232, 0.34)');
+      glassGrad.addColorStop(1, 'rgba(245, 226, 195, 0.48)');
+
+      context.fillStyle = glassGrad;
+      context.beginPath();
+      context.moveTo(BOX_LEFT, BOX_TOP_FRONT);
+      context.lineTo(backLeft, backTop);
+      context.lineTo(backRight, backTop);
+      context.lineTo(BOX_RIGHT, BOX_TOP_FRONT);
+      context.lineTo(BOX_RIGHT, BOX_BOTTOM);
+      context.lineTo(BOX_LEFT, BOX_BOTTOM);
+      context.closePath();
+      context.fill();
+
+      context.strokeStyle = 'rgba(217, 179, 118, 0.45)';
+      context.lineWidth = 3;
+      context.beginPath();
+      context.moveTo(backLeft, backTop);
+      context.lineTo(backLeft, backBottom);
+      context.lineTo(backRight, backBottom);
+      context.lineTo(backRight, backTop);
+      context.moveTo(BOX_LEFT, BOX_BOTTOM);
+      context.lineTo(backLeft, backBottom);
+      context.moveTo(BOX_RIGHT, BOX_BOTTOM);
+      context.lineTo(backRight, backBottom);
+      context.stroke();
+
+      context.strokeStyle = '#E5C17A';
+      context.lineWidth = 7;
+      context.lineCap = 'round';
+      context.lineJoin = 'round';
+      context.beginPath();
+      context.moveTo(BOX_LEFT, BOX_TOP_FRONT);
+      context.lineTo(backLeft, backTop);
+      context.lineTo(backRight, backTop);
+      context.lineTo(BOX_RIGHT, BOX_TOP_FRONT);
+      context.stroke();
+      context.restore();
+    }
+
+    function render3DBoxFrontToCache(context) {
+      context.save();
+      context.fillStyle = 'rgba(255, 255, 255, 0.14)';
+      context.beginPath();
+      context.moveTo(BOX_LEFT + 18, BOX_TOP_FRONT + 20);
+      context.lineTo(BOX_LEFT + 55, BOX_TOP_FRONT + 20);
+      context.lineTo(BOX_LEFT + 25, BOX_BOTTOM - 30);
+      context.lineTo(BOX_LEFT + 8, BOX_BOTTOM - 30);
+      context.closePath();
+      context.fill();
+
+      context.strokeStyle = '#DFB870';
+      context.lineWidth = 7.5;
+      context.lineCap = 'round';
+      context.lineJoin = 'round';
+      context.strokeRect(BOX_LEFT, BOX_TOP_FRONT, BOX_RIGHT - BOX_LEFT, BOX_BOTTOM - BOX_TOP_FRONT);
+
+      context.strokeStyle = 'rgba(255, 253, 244, 0.72)';
+      context.lineWidth = 2;
+      context.strokeRect(BOX_LEFT + 2, BOX_TOP_FRONT + 2, BOX_RIGHT - BOX_LEFT - 4, BOX_BOTTOM - BOX_TOP_FRONT - 4);
+      context.restore();
+    }
+
+    function setupCanvases() {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      gameCanvas.width = LOGICAL_WIDTH * dpr;
+      gameCanvas.height = LOGICAL_HEIGHT * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      nextPreviewCanvas.width = 110 * dpr;
+      nextPreviewCanvas.height = 110 * dpr;
+      nextCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      mobileNextCanvas.width = 36 * dpr;
+      mobileNextCanvas.height = 36 * dpr;
+      mobileNextCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      modalElementCanvas.width = 88 * dpr;
+      modalElementCanvas.height = 88 * dpr;
+      modalElementCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+      bgCanvas.width = window.innerWidth;
+      bgCanvas.height = window.innerHeight;
+      initBgMolecules();
+      buildAllSprites();
+    }
+
+    function initBgMolecules() {
+      bgMolecules = [];
+      const formulas = ['H₂', 'O₂', 'H₂O', 'CO₂', 'NaCl', 'CuO', 'FeS'];
+      for (let i = 0; i < 10; i++) {
+        bgMolecules.push({
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          r: 14 + Math.random() * 18,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: -0.15 - Math.random() * 0.2,
+          label: formulas[i % formulas.length]
+        });
+      }
+    }
+
+    /**
+     * ランキングUIの描画（ローカル / オンライン両対応）
+     */
+    function renderRankingRowsUI() {
+      const container = document.getElementById('rankingRowsContainer');
+      if (!container) return;
+      const entries = rankingService.getActiveEntries();
+      const rowStyles = [
+        { bg: 'bg-[#F7E39C]/80', medalColor: 'text-amber-500', numColor: 'text-amber-950', scoreColor: 'text-[#9D7B4A]' },
+        { bg: 'bg-[#CBE3EE]/85', medalColor: 'text-slate-400', numColor: 'text-slate-700', scoreColor: 'text-[#3D72A4]' },
+        { bg: 'bg-[#F2CBA5]/85', medalColor: 'text-amber-700', numColor: 'text-amber-950', scoreColor: 'text-[#A35E38]' }
+      ];
+
+      container.innerHTML = '';
+      for (let i = 0; i < 3; i++) {
+        const entry = entries[i] || { rank: i + 1, score: 0, playerName: '-', maxLevel: 1 };
+        const st = rowStyles[i];
+        const elInfo = ELEMENTS[(entry.maxLevel || 1) - 1] || ELEMENTS[0];
+        const showPlayerTag = rankingService.activeScope === 'online';
+
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between ${st.bg} rounded-xl px-3 py-1.5`;
+        row.innerHTML = `
+          <div class="flex items-center gap-1 min-w-0">
+            <span class="material-symbols-rounded ${st.medalColor} text-xl drop-shadow-sm shrink-0">workspace_premium</span>
+            <span class="font-mono font-black text-xs ${st.numColor} shrink-0">${entry.rank}</span>
+            ${
+              showPlayerTag
+                ? `<span class="text-[11px] font-extrabold text-amber-950/85 truncate ml-1">${entry.playerName}</span>`
+                : `<span class="text-[10px] font-bold px-1.5 py-0.2 rounded-full bg-white/65 text-amber-950 ml-1">${elInfo.symbol}</span>`
+            }
+          </div>
+          <span class="font-mono font-extrabold text-lg ${st.scoreColor} shrink-0">${entry.score}</span>
+        `;
+        container.appendChild(row);
+      }
+    }
+
+    function updateScoreBoardUI() {
+      const best = Math.max(score, rankingService.getBestLocalScore());
+      document.getElementById('scoreDisplay').textContent = score;
+      document.getElementById('bestScoreDisplay').textContent = best;
+      document.getElementById('mobileScoreDisplay').textContent = score;
+      document.getElementById('mobileBestDisplay').textContent = best;
+      document.getElementById('rankNowScore').textContent = score;
+      renderRankingRowsUI();
+    }
+
+    function updateEpUI() {
+      document.getElementById('epValueText').textContent = ep;
+      document.getElementById('skillSwapBtn').disabled = ep < 20 || isGameOver;
+      document.getElementById('skillBurnerBtn').disabled = ep < 40 || isGameOver;
+      document.getElementById('skillPipetteBtn').disabled = ep < 60 || isGameOver;
+      document.getElementById('skillCatalystBtn').disabled = ep < 100 || isGameOver;
+    }
+
+    function updateNextPreviewUI() {
+      const el = ELEMENTS[nextDropLevel - 1];
+      document.getElementById('nextElementLabel').textContent = `${el.symbol} ${el.name}`;
+
+      nextCtx.clearRect(0, 0, 110, 110);
+      const r = Math.min(38, Math.max(22, el.radius * 0.85));
+      drawCachedSphere(nextCtx, 55, 55, r, el, 0, 1, 1);
+
+      mobileNextCtx.clearRect(0, 0, 36, 36);
+      drawCachedSphere(mobileNextCtx, 18, 18, 14, el, 0, 1, 1);
+    }
+
+    function renderEvolutionRingUI(newlyUnlockedLevel = null) {
+      const container = document.getElementById('evolutionRingNodes');
+      container.innerHTML = '';
+      document.getElementById('discoveredCountText').textContent = `${discoveredLevels.size} / ${ELEMENTS.length}`;
+
+      const total = ELEMENTS.length;
+      const radiusPercent = 33.2;
+
+      ELEMENTS.forEach((el, idx) => {
+        const deg = -55 + idx * (305 / (total - 1));
+        const rad = (deg * Math.PI) / 180;
+        const leftPct = 50 + Math.cos(rad) * radiusPercent;
+        const topPct = 50 + Math.sin(rad) * radiusPercent;
+
+        const isDiscovered = discoveredLevels.has(el.level);
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.title = `Lv.${el.level} ${el.symbol}（${el.name}）の理科解説を見る`;
+
+        // NaHCO₃ などの長い化学式でも折り返さないようサイズと文字間隔を最適化
+        const sizePx = idx === 10 ? 38 : Math.round(25 + idx * 1.1);
+        btn.style.width = `${sizePx}px`;
+        btn.style.height = `${sizePx}px`;
+        btn.style.left = `${leftPct}%`;
+        btn.style.top = `${topPct}%`;
+        btn.style.transform = 'translate(-50%, -50%)';
+        btn.style.background = `radial-gradient(circle at 30% 30%, ${el.gradTop}, ${el.color} 65%, ${el.gradBot})`;
+        btn.style.color = el.textColor;
+        btn.style.borderColor = isDiscovered ? '#FFFFFF' : 'rgba(255,255,255,0.45)';
+
+        btn.className = `ring-node-btn pointer-events-auto absolute rounded-full border-2 shadow-md flex items-center justify-center font-black leading-none tracking-tighter ${
+          isDiscovered ? 'opacity-100' : 'opacity-60 grayscale-[35%]'
+        } ${newlyUnlockedLevel === el.level ? 'unlocked-pulse' : ''}`;
+
+        const fontSize = el.symbol.length >= 6 ? 7.2 : el.symbol.length >= 3 ? 8.5 : 10.5;
+        btn.style.fontSize = `${fontSize}px`;
+        btn.textContent = el.symbol;
+
+        btn.addEventListener('click', (e) => {
+          e.currentTarget.blur();
+          openEncyclopediaModal(el.level);
+        });
+
+        container.appendChild(btn);
+      });
+    }
+
+    function checkAndRenderMissions() {
+      const state = { discovered: discoveredLevels, maxCombo };
+      MISSIONS.forEach((m) => {
+        if (!completedMissions.has(m.id) && m.check(state)) {
+          completedMissions.add(m.id);
+          ep += m.rewardEp;
+          updateEpUI();
+          floatingTexts.push({
+            x: LOGICAL_WIDTH / 2,
+            y: 195,
+            text: `MISSION CLEAR! +${m.rewardEp}EP`,
+            color: '#FEF08A',
+            stroke: '#713F12',
+            alpha: 1.0,
+            vy: -1.1,
+            scale: 1.05
+          });
+        }
+      });
+
+      document.getElementById('missionCountBadge').textContent = `${completedMissions.size} / ${MISSIONS.length}`;
+      const listEl = document.getElementById('missionListCompact');
+      listEl.innerHTML = '';
+
+      MISSIONS.forEach((m) => {
+        const done = completedMissions.has(m.id);
+        const row = document.createElement('div');
+        row.className = `flex items-center justify-between px-2.5 py-1.5 rounded-xl text-[11px] font-bold border ${
+          done ? 'bg-lime-200/75 border-lime-500/50 text-lime-950' : 'bg-white/65 border-amber-900/15 text-amber-950'
+        }`;
+        const iconName = done ? 'check_circle' : 'radio_button_unchecked';
+        const iconColor = done ? 'text-lime-700' : 'text-amber-700/50';
+        row.innerHTML = `
+          <span class="truncate flex items-center gap-1">
+            <span class="material-symbols-rounded text-sm ${iconColor}">${iconName}</span>
+            <span>${m.title}</span>
+          </span>
+          <span class="font-mono text-[10px] font-black px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-900 shrink-0">+${m.rewardEp}EP</span>
+        `;
+        listEl.appendChild(row);
+      });
+    }
+
+    function openEncyclopediaModal(level = maxReachedLevel) {
+      const el = ELEMENTS[level - 1] || ELEMENTS[0];
+      document.getElementById('modalElementLevel').textContent = `Lv.${el.level}`;
+      document.getElementById('modalElementCategory').textContent = el.category;
+      document.getElementById('modalElementTitle').textContent = `${el.symbol}（${el.name}）`;
+      document.getElementById('modalElementDesc').textContent = el.desc;
+
+      modalElementCtx.clearRect(0, 0, 88, 88);
+      drawCachedSphere(modalElementCtx, 44, 44, 34, el, 0, 1, 1);
+
+      const grid = document.getElementById('modalElementGrid');
+      grid.innerHTML = '';
+      ELEMENTS.forEach((item) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `jelly-btn h-9 rounded-xl font-black text-[11px] border-2 flex items-center justify-center shadow-sm ${
+          item.level === el.level ? 'ring-2 ring-amber-500 scale-105' : 'opacity-85'
+        }`;
+        btn.style.backgroundColor = item.color;
+        btn.style.color = item.textColor;
+        btn.style.borderColor = item.borderColor;
+        btn.textContent = item.symbol;
+        btn.addEventListener('click', () => openEncyclopediaModal(item.level));
+        grid.appendChild(btn);
+      });
+
+      const modal = document.getElementById('encyclopediaModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function createElementBody(x, y, level, isMergedSpawn = false) {
+      const el = ELEMENTS[level - 1];
+      const body = Bodies.circle(x, y, el.radius, {
+        restitution: 0.25,
+        friction: 0.14,
+        frictionAir: 0.004,
+        density: 0.0012 * (1 + level * 0.12),
+        label: 'element'
+      });
+
+      body.elementLevel = level;
+      body.isMerged = false;
+      body.spawnTimestamp = performance.now();
+      body.isMergedSpawn = isMergedSpawn;
+      body.animScale = isMergedSpawn ? 0.35 : 1.0;
+      body.animVelocity = isMergedSpawn ? 0.14 : 0;
+
+      World.add(world, body);
+      return body;
+    }
+
+    function spawnMergeEffects(x, y, level, earnedPoints, customLabel = null) {
+      const el = ELEMENTS[Math.min(level - 1, ELEMENTS.length - 1)];
+      const count = 10 + level;
+
+      for (let i = 0; i < count; i++) {
+        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.35;
+        const speed = 2.0 + Math.random() * (3.2 + level * 0.25);
+        particles.push({
+          x,
+          y,
+          vx: Math.cos(angle) * speed,
+          vy: Math.sin(angle) * speed - 0.8,
+          radius: 3 + Math.random() * 4,
+          color: i % 3 === 0 ? '#FFFBEB' : el.gradTop,
+          alpha: 1,
+          decay: 0.03 + Math.random() * 0.015
+        });
+      }
+
+      shockwaves.push({
+        x,
+        y,
+        radius: el.radius * 0.4,
+        maxRadius: el.radius * 1.8,
+        color: '#FFFBEB',
+        alpha: 0.85
+      });
+
+      floatingTexts.push({
+        x,
+        y: y - 12,
+        text: customLabel ? (earnedPoints ? `${customLabel} +${earnedPoints}` : customLabel) : `+${earnedPoints}`,
+        color: level >= 11 ? '#FEF08A' : '#FFFFFF',
+        stroke: '#713F12',
+        alpha: 1.0,
+        vy: -1.5,
+        scale: level >= 9 ? 1.2 : 1.0
+      });
+    }
+
+    let celebrationTimeout = null;
+    function showCelebrationBanner(msg) {
+      const banner = document.getElementById('celebrationBanner');
+      document.getElementById('celebrationText').textContent = msg;
+      banner.classList.remove('opacity-0', 'scale-90');
+      banner.classList.add('opacity-100', 'scale-100');
+      if (celebrationTimeout) clearTimeout(celebrationTimeout);
+      celebrationTimeout = setTimeout(() => {
+        banner.classList.remove('opacity-100', 'scale-100');
+        banner.classList.add('opacity-0', 'scale-90');
+      }, 3600);
+    }
+
+    let comboTimeout = null;
+    function showComboBadge(combo) {
+      const badge = document.getElementById('comboFloatingBadge');
+      if (combo < 2) {
+        badge.classList.add('opacity-0', 'scale-75');
+        return;
+      }
+      document.getElementById('comboFloatingText').textContent = `${combo} COMBO!`;
+      badge.classList.remove('opacity-0', 'scale-75');
+      badge.classList.add('opacity-100', 'scale-100');
+      if (comboTimeout) clearTimeout(comboTimeout);
+      comboTimeout = setTimeout(() => {
+        badge.classList.remove('opacity-100', 'scale-100');
+        badge.classList.add('opacity-0', 'scale-75');
+      }, 1800);
+    }
+
+    function mergePair(bodyA, bodyB) {
+      if (bodyA.isMerged || bodyB.isMerged || isGameOver) return;
+      bodyA.isMerged = true;
+      bodyB.isMerged = true;
+
+      const currentLevel = bodyA.elementLevel;
+      const midX = (bodyA.position.x + bodyB.position.x) / 2;
+      const midY = (bodyA.position.y + bodyB.position.y) / 2;
+      const normPan = ((midX - LOGICAL_WIDTH / 2) / (LOGICAL_WIDTH / 2)) * 0.85;
+
+      World.remove(world, bodyA);
+      World.remove(world, bodyB);
+
+      const now = performance.now();
+      if (now - lastMergeTime < 3500) {
+        comboCount++;
+      } else {
+        comboCount = 1;
+      }
+      lastMergeTime = now;
+      if (comboCount > maxCombo) maxCombo = comboCount;
+      showComboBadge(comboCount);
+
+      mascotMood = 'happy';
+      mascotMoodTimer = 1.2;
+
+      if (currentLevel < ELEMENTS.length) {
+        const nextLevel = currentLevel + 1;
+        const newBody = createElementBody(midX, midY, nextLevel, true);
+        Body.setVelocity(newBody, { x: 0, y: -1.3 });
+
+        const comboMult = 1 + Math.min(comboCount - 1, 5) * 0.15;
+        const earned = Math.round(nextLevel * nextLevel * 10 * comboMult);
+        score += earned;
+        ep = Math.min(999, ep + 4 + nextLevel + (comboCount > 1 ? 3 : 0));
+
+        updateScoreBoardUI();
+        updateEpUI();
+
+        audio.playMerge(nextLevel, normPan, comboCount);
+        spawnMergeEffects(midX, midY, nextLevel, earned);
+
+        if (nextLevel > maxReachedLevel) maxReachedLevel = nextLevel;
+        const isFirst = !discoveredLevels.has(nextLevel);
+        discoveredLevels.add(nextLevel);
+
+        renderEvolutionRingUI(isFirst ? nextLevel : null);
+        checkAndRenderMissions();
+
+        if (nextLevel === 11) {
+          showCelebrationBanner('NaHCO₃（炭酸水素ナトリウム）合成成功！');
+        }
+      } else {
+        const bonus = 3000;
+        score += bonus;
+        ep = Math.min(999, ep + 50);
+        updateScoreBoardUI();
+        updateEpUI();
+        audio.playFanfare();
+        spawnMergeEffects(midX, midY, 11, bonus, '熱分解!');
+        showCelebrationBanner('2NaHCO₃ → Na₂CO₃ + H₂O + CO₂ 熱分解ボーナス +3000pt!');
+      }
+    }
+
+    function getRandomInitialLevel() {
+      return Math.floor(Math.random() * 5) + 1;
+    }
+
+    function getClampedDropX(rawX) {
+      const el = ELEMENTS[currentDropLevel - 1];
+      const pad = 7;
+      return Math.max(BOX_LEFT + el.radius + pad, Math.min(BOX_RIGHT - el.radius - pad, rawX));
+    }
+
+    function dropCurrentElement() {
+      if (!canDrop || isGameOver || activeSkillMode) return;
+
+      const dropX = getClampedDropX(pointerX);
+      const jitter = (Math.random() - 0.5) * 0.8;
+      const normPan = ((dropX - LOGICAL_WIDTH / 2) / (LOGICAL_WIDTH / 2)) * 0.8;
+
+      createElementBody(dropX + jitter, DROP_SPAWN_Y, currentDropLevel, false);
+      audio.playDrop(normPan);
+
+      canDrop = false;
+      currentDropLevel = nextDropLevel;
+      nextDropLevel = getRandomInitialLevel();
+      updateNextPreviewUI();
+
+      setTimeout(() => {
+        if (!isGameOver) canDrop = true;
+      }, DROP_COOLDOWN_MS);
+    }
+
+    function setSkillTargetMode(mode) {
+      activeSkillMode = mode;
+      const banner = document.getElementById('skillTargetBanner');
+      const text = document.getElementById('skillTargetText');
+      if (!mode) {
+        banner.classList.add('hidden');
+        banner.classList.remove('flex');
+      } else {
+        banner.classList.remove('hidden');
+        banner.classList.add('flex');
+        text.textContent =
+          mode === 'pipette'
+            ? 'ピペット吸引：消去したい元素ボールをクリック！（再押下で解除）'
+            : '触媒リアクター：1段階進化させたい元素ボールをクリック！';
+      }
+    }
+
+    function handleSkillClickAt(logicalX, logicalY) {
+      if (!activeSkillMode || !world) return false;
+      const bodies = Composite.allBodies(world).filter((b) => b.label === 'element' && !b.isMerged);
+      let target = null;
+      let minDist = Infinity;
+
+      for (const b of bodies) {
+        const el = ELEMENTS[b.elementLevel - 1];
+        const dist = Math.hypot(b.position.x - logicalX, b.position.y - logicalY);
+        if (dist <= el.radius + 10 && dist < minDist) {
+          minDist = dist;
+          target = b;
+        }
+      }
+
+      if (!target) return false;
+
+      if (activeSkillMode === 'pipette' && ep >= 60) {
+        ep -= 60;
+        updateEpUI();
+        spawnMergeEffects(target.position.x, target.position.y, target.elementLevel, 0, '吸引');
+        World.remove(world, target);
+        audio.playDrop(0);
+        setSkillTargetMode(null);
+        return true;
+      }
+
+      if (activeSkillMode === 'catalyst' && ep >= 100) {
+        if (target.elementLevel >= ELEMENTS.length) {
+          floatingTexts.push({ x: target.position.x, y: target.position.y - 30, text: 'これ以上進化できません', color: '#FEF3C7', stroke: '#78350F', alpha: 1.0, vy: -1.1, scale: 0.9 });
+          return true;
+        }
+        ep -= 100;
+        updateEpUI();
+        const tx = target.position.x;
+        const ty = target.position.y;
+        const nextLv = Math.min(ELEMENTS.length, target.elementLevel + 1);
+        World.remove(world, target);
+        createElementBody(tx, ty, nextLv, true);
+        discoveredLevels.add(nextLv);
+        renderEvolutionRingUI(nextLv);
+        spawnMergeEffects(tx, ty, nextLv, 0, '触媒進化');
+        audio.playMerge(nextLv, 0, 2);
+        setSkillTargetMode(null);
+        return true;
+      }
+
+      return false;
+    }
+
+    function initPhysicsGame() {
+      if (engine) {
+        World.clear(engine.world);
+        Engine.clear(engine);
+      }
+
+      engine = Engine.create({
+        gravity: { x: 0, y: 1.05, scale: 0.001 }
+      });
+      world = engine.world;
+
+      const wallThick = 80;
+      const wallOpts = { isStatic: true, restitution: 0.2, friction: 0.1, label: 'wall' };
+
+      const leftWall = Bodies.rectangle(BOX_LEFT - wallThick / 2 + 3, LOGICAL_HEIGHT / 2, wallThick, LOGICAL_HEIGHT * 2, wallOpts);
+      const rightWall = Bodies.rectangle(BOX_RIGHT + wallThick / 2 - 3, LOGICAL_HEIGHT / 2, wallThick, LOGICAL_HEIGHT * 2, wallOpts);
+      const ground = Bodies.rectangle(LOGICAL_WIDTH / 2, BOX_BOTTOM + wallThick / 2 - 4, LOGICAL_WIDTH + wallThick * 2, wallThick, wallOpts);
+
+      World.add(world, [leftWall, rightWall, ground]);
+
+      const onCollision = (event) => {
+        if (isGameOver) return;
+        for (let i = 0; i < event.pairs.length; i++) {
+          const { bodyA, bodyB } = event.pairs[i];
+          if (
+            bodyA.label === 'element' &&
+            bodyB.label === 'element' &&
+            !bodyA.isMerged &&
+            !bodyB.isMerged &&
+            bodyA.elementLevel === bodyB.elementLevel
+          ) {
+            mergePair(bodyA, bodyB);
+          }
+        }
+      };
+
+      Events.on(engine, 'collisionStart', onCollision);
+      Events.on(engine, 'collisionActive', onCollision);
+
+      score = 0;
+      ep = 30;
+      comboCount = 0;
+      maxCombo = 1;
+      currentDropLevel = getRandomInitialLevel();
+      nextDropLevel = getRandomInitialLevel();
+      canDrop = true;
+      isGameOver = false;
+      activeSkillMode = null;
+      dangerTimer = 0;
+      lastBeepSecond = -1;
+      maxReachedLevel = 1;
+      discoveredLevels = new Set([1]);
+      particles = [];
+      shockwaves = [];
+      floatingTexts = [];
+
+      setSkillTargetMode(null);
+      document.getElementById('dangerBanner').classList.add('opacity-0', 'scale-90');
+      document.getElementById('gameOverModal').classList.add('hidden');
+      document.getElementById('gameOverModal').classList.remove('flex');
+
+      updateScoreBoardUI();
+      updateEpUI();
+      updateNextPreviewUI();
+      renderEvolutionRingUI();
+      checkAndRenderMissions();
+      gameCanvas.focus();
+    }
+
+    async function triggerGameOver() {
+      if (isGameOver) return;
+      isGameOver = true;
+      canDrop = false;
+      audio.playGameOver();
+
+      const prevBest = rankingService.getBestLocalScore();
+      await rankingService.recordGameScore(score, maxReachedLevel);
+      reportMerge(score, maxReachedLevel);
+      updateScoreBoardUI();
+
+      document.getElementById('modalFinalScore').textContent = score;
+      document.getElementById('modalBestScore').textContent = Math.max(score, rankingService.getBestLocalScore());
+
+      const maxEl = ELEMENTS[maxReachedLevel - 1] || ELEMENTS[0];
+      document.getElementById('modalMaxElement').textContent = `Lv.${maxEl.level} ${maxEl.symbol}（${maxEl.name}）`;
+
+      const badge = document.getElementById('newRecordBadge');
+      if (score > 0 && score >= prevBest) badge.classList.remove('hidden');
+      else badge.classList.add('hidden');
+
+      const modal = document.getElementById('gameOverModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    // メインアニメーションループ（60fps固定・キーボード慣性移動対応）
+    let lastFrameTime = performance.now();
+    let bgFrameCount = 0;
+
+    function gameLoop(now) {
+      const dt = Math.min((now - lastFrameTime) / 1000, 0.05);
+      lastFrameTime = now;
+
+      // 1. キーボード左右キー押しっぱなしによる滑らかな慣性移動
+      const moveDir = (keysHeld.right ? 1 : 0) - (keysHeld.left ? 1 : 0);
+      if (moveDir !== 0) {
+        keyVelocityX += moveDir * 42 * dt;
+        keyVelocityX = Math.max(-7.5, Math.min(7.5, keyVelocityX));
+        pointerX = getClampedDropX(pointerX + keyVelocityX * 60 * dt);
+      } else {
+        keyVelocityX *= 0.72;
+        if (Math.abs(keyVelocityX) > 0.08) {
+          pointerX = getClampedDropX(pointerX + keyVelocityX * 60 * dt);
+        } else {
+          keyVelocityX = 0;
+        }
+      }
+
+      // 雲マスコットのX座標を滑らかに補間
+      const targetX = getClampedDropX(pointerX);
+      mascotX += (targetX - mascotX) * 0.36;
+
+      if (mascotMoodTimer > 0) {
+        mascotMoodTimer -= dt;
+        if (mascotMoodTimer <= 0) mascotMood = 'normal';
+      }
+
+      if (!isGameOver && engine) {
+        Engine.update(engine, 1000 / 60);
+
+        const bodies = Composite.allBodies(world);
+        let isDangerNow = false;
+
+        for (let i = 0; i < bodies.length; i++) {
+          const b = bodies[i];
+          if (b.label !== 'element' || b.isMerged) continue;
+          const el = ELEMENTS[b.elementLevel - 1];
+
+          if (b.isMergedSpawn) {
+            const diff = 1.0 - b.animScale;
+            b.animVelocity = (b.animVelocity + diff * 0.3) * 0.74;
+            b.animScale += b.animVelocity;
+            if (Math.abs(1.0 - b.animScale) < 0.006 && Math.abs(b.animVelocity) < 0.006) {
+              b.animScale = 1.0;
+              b.isMergedSpawn = false;
+            }
+          }
+
+          if (now - b.spawnTimestamp > 1100) {
+            if (b.position.y - el.radius * 0.72 < DANGER_LINE_Y) {
+              isDangerNow = true;
+            }
+          }
+        }
+
+        const dangerBanner = document.getElementById('dangerBanner');
+        if (isDangerNow) {
+          dangerTimer += dt;
+          mascotMood = 'panic';
+          const rem = Math.max(0, DANGER_LIMIT_SEC - dangerTimer);
+          document.getElementById('dangerCountdownText').textContent = `${rem.toFixed(1)}s`;
+          dangerBanner.classList.remove('opacity-0', 'scale-90');
+          dangerBanner.classList.add('opacity-100', 'scale-100');
+
+          const secInt = Math.ceil(rem);
+          if (secInt !== lastBeepSecond && rem > 0) {
+            lastBeepSecond = secInt;
+            audio.playDangerBeep();
+          }
+          if (dangerTimer >= DANGER_LIMIT_SEC) {
+            triggerGameOver();
+          }
+        } else {
+          dangerTimer = Math.max(0, dangerTimer - dt * 2.2);
+          if (dangerTimer === 0) {
+            lastBeepSecond = -1;
+            dangerBanner.classList.remove('opacity-100', 'scale-100');
+            dangerBanner.classList.add('opacity-0', 'scale-90');
+          }
+        }
+      }
+
+      renderMainCanvas(now);
+
+      // 背景分子とオーディオビジュアライザーは2フレームに1回更新してCPU負荷を半減
+      bgFrameCount++;
+      if (bgFrameCount % 2 === 0) {
+        renderBgParticles();
+        renderAudioVisualizer();
+      }
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    function renderMainCanvas(now) {
+      ctx.clearRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+
+      // 1. キャッシュ済み3Dガラスボックス背面を一発描画
+      if (boxBackSprite) {
+        ctx.drawImage(boxBackSprite, 0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+      }
+
+      // デンジャーライン点滅
+      if (dangerTimer > 0) {
+        ctx.save();
+        ctx.strokeStyle = `rgba(239, 68, 68, ${0.45 + Math.sin(now * 0.02) * 0.35})`;
+        ctx.lineWidth = 3;
+        ctx.setLineDash([8, 6]);
+        ctx.beginPath();
+        ctx.moveTo(BOX_LEFT + 6, DANGER_LINE_Y);
+        ctx.lineTo(BOX_RIGHT - 6, DANGER_LINE_Y);
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // 2. ドロップ待機中の雲マスコット＆白い垂直ガイドライン＆待機元素
+      if (canDrop && !isGameOver && !activeSkillMode) {
+        const dropEl = ELEMENTS[currentDropLevel - 1];
+        const dropX = mascotX;
+
+        ctx.save();
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+        ctx.lineWidth = 2.6;
+        ctx.beginPath();
+        ctx.moveTo(dropX, DROP_SPAWN_Y + dropEl.radius);
+        ctx.lineTo(dropX, BOX_BOTTOM - 6);
+        ctx.stroke();
+        ctx.restore();
+
+        // キャッシュ済み雲マスコット描画（右端・左端でも絶対に見切れないよう安全範囲にクランプ）
+        const mSprite = mascotSpriteCache.get(mascotMood) || mascotSpriteCache.get('normal');
+        if (mSprite) {
+          const desiredCloudX = dropX + Math.min(32, dropEl.radius * 0.5 + 20);
+          const safeCloudX = Math.max(52, Math.min(LOGICAL_WIDTH - 52, desiredCloudX));
+          const cloudY = DROP_SPAWN_Y - 14 + Math.sin(now * 0.005) * 2.5;
+          ctx.drawImage(mSprite, safeCloudX - 48, cloudY - 36, 96, 68);
+        }
+
+        drawCachedSphere(ctx, dropX, DROP_SPAWN_Y, dropEl.radius, dropEl, 0, 1, 1);
+      }
+
+      // 3. 物理ワールド内の全元素ボール描画（キャッシュ転送のみなので超高速）
+      if (world) {
+        const bodies = Composite.allBodies(world);
+        for (let i = 0; i < bodies.length; i++) {
+          const b = bodies[i];
+          if (b.label !== 'element') continue;
+          const el = ELEMENTS[b.elementLevel - 1];
+          if (!el) continue;
+
+          const s = b.animScale || 1.0;
+          drawCachedSphere(ctx, b.position.x, b.position.y, el.radius, el, b.angle, s, s);
+        }
+      }
+
+      // 4. キャッシュ済み3Dガラスボックス前面枠を一発描画
+      if (boxFrontSprite) {
+        ctx.drawImage(boxFrontSprite, 0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
+      }
+
+      // 5. 衝撃波リング
+      for (let i = shockwaves.length - 1; i >= 0; i--) {
+        const sw = shockwaves[i];
+        sw.radius += (sw.maxRadius - sw.radius) * 0.24;
+        sw.alpha -= 0.05;
+        if (sw.alpha <= 0) {
+          shockwaves.splice(i, 1);
+          continue;
+        }
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(sw.x, sw.y, sw.radius, 0, Math.PI * 2);
+        ctx.strokeStyle = sw.color;
+        ctx.globalAlpha = Math.max(0, sw.alpha);
+        ctx.lineWidth = 3;
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      // 6. パーティクル
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.14;
+        p.alpha -= p.decay;
+        if (p.alpha <= 0) {
+          particles.splice(i, 1);
+          continue;
+        }
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, p.alpha);
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // 7. フローティングスコア
+      for (let i = floatingTexts.length - 1; i >= 0; i--) {
+        const ft = floatingTexts[i];
+        ft.y += ft.vy;
+        ft.alpha -= 0.025;
+        if (ft.alpha <= 0) {
+          floatingTexts.splice(i, 1);
+          continue;
+        }
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, ft.alpha);
+        ctx.font = `900 ${Math.round(17 * ft.scale)}px "Fredoka", "M PLUS Rounded 1c", sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = ft.stroke || '#5C3711';
+        ctx.strokeText(ft.text, ft.x, ft.y);
+        ctx.fillStyle = ft.color;
+        ctx.fillText(ft.text, ft.x, ft.y);
+        ctx.restore();
+      }
+    }
+
+    function renderBgParticles() {
+      bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+      bgCtx.fillStyle = 'rgba(255, 252, 242, 0.35)';
+      bgCtx.font = '800 11px "M PLUS Rounded 1c", sans-serif';
+      bgCtx.textAlign = 'center';
+      bgCtx.textBaseline = 'middle';
+
+      for (let i = 0; i < bgMolecules.length; i++) {
+        const m = bgMolecules[i];
+        m.x += m.vx * 2;
+        m.y += m.vy * 2;
+        if (m.y < -40) m.y = bgCanvas.height + 40;
+        if (m.x < -40) m.x = bgCanvas.width + 40;
+        if (m.x > bgCanvas.width + 40) m.x = -40;
+
+        bgCtx.fillStyle = 'rgba(255, 252, 242, 0.32)';
+        bgCtx.beginPath();
+        bgCtx.arc(m.x, m.y, m.r, 0, Math.PI * 2);
+        bgCtx.fill();
+
+        bgCtx.fillStyle = 'rgba(133, 88, 43, 0.22)';
+        bgCtx.fillText(m.label, m.x, m.y);
+      }
+    }
+
+    const freqData = new Uint8Array(16);
+    function renderAudioVisualizer() {
+      vizCtx.clearRect(0, 0, 24, 12);
+      if (!audio.analyser || !audio.bgmEnabled) return;
+      audio.analyser.getByteFrequencyData(freqData);
+      for (let i = 0; i < 4; i++) {
+        const val = freqData[i * 2] || 20;
+        const h = Math.max(2, (val / 255) * 11);
+        vizCtx.fillStyle = '#34D399';
+        vizCtx.fillRect(i * 5.5 + 1, 12 - h, 3.5, h);
+      }
+    }
+
+    /**
+     * 4. 入力・UIイベントバインディング（プレビューiframe内でも確実にキーボードが効くフォーカス制御付き）
+     */
+    function ensureGameFocus() {
+      window.focus();
+      if (document.activeElement && document.activeElement.tagName === 'BUTTON') {
+        document.activeElement.blur();
+      }
+      gameCanvas.focus({ preventScroll: true });
+    }
+
+    // マウスがゲーム領域に入ったら自動的にキーボードフォーカスを付与
+    window.addEventListener('pointerenter', ensureGameFocus);
+    document.addEventListener('pointerdown', (e) => {
+      if (e.target.tagName !== 'BUTTON' && !e.target.closest('button')) {
+        ensureGameFocus();
+      }
+    });
+
+    function getLogicalCoords(clientX, clientY) {
+      const rect = gameCanvas.getBoundingClientRect();
+      if (rect.width <= 0 || rect.height <= 0) return { x: LOGICAL_WIDTH / 2, y: 0 };
+      return {
+        x: ((clientX - rect.left) * LOGICAL_WIDTH) / rect.width,
+        y: ((clientY - rect.top) * LOGICAL_HEIGHT) / rect.height
+      };
+    }
+
+    gameCanvas.addEventListener('mousemove', (e) => {
+      const pos = getLogicalCoords(e.clientX, e.clientY);
+      pointerX = getClampedDropX(pos.x);
+    });
+
+    gameCanvas.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      ensureGameFocus();
+      audio.init();
+      const pos = getLogicalCoords(e.clientX, e.clientY);
+      if (activeSkillMode) {
+        handleSkillClickAt(pos.x, pos.y);
+        return;
+      }
+      isPointerDown = true;
+      document.body.classList.add('aiming-active');
+      pointerX = getClampedDropX(pos.x);
+    });
+
+    window.addEventListener('mouseup', (e) => {
+      if (!isPointerDown) return;
+      isPointerDown = false;
+      document.body.classList.remove('aiming-active');
+      const pos = getLogicalCoords(e.clientX, e.clientY);
+      pointerX = getClampedDropX(pos.x);
+      dropCurrentElement();
+    });
+
+    gameCanvas.addEventListener(
+      'touchstart',
+      (e) => {
+        e.preventDefault();
+        ensureGameFocus();
+        audio.init();
+        if (e.touches.length > 0) {
+          const pos = getLogicalCoords(e.touches[0].clientX, e.touches[0].clientY);
+          if (activeSkillMode) {
+            handleSkillClickAt(pos.x, pos.y);
+            return;
+          }
+          isPointerDown = true;
+          document.body.classList.add('aiming-active');
+          pointerX = getClampedDropX(pos.x);
+        }
+      },
+      { passive: false }
+    );
+
+    gameCanvas.addEventListener(
+      'touchmove',
+      (e) => {
+        e.preventDefault();
+        if (e.touches.length > 0) {
+          const pos = getLogicalCoords(e.touches[0].clientX, e.touches[0].clientY);
+          pointerX = getClampedDropX(pos.x);
+        }
+      },
+      { passive: false }
+    );
+
+    gameCanvas.addEventListener(
+      'touchend',
+      (e) => {
+        e.preventDefault();
+        if (!isPointerDown) return;
+        isPointerDown = false;
+        document.body.classList.remove('aiming-active');
+        dropCurrentElement();
+      },
+      { passive: false }
+    );
+
+    gameCanvas.addEventListener('touchcancel', () => {
+      isPointerDown = false;
+      document.body.classList.remove('aiming-active');
+    });
+
+    // キーボード操作（Spaceで落下、← / → / A / D 押しっぱなしで滑らか移動）
+    window.addEventListener(
+      'keydown',
+      (e) => {
+        if (isGameOver) return;
+        const code = e.code;
+        const key = e.key;
+
+        if (code === 'ArrowLeft' || key === 'ArrowLeft' || code === 'KeyA') {
+          e.preventDefault();
+          keysHeld.left = true;
+        } else if (code === 'ArrowRight' || key === 'ArrowRight' || code === 'KeyD') {
+          e.preventDefault();
+          keysHeld.right = true;
+        } else if (code === 'Space' || key === ' ' || code === 'Enter' || code === 'ArrowDown') {
+          e.preventDefault();
+          if (e.repeat) return;
+          if (document.activeElement && document.activeElement.tagName === 'BUTTON') {
+            document.activeElement.blur();
+          }
+          audio.init();
+          dropCurrentElement();
+        } else if (code === 'KeyX' || key === 'x' || key === 'X') {
+          e.preventDefault();
+          const modal = document.getElementById('encyclopediaModal');
+          if (modal.classList.contains('hidden')) openEncyclopediaModal(maxReachedLevel);
+          else {
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+          }
+        } else if (code === 'KeyL') {
+          e.preventDefault();
+          switchLeftCardTab(-1);
+        } else if (code === 'KeyR') {
+          e.preventDefault();
+          switchLeftCardTab(1);
+        } else if (code === 'KeyY' || key === 'y' || key === 'Y') {
+          e.preventDefault();
+          triggerRankingRefresh();
+        }
+      },
+      { capture: true }
+    );
+
+    window.addEventListener(
+      'keyup',
+      (e) => {
+        const code = e.code;
+        const key = e.key;
+        if (code === 'ArrowLeft' || key === 'ArrowLeft' || code === 'KeyA') {
+          keysHeld.left = false;
+        } else if (code === 'ArrowRight' || key === 'ArrowRight' || code === 'KeyD') {
+          keysHeld.right = false;
+        }
+      },
+      { capture: true }
+    );
+
+    window.addEventListener('blur', () => {
+      keysHeld.left = false;
+      keysHeld.right = false;
+      keyVelocityX = 0;
+    });
+
+    // 左下カード（0:個人ランキング ⇄ 1:オンラインランキング ⇄ 2:ラボミッション）切替
+    let leftCardTab = 0;
+    function switchLeftCardTab(dir = 1) {
+      leftCardTab = (leftCardTab + dir + 3) % 3;
+      const rankPanel = document.getElementById('rankingTabPanel');
+      const missionPanel = document.getElementById('missionTabPanel');
+      const subTitle = document.getElementById('leftCardSubTitle');
+      const mainTitle = document.getElementById('leftCardMainTitle');
+      const scopeIcon = document.getElementById('rankingScopeIcon');
+      const scopeText = document.getElementById('rankingScopeText');
+      const dot0 = document.getElementById('tabDot0');
+      const dot1 = document.getElementById('tabDot1');
+      const dot2 = document.getElementById('tabDot2');
+
+      [dot0, dot1, dot2].forEach((d, idx) => {
+        d.className =
+          idx === leftCardTab
+            ? 'w-2.5 h-2.5 rounded-full bg-yellow-400 border border-amber-700/40'
+            : 'w-2.5 h-2.5 rounded-full bg-white border border-amber-700/30';
+      });
+
+      if (leftCardTab === 0) {
+        rankingService.activeScope = 'local';
+        rankPanel.classList.remove('hidden');
+        missionPanel.classList.add('hidden');
+        subTitle.textContent = '個人・本日';
+        mainTitle.textContent = 'スコアランキング';
+        scopeIcon.textContent = 'person';
+        scopeText.textContent = 'マイルーム';
+        renderRankingRowsUI();
+      } else if (leftCardTab === 1) {
+        rankingService.activeScope = 'online';
+        rankPanel.classList.remove('hidden');
+        missionPanel.classList.add('hidden');
+        subTitle.textContent = '全国・デモ';
+        mainTitle.textContent = 'オンライン順位';
+        scopeIcon.textContent = 'public';
+        scopeText.textContent = 'オンライン';
+        renderRankingRowsUI();
+      } else {
+        rankPanel.classList.add('hidden');
+        missionPanel.classList.remove('hidden');
+        subTitle.textContent = '中2理科';
+        mainTitle.textContent = 'ラボミッション';
+        scopeIcon.textContent = 'science';
+        scopeText.textContent = '実験課題';
+      }
+      ensureGameFocus();
+    }
+
+    async function triggerRankingRefresh() {
+      const icon = document.getElementById('refreshRankingIcon');
+      const status = document.getElementById('rankingSyncStatus');
+      icon.classList.add('animate-spin');
+      status.textContent = '通信中';
+      await rankingService.refresh();
+      renderRankingRowsUI();
+      icon.classList.remove('animate-spin');
+      status.textContent = '最新';
+      ensureGameFocus();
+    }
+
+    document.getElementById('leftTabPrevBtn').addEventListener('click', () => switchLeftCardTab(-1));
+    document.getElementById('leftTabNextBtn').addEventListener('click', () => switchLeftCardTab(1));
+    document.getElementById('bottomSwitchRankingBtn').addEventListener('click', () => switchLeftCardTab(1));
+    document.getElementById('refreshRankingBtn').addEventListener('click', triggerRankingRefresh);
+
+    // 4種の実験スキルボタン
+    document.getElementById('skillSwapBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      if (ep < 20 || isGameOver) return;
+      audio.init();
+      ep -= 20;
+      const tmp = currentDropLevel;
+      currentDropLevel = nextDropLevel;
+      nextDropLevel = tmp;
+      updateEpUI();
+      updateNextPreviewUI();
+      audio.playDrop(0);
+    });
+
+    document.getElementById('skillBurnerBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      if (ep < 40 || isGameOver || !world) return;
+      audio.init();
+      ep -= 40;
+      updateEpUI();
+      const bodies = Composite.allBodies(world).filter((b) => b.label === 'element' && !b.isMerged);
+      bodies.forEach((b) => {
+        Body.setVelocity(b, {
+          x: (Math.random() - 0.5) * 7,
+          y: -3.5 - Math.random() * 3.5
+        });
+      });
+      audio.playMerge(5, 0, 2);
+      floatingTexts.push({
+        x: LOGICAL_WIDTH / 2,
+        y: 260,
+        text: 'ガスバーナー対流！',
+        color: '#FED7AA',
+        stroke: '#7C2D12',
+        alpha: 1.0,
+        vy: -1.3,
+        scale: 1.1
+      });
+    });
+
+    document.getElementById('skillPipetteBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      if (ep < 60 || isGameOver) return;
+      audio.init();
+      setSkillTargetMode(activeSkillMode === 'pipette' ? null : 'pipette');
+    });
+
+    document.getElementById('skillCatalystBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      if (ep < 100 || isGameOver) return;
+      audio.init();
+      setSkillTargetMode(activeSkillMode === 'catalyst' ? null : 'catalyst');
+    });
+
+    // UI集中モード切替
+    document.getElementById('uiFocusToggleBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      uiFocusMode = (uiFocusMode + 1) % 3;
+      document.body.classList.remove('ui-mode-subtle', 'ui-mode-minimal');
+      const label = document.getElementById('uiFocusLabel');
+      if (uiFocusMode === 0) {
+        label.textContent = 'UI:通常';
+      } else if (uiFocusMode === 1) {
+        document.body.classList.add('ui-mode-subtle');
+        label.textContent = 'UI:控えめ';
+      } else {
+        document.body.classList.add('ui-mode-minimal');
+        label.textContent = 'UI:集中';
+      }
+    });
+
+    // ボールのキャラ顔ON/OFF切替
+    document.getElementById('faceStyleToggleBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      showKawaiiFaces = !showKawaiiFaces;
+      document.getElementById('faceStyleIcon').textContent = showKawaiiFaces ? 'sentiment_very_satisfied' : 'science';
+      document.getElementById('faceStyleLabel').textContent = showKawaiiFaces ? '顔ON' : '記号のみ';
+      updateNextPreviewUI();
+    });
+
+    // BGM 4曲切替
+    document.getElementById('bgmTrackBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      const name = audio.nextTrack();
+      document.getElementById('bgmTrackName').textContent = name;
+    });
+
+    // BGM / SE ON/OFF
+    document.getElementById('bgmToggleBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      const on = audio.toggleBgm();
+      const dot = document.getElementById('bgmStatusDot');
+      dot.className = on ? 'w-2 h-2 rounded-full bg-emerald-400' : 'w-2 h-2 rounded-full bg-rose-400';
+    });
+
+    document.getElementById('sfxToggleBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      const on = audio.toggleSfx();
+      document.getElementById('sfxToggleIcon').textContent = on ? 'volume_up' : 'volume_off';
+    });
+
+    // 図鑑モーダル開閉
+    document.getElementById('openEncyclopediaBtn').addEventListener('click', () => openEncyclopediaModal(maxReachedLevel));
+    document.getElementById('openLabModalBottomBtn').addEventListener('click', () => openEncyclopediaModal(maxReachedLevel));
+    document.getElementById('mobileEncyclopediaBtn').addEventListener('click', () => openEncyclopediaModal(maxReachedLevel));
+    document.getElementById('closeEncyclopediaBtn').addEventListener('click', () => {
+      const modal = document.getElementById('encyclopediaModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      ensureGameFocus();
+    });
+
+    // リセット＆リトライ
+    document.getElementById('resetBtn').addEventListener('click', async () => {
+      ensureGameFocus();
+      audio.init();
+      await rankingService.recordGameScore(score, maxReachedLevel);
+      reportMerge(score, maxReachedLevel);
+      initPhysicsGame();
+    });
+    document.getElementById('playAgainBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      audio.init();
+      initPhysicsGame();
+    });
+
+    window.addEventListener('resize', () => {
+      setupCanvases();
+      updateNextPreviewUI();
+    });
+
+    window.onload = async function () {
+      if (!window.Matter) {
+        const m = document.createElement('div');
+        m.style.cssText = 'position:fixed;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;background:#fff;color:#334155;font:700 16px sans-serif;z-index:9999';
+        m.textContent = '物理エンジンを読み込めませんでした。インターネットに接続して、画面を読み直してください。';
+        document.body.appendChild(m);
+        return;
+      }
+      setupCanvases();
+      await rankingService.initialize();
+      updateScoreBoardUI();
+      initPhysicsGame();
+      ensureGameFocus();
+      requestAnimationFrame(gameLoop);
+    };
+  </script>
+<script>window.addEventListener('keydown',function(e){if(e.key==='Escape'&&window.parent!==window)window.parent.postMessage({type:'kosa-merge-exit'},'*');});</script>
+<script>function reportMerge(score, lv){ try { if (window.parent !== window) window.parent.postMessage({type:'kosa-merge', score: Math.floor(Number(score)||0), maxLv: Math.floor(Number(lv)||1)}, '*'); } catch(e){} }</script>
+</body>
+</html>

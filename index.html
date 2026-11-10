@@ -971,6 +971,14 @@ body{overflow-x:clip}
 .tcard.rk-tcard>span:not(.tc-i){font-family:'Shippori Mincho','Noto Serif JP',serif;color:#f1dfc0}
 .tcard.rk-tcard .tc-i{background:linear-gradient(145deg,#e0b65a,#7d1d24)!important;color:#fff8e1!important;box-shadow:0 0 18px rgba(248,217,120,.5)}
 .rk-frame.ps-full{border-radius:0}
+.mg-rank{margin-top:12px;padding:14px 16px}
+.mg-rh{display:flex;align-items:center;gap:6px;font-size:.95rem}
+.mg-rrow{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:8px;align-items:center;padding:8px 10px;border-radius:14px;background:var(--s2);margin-top:6px}
+.mg-rrow.me{outline:2px solid var(--primary);outline-offset:-2px}
+.mg-rrow b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mg-rn{font-weight:800;color:var(--on-v)}
+.mg-rv{font-weight:800}
+.mg-buy{display:grid;gap:6px;justify-items:center;margin-top:14px}
 /* ===== 17.52：入力テスト（タイピング風・金と藍） ===== */
 .ty-stage{position:relative;display:grid;gap:14px;padding:18px 18px 16px;border-radius:28px;color:#fff3d1;background:radial-gradient(ellipse at 50% 0,rgba(248,217,120,.16),transparent 60%),linear-gradient(170deg,#152247 0%,#1f1d46 55%,#3a1b2a 100%);border:1px solid rgba(248,217,120,.55);box-shadow:0 0 0 4px rgba(20,24,44,.6),0 16px 40px rgba(0,0,0,.35),inset 0 0 40px rgba(248,217,120,.06);font-family:'Shippori Mincho','Noto Serif JP',serif}
 .ty-top{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;justify-content:space-between;font-size:.82rem;color:#f5e6b8}
@@ -1289,7 +1297,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.64';
+const APP_VERSION = '17.67';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1861,19 +1869,22 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '17.64', d: '2026-11-10', t: '元素インベーダーの点数・友達との比較に点数・歴打の時代の絞り込みと問題追加', n: ['元素インベーダーは、1つ当てると50点。連続で当てるほど加点が増えます（最大150点）', '友達と比べるの画面に、元素インベーダーの最高点と、歴打の最高石高を追加しました', '歴打で、人物や出来事を時代で絞ったときに、他の時代の問題が出る不具合を直しました', '歴打の問題を、全部で274問に増やしました（人物問題と昭和・大正の問題を中心に）'] },
-  { v: '17.63', d: '2026-11-10', t: 'アップデート案内の位置・動作の高速化', n: ['アップデート内容や、最初の使い方の画面が左に寄る問題を直しました', 'ポップアップの背景のぼかしをやめ、ポップアップの後ろの動きを止めて、動作を軽くしました'] },
-  { v: '17.62', d: '2026-11-10', t: '記録などが開けない不具合を修正・画面が一つ壊れてもアプリ全体は止まらないように', n: ['記録のタブなどが「読み込めない」になる不具合を直しました（XPの計算の関数が消えていたのが原因でした）', 'どこかの画面で問題が起きても、その画面だけに「もう一度」を出し、ほかの画面は使えるようにしました', '考査が一つもないときも、アプリが止まらないようにしました'] },
-  { v: '17.61', d: '2026-11-10', t: '全画面の修正・ポップアップを広く・単語帳の受け取りと番号・AIで追加・タイピングの自動で次へ', n: ['歴打・元素インベーダーの全画面を、画面いっぱいに表示するように直しました', '大きな画面（iPad）では、ポップアップを横に広げて、入力しやすくしました', '単語帳の共有ボタンの右に「コードで受け取る」、全画面とシャッフルの間に「番号で絞る」を置きました', '単語帳の追加の画面の右上に「AIで追加」を置きました', '単語帳のタイピングで、正解したら自動で次の問題に進むようにしました（設定で切り替えられます）'] },
-  { v: '17.60', d: '2026-11-10', t: 'ツールの人気・更新内容の表示設定・プロフィールの同期・友達の比較の見やすさ・全画面のバグ', n: ['ツールの「歴打」「元素ラボ」「単語帳」に「人気」の帯を付けました。元素ラボと単語帳のカードも豪華にしました', 'アップデート後の「更新内容」を表示しないように設定できるようにしました（設定と、更新の確認の画面から変えられます）', '友達・プロフィール（名前・アイコン・友達コード・見せる設定）を、アカウントに保存して、どの端末でも同じになるようにしました', '友達と比べるの画面を、棒グラフで見やすくしました（数値を棒の外に出し、どちらが上かを表示）', '歴打・元素インベーダーで、全画面から戻ったときにゲームの画面が消える問題を直しました'] },
-  { v: '17.59', d: '2026-11-10', t: 'スマホ・iPadの表示崩れを修正', n: ['スマホのグラフで、式の入力欄と削除ボタンが右にはみ出していたのを直しました', 'スマホで計算機のキーボードを出すとき、右下の＋ボタンと重ならないようにしました', 'スマホの下のバーの期限の表示を、小さな点にして、文字がはみ出さないようにしました', 'iPad（横）のタイピングの全画面が、右にはみ出していたのを直しました'] },
-  { v: '17.58', d: '2026-11-10', t: 'タイピングの修正・友達の全員表示・スマホの画面の整理', n: ['タイピングで、日本語の答えのとき、入力欄が見えて打った文字が表示されるように（以前は見えずに打てていなかったことがありました）', 'iPhoneで、英字のタイピングの文字が打った時点で表示されるように（変換中の文字も表示）', '友達の一覧を読み込む途中で、古い結果が新しい結果を上書きしないようにしました（友達が全員出るように）', '友達が、新しく追加する人の情報を送れなかった場合でも、古いFirestoreのルールで動くようにしました', 'スマホの下のバーは、ホーム・課題・予定・記録・ツールだけにしました（設定・AI・通知は他の場所から開けます）', 'スマホの画面で、文字が縦に並んだり隠れたりしないように整理しました（単語帳・集中モード・下のバーのまるい背景）'] },
-  { v: '17.57', d: '2026-11-10', t: '友達のつながり（友達の友達）・合計の表示・タイピングの修正', n: ['タイピングで、日本語入力のままでも、英字の問題には英字（半角）だけが入ります', 'タイピングで、まちがえた文字は入らないようにしました（消さずに、そのまま次の文字を打てます）', 'タイピングで打った文字数は、打った時点で記録に入ります（途中でやめても残ります）', '友達を追加されたとき、その人も自動で友達になり、一覧に出るようにしました', '友達の友達も表示されるようにしました（友達の友達は「友達に追加」できます）', '友達と比べるに、合計勉強時間と合計タイピングを出すようにしました'] },
-  { v: '17.56', d: '2026-11-10', t: '友達の表示と速さ・レベルの特典・称号・タイピングのヘボン式', n: ['単語帳の共有コードの発行・受け取り・最新の取り込みで、事前の確認をやめて速くしました', '友達が複数いても、全員を表示するようにしました（ホームの「ほかにN人」の省略をなくしました）', '友達を追加・外したあと、ホームと記録タブにすぐ反映されるようにしました（古い表示を残しません）', '友達と比べるは、レベル0から使えるようになりました', '実績の「レベルの特典」に、すべての特典（XPショップ・歴打・友達と比べる・称号・アプリの色）を書きました', '称号を変えました：Lv5「何回言っても分かるんだ」、Lv15「努力の噴火」、Lv31「伝説の大網」を追加しました', 'タイピングに「ヘボン式（ローマ字）」を追加しました。ひらがな・カタカナはそのまま変換し、漢字などの読みはAIで調べます（Googleログイン後）'] },
-  { v: '17.55', d: '2026-11-10', t: '友達の表示の修正・通知・記録の数字を大きく・タイピングのiPad最適化', n: ['友達と比べるで、ログイン確認の前に「Googleログインが必要」と出ていた表示を直しました（確認中は読み込み中と出ます）', '友達の名前とアイコンが、友達の画面に反映されないことがあった問題を直しました（アイコンが未許可のルールでも、名前と進み具合は届きます）', '友達が、あなたを友達に追加したとき、通知が届くようにしました（Firestoreのルールの更新が必要です）', '友達コードの入力欄を、Material 3のデザインにしました', '自分の統計の数字を、さらに大きく見やすくしました', 'タイピングを、iPad（横向き）で左右の余白がなく全幅で使えるように最適化しました'] },
-  { v: '17.54', d: '2026-11-10', t: 'タイピング（全画面・ヒント・スペル非表示・演出）、友達のニックネームとアイコン、記録タブのカード、ホームの編集ボタンを一つに', n: ['入力テストを「タイピング」に名前を変えて、全画面で表示するようにしました', 'タイピングに、スペルの表示（表示・最初の1文字だけ・かくす）と、ヒントを追加しました', 'タイピングに、正解の紙吹雪、連続の炎と節目の表示、結果の円グラフと星の評価を追加しました', '友達と比べるで、ニックネームとアイコン画像を変えられるようにしました', '「自分の統計」と「友達と比べる」を、記録タブにカードとして表示します（ボタンを押さずに見られます）', 'ホームの「配置」と「文字」を、ひとつの「編集」ボタンにまとめました。編集の中で文字も変えられます'] },
-  { v: '17.53', d: '2026-11-10', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
-  { v: '17.52', d: '2026-11-10', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
+  { v: '17.67', d: '2026/11/10 18:03', t: '元素マージをXPで買えるように・友達との最高点ランキング', n: ['元素マージは、レベル7になっていなくても、XPショップで500 XPで買えます（ロック画面からも買えます）', '元素マージの最高点を、友達と比べられるようになりました。ツールの画面で、自分と友達の順位を見られます', '友達の比較にも、元素マージの最高点が出ます（友達も、このバージョン以降で遊ぶと表示されます）'] },
+  { v: '17.66', d: '2026/11/10 18:03', t: '元素マージを追加（レベル7で解放）', n: ['新しいツール「元素マージ」を追加しました。レベル7で解放されます。同じ元素をくっつけて、次の段階へ進化させるパズルです', '元素マージは全画面でも遊べます。物理エンジンを読み込めない時は、その旨を表示します', 'ゲームの不具合を直しました：初回に架空の記録が出ないように、オンランキングの架空の順位を消し、触媒で最大の元素を選んだ時にEPを無駄に消費しないように、押しっぱなしで連続落下しないようにしました'] },
+  { v: '17.65', d: '2026/11/10 18:03', t: '友達が全員表示されない不具合を修正', n: ['友達の一覧を、端末どうしで合わせるようにしました（友達を追加・外したときも、どの端末でも同じになります）', '複数の友達と共有していると、一部の友達しか表示されなかった不具合を直しました'] },
+  { v: '17.64', d: '2026/11/10 18:03', t: '元素インベーダーの点数・友達との比較に点数・歴打の時代の絞り込みと問題追加', n: ['元素インベーダーは、1つ当てると50点。連続で当てるほど加点が増えます（最大150点）', '友達と比べるの画面に、元素インベーダーの最高点と、歴打の最高石高を追加しました', '歴打で、人物や出来事を時代で絞ったときに、他の時代の問題が出る不具合を直しました', '歴打の問題を、全部で274問に増やしました（人物問題と昭和・大正の問題を中心に）'] },
+  { v: '17.63', d: '2026/11/10 18:03', t: 'アップデート案内の位置・動作の高速化', n: ['アップデート内容や、最初の使い方の画面が左に寄る問題を直しました', 'ポップアップの背景のぼかしをやめ、ポップアップの後ろの動きを止めて、動作を軽くしました'] },
+  { v: '17.62', d: '2026/11/10 18:03', t: '記録などが開けない不具合を修正・画面が一つ壊れてもアプリ全体は止まらないように', n: ['記録のタブなどが「読み込めない」になる不具合を直しました（XPの計算の関数が消えていたのが原因でした）', 'どこかの画面で問題が起きても、その画面だけに「もう一度」を出し、ほかの画面は使えるようにしました', '考査が一つもないときも、アプリが止まらないようにしました'] },
+  { v: '17.61', d: '2026/11/10 18:03', t: '全画面の修正・ポップアップを広く・単語帳の受け取りと番号・AIで追加・タイピングの自動で次へ', n: ['歴打・元素インベーダーの全画面を、画面いっぱいに表示するように直しました', '大きな画面（iPad）では、ポップアップを横に広げて、入力しやすくしました', '単語帳の共有ボタンの右に「コードで受け取る」、全画面とシャッフルの間に「番号で絞る」を置きました', '単語帳の追加の画面の右上に「AIで追加」を置きました', '単語帳のタイピングで、正解したら自動で次の問題に進むようにしました（設定で切り替えられます）'] },
+  { v: '17.60', d: '2026/11/10 18:03', t: 'ツールの人気・更新内容の表示設定・プロフィールの同期・友達の比較の見やすさ・全画面のバグ', n: ['ツールの「歴打」「元素ラボ」「単語帳」に「人気」の帯を付けました。元素ラボと単語帳のカードも豪華にしました', 'アップデート後の「更新内容」を表示しないように設定できるようにしました（設定と、更新の確認の画面から変えられます）', '友達・プロフィール（名前・アイコン・友達コード・見せる設定）を、アカウントに保存して、どの端末でも同じになるようにしました', '友達と比べるの画面を、棒グラフで見やすくしました（数値を棒の外に出し、どちらが上かを表示）', '歴打・元素インベーダーで、全画面から戻ったときにゲームの画面が消える問題を直しました'] },
+  { v: '17.59', d: '2026/11/10 18:03', t: 'スマホ・iPadの表示崩れを修正', n: ['スマホのグラフで、式の入力欄と削除ボタンが右にはみ出していたのを直しました', 'スマホで計算機のキーボードを出すとき、右下の＋ボタンと重ならないようにしました', 'スマホの下のバーの期限の表示を、小さな点にして、文字がはみ出さないようにしました', 'iPad（横）のタイピングの全画面が、右にはみ出していたのを直しました'] },
+  { v: '17.58', d: '2026/11/10 18:03', t: 'タイピングの修正・友達の全員表示・スマホの画面の整理', n: ['タイピングで、日本語の答えのとき、入力欄が見えて打った文字が表示されるように（以前は見えずに打てていなかったことがありました）', 'iPhoneで、英字のタイピングの文字が打った時点で表示されるように（変換中の文字も表示）', '友達の一覧を読み込む途中で、古い結果が新しい結果を上書きしないようにしました（友達が全員出るように）', '友達が、新しく追加する人の情報を送れなかった場合でも、古いFirestoreのルールで動くようにしました', 'スマホの下のバーは、ホーム・課題・予定・記録・ツールだけにしました（設定・AI・通知は他の場所から開けます）', 'スマホの画面で、文字が縦に並んだり隠れたりしないように整理しました（単語帳・集中モード・下のバーのまるい背景）'] },
+  { v: '17.57', d: '2026/11/10 18:03', t: '友達のつながり（友達の友達）・合計の表示・タイピングの修正', n: ['タイピングで、日本語入力のままでも、英字の問題には英字（半角）だけが入ります', 'タイピングで、まちがえた文字は入らないようにしました（消さずに、そのまま次の文字を打てます）', 'タイピングで打った文字数は、打った時点で記録に入ります（途中でやめても残ります）', '友達を追加されたとき、その人も自動で友達になり、一覧に出るようにしました', '友達の友達も表示されるようにしました（友達の友達は「友達に追加」できます）', '友達と比べるに、合計勉強時間と合計タイピングを出すようにしました'] },
+  { v: '17.56', d: '2026/11/10 18:03', t: '友達の表示と速さ・レベルの特典・称号・タイピングのヘボン式', n: ['単語帳の共有コードの発行・受け取り・最新の取り込みで、事前の確認をやめて速くしました', '友達が複数いても、全員を表示するようにしました（ホームの「ほかにN人」の省略をなくしました）', '友達を追加・外したあと、ホームと記録タブにすぐ反映されるようにしました（古い表示を残しません）', '友達と比べるは、レベル0から使えるようになりました', '実績の「レベルの特典」に、すべての特典（XPショップ・歴打・友達と比べる・称号・アプリの色）を書きました', '称号を変えました：Lv5「何回言っても分かるんだ」、Lv15「努力の噴火」、Lv31「伝説の大網」を追加しました', 'タイピングに「ヘボン式（ローマ字）」を追加しました。ひらがな・カタカナはそのまま変換し、漢字などの読みはAIで調べます（Googleログイン後）'] },
+  { v: '17.55', d: '2026/11/10 18:03', t: '友達の表示の修正・通知・記録の数字を大きく・タイピングのiPad最適化', n: ['友達と比べるで、ログイン確認の前に「Googleログインが必要」と出ていた表示を直しました（確認中は読み込み中と出ます）', '友達の名前とアイコンが、友達の画面に反映されないことがあった問題を直しました（アイコンが未許可のルールでも、名前と進み具合は届きます）', '友達が、あなたを友達に追加したとき、通知が届くようにしました（Firestoreのルールの更新が必要です）', '友達コードの入力欄を、Material 3のデザインにしました', '自分の統計の数字を、さらに大きく見やすくしました', 'タイピングを、iPad（横向き）で左右の余白がなく全幅で使えるように最適化しました'] },
+  { v: '17.54', d: '2026/11/10 18:03', t: 'タイピング（全画面・ヒント・スペル非表示・演出）、友達のニックネームとアイコン、記録タブのカード、ホームの編集ボタンを一つに', n: ['入力テストを「タイピング」に名前を変えて、全画面で表示するようにしました', 'タイピングに、スペルの表示（表示・最初の1文字だけ・かくす）と、ヒントを追加しました', 'タイピングに、正解の紙吹雪、連続の炎と節目の表示、結果の円グラフと星の評価を追加しました', '友達と比べるで、ニックネームとアイコン画像を変えられるようにしました', '「自分の統計」と「友達と比べる」を、記録タブにカードとして表示します（ボタンを押さずに見られます）', 'ホームの「配置」と「文字」を、ひとつの「編集」ボタンにまとめました。編集の中で文字も変えられます'] },
+  { v: '17.53', d: '2026/11/10 18:03', t: 'ホームに統計と友達との比較・一番上の文字を自分で設定・単語帳の長押しで名前変更', n: ['ホームに「自分の統計」を追加（合計勉強時間・実績レベル・合計タイピング・獲得した実績）', 'ホームに「友達との比較」を追加（実績タブと同じ情報を、ホームで見られます）', 'ホームの一番上の文字を、自分で設定できるようにしました（出すものの選択・切り替えの速さ・固定の文・自分で追加した文）', '単語帳を長押しすると、名前と色を変えられるようにしました', '友達と比べるの見た目を、VSの表示・伸びるグラフ・勝った方の★で豪華にしました'] },
+  { v: '17.52', d: '2026/11/10 18:03', t: '入力テストをタイピング風に・AIで問題を作成・歴打の見やすさ', n: ['単語帳の入力テストを、打った文字が色で分かるタイピング画面にしました。正しく打つと自動で次へ進みます', '入力テストの問題を、AIにテーマを伝えて作ってもらえるようにしました（単語帳には保存されません）', '入力テストの結果に、正確さ・打つ速さ・最高の連続を表示します', '歴打：「見事」の文字と、間違えた時の揺れを小さくして、次の文字が見やすくしました', '歴打：問題を「人物」「出来事」「ミックス」の3種類から選べるようにしました', '歴打の画面を、前の（和紙の）デザインに戻し、金の輝きと舞う花びらの演出を加えました'] },
   { v: '17.51', d: '2026/11/09 07:38', t: '歴打の和風化・全画面・iPad対応・自己ベスト連撃', n: ['ツールの「歴打」のカードを、和風の金と朱のデザインと明朝体にしました', '歴打を全画面で遊べるようにしました（右上の「戻す」で戻ります）', 'タイトルの「歴打」が金色に輝き、花びらが舞う演出を加えました', '結果の画面に「自己ベストの連撃」を表示し、更新したときは知らせます', '実績「レベル5到達」の説明に、歴打が解放されることを書きました'] },
   { v: '17.50', d: '2026/11/08 20:09', t: '歴打を追加（レベル5で解放・石高で実績）', n: ['タイピングゲーム「歴打」をツールに追加しました。レベル5になると遊べます', '歴打の石高が、実績「石高1000」「征夷大将軍」「天下の蓄え」に反映されます'] },
   { v: '17.49', d: '2026/11/08 10:39', t: 'AIの説明の表示修正・アカウント画面の整理・ログアウトの確認', n: ['iPadで、アプリの説明の「AIに質問する」の文字が縦に崩れる問題を直しました', 'アカウント画面に「通知」「アップデートを確認」「設定」を追加し、フィードバックのまわりの線を消しました', 'ログアウトする前に、確認の画面を出すようにしました'] },
@@ -3620,7 +3631,7 @@ function autoBackup(why, obj) {
   } catch (e) { }
 }
 const sameData = (a, b) => { try { return JSON.stringify({ ...a, mt: 0 }) === JSON.stringify({ ...b, mt: 0 }); } catch (e) { return false; } };
-function cloudPull(remote, rm) { _noSync = true; const local = S, raw = { decks: Array.isArray(remote.decks) ? remote.decks.slice() : [], cards: Array.isArray(remote.cards) ? remote.cards.slice() : [], gone: remote.gone, alive: remote.alive }; S = migrate(remote); S.mt = rm; const m = unionDW(local, raw, true); S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive; ensureDecks(S); applyTheme(); save(); _noSync = false; ui.sid = ''; if (!dlg.open && !TM.open) render(); }
+function cloudPull(remote, rm) { _noSync = true; const local = S, raw = { decks: Array.isArray(remote.decks) ? remote.decks.slice() : [], cards: Array.isArray(remote.cards) ? remote.cards.slice() : [], gone: remote.gone, alive: remote.alive }; S = migrate(remote); S.mt = rm; S.soc = socUnion(socOf(local), remote.soc, true); const m = unionDW(local, raw, true); S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive; ensureDecks(S); applyTheme(); save(); _noSync = false; ui.sid = ''; if (!dlg.open && !TM.open) render(); }
 function syncChoiceDlg() {
   const P = CLOUD.pend; if (!P) return;
   const fmt = t => t ? new Date(t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '不明';
@@ -4347,13 +4358,13 @@ function trHtml() {
 }
 const TOOLS = [['music', '音楽', 'library_music', '端末の音楽や、YouTubeで探した曲を、アプリの中でずっと流せる', 300, 'e'], ['sensei', 'AI先生', 'school', '問題の写真を送ると、解き方を教えてくれる', 250, 'x'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
-  ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], 
+  ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['merge', '元素マージ', 'bubble_chart', '同じ元素をくっつけて進化させるパズル（レベル7で解放）', 210, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], 
   ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素と、くっつけて反応を見る実験', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['mol', '分子量・物質の量', 'science', '化学（中学・高校）：化学式の分子量と、g・molの換算', 300, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc${id === 'rekida' ? ' rk-tcard' : ''}${['rekida', 'ptable', 'card'].includes(id) ? ' pop' : ''}${id === 'ptable' || id === 'card' ? ' lux lux-' + id : ''}" style="--sh:${h}" data-act="tool" data-id="${id}">${['rekida', 'ptable', 'card'].includes(id) ? '<span class="tc-pop">人気</span>' : ''}<span class="tc-i">${ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
-  const T = TOOLS.find(x => x[0] === tl), body = { rekida: rekidaHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { rekida: rekidaHtml, merge: mergeHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -7728,10 +7739,35 @@ function unionDW(a, b, preferB) {
   [...(first.cards || []), ...(second.cards || [])].forEach(c => { if (c && c.id && !dead('c', c.id) && !cm.has(c.id)) cm.set(c.id, c); });
   return { decks: [...dm.values()], cards: [...cm.values()], gone, alive };
 }
+// 友達の一覧は、端末どうしの和にする（追加した時刻・外した時刻で判断）。後から外した友達だけ消える
+function socUnion(a, b, preferB) {
+  a = a || {}; b = b || {};
+  const first = preferB ? b : a, second = preferB ? a : b;
+  const at = {}, rm = {};
+  [a, b].forEach(x => {
+    Object.keys(x.at || {}).forEach(u => { at[u] = Math.max(at[u] || 0, x.at[u] || 0); });
+    Object.keys(x.rm || {}).forEach(u => { rm[u] = Math.max(rm[u] || 0, x.rm[u] || 0); });
+  });
+  const byUid = new Map();
+  [...(Array.isArray(first.friends) ? first.friends : []), ...(Array.isArray(second.friends) ? second.friends : [])].forEach(f => { if (f && f.uid && !byUid.has(f.uid)) byUid.set(f.uid, f); });
+  const friends = [...byUid.values()].filter(f => !(rm[f.uid] && rm[f.uid] >= (at[f.uid] || 0)));
+  const pick = k => first[k] || second[k] || '';
+  return { code: pick('code'), nick: pick('nick'), av: pick('av'), shared: first.shared !== undefined ? !!first.shared : !!second.shared, friends, at, rm };
+}
+// 友達の一覧の元になるもの（まだ移していない古い端末の保存も含む）
+function socOf(x) {
+  if (x && x.soc) return x.soc;
+  const l = lsj(GROW_KEY, null);
+  return l && Array.isArray(l.friends) ? { code: l.code, nick: l.nick, av: l.av, shared: l.shared, friends: l.friends } : undefined;
+}
 function applyUnion(rem, preferRem) {
   const m = unionDW(S, rem, preferRem);
   S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive;
+  const fb = JSON.stringify((S.soc && S.soc.friends) || []);
+  const bs = socOf(S), rs = rem && rem.soc;
+  if (bs || rs) S.soc = socUnion(bs, rs, preferRem);
   ensureDecks(S);
+  if (JSON.stringify(S.soc.friends) !== fb && CLOUD.user) setTimeout(() => { if (CLOUD.user) frChanged(); }, 0);
 }
 // クラウドに書く前に、クラウドの最新の単語帳を読んで合わせる（読めなければ書かない）
 async function mergeFromCloud(fs, db) {
@@ -8120,10 +8156,10 @@ const LV_REWARD = { 2: 'XPショップが使えるようになりました', 5: 
 function growGet() {
   // 友達・プロフィールは、アカウントの状態（S.soc）に入れて、どの端末でも同じにする（以前の端末ごとの保存も引き継ぐ）
   const g = lsj(GROW_KEY, null) || {}, so = (S.soc && typeof S.soc === 'object') ? S.soc : g;
-  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', lvSeen: g.lvSeen, code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [] };
+  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', lvSeen: g.lvSeen, code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
 }
 function growPut(g) {
-  const soc = { code: g.code || '', nick: g.nick || '', av: g.av || '', shared: !!g.shared, friends: g.friends || [] };
+  const soc = { code: g.code || '', nick: g.nick || '', av: g.av || '', shared: !!g.shared, friends: g.friends || [], at: g.at || {}, rm: g.rm || {} };
   lss(GROW_KEY, { spent: g.spent || 0, owned: g.owned, bg: g.bg, sfx: g.sfx, lvSeen: g.lvSeen });
   const before = JSON.stringify(S.soc || null); S.soc = soc;
   if (JSON.stringify(soc) !== before) save();
@@ -8188,7 +8224,7 @@ function shopHtml() {
     const act = eq ? `<button class="btn xs" disabled>${ms('check')}使用中</button>` : own ? `<button class="btn tonal xs" data-act="shopeq" data-id="${kind}:${id}">${ms('done')}使う</button>` : `<button class="btn xs" data-act="shopbuy" data-id="${kind}:${id}" ${sp < it.c ? 'disabled' : ''}>${ms('shopping_cart')}${it.c} XP</button>`;
     return `<div class="shop-i ${eq ? 'eq' : ''}"><div class="shop-sw" style="${sw}">${kind === 'sfx' ? ms('music_note') : ''}</div><div class="shop-t"><b>${esc(it.n)}</b><small>${eq ? '使用中' : own ? '購入済み' : `${it.c} XP`}</small></div><div class="shop-a">${kind === 'sfx' ? `<button class="btn text xs" data-act="shoptry" data-id="${id}">${ms('play_arrow')}試す</button>` : ''}${act}</div></div>`;
   };
-  return `<h2 class="noti-h">${ms('storefront')}<span>XPショップ</span><em class="noti-cnt">使えるXP ${sp}</em></h2><p class="muted" style="font-weight:500;margin:0 0 6px">XPを使っても、レベルは下がりません。</p><h3 class="shop-h">ホームの背景</h3><div class="shop-l">${Object.entries(HOME_BG).map(([id, it]) => card('bg', id, it)).join('')}</div><h3 class="shop-h">効果音</h3><div class="shop-l">${Object.entries(SFX_T).map(([id, it]) => card('sfx', id, it)).join('')}</div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
+  return `<h2 class="noti-h">${ms('storefront')}<span>XPショップ</span><em class="noti-cnt">使えるXP ${sp}</em></h2><p class="muted" style="font-weight:500;margin:0 0 6px">XPを使っても、レベルは下がりません。</p><h3 class="shop-h">ホームの背景</h3><div class="shop-l">${Object.entries(HOME_BG).map(([id, it]) => card('bg', id, it)).join('')}</div><h3 class="shop-h">効果音</h3><div class="shop-l">${Object.entries(SFX_T).map(([id, it]) => card('sfx', id, it)).join('')}</div><h3 class="shop-h">ツール</h3><div class="shop-l">${Object.entries(TOOL_SHOP).map(([id, it]) => toolShopCard(id, it)).join('')}</div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
 }
 function shopRedraw() { if (dlg.open && dlg.dataset.k === 'shop') dlg.innerHTML = `<div class="dlg">${shopHtml()}</div>`; }
 // 友達と比べる（Firestore の shares：見せると決めた人だけ）
@@ -8196,7 +8232,7 @@ const FR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join(''); return g.code; }
 function growWeek() { const nb = parse(today()), from = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() - 6)), to = today(); let min = 0, pg = 0; for (const k in S.log) if (k >= from && k <= to) { min += S.log[k].m || 0; pg += S.log[k].a || 0; } return { min, pg }; }
 function growPct() { const tot = S.tasks.reduce((a, t) => a + (t.total || 0), 0), dn = S.tasks.reduce((a, t) => a + Math.min(t.done || 0, t.total || 0), 0); return tot ? Math.round(dn / tot * 100) : 0; }
-function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0 }; }
+function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0, mg: mgStat().best || 0 }; }
 async function growUnpublish() { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'friendStats', growGet().code)); }
 async function growAddFriend(code) {
   code = String(code || '').trim().toUpperCase(); if (!code) return;
@@ -8208,7 +8244,7 @@ async function growAddFriend(code) {
     const data = d.data();
     if (data.owner === CLOUD.user.uid) return toast('それは、あなたのコードです');
     const g = growGet(); if (g.friends.some(f => f.uid === data.owner)) return toast('もう友達に入っています');
-    g.friends.push({ uid: data.owner, code, name: data.name || '名前なし' }); growPut(g);
+    g.friends.push({ uid: data.owner, code, name: data.name || '名前なし' }); g.at = { ...(g.at || {}), [data.owner]: Date.now() }; growPut(g);
     await friendNotify(data.owner); toast('友達を追加しました'); frChanged();
   } catch (e) { toast('友達を追加できませんでした（Firestoreの設定を確認してください）'); }
 }
@@ -8229,7 +8265,7 @@ function friendsHtml(me, rows) {
     const del = fof ? `<button class="btn tonal xs" data-act="fofadd" data-id="${f.code}">${ms('person_add')}友達に追加</button>` : `<button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button>`;
     if (err || !data) return `<div class="card"><b>${esc(f.name)}</b><p class="muted" style="font-weight:500;margin:6px 0">${err ? '読み込めませんでした' : '今は、進み具合を見せていないようです'}</p>${del}</div>`;
     const nm = esc(data.name || f.name);
-    return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div>${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${del}</div>`;
+    return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div>${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${cmpRow('元素マージの最高点', me.mg || 0, data.mg || 0, '点', 'bubble_chart')}${del}</div>`;
   }).join('');
 }
 Object.assign(ACT, {
@@ -8252,7 +8288,7 @@ Object.assign(ACT, {
     friendsRedraw();
   },
   async fradd() { const el = document.getElementById('frcode'); await growAddFriend(el ? el.value : ''); },
-  frdel(uid) { const g = growGet(); g.friends = g.friends.filter(f => f.uid !== uid); growPut(g); toast('友達から外しました'); frChanged(); }
+  frdel(uid) { const g = growGet(); g.friends = g.friends.filter(f => f.uid !== uid); g.rm = { ...(g.rm || {}), [uid]: Date.now() }; growPut(g); toast('友達から外しました'); frChanged(); }
 });
 setTimeout(applyHomeBg, 0);
 /* ===== 17.53：ホームの統計・友達との比較（ホームにも）・一番上の文字の設定・単語帳の長押しで名前変更 ===== */
@@ -8324,7 +8360,7 @@ function cmpRow(label, mine, theirs, unit, icon) {
   return `<div class="cm-row"><div class="cm-h">${icon ? ms(icon) : ''}<b>${label}</b>${lead}</div><div class="cm-bar me"><span class="cm-n">あなた</span><div class="cm-tr"><i style="--w:${pm}%"></i></div><span class="cm-v">${mine}${unit}</span></div><div class="cm-bar fr"><span class="cm-n">相手</span><div class="cm-tr"><i style="--w:${pt}%"></i></div><span class="cm-v">${theirs}${unit}</span></div></div>`;
 }
 function frCardHtml(me, data, nm) {
-  return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${cmpRow('元素インベーダーの最高点', me.iv || 0, data.iv || 0, '点', 'rocket_launch')}${cmpRow('歴打の最高石高', me.rk || 0, data.rk || 0, '石', 'castle')}</div>`;
+  return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${cmpRow('元素インベーダーの最高点', me.iv || 0, data.iv || 0, '点', 'rocket_launch')}${cmpRow('歴打の最高石高', me.rk || 0, data.rk || 0, '石', 'castle')}${cmpRow('元素マージの最高点', me.mg || 0, data.mg || 0, '点', 'bubble_chart')}</div>`;
 }
 function frHomeInner() {
   if (FR_HOME.err) return `<p class="muted" style="font-weight:500;margin:0">友達の情報を読めませんでした。通信の状態を確かめて、「更新」を押してください。</p>`;
@@ -8478,7 +8514,7 @@ async function growPublish() {
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'friendStats', m.code);
   const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() };
   const ext = { ...base, tt: m.tt, typed: m.typed, fr: g.friends.slice(0, 30).map(f => ({ o: String(f.uid || ''), c: String(f.code || ''), n: String(f.name || '').slice(0, 20) })) };
-  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0 };
+  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0, mg: m.mg || 0 };
   // 新しい項目 → 点数を抜いた項目 → 名前とアイコン → 名前と進み具合だけ（ルールが古いときも、最低限は届く）
   const tries = m.av ? [{ ...full, av: m.av }, { ...ext, av: m.av }, full, ext, base] : [full, ext, base];
   let err = null;
@@ -8504,7 +8540,7 @@ function inboxStart() {
         if (ch.type !== 'added') return;
         const d = ch.doc.data() || {}, nm = String(d.name || '名前なし').slice(0, 20);
         const g = growGet(), cd = String(d.code || '').toUpperCase();
-        if (/^[A-Z0-9]{6}$/.test(cd) && d.from && d.from !== CLOUD.user.uid && !g.friends.some(f => f.uid === d.from)) { g.friends.push({ uid: String(d.from), code: cd, name: nm }); growPut(g); frChanged(); }
+        if (/^[A-Z0-9]{6}$/.test(cd) && d.from && d.from !== CLOUD.user.uid && !g.friends.some(f => f.uid === d.from)) { g.friends.push({ uid: String(d.from), code: cd, name: nm }); g.at = { ...(g.at || {}), [String(d.from)]: Date.now() }; growPut(g); frChanged(); }
         notiAdd({ k: 'friend-' + ch.doc.id, icon: 'group', text: `${nm}さんと友達になりました`, sub: '記録タブの「友達と比べる」で、進み具合を比べられます', act: 'tab', aid: 'stats' });
         toast(`${nm}さんと友達になりました`);
         fs.deleteDoc(ch.doc.ref).catch(() => { });
@@ -9379,7 +9415,7 @@ window.addEventListener('message', e => {
   checkBadges(false); save(); frChanged();
 });
 // 全画面：枠を画面いっぱいに広げる。iframe は作り直さないので、ゲームは途中から続く
-const gameOv = () => !!(document.getElementById('psov') || document.getElementById('rkov'));
+const gameOv = () => !!(document.getElementById('psov') || document.getElementById('rkov') || document.getElementById('mgov'));
 function gameFull(k, on) {
   const f = document.getElementById(k + 'frame'); if (!f) return;
   const ov = document.getElementById(k + 'ov');
@@ -9415,6 +9451,81 @@ function rekidaHtml() {
   if (lv < RK_LV) return `<div class="rk-lock card"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>歴打は、レベル${RK_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。課題を進めたり、アプリを使ってレベルを上げると、遊べるようになります。あと${RK_LV - lv}レベルです。</p></div>`;
   return `<div class="ps"><div class="card ps-st" id="rkstat">${rkStatHtml()}</div><div class="ps-bar"><button type="button" class="btn tonal sm" id="rkfb" data-act="rkfull">${ms('fullscreen')}全画面</button></div><div class="ps-frame rk-frame" id="rkframe"><iframe src="games/rekida.html" title="歴打 -REKIDA-"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">1ゲームの石高や累計は、実績「石高1000」などに反映されます。</p></div>`;
 }
+
+/* ====================== 元素マージ：レベル7で解放、またはXP（500）で購入。games/merge.html を埋め込み、最高点を友達と比べる（Matter.js を CDN から読むので通信が必要） ====================== */
+const MG_LV = 7;
+const TOOL_SHOP = { merge: { n: '元素マージ', c: 500, d: 'レベル7になるまで待たずに使えます' } };
+function toolOwned(id) { return (growGet().owned.tool || []).includes(id); }
+function mgStat() { try { return JSON.parse(localStorage.getItem('kosa-merge') || '{}') || {}; } catch (e) { return {}; } }
+function mgStatHtml() { const v = mgStat(); return `<span>最高点 <b>${v.best || 0}</b></span><span>最高の元素 <b>${v.maxLv ? 'Lv.' + v.maxLv : '-'}</b></span><span>挑戦 <b>${v.plays || 0}</b>回</span>`; }
+// ゲームの結果を受け取って保存する（0点の挑戦は数えない）
+window.addEventListener('message', e => {
+  const d = e.data; if (!d || d.type !== 'kosa-merge') return;
+  const fr = document.querySelector('#mgframe iframe'); if (!fr || e.source !== fr.contentWindow) return;
+  const score = Math.max(0, Math.min(10000000, Math.floor(Number(d.score) || 0)));
+  if (score <= 0) return;
+  const lv = Math.max(1, Math.min(11, Math.floor(Number(d.maxLv) || 1)));
+  const v = mgStat();
+  v.plays = (v.plays || 0) + 1; v.best = Math.max(v.best || 0, score); v.maxLv = Math.max(v.maxLv || 0, lv);
+  try { localStorage.setItem('kosa-merge', JSON.stringify(v)); } catch (x) { }
+  const el = document.getElementById('mgstat'); if (el) el.innerHTML = mgStatHtml();
+  checkBadges(false); save(); frChanged(); mgRankLoad(true);
+});
+// 全画面：枠を画面いっぱいに広げる。ゲームの中で Escape を押しても戻せる（ゲームから届く）
+function mgFullOn(on) { gameFull('mg', on); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('mgov')) mgFullOn(false); });
+window.addEventListener('message', e => { const d = e.data; const fr = document.querySelector('#mgframe iframe'); if (d && d.type === 'kosa-merge-exit' && fr && e.source === fr.contentWindow && document.getElementById('mgov')) mgFullOn(false); });
+// XPで買う（ショップと、ロック画面のどちらからでも）
+function toolShopCard(id, it) {
+  const own = toolOwned(id), sp = spendXp();
+  const act = own ? `<button class="btn tonal xs" disabled>${ms('check')}購入済み</button>` : `<button class="btn xs" data-act="toolbuy" data-id="${id}" ${sp < it.c ? 'disabled' : ''}>${ms('shopping_cart')}${it.c} XP</button>`;
+  return `<div class="shop-i"><div class="shop-sw">${ms('bubble_chart')}</div><div class="shop-t"><b>${esc(it.n)}</b><small>${own ? '購入済み' : it.d}</small></div><div class="shop-a">${act}</div></div>`;
+}
+Object.assign(ACT, {
+  toolbuy(id) {
+    const it = TOOL_SHOP[id]; if (!it) return;
+    const g = growGet(); if (g.owned.tool.includes(id)) return;
+    const sp = spendXp(); if (sp < it.c) return toast(`XPが${it.c - sp}足りません`);
+    g.spent += it.c; g.owned.tool.push(id); growPut(g);
+    toast(`${it.n}を使えるようになりました`); shopRedraw(); toolsRefresh();
+  },
+  mgfull() { mgFullOn(!document.getElementById('mgov')); },
+  mgrank() { mgRankLoad(true); },
+});
+function mergeHtml() {
+  const lv = level().L, sp = spendXp();
+  if (document.getElementById('mgov')) return `<div class="ps"><p class="muted ps-note" style="margin:10px 4px 0">全画面で遊んでいます。「戻す」で、ツールの画面に戻ります。</p></div>`;
+  if (lv < MG_LV && !toolOwned('merge')) {
+    const buy = `<div class="mg-buy"><button type="button" class="btn" data-act="toolbuy" data-id="merge" ${sp < TOOL_SHOP.merge.c ? 'disabled' : ''}>${ms('shopping_cart')}${TOOL_SHOP.merge.c} XPで使えるようにする</button><small class="muted">いまの使えるXP ${sp}</small></div>`;
+    return `<div class="rk-lock card"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>元素マージは、レベル${MG_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。レベルを上げるか、XPを使うと、今すぐ遊べます。あと${MG_LV - lv}レベルです。</p>${buy}</div>`;
+  }
+  return `<div class="ps"><div class="card ps-st" id="mgstat">${mgStatHtml()}</div><div class="ps-bar"><button type="button" class="btn tonal sm" id="mgfb" data-act="mgfull">${ms('fullscreen')}全画面</button></div><div class="ps-frame rk-frame" id="mgframe"><iframe src="games/merge.html" title="中2理科 元素マージ"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">同じ元素をくっつけると、次の段階に進化します。画面をタップするか、← → とスペースで操作します。</p><div class="card mg-rank" id="mgrank">${mgRankInner()}</div></div>`;
+}
+// 友達との最高点ランキング（直接の友達だけ。自分と並べて表示）
+const MG_RANK = { rows: null, err: false, busy: false, at: 0 };
+function mgRankInner() {
+  const head = `<b class="mg-rh">${ms('group')}友達との最高点ランキング</b>`;
+  if (!CLOUD.user) return head + `<p class="muted" style="font-weight:500;margin:6px 0 0">友達と比べるには、Googleログインが必要です</p>`;
+  if (MG_RANK.err) return head + `<p class="muted" style="font-weight:500;margin:6px 0">友達の情報を読めませんでした。「更新」を押してください。</p><button class="btn text xs" data-act="mgrank">${ms('refresh')}更新</button>`;
+  if (!MG_RANK.rows) return head + `<p class="muted" style="font-weight:500;margin:6px 0 0">読み込み中…</p>`;
+  const me = { name: growMine(growGet()).name, mg: mgStat().best || 0, me: true };
+  const list = [me, ...MG_RANK.rows.map(r => ({ name: r.name, mg: r.mg, me: false }))].sort((x, y) => y.mg - x.mg);
+  const note = MG_RANK.rows.length ? '' : `<p class="muted" style="font-weight:500;margin:6px 0 0">まだ友達がいません。「友達を見る・追加」から追加すると、ここで比べられます。</p>`;
+  return head + list.map((r, i) => `<div class="mg-rrow ${r.me ? 'me' : ''}"><span class="mg-rn">${i + 1}</span><b>${r.me ? 'あなた' : esc(r.name)}</b><span class="mg-rv">${r.mg} 点</span></div>`).join('') + note + `<div class="fh-f" style="margin-top:8px"><button class="btn text xs" data-act="mgrank">${ms('refresh')}更新</button></div>`;
+}
+function mgRankRedraw() { const el = document.getElementById('mgrank'); if (el) el.innerHTML = mgRankInner(); }
+async function mgRankLoad(force) {
+  if (!CLOUD.user || MG_RANK.busy || (!force && MG_RANK.rows && Date.now() - MG_RANK.at < 60000)) return mgRankRedraw();
+  if (!growGet().friends.length) { MG_RANK.rows = []; MG_RANK.err = false; MG_RANK.at = Date.now(); return mgRankRedraw(); }
+  MG_RANK.busy = true; MG_RANK.err = false; mgRankRedraw();
+  try {
+    const rows = await friendsLoad();
+    MG_RANK.rows = rows.filter(r => !r.fof && r.data && !r.err).map(r => ({ name: String(r.data.name || r.f.name || '名前なし'), mg: Number(r.data.mg) || 0 }));
+    MG_RANK.at = Date.now();
+  } catch (e) { MG_RANK.err = true; }
+  MG_RANK.busy = false; mgRankRedraw();
+}
+TPAINT.merge = () => { if (document.getElementById('mgrank')) mgRankLoad(); };
 
 /* ====================== 元素シューティング（17.35）：「元素インベーダー ULTRA」を games/invader.html から埋め込む ====================== */
 // 点数の保存（実績「シューティング100点」などで使う）。新しいゲームでは、この値は更新されない
