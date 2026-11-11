@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>VAPID 鍵の作成</title>
+<style>
+body{font-family:-apple-system,system-ui,"Hiragino Sans","Noto Sans JP",sans-serif;margin:0;padding:20px;background:#f3f4f8;color:#1f2937;line-height:1.7}
+main{max-width:680px;margin:0 auto}
+h1{font-size:1.4rem;margin:8px 0 4px}
+.box{background:#fff;border-radius:16px;padding:18px;margin:14px 0;box-shadow:0 1px 4px rgba(0,0,0,.08)}
+button{font:inherit;font-size:1.1rem;padding:12px 20px;border-radius:12px;border:0;background:#2563eb;color:#fff;margin:6px 8px 6px 0;cursor:pointer}
+button.sub{background:#e5e7eb;color:#111;font-size:1rem;padding:10px 16px}
+textarea{width:100%;box-sizing:border-box;font-family:ui-monospace,Menlo,monospace;font-size:.95rem;min-height:72px;padding:10px;border-radius:10px;border:1px solid #cbd5e1;word-break:break-all;margin-top:4px}
+.warn{background:#fff7ed;border:1px solid #fdba74;border-radius:12px;padding:12px 14px}
+label{font-weight:700;display:block;margin-top:12px}
+#st{color:#374151;min-height:1.7em}
+</style>
+</head>
+<body>
+<main>
+<h1>プッシュ通知の鍵（VAPID）を作る</h1>
+<p>このページは、いま開いている端末の中だけで鍵を作ります。鍵はどこにも送信されません。</p>
+<div class="warn"><b>大事：</b>秘密の値（VAPID_PRIVATE）は、Renderの環境変数にだけ貼ってください。写真に撮ったり、メモに残したり、ほかの人に送ったりしないでください。</div>
+
+<div class="box">
+  <button id="gen">鍵を作る</button>
+  <p id="st"></p>
+  <label for="pub">VAPID_PUBLIC（公開の鍵）→ firebase-config.js と Render の両方に入れる</label>
+  <textarea id="pub" readonly></textarea>
+  <button class="sub" data-copy="pub">コピー</button>
+  <label for="prv">VAPID_PRIVATE（秘密の値）→ Render の環境変数だけに入れる</label>
+  <textarea id="prv" readonly></textarea>
+  <button class="sub" data-copy="prv">コピー</button>
+</div>
+
+<div class="box">
+  <b>次にすること</b>
+  <ol>
+    <li>VAPID_PUBLIC を、GitHub の <code>firebase-config.js</code> の <code>window.VAPID_PUBLIC_KEY = "";</code> の「 " 」の中に貼る</li>
+    <li>VAPID_PUBLIC と VAPID_PRIVATE を、Render の環境変数に入れる</li>
+    <li>終わったら、このページを閉じる（鍵はこのページに残りません）</li>
+  </ol>
+</div>
+</main>
+<script>
+function unb(s) { s = s.replace(/-/g, '+').replace(/_/g, '/'); while (s.length % 4) s += '='; return Uint8Array.from(atob(s), c => c.charCodeAt(0)); }
+function b64u(bytes) { let s = ''; for (const x of bytes) s += String.fromCharCode(x); return btoa(s).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''); }
+document.getElementById('gen').addEventListener('click', async () => {
+  const st = document.getElementById('st');
+  try {
+    if (!window.crypto || !crypto.subtle) throw new Error('この画面では作れません（https で開いてください）');
+    const kp = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify']);
+    const jwk = await crypto.subtle.exportKey('jwk', kp.privateKey);
+    const x = unb(jwk.x), y = unb(jwk.y);
+    const raw = new Uint8Array(65); raw[0] = 4; raw.set(x, 1); raw.set(y, 33);
+    document.getElementById('pub').value = b64u(raw);
+    document.getElementById('prv').value = jwk.d;
+    st.textContent = '鍵を作りました。下の「コピー」で、順番に貼ってください。';
+  } catch (e) {
+    st.textContent = '作れませんでした：' + (e && e.message ? e.message : e);
+  }
+});
+document.querySelectorAll('[data-copy]').forEach(btn => btn.addEventListener('click', async () => {
+  const el = document.getElementById(btn.dataset.copy);
+  if (!el.value) { document.getElementById('st').textContent = '先に「鍵を作る」を押してください。'; return; }
+  try { await navigator.clipboard.writeText(el.value); document.getElementById('st').textContent = 'コピーしました。'; }
+  catch (e) { el.select(); try { document.execCommand('copy'); document.getElementById('st').textContent = 'コピーしました。'; } catch (x) { document.getElementById('st').textContent = '長押しして、コピーしてください。'; } }
+}));
+</script>
+</body>
+</html>

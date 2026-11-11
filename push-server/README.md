@@ -4,6 +4,7 @@ Render の無料Webサービスで動かします。外部ライブラリは使�
 UptimeRobot（無料）で5分おきに `/health` を見に行き、サーバーがスリープしないようにします。
 
 ## 1. Firebase（サービスアカウントの鍵）
+※ この JSON は、GitHub（公開されるページ）に入れないでください。Render の環境変数にだけ入れます。
 1. Firebase コンソール →（歯車）プロジェクトの設定 → **サービスアカウント**
 2. **新しい秘密鍵を生成** → JSON ファイルがダウンロードされます（外に出さないでください）
 3. この JSON の中身を、そのまま 4 の `FIREBASE_SA` に入れます
@@ -12,9 +13,23 @@ UptimeRobot（無料）で5分おきに `/health` を見に行き、サーバー
 Firebase コンソール → Firestore Database → **ルール** に、リポジトリの `firestore.rules` の中身を貼って「公開」します。
 
 ## 3. VAPID の鍵（一度だけ）
+
+### iPad・ブラウザで作る場合（おすすめ）
+1. このアプリを GitHub Pages で公開している場合は、アドレスの末尾を `push-server/vapid-generator.html` に変えて、Safari で開きます（例：`https://（ユーザー名）.github.io/（リポジトリ名）/push-server/vapid-generator.html`）。公開していない場合は、先にリポジトリを GitHub Pages に公開してください。
+2. **鍵を作る** を押します。鍵は、この端末の中だけで作られます。
+3. **VAPID_PUBLIC** の「コピー」を押して、次の (a) に貼ります。
+4. **VAPID_PRIVATE** の「コピー」を押して、(b) の Render の環境変数に貼ります。
+
+(a) GitHub で `firebase-config.js` を開き、鉛筆のマーク（編集）→ `window.VAPID_PUBLIC_KEY = "";` の「 " 」の中に貼る → 「Commit changes」を押す。
+
+(b) Render の環境変数（4 で設定）に、VAPID_PUBLIC と VAPID_PRIVATE を入れる。
+
+### パソコンがある場合
 ```
 node push-server/gen-vapid.js
 ```
+表示された VAPID_PUBLIC を、`firebase-config.js` の `window.VAPID_PUBLIC_KEY` に貼り、VAPID_PUBLIC と VAPID_PRIVATE を Render に入れます。
+
 - 表示された **VAPID_PUBLIC** を、`firebase-config.js` の `window.VAPID_PUBLIC_KEY` に貼ります（アプリ側）。
 - **VAPID_PUBLIC** と **VAPID_PRIVATE** の両方を、4 の環境変数に入れます。
 - 鍵を作り直すと、すべての端末の通知登録が無効になります（作り直したら、各端末で「オンにする」を押し直す）。
