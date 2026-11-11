@@ -14,9 +14,12 @@ try { SA = ENV.FIREBASE_SA ? JSON.parse(ENV.FIREBASE_SA) : null; } catch (e) { S
 const PROJECT = ENV.FIREBASE_PROJECT_ID || (SA && SA.project_id) || '';
 const FS_BASE = ENV.FIRESTORE_BASE || `https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents`;
 const TOKEN_URL = ENV.GOOGLE_TOKEN_URL || 'https://oauth2.googleapis.com/token';
-const VAPID_PUB = ENV.VAPID_PUBLIC || '';
-const VAPID_PRIV = ENV.VAPID_PRIVATE || '';
-const VAPID_SUB = ENV.VAPID_SUBJECT || 'mailto:admin@example.com';
+// 鍵は、コピーの途中で入った空白や改行を取り除いて使います（ずれると、Apple が「BadJwtToken」で拒否します）
+const clean = s => String(s || '').replace(/\s+/g, '');
+const VAPID_PUB = clean(ENV.VAPID_PUBLIC);
+const VAPID_PRIV = clean(ENV.VAPID_PRIVATE);
+const VAPID_SUB = String(ENV.VAPID_SUBJECT || '').trim() || 'mailto:admin@example.com';
+const VAPID_SUB_OK = /^(mailto:|https:)/.test(VAPID_SUB);
 const TICK_MS = Number(ENV.TICK_MS) || 30000;
 const SENT_MAX = 300, DIAG_MAX = 40;
 const DAY = 86400000;
@@ -24,6 +27,7 @@ const DAY = 86400000;
 const log = (...a) => console.log(new Date().toISOString(), ...a);
 const b64u = buf => Buffer.from(buf).toString('base64url');
 const unb64u = s => Buffer.from(String(s), 'base64url');
+const vapidPubCanon = () => (VAPID_PUB ? unb64u(VAPID_PUB).toString('base64url') : '');
 const state = { lastTick: 0, sent: 0, gone: 0, plans: 0, lastErr: '' };
 
 // ---------- Google の認証（サービスアカウントで、Firestore を読み書きします）----------
@@ -109,7 +113,7 @@ async function flushDiag() {
     catch (e) { log('診断の保存に失敗', e.message); }
   }
 }
-const HINT = { 400: '形式が正しくありません（オンにし直してください）', 401: '鍵の認証が通りません（Renderの鍵を確認）', 403: '鍵の認証が通りません（Renderの鍵を確認）', 404: '登録が見つかりません（オンにし直してください）', 410: '登録が取り消されています（オンにし直してください）', 413: 'データが大きすぎます', 429: '送りすぎです（少し待ってください）' };
+const HINT = { 400: '形式が正しくありません（オンにし直してください）', 401: '鍵の認証が通りません（Renderの VAPID_PUBLIC・VAPID_PRIVATE・VAPID_SUBJECT を確認）', 403: '鍵の認証が通りません（Renderの VAPID_PUBLIC・VAPID_PRIVATE・VAPID_SUBJECT を確認）', 404: '登録が見つかりません（オンにし直してください）', 410: '登録が取り消されています（オンにし直してください）', 413: 'データが大きすぎます', 429: '送りすぎです（少し待ってください）' };
 const hostOf = ep => { try { return new URL(ep).host; } catch (e) { return '不正なアドレス'; } };
 
 // ---------- Web Push の暗号化（RFC 8291 / aes128gcm）と VAPID の署名（RFC 8292）----------
@@ -146,7 +150,7 @@ async function pushTo(sub, msg) {
   const host = hostOf(sub.endpoint);
   let body, auth;
   try { body = encryptPayload(sub, JSON.stringify(msg)); } catch (e) { return { host, err: '暗号化に失敗：' + e.message }; }
-  try { auth = `vapid t=${vapidJwt(new URL(sub.endpoint).origin)}, k=${VAPID_PUB}`; } catch (e) { return { host, err: 'VAPIDの署名に失敗（Renderの VAPID_PRIVATE を確認）：' + e.message }; }
+  try { auth = `vapid t=${vapidJwt(new URL(sub.endpoint).origin)}, k=${vapidPubCanon()}`; } catch (e) { return { host, err: 'VAPIDの署名に失敗（Renderの VAPID_PRIVATE を確認）：' + e.message }; }
   try {
     const r = await fetch(sub.endpoint, { method: 'POST', headers: { TTL: '3600', 'Content-Encoding': 'aes128gcm', 'Content-Type': 'application/octet-stream', Urgency: 'high', Authorization: auth }, body });
     let text = '';
@@ -229,12 +233,19 @@ async function tick() {
 }
 
 // ---------- 設定の点検（鍵が対になっているか、など。秘密の値そのものは出しません）----------
+function vapidSelfOk() {
+  const pub = unb64u(VAPID_PUB);
+  const key = crypto.createPublicKey({ key: { kty: 'EC', crv: 'P-256', x: b64u(pub.subarray(1, 33)), y: b64u(pub.subarray(33, 65)) }, format: 'jwk' });
+  const [h, b, sg] = vapidJwt('https://push.example').split('.');
+  return crypto.verify('sha256', Buffer.from(`${h}.${b}`), { key, dsaEncoding: 'ieee-p1363' }, unb64u(sg));
+}
 function configCheck() {
-  const c = { saOk: !!SA && !SA_ERR, saError: SA_ERR, vapidSet: !!(VAPID_PUB && VAPID_PRIV), vapidPairOk: false, vapidKeyLen: VAPID_PUB.length };
+  const c = { saOk: !!SA && !SA_ERR, saError: SA_ERR, vapidSet: !!(VAPID_PUB && VAPID_PRIV), vapidPairOk: false, vapidSelfOk: false, vapidSubOk: VAPID_SUB_OK, vapidKeyLen: VAPID_PUB.length };
   try {
     const pub = unb64u(VAPID_PUB);
     const derived = crypto.createPublicKey(vapidKeyObj()).export({ format: 'jwk' });
     c.vapidPairOk = derived.x === b64u(pub.subarray(1, 33)) && derived.y === b64u(pub.subarray(33, 65));
+    c.vapidSelfOk = c.vapidPairOk && vapidSelfOk();
   } catch (e) { c.vapidError = e.message; }
   return c;
 }
@@ -250,7 +261,7 @@ if (require.main === module) {
     const cors = { 'Access-Control-Allow-Origin': '*' };
     if (req.url === '/health' || req.url === '/') {
       res.writeHead(200, { 'Content-Type': 'application/json', ...cors });
-      return res.end(JSON.stringify({ ok: true, lastTick: state.lastTick, plans: state.plans, sent: state.sent, gone: state.gone, lastErr: state.lastErr, vapidFp: VAPID_PUB.slice(0, 8), config: configCheck() }));
+      return res.end(JSON.stringify({ ok: true, lastTick: state.lastTick, plans: state.plans, sent: state.sent, gone: state.gone, lastErr: state.lastErr, vapidFp: VAPID_PUB.slice(0, 8), vapidPub: vapidPubCanon(), config: configCheck() }));
     }
     res.writeHead(404, cors); res.end('not found');
   }).listen(PORT, () => log('起動しました。ポート', PORT));
