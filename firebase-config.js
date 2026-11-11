@@ -22,3 +22,6 @@ window.APPCHECK_SITE_KEY = "6LdUXhEuAAAAAEMIfHe4bVjqNkvFoDRTZ3Ra6vI0";
 
 // ---- プッシュ通知（push-server の gen-vapid.js で作った VAPID_PUBLIC を貼ります。空のままなら、通知の設定は「準備中」になります）----
 window.VAPID_PUBLIC_KEY = "BIDJe7dnzF8lu-gWdNBataeQC5AvrraFO6Fe48F1Lai9LdtOLiYJSkJsAuqlEIDTE8w_0B5xyxfKTi_OSELKXmI";
+
+// 送信サーバー（Render）のアドレス。「通知の診断」で、サーバーの状態を見るために使います。
+window.PUSH_SERVER_URL = "https://homework-checklist.onrender.com";

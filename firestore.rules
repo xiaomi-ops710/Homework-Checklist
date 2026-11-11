@@ -61,7 +61,7 @@ service cloud.firestore {
     match /pushSubs/{uid}/devices/{dev} {
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if request.auth != null && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['sub','ua','t'])
+        && request.resource.data.keys().hasOnly(['sub','ua','t','vk'])
         && request.resource.data.sub.endpoint is string && request.resource.data.sub.endpoint.size() < 1000;
     }
     // プッシュ通知：自分の通知の時刻と、今日・明日の内容
@@ -70,6 +70,12 @@ service cloud.firestore {
       allow create, update: if request.auth != null && request.auth.uid == uid
         && request.resource.data.keys().hasOnly(['enabled','hm','nextAt','lines','test','updated','sent','lastResult','lastAt'])
         && (!('lines' in request.resource.data) || request.resource.data.lines.size() <= 20);
+    }
+
+    // プッシュ通知の診断（送信サーバーが書きます。自分だけ読めます）
+    match /pushDiag/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
     }
 
     // 管理者からのお知らせ（全員が読める。書く・消すのは管理者だけ）
