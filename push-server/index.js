@@ -15,13 +15,13 @@ const TOKEN_URL = ENV.GOOGLE_TOKEN_URL || 'https://oauth2.googleapis.com/token';
 const VAPID_PUB = ENV.VAPID_PUBLIC || '';
 const VAPID_PRIV = ENV.VAPID_PRIVATE || '';
 const VAPID_SUB = ENV.VAPID_SUBJECT || 'mailto:admin@example.com';
-const TICK_MS = Number(ENV.TICK_MS) || 60000;
+const TICK_MS = Number(ENV.TICK_MS) || 30000;   // 30秒ごとに、変わったものを確かめる
 const DAY = 86400000;
 
 const log = (...a) => console.log(new Date().toISOString(), ...a);
 const b64u = buf => Buffer.from(buf).toString('base64url');
 const unb64u = s => Buffer.from(String(s), 'base64url');
-const state = { lastTick: 0, sent: 0, gone: 0, lastErr: '' };
+const state = { lastTick: 0, lastRun: 0, sent: 0, gone: 0, plans: 0, lastErr: '' };
 
 // ---------- Google の認証（サービスアカウントで、Firestore を読み書きします）----------
 let tok = null, tokExp = 0;
@@ -70,19 +70,10 @@ function toV(x) {
   return { mapValue: { fields: Object.fromEntries(Object.entries(x).map(([k, v]) => [k, toV(v)])) } };
 }
 
-// ---------- 送る時刻（日本時間の HH:MM の、次の瞬間）----------
-// クライアント（index.html の jstNext）と同じ計算。時刻はミリ秒で保存します。
-function jstNext(hm, after = Date.now()) {
-  const [h, m] = String(hm || '07:30').split(':').map(Number);
-  const j = new Date(after + 9 * 3600000);
-  let t = Date.UTC(j.getUTCFullYear(), j.getUTCMonth(), j.getUTCDate(), (Number.isFinite(h) ? h : 7) - 9, Number.isFinite(m) ? m : 30);
-  if (t <= after) t += DAY;
-  return t;
-}
-
 // ---------- Firestore の読み書き ----------
-async function duePlans(now) {
-  const r = await fsReq('POST', ':runQuery', { structuredQuery: { from: [{ collectionId: 'pushPlan' }], where: { fieldFilter: { field: { fieldPath: 'nextAt' }, op: 'LESS_THAN_OR_EQUAL', value: { integerValue: String(now) } } }, limit: 50 } });
+// 通知を有効にしている人（enabled が true）を全部読みます（人数が少ないので、1回で足ります）
+async function enabledPlans() {
+  const r = await fsReq('POST', ':runQuery', { structuredQuery: { from: [{ collectionId: 'pushPlan' }], where: { fieldFilter: { field: { fieldPath: 'enabled' }, op: 'EQUAL', value: { booleanValue: true } } }, limit: 200 } });
   return (r || []).filter(x => x.document).map(x => ({ uid: x.document.name.split('/documents/')[1].split('/')[1], data: fromF(x.document.fields) }));
 }
 async function devicesOf(uid) {
@@ -126,34 +117,48 @@ async function pushTo(sub, msg) {
   const body = encryptPayload(sub, JSON.stringify(msg));
   const r = await fetch(sub.endpoint, {
     method: 'POST',
-    headers: { TTL: '3600', 'Content-Encoding': 'aes128gcm', 'Content-Type': 'application/octet-stream', Urgency: 'normal', Authorization: `vapid t=${vapidJwt(new URL(sub.endpoint).origin)}, k=${VAPID_PUB}` },
+    headers: { TTL: '3600', 'Content-Encoding': 'aes128gcm', 'Content-Type': 'application/octet-stream', Urgency: 'high', Authorization: `vapid t=${vapidJwt(new URL(sub.endpoint).origin)}, k=${VAPID_PUB}` },
     body,
   });
   return r.status;   // 201 = 届いた。404 / 410 = この端末の登録は、もう無効
 }
 
-// ---------- 送る内容 ----------
-function digestBody(lines) {
-  const txt = lines.slice(0, 8).join('\n') + (lines.length > 8 ? `\nほか${lines.length - 8}件` : '');
+// ---------- 送る（変わったものだけ、すぐ）----------
+const SENT_MAX = 300;
+function newsBody(items) {
+  const txt = items.slice(0, 5).join('\n') + (items.length > 5 ? `\nほか${items.length - 5}件` : '');
   return txt.slice(0, 300);
 }
+async function sendTo(uid, msg) {
+  const r = { ok: 0, gone: 0, fail: 0 };
+  for (const { dev, sub } of await devicesOf(uid)) {
+    try {
+      const st = await pushTo(sub, msg);
+      if (st === 404 || st === 410) { await fsReq('DELETE', `/pushSubs/${uid}/devices/${dev}`); r.gone++; state.gone++; }
+      else if (st >= 300) { r.fail++; log('送信の応答が異常', st); }
+      else { r.ok++; state.sent++; }
+    } catch (e) { r.fail++; log('送信に失敗', e.message); }
+  }
+  return r;
+}
+const resText = (kind, r) => `${kind}：送信${r.ok}・失敗${r.fail}・無効${r.gone}`;
 async function runPlan(uid, data, now) {
-  const hm = typeof data.hm === 'string' ? data.hm : '07:30';
   const lines = Array.isArray(data.lines) ? data.lines.filter(x => typeof x === 'string') : [];
-  let msg = null;
-  if (data.test === true) msg = { title: '考査課題マネージャー（テスト）', body: 'テスト通知です。届いていれば、設定は正しくできています。', tag: 'kosa-test', url: './' };
-  else if (data.enabled !== false && lines.length) msg = { title: '今日の確認', body: digestBody(lines), tag: 'kosa-digest', url: './' };
-  if (msg) {
-    for (const { dev, sub } of await devicesOf(uid)) {
-      try {
-        const st = await pushTo(sub, msg);
-        if (st === 404 || st === 410) { await fsReq('DELETE', `/pushSubs/${uid}/devices/${dev}`); state.gone++; }
-        else if (st >= 300) log('送信の応答が異常', st, uid.slice(0, 6), dev.slice(0, 6));
-        else state.sent++;
-      } catch (e) { log('送信に失敗', uid.slice(0, 6), dev.slice(0, 6), e.message); }
+  const patch = {};
+  if (data.test === true) {
+    const r = await sendTo(uid, { title: '考査課題マネージャー（テスト）', body: 'テスト通知です。届いていれば、設定は正しくできています。', tag: 'kosa-test', url: './' });
+    Object.assign(patch, { test: false, lastResult: resText('テスト', r), lastAt: now });
+  }
+  if (!Array.isArray(data.sent)) {
+    patch.sent = lines.slice(0, SENT_MAX);   // 初めての登録：今ある内容は通知せず、覚えるだけ
+  } else {
+    const seen = new Set(data.sent), fresh = lines.filter(x => !seen.has(x));
+    if (fresh.length) {
+      const r = await sendTo(uid, { title: '考査課題マネージャー', body: newsBody(fresh), tag: 'kosa-new', url: './' });
+      Object.assign(patch, { sent: [...data.sent, ...fresh].slice(-SENT_MAX), lastResult: resText('新着', r), lastAt: now });
     }
   }
-  await patchPlan(uid, { nextAt: jstNext(hm, now), test: false });
+  if (Object.keys(patch).length) await patchPlan(uid, patch);
 }
 let running = false;
 async function tick() {
@@ -161,7 +166,9 @@ async function tick() {
   running = true;
   try {
     const now = Date.now();
-    for (const { uid, data } of await duePlans(now)) {
+    const plans = await enabledPlans();
+    state.plans = plans.length;
+    for (const { uid, data } of plans) {
       try { await runPlan(uid, data, now); } catch (e) { state.lastErr = e.message; log('予定の処理に失敗', e.message); }
     }
     state.lastTick = now;
@@ -169,7 +176,7 @@ async function tick() {
   finally { running = false; }
 }
 
-module.exports = { jstNext, encryptWith, encryptPayload, vapidJwt, digestBody, tick, _state: state };
+module.exports = { encryptWith, encryptPayload, vapidJwt, tick, _state: state };
 
 if (require.main === module) {
   if (!VAPID_PUB || !VAPID_PRIV) log('注意：VAPID_PUBLIC / VAPID_PRIVATE が未設定です');
@@ -177,7 +184,7 @@ if (require.main === module) {
   http.createServer((req, res) => {
     if (req.url === '/health' || req.url === '/') {
       res.writeHead(200, { 'Content-Type': 'application/json' });
-      return res.end(JSON.stringify({ ok: true, lastTick: state.lastTick }));
+      return res.end(JSON.stringify({ ok: true, lastTick: state.lastTick, plans: state.plans, sent: state.sent, gone: state.gone, lastErr: state.lastErr }));
     }
     res.writeHead(404); res.end('not found');
   }).listen(PORT, () => log('起動しました。ポート', PORT));

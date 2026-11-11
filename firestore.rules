@@ -68,7 +68,7 @@ service cloud.firestore {
     match /pushPlan/{uid} {
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if request.auth != null && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['enabled','hm','nextAt','lines','test','updated'])
+        && request.resource.data.keys().hasOnly(['enabled','hm','nextAt','lines','test','updated','sent','lastResult','lastAt'])
         && (!('lines' in request.resource.data) || request.resource.data.lines.size() <= 20);
     }
 
