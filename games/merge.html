@@ -3367,6 +3367,7 @@
       ensureGameFocus();
     }
 
+    switchLeftCardTab(1); // 最初は友達ランキングを出す（0 → 1）
     document.getElementById('leftTabPrevBtn').addEventListener('click', () => switchLeftCardTab(-1));
     document.getElementById('leftTabNextBtn').addEventListener('click', () => switchLeftCardTab(1));
     document.getElementById('bottomSwitchRankingBtn').addEventListener('click', () => switchLeftCardTab(1));
