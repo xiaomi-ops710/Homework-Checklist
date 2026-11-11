@@ -1,5 +1,5 @@
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。index.html の APP_VERSION も同じ値にする
-const APP_VERSION = '17.75';
+const APP_VERSION = '17.76';
 const V = 'kosa-v' + APP_VERSION;
 // フォント用のキャッシュは、バージョンが変わっても消さない（更新のあと最初に開くときも、すぐに表示できるように）
 const FC = 'kosa-fonts';
@@ -34,6 +34,17 @@ self.addEventListener('install', e => { got = 0; e.waitUntil(
   caches.open(V).then(c => Promise.all([grabHtml(c).then(tick), grab(c, 'firebase-config.js').then(tick), ...EXTRA.map(u => grab(c, u).catch(() => { }).then(tick))])).then(keepFonts)
 ); });
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== FC).map(k => caches.delete(k)))).then(() => self.clients.claim())));
+// プッシュ通知の受け取りと、通知を押したときの処理（アプリを開く）
+self.addEventListener('push', e => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (x) { d = { body: e.data ? e.data.text() : '' }; }
+  e.waitUntil(self.registration.showNotification(d.title || '考査課題マネージャー', { body: d.body || '', icon: 'icon-192.png', badge: 'icon-192.png', tag: d.tag || 'kosa-push', data: { url: d.url || './' } }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  const url = (e.notification.data && e.notification.data.url) || './';
+  e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => { const c = cs.find(x => 'focus' in x); return c ? c.focus() : self.clients.openWindow(url); }));
+});
 self.addEventListener('message', e => { if (e.data === 'skip') self.skipWaiting(); else if (e.data === 'ver' && e.ports[0]) e.ports[0].postMessage(APP_VERSION); });
 self.addEventListener('fetch', e => {
   const r = e.request, u = new URL(r.url);

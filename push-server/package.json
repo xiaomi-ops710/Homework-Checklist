@@ -1,0 +1,9 @@
+{
+  "name": "kosa-push-server",
+  "version": "1.0.0",
+  "private": true,
+  "description": "考査課題マネージャーのプッシュ通知の送信サーバー（外部ライブラリなし）",
+  "main": "index.js",
+  "scripts": { "start": "node index.js" },
+  "engines": { "node": ">=18" }
+}

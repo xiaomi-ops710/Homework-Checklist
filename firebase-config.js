@@ -19,3 +19,6 @@ window.AI_DAILY_LIMIT = 0;
 // App Check（Google Cloud Fraud Defense / reCAPTCHA Enterprise のスコアベースのWebキー）。
 // AIへの不正な利用を防ぐために使います。空にすると、App Check は動きません。
 window.APPCHECK_SITE_KEY = "6LdUXhEuAAAAAEMIfHe4bVjqNkvFoDRTZ3Ra6vI0";
+
+// ---- プッシュ通知（push-server の gen-vapid.js で作った VAPID_PUBLIC を貼ります。空のままなら、通知の設定は「準備中」になります）----
+window.VAPID_PUBLIC_KEY = "";
