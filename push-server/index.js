@@ -104,7 +104,7 @@ async function newAnnouncements() {
 }
 async function devicesOf(uid) {
   const r = await fsReq('GET', `/pushSubs/${uid}/devices?pageSize=100`);
-  return ((r && r.documents) || []).map(d => { const f = fromF(d.fields); return { dev: d.name.split('/').pop(), sub: f.sub, vk: f.vk }; });
+  return ((r && r.documents) || []).map(d => { const f = fromF(d.fields); return { dev: d.name.split('/').pop(), sub: f.sub, vk: f.vk, prefs: f.prefs || null }; });
 }
 async function patchDoc(path, fields) {
   const mask = Object.keys(fields).map(k => 'updateMask.fieldPaths=' + encodeURIComponent(k)).join('&');
@@ -182,11 +182,13 @@ function newsBody(lines) {
   const txt = lines.slice(0, 5).join('\n') + (lines.length > 5 ? `\nほか${lines.length - 5}件` : '');
   return txt.slice(0, 300);
 }
-async function sendTo(uid, msg) {
+async function sendTo(uid, msg, cat, devsIn) {
   const r = { ok: 0, gone: 0, fail: 0, n: 0 };
-  const devs = await devicesOf(uid);
+  const all = devsIn || await devicesOf(uid);
+  const devs = cat ? all.filter(d => prefOn(d, cat)) : all;
   r.n = devs.length;
-  if (!devs.length) { dlog(uid, '登録されている端末がありません。「この端末でオンにする」を押してください'); return r; }
+  if (!all.length) { dlog(uid, '登録されている端末がありません。「この端末でオンにする」を押してください'); return r; }
+  if (!devs.length) { dlog(uid, `${CAT_NAME[cat] || 'この内容'}：オンにしている端末がありません（それぞれの端末の「通知の内容」で確かめてください）`); return r; }
   for (const [i, d] of devs.entries()) {
     const tag = `端末${i + 1}`;
     if (!d.sub || !d.sub.endpoint || !d.sub.keys || !d.sub.keys.p256dh || !d.sub.keys.auth) { r.fail++; dlog(uid, `${tag}：登録の中身が不完全です（オンにし直してください）`); continue; }
@@ -208,17 +210,41 @@ async function sendTo(uid, msg) {
   }
   return r;
 }
-const resText = (kind, r) => `${kind}：送信${r.ok}・失敗${r.fail}・無効${r.gone}${r.n === 0 ? '（登録端末なし）' : ''}`;
-const isEv = k => k.startsWith('ev:') || k.startsWith('evm:');
-const jstOf = now => { const j = new Date(now + 9 * 3600000); return { day: j.toISOString().slice(0, 10), hour: j.getUTCHours() }; };
+const resText = (kind, r) => `${kind}：送信${r.ok}・失敗${r.fail}・無効${r.gone}${r.n === 0 ? '（対象の端末なし）' : ''}`;
+const isEv = k => /^evm?:/.test(k);                       // 予定は、アプリが毎日まとめる（daily.ev）ので、通知の内容には入れない
+const jstOf = now => { const j = new Date(now + 9 * 3600000); return { day: j.toISOString().slice(0, 10), hour: j.getUTCHours(), min: j.getUTCMinutes(), mins: j.getUTCHours() * 60 + j.getUTCMinutes() }; };
+// 端末ごとの設定（アプリの「通知の内容」で決めます）。何も決めていないときは、ここの初期値
+const DEF_ON = { news: true, ann: true, event: true, tip: false, word: false, game: false, timer: false };
+const DEF_TIME = { event: '07:00', tip: '07:30', word: '12:30', game: '20:00', timer: '16:00' };
+const SCHED = ['event', 'tip', 'word', 'game', 'timer'];
+const WINDOW_MIN = 120;                                    // 決まった時刻から2時間のあいだに、まだ送っていなければ送る
+const CAT_NAME = { news: 'お知らせ（アプリ内）', ann: '管理者のお知らせ', event: '予定', tip: '豆知識', word: '単語', game: 'ゲーム', timer: 'タイマー' };
+const LABEL = { news: '新着', ann: 'お知らせ', event: '予定', tip: '豆知識', word: '単語', game: 'ゲーム', timer: 'タイマー' };
+const prefOn = (d, cat) => { const on = d.prefs && d.prefs.on; return on && typeof on[cat] === 'boolean' ? on[cat] : DEF_ON[cat]; };
+const hm2min = t => { const m = /^(\d{1,2}):(\d{2})$/.exec(String(t || '')); return m ? Number(m[1]) * 60 + Number(m[2]) : null; };
+const prefMin = (d, cat) => { const v = hm2min(d.prefs && d.prefs.time && d.prefs.time[cat]); return v === null ? hm2min(DEF_TIME[cat]) : v; };
+const dayNo = day => Math.floor(Date.parse(day + 'T00:00:00Z') / 86400000);
+const pickN = (a, n) => (Array.isArray(a) && a.length ? a[((n % a.length) + a.length) % a.length] : null);
+const GAME_TEXT = ['歴打で、年号と人物を、遊びながら覚えましょう。', '元素マージで、元素をくっつけて遊んでみましょう。', '元素インベーダーに挑戦してみませんか？正解を重ねると、記録が伸びます。'];
+// 毎日の内容（豆知識・単語・予定など）を、日付から1つ選ぶ
+function schedMsg(cat, daily, dn) {
+  if (cat === 'event') { const ev = (Array.isArray(daily.ev) ? daily.ev : []).filter(x => typeof x === 'string').slice(0, 20); return ev.length ? { title: '今日・明日の予定', body: newsBody(ev), tag: 'kosa-ev', url: './' } : null; }
+  if (cat === 'tip') { const t = pickN(daily.tips, dn); return typeof t === 'string' ? { title: '今日の豆知識', body: t.slice(0, 200), tag: 'kosa-tip', url: './' } : null; }
+  if (cat === 'word') { const w = pickN(daily.words, dn); return w && w.f ? { title: '今日の単語', body: `${w.f}　→　${w.b || ''}`.slice(0, 200), tag: 'kosa-word', url: './' } : null; }
+  if (cat === 'game') return { title: '息抜きにゲームはいかがですか？', body: GAME_TEXT[((dn % GAME_TEXT.length) + GAME_TEXT.length) % GAME_TEXT.length], tag: 'kosa-game', url: './' };
+  if (cat === 'timer') return { title: '集中タイマーで勉強しませんか？', body: '25分だけ集中してみましょう。終わったら、ひと休みを。', tag: 'kosa-timer', url: './' };
+  return null;
+}
 
-// 1人分：テスト・お知らせ・通知の内容（新しいもの）・予定（朝7時にまとめて）を送る
+// 1人分：テスト・お知らせ・通知の内容（新しいもの）・端末ごとの毎日の内容（時刻になったら）
 async function runPlan(uid, data, now, annList) {
-  const items = (Array.isArray(data.items) ? data.items : []).filter(x => x && typeof x.k === 'string' && x.k).slice(0, ITEMS_MAX);
+  const devs = await devicesOf(uid);
+  const items = (Array.isArray(data.items) ? data.items : []).filter(x => x && typeof x.k === 'string' && x.k && !isEv(x.k)).slice(0, ITEMS_MAX);
+  const daily = data.daily && typeof data.daily === 'object' ? data.daily : {};
   const patch = {}, sends = [];
   if (data.test === true) {
     dlog(uid, 'テスト通知を送ります');
-    const r = await sendTo(uid, { title: '考査課題マネージャー（テスト）', body: 'テスト通知です。届いていれば、設定は正しくできています。', tag: 'kosa-test', url: './' });
+    const r = await sendTo(uid, { title: '考査課題マネージャー（テスト）', body: 'テスト通知です。届いていれば、設定は正しくできています。', tag: 'kosa-test', url: './' }, null, devs);
     sends.push(resText('テスト', r));
     patch.test = false;
   }
@@ -232,36 +258,41 @@ async function runPlan(uid, data, now, annList) {
   if (annNew.length) {
     annNew.forEach(a => seen.add('ann:' + a.id));
     dlog(uid, `お知らせ ${annNew.length}件を送ります：${annNew[0].text.slice(0, 60)}`);
-    const r = await sendTo(uid, { title: '考査課題マネージャー・お知らせ', body: newsBody(annNew.map(a => a.text)), tag: 'kosa-ann', url: './' });
+    const r = await sendTo(uid, { title: '考査課題マネージャー・お知らせ', body: newsBody(annNew.map(a => a.text)), tag: 'kosa-ann', url: './' }, 'ann', devs);
     sends.push(resText('お知らせ', r)); changed = true;
   }
 
-  // 通知の内容：新しいものを、すぐ送る。予定（ev: / evm:）は、朝7時にまとめて送る
-  const fresh = [], evs = [];
+  // 通知の内容（アプリ内の通知）：新しいものを、すぐ送る
+  const fresh = [];
   for (const it of items) {
-    if (it.k.startsWith('ann:') || seen.has(it.k)) continue;   // お知らせは上で送ったものを使う
-    if (isEv(it.k)) { evs.push(it); continue; }
+    if (it.k.startsWith('ann:') || seen.has(it.k)) continue;
     seen.add(it.k); fresh.push(it);
   }
-  if (silent) {
-    evs.forEach(it => seen.add(it.k));                       // 初めての確認：予定も覚えるだけ
-    if (jst.hour >= 7) patch.evDay = jst.day;               // 7時を過ぎていたら、今日の分は送らない
-  } else if (fresh.length) {
+  if (!silent && fresh.length) {
     dlog(uid, `新しい通知 ${fresh.length}件を送ります：${fresh.slice(0, 3).map(i => i.t).join(' / ').slice(0, 100)}`);
-    const r = await sendTo(uid, { title: '考査課題マネージャー', body: newsBody(fresh.map(i => i.t + (i.s ? '：' + i.s : ''))), tag: 'kosa-new', url: './' });
+    const r = await sendTo(uid, { title: '考査課題マネージャー', body: newsBody(fresh.map(i => i.t + (i.s ? '：' + i.s : ''))), tag: 'kosa-new', url: './' }, 'news', devs);
     sends.push(resText('新着', r)); changed = true;
   }
-  const batch = !silent && jst.hour >= 7 && data.evDay !== jst.day;
-  if (batch) {
-    const pending = evs.filter(it => !seen.has(it.k));
-    pending.forEach(it => seen.add(it.k));
-    if (pending.length) {
-      dlog(uid, `今日の予定 ${pending.length}件を、朝7時のまとめとして送ります`);
-      const r = await sendTo(uid, { title: '考査課題マネージャー', body: newsBody(pending.map(i => i.t)), tag: 'kosa-day', url: './' });
-      sends.push(resText('予定', r));
-    }
-    patch.evDay = jst.day; changed = true;
+
+  // 毎日の内容：端末ごとの時刻に、1日1回（予定・豆知識・単語・ゲーム・タイマー）
+  const old = data.schedDay && typeof data.schedDay === 'object' ? data.schedDay : {};
+  const sched = { ...old };
+  let schedChanged = false;
+  const dn = dayNo(jst.day);
+  for (const d of devs) for (const cat of SCHED) {
+    if (!prefOn(d, cat)) continue;
+    const at = prefMin(d, cat), key = d.dev + ':' + cat;
+    if (sched[key] === jst.day) continue;
+    if (silent) { if (jst.mins >= at) { sched[key] = jst.day; schedChanged = true; } continue; }
+    if (jst.mins < at || jst.mins >= at + WINDOW_MIN) continue;
+    sched[key] = jst.day; schedChanged = true;
+    const msg = schedMsg(cat, daily, dn);
+    if (!msg) continue;
+    dlog(uid, `${CAT_NAME[cat]}を、端末${devs.indexOf(d) + 1}へ送ります`);
+    const r = await sendTo(uid, msg, null, [d]);
+    sends.push(resText(LABEL[cat], r));
   }
+  if (schedChanged) patch.schedDay = Object.fromEntries(Object.entries(sched).filter(([, v]) => v === jst.day));
   if (changed) patch.keysSent = [...seen].slice(-SENT_MAX);
   if (sends.length) { patch.lastResult = sends.join(' ／ '); patch.lastAt = now; }
   if (Object.keys(patch).length) await patchPlan(uid, patch);
