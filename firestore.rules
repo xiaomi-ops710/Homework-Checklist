@@ -68,8 +68,9 @@ service cloud.firestore {
     match /pushPlan/{uid} {
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow create, update: if request.auth != null && request.auth.uid == uid
-        && request.resource.data.keys().hasOnly(['enabled','hm','nextAt','lines','test','updated','sent','lastResult','lastAt'])
-        && (!('lines' in request.resource.data) || request.resource.data.lines.size() <= 20);
+        && request.resource.data.keys().hasOnly(['enabled','hm','nextAt','lines','test','updated','sent','lastResult','lastAt','items','keysSent','evDay'])
+        && (!('lines' in request.resource.data) || request.resource.data.lines.size() <= 20)
+        && (!('items' in request.resource.data) || request.resource.data.items.size() <= 80);
     }
 
     // プッシュ通知の診断（送信サーバーが書きます。自分だけ読めます）

@@ -1,7 +1,8 @@
 // 考査課題マネージャーの、プッシュ通知の送信サーバー（Render の無料Webサービス）。
 // 外部のライブラリは使いません（Node.js 18 以上）。
-// ・30秒ごとに、通知を有効にしている人の「今日・明日の内容」が増えたかを確かめる
-// ・増えていれば、その人のログイン中の全端末へ暗号化した通知を送る（Web Push）
+// ・30秒ごとに、通知を有効にしている人の「通知の内容（items）」を見て、新しいものを全端末へ送る
+// ・管理者のお知らせは、新しいものを全員へ送る（お知らせの時刻は pushState/main に覚える）
+// ・予定（ev: / evm:）は、毎朝7時（日本時間）に、まとめて1回送る
 // ・送れなかった理由は、その人の記録（pushDiag）に残し、アプリの「通知の診断」で見られる
 // ・UptimeRobot が /health を5分ごとに見に来るので、無料枠のサーバーが眠らない
 const http = require('http');
@@ -9,20 +10,18 @@ const crypto = require('crypto');
 
 const ENV = process.env;
 const PORT = Number(ENV.PORT) || 10000;
+const clean = s => String(s || '').replace(/\s+/g, '');   // コピーの途中で入った空白・改行を取り除く
 let SA = null, SA_ERR = '';
 try { SA = ENV.FIREBASE_SA ? JSON.parse(ENV.FIREBASE_SA) : null; } catch (e) { SA_ERR = 'FIREBASE_SA の形式が正しくありません（JSONを、そのまま貼ってください）'; }
 const PROJECT = ENV.FIREBASE_PROJECT_ID || (SA && SA.project_id) || '';
 const FS_BASE = ENV.FIRESTORE_BASE || `https://firestore.googleapis.com/v1/projects/${PROJECT}/databases/(default)/documents`;
 const TOKEN_URL = ENV.GOOGLE_TOKEN_URL || 'https://oauth2.googleapis.com/token';
-// 鍵は、コピーの途中で入った空白や改行を取り除いて使います（ずれると、Apple が「BadJwtToken」で拒否します）
-const clean = s => String(s || '').replace(/\s+/g, '');
 const VAPID_PUB = clean(ENV.VAPID_PUBLIC);
 const VAPID_PRIV = clean(ENV.VAPID_PRIVATE);
 const VAPID_SUB = String(ENV.VAPID_SUBJECT || '').trim() || 'mailto:admin@example.com';
 const VAPID_SUB_OK = /^(mailto:|https:)/.test(VAPID_SUB);
 const TICK_MS = Number(ENV.TICK_MS) || 30000;
-const SENT_MAX = 300, DIAG_MAX = 40;
-const DAY = 86400000;
+const SENT_MAX = 400, DIAG_MAX = 40, ITEMS_MAX = 80;
 
 const log = (...a) => console.log(new Date().toISOString(), ...a);
 const b64u = buf => Buffer.from(buf).toString('base64url');
@@ -57,6 +56,15 @@ async function fsReq(method, path, body) {
   if (!r.ok) throw new Error(`Firestore ${method} ${path.slice(0, 60)}：${r.status} ${(await r.text()).slice(0, 140)}`);
   return r.status === 204 ? null : r.json();
 }
+// 1件読む（無ければ null）
+async function fsGetOpt(path) {
+  const t = await accessToken();
+  const h = {}; if (t) h.Authorization = 'Bearer ' + t;
+  const r = await fetch(FS_BASE + path, { headers: h });
+  if (r.status === 404) return null;
+  if (!r.ok) throw new Error(`Firestore GET ${path.slice(0, 60)}：${r.status}`);
+  return fromF((await r.json()).fields);
+}
 
 // ---------- Firestore の値の変換 ----------
 function fromV(v) {
@@ -85,6 +93,15 @@ async function enabledPlans() {
   const r = await fsReq('POST', ':runQuery', { structuredQuery: { from: [{ collectionId: 'pushPlan' }], where: { fieldFilter: { field: { fieldPath: 'enabled' }, op: 'EQUAL', value: { booleanValue: true } } }, limit: 200 } });
   return (r || []).filter(x => x.document).map(x => ({ uid: x.document.name.split('/documents/')[1].split('/')[1], data: fromF(x.document.fields) }));
 }
+// 管理者のお知らせ：前に見た時刻より新しいものだけを取る（全員に1回だけ送るため、時刻を覚える）
+async function newAnnouncements() {
+  const st = await fsGetOpt('/pushState/main');
+  const cur = st && Number(st.annT);
+  if (!cur) { await patchDoc('/pushState/main', { annT: Date.now() }); return { list: [], next: null }; }
+  const r = await fsReq('POST', ':runQuery', { structuredQuery: { from: [{ collectionId: 'announcements' }], where: { fieldFilter: { field: { fieldPath: 't' }, op: 'GREATER_THAN', value: { integerValue: String(cur) } } }, orderBy: [{ field: { fieldPath: 't' }, direction: 'ASCENDING' }], limit: 20 } });
+  const list = (r || []).filter(x => x.document).map(x => { const f = fromF(x.document.fields); return { id: x.document.name.split('/').pop(), text: String(f.text || '').slice(0, 300), t: Number(f.t) || 0 }; }).filter(a => a.text && a.t > cur);
+  return { list, next: list.length ? Math.max(...list.map(a => a.t)) : null };
+}
 async function devicesOf(uid) {
   const r = await fsReq('GET', `/pushSubs/${uid}/devices?pageSize=100`);
   return ((r && r.documents) || []).map(d => { const f = fromF(d.fields); return { dev: d.name.split('/').pop(), sub: f.sub, vk: f.vk }; });
@@ -97,12 +114,12 @@ const patchPlan = (uid, fields) => patchDoc(`/pushPlan/${uid}`, fields);
 
 // ---------- 診断の記録（その人の pushDiag に残す。アプリの「通知の診断」で見られます）----------
 const DIAG = {}, DIAG_DIRTY = new Set();
-const jst = t => new Date(t + 9 * 3600000).toISOString().slice(5, 16).replace('T', ' ');
+const jstStr = t => new Date(t + 9 * 3600000).toISOString().slice(5, 16).replace('T', ' ');
 function dlog(uid, text) {
   log(uid ? uid.slice(0, 6) : '-', text);
   if (!uid) return;
   const a = DIAG[uid] || (DIAG[uid] = []);
-  a.push(`${jst(Date.now())} ${text}`);
+  a.push(`${jstStr(Date.now())} ${text}`);
   if (a.length > DIAG_MAX) a.splice(0, a.length - DIAG_MAX);
   DIAG_DIRTY.add(uid);
 }
@@ -117,7 +134,6 @@ const HINT = { 400: '形式が正しくありません（オンにし直して�
 const hostOf = ep => { try { return new URL(ep).host; } catch (e) { return '不正なアドレス'; } };
 
 // ---------- Web Push の暗号化（RFC 8291 / aes128gcm）と VAPID の署名（RFC 8292）----------
-// 鍵と塩を外から渡せるようにしてあるので、RFC 8291 の例と比べて確かめられます。
 function encryptWith({ uaPub, auth, asPriv, salt, plaintext }) {
   const ecdh = crypto.createECDH('prime256v1');
   if (asPriv) ecdh.setPrivateKey(asPriv); else ecdh.generateKeys();
@@ -161,9 +177,9 @@ async function pushTo(sub, msg) {
   }
 }
 
-// ---------- 送る（変わったものだけ、すぐ）----------
-function newsBody(items) {
-  const txt = items.slice(0, 5).join('\n') + (items.length > 5 ? `\nほか${items.length - 5}件` : '');
+// ---------- 送る ----------
+function newsBody(lines) {
+  const txt = lines.slice(0, 5).join('\n') + (lines.length > 5 ? `\nほか${lines.length - 5}件` : '');
   return txt.slice(0, 300);
 }
 async function sendTo(uid, msg) {
@@ -193,25 +209,61 @@ async function sendTo(uid, msg) {
   return r;
 }
 const resText = (kind, r) => `${kind}：送信${r.ok}・失敗${r.fail}・無効${r.gone}${r.n === 0 ? '（登録端末なし）' : ''}`;
-async function runPlan(uid, data, now) {
-  const lines = Array.isArray(data.lines) ? data.lines.filter(x => typeof x === 'string') : [];
-  const patch = {};
+const isEv = k => k.startsWith('ev:') || k.startsWith('evm:');
+const jstOf = now => { const j = new Date(now + 9 * 3600000); return { day: j.toISOString().slice(0, 10), hour: j.getUTCHours() }; };
+
+// 1人分：テスト・お知らせ・通知の内容（新しいもの）・予定（朝7時にまとめて）を送る
+async function runPlan(uid, data, now, annList) {
+  const items = (Array.isArray(data.items) ? data.items : []).filter(x => x && typeof x.k === 'string' && x.k).slice(0, ITEMS_MAX);
+  const patch = {}, sends = [];
   if (data.test === true) {
     dlog(uid, 'テスト通知を送ります');
     const r = await sendTo(uid, { title: '考査課題マネージャー（テスト）', body: 'テスト通知です。届いていれば、設定は正しくできています。', tag: 'kosa-test', url: './' });
-    Object.assign(patch, { test: false, lastResult: resText('テスト', r), lastAt: now });
+    sends.push(resText('テスト', r));
+    patch.test = false;
   }
-  if (!Array.isArray(data.sent)) {
-    patch.sent = lines.slice(0, SENT_MAX);
-    dlog(uid, `初めての確認：今の内容 ${lines.length}件を覚えました（通知は送りません）`);
-  } else {
-    const seen = new Set(data.sent), fresh = lines.filter(x => !seen.has(x));
-    if (fresh.length) {
-      dlog(uid, `新しい内容 ${fresh.length}件を送ります：${fresh.slice(0, 3).join(' / ').slice(0, 100)}`);
-      const r = await sendTo(uid, { title: '考査課題マネージャー', body: newsBody(fresh), tag: 'kosa-new', url: './' });
-      Object.assign(patch, { sent: [...data.sent, ...fresh].slice(-SENT_MAX), lastResult: resText('新着', r), lastAt: now });
+  const silent = !Array.isArray(data.keysSent);            // 初めての確認：今ある通知は覚えるだけ（送らない）
+  const jst = jstOf(now);
+  const seen = new Set(silent ? [] : data.keysSent);
+  let changed = silent;
+
+  // お知らせ（管理者）：新しいものを、すぐ送る
+  const annNew = annList.filter(a => !seen.has('ann:' + a.id));
+  if (annNew.length) {
+    annNew.forEach(a => seen.add('ann:' + a.id));
+    dlog(uid, `お知らせ ${annNew.length}件を送ります：${annNew[0].text.slice(0, 60)}`);
+    const r = await sendTo(uid, { title: '考査課題マネージャー・お知らせ', body: newsBody(annNew.map(a => a.text)), tag: 'kosa-ann', url: './' });
+    sends.push(resText('お知らせ', r)); changed = true;
+  }
+
+  // 通知の内容：新しいものを、すぐ送る。予定（ev: / evm:）は、朝7時にまとめて送る
+  const fresh = [], evs = [];
+  for (const it of items) {
+    if (it.k.startsWith('ann:') || seen.has(it.k)) continue;   // お知らせは上で送ったものを使う
+    if (isEv(it.k)) { evs.push(it); continue; }
+    seen.add(it.k); fresh.push(it);
+  }
+  if (silent) {
+    evs.forEach(it => seen.add(it.k));                       // 初めての確認：予定も覚えるだけ
+    if (jst.hour >= 7) patch.evDay = jst.day;               // 7時を過ぎていたら、今日の分は送らない
+  } else if (fresh.length) {
+    dlog(uid, `新しい通知 ${fresh.length}件を送ります：${fresh.slice(0, 3).map(i => i.t).join(' / ').slice(0, 100)}`);
+    const r = await sendTo(uid, { title: '考査課題マネージャー', body: newsBody(fresh.map(i => i.t + (i.s ? '：' + i.s : ''))), tag: 'kosa-new', url: './' });
+    sends.push(resText('新着', r)); changed = true;
+  }
+  const batch = !silent && jst.hour >= 7 && data.evDay !== jst.day;
+  if (batch) {
+    const pending = evs.filter(it => !seen.has(it.k));
+    pending.forEach(it => seen.add(it.k));
+    if (pending.length) {
+      dlog(uid, `今日の予定 ${pending.length}件を、朝7時のまとめとして送ります`);
+      const r = await sendTo(uid, { title: '考査課題マネージャー', body: newsBody(pending.map(i => i.t)), tag: 'kosa-day', url: './' });
+      sends.push(resText('予定', r));
     }
+    patch.evDay = jst.day; changed = true;
   }
+  if (changed) patch.keysSent = [...seen].slice(-SENT_MAX);
+  if (sends.length) { patch.lastResult = sends.join(' ／ '); patch.lastAt = now; }
   if (Object.keys(patch).length) await patchPlan(uid, patch);
 }
 let running = false;
@@ -221,12 +273,15 @@ async function tick() {
   state.lastErr = '';
   try {
     const now = Date.now();
+    let ann = { list: [], next: null };
+    try { ann = await newAnnouncements(); } catch (e) { state.lastErr = 'お知らせの確認：' + e.message; log('お知らせの確認に失敗', e.message); }
     const plans = await enabledPlans();
     state.plans = plans.length;
     for (const { uid, data } of plans) {
-      try { await runPlan(uid, data, now); }
+      try { await runPlan(uid, data, now, ann.list); }
       catch (e) { state.lastErr = e.message; dlog(uid, 'エラー：' + e.message); }
     }
+    if (ann.next) await patchDoc('/pushState/main', { annT: ann.next });
     state.lastTick = now;
   } catch (e) { state.lastErr = e.message; log('確認に失敗', e.message); }
   finally { await flushDiag(); running = false; }
