@@ -1708,6 +1708,8 @@ button.gr-ch .ms{font-size:18px}
 html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 /* 17.62：表示できなかった画面の案内 */
 .card.broken{border:2px solid color-mix(in srgb,var(--primary) 35%,transparent)}
+.ps-ovx{position:fixed;inset:0;z-index:9500;pointer-events:none}
+.ps-ovx .ps-exit{pointer-events:auto;display:flex;position:absolute;align-items:center;gap:6px;border:0;border-radius:999px;padding:10px 16px;background:rgba(4,8,25,.85);color:#e6f0ff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5);top:calc(env(safe-area-inset-top,0px) + 12px);right:12px}
 </style>
 </head>
 <body>
@@ -1731,7 +1733,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.88';
+const APP_VERSION = '17.90';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2314,6 +2316,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.90', d: '__BUILD__', t: '元素マージのランキングと、全画面での途中経過を直しました', n: ['元素マージのランキングに、友達の点数が反映されるようにしました', 'ランキングに出ない友達がいるときは、その理由（進み具合の公開や、新しい版への更新）を表示するようにしました', '全画面にしたときや「戻す」を押したときに、ゲームが最初の画面に戻らないようにしました', '元素マージの表示が時々崩れる問題を直しました', '元素マージの吸引は1000 EPに変更しました（EPの上限は2000のままです）'] },
   { v: '17.88', d: '__BUILD__', t: '元素マージ・todo・アンケート・更新画面などを改善', n: ['ツールの一番上に「人気」を追加しました（単語帳・元素マージ・歴打・元素ラボ）', '元素マージの吸引は2000 EPになり、EPの上限も2000になりました', '管理者のアンケートに、自由回答を付けられるようになりました', 'はじめて開くタブやボタンに、吹き出しで説明を出すようにしました（タップで閉じます）', '集中タイマーの最小化とバツの位置を入れ替えました', '更新の画面から、更新履歴を見られるようになりました。ボタンも新しいデザインになりました', '今日のやることが、教科がないときも出るようにしました。端末どうしの同期で、やることが消えないようにしました', '元素マージの記録が二重に数えられる不具合を直しました', '友達に見せる記録は、レベルなどが変わったときにすぐ送られるようにしました', '友達との比較で、元素マージの点数が正しく出るようにしました'] },
   { v: '17.87', d: '__BUILD__', t: 'アップデートの自動化・タブバーのずれを修正・フォントを追加・アンケート', n: ['設定に「アップデートを自動で行う」を追加しました。新しい版が見つかると、確認なしで自動的に更新します', '今回だけ、開かれた端末はすべて新しい版に強制的に更新されます', 'ショップでテーマを変えたとき、タブバーが下にずれる不具合を直しました', 'かっこいいフォントを7種類追加しました（XPで買えます）', '管理者から選択式のアンケートを送れるようになりました。通知か、アカウントの「アンケート」から投票できます'] },
   { v: '17.86', d: '__BUILD__', t: '元素マージの難易度を大幅アップ', n: ['交換200・加熱400・吸引600・触媒1000 EP に価格を引き上げ（EPの上限は1500に）', '難易度が変わったため、元素マージの最高点・最高の元素と友達とのランキングをリセット（挑戦回数は残ります）'] },
@@ -9443,7 +9446,7 @@ function friendsInner() {
   const me = growMine(g);
   return `<div class="card fr-me"><div class="grow-h"><div class="fr-av">${avHtml(me.av, me.name)}</div><div style="flex:1;min-width:0"><b class="fr-nm">${esc(me.name)}</b><small>友達コード <b class="fr-code">${code}</b></small></div><button class="btn tonal xs" data-act="profedit">${ms('edit')}プロフィール</button></div>
     <button class="btn ${g.shared ? 'tonal' : ''}" data-act="frtoggle">${ms(g.shared ? 'visibility_off' : 'visibility')}${g.shared ? '見せるのを止める' : '進み具合を友達に見せる'}</button>
-    <p class="muted" style="font-size:.8rem;font-weight:500;margin:8px 0 0">見せるのは、名前・アイコン・レベル・全体の進み・今週の勉強時間・今週のページ数です。いつでも止められます。</p></div>
+    <p class="muted" style="font-size:.8rem;font-weight:500;margin:8px 0 0">見せるのは、名前・アイコン・レベル・全体の進み・今週の勉強時間・今週のページ数・合計勉強時間・タイピング・ゲームの最高点（インベーダー・歴打・元素マージ）です。いつでも止められます。</p></div>
     <div class="fr-add"><div class="m3f"><input id="frcode" type="text" placeholder=" " maxlength="6" autocapitalize="characters" autocomplete="off" spellcheck="false"><label for="frcode">友達コード（6文字）</label></div><button class="btn" data-act="fradd">${ms('person_add')}追加</button></div><p class="m3-sup">友達のコードを入れると、相手に「追加されました」と通知が届きます。</p>
     <div id="frc">${FRR.html || frLoadingHtml()}</div>`;
 }
@@ -9488,8 +9491,8 @@ Object.assign(ACT, {
 let INBOX_UNSUB = null, FR_AV_OK = true;
 function frLoadingHtml() { return `<div class="fr-sk" role="status" aria-label="読み込み中"><div class="fr-sk-h">${gspin(26)}<span>友達の進み具合を読んでいます…</span></div><div class="fr-sk-r"><i></i><i></i><i></i></div></div>`; }
 async function growPublish() {
-  PUB_AT = Date.now(); PUB_SIG = growSig(m);
-  const g = growGet(), m = growMine(g); growPut(g);
+  PUB_AT = Date.now();
+  const g = growGet(), m = growMine(g); growPut(g); PUB_SIG = growSig(m);
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'friendStats', m.code);
   const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() };
   const ext = { ...base, tt: m.tt, typed: m.typed, fr: g.friends.slice(0, 30).map(f => ({ o: String(f.uid || ''), c: String(f.code || ''), n: String(f.name || '').slice(0, 20) })) };
@@ -10629,30 +10632,37 @@ window.addEventListener('message', e => {
 });
 // 全画面：枠を画面いっぱいに広げる。iframe は作り直さないので、ゲームは途中から続く
 const gameOv = () => !!(document.getElementById('psov') || document.getElementById('rkov') || document.getElementById('mgov'));
+// 全画面：枠（iframe）は動かさず、その場のまま画面いっぱいに広げる。
+// 枠を別の場所へ動かすと読み込み直しになり、ゲームの途中経過が消えてしまうため。
+const GF_STATE = {};
 function gameFull(k, on) {
   const f = document.getElementById(k + 'frame'); if (!f) return;
-  const ov = document.getElementById(k + 'ov');
-  if (on && !ov) {
-    // 元の場所に印を残して、枠を画面の一番上の層（body直下）へ移す。アプリの中の位置や変形の影響を受けない
-    const ph = document.createElement('div'); ph.id = k + 'ph'; f.parentNode.insertBefore(ph, f);
-    const o = document.createElement('div'); o.id = k + 'ov'; o.className = 'ps-ov';
-    o.appendChild(f);
+  const st = GF_STATE[k];
+  if (on && !st) {
+    const ph = document.createElement('div'); ph.id = k + 'ph'; ph.style.height = f.offsetHeight + 'px';
+    f.parentNode.insertBefore(ph, f);
+    // 枠を画面いっぱいに出すため、上の要素の変形・フィルター・アニメーションを一時的に止める（戻すときに元へ戻す）
+    const saved = [];
+    for (let el = f.parentElement; el && el !== document.body; el = el.parentElement) {
+      saved.push([el, el.getAttribute('style')]);
+      el.style.transform = 'none'; el.style.filter = 'none'; el.style.backdropFilter = 'none'; el.style.webkitBackdropFilter = 'none';
+      el.style.perspective = 'none'; el.style.contain = 'none'; el.style.willChange = 'auto'; el.style.animation = 'none';
+    }
+    // 「戻す」ボタンだけを載せる透明な層（タッチは枠に通す）
+    const ov = document.createElement('div'); ov.id = k + 'ov'; ov.className = 'ps-ovx';
     const bt = document.createElement('button');
     bt.type = 'button'; bt.className = 'ps-exit ps-exit-ov'; bt.innerHTML = `${ms('fullscreen_exit')}戻す`;
     bt.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); gameFull(k, false); });
-    o.appendChild(bt);
-    document.body.appendChild(o);
-    f.classList.add('ps-full');
+    ov.appendChild(bt); document.body.appendChild(ov);
+    f.classList.add('ps-pin', 'ps-full');
+    GF_STATE[k] = { ph, ov, saved };
     psFocusFrame(f.querySelector('iframe'));
-  } else if (!on && ov) {
-    const ph = document.getElementById(k + 'ph');
-    f.classList.remove('ps-full');
-    if (ph && ph.parentNode) ph.parentNode.insertBefore(f, ph);
-    else { const h = document.querySelector('.tbody') || document.getElementById('view'); if (h) h.appendChild(f); }
-    if (ph) ph.remove();
-    ov.remove();
+  } else if (!on && st) {
+    f.classList.remove('ps-pin', 'ps-full');
+    for (const [el, sv] of st.saved) { if (sv === null) el.removeAttribute('style'); else el.setAttribute('style', sv); }
+    st.ph.remove(); st.ov.remove(); delete GF_STATE[k];
   }
-  const now = !!document.getElementById(k + 'ov');
+  const now = !!GF_STATE[k];
   const b = document.getElementById(k + 'fb'); if (b) b.innerHTML = `${ms(now ? 'fullscreen_exit' : 'fullscreen')}${now ? '戻す' : '全画面'}`;
 }
 function rkFullOn(on) { gameFull('rk', on); }
@@ -10958,6 +10968,11 @@ function mergeHtml() {
 }
 // 友達との最高点ランキング（直接の友達だけ。自分と並べて表示）
 const MG_RANK = { rows: null, err: false, busy: false, at: 0 };
+function mgRankHint() {
+  const u = MG_RANK.unshared || 0, o = MG_RANK.old || 0;
+  if (!u && !o) return '';
+  return `<p class="muted" style="font-weight:500;margin:8px 0 0;font-size:.82rem;line-height:1.6">${u ? `進み具合を見せていない友達が${u}人` : ''}${u && o ? '、' : ''}${o ? `新しい版でまだ点数を送っていない友達が${o}人` : ''}います。その人の点数は、ここに出ません。</p>`;
+}
 function mgRankInner() {
   const head = `<b class="mg-rh">${ms('group')}友達との最高点ランキング</b>`;
   if (!CLOUD.user) return head + `<p class="muted" style="font-weight:500;margin:6px 0 0">友達と比べるには、Googleログインが必要です</p>`;
@@ -10966,7 +10981,7 @@ function mgRankInner() {
   const me = { name: growMine(growGet()).name, mg: mgStat().best || 0, me: true };
   const list = [me, ...MG_RANK.rows.map(r => ({ name: r.name, mg: r.mg, me: false }))].sort((x, y) => y.mg - x.mg);
   const note = MG_RANK.rows.length ? '' : `<p class="muted" style="font-weight:500;margin:6px 0 0">まだ友達がいません。「友達を見る・追加」から追加すると、ここで比べられます。</p>`;
-  return head + list.map((r, i) => `<div class="mg-rrow ${r.me ? 'me' : ''}"><span class="mg-rn">${i + 1}</span><b>${r.me ? 'あなた' : esc(r.name)}</b><span class="mg-rv">${r.mg} 点</span></div>`).join('') + note + `<div class="fh-f" style="margin-top:8px"><button class="btn text xs" data-act="mgrank">${ms('refresh')}更新</button></div>`;
+  return head + list.map((r, i) => `<div class="mg-rrow ${r.me ? 'me' : ''}"><span class="mg-rn">${i + 1}</span><b>${r.me ? 'あなた' : esc(r.name)}</b><span class="mg-rv">${r.mg} 点</span></div>`).join('') + note + mgRankHint() + `<div class="fh-f" style="margin-top:8px"><button class="btn text xs" data-act="mgrank">${ms('refresh')}更新</button></div>`;
 }
 function mgRankRedraw() { const el = document.getElementById('mgrank'); if (el) el.innerHTML = mgRankInner(); mgPostFriends(); }
 async function mgRankLoad(force) {
@@ -10975,7 +10990,10 @@ async function mgRankLoad(force) {
   MG_RANK.busy = true; MG_RANK.err = false; mgRankRedraw();
   try {
     const rows = await friendsLoad();
-    MG_RANK.rows = rows.filter(r => !r.fof && r.data && !r.err && r.data.mg && typeof r.data.mg === 'object' && r.data.mg.v === MG_VER).map(r => ({ name: String(r.data.name || r.f.name || '名前なし'), mg: Number(r.data.mg.b) || 0 }));
+    const okRows = rows.filter(r => !r.fof && r.data && !r.err && r.data.mg && typeof r.data.mg === 'object' && r.data.mg.v === MG_VER);
+    MG_RANK.rows = okRows.map(r => ({ name: String(r.data.name || r.f.name || '名前なし'), mg: Number(r.data.mg.b) || 0 }));
+    MG_RANK.unshared = rows.filter(r => !r.fof && !r.data && !r.err).length;   // 進み具合を見せていない友達
+    MG_RANK.old = rows.filter(r => !r.fof && r.data && !r.err && !okRows.includes(r)).length;   // 新しい版でまだ点数を送っていない友達
     MG_RANK.at = Date.now();
   } catch (e) { MG_RANK.err = true; }
   MG_RANK.busy = false; mgRankRedraw();
