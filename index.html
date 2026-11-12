@@ -1710,6 +1710,40 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .card.broken{border:2px solid color-mix(in srgb,var(--primary) 35%,transparent)}
 .ps-ovx{position:fixed;inset:0;z-index:9500;pointer-events:none}
 .ps-ovx .ps-exit{pointer-events:auto;display:flex;position:absolute;align-items:center;gap:6px;border:0;border-radius:999px;padding:10px 16px;background:rgba(4,8,25,.85);color:#e6f0ff;font:inherit;font-weight:700;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.5);top:calc(env(safe-area-inset-top,0px) + 12px);right:12px}
+.stk-g{display:inline-flex;align-items:center;gap:6px;margin-left:8px;height:40px;padding:0 14px;border:0;border-radius:20px;background:var(--s3);color:inherit;font:inherit;font-weight:700;font-size:.85rem;cursor:pointer}
+.mg-medal{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;color:#4a3300;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.mg-medal.m1{background:linear-gradient(#ffe27a,#e0a800)}
+.mg-medal.m2{background:linear-gradient(#f5f7fa,#aab4c0)}
+.mg-medal.m3{background:linear-gradient(#f0b07a,#b86a2e);color:#fff}
+.mg-medal .ms{font-size:20px}
+.adm-list{display:grid;gap:8px;margin-top:10px}
+.adm-row{display:grid;gap:2px;text-align:left;padding:10px 12px;border:0;border-radius:16px;background:var(--s2);color:inherit;font:inherit;cursor:pointer}
+.adm-row span{font-size:.9rem}
+.adm-row small,.adm-sum p.muted{opacity:.7}
+.adm-acts{padding-left:18px;line-height:1.8;font-size:.92rem}
+.adm-raw pre{max-height:320px;overflow:auto;font-size:.74rem;background:var(--s1);padding:10px;border-radius:12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.admrow{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pat-list{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.pat-b{display:grid;gap:6px;text-align:left;padding:8px;border:2px solid transparent;border-radius:18px;background:var(--s2);color:inherit;font:inherit;cursor:pointer}
+.pat-b.on{border-color:var(--primary)}
+.pat-b:disabled{opacity:.5;cursor:not-allowed}
+.pat-b small{opacity:.75}
+.pat-s{display:block;height:54px;border-radius:12px;--wcink:rgba(0,0,0,.28)}
+.wc-pat .wc-face{--wcink:rgba(0,0,0,.12)}
+.wc-pat .wc-back{--wcink:rgba(255,255,255,.2)}
+.wc-pat .wc-face::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none}
+.wc-pat .wc-t{position:relative;border-radius:18px;padding:10px 18px;background:var(--scc)}
+.wc-pat .wc-back .wc-t{background:hsl(var(--sh) 52% 34%)}
+.pat-dots{background:radial-gradient(circle,var(--wcink) 1.3px,transparent 1.9px) 0 0/16px 16px}
+.wc-pat-dots .wc-face::before{background:radial-gradient(circle,var(--wcink) 1.3px,transparent 1.9px) 0 0/16px 16px}
+.pat-stripes{background:repeating-linear-gradient(45deg,var(--wcink) 0 6px,transparent 6px 18px)}
+.wc-pat-stripes .wc-face::before{background:repeating-linear-gradient(45deg,var(--wcink) 0 6px,transparent 6px 18px)}
+.pat-grid{background:linear-gradient(var(--wcink) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,var(--wcink) 1px,transparent 1px) 0 0/24px 24px}
+.wc-pat-grid .wc-face::before{background:linear-gradient(var(--wcink) 1px,transparent 1px) 0 0/24px 24px,linear-gradient(90deg,var(--wcink) 1px,transparent 1px) 0 0/24px 24px}
+.pat-wave{background:radial-gradient(circle at 50% 100%,transparent 56%,var(--wcink) 57% 61%,transparent 62%) 0 0/30px 24px}
+.wc-pat-wave .wc-face::before{background:radial-gradient(circle at 50% 100%,transparent 56%,var(--wcink) 57% 61%,transparent 62%) 0 0/30px 24px}
+.pat-sparkle{background:radial-gradient(circle,rgba(255,196,64,.8) 1.2px,transparent 2px) 0 0/34px 30px,radial-gradient(circle,rgba(255,255,255,.75) 1px,transparent 1.6px) 17px 15px/34px 30px}
+.wc-pat-sparkle .wc-face::before{background:radial-gradient(circle,rgba(255,196,64,.8) 1.2px,transparent 2px) 0 0/34px 30px,radial-gradient(circle,rgba(255,255,255,.75) 1px,transparent 1.6px) 17px 15px/34px 30px}
 </style>
 </head>
 <body>
@@ -1733,7 +1767,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.90';
+const APP_VERSION = '17.91';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1803,7 +1837,7 @@ function badgeHtml(b, i, c) {
   return `<div class="bdg ${on ? 'unl' : 'lock'}"><span class="av sc" style="--sh:${S.set.hue};width:56px;height:56px"><svg viewBox="0 0 48 48"><path d="${pathOf(SHAPES[i % 6], 21, 24, 24)}" style="fill:${on ? 'var(--primary)' : 'var(--s3)'}"/></svg>${ms(on ? ic : 'lock', 'f', `font-size:28px;color:${on ? 'var(--on-primary)' : 'var(--on-v)'}`)}</span>${name}<small>${desc}</small>${pr}</div>`;
 }
 function lvCardHtml(L) {
-  const rw = [{ n: 0, t: '友達と比べる（ホームと記録タブで）' }, { n: 2, t: 'XPショップ（ホームの背景・効果音を買えます）' }, { n: 5, t: '歴打（ゲーム）' }, ...LV_TITLES.map(([n, s]) => ({ n, t: `称号「${s}」` })), ...LV_HUES.map(([, nm, n]) => ({ n, t: `アプリの色「${nm}」` }))].sort((a, b) => a.n - b.n);
+  const rw = [{ n: 0, t: '友達と比べる（ホームと記録タブで）' }, { n: 2, t: 'XPショップ（ホームの背景・効果音を買えます）' }, { n: 5, t: '歴打（ゲーム）' }, { n: 4, t: '友達ランキングの金・銀・銅' }, { n: 6, t: '連続記録のお守り' }, { n: 12, t: '単語帳カードの模様' }, { n: 15, t: '元素マージの開始EPボーナス' }, ...LV_TITLES.map(([n, s]) => ({ n, t: `称号「${s}」` })), ...LV_HUES.map(([, nm, n]) => ({ n, t: `アプリの色「${nm}」` }))].sort((a, b) => a.n - b.n);
   return `<div class="card lvr"><b>レベルの特典</b><div class="lvr-l">${rw.map(r => `<div class="${L >= r.n ? 'on' : ''}"><span>Lv.${r.n}</span>${esc(r.t)}${ms(L >= r.n ? 'check_circle' : 'lock', L >= r.n ? 'f' : '', 'margin-left:auto;font-size:20px')}</div>`).join('')}</div></div>`;
 }
 const ms = (n, c = '', st = '') => n ? `<i class="ms ${c}" ${st ? `style="${st}"` : ''} aria-hidden="true">${n}</i>` : '';
@@ -1942,6 +1976,7 @@ function setDone(t, v) {
   v = Math.max(0, Math.min(t.total, Math.round(Number(v) || 0)));
   const d = v - t.done; if (!d) return false;
   t.done = v; syncItems(t); addLog(d, t); t.doneAt = v >= t.total ? Date.now() : null;
+  if (d > 0 && v >= t.total) actLog('task', t.title);
   return true;
 }
 function commit() { checkBadges(); save(); render(); }
@@ -1952,7 +1987,7 @@ function streak() {
   let n = 0; const now = new Date();
   for (let i = 0; i < 800; i++) {
     const l = S.log[ymd(new Date(now.getFullYear(), now.getMonth(), now.getDate() - i))];
-    if (active(l)) n++; else if (i === 0) continue; else break;
+    if (active(l)) n++; else if (i === 0) continue; else if (S.guard && S.guard.days && S.guard.days[ymd(new Date(now.getFullYear(), now.getMonth(), now.getDate() - i))]) continue; else break;
   }
   return n;
 }
@@ -1970,16 +2005,141 @@ const safeN = f => { try { return +f() || 0; } catch (e) { return 0; } };
 // 使ったツールの一覧（違うツールを開いたときだけ、この端末に記録する）
 const tuList = () => { try { const a = JSON.parse(localStorage.getItem(TU_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } };
 function tuNote(id) { if (!id) return; const a = tuList(); if (a.includes(id)) return; a.push(id); try { localStorage.setItem(TU_KEY, JSON.stringify(a)); } catch (e) { } checkBadges(false); }
+// ===== 17.91：先生（管理者）の機能・活動ログ・レベルの特典 =====
+const RW_LV = { medal: 4, guard: 6, cardpat: 12, mgep: 15 };   // 特典が使えるようになるレベル
+const ACT_KEEP = 3 * 864e5;   // 活動ログは3日分だけ残す
+// 先生（管理者）かどうか。端末に覚えた判定を使う（計算の中で、すぐ調べられるように）
+function adminOn() {
+  try { const a = JSON.parse(localStorage.getItem('kosa-fb-adm') || 'null'); return !!(a && a.v === 1 && CLOUD.user && a.uid === CLOUD.user.uid); } catch (e) { return false; }
+}
+// 生徒の一覧に出す要約（レベルは本当の値）
+function sumNow() {
+  try { const c = totals(); return { name: growGet().nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', lv: c.lv, xp: Math.floor(c.xp), pg: c.pages, min: c.min, done: c.done, streak: c.streak, at: Date.now() }; } catch (e) { return null; }
+}
+// 活動ログ（先生だけが見られます。生徒の画面には出しません）
+function actLog(k, d) {
+  try {
+    if (!CLOUD.user || !CLOUD.fb) return;
+    const { fs, db } = CLOUD.fb, id = Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+    fs.setDoc(fs.doc(db, 'activity', CLOUD.user.uid, 'ev', id), { k: String(k).slice(0, 20), d: String(d || '').slice(0, 200), t: Date.now() }).catch(() => { });
+  } catch (e) { }
+}
+async function actPrune() {   // 3日より前の自分の記録を消す
+  try {
+    if (!CLOUD.user || !CLOUD.fb) return;
+    const { fs, db } = CLOUD.fb;
+    const old = await fs.getDocs(fs.query(fs.collection(db, 'activity', CLOUD.user.uid, 'ev'), fs.where('t', '<', Date.now() - ACT_KEEP), fs.limit(300)));
+    await Promise.all(old.docs.map(x => fs.deleteDoc(x.ref)));
+  } catch (e) { }
+}
+function openLogOnce() {   // 1時間に1回だけ「開いた」を記録し、古いログを消す
+  try {
+    const p = +localStorage.getItem('kosa-act-open') || 0;
+    if (Date.now() - p < 3600e3) return;
+    localStorage.setItem('kosa-act-open', String(Date.now()));
+    setTimeout(() => { actLog('open', ''); actPrune(); }, 3000);
+  } catch (e) { }
+}
+function lvWatch() {   // レベルが上がったら記録する（この端末で覚えておく）
+  try {
+    const L = totals().lv, p = +localStorage.getItem('kosa-lv-last') || 0;
+    if (p && L > p) actLog('lv', 'Lv.' + L);
+    if (L !== p) localStorage.setItem('kosa-lv-last', String(L));
+  } catch (e) { }
+}
+// 連続記録のお守り（Lv.6から。1か月に1回、昨日の記録がない日を守れます）
+function guardLeft() {
+  try { if (level().L < RW_LV.guard) return 0; const ym = ymd(new Date()).slice(0, 7); return Math.max(0, 1 - ((S.guard && S.guard.used && S.guard.used[ym]) || 0)); } catch (e) { return 0; }
+}
+function guardDay(n) { const t = new Date(); return ymd(new Date(t.getFullYear(), t.getMonth(), t.getDate() - n)); }
+function guardEligible() {   // 昨日が空いていて、その前の日まで続いていたときだけ使える
+  try { const y = guardDay(1); return guardLeft() > 0 && !active(S.log[y]) && !(S.guard && S.guard.days && S.guard.days[y]) && active(S.log[guardDay(2)]); } catch (e) { return false; }
+}
+function guardHtml() { return guardEligible() ? `<button type="button" class="stk-g" data-act="guarduse">${ms('shield')}昨日をお守りで守る</button>` : ''; }
+function guardUse() {
+  if (!guardEligible()) return toast('いまは使えません');
+  const y = guardDay(1), ym = ymd(new Date()).slice(0, 7);
+  S.guard = S.guard || {}; S.guard.days = S.guard.days || {}; S.guard.used = S.guard.used || {};
+  S.guard.days[y] = 1; S.guard.used[ym] = (S.guard.used[ym] || 0) + 1;
+  save(); toast('お守りで連続記録を守りました'); render();
+}
+// 友達ランキングのメダル（Lv.4から。1〜3位）
+function medalHtml(i) { if (i > 2 || level().L < RW_LV.medal) return String(i + 1); return `<span class="mg-medal m${i + 1}" title="${i + 1}位">${ms('workspace_premium')}</span>`; }
+// 元素マージの開始EPボーナス（Lv.15から。ゲームに送る）
+function mgEpBonus() { return level().L >= RW_LV.mgep ? 100 : 0; }
+// 単語帳カードの模様（Lv.12から。文字のまわりだけに出し、文字は板の上に置く）
+const WC_PATS = [['none', 'なし', 0], ['dots', 'ドット', RW_LV.cardpat], ['stripes', 'ストライプ', RW_LV.cardpat], ['grid', '方眼', RW_LV.cardpat], ['wave', '波', RW_LV.cardpat], ['sparkle', 'きらめき', RW_LV.cardpat]];
+function cardPatCls() { const p = S.set && S.set.cardPat; return p && p !== 'none' && level().L >= RW_LV.cardpat ? `wc-pat wc-pat-${p}` : ''; }
+function wcPatOpen() {
+  const cur = (S.set && S.set.cardPat) || 'none', L = level().L;
+  openDlg(`<h2>${ms('texture')}カードの模様</h2><p class="muted" style="font-weight:500;margin:0 0 10px">文字の部分には模様を重ねないので、読みやすいままです。</p><div class="pat-list">${WC_PATS.map(([id, nm, lv]) => { const lk = lv && L < lv; return `<button type="button" class="pat-b ${cur === id ? 'on' : ''}" data-act="wcpatset" data-id="${id}" ${lk ? 'disabled' : ''}><span class="pat-s pat-${id}"></span><b>${nm}</b>${lk ? `<small>Lv.${lv}で解放</small>` : ''}</button>`; }).join('')}</div>`);
+  dlg.dataset.k = 'wcpat';
+}
+function wcPatSet(id) {
+  const p = WC_PATS.find(x => x[0] === id); if (!p) return;
+  if (p[2] && level().L < p[2]) return toast(`Lv.${p[2]}で解放されます`);
+  S.set.cardPat = id; save(); closeDlg(); render();
+}
+// 先生の画面（設定の中。先生だけに出ます）
+function admCardHtml() { return `<div class="h-sec"><h2>${ms('admin_panel_settings')}管理者メニュー</h2></div><div class="card"><button type="button" class="btn tonal" data-act="admopen">${ms('open_in_new')}開く</button></div>`; }
+function admOpen() { openDlg(admHtml()); dlg.dataset.k = 'adm'; }
+function admHtml() {
+  return `<h2>${ms('admin_panel_settings')}管理者メニュー</h2>
+    <div class="fld"><div class="lbl">自分のレベル（いまは Lv.${level().L}）</div><div class="admrow"><input id="admLvIn" type="number" min="1" max="99" inputmode="numeric" value="${S.adminLv || totals().lv}" style="width:110px"><button type="button" class="btn sm" data-act="admlv">適用</button><button type="button" class="btn text sm" data-act="admlvreset">自動に戻す</button></div><p class="muted" style="font-weight:500;margin:6px 0 0">変えたレベルは、自分の画面と解放だけに使われます。友達の記録には、本当のレベルが出ます。</p></div>
+    <div class="fld"><div class="lbl">生徒の記録</div><button type="button" class="btn tonal sm" data-act="admlist">${ms('refresh')}一覧を読む</button><div id="admList" class="adm-list"></div></div>
+    <div class="dact"><button type="button" class="btn text" data-act="close">閉じる</button></div>`;
+}
+function admLvSet() {
+  const v = Math.floor(Number((document.getElementById('admLvIn') || {}).value));
+  if (!(v >= 1 && v <= 99)) return toast('1〜99の数字を入れてください');
+  S.adminLv = v; save(); toast(`レベルを Lv.${v} にしました`); render();
+}
+function admLvReset() { delete S.adminLv; save(); toast('レベルを自動に戻しました'); render(); }
+async function admList() {
+  const el = document.getElementById('admList'); if (!el) return;
+  if (!CLOUD.user || !CLOUD.fb) { el.innerHTML = '<p class="muted">ログインしてください</p>'; return; }
+  el.innerHTML = '<p class="muted">読み込み中…</p>';
+  try {
+    const { fs, db } = CLOUD.fb;
+    const snap = await fs.getDocs(fs.query(fs.collection(db, 'users'), fs.limit(300)));
+    const rows = []; snap.forEach(d => { const x = d.data() || {}; rows.push({ id: d.id, s: x.sum || null, mt: x.mt || 0 }); });
+    rows.sort((a, b) => ((b.s && b.s.at) || b.mt || 0) - ((a.s && a.s.at) || a.mt || 0));
+    el.innerHTML = rows.length ? rows.map(r => `<button type="button" class="adm-row" data-act="admview" data-id="${esc(r.id)}"><b>${esc(r.s ? r.s.name : '（まだ同期していません）')}</b>${r.s ? `<span>Lv.${r.s.lv}・XP ${r.s.xp}・${r.s.pg}ページ・完了 ${r.s.done}件</span>` : ''}${r.s && r.s.at ? `<small>最終同期 ${new Date(r.s.at).toLocaleString('ja-JP')}</small>` : ''}</button>`).join('') : '<p class="muted">まだ生徒がいません</p>';
+  } catch (e) { el.innerHTML = `<p class="muted">読み込めませんでした（${esc(String((e && (e.code || e.message)) || e).slice(0, 120))}）</p>`; }
+}
+async function admView(uid) {
+  openDlg(`<h2>${ms('person')}生徒の記録</h2><div id="admDet"><p class="muted">読み込み中…</p></div><div class="dact"><button type="button" class="btn text" data-act="admopen">一覧にもどる</button></div>`);
+  dlg.dataset.k = 'admv';
+  const el = document.getElementById('admDet');
+  try {
+    const { fs, db } = CLOUD.fb;
+    const [u, ev] = await Promise.all([
+      fs.getDoc(fs.doc(db, 'users', uid)),
+      fs.getDocs(fs.query(fs.collection(db, 'activity', uid, 'ev'), fs.where('t', '>=', Date.now() - ACT_KEEP), fs.orderBy('t', 'desc'), fs.limit(300)))
+    ]);
+    const x = u.exists() ? (u.data() || {}) : {}, sm = x.sum || {};
+    let data = null; try { data = JSON.parse(x.json || 'null'); } catch (e) { }
+    const KL = { open: 'アプリを開いた', task: '課題を完了', xp: 'XPを獲得', lv: 'レベルアップ', mg: '元素マージの結果' };
+    const acts = []; ev.forEach(d => acts.push(d.data()));
+    const fmt = t => new Date(t).toLocaleString('ja-JP');
+    el.innerHTML = `<div class="adm-sum"><p><b>${esc(sm.name || '（名前なし）')}</b></p>
+      <p>Lv.${sm.lv ?? '-'}・XP ${sm.xp ?? '-'}・ページ ${sm.pg ?? '-'}・勉強 ${sm.min ?? '-'}分・完了 ${sm.done ?? '-'}件・連続 ${sm.streak ?? '-'}日</p>
+      <p class="muted" style="font-weight:500">最終同期：${sm.at ? fmt(sm.at) : 'なし'}</p></div>
+      <div class="lbl" style="margin-top:12px">いつ・何をしたか（直近3日）</div>
+      ${acts.length ? `<ul class="adm-acts">${acts.map(a => `<li><small>${fmt(a.t)}</small>　${esc(KL[a.k] || a.k)}${a.d ? `：${esc(a.d)}` : ''}</li>`).join('')}</ul>` : '<p class="muted">記録はありません</p>'}
+      <details class="adm-raw" style="margin-top:12px"><summary>すべてのデータ（くわしく）</summary><pre>${esc(data ? JSON.stringify(data, null, 2) : '（データがありません）')}</pre></details>`;
+  } catch (e) { el.innerHTML = `<p class="muted">読み込めませんでした（${esc(String((e && (e.code || e.message)) || e).slice(0, 120))}）</p>`; }
+}
 // 不正の検知（画面には出さない）：勉強時間に対してページ数が極端な日、ページ数が極端に多い課題は、その分のXPを数えない
 const PG_TASK_MAX = 400, PG_DAY_BASE = 60, PG_PER_MIN = 4, MIN_DAY_MAX = 960;
-function flagTaskIds() { const s = new Set(); for (const t of S.tasks || []) if (t && t.kind !== 'list' && (+t.total || 0) > PG_TASK_MAX) s.add(t.id); return s; }
+function flagTaskIds() { if (adminOn()) return new Set(); const s = new Set(); for (const t of S.tasks || []) if (t && t.kind !== 'list' && (+t.total || 0) > PG_TASK_MAX) s.add(t.id); return s; }
 function totals() {
   let pages = 0, min = 0, best = 0;
-  const flag = flagTaskIds();
+  const flag = flagTaskIds(), adm = adminOn();
   for (const k in S.log) {
-    const l = S.log[k], m = Math.min(l.m || 0, MIN_DAY_MAX); let a = l.a || 0;
+    const l = S.log[k], m = adm ? (l.m || 0) : Math.min(l.m || 0, MIN_DAY_MAX); let a = l.a || 0;
     for (const id in (l.t || {})) if (flag.has(id)) a -= l.t[id] || 0;
-    a = Math.max(0, Math.min(a, PG_DAY_BASE + PG_PER_MIN * m));
+    a = adm ? Math.max(0, a) : Math.max(0, Math.min(a, PG_DAY_BASE + PG_PER_MIN * m));
     pages += a; min += m; best = Math.max(best, a);
   }
   const ex = examTasks(), rq = ex.filter(t => t.req), xp = pages + min * .5 + S.tasks.filter(t => isDone(t) && !flag.has(t.id)).length * 20 + xpQuestXp();
@@ -1989,10 +2149,13 @@ function totals() {
     known: (S.cards || []).filter(c => c.k).length, tools: tuList().length, lab: safeN(() => LAB.found.size), ps: safeN(() => PS.best), invPlays: invStat().plays || 0, invHits: invStat().hits || 0, rk: rkStat().best || 0, rkt: rkStat().total || 0 };
 }
 function level() {
-  const c = totals(), xp = c.xp, L = c.lv, lo = 25 * (L - 1) ** 2, hi = 25 * L * L;
-  return { L, xp: Math.round(xp), p: (xp - lo) / (hi - lo), need: Math.ceil(hi - xp) };
+  const c = totals(), xp = c.xp; let L = c.lv;
+  if (adminOn() && S.adminLv) L = S.adminLv;   // 先生だけ、自分で決めたレベルを使える
+  const lo = 25 * (L - 1) ** 2, hi = 25 * L * L;
+  return { L, xp: Math.round(xp), p: Math.max(0, Math.min(1, (xp - lo) / (hi - lo))), need: Math.ceil(hi - xp) };
 }
 function checkBadges(silent) {
+  lvWatch();
   xpCheck(silent); growPubSoon();
   const c = totals(); let fresh_ = [];
   for (const [id, icon, name, desc, test] of BADGES) if (!S.badges[id] && test(c)) { S.badges[id] = Date.now(); fresh_.push(name); if (!silent) achQueue({ id, icon, name, desc }); }
@@ -2316,6 +2479,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.91', d: '__BUILD__', t: 'レベルの特典を増やしました（メダル・お守り・単語帳の模様・EPボーナス）', n: ['友達ランキングの1〜3位に、金・銀・銅のメダルを出します（Lv.4）', '連続記録のお守りを使うと、昨日の記録がなくても連続記録を守れます。1か月に1回です（Lv.6）', '単語帳のカードに模様を選べるようになりました。文字は読みやすいままです（Lv.12）', '元素マージを始めるとき、EPが100もらえるようになりました（Lv.15）'] },
   { v: '17.90', d: '__BUILD__', t: '元素マージのランキングと、全画面での途中経過を直しました', n: ['元素マージのランキングに、友達の点数が反映されるようにしました', 'ランキングに出ない友達がいるときは、その理由（進み具合の公開や、新しい版への更新）を表示するようにしました', '全画面にしたときや「戻す」を押したときに、ゲームが最初の画面に戻らないようにしました', '元素マージの表示が時々崩れる問題を直しました', '元素マージの吸引は1000 EPに変更しました（EPの上限は2000のままです）'] },
   { v: '17.88', d: '__BUILD__', t: '元素マージ・todo・アンケート・更新画面などを改善', n: ['ツールの一番上に「人気」を追加しました（単語帳・元素マージ・歴打・元素ラボ）', '元素マージの吸引は2000 EPになり、EPの上限も2000になりました', '管理者のアンケートに、自由回答を付けられるようになりました', 'はじめて開くタブやボタンに、吹き出しで説明を出すようにしました（タップで閉じます）', '集中タイマーの最小化とバツの位置を入れ替えました', '更新の画面から、更新履歴を見られるようになりました。ボタンも新しいデザインになりました', '今日のやることが、教科がないときも出るようにしました。端末どうしの同期で、やることが消えないようにしました', '元素マージの記録が二重に数えられる不具合を直しました', '友達に見せる記録は、レベルなどが変わったときにすぐ送られるようにしました', '友達との比較で、元素マージの点数が正しく出るようにしました'] },
   { v: '17.87', d: '__BUILD__', t: 'アップデートの自動化・タブバーのずれを修正・フォントを追加・アンケート', n: ['設定に「アップデートを自動で行う」を追加しました。新しい版が見つかると、確認なしで自動的に更新します', '今回だけ、開かれた端末はすべて新しい版に強制的に更新されます', 'ショップでテーマを変えたとき、タブバーが下にずれる不具合を直しました', 'かっこいいフォントを7種類追加しました（XPで買えます）', '管理者から選択式のアンケートを送れるようになりました。通知か、アカウントの「アンケート」から投票できます'] },
@@ -2906,7 +3070,7 @@ function navSettings() {
 function viewSettings() {
   const st = S.set;
   if (ui.setPage === 'backup') return backupPage();
-  return `<div class="set-page"><label class="set-q">${ms('search')}<input id="setq" type="search" placeholder="設定を検索" autocomplete="off" aria-label="設定を検索"></label><div class="h-sec" style="margin-top:4px"><h2>${ms('school')}考査</h2><span class="sp"></span>${pastExams().length ? `<button class="btn tonal xs" data-act="pastlist">${ms('inventory_2')}保存した考査 ${pastExams().length}</button>` : ''}<button class="btn tonal xs" data-act="addexam">${ms('add')}考査</button></div>
+  return `<div class="set-page">${adminOn() ? admCardHtml() : ''}<label class="set-q">${ms('search')}<input id="setq" type="search" placeholder="設定を検索" autocomplete="off" aria-label="設定を検索"></label><div class="h-sec" style="margin-top:4px"><h2>${ms('school')}考査</h2><span class="sp"></span>${pastExams().length ? `<button class="btn tonal xs" data-act="pastlist">${ms('inventory_2')}保存した考査 ${pastExams().length}</button>` : ''}<button class="btn tonal xs" data-act="addexam">${ms('add')}考査</button></div>
   <div class="slist stg">${activeExams().map(e => { const d = e.date ? daysBetween(today(), e.date) : null; return `<div class="srow"><button class="radio ${e.id === S.cur ? 'on' : ''}" data-act="exam" data-id="${e.id}" aria-label="${esc(e.name)}を表示">${ms('check')}</button><div class="t">${esc(e.name)}<small>${e.date ? fmtDate(e.date) + (d >= 0 ? `（あと${d}日）` : '（終了）') : '考査日なし（ふだんの課題として使用中）'} ・ 教科 ${S.subjects.filter(s => s.ex === e.id).length}</small></div><button class="ibtn" data-act="arcexam" data-id="${e.id}" aria-label="${esc(e.name)}を終了して保存">${ms('inventory_2')}</button><button class="ibtn" data-act="editexam" data-id="${e.id}" aria-label="編集">${ms('edit')}</button></div>`; }).join('')}</div>
   ${pastExams().length ? `<div class="h-sec"><h2>${ms('inventory_2')}保存した考査</h2></div><div class="slist stg">${pastExams().map(e => `<div class="srow"><span class="nvi">${ms('inventory_2')}</span><div class="t">${esc(e.name)}<small>${examSub(e)}</small></div><button class="ibtn" data-act="pastopen" data-id="${e.id}" aria-label="${esc(e.name)}を開く">${ms('visibility')}</button><button class="ibtn" data-act="pastrestore" data-id="${e.id}" aria-label="進行中に戻す">${ms('unarchive')}</button><button class="ibtn" data-act="editexam" data-id="${e.id}" aria-label="編集">${ms('edit')}</button></div>`).join('')}</div>` : ''}
 
@@ -4234,6 +4398,7 @@ function syncChoiceDlg() {
   <div class="dact"><button class="btn text" data-act="cloudout">${ms('logout')}ログアウトする</button><span class="sp"></span><button class="btn text" data-act="close">あとで決める</button></div>`);
 }
 function cloudStart() {
+  openLogOnce();
   cloudStop(); const { fs, db } = CLOUD.fb; CLOUD.first = true; CLOUD.status = 'sync'; CLOUD.hold = false; CLOUD.pend = null;
   CLOUD.unsub = fs.onSnapshot(fs.doc(db, 'users', CLOUD.user.uid), ds => {
     if (ds.metadata.hasPendingWrites || ds.metadata.fromCache) return;
@@ -4259,7 +4424,7 @@ function cloudStart() {
 function cloudPush() { if (!CLOUD.user || !CLOUD.fb || CLOUD.hold) return; CLOUD.dirty = true; clearTimeout(CLOUD.timer); CLOUD.timer = setTimeout(cloudPushNow, 1500); }
 async function cloudPushNow() {
   if (!CLOUD.user || !CLOUD.fb || CLOUD.hold) return; CLOUD.dirty = false; const { fs, db } = CLOUD.fb;
-  try { if (!S.mt) { _noSync = true; S.mt = Date.now(); save(); _noSync = false; } await mergeFromCloud(fs, db); await fs.setDoc(fs.doc(db, 'users', CLOUD.user.uid), { json: JSON.stringify(S), mt: S.mt, updatedAt: fs.serverTimestamp() }); CLOUD.status = 'ok'; setLast(); }
+  try { if (!S.mt) { _noSync = true; S.mt = Date.now(); save(); _noSync = false; } await mergeFromCloud(fs, db); await fs.setDoc(fs.doc(db, 'users', CLOUD.user.uid), { json: JSON.stringify(S), mt: S.mt, updatedAt: fs.serverTimestamp(), sum: sumNow() }); CLOUD.status = 'ok'; setLast(); }
   catch (e) { CLOUD.status = 'error'; CLOUD.err = String((e && ((e.code ? e.code + ' ' : '') + (e.message || ''))) || e).slice(0, 240); }
   cloudRefresh();
 }
@@ -5059,12 +5224,12 @@ function wcStageHtml() {
   if (!list.length) return wcEmptyHtml(d, all, study, rg, sc);
   const n = WC.i % list.length, c = list[n], f = WC.rev ? c.b : c.f, b = WC.rev ? c.f : c.b;
   return `<div class="wc-wrap sc" ${sc}><div class="wc-stack">${list.length > 2 ? '<i class="wc-gh g2"></i>' : ''}${list.length > 1 ? '<i class="wc-gh g1"></i>' : ''}
-    <button class="wc-card ${WC.flip ? 'flip' : ''}" id="wcc" aria-label="カードをめくる。右にスワイプで覚えた、左にスワイプでまだ">
+    <button class="wc-card ${WC.flip ? 'flip' : ''} ${cardPatCls()}" id="wcc" aria-label="カードをめくる。右にスワイプで覚えた、左にスワイプでまだ">
       <span class="wc-stamp ok">覚えた</span><span class="wc-stamp ng">まだ</span>
       <span class="wc-in"><span class="wc-face wc-front"><small>${c.s ? '★ ' : ''}${WC.rev ? '裏' : '表'}　No.${c.n}　${n + 1}/${list.length}</small><span class="wc-t">${WC.hid && WC.hid.f ? '？？？' : wcNl(f)}</span><em>タップでめくる ／ 左右にスワイプ</em></span><span class="wc-face wc-back"><small>${c.s ? '★ ' : ''}${WC.rev ? '表' : '裏'}</small><span class="wc-t">${WC.hid && WC.hid.b ? '？？？' : wcNl(b)}</span></span></span>
     </button></div>
     <div class="wc-btns"><button class="btn tonal" data-act="wcng">${ms('close')}まだ</button><button class="btn" data-act="wcok">${ms('check')}覚えた</button></div>
-    <div class="wc-tools" role="toolbar" aria-label="カードの操作"><button class="wc-ib" data-act="wcundo" ${WC.undo.length ? '' : 'disabled'} aria-label="ひとつ前にもどる" title="ひとつ前にもどる">${ms('undo')}</button><button class="wc-ib ${c.s ? 'on' : ''}" data-act="wcstar" aria-label="${c.s ? '★をはずす' : '★をつける'}" aria-pressed="${!!c.s}" title="${c.s ? '★をはずす' : '★をつける'}">${ms('star', c.s ? 'f' : '')}</button><button class="wc-ib" data-act="wcspeak" aria-label="読み上げ" title="読み上げ">${ms('volume_up')}</button><button class="wc-ib ${c.hint ? 'on' : ''}" data-act="aihint" aria-label="${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}" title="${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}">${gem(20)}</button>${WC.focus ? '' : `<button class="wc-ib ${c.ex ? 'on' : ''}" data-act="aiex" aria-label="${c.ex ? '例文を作り直す' : 'AIで例文'}" title="${c.ex ? '例文を作り直す' : 'AIで例文'}">${ms('format_quote')}</button>`}</div>${WC.focus ? `<div class="wc-hide" role="group" aria-label="けし（かくす）">${[['f', '表'], ['b', '裏'], ['h', 'ヒント'], ['e', '例文']].map(([k, t]) => `<button type="button" class="wc-hb ${WC.hid && WC.hid[k] ? 'on' : ''}" data-act="wchide" data-id="${k}" aria-pressed="${!!(WC.hid && WC.hid[k])}">${ms(WC.hid && WC.hid[k] ? 'visibility_off' : 'visibility')}${t}</button>`).join('')}</div>` : ''}
+    <div class="wc-tools" role="toolbar" aria-label="カードの操作"><button type="button" class="wc-ib" data-act="wcpat" aria-label="カードの模様" title="カードの模様">${ms('texture')}</button><button class="wc-ib" data-act="wcundo" ${WC.undo.length ? '' : 'disabled'} aria-label="ひとつ前にもどる" title="ひとつ前にもどる">${ms('undo')}</button><button class="wc-ib ${c.s ? 'on' : ''}" data-act="wcstar" aria-label="${c.s ? '★をはずす' : '★をつける'}" aria-pressed="${!!c.s}" title="${c.s ? '★をはずす' : '★をつける'}">${ms('star', c.s ? 'f' : '')}</button><button class="wc-ib" data-act="wcspeak" aria-label="読み上げ" title="読み上げ">${ms('volume_up')}</button><button class="wc-ib ${c.hint ? 'on' : ''}" data-act="aihint" aria-label="${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}" title="${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}">${gem(20)}</button>${WC.focus ? '' : `<button class="wc-ib ${c.ex ? 'on' : ''}" data-act="aiex" aria-label="${c.ex ? '例文を作り直す' : 'AIで例文'}" title="${c.ex ? '例文を作り直す' : 'AIで例文'}">${ms('format_quote')}</button>`}</div>${WC.focus ? `<div class="wc-hide" role="group" aria-label="けし（かくす）">${[['f', '表'], ['b', '裏'], ['h', 'ヒント'], ['e', '例文']].map(([k, t]) => `<button type="button" class="wc-hb ${WC.hid && WC.hid[k] ? 'on' : ''}" data-act="wchide" data-id="${k}" aria-pressed="${!!(WC.hid && WC.hid[k])}">${ms(WC.hid && WC.hid[k] ? 'visibility_off' : 'visibility')}${t}</button>`).join('')}</div>` : ''}
     ${c.hint ? `<div class="notice" style="margin:14px 0 0">${gem(20)}<span class="t">${WC.hid && WC.hid.h ? '？？？（ヒントを隠しています）' : esc(c.hint)}</span></div>` : ''}${c.ex ? `<div class="notice" style="margin:10px 0 0">${ms('format_quote')}<span class="t">${WC.hid && WC.hid.e ? '？？？（例文を隠しています）' : wcNl(c.ex)}</span></div>` : ''}</div>`;
 }
 function wcHeadPaint() {
@@ -7746,7 +7911,7 @@ function rotTick() {
 }
 setTimeout(() => rotApply(true), 0);
 // アカウントの左の、連続日数
-function stkHtml() { return `<span class="stk" id="stk">${ms('event_repeat')}${streak()}日連続</span>`; }
+function stkHtml() { return `<span class="stk" id="stk">${ms('event_repeat')}${streak()}日連続</span>${guardHtml()}`; }
 /* ====================== 今日の天気と、自分に合った豆知識（17.11） ====================== */
 const WX = { d: null, t: 0, busy: false };   // d: {code, max, min}
 const WX_CODE = c => c === 0 ? '晴れ' : c <= 2 ? '晴れときどきくもり' : c === 3 ? 'くもり' : (c === 45 || c === 48) ? '霧' : (c >= 51 && c <= 67) || (c >= 80 && c <= 82) ? '雨' : (c >= 71 && c <= 77) ? '雪' : c >= 95 ? '雷雨' : 'くもり';
@@ -8936,7 +9101,7 @@ function shopHas(kind, id) { const map = SHOP_MAP[kind], it = map && map[id]; if
 // 集中・休憩の時間の選択肢（レベルで増える）
 const TIMER_EXTRA = { focus: [[50, 4], [90, 8], [120, 23]], brk: [[30, 12], [45, 25]] };
 function durList() { const base = (TM.mode === 'focus') ? [15, 25, 45, 60] : [3, 5, 10, 15, 20]; const ex = (TM.mode === 'focus' ? TIMER_EXTRA.focus : TIMER_EXTRA.brk).filter(([, lv]) => level().L >= lv).map(([m]) => m); return [...base, ...ex].sort((a, b) => a - b); }
-const LV_REWARD = { 2: 'XPショップが使えるようになりました', 5: '歴打が使えるようになりました' };
+const LV_REWARD = { 2: 'XPショップが使えるようになりました', 4: '友達ランキングの1〜3位に、金・銀・銅のメダルが出るようになりました', 5: '歴打が使えるようになりました', 6: '連続記録のお守りが使えるようになりました', 12: '単語帳のカードに模様を選べるようになりました', 15: '元素マージを始めるとき、EPが100もらえるようになりました' };
 function growGet() {
   // 友達・プロフィールは、アカウントの状態（S.soc）に入れて、どの端末でも同じにする（以前の端末ごとの保存も引き継ぐ）
   const g = lsj(GROW_KEY, null) || {}, so = (S.soc && typeof S.soc === 'object') ? S.soc : g;
@@ -9070,6 +9235,7 @@ function xpCheck(silent) {
     if (v >= q.t) { S.xpq[key] = Date.now(); got.push(q); }
   }
   if (!got.length) return;
+  actLog('xp', got.map(q => q.n).join('、'));
   save();
   if (!silent || got.some(q => q.id === 'q_login')) toast(`XPを${got.reduce((a, q) => a + q.xp, 0)}もらいました：${got.map(q => q.n).join('、')}`);
 }
@@ -9181,7 +9347,7 @@ const FR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join(''); return g.code; }
 function growWeek() { const nb = parse(today()), from = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() - 6)), to = today(); let min = 0, pg = 0; for (const k in S.log) if (k >= from && k <= to) { min += S.log[k].m || 0; pg += S.log[k].a || 0; } return { min, pg }; }
 function growPct() { const tot = S.tasks.reduce((a, t) => a + (t.total || 0), 0), dn = S.tasks.reduce((a, t) => a + Math.min(t.done || 0, t.total || 0), 0); return tot ? Math.round(dn / tot * 100) : 0; }
-function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0, mg: mgStat().best || 0 }; }
+function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: totals().lv, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0, mg: mgStat().best || 0 }; }
 async function growUnpublish() { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'friendStats', growGet().code)); }
 async function growAddFriend(code) {
   code = String(code || '').trim().toUpperCase(); if (!code) return;
@@ -10668,6 +10834,7 @@ function gameFull(k, on) {
 function rkFullOn(on) { gameFull('rk', on); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('rkov')) rkFullOn(false); });
 Object.assign(ACT, { rkfull() { rkFullOn(!document.getElementById('rkov')); } });
+Object.assign(ACT, { admopen() { admOpen(); }, admlist() { admList(); }, admview(id) { admView(id); }, admlv() { admLvSet(); }, admlvreset() { admLvReset(); }, guarduse() { guardUse(); }, wcpat() { wcPatOpen(); }, wcpatset(id) { wcPatSet(id); } });
 function rekidaHtml() {
   const lv = level().L;
   if (document.getElementById('rkov')) return `<div class="ps"><div class="card ps-st">${rkStatHtml()}</div><p class="muted ps-note" style="margin:10px 4px 0">全画面で遊んでいます。「戻す」で、ツールの画面に戻ります。</p></div>`;
@@ -10694,6 +10861,7 @@ window.addEventListener('message', e => {
   const score = Math.max(0, Math.min(10000000, Math.floor(Number(d.score) || 0)));
   if (score <= 0) return;
   const lv = Math.max(1, Math.min(11, Math.floor(Number(d.maxLv) || 1)));
+  actLog('mg', `${score}点 Lv.${lv}`);
   const v = mgStat();
   v.plays = (v.plays || 0) + 1; v.best = Math.max(v.best || 0, score); v.maxLv = Math.max(v.maxLv || 0, lv);
   try { localStorage.setItem('kosa-merge', JSON.stringify(v)); } catch (x) { }
@@ -10710,6 +10878,7 @@ function mgPostFriends() {
   const me = { name: growMine(growGet()).name, score: mgStat().best || 0, me: true };
   const rows = ((MG_RANK && MG_RANK.rows) || []).map(r => ({ name: r.name, score: r.mg, me: false }));
   try { fr.contentWindow.postMessage({ type: 'kosa-merge-friends', rows: [me, ...rows] }, '*'); } catch (x) { }
+  try { fr.contentWindow.postMessage({ type: 'kosa-merge-bonus', ep: mgEpBonus() }, '*'); } catch (x) { }
 }
 window.addEventListener('message', e => {
   const d = e.data; const fr = document.querySelector('#mgframe iframe');
@@ -10981,7 +11150,7 @@ function mgRankInner() {
   const me = { name: growMine(growGet()).name, mg: mgStat().best || 0, me: true };
   const list = [me, ...MG_RANK.rows.map(r => ({ name: r.name, mg: r.mg, me: false }))].sort((x, y) => y.mg - x.mg);
   const note = MG_RANK.rows.length ? '' : `<p class="muted" style="font-weight:500;margin:6px 0 0">まだ友達がいません。「友達を見る・追加」から追加すると、ここで比べられます。</p>`;
-  return head + list.map((r, i) => `<div class="mg-rrow ${r.me ? 'me' : ''}"><span class="mg-rn">${i + 1}</span><b>${r.me ? 'あなた' : esc(r.name)}</b><span class="mg-rv">${r.mg} 点</span></div>`).join('') + note + mgRankHint() + `<div class="fh-f" style="margin-top:8px"><button class="btn text xs" data-act="mgrank">${ms('refresh')}更新</button></div>`;
+  return head + list.map((r, i) => `<div class="mg-rrow ${r.me ? 'me' : ''}"><span class="mg-rn">${medalHtml(i)}</span><b>${r.me ? 'あなた' : esc(r.name)}</b><span class="mg-rv">${r.mg} 点</span></div>`).join('') + note + mgRankHint() + `<div class="fh-f" style="margin-top:8px"><button class="btn text xs" data-act="mgrank">${ms('refresh')}更新</button></div>`;
 }
 function mgRankRedraw() { const el = document.getElementById('mgrank'); if (el) el.innerHTML = mgRankInner(); mgPostFriends(); }
 async function mgRankLoad(force) {

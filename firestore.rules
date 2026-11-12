@@ -4,7 +4,20 @@ service cloud.firestore {
 
     // 既存のusersコレクションのルール
     match /users/{uid} {
-      allow read, write: if request.auth != null && request.auth.uid == uid;
+      allow read: if request.auth != null && (request.auth.uid == uid || request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2');
+      allow write: if request.auth != null && request.auth.uid == uid;
+    }
+
+    // 活動ログ（先生だけが読めます。本人は書き込み、3日より前のものを消せます）
+    match /activity/{uid}/ev/{id} {
+      allow read: if request.auth != null && (request.auth.uid == uid || request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2');
+      allow create: if request.auth != null && request.auth.uid == uid
+        && request.resource.data.keys().hasOnly(['k', 'd', 't'])
+        && request.resource.data.k is string && request.resource.data.k.size() <= 20
+        && request.resource.data.d is string && request.resource.data.d.size() <= 200
+        && request.resource.data.t is number;
+      allow update: if false;
+      allow delete: if request.auth != null && request.auth.uid == uid;
     }
 
     // 既存のsharesコレクション（科目・カードの共有）

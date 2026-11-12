@@ -1885,6 +1885,7 @@
       if (e.source !== window.parent) return;
       const d = e.data;
       if (d && d.type === 'kosa-merge-friends') setFriendBoard(d.rows);
+      if (d && d.type === 'kosa-merge-bonus') epBonus = Math.max(0, Math.min(300, Math.floor(Number(d.ep) || 0)));
     });
 
     const gameCanvas = document.getElementById('gameCanvas');
@@ -1911,6 +1912,7 @@
     let world = null;
     let score = 0;
     let ep = 30;
+    let epBonus = 0;   // 親のアプリから届く、開始EPのボーナス（レベルの特典）
     let currentDropLevel = 1;
     let nextDropLevel = 2;
     let pointerX = LOGICAL_WIDTH / 2;
@@ -2819,7 +2821,7 @@
 
       score = 0;
       scoreReported = false;
-      ep = 30;
+      ep = 30 + epBonus;
       comboCount = 0;
       maxCombo = 1;
       currentDropLevel = getRandomInitialLevel();
