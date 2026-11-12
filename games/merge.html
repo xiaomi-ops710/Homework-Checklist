@@ -535,11 +535,11 @@
         <span class="font-mono text-[10px] text-orange-600">400</span>
       </button>
 
-      <button id="skillPipetteBtn" type="button" title="ピペットで選んだ元素1個を吸い取って消去 (600 EP)"
+      <button id="skillPipetteBtn" type="button" title="ピペットで選んだ元素1個を吸い取って消去 (2000 EP)"
         class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
         <span class="material-symbols-rounded text-sky-500 text-sm">colorize</span>
         <span class="hidden sm:inline">吸引</span>
-        <span class="font-mono text-[10px] text-sky-600">600</span>
+        <span class="font-mono text-[10px] text-sky-600">2000</span>
       </button>
 
       <button id="skillCatalystBtn" type="button" title="触媒で選んだ元素を1段階上位へ進化 (1000 EP)"
@@ -1936,6 +1936,7 @@
     let dangerTimer = 0;
     let lastBeepSecond = -1;
     let maxReachedLevel = 1;
+    let scoreReported = false;   // このゲームの結果を、もう送ったか
     let discoveredLevels = new Set([1]);
     let completedMissions = new Set();
 
@@ -2388,7 +2389,7 @@
       document.getElementById('epValueText').textContent = ep;
       document.getElementById('skillSwapBtn').disabled = ep < 200 || isGameOver;
       document.getElementById('skillBurnerBtn').disabled = ep < 400 || isGameOver;
-      document.getElementById('skillPipetteBtn').disabled = ep < 600 || isGameOver;
+      document.getElementById('skillPipetteBtn').disabled = ep < 2000 || isGameOver;
       document.getElementById('skillCatalystBtn').disabled = ep < 1000 || isGameOver;
     }
 
@@ -2650,7 +2651,7 @@
         const comboMult = 1 + Math.min(comboCount - 1, 5) * 0.15;
         const earned = Math.round(nextLevel * nextLevel * 10 * comboMult);
         score += earned;
-        ep = Math.min(1500, ep + 4 + nextLevel + (comboCount > 1 ? 3 : 0));
+        ep = Math.min(2000, ep + 4 + nextLevel + (comboCount > 1 ? 3 : 0));
 
         updateScoreBoardUI();
         updateEpUI();
@@ -2671,7 +2672,7 @@
       } else {
         const bonus = 3000;
         score += bonus;
-        ep = Math.min(1500, ep + 50);
+        ep = Math.min(2000, ep + 50);
         updateScoreBoardUI();
         updateEpUI();
         audio.playFanfare();
@@ -2744,8 +2745,8 @@
 
       if (!target) return false;
 
-      if (activeSkillMode === 'pipette' && ep >= 600) {
-        ep -= 600;
+      if (activeSkillMode === 'pipette' && ep >= 2000) {
+        ep -= 2000;
         updateEpUI();
         spawnMergeEffects(target.position.x, target.position.y, target.elementLevel, 0, '吸引');
         World.remove(world, target);
@@ -2817,6 +2818,7 @@
       Events.on(engine, 'collisionActive', onCollision);
 
       score = 0;
+      scoreReported = false;
       ep = 30;
       comboCount = 0;
       maxCombo = 1;
@@ -2853,8 +2855,7 @@
       audio.playGameOver();
 
       const prevBest = rankingService.getBestLocalScore();
-      await rankingService.recordGameScore(score, maxReachedLevel);
-      reportMerge(score, maxReachedLevel);
+      if (!scoreReported) { scoreReported = true; await rankingService.recordGameScore(score, maxReachedLevel); reportMerge(score, maxReachedLevel); }
       updateScoreBoardUI();
 
       document.getElementById('modalFinalScore').textContent = score;
@@ -3415,7 +3416,7 @@
 
     document.getElementById('skillPipetteBtn').addEventListener('click', () => {
       ensureGameFocus();
-      if (ep < 600 || isGameOver) return;
+      if (ep < 2000 || isGameOver) return;
       audio.init();
       setSkillTargetMode(activeSkillMode === 'pipette' ? null : 'pipette');
     });
@@ -3489,8 +3490,7 @@
     document.getElementById('resetBtn').addEventListener('click', async () => {
       ensureGameFocus();
       audio.init();
-      await rankingService.recordGameScore(score, maxReachedLevel);
-      reportMerge(score, maxReachedLevel);
+      if (!scoreReported) { scoreReported = true; await rankingService.recordGameScore(score, maxReachedLevel); reportMerge(score, maxReachedLevel); }
       initPhysicsGame();
     });
     document.getElementById('quitBtn').addEventListener('click', () => {

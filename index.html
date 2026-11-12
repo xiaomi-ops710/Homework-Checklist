@@ -566,6 +566,21 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 .sv-li small,.sv-note{font-size:.8rem;opacity:.75}
 .sv-f{display:grid;gap:6px;margin:8px 0;font-weight:700;font-size:.9rem}
 .sv-f input,.sv-f textarea{font:inherit;font-weight:500;width:100%;box-sizing:border-box;padding:10px 12px;border-radius:14px;border:1px solid var(--s3);background:var(--s1);color:inherit}
+.sv-free{margin-top:12px}
+.sv-free textarea{font:inherit;font-weight:500;width:100%;box-sizing:border-box;padding:12px 14px;border-radius:20px;border:1px solid var(--s3);background:var(--s1);color:inherit;resize:vertical}
+.sv-chk{display:flex;align-items:center;gap:8px;font-weight:600}
+.sv-txt-h{margin:16px 0 6px}
+.sv-txts{display:grid;gap:8px}
+.sv-txt{margin:0;padding:12px 14px;border-radius:20px;background:var(--s2);line-height:1.6;overflow-wrap:anywhere;font-size:.92rem}
+.hint-b{position:fixed;z-index:90;display:grid;gap:2px;justify-items:center;text-align:center;padding:12px 22px 10px;border-radius:999px;background:var(--pc);color:var(--on-pc);box-shadow:0 10px 28px rgba(0,0,0,.22);font-size:.86rem;line-height:1.45;animation:hintIn .35s var(--spring,ease) both;cursor:pointer;box-sizing:border-box}
+.hint-b b{font-size:.98rem}
+.hint-b span{font-weight:600}
+.hint-b small{opacity:.75;font-size:.72rem}
+.hint-b::after{content:"";position:absolute;left:var(--tx,50%);width:14px;height:14px;margin-left:-7px;background:var(--pc);border-radius:3px;transform:rotate(45deg)}
+.hint-b.up::after{bottom:-6px}
+.hint-b.down::after{top:-6px}
+@keyframes hintIn{from{opacity:0;transform:translateY(8px) scale(.94)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.hint-b{animation:none}}
 .upd-icon{width:112px;height:112px;border-radius:32px}
 .upd-art{min-height:200px}
 .upd-chips{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:6px}
@@ -702,6 +717,12 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 .ux-btn.p{background:var(--primary);color:var(--on-primary)}
 .ux-btn.t{background:var(--pc);color:var(--on-pc)}
 .ux-btn.x{background:transparent;color:var(--primary)}
+/* M3E：ボタンは楕円（カプセル）の形。まわりに、やわらかい面を付ける */
+.ux-btns{gap:12px}
+.ux-btn{border-radius:999px!important;min-height:60px;font-weight:800;letter-spacing:.02em;box-shadow:0 3px 0 color-mix(in srgb,currentColor 10%,transparent)}
+.ux-btn.p{box-shadow:0 6px 16px color-mix(in srgb,var(--primary) 30%,transparent)}
+.ux-btn.x{background:var(--s2)!important;color:var(--primary)!important;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--primary) 28%,transparent)}
+.ux-btn .ms{font-size:22px}
 .ux-btn.x:first-of-type{color:var(--on-v)}
 /* 更新のお知らせ（画面の上に出る帯） */
 #updbar:not([hidden]){position:fixed;top:calc(10px + env(safe-area-inset-top));left:0;right:0;padding:0 12px;z-index:950;pointer-events:none;display:flex;justify-content:center}
@@ -1710,7 +1731,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.87';
+const APP_VERSION = '17.88';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1970,7 +1991,7 @@ function level() {
   return { L, xp: Math.round(xp), p: (xp - lo) / (hi - lo), need: Math.ceil(hi - xp) };
 }
 function checkBadges(silent) {
-  xpCheck(silent);
+  xpCheck(silent); growPubSoon();
   const c = totals(); let fresh_ = [];
   for (const [id, icon, name, desc, test] of BADGES) if (!S.badges[id] && test(c)) { S.badges[id] = Date.now(); fresh_.push(name); if (!silent) achQueue({ id, icon, name, desc }); }
   lvCheck(silent);
@@ -2293,6 +2314,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.88', d: '__BUILD__', t: '元素マージ・todo・アンケート・更新画面などを改善', n: ['ツールの一番上に「人気」を追加しました（単語帳・元素マージ・歴打・元素ラボ）', '元素マージの吸引は2000 EPになり、EPの上限も2000になりました', '管理者のアンケートに、自由回答を付けられるようになりました', 'はじめて開くタブやボタンに、吹き出しで説明を出すようにしました（タップで閉じます）', '集中タイマーの最小化とバツの位置を入れ替えました', '更新の画面から、更新履歴を見られるようになりました。ボタンも新しいデザインになりました', '今日のやることが、教科がないときも出るようにしました。端末どうしの同期で、やることが消えないようにしました', '元素マージの記録が二重に数えられる不具合を直しました', '友達に見せる記録は、レベルなどが変わったときにすぐ送られるようにしました', '友達との比較で、元素マージの点数が正しく出るようにしました'] },
   { v: '17.87', d: '__BUILD__', t: 'アップデートの自動化・タブバーのずれを修正・フォントを追加・アンケート', n: ['設定に「アップデートを自動で行う」を追加しました。新しい版が見つかると、確認なしで自動的に更新します', '今回だけ、開かれた端末はすべて新しい版に強制的に更新されます', 'ショップでテーマを変えたとき、タブバーが下にずれる不具合を直しました', 'かっこいいフォントを7種類追加しました（XPで買えます）', '管理者から選択式のアンケートを送れるようになりました。通知か、アカウントの「アンケート」から投票できます'] },
   { v: '17.86', d: '__BUILD__', t: '元素マージの難易度を大幅アップ', n: ['交換200・加熱400・吸引600・触媒1000 EP に価格を引き上げ（EPの上限は1500に）', '難易度が変わったため、元素マージの最高点・最高の元素と友達とのランキングをリセット（挑戦回数は残ります）'] },
   { v: '17.85', d: '__BUILD__', t: '間違えたクイズの単語を、すぐお気に入りに入れられるように', n: ['クイズで間違えたとき、「お気に入りに追加」を押すと、その単語をお気に入りの単語帳に入れられます（単語帳にあるカードは、★がつきます）', '間違えた単語は、そのまま★の付いたカードとして残ります'] },
@@ -2471,7 +2493,7 @@ function viewHome() {
   { const past = pastExams();
     h += `<div class="chips scroll mb">${activeExams().map(e => `<button class="chip ${e.id === ex.id ? 'on' : ''}" data-act="exam" data-id="${e.id}">${esc(e.name)}</button>`).join('')}${past.length ? `<button class="chip ${ex.arc ? 'on' : ''}" data-act="pastlist">${ms('inventory_2')}${ex.arc ? esc(ex.name) : '保存した考査 ' + past.length}</button>` : ''}<button class="chip" data-act="addexam">${ms('add')}考査を追加</button></div>`;
     if (ex.arc) h += pastBar(); else if (examEnded(ex) || missingScores().length) h += endedBar(ex); }
-  if (!subs.length) return h + homeTools() + emptyHome();
+  if (!subs.length) return h + tdBlock() + homeTools() + emptyHome();
   const all = examTasks(), A = agg(all), R = agg(all.filter(t => t.req)), sc = agg(scoped(all));
   const segs = subs.map(s => ({ v: agg(scoped(tasksOfSub(s.id))).done, color: hc(s.hue) }));
   const dly = !ex.date, DS = dly ? dueStats() : null, cnt = dly ? dailyCount() : examCount(ex), size = innerWidth < 620 ? 168 : 200;
@@ -3322,7 +3344,7 @@ function renderFocus() {
   const opts = subjects().map(s => { const ts = tasks.filter(t => t.sid === s.id); return ts.length ? `<optgroup label="${esc(s.name)}">${ts.map(t => `<option value="${t.id}" ${t.id === TM.tid ? 'selected' : ''}>${esc(t.title)}</option>`).join('')}</optgroup>` : ''; }).join('');
   const durs = durList();
   const cur = TM.mode === 'focus' ? S.set.focus : TM.mode === 'break' ? S.set.brk : S.set.lbrk;
-  el.innerHTML = `<div class="f-top"><button class="ibtn tonal" data-act="fclose" aria-label="閉じる">${ms('close')}</button><button class="ibtn tonal" data-act="fmin" aria-label="最小化">${ms('keyboard_arrow_down')}</button><div class="seg"><button class="${TM.mode === 'focus' ? 'on' : ''}" data-act="fmode" data-id="focus">${ms('bolt')}集中</button><button class="${TM.mode !== 'focus' ? 'on' : ''}" data-act="fmode" data-id="break">${ms('coffee')}休憩</button></div><span class="sp"></span><button class="ibtn tonal" data-act="ftanim" aria-label="アニメーションの切り替え" title="アニメーション">${ms(S.set.timerAnim === false ? 'motion_photos_off' : 'animation')}</button><span class="pillchip">${ms('repeat')}${TM.cycle} / ${S.set.cycles} 回目</span></div>
+  el.innerHTML = `<div class="f-top"><button class="ibtn tonal" data-act="fmin" aria-label="最小化">${ms('keyboard_arrow_down')}</button><button class="ibtn tonal" data-act="fclose" aria-label="閉じる">${ms('close')}</button><div class="seg"><button class="${TM.mode === 'focus' ? 'on' : ''}" data-act="fmode" data-id="focus">${ms('bolt')}集中</button><button class="${TM.mode !== 'focus' ? 'on' : ''}" data-act="fmode" data-id="break">${ms('coffee')}休憩</button></div><span class="sp"></span><button class="ibtn tonal" data-act="ftanim" aria-label="アニメーションの切り替え" title="アニメーション">${ms(S.set.timerAnim === false ? 'motion_photos_off' : 'animation')}</button><span class="pillchip">${ms('repeat')}${TM.cycle} / ${S.set.cycles} 回目</span></div>
   <div class="f-stage"><div class="f-ring"><svg viewBox="0 0 320 320" aria-hidden="true"><circle class="trk" cx="160" cy="160" r="150" fill="none" stroke-width="12"/><circle id="fprg" class="prg" cx="160" cy="160" r="150" fill="none" stroke-width="12" stroke-linecap="round" transform="rotate(-90 160 160)" stroke-dasharray="0.01 943"/><path id="fshape" d=""/></svg><div class="f-time"><b id="ftime">${fmtT(TM.remain)}</b><small id="flabel">${flabelText()}</small></div></div></div>
   <div class="f-add">${[1, 5, 10].map(n => `<button class="chip" data-act="fadd" data-id="${n}">${ms('add')}${n}分</button>`).join('')}</div>
   <div class="f-ctl"><button class="ibtn" data-act="freset" aria-label="リセット">${ms('replay')}</button><button id="fplay" class="f-play rp" data-act="fplay" data-s="" aria-label="開始/一時停止"></button><button class="ibtn" data-act="fskip" aria-label="次へ">${ms('skip_next')}</button></div>
@@ -4199,7 +4221,7 @@ function autoBackup(why, obj) {
   } catch (e) { }
 }
 const sameData = (a, b) => { try { return JSON.stringify({ ...a, mt: 0 }) === JSON.stringify({ ...b, mt: 0 }); } catch (e) { return false; } };
-function cloudPull(remote, rm) { _noSync = true; const local = S, raw = { decks: Array.isArray(remote.decks) ? remote.decks.slice() : [], cards: Array.isArray(remote.cards) ? remote.cards.slice() : [], gone: remote.gone, alive: remote.alive }; S = migrate(remote); S.mt = rm; S.soc = socUnion(socOf(local), remote.soc, true); const m = unionDW(local, raw, true); S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive; ensureDecks(S); applyTheme(); save(); _noSync = false; ui.sid = ''; if (!dlg.open && !TM.open) render(); }
+function cloudPull(remote, rm) { _noSync = true; const local = S, raw = { decks: Array.isArray(remote.decks) ? remote.decks.slice() : [], cards: Array.isArray(remote.cards) ? remote.cards.slice() : [], gone: remote.gone, alive: remote.alive }; S = migrate(remote); S.mt = rm; S.todos = unionById(local.todos, remote.todos); S.habits = unionById(local.habits, remote.habits); S.soc = socUnion(socOf(local), remote.soc, true); const m = unionDW(local, raw, true); S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive; ensureDecks(S); applyTheme(); save(); _noSync = false; ui.sid = ''; if (!dlg.open && !TM.open) render(); }
 function syncChoiceDlg() {
   const P = CLOUD.pend; if (!P) return;
   const fmt = t => t ? new Date(t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '不明';
@@ -4976,7 +4998,7 @@ function viewTools() {
   if (ui.tool === 'mol') { ui.tool = 'ptable'; PT.mode = 'mol'; }
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc${id === 'rekida' ? ' rk-tcard' : ''}${['rekida', 'ptable', 'card'].includes(id) ? ' pop' : ''}${id === 'ptable' || id === 'card' ? ' lux lux-' + id : ''}${id === 'merge' ? ' lux lux-merge' : ''}" style="--sh:${h}" data-act="tool" data-id="${id}">${['rekida', 'ptable', 'card'].includes(id) ? '<span class="tc-pop">人気</span>' : ''}<span class="tc-i${id === 'merge' ? ' mgt' : ''}">${id === 'merge' ? mgTileIcon() : ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
-  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
+  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">人気</div><div class="tgrid2">${['card', 'merge', 'rekida', 'ptable'].map(id => card(TOOLS.find(x => x[0] === id))).join('')}</div><div class="lbl" style="margin:24px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
   const T = TOOLS.find(x => x[0] === tl), body = { rekida: rekidaHtml, merge: mergeHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
@@ -6691,19 +6713,28 @@ const TD_MAX = 400, TD_MIN = [0, 5, 10, 15, 20, 30, 45, 60, 90];
 const TD_PRE = [['音読', 5], ['漢字の練習', 10], ['英単語を覚える', 10], ['計算ドリル', 15], ['明日の持ち物を準備', 5]];
 const tdAll = () => (S.todos = Array.isArray(S.todos) ? S.todos : []);
 const tdHab = () => (S.habits = Array.isArray(S.habits) ? S.habits : []);
+const tdHabAct = () => tdHab().filter(h => !h.x);
+// 端末どうしで、やること・毎日のやることを、IDごとに「更新時刻の新しいほう」で合わせる（同期で相手のぶんを消さない）
+function unionById(a, b) {
+  const m = new Map();
+  [...(Array.isArray(a) ? a : []), ...(Array.isArray(b) ? b : [])].forEach(x => { if (!x || !x.id) return; const o = m.get(x.id); if (!o || (x.u || 0) > (o.u || 0)) m.set(x.id, x); });
+  return [...m.values()];
+}
+// 消すときは、消した印（x）と更新時刻を付けて残す（同期で、消したものが戻らないように）
+function tdDrop(pred) { const now = Date.now(); tdAll().forEach(x => { if (pred(x)) { x.x = 1; x.u = now; } }); }
 const tdOrd = (a, b) => ((a.done ? 1 : 0) - (b.done ? 1 : 0)) || ((a.o || 0) - (b.o || 0));
 const tdToday = () => tdAll().filter(x => x.d === today() && !x.x).sort(tdOrd);
 const tdFind = id => tdAll().find(v => v.id === id);
 function tdAdd(o) {
   const t = snOne(o.t).slice(0, 60); if (!t) return null;
-  const a = tdAll(), it = { id: uid(), t, d: o.d || today(), min: Math.max(0, Math.min(180, +o.min || 0)), done: false, src: o.src || 'me', sid: o.sid || '', go: o.go || '', h: o.h || '', o: Date.now() + a.length };
+  const a = tdAll(), it = { id: uid(), t, d: o.d || today(), min: Math.max(0, Math.min(180, +o.min || 0)), done: false, src: o.src || 'me', sid: o.sid || '', go: o.go || '', h: o.h || '', o: Date.now() + a.length, u: Date.now() };
   a.push(it); if (a.length > TD_MAX) a.splice(0, a.length - TD_MAX); return it;
 }
 // 毎日のやることを、今日のぶんだけ作る／古いものを消す
 function tdRoll() {
   const td = today(), wd = new Date().getDay(); let ch = false;
   if (!Array.isArray(S.habits) || !S.habits.length) { if (!Array.isArray(S.todos) || !S.todos.length) return; }
-  for (const h of tdHab()) { if ((h.days && h.days.length ? h.days : [0, 1, 2, 3, 4, 5, 6]).includes(wd) && !tdAll().some(x => x.h === h.id && x.d === td)) { tdAdd({ t: h.t, min: h.min, src: 'habit', h: h.id }); ch = true; } }
+  for (const h of tdHabAct()) { if ((h.days && h.days.length ? h.days : [0, 1, 2, 3, 4, 5, 6]).includes(wd) && !tdAll().some(x => x.h === h.id && x.d === td)) { tdAdd({ t: h.t, min: h.min, src: 'habit', h: h.id }); ch = true; } }
   const lim = ntPlus(-14), n0 = tdAll().length; S.todos = tdAll().filter(x => x.d >= lim); if (S.todos.length !== n0) ch = true;
   if (ch) save();
 }
@@ -6721,7 +6752,7 @@ function tdBlock() {
   const old = tdAll().filter(x => x.d < today() && !x.done && !x.x && !x.h && daysBetween(x.d, today()) <= 3);
   const skipped = examTasks().filter(t => t.skip === today() && !isDone(t));
   const row = x => { const s = x.sid ? SUB(x.sid) : null; return `<div class="td-i ${x.done ? 'ok' : ''} ${s ? 'sc' : ''}" ${s ? `style="--sh:${s.hue}"` : ''}><button type="button" class="td-ck" data-act="tdck" data-id="${x.id}" role="checkbox" aria-checked="${!!x.done}" aria-label="${esc(x.t)}を完了にする">${ms('check')}</button><button type="button" class="td-t" data-act="tdedit" data-id="${x.id}"><b>${esc(x.t)}</b><span>${s ? `<em class="td-tag">${esc(s.name)}</em>` : ''}${x.src === 'ai' ? `<em class="td-tag">${ms('auto_awesome', '', 'font-size:13px')}AI</em>` : ''}${x.src === 'habit' ? `<em class="td-tag">${ms('repeat', '', 'font-size:13px')}毎日</em>` : ''}${x.src === 'plan' ? '<em class="td-tag">テスト対策</em>' : ''}${x.min ? `<em>${ms('schedule', '', 'font-size:14px;vertical-align:-2px')}${x.min}分</em>` : ''}</span></button>${x.done ? '' : `<button type="button" class="td-go" data-act="tdgo" data-id="${x.id}" aria-label="${x.go ? '開く' : '集中タイマーをはじめる'}">${ms(x.go ? 'arrow_forward' : 'play_arrow')}</button>`}</div>`; };
-  return `<div class="td"><div class="td-h"><b>${ms('checklist')}自分のやること</b><small>${list.length ? `${dn} / ${list.length} 完了${left ? `　・　あと約${left}分` : ''}` : ''}</small><span class="sp" style="flex:1"></span>${tdHab().length ? `<button type="button" class="btn text xs" data-act="tdhab">${ms('repeat')}毎日</button>` : ''}</div>
+  return `<div class="td"><div class="td-h"><b>${ms('checklist')}自分のやること</b><small>${list.length ? `${dn} / ${list.length} 完了${left ? `　・　あと約${left}分` : ''}` : ''}</small><span class="sp" style="flex:1"></span>${tdHabAct().length ? `<button type="button" class="btn text xs" data-act="tdhab">${ms('repeat')}毎日</button>` : ''}</div>
   ${evOn(today()).length ? `<div class="td-evs">${evOn(today()).map(x => `<span class="td-ev">${ms('event', '', 'font-size:16px')}${x.tm ? x.tm + ' ' : ''}${esc(x.t)}</span>`).join('')}</div>` : ''}
   ${ap ? `<div class="td-ai">${gem(22)}<span>${esc(ap.msg || '今日の計画を、AIがつくりました。')}${ap.min ? `<small>（合計 約${ap.min}分）</small>` : ''}</span></div>` : ''}
   ${old.length ? `<div class="td-carry">${ms('history')}<span>前の日の残りが ${old.length}件あります</span><span class="sp" style="flex:1"></span><button type="button" class="btn tonal xs" data-act="tdcarry">今日にうつす</button><button type="button" class="btn text xs" data-act="tdclear">消す</button></div>` : ''}
@@ -6740,7 +6771,7 @@ function tdDlg(id, date) {
   openDlg(`<h2>${ms('checklist')}${x ? 'やることを編集' : 'やることを足す'}</h2>${sug ? `<div class="lbl">ワンタップで足す</div><div class="td-sug">${sug}</div>` : ''}<form id="tdf" autocomplete="off" onsubmit="return false"><div class="fld"><label for="tdt">${x ? 'やること' : 'じぶんで書く'}</label><input id="tdt" name="tdt" type="text" maxlength="60" value="${esc(x ? x.t : '')}" placeholder="例：英語の教科書を音読する"></div><div class="fld"><div class="lbl">かかる時間（目安）</div><div class="chips">${tdChips('tdm', TD_MIN, x ? x.min : 0, v => v ? v + '分' : 'なし')}</div></div>${subs.length ? `<div class="fld"><label for="tds">教科（なくてもOK）</label><select id="tds" name="tds" class="scin" style="width:100%"><option value="">なし</option>${subs.map(s => `<option value="${s.id}" ${x && x.sid === s.id ? 'selected' : ''}>${esc(s.name)}</option>`).join('')}</select></div>` : ''}${x || TDD ? '' : `<div class="fld"><div class="lbl">くり返し</div><div class="chips">${tdChips('tdr', ['', 'all', 'wk'], '', v => v === '' ? '今日だけ' : v === 'all' ? '毎日' : '平日だけ')}</div></div>`}</form><div class="dact">${x ? `<button type="button" class="btn text danger" data-act="tddel" data-id="${x.id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="tdsave" data-id="${x ? x.id : ''}">${ms('check')}保存</button></div>`);
 }
 function tdHabDlg() {
-  const hs = tdHab(), dl = h => (h.days && h.days.length === 5 && !h.days.includes(0) && !h.days.includes(6)) ? '平日' : '毎日';
+  const hs = tdHabAct(), dl = h => (h.days && h.days.length === 5 && !h.days.includes(0) && !h.days.includes(6)) ? '平日' : '毎日';
   openDlg(`<h2>${ms('repeat')}毎日のやること</h2>${hs.length ? `<div class="td-l">${hs.map(h => `<div class="td-i"><div class="td-t"><b>${esc(h.t)}</b><span><em class="td-tag">${dl(h)}</em>${h.min ? `<em>${h.min}分</em>` : ''}</span></div><button type="button" class="td-go" data-act="tdhdel" data-id="${h.id}" aria-label="やめる">${ms('delete')}</button></div>`).join('')}</div>` : '<p class="muted">毎日のやることは、ありません。</p>'}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">閉じる</button></div>`);
 }
 /* ---- 課題のノルマを、自分で決める ---- */
@@ -6794,17 +6825,17 @@ Object.assign(ACT, {
   tdsave(id) {
     const f = $('#tdf'); if (!f) return; const g = n => (f.elements[n] ? f.elements[n].value : ''), t = snOne(g('tdt')), min = +g('tdm') || 0, sid = g('tds') || '';
     if (!t) return toast('やることを書いてください');
-    if (id) { const x = tdFind(id); if (x) { x.t = t.slice(0, 60); x.min = min; x.sid = sid; } }
+    if (id) { const x = tdFind(id); if (x) { x.t = t.slice(0, 60); x.min = min; x.sid = sid; x.u = Date.now(); } }
     else {
       const r = g('tdr'); let hid = '';
-      if (r) { hid = uid(); tdHab().push({ id: hid, t: t.slice(0, 60), min, days: r === 'wk' ? [1, 2, 3, 4, 5] : [0, 1, 2, 3, 4, 5, 6] }); if (tdHab().length > 12) tdHab().shift(); }
+      if (r) { hid = uid(); tdHab().push({ id: hid, u: Date.now(), t: t.slice(0, 60), min, days: r === 'wk' ? [1, 2, 3, 4, 5] : [0, 1, 2, 3, 4, 5, 6] }); if (tdHabAct().length > 12) { const old = tdHabAct()[0]; old.x = 1; old.u = Date.now(); } }
       if (!r || tdHab().find(h => h.id === hid).days.includes(new Date().getDay())) tdAdd({ t, min, sid, d: TDD || today(), src: r ? 'habit' : 'me', h: hid });
     }
     save(); closeDlg(); render();
   },
-  tddel(id) { closeDlg(); undoable('やることを消しました', () => { const x = tdFind(id); if (!x) return; if (x.h) x.x = 1; else S.todos = tdAll().filter(v => v.id !== id); }); },
+  tddel(id) { closeDlg(); undoable('やることを消しました', () => { const x = tdFind(id); if (!x) return; x.x = 1; x.u = Date.now(); }); },
   tdck(id) {
-    const x = tdFind(id); if (!x) return; x.done = !x.done; x.dt = x.done ? Date.now() : 0; save(); render();
+    const x = tdFind(id); if (!x) return; x.done = !x.done; x.dt = x.done ? Date.now() : 0; x.u = Date.now(); save(); render();
     if (x.done) { const l = tdToday(); if (l.length >= 2 && l.every(v => v.done)) { toast('今日のやることが、ぜんぶ終わりました！'); try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } }
   },
   tdgo(id) {
@@ -6814,10 +6845,10 @@ Object.assign(ACT, {
     if (x.go === 'cards') { const d = (S.decks || []).find(d => (S.cards || []).some(c => c.d === d.id && wcRevDue(c))) || (S.decks || [])[0]; return d ? ACT.wcrevgo(d.id) : ACT.tab('tool:card'); }
     openFocus();
   },
-  tdcarry() { tdAll().filter(x => x.d < today() && !x.done && !x.x && !x.h).forEach(x => { x.d = today(); }); save(); render(); toast('今日にうつしました'); },
-  tdclear() { undoable('前の日の残りを消しました', () => { tdAll().filter(x => x.d < today() && !x.done && !x.h).forEach(x => { x.x = 1; }); }); },
+  tdcarry() { tdAll().filter(x => x.d < today() && !x.done && !x.x && !x.h).forEach(x => { x.d = today(); x.u = Date.now(); }); save(); render(); toast('今日にうつしました'); },
+  tdclear() { undoable('前の日の残りを消しました', () => { tdAll().filter(x => x.d < today() && !x.done && !x.h).forEach(x => { x.x = 1; x.u = Date.now(); }); }); },
   tdhab() { tdHabDlg(); },
-  tdhdel(id) { S.habits = tdHab().filter(h => h.id !== id); S.todos = tdAll().filter(x => !(x.h === id && x.d === today() && !x.done)); save(); tdHabDlg(); render(); },
+  tdhdel(id) { const now = Date.now(); tdHab().forEach(h => { if (h.id === id) { h.x = 1; h.u = now; } }); tdAll().forEach(x => { if (x.h === id && x.d === today() && !x.done) { x.x = 1; x.u = now; } }); save(); tdHabDlg(); render(); },
   planedit(id) { planDlg(id); },
   plstep(id) { const i = $('#pln'); if (!i) return; const mx = +i.max || 999; i.value = Math.max(1, Math.min(mx, (parseInt(i.value, 10) || 1) + (+id))); },
   plsave(id) {
@@ -6850,7 +6881,7 @@ Object.assign(ACT, {
   },
   tdaok() {
     const td = today(), pick = TDA.items.filter((x, i) => TDA.ok[i]); if (!pick.length) return;
-    S.todos = tdAll().filter(x => !(x.src === 'ai' && x.d === td && !x.done)); (S.tasks || []).forEach(t => { if (t.pn && t.pn.ai && t.pn.d === td) delete t.pn; });
+    tdDrop(x => x.src === 'ai' && x.d === td && !x.done); (S.tasks || []).forEach(t => { if (t.pn && t.pn.ai && t.pn.d === td) delete t.pn; });
     pick.forEach(x => { if (x.kind === 'task') { const t = T(x.tid); if (t) { t.pn = { d: td, n: x.pages, m: x.min, ai: 1 }; delete t.skip; } } else tdAdd({ t: x.title, min: x.min, src: 'ai', go: x.kind === 'cards' ? x.kind : '' }); });
     S.aiplan = { d: td, msg: TDA.msg, min: pick.reduce((a, x) => a + x.min, 0) }; save(); closeDlg(); render(); toast('今日の計画に入れました');
   }
@@ -6919,11 +6950,11 @@ Object.assign(ACT, {
   },
   tpok() {
     const r = tpRange(), ex = curExam(); if (!r) return; const td = today();
-    S.todos = tdAll().filter(x => !(x.src === 'plan' && x.d >= td && !x.done));   // 前の計画の、これからのぶんを、入れかえる
+    tdDrop(x => x.src === 'plan' && x.d >= td && !x.done);   // 前の計画の、これからのぶんを、入れかえる
     let o = Date.now(); TP.days.forEach(d => d.items.forEach(x => tdAdd({ t: x.title, d: d.date, min: x.min, sid: x.sid, src: 'plan' })));
     S.tplan = { ex: ex.id, made: o, msg: TP.msg }; save(); closeDlg(); render(); toast('計画を、カレンダーと「今日のやること」に入れました');
   },
-  tpdel() { closeDlg(); undoable('計画を消しました', () => { S.todos = tdAll().filter(x => !(x.src === 'plan' && !x.done)); S.tplan = null; }); }
+  tpdel() { closeDlg(); undoable('計画を消しました', () => { tdDrop(x => x.src === 'plan' && !x.done); S.tplan = null; }); }
 });
 // カレンダーの、その日のやること
 const tdRowCal = x => { const s = x.sid ? SUB(x.sid) : null; return `<div class="td-i ${x.done ? 'ok' : ''} ${s ? 'sc' : ''}" ${s ? `style="--sh:${s.hue}"` : ''}><button type="button" class="td-ck" data-act="tdck" data-id="${x.id}" role="checkbox" aria-checked="${!!x.done}" aria-label="${esc(x.t)}を完了にする">${ms('check')}</button><button type="button" class="td-t" data-act="tdedit" data-id="${x.id}"><b>${esc(x.t)}</b><span>${s ? `<em class="td-tag">${esc(s.name)}</em>` : ''}${x.src === 'plan' ? '<em class="td-tag">テスト対策</em>' : ''}${x.min ? `<em>${x.min}分</em>` : ''}</span></button></div>`; };
@@ -8393,6 +8424,7 @@ function socOf(x) {
   return l && Array.isArray(l.friends) ? { code: l.code, nick: l.nick, av: l.av, shared: l.shared, friends: l.friends } : undefined;
 }
 function applyUnion(rem, preferRem) {
+  S.todos = unionById(S.todos, rem && rem.todos); S.habits = unionById(S.habits, rem && rem.habits);
   const m = unionDW(S, rem, preferRem);
   S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive;
   const fb = JSON.stringify((S.soc && S.soc.friends) || []);
@@ -8496,8 +8528,8 @@ function updHtml() {
   const wave = busy ? `<div class="ux-lin" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="更新の進み具合"><i style="width:${pct}%"></i></div><p class="ux-pct">${st === 'installing' ? '準備ができました。再読み込みします…' : (known ? '更新ファイルを取得中' : '更新の有無を確認しています…')}${known ? `　${pct}%` : ''}</p>` : '';
   const chip = av && UPD.next ? `<span class="ux-chip">${ms('new_releases')}v${APP_VERSION} → v${UPD.next}</span>` : (busy || av ? '' : `<span class="ux-ver">v${APP_VERSION}</span>`);
   const btns = av
-    ? `<button class="ux-btn p" data-act="reload">${ms('download')}今すぐ更新</button><button class="ux-btn x" data-act="close">あとで</button>`
-    : `<button class="ux-btn t" data-act="updchk" ${busy ? 'disabled' : ''}>${ms('refresh')}更新を確認</button><button class="ux-btn x" data-act="wnoff">${ms(S.set && S.set.noWhatsNew ? 'notifications_active' : 'notifications_off')}${S.set && S.set.noWhatsNew ? '更新内容を出す' : '更新内容を出さない'}</button>${busy ? '' : `<button class="ux-btn x" data-act="hardrefresh">${ms('cleaning_services')}うまく更新されないとき</button>`}<button class="ux-btn x" data-act="close">閉じる</button>`;
+    ? `<button class="ux-btn p" data-act="reload">${ms('download')}今すぐ更新</button><button class="ux-btn x" data-act="chlog">${ms('history')}更新履歴</button><button class="ux-btn x" data-act="close">あとで</button>`
+    : `<button class="ux-btn t" data-act="updchk" ${busy ? 'disabled' : ''}>${ms('refresh')}更新を確認</button><button class="ux-btn x" data-act="chlog">${ms('history')}更新履歴を見る</button><button class="ux-btn x" data-act="wnoff">${ms(S.set && S.set.noWhatsNew ? 'notifications_active' : 'notifications_off')}${S.set && S.set.noWhatsNew ? '更新内容を出す' : '更新内容を出さない'}</button>${busy ? '' : `<button class="ux-btn x" data-act="hardrefresh">${ms('cleaning_services')}うまく更新されないとき</button>`}<button class="ux-btn x" data-act="close">閉じる</button>`;
   return `<div class="ux" role="status" aria-live="polite">
     <div class="ux-top"><img src="icon-192.png" alt="" width="32" height="32"><span>考査課題マネージャー</span></div>
     <div class="ux-hero ${tone} ${busy ? 'busy' : ''}">${ms(ic, '', 'font-size:76px')}</div>
@@ -9146,7 +9178,7 @@ const FR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join(''); return g.code; }
 function growWeek() { const nb = parse(today()), from = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() - 6)), to = today(); let min = 0, pg = 0; for (const k in S.log) if (k >= from && k <= to) { min += S.log[k].m || 0; pg += S.log[k].a || 0; } return { min, pg }; }
 function growPct() { const tot = S.tasks.reduce((a, t) => a + (t.total || 0), 0), dn = S.tasks.reduce((a, t) => a + Math.min(t.done || 0, t.total || 0), 0); return tot ? Math.round(dn / tot * 100) : 0; }
-function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0, mg: { v: MG_VER, b: mgStat().best || 0 } }; }
+function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: level().L, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0, mg: mgStat().best || 0 }; }
 async function growUnpublish() { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'friendStats', growGet().code)); }
 async function growAddFriend(code) {
   code = String(code || '').trim().toUpperCase(); if (!code) return;
@@ -9179,7 +9211,7 @@ function friendsHtml(me, rows) {
     const del = fof ? `<button class="btn tonal xs" data-act="fofadd" data-id="${f.code}">${ms('person_add')}友達に追加</button>` : `<button class="btn text xs" data-act="frdel" data-id="${f.uid}">${ms('person_remove')}友達から外す</button>`;
     if (err || !data) return `<div class="card"><b>${esc(f.name)}</b><p class="muted" style="font-weight:500;margin:6px 0">${err ? '読み込めませんでした' : '今は、進み具合を見せていないようです'}</p>${del}</div>`;
     const nm = esc(data.name || f.name);
-    return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div>${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${cmpRow('元素マージの最高点', me.mg || 0, data.mg || 0, '点', 'bubble_chart')}${del}</div>`;
+    return `<div class="card fr-card"><div class="grow-h"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${nm}</b><small>Lv.${data.lv || 0}</small></div>${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p')}${cmpRow('レベル', me.lv, data.lv || 0, '')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${cmpRow('元素マージの最高点', me.mg || 0, mgOf(data), '点', 'bubble_chart')}${del}</div>`;
   }).join('') + '</div>';
 }
 Object.assign(ACT, {
@@ -9302,7 +9334,7 @@ function cmpRow(label, mine, theirs, unit, icon) {
   return `<div class="cmv"><div class="cmv-h">${icon ? ms(icon) : ''}<b>${label}</b>${tag}</div><div class="cmv-c"><div class="cmv-col me"><span>${mine}${unit}</span><i style="--h:${hm}"></i></div><div class="cmv-col fr"><span>${theirs}${unit}</span><i style="--h:${ht}"></i></div></div><div class="cmv-lab"><small>あなた</small><small>相手</small></div></div>`;
 }
 function frCardHtml(me, data, nm) {
-  return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${cmpRow('元素インベーダーの最高点', me.iv || 0, data.iv || 0, '点', 'rocket_launch')}${cmpRow('歴打の最高石高', me.rk || 0, data.rk || 0, '石', 'castle')}${cmpRow('元素マージの最高点', me.mg || 0, data.mg || 0, '点', 'bubble_chart')}</div>`;
+  return `<div class="fcm">${frVs(me, data, nm)}${cmpRow('全体の進み', me.pct, data.pct || 0, '%', 'donut_large')}${cmpRow('今週の勉強', me.wkMin, data.wkMin || 0, '分', 'schedule')}${cmpRow('今週のページ', me.wkPg, data.wkPg || 0, 'p', 'menu_book')}${cmpRow('レベル', me.lv, data.lv || 0, '', 'stars')}${cmpRow('合計勉強時間', me.tt || 0, data.tt || 0, '分', 'timer')}${cmpRow('合計タイピング', me.typed || 0, data.typed || 0, '字', 'keyboard')}${cmpRow('元素インベーダーの最高点', me.iv || 0, data.iv || 0, '点', 'rocket_launch')}${cmpRow('歴打の最高石高', me.rk || 0, data.rk || 0, '石', 'castle')}${cmpRow('元素マージの最高点', me.mg || 0, mgOf(data), '点', 'bubble_chart')}</div>`;
 }
 function frHomeInner() {
   if (FR_HOME.err) return `<p class="muted" style="font-weight:500;margin:0">友達の情報を読めませんでした。通信の状態を確かめて、「更新」を押してください。</p>`;
@@ -9365,7 +9397,12 @@ Object.assign(ACT, {
 });
 // --- 友達と比べる：ニックネームとアイコン、記録タブのカード ---
 const FRR = { at: 0, html: '', seq: 0 };
-let PUB_AT = 0;   // 友達に見せる内容を、最後に送った時刻
+let PUB_AT = 0;
+let PUB_SIG = '';
+const growSig = m => JSON.stringify([m.lv, m.pct, m.wkMin, m.wkPg, m.tt, m.typed, m.iv, m.rk, m.mg]);
+let GPUB_T = 0;
+// 変わったら4秒後に送る（10分待たない）。上がっても下がっても、友達の画面に反映される
+function growPubSoon() { try { if (!CLOUD.user || !growGet().shared) return; clearTimeout(GPUB_T); GPUB_T = setTimeout(() => { const g = growGet(); if (CLOUD.user && g.shared && growSig(growMine(g)) !== PUB_SIG) growPublish().catch(() => { }); }, 4000); } catch (e) { } }   // 友達に見せる内容を、最後に送った時刻
 const PF = { av: '' };
 function safeAv(v) { return typeof v === 'string' && v.length < 200000 && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(v) ? v : ''; }
 function avHtml(av, ch, cls = '') { const s = safeAv(av); return s ? `<img class="av-img ${cls}" src="${s}" alt="">` : `<span class="av-ch ${cls}">${esc(Array.from(String(ch || '？'))[0] || '？')}</span>`; }
@@ -9428,7 +9465,7 @@ async function friendsRefresh(force = true) {
   if (!force && FRR.html && Date.now() - FRR.at < 20000) { el.innerHTML = FRR.html; return; }
   const my = ++FRR.seq, put = h => { const t = document.getElementById('frc'); if (t) t.innerHTML = h; };
   try {
-    const g = growGet(), pub = g.shared && Date.now() - PUB_AT > 600000 ? growPublish().catch(() => { }) : null;
+    const g = growGet(), pub = g.shared && (Date.now() - PUB_AT > 600000 || growSig(growMine(g)) !== PUB_SIG) ? growPublish().catch(() => { }) : null;
     const rows = await friendsLoad(); if (pub) await pub;
     if (my !== FRR.seq) return;   // あとから始まった読み込みを優先
     const h = friendsHtml(growMine(growGet()), rows); put(h); FRR.html = h; FRR.at = Date.now();
@@ -9451,12 +9488,12 @@ Object.assign(ACT, {
 let INBOX_UNSUB = null, FR_AV_OK = true;
 function frLoadingHtml() { return `<div class="fr-sk" role="status" aria-label="読み込み中"><div class="fr-sk-h">${gspin(26)}<span>友達の進み具合を読んでいます…</span></div><div class="fr-sk-r"><i></i><i></i><i></i></div></div>`; }
 async function growPublish() {
-  PUB_AT = Date.now();
+  PUB_AT = Date.now(); PUB_SIG = growSig(m);
   const g = growGet(), m = growMine(g); growPut(g);
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'friendStats', m.code);
   const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() };
   const ext = { ...base, tt: m.tt, typed: m.typed, fr: g.friends.slice(0, 30).map(f => ({ o: String(f.uid || ''), c: String(f.code || ''), n: String(f.name || '').slice(0, 20) })) };
-  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0, mg: m.mg || 0 };
+  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0, mg: { v: MG_VER, b: m.mg || 0 } };
   // 新しい項目 → 点数を抜いた項目 → 名前とアイコン → 名前と進み具合だけ（ルールが古いときも、最低限は届く）
   const tries = m.av ? [{ ...full, av: m.av }, { ...ext, av: m.av }, full, ext, base] : [full, ext, base];
   let err = null;
@@ -9749,7 +9786,7 @@ Object.assign(ACT, {
   },
   annclose() { const el = $('#annpop'); if (el) el.remove(); setTimeout(annNext, 300); }
 });
-/* ---- 管理者からのアンケート（選択式・1人1票・投票者の名前は表示しない） ---- */
+/* ---- 管理者からのアンケート（選択式・自由回答・1人1票・投票者の名前は表示しない） ---- */
 const SV = { unsub: null, uid: '', rows: [], votes: {}, vu: {} };
 const SV_SEEN = 'kosa-sv-seen';
 function svWatchStop() { try { SV.unsub && SV.unsub(); } catch (e) { } Object.values(SV.vu).forEach(f => { try { f(); } catch (e) { } }); SV.unsub = null; SV.vu = {}; SV.votes = {}; SV.rows = []; SV.uid = ''; svRefresh(); }
@@ -9759,7 +9796,7 @@ function svWatchStart() {
   try { SV.unsub = fs.onSnapshot(fs.query(fs.collection(db, 'surveys'), fs.orderBy('t', 'desc'), fs.limit(30)), svOn, () => { }); } catch (e) { }
 }
 function svOn(sn) {
-  const rows = sn.docs.map(d => ({ id: d.id, ...d.data() })).filter(r => typeof r.q === 'string' && Array.isArray(r.opts) && r.opts.length >= 2);
+  const rows = sn.docs.map(d => ({ id: d.id, ...d.data() })).filter(r => typeof r.q === 'string' && Array.isArray(r.opts) && (r.opts.length >= 2 || (r.free && r.opts.length === 0)));
   SV.rows = rows;
   const ids = new Set(rows.map(r => r.id));
   Object.keys(SV.vu).forEach(id => { if (!ids.has(id)) { try { SV.vu[id](); } catch (e) { } delete SV.vu[id]; delete SV.votes[id]; } });
@@ -9773,19 +9810,25 @@ function svOn(sn) {
   if (fresh.length) { const id = fresh[fresh.length - 1].id; showWhenFree(() => svPop(id), 1500); }
 }
 // 新しく届いたアンケートを、まだ答えていなければ開く
-function svPop(id) { const s = SV.rows.find(x => x.id === id); if (!s || !s.open) return; const v = SV.votes[id]; if (v && v.mine !== null) return; ACT.svopen(id); }
+function svPop(id) { const s = SV.rows.find(x => x.id === id); if (!s || !s.open) return; const v = SV.votes[id]; if (v && v.answered) return; ACT.svopen(id); }
 function svVotesWatch(id) {
   if (!CLOUD.fb || !CLOUD.user) return; const { fs, db } = CLOUD.fb;
   try {
     SV.vu[id] = fs.onSnapshot(fs.collection(db, 'surveys', id, 'votes'), sn => {
-      const s = SV.rows.find(x => x.id === id), n = s ? s.opts.length : 0, cnt = Array.from({ length: n }, () => 0); let mine = null;
-      sn.docs.forEach(d => { const c = d.data().c; if (Number.isInteger(c) && c >= 0 && c < n) { cnt[c]++; if (d.id === CLOUD.user.uid) mine = c; } });
-      SV.votes[id] = { n: cnt, total: cnt.reduce((a, b) => a + b, 0), mine };
+      const s = SV.rows.find(x => x.id === id), n = s ? s.opts.length : 0, cnt = Array.from({ length: n }, () => 0);
+      let mine = null, txt = '', total = 0; const texts = [];
+      sn.docs.forEach(d => {
+        const v = d.data(), c = v.c, mineDoc = d.id === CLOUD.user.uid;
+        if (Number.isInteger(c) && c >= 0 && c < n) { cnt[c]++; total++; if (mineDoc) mine = c; }
+        if (typeof v.txt === 'string' && v.txt.trim()) { if (mineDoc) txt = v.txt; else texts.push(v.txt); if (!mineDoc) { /* 管理者の一覧は、名前なしの文字だけ */ } }
+        if (mineDoc && typeof v.txt === 'string' && v.txt.trim()) txt = v.txt;
+      });
+      SV.votes[id] = { n: cnt, total, mine, txt, texts, answered: (mine !== null) || !!txt.trim() };
       svRefresh();
     }, () => { });
   } catch (e) { }
 }
-function svUnanswered() { return SV.rows.filter(r => r.open && !(SV.votes[r.id] && SV.votes[r.id].mine !== null)).length; }
+function svUnanswered() { return SV.rows.filter(r => r.open && !(SV.votes[r.id] && SV.votes[r.id].answered)).length; }
 function svRefresh() {
   try { renderAcct(); } catch (e) { }
   if (dlg.open && dlg.dataset.k === 'survey') dlg.innerHTML = `<div class="dlg">${svDlgHtml(dlg.dataset.id)}</div>`;
@@ -9793,27 +9836,29 @@ function svRefresh() {
 }
 function svListHtml() {
   const items = SV.rows.map(r => {
-    const v = SV.votes[r.id] || { total: 0, mine: null };
-    const st = !r.open ? '締め切り' : (v.mine !== null ? '回答済み' : '未回答');
-    return `<button type="button" class="sv-li ${r.open ? '' : 'closed'}" data-act="svopen" data-id="${r.id}"><span class="sv-lq">${esc(r.q)}</span><small>${st}・${v.total}票</small></button>`;
+    const v = SV.votes[r.id] || { total: 0, answered: false };
+    const st = !r.open ? '締め切り' : (v.answered ? '回答済み' : '未回答');
+    return `<button type="button" class="sv-li ${r.open ? '' : 'closed'}" data-act="svopen" data-id="${r.id}"><span class="sv-lq">${esc(r.q)}</span><small>${st}・${v.total}票${r.free ? '・自由回答あり' : ''}</small></button>`;
   }).join('');
   return `<h2>${ms('poll')}アンケート</h2>${FBL.isAdmin ? `<div class="dact"><button class="btn" data-act="svnewdlg">${ms('edit_note')}新しいアンケートを作る</button></div>` : ''}${items ? `<div class="sv-list">${items}</div>` : '<p class="muted">まだアンケートはありません</p>'}<p class="muted sv-note">投票は1人1票です（選び直すと変わります）。投票した人の名前は表示されません。</p>`;
 }
 function svDlgHtml(id) {
   const s = SV.rows.find(x => x.id === id);
   if (!s) return `<h2>${ms('poll')}アンケート</h2><p class="muted">このアンケートは、もうありません</p><div class="dact"><span class="sp"></span><button class="btn text" data-act="svlistopen">${ms('arrow_back')}アンケート一覧</button></div>`;
-  const v = SV.votes[id] || { n: s.opts.map(() => 0), total: 0, mine: null };
-  const showRes = !s.open || v.mine !== null || FBL.isAdmin;
+  const v = SV.votes[id] || { n: s.opts.map(() => 0), total: 0, mine: null, txt: '', texts: [], answered: false };
+  const showRes = !s.open || v.answered || FBL.isAdmin;
   const opts = s.opts.map((o, i) => {
     const c = v.n[i] || 0, p = v.total ? Math.round(c / v.total * 100) : 0;
     return `<button type="button" class="sv-o ${v.mine === i ? 'on' : ''}" data-act="svvote" data-id="${id}|${i}" ${s.open ? '' : 'disabled'}><span class="sv-ol">${ms(v.mine === i ? 'radio_button_checked' : 'radio_button_unchecked')}<b>${esc(o)}</b></span>${showRes ? `<span class="sv-pc">${c}票・${p}%</span><i class="sv-bar" style="width:${p}%"></i>` : ''}</button>`;
   }).join('');
-  const st = s.open ? (v.mine !== null ? '回答済みです。選び直すと、投票を変えられます' : '選んで投票してください') : '締め切られています';
+  const free = s.free ? `<div class="sv-free"><label class="sv-f">${s.opts.length ? '自由に書く' : 'ご意見・ご要望'}<textarea id="svt" maxlength="300" rows="3" ${s.open ? '' : 'disabled'} placeholder="書いた内容は、管理者だけが見られます">${esc(v.txt || '')}</textarea></label>${s.open ? `<div class="dact" style="margin:0"><span class="sp"></span><button class="btn" data-act="svfree" data-id="${id}">${ms('send')}${v.txt ? '書き直す' : '送る'}</button></div>` : ''}</div>` : '';
+  const st = s.open ? (v.answered ? '回答済みです。選び直すと、投票を変えられます' : '選んで投票してください') : '締め切られています';
   const adm = FBL.isAdmin ? `<div class="dact sv-adm">${s.open ? `<button class="btn tonal xs" data-act="svclose" data-id="${id}|0">${ms('lock')}締め切る</button>` : `<button class="btn tonal xs" data-act="svclose" data-id="${id}|1">${ms('lock_open')}再開する</button>`}<button class="btn text xs" data-act="svdel" data-id="${id}">${ms('delete')}消す</button></div>` : '';
-  return `<h2>${ms('poll')}アンケート</h2><p class="sv-q">${esc(s.q)}</p><p class="muted sv-st">${st}・${v.total}票</p><div class="sv-opts">${opts}</div>${adm}<div class="dact"><span class="sp"></span><button class="btn text" data-act="svlistopen">${ms('arrow_back')}アンケート一覧</button></div>`;
+  const texts = FBL.isAdmin && s.free ? `<div class="sv-txt-h"><b>自由回答（${v.texts.length}件）</b></div>${v.texts.length ? `<div class="sv-txts">${v.texts.map(t => `<p class="sv-txt">${esc(t)}</p>`).join('')}</div>` : '<p class="muted sv-note">まだ自由回答はありません</p>'}` : '';
+  return `<h2>${ms('poll')}アンケート</h2><p class="sv-q">${esc(s.q)}</p><p class="muted sv-st">${st}・${v.total}票</p>${opts ? `<div class="sv-opts">${opts}</div>` : ''}${free}${adm}${texts}<div class="dact"><span class="sp"></span><button class="btn text" data-act="svlistopen">${ms('arrow_back')}アンケート一覧</button></div>`;
 }
 function svNewHtml() {
-  return `<h2>${ms('edit_note')}アンケートを作る</h2><p class="muted" style="margin:-6px 0 12px">質問と選択肢（1行に1つ・2〜6個）を入れて送ると、すべての人の通知に届きます。</p><label class="sv-f">質問<input id="svq" maxlength="200" placeholder="例：次に欲しい機能はどれですか？"></label><label class="sv-f">選択肢（1行に1つ）<textarea id="svo" rows="5" maxlength="500" placeholder="例：集中タイマーの改善（改行で次の選択肢）"></textarea></label><div class="dact"><span class="sp"></span><button class="btn" data-act="svsend">${ms('send')}送る</button></div>`;
+  return `<h2>${ms('edit_note')}アンケートを作る</h2><p class="muted" style="margin:-6px 0 12px">質問を入れて、選択肢（1行に1つ・2〜6個）か、自由回答（文字で書いてもらう）、またはその両方を選んで送ります。</p><label class="sv-f">質問<input id="svq" maxlength="200" placeholder="例：次に欲しい機能はどれですか？"></label><label class="sv-f">選択肢（1行に1つ・なくてもよい）<textarea id="svo" rows="5" maxlength="500" placeholder="例：集中タイマーの改善（改行で次の選択肢）"></textarea></label><label class="sv-f sv-chk"><input id="svfree" type="checkbox" checked> 自由回答の欄も付ける（文字で書いてもらう）</label><div class="dact"><span class="sp"></span><button class="btn" data-act="svsend">${ms('send')}送る</button></div>`;
 }
 Object.assign(ACT, {
   svlist() { openDlg(svListHtml()); dlg.dataset.k = 'surveys'; },
@@ -9825,21 +9870,35 @@ Object.assign(ACT, {
     const s = SV.rows.find(x => x.id === id);
     if (!s || !s.open || !Number.isInteger(i) || i < 0 || i >= s.opts.length) { toast('このアンケートは締め切られています'); return; }
     const { fs, db } = CLOUD.fb;
-    fs.setDoc(fs.doc(db, 'surveys', id, 'votes', CLOUD.user.uid), { c: i, t: Date.now() })
+    fs.setDoc(fs.doc(db, 'surveys', id, 'votes', CLOUD.user.uid), { c: i, t: Date.now() }, { merge: true })
       .then(() => toast('投票しました。ありがとうございます'))
       .catch(() => toast('投票できませんでした。接続を確認してください'));
+  },
+  svfree(id) {
+    const s = SV.rows.find(x => x.id === id), txt = String(($('#svt') || {}).value || '').trim().slice(0, 300);
+    if (!CLOUD.fb || !CLOUD.user) { toast('投票には、Googleログインが必要です'); return; }
+    if (!s || !s.open) { toast('このアンケートは締め切られています'); return; }
+    if (!txt) { toast('文字を入れてください'); return; }
+    const v = SV.votes[id], c = v && v.mine !== null && v.mine !== undefined ? v.mine : -1;
+    const { fs, db } = CLOUD.fb;
+    fs.setDoc(fs.doc(db, 'surveys', id, 'votes', CLOUD.user.uid), { c, txt, t: Date.now() }, { merge: true })
+      .then(() => toast('送りました。ありがとうございます'))
+      .catch(() => toast('送れませんでした。接続を確認してください'));
   },
   svnewdlg() { if (!FBL.isAdmin) { toast('管理者だけが使えます'); return; } openDlg(svNewHtml()); dlg.dataset.k = 'svnew'; },
   svsend() {
     if (!FBL.isAdmin) return;
     const q = String(($('#svq') || {}).value || '').trim();
     const opts = String(($('#svo') || {}).value || '').split('\n').map(x => x.trim()).filter(Boolean);
+    const free = !!(($('#svfree') || {}).checked);
     if (!q) { toast('質問を入れてください'); return; }
-    if (opts.length < 2 || opts.length > 6) { toast('選択肢は2〜6個にしてください'); return; }
+    if (opts.length === 1) { toast('選択肢は2個以上にしてください（または空にして、自由回答だけにできます）'); return; }
+    if (!opts.length && !free) { toast('選択肢か、自由回答のどちらかを入れてください'); return; }
+    if (opts.length > 6) { toast('選択肢は6個までです'); return; }
     if (!CLOUD.fb || !CLOUD.user) return;
     confirmDlg('アンケートを送りますか？', 'すべての人の通知に届きます。', '送る', async () => {
       const { fs, db } = CLOUD.fb;
-      try { await fs.setDoc(fs.doc(db, 'surveys', uid()), { q: q.slice(0, 200), opts: opts.slice(0, 6).map(x => x.slice(0, 60)), t: Date.now(), uid: CLOUD.user.uid, open: true }); toast('アンケートを送りました'); closeDlg(); }
+      try { await fs.setDoc(fs.doc(db, 'surveys', uid()), { q: q.slice(0, 200), opts: opts.slice(0, 6).map(x => x.slice(0, 60)), free, t: Date.now(), uid: CLOUD.user.uid, open: true }); toast('アンケートを送りました'); closeDlg(); }
       catch (e) { toast('送れませんでした。接続を確認してください'); }
     });
   },
@@ -9858,6 +9917,59 @@ Object.assign(ACT, {
     });
   }
 });
+/* ---- はじめて開くタブ・ボタンの、吹き出し（楕円）の説明 ---- */
+const HINT_TXT = {
+  'tab:home': ['ホーム', 'ここで、今日の予定・やること・進み具合を、ひと目で見られます'],
+  'tab:tasks': ['課題', 'ワークや問題集を登録して、ページごとに進められます'],
+  'tab:cal': ['予定', '考査・提出日・行事を、カレンダーで確認できます'],
+  'tab:stats': ['記録', '勉強時間やレベル、友達との比較が見られます'],
+  'tab:ai': ['AI', '勉強の質問や、今日の計画の相談ができます'],
+  'tab:tools': ['ツール', '単語帳・集中タイマー・計算など、勉強の道具がそろっています'],
+  'tab:settings': ['設定', 'テーマ・通知・アップデートなどを変えられます'],
+  'gsearch': ['さがす', '課題・単語・予定などを、まとめて探せます'],
+  'fbopen': ['フィードバック', 'ここからフィードバックを送信できます'],
+  'acct': ['アカウント', 'Googleログインや、データの同期・友達の設定ができます'],
+  'notiopen': ['通知', 'お知らせ・アンケート・やることの通知を、ここで確認できます'],
+  'upd': ['バージョン', 'タップすると、アップデートの確認や更新履歴が見られます'],
+  'svlist': ['アンケート', '管理者からのアンケートに、ここから投票できます']
+};
+const HINT = { on: false, k: '', last: 0, shown: {} };
+const hintSeen = () => new Set(lsj('kosa-hint-seen', []));
+function hintMark(k) { if (!k) return; const s = hintSeen(); if (s.has(k)) return; s.add(k); lss('kosa-hint-seen', [...s].slice(-80)); }
+function hintHide() { const b = $('#hintb'); if (b) b.remove(); HINT.on = false; HINT.last = Date.now(); }
+function hintKeyOf(el) { const a = el && el.dataset && el.dataset.act; if (!a) return ''; return a === 'tab' ? 'tab:' + el.dataset.id : a; }
+function hintShow(k, r) {
+  const [title, text] = HINT_TXT[k];
+  const b = document.createElement('div'); b.id = 'hintb'; b.className = 'hint-b'; b.setAttribute('role', 'tooltip');
+  b.innerHTML = `<b>${esc(title)}</b><span>${esc(text)}</span><small>タップして閉じる</small>`;
+  document.body.appendChild(b);
+  const w = Math.min(290, innerWidth - 24), cx = r.left + r.width / 2;
+  const left = Math.max(12, Math.min(innerWidth - w - 12, cx - w / 2));
+  b.style.width = w + 'px'; b.style.left = left + 'px';
+  const h = b.offsetHeight, below = r.top < innerHeight / 2;
+  b.style.top = (below ? r.bottom + 12 : Math.max(12, r.top - h - 12)) + 'px';
+  b.classList.add(below ? 'down' : 'up'); b.style.setProperty('--tx', (cx - left) + 'px');
+  HINT.on = true; HINT.k = k; HINT.shown[k] = (HINT.shown[k] || 0) + 1;
+  setTimeout(() => { if (HINT.on && HINT.k === k) hintHide(); }, 9000);
+}
+function hintTick() {
+  if (HINT.on || dlg.open || TM.open || document.hidden || Date.now() - HINT.last < 4000) return;
+  const seen = hintSeen();
+  for (const el of document.querySelectorAll('[data-act]')) {
+    const k = hintKeyOf(el); if (!k || !HINT_TXT[k] || seen.has(k) || (HINT.shown[k] || 0) >= 2) continue;
+    const r = el.getBoundingClientRect(); if (r.width < 8 || r.height < 8 || r.bottom < 0 || r.top > innerHeight || r.right < 0 || r.left > innerWidth) continue;
+    hintShow(k, r); return;
+  }
+}
+// 押したら、そのタブ・ボタンは「開いた」ことにする。吹き出しをタップしても閉じる
+document.addEventListener('click', e => {
+  const b = e.target && e.target.closest && e.target.closest('#hintb');
+  if (b) { hintMark(HINT.k); hintHide(); return; }
+  const el = e.target && e.target.closest && e.target.closest('[data-act]');
+  if (el) hintMark(hintKeyOf(el));
+  if (HINT.on) hintHide();
+}, true);
+setInterval(hintTick, 1500);
 /* ---- 画面の上に出る、お知らせ ---- */
 let nbarT = 0, nbarQ = [];
 function nbar(o) {
@@ -10563,6 +10675,7 @@ function toolHas(id) { return toolOwned(id) || (!!TOOL_LV[id] && level().L >= TO
 // 難易度の版（MG_VER）が変わると、最高点・最高の元素・友達との最高点は数え直す（挑戦回数は残す）
 const MG_VER = 2;
 function mgStat() { let v = {}; try { v = JSON.parse(localStorage.getItem('kosa-merge') || '{}') || {}; } catch (e) { v = {}; } if (v.mgv !== MG_VER) v = { plays: v.plays || 0, mgv: MG_VER }; return v; }
+const mgOf = d => (d && d.mg && typeof d.mg === 'object' && d.mg.v === MG_VER) ? (Number(d.mg.b) || 0) : 0;
 function mgStatHtml() { const v = mgStat(); return `<span>最高点 <b>${v.best || 0}</b></span><span>最高の元素 <b>${v.maxLv ? 'Lv.' + v.maxLv : '-'}</b></span><span>挑戦 <b>${v.plays || 0}</b>回</span>`; }
 // ゲームの結果を受け取って保存する（0点の挑戦は数えない）
 window.addEventListener('message', e => {

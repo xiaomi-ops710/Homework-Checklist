@@ -102,10 +102,11 @@ service cloud.firestore {
     match /surveys/{sid} {
       allow read: if request.auth != null;
       allow create: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
-        && request.resource.data.keys().hasOnly(['q','opts','t','uid','open'])
+        && request.resource.data.keys().hasOnly(['q','opts','t','uid','open','free'])
         && request.resource.data.q is string && request.resource.data.q.size() <= 200
-        && request.resource.data.opts is list && request.resource.data.opts.size() >= 2 && request.resource.data.opts.size() <= 6
-        && request.resource.data.open is bool;
+        && request.resource.data.opts is list && request.resource.data.opts.size() <= 6
+        && (request.resource.data.opts.size() >= 2 || request.resource.data.free == true)
+        && request.resource.data.open is bool && (!('free' in request.resource.data) || request.resource.data.free is bool);
       allow update: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['open']);
       allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
@@ -114,9 +115,10 @@ service cloud.firestore {
         allow read: if request.auth != null;
         allow create, update: if request.auth != null && request.auth.uid == uid
           && get(/databases/$(database)/documents/surveys/$(sid)).data.open == true
-          && request.resource.data.keys().hasOnly(['c','t'])
-          && request.resource.data.c is int && request.resource.data.c >= 0
-          && request.resource.data.c < get(/databases/$(database)/documents/surveys/$(sid)).data.opts.size();
+          && request.resource.data.keys().hasOnly(['c','t','txt'])
+          && request.resource.data.c is int && request.resource.data.c >= -1
+          && request.resource.data.c < get(/databases/$(database)/documents/surveys/$(sid)).data.opts.size()
+          && (!('txt' in request.resource.data) || (request.resource.data.txt is string && request.resource.data.txt.size() <= 300));
         allow delete: if false;
       }
     }
