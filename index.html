@@ -112,9 +112,9 @@ html[data-vol] .btn:not(:disabled):active,html[data-vol] .ach-btn:active{transfo
 /* テーマを変えた瞬間：全画面が一度、火の色に光って揺れる */
 .vfx{position:fixed;inset:0;z-index:95;pointer-events:none;background:radial-gradient(circle at 50% 85%,rgba(255,220,120,.9),rgba(255,90,20,.5) 38%,transparent 72%);animation:vFlash 1.5s ease-out forwards}
 @keyframes vFlash{0%{opacity:0}10%{opacity:1}100%{opacity:0}}
-html.vquake body{animation:vShake .6s linear}
+html.vquake #main{animation:vShake .6s linear}
 @keyframes vShake{10%,90%{transform:translate(-1px,0)}20%,80%{transform:translate(2px,0)}30%,50%,70%{transform:translate(-4px,1px)}40%,60%{transform:translate(4px,-2px)}}
-@media (prefers-reduced-motion:reduce){html[data-vol] body::after,html[data-vol] .btn,html[data-vol] .ach-btn,.vb,.vb i,html.vquake body{animation:none!important}}
+@media (prefers-reduced-motion:reduce){html[data-vol] body::after,html[data-vol] .btn,html[data-vol] .ach-btn,.vb,.vb i,html.vquake #main{animation:none!important}}
 
 body.tmo #mchip.show{z-index:70;right:auto;left:0;right:0;margin:0 auto;width:max-content;max-width:calc(100vw - 28px);top:calc(74px + env(safe-area-inset-top))}
 #mini.pop{animation:miniPop .45s var(--spring)}
@@ -547,6 +547,25 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 
 /* ===== 18.6：更新の案内・ローディング・問題数・アプリのアイコン・iPad向けのレイアウト ===== */
 .obm-appicon{width:96px;height:96px;border-radius:28px;box-shadow:0 12px 32px color-mix(in srgb,var(--primary) 35%,transparent);animation:popIn .8s var(--spring) both}
+.sv-q{font-size:1.1rem;font-weight:800;margin:4px 0 6px;line-height:1.5;overflow-wrap:anywhere}
+.sv-st{margin:0 0 12px;font-size:.88rem}
+.sv-opts{display:grid;gap:10px}
+.sv-o{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;min-height:56px;padding:12px 16px;border:0;border-radius:22px;background:var(--s2);color:inherit;font:inherit;text-align:left;cursor:pointer;transition:transform .2s ease}
+.sv-o:active{transform:scale(.98)}
+.sv-o:disabled{cursor:default}
+.sv-o.on{box-shadow:inset 0 0 0 2px var(--primary)}
+.sv-ol{position:relative;z-index:1;display:flex;align-items:center;gap:10px;min-width:0}
+.sv-ol b{font-weight:700;overflow-wrap:anywhere}
+.sv-pc{position:relative;z-index:1;flex:none;font-size:.8rem;font-weight:800;white-space:nowrap}
+.sv-bar{position:absolute;left:0;top:0;bottom:0;background:var(--pc);opacity:.45;transition:width .6s ease}
+.sv-adm{margin-top:12px;justify-content:flex-start;flex-wrap:wrap}
+.sv-list{display:grid;gap:8px;margin-top:10px}
+.sv-li{display:grid;gap:4px;width:100%;text-align:left;padding:12px 14px;border:0;border-radius:20px;background:var(--s2);color:inherit;font:inherit;cursor:pointer}
+.sv-li.closed{opacity:.7}
+.sv-lq{font-weight:700;overflow-wrap:anywhere}
+.sv-li small,.sv-note{font-size:.8rem;opacity:.75}
+.sv-f{display:grid;gap:6px;margin:8px 0;font-weight:700;font-size:.9rem}
+.sv-f input,.sv-f textarea{font:inherit;font-weight:500;width:100%;box-sizing:border-box;padding:10px 12px;border-radius:14px;border:1px solid var(--s3);background:var(--s1);color:inherit}
 .upd-icon{width:112px;height:112px;border-radius:32px}
 .upd-art{min-height:200px}
 .upd-chips{display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin-top:6px}
@@ -1691,7 +1710,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.86';
+const APP_VERSION = '17.87';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2274,6 +2293,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.87', d: '__BUILD__', t: 'アップデートの自動化・タブバーのずれを修正・フォントを追加・アンケート', n: ['設定に「アップデートを自動で行う」を追加しました。新しい版が見つかると、確認なしで自動的に更新します', '今回だけ、開かれた端末はすべて新しい版に強制的に更新されます', 'ショップでテーマを変えたとき、タブバーが下にずれる不具合を直しました', 'かっこいいフォントを7種類追加しました（XPで買えます）', '管理者から選択式のアンケートを送れるようになりました。通知か、アカウントの「アンケート」から投票できます'] },
   { v: '17.86', d: '__BUILD__', t: '元素マージの難易度を大幅アップ', n: ['交換200・加熱400・吸引600・触媒1000 EP に価格を引き上げ（EPの上限は1500に）', '難易度が変わったため、元素マージの最高点・最高の元素と友達とのランキングをリセット（挑戦回数は残ります）'] },
   { v: '17.85', d: '__BUILD__', t: '間違えたクイズの単語を、すぐお気に入りに入れられるように', n: ['クイズで間違えたとき、「お気に入りに追加」を押すと、その単語をお気に入りの単語帳に入れられます（単語帳にあるカードは、★がつきます）', '間違えた単語は、そのまま★の付いたカードとして残ります'] },
   { v: '17.84', d: '__BUILD__', t: '火山の見やすさ・戻るボタン・XPでアプリのフォントを変える', n: ['火山のテーマで、背景のぼかしを強くし、カードとホームの枠も、少しぼかして見やすくしました', '火山のテーマで、戻る矢印が背景に溶けないように、白っぽい丸い台の上に出しました', '火山のテーマで、薄い文字の色を明るくして、読みやすくしました', 'XPショップに「フォント」を追加しました。明朝・筆文字・太字・ポップ・ドット・手書きなどから、アプリ全体の字を変えられます（見る・使う・買う）', '標準のフォントは、今までどおり無料で使えます'] },
@@ -2879,7 +2899,7 @@ function viewSettings() {
   <div class="card"><div class="fld"><div class="lbl">テーマ</div><div class="seg">${[['auto', '自動', 'brightness_auto'], ['light', 'ライト', 'light_mode'], ['dark', 'ダーク', 'dark_mode']].map(([v, l, i]) => `<button class="${st.theme === v ? 'on' : ''}" data-act="theme" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div></div>
   <div class="fld"><div class="lbl">アプリの色</div><div class="swatches">${[...SEEDS.map(([h, n]) => [h, n, 0]), ...LV_HUES].map(([h, n, need]) => { const ok = level().L >= need; return `<label class="sw ${ok ? '' : 'lk'}"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} ${ok ? `data-act="hue" data-id="${h}"` : 'disabled'} aria-label="${n}${ok ? '' : `（Lv.${need}で使えます）`}"><span style="background:hsl(${h} 66% 48%)">${ok ? '' : ms('lock', '', 'font-size:16px;color:#fff')}</span></label>`; }).join('')}</div><p class="muted" style="font-size:.8rem;margin:8px 4px 0">レベルが上がると、色が増えます（${LV_HUES.map(([, n, l]) => `Lv.${l}：${n}`).join('、')}）</p></div>
   <div class="fld"><div class="lbl">文字の大きさ</div><div class="seg">${[['s', '小'], ['m', '標準'], ['l', '大']].map(([v, l]) => `<button class="${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}">${l}</button>`).join('')}</div></div>
-  ${swRow('wx', '今日の天気をホームに出す', '位置情報を使います（一度だけ確認します）')}${swRow('noWhatsNew', 'アップデート後の更新内容を出さない', 'オンにすると、アップデートしたあとに「何が変わったか」の案内を出しません（更新の確認の画面からも変えられます）')}${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}${swRow('timerAnim', 'タイマー画面のアニメーション', 'オフにすると、円の動きなどを止めます')}${swRow('natStop', 'タイマー終了で自然の音を止める', '時間が終わると、自然の音を自動で止めます')}</div>
+  ${swRow('wx', '今日の天気をホームに出す', '位置情報を使います（一度だけ確認します）')}${swRow('autoUpd', 'アップデートを自動で行う', '新しい版が見つかると、確認なしで自動的に更新します（タイマーの途中なら、終わってから）')}${swRow('noWhatsNew', 'アップデート後の更新内容を出さない', 'オンにすると、アップデートしたあとに「何が変わったか」の案内を出しません（更新の確認の画面からも変えられます）')}${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}${swRow('timerAnim', 'タイマー画面のアニメーション', 'オフにすると、円の動きなどを止めます')}${swRow('natStop', 'タイマー終了で自然の音を止める', '時間が終わると、自然の音を自動で止めます')}</div>
 
   <div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>
   ${navSettings()}
@@ -4131,7 +4151,7 @@ function acctHtml() {
   const fbN = fbUnreadMine().length, admN = FBL.isAdmin ? fbUnreadAdm().length : 0;
   const showMine = FBL.mine.length || fbQ().length;
   return `<div class="ac-top">${userAv(76)}<b class="ac-name">${esc(u.displayName || 'Google アカウント')}</b><span class="ac-mail">${esc(u.email || '')}</span><span class="ac-st st-${st}"><i></i>${label}</span></div>
-  <div class="ac-tri">${pill('fbopen', 'rate_review', 'フィードバック')}${showMine ? pill('fbmine', 'forum', '送った内容', fbN ? `<i class="nbadge in">${fbN}</i>` : '') : ''}${FBL.isAdmin ? pill('fbinbox', 'inbox', '受信箱', admN ? `<i class="nbadge in">${admN}</i>` : '') : ''}${FBL.isAdmin ? pill('annsend', 'campaign', 'お知らせ') : ''}</div>
+  <div class="ac-tri">${pill('fbopen', 'rate_review', 'フィードバック')}${showMine ? pill('fbmine', 'forum', '送った内容', fbN ? `<i class="nbadge in">${fbN}</i>` : '') : ''}${FBL.isAdmin ? pill('fbinbox', 'inbox', '受信箱', admN ? `<i class="nbadge in">${admN}</i>` : '') : ''}${FBL.isAdmin ? pill('annsend', 'campaign', 'お知らせ') : ''}${pill('svlist', 'poll', 'アンケート', svUnanswered() ? `<i class="nbadge in">${svUnanswered()}</i>` : '')}</div>
   <div class="ac-list ac-app"><button class="ac-row" data-act="notiopen">${ms('notifications')}<span>通知</span>${ms('chevron_right')}</button><button class="ac-row" data-act="updcheck">${ms('system_update')}<span>アップデートを確認</span><b>v${APP_VERSION}</b></button><button class="ac-row" data-act="setopen">${ms('settings')}<span>設定</span>${ms('chevron_right')}</button></div>
   <div class="ac-list"><div class="ac-row">${ms('schedule')}<span>最終同期</span><b>${last}</b></div><button class="ac-row" data-act="cloudnow">${ms('sync')}<span>今すぐ同期</span>${ms('chevron_right')}</button><button class="ac-row danger" data-act="cloudout">${ms('logout')}<span>ログアウト</span></button></div>
   <div class="dact"><span class="sp"></span><button class="btn tonal" data-act="close">閉じる</button></div>`;
@@ -4157,7 +4177,7 @@ async function cloudInit() {
     if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); CLOUD.ac = { mod: ac, inst: ac.initializeAppCheck(a, { provider: new ac.ReCaptchaEnterpriseProvider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }) }; } catch (e) { if (window.__kosaLog) window.__kosaLog('App Checkの初期化に失敗: ' + ((e && e.message) || e)); } }
     const authI = auth.getAuth(a), db = fs.getFirestore(a);
     CLOUD.fb = { auth, fs, authI, db, app: a }; CLOUD.status = 'out';
-    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; CLOUD.authed = true; if (u) inboxStart(); else inboxStop(); if (u) { cloudStart(); setTimeout(() => { fbWatchStart(); annWatchStart(); }, 1500); } else { cloudStop(); fbWatchStop(); annWatchStop(); } cloudRefresh(); frAuthRedraw(); });
+    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; CLOUD.authed = true; if (u) inboxStart(); else { inboxStop(); svWatchStop(); } if (u) { cloudStart(); setTimeout(() => { fbWatchStart(); annWatchStart(); svWatchStart(); }, 1500); } else { cloudStop(); fbWatchStop(); annWatchStop(); } cloudRefresh(); frAuthRedraw(); });
     cloudResume();
   } catch (e) { CLOUD.status = 'error'; }
   cloudRefresh();
@@ -7579,7 +7599,7 @@ Object.assign(ACT, {
   }
 });
 /* ====================== 集中タイマー（ツール版）・設定のアイコン（17.9） ====================== */
-const SET_IC = { wx: 'partly_cloudy_day', anim: 'animation', confetti: 'celebration', sound: 'volume_up', timerAnim: 'timer', natStop: 'nature', focus: 'timer', brk: 'coffee', lbrk: 'self_improvement', cycles: 'repeat', goal: 'flag', navPos: 'dock_to_bottom', theme: 'palette' };
+const SET_IC = { wx: 'partly_cloudy_day', autoUpd: 'system_update', anim: 'animation', confetti: 'celebration', sound: 'volume_up', timerAnim: 'timer', natStop: 'nature', focus: 'timer', brk: 'coffee', lbrk: 'self_improvement', cycles: 'repeat', goal: 'flag', navPos: 'dock_to_bottom', theme: 'palette' };
 function focusToolHtml() {
   const m = (dayLog() || {}).m || 0, f = S.set.focus, b = S.set.brk, lb = S.set.lbrk, c = S.set.cycles;
   return `<div class="card ft"><div class="ft-ring"><b>${f}</b><span>分</span></div><div class="ft-txt"><b>集中 ${f}分 → 休憩 ${b}分</b><small>${c}回ごとに、長い休憩（${lb}分）</small></div><button type="button" class="btn ft-go" data-act="focus">${ms('play_arrow')}はじめる</button></div>
@@ -8540,6 +8560,7 @@ async function hardRefresh() {
 if (/[?&]r=\d+/.test(location.search)) { try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) { } }
 let reloadOnce = false;
 const doReload = () => { if (reloadOnce) return; reloadOnce = true; location.reload(); };
+const autoUpdOn = () => !!(S.set && S.set.autoUpd);
 function startUpdate() {
   if (!waiting) return;
   UPD.state = 'installing'; UPD.prog = 100; updRefresh(); updating = true;
@@ -8550,9 +8571,10 @@ function startUpdate() {
 }
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
-    UPD.reg = reg; healStale();
+    UPD.reg = reg; healStale(); if (autoUpdOn()) reg.update().catch(() => { });
     const mark = sw => {
       waiting = sw; UPD.state = 'available';
+      if (autoUpdOn() && !TM.open) { toast('新しい版に、自動で更新しています…'); startUpdate(); return; }
       try { const ch = new MessageChannel(); ch.port1.onmessage = ev => { UPD.next = ev.data; updRefresh(); }; sw.postMessage('ver', [ch.port2]); } catch (e) { }
       updRefresh();
       if (!dlg.open && !TM.open && !sessionStorage.getItem('kosa-upd-shown')) { try { sessionStorage.setItem('kosa-upd-shown', '1'); } catch (e) { } updDlg(); }
@@ -8864,7 +8886,14 @@ const FONT_SHOP = {
   dela: { n: 'かっこいい太字', c: 300, lv: 12, fam: 'Dela+Gothic+One', stack: '"Dela Gothic One","Noto Sans JP",sans-serif', d: '太くて力強い字です（レベル12で解放）' },
   mochiy: { n: 'ポップ', c: 220, fam: 'Mochiy+Pop+One', stack: '"Mochiy Pop One","Noto Sans JP",sans-serif', d: '元気なポップ体です' },
   dot: { n: 'ドット（ゲーム風）', c: 160, fam: 'DotGothic16', stack: '"DotGothic16","Noto Sans JP",monospace', d: 'レトロゲームの字です' },
-  yusei: { n: '手書き', c: 180, fam: 'Yusei+Magic', stack: '"Yusei Magic","Noto Sans JP",sans-serif', d: 'やさしい手書きの字です' }
+  yusei: { n: '手書き', c: 180, fam: 'Yusei+Magic', stack: '"Yusei Magic","Noto Sans JP",sans-serif', d: 'やさしい手書きの字です' },
+  chokoku: { n: '超極太の筆', c: 320, lv: 14, fam: 'Chokokutai', stack: '"Chokokutai","Noto Sans JP",sans-serif', d: '勢いのある、超極太の筆文字です（レベル14で解放）' },
+  rocknroll: { n: 'ロック風の太字', c: 280, fam: 'RocknRoll+One', stack: '"RocknRoll One","Noto Sans JP",sans-serif', d: 'ライブのポスターのような、かっこいい字です' },
+  train: { n: 'がっちり角ゴシック', c: 260, fam: 'Train+One', stack: '"Train One","Noto Sans JP",sans-serif', d: '角張った、力強い字です' },
+  reggae: { n: 'ワイルドな太字', c: 260, fam: 'Reggae+One', stack: '"Reggae One","Noto Sans JP",sans-serif', d: '元気で大胆な字です' },
+  potta: { n: '筆の太字', c: 240, fam: 'Potta+One', stack: '"Potta One","Noto Sans JP",sans-serif', d: '筆で勢いよく書いたような字です' },
+  tokumin: { n: '太い明朝（かっこいい）', c: 300, lv: 16, fam: 'Kaisei+Tokumin:wght@400;700;800', stack: '"Kaisei Tokumin","Hiragino Mincho ProN","Yu Mincho",serif', d: '太くて品のある明朝です（レベル16で解放）' },
+  kurenaido: { n: '筆ペン風の手書き', c: 200, fam: 'Zen+Kurenaido', stack: '"Zen Kurenaido","Noto Sans JP",sans-serif', d: 'さらっとした筆ペンの字です' }
 };
 const SHOP_MAP = { bg: HOME_BG, sfx: SFX_T, theme: THEME_SHOP, font: FONT_SHOP };
 // 買っている、または、レベルで使える（lv があって c が 0のもの）
@@ -9719,6 +9748,115 @@ Object.assign(ACT, {
     });
   },
   annclose() { const el = $('#annpop'); if (el) el.remove(); setTimeout(annNext, 300); }
+});
+/* ---- 管理者からのアンケート（選択式・1人1票・投票者の名前は表示しない） ---- */
+const SV = { unsub: null, uid: '', rows: [], votes: {}, vu: {} };
+const SV_SEEN = 'kosa-sv-seen';
+function svWatchStop() { try { SV.unsub && SV.unsub(); } catch (e) { } Object.values(SV.vu).forEach(f => { try { f(); } catch (e) { } }); SV.unsub = null; SV.vu = {}; SV.votes = {}; SV.rows = []; SV.uid = ''; svRefresh(); }
+function svWatchStart() {
+  if (!CLOUD.user || !CLOUD.fb) return; const me = CLOUD.user.uid; if (SV.uid === me && SV.unsub) return;
+  svWatchStop(); SV.uid = me; const { fs, db } = CLOUD.fb;
+  try { SV.unsub = fs.onSnapshot(fs.query(fs.collection(db, 'surveys'), fs.orderBy('t', 'desc'), fs.limit(30)), svOn, () => { }); } catch (e) { }
+}
+function svOn(sn) {
+  const rows = sn.docs.map(d => ({ id: d.id, ...d.data() })).filter(r => typeof r.q === 'string' && Array.isArray(r.opts) && r.opts.length >= 2);
+  SV.rows = rows;
+  const ids = new Set(rows.map(r => r.id));
+  Object.keys(SV.vu).forEach(id => { if (!ids.has(id)) { try { SV.vu[id](); } catch (e) { } delete SV.vu[id]; delete SV.votes[id]; } });
+  rows.forEach(r => { if (!SV.vu[r.id]) svVotesWatch(r.id); });
+  const newest = rows.reduce((m, r) => Math.max(m, +r.t || 0), 0), seen = lsj(SV_SEEN, null);
+  svRefresh();
+  if (seen === null) { lss(SV_SEEN, newest); return; }   // 初めて開くときは、いまあるものは通知しない
+  const fresh = rows.filter(r => r.open && (+r.t || 0) > seen).sort((a, b) => (+a.t || 0) - (+b.t || 0));
+  lss(SV_SEEN, newest);
+  fresh.forEach(r => notiAdd({ k: `sv:${r.id}`, icon: 'poll', text: '管理者からのアンケート', sub: r.q, act: 'svopen', aid: r.id }));
+  if (fresh.length) { const id = fresh[fresh.length - 1].id; showWhenFree(() => svPop(id), 1500); }
+}
+// 新しく届いたアンケートを、まだ答えていなければ開く
+function svPop(id) { const s = SV.rows.find(x => x.id === id); if (!s || !s.open) return; const v = SV.votes[id]; if (v && v.mine !== null) return; ACT.svopen(id); }
+function svVotesWatch(id) {
+  if (!CLOUD.fb || !CLOUD.user) return; const { fs, db } = CLOUD.fb;
+  try {
+    SV.vu[id] = fs.onSnapshot(fs.collection(db, 'surveys', id, 'votes'), sn => {
+      const s = SV.rows.find(x => x.id === id), n = s ? s.opts.length : 0, cnt = Array.from({ length: n }, () => 0); let mine = null;
+      sn.docs.forEach(d => { const c = d.data().c; if (Number.isInteger(c) && c >= 0 && c < n) { cnt[c]++; if (d.id === CLOUD.user.uid) mine = c; } });
+      SV.votes[id] = { n: cnt, total: cnt.reduce((a, b) => a + b, 0), mine };
+      svRefresh();
+    }, () => { });
+  } catch (e) { }
+}
+function svUnanswered() { return SV.rows.filter(r => r.open && !(SV.votes[r.id] && SV.votes[r.id].mine !== null)).length; }
+function svRefresh() {
+  try { renderAcct(); } catch (e) { }
+  if (dlg.open && dlg.dataset.k === 'survey') dlg.innerHTML = `<div class="dlg">${svDlgHtml(dlg.dataset.id)}</div>`;
+  else if (dlg.open && dlg.dataset.k === 'surveys') dlg.innerHTML = `<div class="dlg">${svListHtml()}</div>`;
+}
+function svListHtml() {
+  const items = SV.rows.map(r => {
+    const v = SV.votes[r.id] || { total: 0, mine: null };
+    const st = !r.open ? '締め切り' : (v.mine !== null ? '回答済み' : '未回答');
+    return `<button type="button" class="sv-li ${r.open ? '' : 'closed'}" data-act="svopen" data-id="${r.id}"><span class="sv-lq">${esc(r.q)}</span><small>${st}・${v.total}票</small></button>`;
+  }).join('');
+  return `<h2>${ms('poll')}アンケート</h2>${FBL.isAdmin ? `<div class="dact"><button class="btn" data-act="svnewdlg">${ms('edit_note')}新しいアンケートを作る</button></div>` : ''}${items ? `<div class="sv-list">${items}</div>` : '<p class="muted">まだアンケートはありません</p>'}<p class="muted sv-note">投票は1人1票です（選び直すと変わります）。投票した人の名前は表示されません。</p>`;
+}
+function svDlgHtml(id) {
+  const s = SV.rows.find(x => x.id === id);
+  if (!s) return `<h2>${ms('poll')}アンケート</h2><p class="muted">このアンケートは、もうありません</p><div class="dact"><span class="sp"></span><button class="btn text" data-act="svlistopen">${ms('arrow_back')}アンケート一覧</button></div>`;
+  const v = SV.votes[id] || { n: s.opts.map(() => 0), total: 0, mine: null };
+  const showRes = !s.open || v.mine !== null || FBL.isAdmin;
+  const opts = s.opts.map((o, i) => {
+    const c = v.n[i] || 0, p = v.total ? Math.round(c / v.total * 100) : 0;
+    return `<button type="button" class="sv-o ${v.mine === i ? 'on' : ''}" data-act="svvote" data-id="${id}|${i}" ${s.open ? '' : 'disabled'}><span class="sv-ol">${ms(v.mine === i ? 'radio_button_checked' : 'radio_button_unchecked')}<b>${esc(o)}</b></span>${showRes ? `<span class="sv-pc">${c}票・${p}%</span><i class="sv-bar" style="width:${p}%"></i>` : ''}</button>`;
+  }).join('');
+  const st = s.open ? (v.mine !== null ? '回答済みです。選び直すと、投票を変えられます' : '選んで投票してください') : '締め切られています';
+  const adm = FBL.isAdmin ? `<div class="dact sv-adm">${s.open ? `<button class="btn tonal xs" data-act="svclose" data-id="${id}|0">${ms('lock')}締め切る</button>` : `<button class="btn tonal xs" data-act="svclose" data-id="${id}|1">${ms('lock_open')}再開する</button>`}<button class="btn text xs" data-act="svdel" data-id="${id}">${ms('delete')}消す</button></div>` : '';
+  return `<h2>${ms('poll')}アンケート</h2><p class="sv-q">${esc(s.q)}</p><p class="muted sv-st">${st}・${v.total}票</p><div class="sv-opts">${opts}</div>${adm}<div class="dact"><span class="sp"></span><button class="btn text" data-act="svlistopen">${ms('arrow_back')}アンケート一覧</button></div>`;
+}
+function svNewHtml() {
+  return `<h2>${ms('edit_note')}アンケートを作る</h2><p class="muted" style="margin:-6px 0 12px">質問と選択肢（1行に1つ・2〜6個）を入れて送ると、すべての人の通知に届きます。</p><label class="sv-f">質問<input id="svq" maxlength="200" placeholder="例：次に欲しい機能はどれですか？"></label><label class="sv-f">選択肢（1行に1つ）<textarea id="svo" rows="5" maxlength="500" placeholder="例：集中タイマーの改善（改行で次の選択肢）"></textarea></label><div class="dact"><span class="sp"></span><button class="btn" data-act="svsend">${ms('send')}送る</button></div>`;
+}
+Object.assign(ACT, {
+  svlist() { openDlg(svListHtml()); dlg.dataset.k = 'surveys'; },
+  svlistopen() { openDlg(svListHtml()); dlg.dataset.k = 'surveys'; },
+  svopen(id) { openDlg(svDlgHtml(id)); dlg.dataset.k = 'survey'; dlg.dataset.id = id; },
+  svvote(key) {
+    const [id, n] = String(key).split('|'), i = Number(n);
+    if (!CLOUD.fb || !CLOUD.user) { toast('投票には、Googleログインが必要です'); return; }
+    const s = SV.rows.find(x => x.id === id);
+    if (!s || !s.open || !Number.isInteger(i) || i < 0 || i >= s.opts.length) { toast('このアンケートは締め切られています'); return; }
+    const { fs, db } = CLOUD.fb;
+    fs.setDoc(fs.doc(db, 'surveys', id, 'votes', CLOUD.user.uid), { c: i, t: Date.now() })
+      .then(() => toast('投票しました。ありがとうございます'))
+      .catch(() => toast('投票できませんでした。接続を確認してください'));
+  },
+  svnewdlg() { if (!FBL.isAdmin) { toast('管理者だけが使えます'); return; } openDlg(svNewHtml()); dlg.dataset.k = 'svnew'; },
+  svsend() {
+    if (!FBL.isAdmin) return;
+    const q = String(($('#svq') || {}).value || '').trim();
+    const opts = String(($('#svo') || {}).value || '').split('\n').map(x => x.trim()).filter(Boolean);
+    if (!q) { toast('質問を入れてください'); return; }
+    if (opts.length < 2 || opts.length > 6) { toast('選択肢は2〜6個にしてください'); return; }
+    if (!CLOUD.fb || !CLOUD.user) return;
+    confirmDlg('アンケートを送りますか？', 'すべての人の通知に届きます。', '送る', async () => {
+      const { fs, db } = CLOUD.fb;
+      try { await fs.setDoc(fs.doc(db, 'surveys', uid()), { q: q.slice(0, 200), opts: opts.slice(0, 6).map(x => x.slice(0, 60)), t: Date.now(), uid: CLOUD.user.uid, open: true }); toast('アンケートを送りました'); closeDlg(); }
+      catch (e) { toast('送れませんでした。接続を確認してください'); }
+    });
+  },
+  svclose(key) {
+    const [id, n] = String(key).split('|'), open = n === '1';
+    if (!FBL.isAdmin || !CLOUD.fb) return;
+    const { fs, db } = CLOUD.fb;
+    fs.setDoc(fs.doc(db, 'surveys', id), { open }, { merge: true }).then(() => toast(open ? 'アンケートを再開しました' : 'アンケートを締め切りました')).catch(() => toast('変えられませんでした'));
+  },
+  svdel(id) {
+    if (!FBL.isAdmin || !CLOUD.fb) return;
+    confirmDlg('このアンケートを消しますか？', '消すと、元にもどせません。結果も見られなくなります。', '消す', async () => {
+      const { fs, db } = CLOUD.fb;
+      try { await fs.deleteDoc(fs.doc(db, 'surveys', id)); toast('アンケートを消しました'); closeDlg(); }
+      catch (e) { toast('消せませんでした'); }
+    });
+  }
 });
 /* ---- 画面の上に出る、お知らせ ---- */
 let nbarT = 0, nbarQ = [];

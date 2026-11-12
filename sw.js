@@ -1,6 +1,8 @@
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。index.html の APP_VERSION も同じ値にする
-const APP_VERSION = '17.86';
+const APP_VERSION = '17.87';
 const V = 'kosa-v' + APP_VERSION;
+// 今回だけ：開かれている端末を、すぐ新しい版へ強制的に切り替える。次の版では、この行と activate の FORCE_ONCE の部分を消す
+const FORCE_ONCE = true;
 // フォント用のキャッシュは、バージョンが変わっても消さない（更新のあと最初に開くときも、すぐに表示できるように）
 const FC = 'kosa-fonts';
 const CORE = ['./', 'index.html', 'firebase-config.js'];
@@ -30,10 +32,14 @@ const keepFonts = async () => {
 const TOTAL = EXTRA.length + 2;
 let got = 0;
 const tick = () => { got++; self.clients.matchAll({ includeUncontrolled: true, type: 'window' }).then(cs => cs.forEach(c => c.postMessage({ type: 'prog', done: got, total: TOTAL }))).catch(() => { }); };
-self.addEventListener('install', e => { got = 0; e.waitUntil(
+self.addEventListener('install', e => { got = 0; if (FORCE_ONCE) self.skipWaiting(); e.waitUntil(
   caches.open(V).then(c => Promise.all([grabHtml(c).then(tick), grab(c, 'firebase-config.js').then(tick), ...EXTRA.map(u => grab(c, u).catch(() => { }).then(tick))])).then(keepFonts)
 ); });
-self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== FC).map(k => caches.delete(k)))).then(() => self.clients.claim())));
+self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== FC).map(k => caches.delete(k)))).then(() => self.clients.claim()).then(() => {
+  // 今回だけ（FORCE_ONCE）：開いている画面を、新しい版で読み込み直す
+  if (!FORCE_ONCE) return;
+  return self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => Promise.all(cs.map(c => (c.navigate ? c.navigate(c.url).catch(() => { }) : null))));
+})));
 // プッシュ通知の受け取りと、通知を押したときの処理（アプリを開く）
 self.addEventListener('push', e => {
   let d = {};
