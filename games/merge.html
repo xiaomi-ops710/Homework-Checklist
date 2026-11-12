@@ -260,6 +260,8 @@
       cursor: pointer;
       outline: none;
     }
+    #gameCanvas.gas-shake{animation:gasShakeKf .85s ease-out}
+    @keyframes gasShakeKf{0%{transform:translate(0,0) rotate(0)}10%{transform:translate(-8px,3px) rotate(-.7deg)}20%{transform:translate(9px,-4px) rotate(.8deg)}30%{transform:translate(-10px,-2px) rotate(-.6deg)}40%{transform:translate(8px,4px) rotate(.6deg)}55%{transform:translate(-6px,2px)}70%{transform:translate(4px,-2px)}85%{transform:translate(-2px,1px)}100%{transform:translate(0,0)}}
   </style>
 </head>
 <body class="select-none" tabindex="0">
@@ -521,32 +523,32 @@
         <span id="epValueText" class="font-mono text-white text-xs ml-0.5">30</span>
       </div>
 
-      <button id="skillSwapBtn" type="button" title="今の元素とNEXTを入れ替え (200 EP)"
+      <button id="skillSwapBtn" type="button" title="今の元素とNEXTを入れ替え (500 EP)"
         class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
         <span class="material-symbols-rounded text-amber-600 text-sm">swap_horiz</span>
         <span class="hidden sm:inline">交換</span>
-        <span class="font-mono text-[10px] text-amber-700">200</span>
+        <span class="font-mono text-[10px] text-amber-700">500</span>
       </button>
 
-      <button id="skillBurnerBtn" type="button" title="ガスバーナー対流で容器を揺らして合体を促す (400 EP)"
+      <button id="skillBurnerBtn" type="button" title="ガスバーナー対流で容器を大きく揺らして合体を促す (200 EP)"
         class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
         <span class="material-symbols-rounded text-orange-500 text-sm">local_fire_department</span>
         <span class="hidden sm:inline">加熱</span>
-        <span class="font-mono text-[10px] text-orange-600">400</span>
+        <span class="font-mono text-[10px] text-orange-600">200</span>
       </button>
 
-      <button id="skillPipetteBtn" type="button" title="ピペットで選んだ元素1個を吸い取って消去 (1000 EP)"
+      <button id="skillPipetteBtn" type="button" title="ピペットで選んだ元素1個を吸い取って消去 (800 EP)"
         class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
         <span class="material-symbols-rounded text-sky-500 text-sm">colorize</span>
         <span class="hidden sm:inline">吸引</span>
-        <span class="font-mono text-[10px] text-sky-600">1000</span>
+        <span class="font-mono text-[10px] text-sky-600">800</span>
       </button>
 
-      <button id="skillCatalystBtn" type="button" title="触媒で選んだ元素を1段階上位へ進化 (1000 EP)"
+      <button id="skillCatalystBtn" type="button" title="触媒で選んだ元素を1段階上位へ進化 (400 EP)"
         class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
         <span class="material-symbols-rounded text-purple-600 text-sm">auto_awesome</span>
         <span class="hidden sm:inline">触媒</span>
-        <span class="font-mono text-[10px] text-purple-600">1000</span>
+        <span class="font-mono text-[10px] text-purple-600">400</span>
       </button>
     </div>
 
@@ -1913,6 +1915,8 @@
     let score = 0;
     let ep = 30;
     let epBonus = 0;   // 親のアプリから届く、開始EPのボーナス（レベルの特典）
+    // 加熱のとき、画面を揺らす（キャンバスに一時的に揺れを付ける）
+    function gasShake() { const cv = document.getElementById('gameCanvas'); if (!cv) return; cv.classList.remove('gas-shake'); void cv.offsetWidth; cv.classList.add('gas-shake'); clearTimeout(gasShake.t); gasShake.t = setTimeout(() => cv.classList.remove('gas-shake'), 900); }
     let currentDropLevel = 1;
     let nextDropLevel = 2;
     let pointerX = LOGICAL_WIDTH / 2;
@@ -2389,10 +2393,10 @@
 
     function updateEpUI() {
       document.getElementById('epValueText').textContent = ep;
-      document.getElementById('skillSwapBtn').disabled = ep < 200 || isGameOver;
-      document.getElementById('skillBurnerBtn').disabled = ep < 400 || isGameOver;
-      document.getElementById('skillPipetteBtn').disabled = ep < 1000 || isGameOver;
-      document.getElementById('skillCatalystBtn').disabled = ep < 1000 || isGameOver;
+      document.getElementById('skillSwapBtn').disabled = ep < 500 || isGameOver;
+      document.getElementById('skillBurnerBtn').disabled = ep < 200 || isGameOver;
+      document.getElementById('skillPipetteBtn').disabled = ep < 800 || isGameOver;
+      document.getElementById('skillCatalystBtn').disabled = ep < 400 || isGameOver;
     }
 
     function updateNextPreviewUI() {
@@ -2747,8 +2751,8 @@
 
       if (!target) return false;
 
-      if (activeSkillMode === 'pipette' && ep >= 1000) {
-        ep -= 1000;
+      if (activeSkillMode === 'pipette' && ep >= 800) {
+        ep -= 800;
         updateEpUI();
         spawnMergeEffects(target.position.x, target.position.y, target.elementLevel, 0, '吸引');
         World.remove(world, target);
@@ -2757,12 +2761,12 @@
         return true;
       }
 
-      if (activeSkillMode === 'catalyst' && ep >= 1000) {
+      if (activeSkillMode === 'catalyst' && ep >= 400) {
         if (target.elementLevel >= ELEMENTS.length) {
           floatingTexts.push({ x: target.position.x, y: target.position.y - 30, text: 'これ以上進化できません', color: '#FEF3C7', stroke: '#78350F', alpha: 1.0, vy: -1.1, scale: 0.9 });
           return true;
         }
-        ep -= 1000;
+        ep -= 400;
         updateEpUI();
         const tx = target.position.x;
         const ty = target.position.y;
@@ -3382,9 +3386,9 @@
     // 4種の実験スキルボタン
     document.getElementById('skillSwapBtn').addEventListener('click', () => {
       ensureGameFocus();
-      if (ep < 200 || isGameOver) return;
+      if (ep < 500 || isGameOver) return;
       audio.init();
-      ep -= 200;
+      ep -= 500;
       const tmp = currentDropLevel;
       currentDropLevel = nextDropLevel;
       nextDropLevel = tmp;
@@ -3395,18 +3399,19 @@
 
     document.getElementById('skillBurnerBtn').addEventListener('click', () => {
       ensureGameFocus();
-      if (ep < 400 || isGameOver || !world) return;
+      if (ep < 200 || isGameOver || !world) return;
       audio.init();
-      ep -= 400;
+      ep -= 200;
       updateEpUI();
       const bodies = Composite.allBodies(world).filter((b) => b.label === 'element' && !b.isMerged);
       bodies.forEach((b) => {
         Body.setVelocity(b, {
-          x: (Math.random() - 0.5) * 7,
-          y: -3.5 - Math.random() * 3.5
+          x: (Math.random() - 0.5) * 13,
+          y: -6 - Math.random() * 5
         });
       });
       audio.playMerge(5, 0, 2);
+      gasShake();
       floatingTexts.push({
         x: LOGICAL_WIDTH / 2,
         y: 260,
@@ -3421,14 +3426,14 @@
 
     document.getElementById('skillPipetteBtn').addEventListener('click', () => {
       ensureGameFocus();
-      if (ep < 1000 || isGameOver) return;
+      if (ep < 800 || isGameOver) return;
       audio.init();
       setSkillTargetMode(activeSkillMode === 'pipette' ? null : 'pipette');
     });
 
     document.getElementById('skillCatalystBtn').addEventListener('click', () => {
       ensureGameFocus();
-      if (ep < 1000 || isGameOver) return;
+      if (ep < 400 || isGameOver) return;
       audio.init();
       setSkillTargetMode(activeSkillMode === 'catalyst' ? null : 'catalyst');
     });

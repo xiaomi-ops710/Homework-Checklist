@@ -1744,6 +1744,56 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .wc-pat-wave .wc-face::before{background:radial-gradient(circle at 50% 100%,transparent 56%,var(--wcink) 57% 61%,transparent 62%) 0 0/30px 24px}
 .pat-sparkle{background:radial-gradient(circle,rgba(255,196,64,.8) 1.2px,transparent 2px) 0 0/34px 30px,radial-gradient(circle,rgba(255,255,255,.75) 1px,transparent 1.6px) 17px 15px/34px 30px}
 .wc-pat-sparkle .wc-face::before{background:radial-gradient(circle,rgba(255,196,64,.8) 1.2px,transparent 2px) 0 0/34px 30px,radial-gradient(circle,rgba(255,255,255,.75) 1px,transparent 1.6px) 17px 15px/34px 30px}
+.hlay:not(.hed) .hsec{padding:12px!important}
+.hlay:not(.hed) .hsec .card{padding:0!important}
+.hlay:not(.hed) .hsec .aitd,.hlay:not(.hed) .hsec .wkc{margin:0!important}
+.hlay:not(.hed) .hsec .card>.h-sec:first-child{margin-top:0!important}
+.hlay:not(.hed) .hsec .card>.h-sec:last-child{margin-bottom:0!important}
+.hlay:not(.hed) .hsec .axt{margin:0}
+.card.grk{padding:16px 18px;gap:6px;align-items:stretch}
+.card.grk .mg-rh{margin:0 0 4px}
+.achtip{display:flex;align-items:center;gap:10px;margin:0 0 12px;padding:10px 12px 10px 14px;border-radius:24px;background:var(--scc);color:var(--on-scc)}
+.achtip-ic{width:40px;height:40px;border-radius:16px;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;flex:none}
+.achtip-ic .ms{font-size:22px}
+.achtip-t{display:grid;gap:2px;min-width:0;flex:1}
+.achtip-t small{font-size:.74rem;opacity:.85}
+.achtip-t b{font-size:.92rem;line-height:1.45;overflow-wrap:anywhere}
+.fbm-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
+.fbm-sum>div{display:grid;justify-items:center;padding:12px 6px;border-radius:24px;background:var(--s2)}
+.fbm-sum b{font-size:1.5rem;line-height:1.1}
+.fbm-sum small{font-size:.74rem;opacity:.8}
+.fbm{display:grid;gap:12px;padding:16px;border-radius:30px;background:var(--s2)}
+.fbm.new{box-shadow:inset 0 0 0 2px var(--primary)}
+.fbm-h{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.fbm-cat{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:14px;background:var(--pc);color:var(--on-pc);font-size:.8rem;font-weight:700}
+.fbm-tag{padding:4px 11px;border-radius:12px;background:var(--s3);font-size:.74rem;font-weight:700}
+.fbm-tag.unread{background:var(--primary);color:var(--on-primary)}
+.fbm-tag.todo{background:var(--ter-c)}
+.fbm-tag.ok{background:var(--scc);color:var(--on-scc)}
+.fbm-del{margin-left:auto}
+.fbm-q{padding:12px 14px;border-radius:22px 22px 22px 6px;background:var(--s3);display:grid;gap:4px}
+.fbm-q p{margin:0;line-height:1.7;overflow-wrap:anywhere}
+.fbm-q small{font-size:.74rem;opacity:.8}
+.fbm-a{display:flex;gap:10px;align-items:flex-end;max-width:94%;justify-self:end}
+.fbm-av{width:36px;height:36px;border-radius:14px;background:var(--primary);color:var(--on-primary);display:grid;place-items:center;flex:none}
+.fbm-ab{padding:12px 14px;border-radius:22px 22px 6px 22px;background:var(--scc);color:var(--on-scc);display:grid;gap:4px;min-width:0}
+.fbm-ab p{margin:0;line-height:1.7;overflow-wrap:anywhere}
+.fbm-ab b{font-size:.82rem}
+.fbm-ab small{font-size:.72rem;opacity:.8}
+.fbm-act{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fbm-act .sp{flex:1}
+.fbm-rbtn{min-width:120px;justify-content:center}
+.fbm-rd{display:inline-flex;align-items:center;gap:4px;font-size:.8rem;opacity:.8}
+.fbm .fbm-rp{display:none}
+.fbm.open .fbm-rp{display:grid;gap:10px;padding-top:2px}
+.fbm-tpl{display:flex;flex-wrap:wrap;gap:8px}
+.fbm-rp textarea{width:100%;border:0;border-radius:20px;padding:12px 14px;background:var(--s1);color:inherit;font:inherit;resize:vertical;min-height:88px;box-shadow:inset 0 0 0 1px rgba(128,128,128,.3)}
+.fbm-rp textarea:focus{outline:2px solid var(--primary);outline-offset:1px}
+.fbm-ra{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fbm-ra .sp{flex:1}
+.hlay:not(.hed) .hsec .h-sec{margin:16px 4px 8px!important}
+.hlay:not(.hed) .hsec>.h-sec:first-child,.hlay:not(.hed) .hsec>.card>.h-sec:first-child{margin-top:0!important}
+.hlay:not(.hed) .hsec>.h-sec:last-child,.hlay:not(.hed) .hsec>.card>.h-sec:last-child{margin-bottom:0!important}
 </style>
 </head>
 <body>
@@ -1767,7 +1817,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.91';
+const APP_VERSION = '17.92';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2268,6 +2318,7 @@ function render() {
   try { html = ui.sub ? subView() : (['tasks', 'cal', 'stats'].includes(ui.tab) && curExam().arc ? pastBar() : '') + VIEWS[ui.tab](); }
   catch (e) { errLog('画面 ' + ui.tab + '：' + ((e && e.message) || e)); html = viewBroken(); }
   v.innerHTML = html;
+  try { achTipPaint(); } catch (e) { }
   ui.anim = false;
   renderNav(); renderMini(); postRender();
   if (ui.tab === 'ai') { renderAiLog(); renderAtt(); }
@@ -2479,6 +2530,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.92', d: '__BUILD__', t: '元素マージの消費EPを見直し、歴打と元素インベーダーに友達のランキングを追加しました', n: ['元素マージの交換は500 EP、加熱は200 EP（揺れを大きくしました）、吸引は800 EP、触媒は400 EPになりました', '実績がまだのとき、その実績に関係する画面を開くと、ここで何をすれば解除できるかを案内します', '歴打と元素インベーダーの画面に、友達との最高点ランキングを表示します（メダルは元素マージと同じです）', 'ホームのカードの上と下の余白を減らしました'] },
   { v: '17.91', d: '__BUILD__', t: 'レベルの特典を増やしました（メダル・お守り・単語帳の模様・EPボーナス）', n: ['友達ランキングの1〜3位に、金・銀・銅のメダルを出します（Lv.4）', '連続記録のお守りを使うと、昨日の記録がなくても連続記録を守れます。1か月に1回です（Lv.6）', '単語帳のカードに模様を選べるようになりました。文字は読みやすいままです（Lv.12）', '元素マージを始めるとき、EPが100もらえるようになりました（Lv.15）'] },
   { v: '17.90', d: '__BUILD__', t: '元素マージのランキングと、全画面での途中経過を直しました', n: ['元素マージのランキングに、友達の点数が反映されるようにしました', 'ランキングに出ない友達がいるときは、その理由（進み具合の公開や、新しい版への更新）を表示するようにしました', '全画面にしたときや「戻す」を押したときに、ゲームが最初の画面に戻らないようにしました', '元素マージの表示が時々崩れる問題を直しました', '元素マージの吸引は1000 EPに変更しました（EPの上限は2000のままです）'] },
   { v: '17.88', d: '__BUILD__', t: '元素マージ・todo・アンケート・更新画面などを改善', n: ['ツールの一番上に「人気」を追加しました（単語帳・元素マージ・歴打・元素ラボ）', '元素マージの吸引は2000 EPになり、EPの上限も2000になりました', '管理者のアンケートに、自由回答を付けられるようになりました', 'はじめて開くタブやボタンに、吹き出しで説明を出すようにしました（タップで閉じます）', '集中タイマーの最小化とバツの位置を入れ替えました', '更新の画面から、更新履歴を見られるようになりました。ボタンも新しいデザインになりました', '今日のやることが、教科がないときも出るようにしました。端末どうしの同期で、やることが消えないようにしました', '元素マージの記録が二重に数えられる不具合を直しました', '友達に見せる記録は、レベルなどが変わったときにすぐ送られるようにしました', '友達との比較で、元素マージの点数が正しく出るようにしました'] },
@@ -2965,6 +3017,75 @@ function viewStats() {
 }
 
 /* ====================== 実績・レベル（17.69）：記録タブの大きな入口 → レベルとXP・ショップ・全実績・レベルごとの特典（階段） ====================== */
+/* ===== 17.92：未完成の実績のヒント（その実績に関係する画面を開いているとき、ここで何をすれば解除できるか） ===== */
+const ACH_TIPS = [
+  { loc: 'tool:card', ids: ['wc50', 'wc200', 'q_known20'], act: '単語帳の学習で「覚えた」を押す' },
+  { loc: 'tool:card', ids: ['q_cards10'], act: '単語帳で単語を1つ追加する' },
+  { loc: 'tool:focus', ids: ['f1', 'f10', 'f25', 'f50', 'q_focus60', 'q_focus600'], act: '集中タイマーで時間を計って勉強する' },
+  { loc: 'tool:rekida', ids: ['rk1000', 'rk4500', 'rkt10000', 'q_rk500'], act: '歴打を遊ぶ' },
+  { loc: 'tool:merge', ids: ['q_mg1000', 'q_mglv11'], act: '元素マージで遊ぶ' },
+  { loc: 'tool:ptable:game', ids: ['inv1', 'inv10', 'inv500', 'q_inv1000', 'ps100', 'ps1000'], act: '元素インベーダーを遊ぶ' },
+  { loc: 'tool:ptable:lab', ids: ['lab10'], act: '元素ラボで元素をタップして見つける' },
+  { loc: 'tab:tasks', ids: ['first', 't10', 't50', 't100', 'sub', 'sub3', 'req', 'q_t50', 'q_sub'], act: '課題の完了チェックを押す' },
+  { loc: 'tab:tasks', ids: ['p100', 'p500', 'p1000', 'p2000', 'p5000', 'd30', 'd50', 'd100'], act: '課題のページを進める' },
+  { loc: 'tab:home', ids: ['s3', 's7', 's14', 's30', 's60', 'q_s3', 'q_s7', 'q_s30'], act: '毎日勉強して、連続記録を続ける' },
+  { loc: 'tab:home', ids: ['q_friend1', 'q_share'], act: '友達を追加して、「見せる」をオンにする' },
+  { loc: 'tab:tools', ids: ['tu5', 'tu15', 'q_tools3', 'q_tools10'], act: 'いろいろなツールを開く' },
+  { loc: 'tab:tools', ids: ['q_games5'], act: '歴打・元素マージ・元素インベーダーを遊ぶ' },
+];
+const ACHTIP = { off: new Set() };   // 閉じたヒント（この画面を開いているあいだ）
+function achInfo(id) {
+  const b = BADGES.find(x => x[0] === id); if (b) return { id, name: b[2], done: !!S.badges[id] };
+  const q = XP_Q.find(x => x.id === id); if (q) return { id, name: q.n, done: !!(S.xpq || {})[id] };
+  return null;
+}
+function achLoc() {
+  if (ui.sub) return '';
+  if (ui.tab === 'tools' && ui.tool) return 'tool:' + ui.tool + (ui.tool === 'ptable' ? ':' + PT.mode : '');
+  return 'tab:' + ui.tab;
+}
+function achTipPaint() {
+  const old = document.getElementById('achtip'); if (old) old.remove();
+  const loc = achLoc(), v = document.getElementById('view'); if (!loc || !v) return;
+  for (const t of ACH_TIPS) {
+    if (t.loc !== loc) continue;
+    const cand = t.ids.map(achInfo).filter(a => a && !a.done && !ACHTIP.off.has(a.id));
+    if (!cand.length) continue;
+    const a = cand[0];
+    v.insertAdjacentHTML('afterbegin', `<div class="achtip" id="achtip"><span class="achtip-ic">${ms('emoji_events')}</span><div class="achtip-t"><small>実績「${esc(a.name)}」</small><b>ここで${esc(t.act)}と、解除できます</b></div><button type="button" class="ibtn" data-act="achtipx" data-id="${esc(a.id)}" aria-label="閉じる">${ms('close')}</button></div>`);
+    return;
+  }
+}
+
+/* ===== 17.92：歴打・元素インベーダーの友達ランキング（元素マージと同じ。友達の最高点を並べる） ===== */
+const GRK = { rows: null, err: false, busy: false, at: 0, miss: {} };
+function grkInner(key) {
+  const isRk = key === 'rk', unit = isRk ? '石高' : '点', title = isRk ? '友達との石高ランキング' : '友達との点数ランキング';
+  const mine = isRk ? (rkStat().best || 0) : (invStat().best || 0);
+  const head = `<b class="mg-rh">${ms('group')}${title}</b>`;
+  if (!CLOUD.user) return head + `<p class="muted" style="font-weight:500;margin:6px 0 0">友達と比べるには、Googleログインが必要です</p>`;
+  if (GRK.err) return head + `<p class="muted" style="font-weight:500;margin:6px 0">友達の情報を読めませんでした。「更新」を押してください。</p><button class="btn text xs" data-act="grkreload">${ms('refresh')}更新</button>`;
+  if (!GRK.rows) return head + `<p class="muted" style="font-weight:500;margin:6px 0 0">読み込み中…</p>`;
+  const fr = GRK.rows[key] || [];
+  const list = [{ name: 'あなた', v: mine, me: true }, ...fr.map(r => ({ name: r.name, v: r.v, me: false }))].sort((x, y) => y.v - x.v);
+  const note = fr.length ? '' : `<p class="muted" style="font-weight:500;margin:6px 0 0">まだ友達がいません。「友達を見る・追加」から追加すると、ここで比べられます。</p>`;
+  const miss = (GRK.miss && GRK.miss[key]) ? `<p class="muted" style="font-weight:500;margin:6px 0 0;font-size:.8rem">まだ ${GRK.miss[key]} 人の友達は、${unit}を見せていません</p>` : '';
+  return head + list.map((r, i) => `<div class="mg-rrow ${r.me ? 'me' : ''}"><span class="mg-rn">${medalHtml(i)}</span><b>${r.me ? 'あなた' : esc(r.name)}</b><span class="mg-rv">${r.v} ${unit}</span></div>`).join('') + note + miss + `<div class="fh-f" style="margin-top:8px"><button class="btn text xs" data-act="grkreload">${ms('refresh')}更新</button></div>`;
+}
+function grkRedraw() { ['rk', 'iv'].forEach(k => { const el = document.getElementById('grk-' + k); if (el) el.innerHTML = grkInner(k); }); }
+async function grkLoad(force) {
+  if (!CLOUD.user || GRK.busy || (!force && GRK.rows && Date.now() - GRK.at < 60000)) return grkRedraw();
+  if (!growGet().friends.length) { GRK.rows = { rk: [], iv: [] }; GRK.miss = {}; GRK.err = false; GRK.at = Date.now(); return grkRedraw(); }
+  GRK.busy = true; GRK.err = false; grkRedraw();
+  try {
+    const rows = await friendsLoad(), ok = rows.filter(r => !r.fof && r.data && !r.err);
+    const pick = k => ok.filter(r => typeof r.data[k] === 'number').map(r => ({ name: String(r.data.name || r.f.name || '名前なし'), v: Number(r.data[k]) || 0 }));
+    const miss = k => ok.filter(r => typeof r.data[k] !== 'number').length;
+    GRK.rows = { rk: pick('rk'), iv: pick('iv') }; GRK.miss = { rk: miss('rk'), iv: miss('iv') }; GRK.at = Date.now();
+  } catch (e) { GRK.err = true; }
+  GRK.busy = false; grkRedraw();
+}
+
 const ACHF = { f: 'all' };
 function achDoneN() {
   const bd = BADGES.filter(b => S.badges[b[0]]).length, qd = XP_Q.filter(q => !q.daily && (S.xpq || {})[q.id]).length;
@@ -6200,7 +6321,7 @@ document.addEventListener('pointerup', e => labDragEnd(e, false));
 document.addEventListener('pointercancel', e => labDragEnd(e, true));
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.id === 'labaq') { e.preventDefault(); ACT.labaigo(); } });
 document.addEventListener('input', e => { if (e.target.id === 'ptq') { PT.q = e.target.value; ptPaint(); } });
-TPAINT.ptable = ptPaint;
+TPAINT.ptable = () => { ptPaint(); if (PT.mode === 'game') grkLoad(); };
 
 /* ---------- 不規則動詞表 ---------- */
 const VB_D = ['be,was / were,been,である', 'become,became,become,なる', 'begin,began,begun,始める', 'break,broke,broken,こわす', 'bring,brought,brought,持ってくる', 'build,built,built,建てる', 'buy,bought,bought,買う', 'catch,caught,caught,つかまえる', 'choose,chose,chosen,選ぶ', 'come,came,come,来る', 'cut,cut,cut,切る', 'do,did,done,する', 'draw,drew,drawn,描く', 'drink,drank,drunk,飲む', 'drive,drove,driven,運転する', 'eat,ate,eaten,食べる', 'fall,fell,fallen,落ちる', 'feel,felt,felt,感じる', 'find,found,found,見つける', 'fly,flew,flown,飛ぶ', 'forget,forgot,forgotten,忘れる', 'get,got,got / gotten,得る', 'give,gave,given,与える', 'go,went,gone,行く', 'grow,grew,grown,成長する', 'have,had,had,持っている', 'hear,heard,heard,聞こえる', 'hit,hit,hit,打つ', 'hold,held,held,持つ', 'keep,kept,kept,保つ', 'know,knew,known,知っている', 'leave,left,left,去る', 'lend,lent,lent,貸す', 'let,let,let,させる', 'lose,lost,lost,失う', 'make,made,made,作る', 'mean,meant,meant,意味する', 'meet,met,met,会う', 'pay,paid,paid,払う', 'put,put,put,置く', 'read,read,read,読む', 'ride,rode,ridden,乗る', 'ring,rang,rung,鳴る', 'rise,rose,risen,のぼる', 'run,ran,run,走る', 'say,said,said,言う', 'see,saw,seen,見る', 'sell,sold,sold,売る', 'send,sent,sent,送る', 'set,set,set,置く', 'show,showed,shown,見せる', 'sing,sang,sung,歌う', 'sit,sat,sat,座る', 'sleep,slept,slept,眠る', 'speak,spoke,spoken,話す', 'spend,spent,spent,過ごす・使う', 'stand,stood,stood,立つ', 'swim,swam,swum,泳ぐ', 'take,took,taken,取る', 'teach,taught,taught,教える', 'tell,told,told,伝える', 'think,thought,thought,思う', 'throw,threw,thrown,投げる', 'understand,understood,understood,理解する', 'wear,wore,worn,着る', 'win,won,won,勝つ', 'write,wrote,written,書く'].map(x => x.split(','));
@@ -9885,7 +10006,7 @@ async function fbFlush() {
 /* ===== フィードバックの返信と通知（17.1）：管理者が返信 → 送った人に、アプリの中でお知らせ。新着は、管理者にお知らせ ===== */
 const FB_SEEN = 'kosa-fb-seen', FB_ASEEN = 'kosa-fb-aseen', FB_ADM = 'kosa-fb-adm';
 const FBL = { mine: [], adm: [], isAdmin: false, unsubM: null, unsubA: null, firstM: true, firstA: true, uid: '', noted: {} };
-const FBA = { filt: 'all', newIds: new Set() };
+const FBA = { filt: 'all', newIds: new Set(), open: new Set() };
 let FBM_NEW = new Set();
 const lsj = (k, d) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? d : v; } catch (e) { return d; } };
 const lss = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { } };
@@ -10243,15 +10364,25 @@ const FB_TPL = ['ありがとうございます！とても助かります。', 
 function fbInboxHtml() {
   const rows = FBL.adm, all = rows.length, nr = rows.filter(r => !r.reply).length, nu = rows.filter(admUnread).length;
   const list = rows.filter(r => FBA.filt === 'all' || (FBA.filt === 'no' ? !r.reply : FBA.filt === 'ur' ? admUnread(r) : !!r.reply));
-  const item = x => { const c = fbCat(x.cat), un = admUnread(x);
-    return `<article class="fbx fbx-adm ${un ? 'new' : ''}"><header class="fbx-h"><span class="fbi-c">${ms(c[2])}${c[1]}</span><span class="fbx-st ${un ? 'new' : ''}">${un ? '未読' : '既読'}</span><span class="fbx-st ${x.reply ? 'ok' : ''}">${x.reply ? '返信ずみ' : '未返信'}</span><button type="button" class="ibtn" data-act="fbdel" data-id="${x.id}" aria-label="削除">${ms('delete')}</button></header>` +
-      `<div class="fbx-q"><p>${esc(x.text).replace(/\n/g, '<br>')}</p><small>${fbWhen(x.t)}${x.name ? ' ・ ' + esc(x.name) : ''}${x.ver ? ' ・ v' + esc(x.ver) : ''}</small>${x.env ? `<small class="muted">${esc(x.env)}</small>` : ''}</div>` +
-      (x.reply ? `<div class="fbx-a"><span class="fbx-av">${ms('support_agent')}</span><div class="fbx-ab"><b>あなたの返信</b><p>${esc(x.reply).replace(/\n/g, '<br>')}</p><small>${fbWhen(x.rt || x.t)}</small></div></div>` : '') +
-      `<footer class="fbx-f">${un ? `<button type="button" class="btn tonal xs" data-act="fbread" data-id="${x.id}">${ms('done_all')}既読にする</button>` : `<span class="fbx-rd">${ms('done_all')}既読</span>`}</footer>` +
-      `<details class="fbi-rp"><summary>${ms('reply')}${x.reply ? '返信を編集' : '返信する（返信しなくても、既読にできます）'}</summary><div class="chips">${FB_TPL.map((t, k) => `<button type="button" class="sn-sc" data-act="fbtpl" data-id="${x.id}" data-t="${k}">${esc(t.slice(0, 10))}…</button>`).join('')}</div><textarea id="fbrt-${x.id}" rows="3" maxlength="1000" data-orig="${esc(x.reply || '')}" placeholder="返信を書く（送った人に、アプリの中で通知されます）">${esc(x.reply || '')}</textarea><div class="fbi-ra">${x.reply ? `<button type="button" class="btn text danger xs" data-act="fbunreply" data-id="${x.id}">返信を取り消す</button>` : ''}<span class="sp"></span><button type="button" class="btn xs" data-act="fbsend" data-id="${x.id}">${ms('send')}返信する</button></div></details></article>`; };
-  return `<h2>${ms('inbox')}フィードバック <small style="font-weight:500;color:var(--on-v)">${all}件</small></h2>` +
+  const item = x => {
+    const c = fbCat(x.cat), un = admUnread(x), open = FBA.open.has(x.id);
+    return `<article class="fbm ${un ? 'new' : ''} ${open ? 'open' : ''}" data-id="${x.id}">` +
+      `<header class="fbm-h"><span class="fbm-cat">${ms(c[2])}${c[1]}</span><span class="fbm-tag ${un ? 'unread' : 'read'}">${un ? '未読' : '既読'}</span><span class="fbm-tag ${x.reply ? 'ok' : 'todo'}">${x.reply ? '返信ずみ' : '未返信'}</span><button type="button" class="ibtn fbm-del" data-act="fbdel" data-id="${x.id}" aria-label="削除">${ms('delete')}</button></header>` +
+      `<div class="fbm-q"><p>${esc(x.text).replace(/\n/g, '<br>')}</p><small>${fbWhen(x.t)}${x.name ? ' ・ ' + esc(x.name) : ''}${x.ver ? ' ・ v' + esc(x.ver) : ''}</small>${x.env ? `<small class="muted">${esc(x.env)}</small>` : ''}</div>` +
+      (x.reply ? `<div class="fbm-a"><span class="fbm-av">${ms('support_agent')}</span><div class="fbm-ab"><b>あなたの返信</b><p>${esc(x.reply).replace(/\n/g, '<br>')}</p><small>${fbWhen(x.rt || x.t)}</small></div></div>` : '') +
+      `<div class="fbm-act">${un ? `<button type="button" class="btn tonal xs" data-act="fbread" data-id="${x.id}">${ms('done_all')}既読にする</button>` : `<span class="fbm-rd">${ms('done_all')}既読</span>`}<span class="sp"></span><button type="button" class="btn xs fbm-rbtn" data-act="fbrp" data-id="${x.id}" aria-expanded="${open}">${ms(x.reply ? 'edit' : 'reply')}${x.reply ? '返信を直す' : '返信する'}</button></div>` +
+      `<div class="fbi-rp fbm-rp"><div class="fbm-tpl">${FB_TPL.map((t, k) => `<button type="button" class="sn-sc" data-act="fbtpl" data-id="${x.id}" data-t="${k}">${esc(t.slice(0, 12))}…</button>`).join('')}</div>` +
+      `<textarea id="fbrt-${x.id}" rows="3" maxlength="1000" data-orig="${esc(x.reply || '')}" placeholder="返信を書く（送った人に、アプリの中で通知されます）">${esc(x.reply || '')}</textarea>` +
+      `<div class="fbm-ra">${x.reply ? `<button type="button" class="btn text danger xs" data-act="fbunreply" data-id="${x.id}">返信を取り消す</button>` : ''}<span class="sp"></span><button type="button" class="btn xs" data-act="fbsend" data-id="${x.id}">${ms('send')}送る</button></div></div>` +
+      `</article>`;
+  };
+  return `<h2>${ms('inbox')}フィードバック</h2>` +
+    `<div class="fbm-sum"><div><b>${all}</b><small>件</small></div><div><b>${nu}</b><small>未読</small></div><div><b>${nr}</b><small>未返信</small></div></div>` +
     (nu ? `<div class="fbx-bar"><span>${ms('mark_email_unread')}未読が ${nu}件</span><button type="button" class="btn tonal xs" data-act="fbreadall">${ms('done_all')}すべて既読</button></div>` : '') +
-    `<div class="wx-seg" role="group" style="margin:0 0 10px">${[['all', 'すべて', all], ['ur', '未読', nu], ['no', '未返信', nr], ['yes', '返信ずみ', all - nr]].map(([k, t, n]) => `<button type="button" class="wx-sg ${FBA.filt === k ? 'on' : ''}" data-act="fbfilt" data-id="${k}">${t} ${n}</button>`).join('')}</div><div class="fbi-new" id="fbnew" hidden>新しい内容があります<button type="button" class="btn text xs" data-act="fbreload">更新</button></div><div class="fbi-l">${list.length ? list.map(item).join('') : '<p class="muted" style="text-align:center;padding:20px 0">該当するフィードバックはありません</p>'}</div><div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">閉じる</button></div>`;
+    `<div class="wx-seg" role="group" style="margin:0 0 10px">${[['all', 'すべて', all], ['ur', '未読', nu], ['no', '未返信', nr], ['yes', '返信ずみ', all - nr]].map(([k, t, n]) => `<button type="button" class="wx-sg ${FBA.filt === k ? 'on' : ''}" data-act="fbfilt" data-id="${k}">${t} ${n}</button>`).join('')}</div>` +
+    `<div class="fbi-new" id="fbnew" hidden>新しい内容があります<button type="button" class="btn text xs" data-act="fbreload">更新</button></div>` +
+    `<div class="fbi-l">${list.length ? list.map(item).join('') : '<p class="muted" style="text-align:center;padding:20px 0">該当するフィードバックはありません</p>'}</div>` +
+    `<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">閉じる</button></div>`;
 }
 function fbInboxRefresh() {
   if (!(dlg.open && dlg.dataset.k === 'fbinbox')) return;
@@ -10285,6 +10416,16 @@ Object.assign(ACT, {
     if (!CLOUD.fb) return; const { fs, db } = CLOUD.fb; try { await fs.updateDoc(fs.doc(db, 'feedback', id), { reply: fs.deleteField(), rt: Date.now() }); toast('返信を取り消しました'); const t = $('#fbrt-' + id); if (t) t.dataset.orig = ''; fbInboxRefresh(); } catch (e) { toast('取り消せませんでした'); }
   },
   fbdel(id) { if (!CLOUD.fb) return; const { fs, db } = CLOUD.fb; confirmDlg('このフィードバックを消しますか？', '消すと、元にもどせません。', '消す', async () => { try { await fs.deleteDoc(fs.doc(db, 'feedback', id)); } catch (e) { toast('消せませんでした'); } if (FBL.isAdmin) { FBA.newIds = new Set(); openDlg(fbInboxHtml()); dlg.dataset.k = 'fbinbox'; } }); }
+});
+Object.assign(ACT, {
+  fbrp(id) {   // 返信の欄を開く・閉じる（書いている文字は消えない）
+    const on = !FBA.open.has(id); on ? FBA.open.add(id) : FBA.open.delete(id);
+    const art = dlg.querySelector(`.fbm[data-id="${id}"]`); if (!art) return;
+    art.classList.toggle('open', on); const b = art.querySelector('.fbm-rbtn'); if (b) b.setAttribute('aria-expanded', String(on));
+    if (on) { const t = art.querySelector('textarea'); if (t) setTimeout(() => t.focus(), 60); }
+  },
+  achtipx(id) { const loc = achLoc(); ACH_TIPS.forEach(t => { if (t.loc === loc) t.ids.forEach(x => ACHTIP.off.add(x)); }); achTipPaint(); },
+  grkreload() { grkLoad(true); },
 });
 // 設定の「データ」の文字を、5回続けてタップすると開く
 let fbkN = 0, fbkT = 0;
@@ -10839,7 +10980,7 @@ function rekidaHtml() {
   const lv = level().L;
   if (document.getElementById('rkov')) return `<div class="ps"><div class="card ps-st">${rkStatHtml()}</div><p class="muted ps-note" style="margin:10px 4px 0">全画面で遊んでいます。「戻す」で、ツールの画面に戻ります。</p></div>`;
   if (lv < RK_LV) return `<div class="rk-lock card"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>歴打は、レベル${RK_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。課題を進めたり、アプリを使ってレベルを上げると、遊べるようになります。あと${RK_LV - lv}レベルです。</p></div>`;
-  return `<div class="ps"><div class="card ps-st" id="rkstat">${rkStatHtml()}</div><div class="ps-bar"><button type="button" class="btn tonal sm" id="rkfb" data-act="rkfull">${ms('fullscreen')}全画面</button></div><div class="ps-frame rk-frame" id="rkframe"><iframe src="games/rekida.html" title="歴打 -REKIDA-"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">1ゲームの石高や累計は、実績「石高1000」などに反映されます。</p></div>`;
+  return `<div class="ps"><div class="card ps-st" id="rkstat">${rkStatHtml()}</div><div class="card grk" id="grk-rk">${grkInner('rk')}</div><div class="ps-bar"><button type="button" class="btn tonal sm" id="rkfb" data-act="rkfull">${ms('fullscreen')}全画面</button></div><div class="ps-frame rk-frame" id="rkframe"><iframe src="games/rekida.html" title="歴打 -REKIDA-"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">1ゲームの石高や累計は、実績「石高1000」などに反映されます。</p></div>`;
 }
 
 /* ====================== 元素マージ：レベル7で解放、またはXP（500）で購入。games/merge.html を埋め込み、最高点を友達と比べる（Matter.js を CDN から読むので通信が必要） ====================== */
@@ -11168,6 +11309,7 @@ async function mgRankLoad(force) {
   MG_RANK.busy = false; mgRankRedraw();
 }
 TPAINT.merge = () => { if (document.getElementById('mgrank')) mgRankLoad(); };
+TPAINT.rekida = () => { grkLoad(); };
 
 /* ====================== 元素シューティング（17.35）：「元素インベーダー ULTRA」を games/invader.html から埋め込む ====================== */
 // 点数の保存（実績「シューティング100点」などで使う）。新しいゲームでは、この値は更新されない
@@ -11192,7 +11334,7 @@ window.addEventListener('message', e => {
   checkBadges(false); save(); frChanged();
 });
 function gameHtml() {
-  return `<div class="ps"><div class="card ps-st" id="invstat">${invStatHtml()}</div><div class="ps-bar"><button type="button" class="btn tonal sm" data-act="psreload">${ms('refresh')}読み直す</button><button type="button" class="btn tonal sm" id="psfb" data-act="psfull">${ms('fullscreen')}全画面</button></div>
+  return `<div class="ps"><div class="card ps-st" id="invstat">${invStatHtml()}</div><div class="card grk" id="grk-iv">${grkInner('iv')}</div><div class="ps-bar"><button type="button" class="btn tonal sm" data-act="psreload">${ms('refresh')}読み直す</button><button type="button" class="btn tonal sm" id="psfb" data-act="psfull">${ms('fullscreen')}全画面</button></div>
   <div class="ps-frame" id="psframe"><iframe src="games/invader.html" title="元素インベーダー ULTRA（元素シューティング）"></iframe></div>
   <p class="muted ps-note" style="margin:10px 4px 0">画面の中のボタンやキーで操作します。キーで遊ぶときは、先に画面をタップしてください。うまく動かないときは「読み直す」を押してください。</p></div>`;
 }
