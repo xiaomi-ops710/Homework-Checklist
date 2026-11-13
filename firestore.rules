@@ -38,7 +38,8 @@ service cloud.firestore {
     match /feedback/{id} {
       allow create: if request.auth != null
         && request.resource.data.uid == request.auth.uid
-        && request.resource.data.keys().hasOnly(['uid','name','cat','text','ver','env','t']);
+        && request.resource.data.keys().hasOnly(['uid','name','cat','text','ver','env','t','imgs'])
+        && (!('imgs' in request.resource.data) || (request.resource.data.imgs is list && request.resource.data.imgs.size() <= 2));
       allow read: if request.auth != null
         && (resource.data.uid == request.auth.uid || request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2');
       allow update: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
