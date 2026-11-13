@@ -110,6 +110,32 @@ service cloud.firestore {
       allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
     }
 
+    // 先生からの配信（課題・考査日）：全員向け。読めるのはログイン中の人、書く・消すのは先生だけ
+    match /assignAll/{id} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
+        && request.resource.data.keys().hasOnly(['id','kind','sub','title','tk','start','end','url','req','due','note','date','t','by'])
+        && request.resource.data.kind is string && request.resource.data.sub is string && request.resource.data.sub.size() <= 20
+        && (!('title' in request.resource.data) || request.resource.data.title.size() <= 60)
+        && (!('url' in request.resource.data) || request.resource.data.url.size() <= 500)
+        && (!('note' in request.resource.data) || request.resource.data.note.size() <= 300);
+      allow update: if false;
+      allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
+    }
+
+    // 先生からの配信：選んだ生徒向け。読めるのはその生徒本人だけ、書く・消すのは先生だけ
+    match /assignUser/{uid}/items/{id} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
+        && request.resource.data.keys().hasOnly(['id','kind','sub','title','tk','start','end','url','req','due','note','date','t','by'])
+        && request.resource.data.kind is string && request.resource.data.sub is string && request.resource.data.sub.size() <= 20
+        && (!('title' in request.resource.data) || request.resource.data.title.size() <= 60)
+        && (!('url' in request.resource.data) || request.resource.data.url.size() <= 500)
+        && (!('note' in request.resource.data) || request.resource.data.note.size() <= 300);
+      allow update: if false;
+      allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
+    }
+
     // 管理者からのアンケート（全員が読める。作る・締め切る・消すのは管理者だけ）
     // 投票は、アンケートごとに1人1票（自分の投票だけ書けます。締め切られると書けません）
     match /surveys/{sid} {
