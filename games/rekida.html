@@ -312,7 +312,23 @@
             background-position: 0 0, 90px 120px;
             animation: rkPetal 26s linear infinite;
         }
-    </style>
+            /* 歴打の問題・答え・ふりがな・スペルの文字サイズ（CDN非依存で確実に反映） */
+        #questionText { font-size: 20px; }
+        #kanjiTargetDisplay { font-size: 30px; }
+        #kanaTargetDisplay { font-size: 18px; }
+        #romajiContainer { font-size: 24px; }
+        @media (min-width: 640px) {
+            #questionText { font-size: 30px; }
+            #kanjiTargetDisplay { font-size: 48px; }
+            #kanaTargetDisplay { font-size: 24px; }
+            #romajiContainer { font-size: 36px; }
+        }
+        @media (min-width: 768px) {
+            #questionText { font-size: 36px; }
+            #kanjiTargetDisplay { font-size: 60px; }
+            #romajiContainer { font-size: 48px; }
+        }
+</style>
 </head>
 <body class="bg-japanese-pattern min-h-[100dvh] flex flex-col justify-between relative">
 
@@ -698,7 +714,7 @@
 
                         <!-- 歴史問題文 -->
                         <div class="min-h-[2.8rem] sm:min-h-[3.2rem] flex items-center justify-center">
-                            <h3 id="questionText" class="text-base sm:text-xl md:text-2xl lg:text-3xl font-bold text-stone-900 text-center leading-snug tracking-wide">
+                            <h3 id="questionText" class="text-xl sm:text-3xl md:text-4xl lg:text-4xl font-bold text-stone-900 text-center leading-snug tracking-wide">
                                 1603年に徳川家康が開いた幕府は？
                             </h3>
                         </div>
@@ -710,19 +726,19 @@
                         <!-- 正解の漢字表記 -->
                         <div>
                             <div id="targetSubLabel" class="text-[11px] text-amber-400/90 tracking-widest uppercase mb-0.5">正解の歴史用語</div>
-                            <div id="kanjiTargetDisplay" class="font-brush text-2xl sm:text-4xl md:text-5xl text-amber-100 tracking-wider drop-shadow">
+                            <div id="kanjiTargetDisplay" class="font-brush text-3xl sm:text-5xl md:text-6xl text-amber-100 tracking-wider drop-shadow">
                                 江戸幕府
                             </div>
                         </div>
 
                         <!-- ふりがな（かなチャンクごとに色分け） -->
-                        <div id="kanaTargetDisplay" class="flex flex-wrap items-center justify-center gap-1 text-base sm:text-xl font-bold tracking-widest min-h-[1.8rem]">
+                        <div id="kanaTargetDisplay" class="flex flex-wrap items-center justify-center gap-1.5 text-lg sm:text-2xl font-bold tracking-widest min-h-[2.2rem]">
                             <!-- JSで動的生成 -->
                         </div>
 
                         <!-- ローマ字ガイド表示（スペル非表示モード時は打った文字のみ表示し未入力スペルを隠す） -->
                         <div class="bg-black/65 rounded-xl py-2.5 px-3 sm:px-5 border border-stone-700 shadow-inner">
-                            <div id="romajiContainer" class="font-mono-typing text-xl sm:text-3xl md:text-4xl tracking-wider flex flex-wrap items-center justify-center gap-y-1.5 min-h-[2.3rem]">
+                            <div id="romajiContainer" class="font-mono-typing text-2xl sm:text-4xl md:text-5xl tracking-wider flex flex-wrap items-center justify-center gap-y-1.5 min-h-[2.8rem]">
                                 <!-- JSで動的生成 -->
                             </div>
                         </div>
@@ -745,9 +761,6 @@
                                 <button onclick="skipCurrentQuestion()" class="px-3 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 active:scale-95 text-stone-200 border border-stone-600 text-xs font-bold transition flex items-center gap-1" title="Escキーでも次の問題へパスできます">
                                     <i class="fa-solid fa-forward-step text-amber-400"></i> パス (Esc)
                                 </button>
-                                <button onclick="toggleVirtualKeyboardCollapse()" id="toggleVkBtn" class="px-2.5 py-1.5 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-600 text-xs transition" title="外付けキーボード使用時に画面キーボードを折りたたみます">
-                                    <i class="fa-solid fa-keyboard"></i>
-                                </button>
                                 <button onclick="confirmReturnToTitle()" class="px-2.5 py-1.5 rounded-lg bg-stone-800 hover:bg-red-950 text-stone-300 hover:text-red-200 border border-stone-600 text-xs transition">
                                     中断
                                 </button>
@@ -764,7 +777,7 @@
                     </div>
 
                     <!-- iPad第10世代＆タッチ端末向け大型バーチャルキーボード（マルチタッチ高速入力対応） -->
-                    <div id="virtualKeyboardWrapper" class="pt-0.5 transition-all">
+                    <div id="virtualKeyboardWrapper" class="pt-0.5 transition-all" style="display:none">
                         <div id="virtualKeyboard" class="max-w-3xl mx-auto space-y-1.5 select-none">
                             <!-- JSでQWERTY配列＋ハイフンを生成 -->
                         </div>
@@ -846,15 +859,15 @@
                     </div>
 
                     <!-- アクションボタン -->
-                    <div class="rounded-2xl bg-amber-50 border-2 border-amber-800 p-3 sm:p-4 shadow-lg">
+                    <div class="rounded-2xl p-3 sm:p-4 shadow-lg" style="background:#fef3c7;border:2px solid #92400e">
                     <div class="flex flex-wrap items-center justify-center gap-3">
-                        <button onclick="retrySameDifficulty()" class="btn-wafuu px-5 py-3 rounded-xl bg-red-700 hover:bg-red-600 text-white border-2 border-red-300 font-brush text-base sm:text-xl flex items-center gap-2">
+                        <button onclick="retrySameDifficulty()" class="btn-wafuu px-5 py-3 rounded-xl font-brush" style="background:#b91c1c;color:#ffffff;border:2px solid #fcd34d;box-shadow:0 4px 0 #450a0a" text-base sm:text-xl flex items-center gap-2">
                             <i class="fa-solid fa-rotate-right"></i> 同じ設定でもう一度挑む
                         </button>
-                        <button onclick="openEncyclopediaModal()" class="btn-wafuu px-5 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 border-2 border-amber-200 font-brush text-base sm:text-xl flex items-center gap-2">
+                        <button onclick="openEncyclopediaModal()" class="btn-wafuu px-5 py-3 rounded-xl font-brush" style="background:#f59e0b;color:#1c1917;border:2px solid #78350f;box-shadow:0 4px 0 #451a03" text-base sm:text-xl flex items-center gap-2">
                             <i class="fa-solid fa-book-journal-whills"></i> 歴史用語大図鑑を開く
                         </button>
-                        <button onclick="showTitleScreen()" class="btn-wafuu px-5 py-3 rounded-xl bg-white hover:bg-stone-100 text-stone-900 border-2 border-stone-500 font-brush text-base sm:text-xl flex items-center gap-2">
+                        <button onclick="showTitleScreen()" class="btn-wafuu px-5 py-3 rounded-xl font-brush" style="background:#ffffff;color:#1c1917;border:2px solid #57534e;box-shadow:0 4px 0 #a8a29e" text-base sm:text-xl flex items-center gap-2">
                             <i class="fa-solid fa-house"></i> 難易度選択へ戻る
                         </button>
                     </div>
@@ -937,7 +950,7 @@
          *    平安〜昭和まで網羅し、何度遊んでも飽きない圧倒的ボリューム
          * ========================================================================= */
         const HISTORY_QUESTIONS = {
-            // 【簡単（初級・足軽コース）】：2〜6文字の基本重要語句（全80問）
+            // 【簡単（初級・足軽コース）】：2〜6文字の基本重要語句
             easy: [
                 { t: "p", era: "大正時代", q: "『銀河鉄道の夜』などを書いた、大正・昭和初期の詩人・童話作家は？", kanji: "宮沢賢治", kana: "みやざわけんじ", note: "岩手県出身。詩や童話を多く残した。" },
                 { t: "p", era: "大正時代", q: "元老として、大正時代の政党内閣の成立を支えた人物は？", kanji: "西園寺公望", kana: "さいおんじきんもち", note: "明治・大正期に首相を務めた元老。" },
@@ -1047,10 +1060,47 @@
                 { t: "e", era: "昭和時代", q: "1929年にニューヨーク株式市場での株価大暴落から始まった世界的な大不況は？", kanji: "世界恐慌", kana: "せかいきょうこう", note: "日本にも波及して「昭和恐慌」となり、農村や中小企業が深刻な打撃を受けました。" },
                 { t: "e", era: "昭和時代", q: "1945年8月に日本が連合国側の降伏勧告を受け入れて第二次世界大戦が終わった宣言は？", kanji: "ポツダム宣言", kana: "ぽつだむせんげん", note: "広島・長崎への原爆投下とソ連の参戦を経て受諾し、8月15日に玉音放送が流れました。" },
                 { t: "e", era: "昭和時代", q: "戦後の民主化改革で、地主の土地を政府が買い上げて小作人に安く売り渡した改革は？", kanji: "農地改革", kana: "のうちかいかく", note: "GHQの指令のもと行われ、多くの農民が自分の土地を持つ自作農となりました。" },
-                { t: "e", era: "昭和時代", q: "1945年にサンフランシスコ会議で設立された、第二次世界大戦後の国際平和機構は？", kanji: "国際連合", kana: "こくさいれんごう", note: "本部はニューヨーク。日本は1956年の日ソ共同宣言の後に加盟を果たしました。" }
+                { t: "e", era: "昭和時代", q: "1945年にサンフランシスコ会議で設立された、第二次世界大戦後の国際平和機構は？", kanji: "国際連合", kana: "こくさいれんごう", note: "本部はニューヨーク。日本は1956年の日ソ共同宣言の後に加盟を果たしました。" },
+                { t: "p", era: "飛鳥時代", q: "冠位十二階を定め、十七条の憲法を作ったとされる、推古天皇の摂政は？", kanji: "聖徳太子", kana: "しょうとくたいし", note: "遣隋使も派遣した。" },
+                { t: "e", era: "飛鳥時代", q: "家柄ではなく能力によって位を与えた、604年の制度は？", kanji: "冠位十二階", kana: "かんいじゅうにかい", note: "聖徳太子が定めた。" },
+                { t: "e", era: "飛鳥時代", q: "672年、天皇の位をめぐって起きた皇族の争いは？", kanji: "壬申の乱", kana: "じんしんのらん", note: "大海人皇子が勝利した。" },
+                { t: "e", era: "奈良時代", q: "710年に都が置かれた、唐の長安にならった都は？", kanji: "平城京", kana: "へいじょうきょう", note: "今の奈良市にあった。" },
+                { t: "e", era: "奈良時代", q: "752年、大仏の開眼供養が行われた寺は？", kanji: "東大寺", kana: "とうだいじ", note: "聖武天皇が建てた。" },
+                { t: "p", era: "江戸時代", q: "『解体新書』の翻訳にたずさわった医者の一人は？", kanji: "杉田玄白", kana: "すぎたげんぱく", note: "オランダ語の医学書を翻訳した。" },
+                { t: "e", era: "明治時代", q: "1872年、全国に学校を設ける仕組みを定めた法令は？", kanji: "学制", kana: "がくせい", note: "国民皆学を目指した。" },
+                { t: "p", era: "奈良時代", q: "741年、各地に国分寺を建てるよう命じた天皇は？", kanji: "聖武天皇", kana: "しょうむてんのう", note: "大仏造立も進めた。" },
+                { t: "p", era: "奈良時代", q: "民衆に教えを説き、橋や用水路などを造った僧は？", kanji: "行基", kana: "ぎょうき", note: "東大寺の大仏造立にも協力した。" },
+                { t: "p", era: "奈良時代", q: "唐から来日し、唐招提寺を開いた僧は？", kanji: "鑑真", kana: "がんじん", note: "何度も渡航に失敗し、6度目に来日を果たした。" },
+                { t: "p", era: "平安時代", q: "『土佐日記』を書いた人物は？", kanji: "紀貫之", kana: "きのつらゆき", note: "女性を装って仮名で書いた。" },
+                { t: "p", era: "安土桃山時代", q: "関ヶ原の戦いで西軍を率いた武将は？", kanji: "石田三成", kana: "いしだみつなり", note: "豊臣秀吉に仕えた。" },
+                { t: "p", era: "江戸時代", q: "仙台藩を治め、「独眼竜」と呼ばれた大名は？", kanji: "伊達政宗", kana: "だてまさむね", note: "仙台城を築いた。" },
+                { t: "p", era: "江戸時代", q: "「生類憐れみの令」を出した、第5代将軍は？", kanji: "徳川綱吉", kana: "とくがわつなよし", note: "儒学を重んじ、湯島聖堂を整えた。" },
+                { t: "p", era: "江戸時代", q: "エレキテルを復元したことで知られる学者は？", kanji: "平賀源内", kana: "ひらがげんない", note: "多くの発明品や物産を紹介した。" },
+                { t: "p", era: "江戸時代", q: "『おらが春』を書いた俳人は？", kanji: "小林一茶", kana: "こばやしいっさ", note: "親しみやすい句で知られる。" },
+                { t: "e", era: "江戸時代", q: "『解体新書』の翻訳を回想した、蘭学の記録は？", kanji: "蘭学事始", kana: "らんがくことはじめ", note: "杉田玄白が晩年に書いた。" },
+                { t: "p", era: "明治時代", q: "黄熱病の研究で知られる医学者は？", kanji: "野口英世", kana: "のぐちひでよ", note: "アメリカで研究を続けた。" },
+                { t: "e", era: "明治時代", q: "1885年に始まった、内閣総理大臣を中心とする政治の仕組みは？", kanji: "内閣制度", kana: "ないかくせいど", note: "初代内閣総理大臣は伊藤博文。" },
+                { t: "e", era: "明治時代", q: "1879年、琉球王国が沖縄県になった出来事は？", kanji: "琉球処分", kana: "りゅうきゅうしょぶん", note: "沖縄県が設置された。" },
+                { t: "e", era: "明治時代", q: "1882年に設立された、日本の中央銀行は？", kanji: "日本銀行", kana: "にほんぎんこう", note: "紙幣の発行を担う。" },
+                { t: "e", era: "明治時代", q: "1911年に中国で起きた革命は？", kanji: "辛亥革命", kana: "しんがいかくめい", note: "清が滅び、中華民国が成立した。" },
+                { t: "p", era: "昭和時代", q: "五・一五事件で暗殺された首相は？", kanji: "犬養毅", kana: "いぬかいつよし", note: "政党政治を代表する人物の一人。" },
+                { t: "p", era: "昭和時代", q: "太平洋戦争の開戦時の首相は？", kanji: "東条英機", kana: "とうじょうひでき", note: "陸軍大臣も務めた。" },
+                { t: "p", era: "昭和時代", q: "1940年に大政翼賛会を発足させた首相は？", kanji: "近衛文麿", kana: "このえふみまろ", note: "日中戦争の拡大期に内閣を率いた。" },
+                { t: "p", era: "昭和時代", q: "1960年の安保改定を行った首相は？", kanji: "岸信介", kana: "きしのぶすけ", note: "日米新安保条約に調印した。" },
+                { t: "e", era: "昭和時代", q: "1932年、日本の支援で建国された国は？", kanji: "満洲国", kana: "まんしゅうこく", note: "清の最後の皇帝、溥儀が元首とされた。" },
+                { t: "e", era: "昭和時代", q: "1945年8月、広島と長崎に投下されたものは？", kanji: "原子爆弾", kana: "げんしばくだん", note: "アメリカが投下した。" },
+                { t: "e", era: "昭和時代", q: "1945年、日本本土で唯一の地上戦となった戦いは？", kanji: "沖縄戦", kana: "おきなわせん", note: "多くの住民が犠牲になった。" },
+                { t: "e", era: "昭和時代", q: "戦後、三井・三菱などの巨大企業グループを解体した政策は？", kanji: "財閥解体", kana: "ざいばつかいたい", note: "GHQの指導で進められた。" },
+                { t: "e", era: "昭和時代", q: "第二次世界大戦後、アメリカとソ連が対立した状態は？", kanji: "冷戦", kana: "れいせん", note: "直接の戦争にはならなかった。" },
+                { t: "e", era: "昭和時代", q: "1950年、朝鮮戦争をきっかけに日本経済がうるおった需要は？", kanji: "朝鮮特需", kana: "ちょうせんとくじゅ", note: "戦争物資の注文が日本に集まった。" },
+                { t: "e", era: "昭和時代", q: "1961年に全国で実施された、誰もが医療保険に入る制度は？", kanji: "国民皆保険", kana: "こくみんかいほけん", note: "国民健康保険などを全国に広げた。" },
+                { t: "e", era: "昭和時代", q: "1946年から行われた、戦争指導者を裁いた裁判は？", kanji: "東京裁判", kana: "とうきょうさいばん", note: "極東国際軍事裁判ともいう。" },
+                { t: "e", era: "室町時代", q: "室町幕府が明との間で行った、勘合を用いた貿易は？", kanji: "日明貿易", kana: "にちみんぼうえき", note: "足利義満が始めた。" },
+                { t: "e", era: "奈良時代", q: "720年に完成した、日本の歴史書は？", kanji: "日本書紀", kana: "にほんしょき", note: "漢文で書かれた。" },
+                { t: "e", era: "奈良時代", q: "日本最古の和歌集は？", kanji: "万葉集", kana: "まんようしゅう", note: "天皇や貴族から庶民まで多くの歌を収める。" },
             ],
 
-            // 【中（中級・侍大将コース）】：5〜9文字のテスト頻出重要語句（全80問）
+            // 【中（中級・侍大将コース）】：5〜9文字のテスト頻出重要語句
             normal: [
                 { t: "e", era: "昭和時代", q: "1964年、アジアで初めて開かれた夏季オリンピックは？", kanji: "東京オリンピック", kana: "とうきょうおりんぴっく", note: "同じ年に新幹線も開業した。" },
                 { t: "e", era: "昭和時代", q: "1950年代半ばから1970年代初めまで続いた、急速な経済成長は？", kanji: "高度経済成長", kana: "こうどけいざいせいちょう", note: "日本の経済が大きく発展した時期。" },
@@ -1133,10 +1183,48 @@
                 { t: "e", era: "昭和時代", q: "1931年に奉天郊外の柳条湖で関東軍が南満州鉄道の線路を爆破し、軍事行動を始めた出来事は？", kanji: "満州事変", kana: "まんしゅうじへん", note: "関東軍は満州全土を占領して翌年に「満州国」の建国を宣言しました。" },
                 { t: "e", era: "昭和時代", q: "1936年2月26日に陸軍の青年将校らが部隊を率いて大臣らを殺傷し、東京の中心部を占拠した事件は？", kanji: "二二六事件", kana: "ににろくじけん", note: "高橋是清蔵相や斎藤実内大臣らが殺害され、これ以降軍部の政治的発言力が決定的となりました。" },
                 { t: "e", era: "昭和時代", q: "1937年7月に北京郊外の盧溝橋事件をきっかけに始まった、日本と中国の全面戦争は？", kanji: "日中戦争", kana: "にっちゅうせんそう", note: "蒋介石率いる国民政府と共産党が「抗日民族統一戦線」を結成して抵抗し、戦争は長期化しました。" },
-                { t: "e", era: "昭和時代", q: "1941年12月8日に日本軍がハワイの真珠湾などを攻撃して始まった戦争は？", kanji: "太平洋戦争", kana: "たいへいようせんそう", note: "連合国軍との激しい戦いの末、1945年8月にポツダム宣言を受諾して終戦を迎えました。" }
+                { t: "e", era: "昭和時代", q: "1941年12月8日に日本軍がハワイの真珠湾などを攻撃して始まった戦争は？", kanji: "太平洋戦争", kana: "たいへいようせんそう", note: "連合国軍との激しい戦いの末、1945年8月にポツダム宣言を受諾して終戦を迎えました。" },
+                { t: "e", era: "飛鳥時代", q: "645年、中大兄皇子らが蘇我氏を倒して始めた改革は？", kanji: "大化の改新", kana: "たいかのかいしん", note: "公地公民の考え方を進めた。" },
+                { t: "e", era: "飛鳥時代", q: "聖徳太子が定めた、役人の心構えなどを示した法は？", kanji: "十七条の憲法", kana: "じゅうしちじょうのけんぽう", note: "和を重んじることを説いた。" },
+                { t: "e", era: "奈良時代", q: "743年、開墾した土地の私有を認めた法令は？", kanji: "墾田永年私財法", kana: "こんでんえいねんしざいほう", note: "荘園が広がるきっかけになった。" },
+                { t: "e", era: "安土桃山時代", q: "1582年、豊臣秀吉が明智光秀を破った戦いは？", kanji: "山崎の戦い", kana: "やまざきのたたかい", note: "秀吉が天下統一へ進む足がかりになった。" },
+                { t: "e", era: "安土桃山時代", q: "1587年、キリスト教の宣教師を国外へ追放するよう命じた法令は？", kanji: "バテレン追放令", kana: "ばてれんついほうれい", note: "秀吉が出した。" },
+                { t: "e", era: "安土桃山時代", q: "1582年に派遣された、キリシタン大名の少年たちの使節は？", kanji: "天正遣欧使節", kana: "てんしょうけんおうしせつ", note: "ローマ教皇に謁見した。" },
+                { t: "e", era: "江戸時代", q: "1837年、大阪で大塩平八郎が起こした反乱は？", kanji: "大塩平八郎の乱", kana: "おおしおへいはちろうのらん", note: "元幕府の役人だった大塩が起こした。" },
+                { t: "e", era: "明治時代", q: "1873年に公布された、土地の価格を基準に税を納めさせた改革は？", kanji: "地租改正条例", kana: "ちそかいせいじょうれい", note: "税制を大きく変えた。" },
+                { t: "e", era: "大正時代", q: "1925年に制定された、社会運動を取り締まる法律は？", kanji: "治安維持法", kana: "ちあんいじほう", note: "普通選挙法と同時に成立した。" },
+                { t: "e", era: "昭和時代", q: "1932年、犬養毅首相が暗殺された事件は？", kanji: "五・一五事件", kana: "ごいちごじけん", note: "海軍将校らが起こした。" },
+                { t: "e", era: "昭和時代", q: "1936年、陸軍の青年将校が起こしたクーデターは？", kanji: "二・二六事件", kana: "にいにろくじけん", note: "東京の中心部で起きた。" },
+                { t: "e", era: "昭和時代", q: "戦時中、政党が解散して作られた国民統合の組織は？", kanji: "大政翼賛会", kana: "たいせいよくさんかい", note: "1940年に作られた。" },
+                { t: "e", era: "昭和時代", q: "1931年、関東軍が起こした、満州事変のきっかけの事件は？", kanji: "柳条湖事件", kana: "りゅうじょうこじけん", note: "南満州鉄道の線路が爆破された。" },
+                { t: "p", era: "飛鳥時代", q: "645年、蘇我入鹿を討ち、大化の改新を進めた皇子は？", kanji: "中大兄皇子", kana: "なかのおおえのおうじ", note: "のちの天智天皇。" },
+                { t: "e", era: "平安時代", q: "905年に紀貫之らが編纂した、最初の勅撰和歌集は？", kanji: "古今和歌集", kana: "こきんわかしゅう", note: "仮名序が有名。" },
+                { t: "e", era: "江戸時代", q: "1790年、松平定信が朱子学以外の学問を禁じた政策は？", kanji: "寛政異学の禁", kana: "かんせいいがくのきん", note: "寛政の改革の一環。" },
+                { t: "e", era: "江戸時代", q: "1780年代に東北地方などで起きた、大規模な飢饉は？", kanji: "天明の大飢饉", kana: "てんめいのだいききん", note: "" },
+                { t: "e", era: "江戸時代", q: "1685年以降、徳川綱吉が出した、動物の殺生を禁じた法令は？", kanji: "生類憐れみの令", kana: "しょうるいあわれみのれい", note: "綱吉は「犬公方」とも呼ばれた。" },
+                { t: "e", era: "明治時代", q: "1871年、日本と清との間で結ばれた対等な条約は？", kanji: "日清修好条規", kana: "にっしんしゅうこうじょうき", note: "" },
+                { t: "e", era: "明治時代", q: "1876年、江華島事件をきっかけに朝鮮と結ばれた不平等条約は？", kanji: "日朝修好条規", kana: "にっちょうしゅうこうじょうき", note: "日本に有利な内容だった。" },
+                { t: "e", era: "明治時代", q: "1910年、朝鮮を統治するために置かれた機関は？", kanji: "朝鮮総督府", kana: "ちょうせんそうとくふ", note: "" },
+                { t: "e", era: "明治時代", q: "1900年、清で起きた排外運動による事件は？", kanji: "義和団事件", kana: "ぎわだんじけん", note: "" },
+                { t: "e", era: "明治時代", q: "1901年に操業を開始した、国が運営した製鉄所は？", kanji: "官営八幡製鉄所", kana: "かんえいやはたせいてつじょ", note: "日本の重工業の基礎となった。" },
+                { t: "e", era: "明治時代", q: "1900年に伊藤博文が結成した政党は？", kanji: "立憲政友会", kana: "りっけんせいゆうかい", note: "" },
+                { t: "e", era: "明治時代", q: "1882年、大隈重信が結成した政党は？", kanji: "立憲改進党", kana: "りっけんかいしんとう", note: "" },
+                { t: "e", era: "明治時代", q: "1911年、日本が完全に回復した、輸入品の税率を自分で決める権利は？", kanji: "関税自主権", kana: "かんぜいじしゅけん", note: "小村寿太郎が交渉した。" },
+                { t: "e", era: "昭和時代", q: "1939年に始まった、世界的な戦争は？", kanji: "第二次世界大戦", kana: "だいにじせかいたいせん", note: "" },
+                { t: "e", era: "昭和時代", q: "1936年、日本がドイツと結んだ協定は？", kanji: "日独防共協定", kana: "にちどくぼうきょうきょうてい", note: "" },
+                { t: "e", era: "昭和時代", q: "1941年12月、太平洋戦争の開戦時に行われた奇襲は？", kanji: "真珠湾攻撃", kana: "しんじゅわんこうげき", note: "" },
+                { t: "e", era: "昭和時代", q: "1937年、日中戦争の発端となった事件は？", kanji: "盧溝橋事件", kana: "ろこうきょうじけん", note: "北京郊外で起きた。" },
+                { t: "e", era: "昭和時代", q: "1945年3月、東京の下町が大規模な空襲を受けた出来事は？", kanji: "東京大空襲", kana: "とうきょうだいくうしゅう", note: "" },
+                { t: "e", era: "昭和時代", q: "1956年、ソ連と国交を回復させた宣言は？", kanji: "日ソ共同宣言", kana: "にっそきょうどうせんげん", note: "" },
+                { t: "e", era: "昭和時代", q: "1972年、日本と中国が国交を正常化させた文書は？", kanji: "日中共同声明", kana: "にっちゅうきょうどうせいめい", note: "" },
+                { t: "e", era: "昭和時代", q: "1972年、田中角栄首相が発表した国土開発の構想書は？", kanji: "日本列島改造論", kana: "にほんれっとうかいぞうろん", note: "" },
+                { t: "e", era: "昭和時代", q: "1973年、原油価格の急騰で日本経済が混乱した出来事は？", kanji: "第一次石油危機", kana: "だいいちじせきゆきき", note: "" },
+                { t: "e", era: "昭和時代", q: "1964年に開業した、東京と新大阪を結ぶ鉄道は？", kanji: "東海道新幹線", kana: "とうかいどうしんかんせん", note: "" },
+                { t: "e", era: "昭和時代", q: "1935年、美濃部達吉の学説が問題視された事件は？", kanji: "天皇機関説事件", kana: "てんのうきかんせつじけん", note: "" },
+                { t: "e", era: "昭和時代", q: "日本が掲げた、アジアを日本中心に結ぶとした構想は？", kanji: "大東亜共栄圏", kana: "だいとうあきょうえいけん", note: "" },
             ],
 
-            // 【難しい（上級・征夷大将軍コース）】：8〜15文字の長い法令・条約・複合語句（全80問）
+            // 【難しい（上級・征夷大将軍コース）】：8〜15文字の長い法令・条約・複合語句
             hard: [
                 { t: "e", era: "昭和時代", q: "1945年8月、日本が連合国の降伏条件を受け入れたことは？", kanji: "ポツダム宣言の受諾", kana: "ぽつだむせんげんのじゅだく", note: "この受諾によって太平洋戦争が終わった。" },
                 { t: "e", era: "昭和時代", q: "1951年、日本の独立を回復させた講和条約は？", kanji: "サンフランシスコ平和条約", kana: "さんふらんしすこへいわじょうやく", note: "この条約で日本は主権を回復した。" },
@@ -1220,7 +1308,13 @@
                 { t: "e", era: "昭和時代", q: "1933年に国際連盟が満州事変を調査したリットン調査団の報告書を採択した際、抗議して議場を退場し脱退した日本の全権は？", kanji: "国際連盟脱退と松岡洋右", kana: "こくさいれんめいだったいとまつおかようすけ", note: "満州国の承認を拒否された日本は国際連盟を脱退し、国際的な孤立を深めていきました。" },
                 { t: "e", era: "昭和時代", q: "1938年に日中戦争が長期化する中、近衛文麿内閣が制定した、議会の承認なしに物資や労働力を戦争に動員できる法律は？", kanji: "国家総動員法", kana: "こっかそうどういんほう", note: "1940年にはすべての政党が解散して「大政翼賛会」に統合され、戦時体制が強化されました。" },
                 { t: "e", era: "昭和時代", q: "1940年に日本がアジアの新秩序建設を掲げて、ドイツ・イタリアと結んだ軍事同盟は？", kanji: "日独伊三国同盟", kana: "にちどくいさんごくどうめい", note: "枢軸国として連携を強め、アメリカ・イギリスなどの連合国との対立が決定的となりました。" },
-                { t: "e", era: "昭和時代", q: "1946年11月3日に公布され、国民主権・基本的人権の尊重・平和主義を三原則とする日本の現在の憲法は？", kanji: "日本国憲法", kana: "にほんこくけんぽう", note: "戦後の民主化改革（農地改革・財閥解体など）の中、1946年11月3日に公布、翌1947年5月3日に施行されました。" }
+                { t: "e", era: "昭和時代", q: "1946年11月3日に公布され、国民主権・基本的人権の尊重・平和主義を三原則とする日本の現在の憲法は？", kanji: "日本国憲法", kana: "にほんこくけんぽう", note: "戦後の民主化改革（農地改革・財閥解体など）の中、1946年11月3日に公布、翌1947年5月3日に施行されました。" },
+                { t: "e", era: "江戸時代", q: "1639年、ポルトガル船の来航を禁じた命令は？", kanji: "ポルトガル船来航禁止令", kana: "ぽるとがるせんらいこうきんしれい", note: "鎖国体制が完成した。" },
+                { t: "e", era: "江戸時代", q: "1842年、外国船の打ち払いをゆるめた政策は？", kanji: "天保の薪水給与令", kana: "てんぽうのしんすいきゅうよれい", note: "異国船打払令を事実上ゆるめた。" },
+                { t: "e", era: "明治時代", q: "1890年に発布された、国民の心得を示した天皇の言葉は？", kanji: "教育に関する勅語", kana: "きょういくにかんするちょくご", note: "教育勅語とも呼ばれる。" },
+                { t: "e", era: "大正時代", q: "1921年から開かれた、海軍の軍備制限を話し合う国際会議で結ばれた条約は？", kanji: "ワシントン海軍軍縮条約", kana: "わしんとんかいぐんぐんしゅくじょうやく", note: "アメリカのワシントンで開かれた会議で結ばれた。" },
+                { t: "e", era: "明治時代", q: "1894年、領事裁判権の撤廃を定めた条約は？", kanji: "日英通商航海条約", kana: "にちえいつうしょうこうかいじょうやく", note: "陸奥宗光が交渉した。" },
+                { t: "e", era: "明治時代", q: "明治時代に栃木県で起きた、銅山の鉱毒による公害事件は？", kanji: "足尾銅山鉱毒事件", kana: "あしおどうざんこうどくじけん", note: "田中正造が国会で追及した。" },
             ]
         };
 
@@ -2622,7 +2716,7 @@
                     targetSubLabel.textContent = "正解の歴史用語";
                 }
                 kanjiDisplay.textContent = qObj.kanji;
-                kanjiDisplay.className = "font-brush text-2xl sm:text-4xl md:text-5xl text-amber-100 tracking-wider drop-shadow";
+                kanjiDisplay.className = "font-brush text-3xl sm:text-5xl md:text-6xl text-amber-100 tracking-wider drop-shadow";
             } else {
                 // 暗記真剣勝負モード：進行度に応じて漢字を先頭から少しずつ開示
                 const progressRatio = gameState.currentChunkIndex / gameState.chunks.length;
@@ -2631,7 +2725,7 @@
                 const hiddenPart = '？'.repeat(qObj.kanji.length - revealKanjiChars);
                 targetSubLabel.innerHTML = `<span class="text-red-300 font-bold"><i class="fa-solid fa-user-ninja mr-1"></i>暗記真剣勝負（全${qObj.kanji.length}文字 / 読み${qObj.kana.length}文字・Tabでヒント開眼）</span>`;
                 kanjiDisplay.textContent = visiblePart + hiddenPart;
-                kanjiDisplay.className = "font-brush text-2xl sm:text-4xl md:text-5xl text-red-200 tracking-widest drop-shadow";
+                kanjiDisplay.className = "font-brush text-3xl sm:text-5xl md:text-6xl text-red-200 tracking-widest drop-shadow";
             }
 
             let nextRequiredChar = '';

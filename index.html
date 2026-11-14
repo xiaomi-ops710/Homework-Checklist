@@ -1882,7 +1882,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.95';
+const APP_VERSION = '17.97';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2611,6 +2611,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.97', d: '__BUILD__', t: '歴打の画面を見やすくし、問題を追加しました', n: ['歴打の画面下のキーボードを非表示にし、外付けキーボードで打ちやすくしました', '歴打の問題・答え・ふりがな・スペルの文字を大きくしました', '歴打の問題を追加しました'] },
+  { v: '17.96', d: '__BUILD__', t: '自動更新の表示と歴打の問題数、同じ設定でもう一度挑むボタンを直しました', n: ['自動更新がONのとき、更新があるのを見つけたらすぐ更新していることを画面に出すようにしました', '歴打の問題を追加しました', '歴打の結果画面で「同じ設定でもう一度挑む」ボタンを見やすくしました'] },
   { v: '17.95', d: '__BUILD__', t: '複数の端末での勉強時間の不具合を直し、フィードバックに写真を添付できるようにしました', n: ['複数の端末で同じアカウントを使ったとき、勉強時間の記録が消えることがある不具合を直しました', 'フィードバックに写真を添付できるようにしました（2枚まで）', '歴打の結果画面のボタンを見やすくし、国際連盟脱退の読みを直しました'] },
   { v: '17.94', d: '__BUILD__', t: '漢字練習ツールを中学生向けの常用漢字（約2100字）に広げました', n: ['読みと二字熟語を、中学校で習う常用漢字まで収録しました', '一部の漢字は熟語が少なめです。今後追加していきます'] },
   { v: '17.93', d: '__BUILD__', t: '課題の追加画面を見直し、「リンク」の課題と漢字練習ツールを追加しました', n: ['課題の追加画面を、まず種類を選んでから必要な項目を入れる形に整理しました', '課題に「リンク」の種類を追加しました。アンケートや提出フォームのURLを入れると、課題からそのページを開けます', '漢字練習ツールを追加しました。漢字を入れて、Apple Pencilや指でなぞって練習でき、読みと二字熟語も見られます'] },
@@ -8871,8 +8873,8 @@ Object.assign(ACT, {
   wnoff() { S.set = S.set || {}; S.set.noWhatsNew = !S.set.noWhatsNew; save(); toast(S.set.noWhatsNew ? 'アップデート後の更新内容を出さないようにしました' : '更新内容を出すようにしました'); if (dlg.open && dlg.dataset.k === 'upd') { openDlg(updHtml()); dlg.dataset.k = 'upd'; } }
 });
 // 更新の読み込み中：ローディング画面（アプリのアイコンが形を変えて回る）
-function updLoadShow() {
-  openDlg(`<div class="ob upd-load" role="status" aria-live="polite"><div class="ob-art"><div class="upd-ld"><img class="obm-appicon" src="icon-192.png" alt="" width="96" height="96"></div></div><div class="ob-txt"><h2>更新しています</h2><p>少しお待ちください。終わると、自動で新しいバージョンが開きます。</p></div><div class="ob-prog ind" aria-hidden="true"><i></i></div></div>`);
+function updLoadShow(auto) {
+  openDlg(`<div class="ob upd-load" role="status" aria-live="polite"><div class="ob-art"><div class="upd-ld"><img class="obm-appicon" src="icon-192.png" alt="" width="96" height="96"></div></div><div class="ob-txt"><h2>${auto ? 'すぐ更新しています' : '更新しています'}</h2><p>${auto ? '新しいバージョンが見つかったので、今すぐ更新しています。' : '少しお待ちください。'}終わると、自動で新しいバージョンが開きます。</p></div><div class="ob-prog ind" aria-hidden="true"><i></i></div></div>`);
   dlg.dataset.k = 'updload';
 }
 
@@ -9132,7 +9134,7 @@ if ('serviceWorker' in navigator) {
     UPD.reg = reg; healStale(); if (autoUpdOn()) reg.update().catch(() => { });
     const mark = sw => {
       waiting = sw; UPD.state = 'available';
-      if (autoUpdOn() && !TM.open) { toast('新しい版に、自動で更新しています…'); startUpdate(); return; }
+      if (autoUpdOn() && !TM.open) { if (dlg.open) closeDlg(); updLoadShow(true); startUpdate(); return; }
       try { const ch = new MessageChannel(); ch.port1.onmessage = ev => { UPD.next = ev.data; updRefresh(); }; sw.postMessage('ver', [ch.port2]); } catch (e) { }
       updRefresh();
       if (!dlg.open && !TM.open && !sessionStorage.getItem('kosa-upd-shown')) { try { sessionStorage.setItem('kosa-upd-shown', '1'); } catch (e) { } updDlg(); }
