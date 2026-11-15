@@ -1961,6 +1961,27 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
   #view.anim .mz-grid>*:nth-child(3n+2){animation-delay:.05s}#view.anim .mz-grid>*:nth-child(3n){animation-delay:.1s}
   @media (prefers-reduced-motion:reduce){#view.anim .tgrid2>*,#view.anim .mz>*,#view.anim .mz-grid>*{animation:none}}
 </style>
+<style id="v17994">
+  .mz .mz-search{border:0;outline:none;box-shadow:none}
+  .mz .mz-search:focus-within{box-shadow:0 0 0 2px var(--primary)}
+  .mz .mz-search input,.mz .mz-search input:focus,.mz .mz-search input:focus-visible{outline:0 !important;box-shadow:none !important;border:0 !important;border-radius:0 !important;background:transparent !important}
+  .mz-sug{display:flex;align-items:center;gap:8px;width:100%;margin:0 0 12px;padding:14px 18px;border:0;border-radius:22px;background:var(--pc);color:var(--on-pc);font:inherit;font-weight:700;cursor:pointer;text-align:left}
+  .mz-sug .ms{font-size:22px}
+  .mz-fix{border:0;background:none;color:var(--primary);font:inherit;font-weight:700;text-decoration:underline;padding:0;cursor:pointer}
+  .yx-au{display:block;max-width:100%;border:0;background:none;padding:4px 0;margin:0;color:var(--on-v);font:inherit;font-weight:700;font-size:.95rem;text-align:left;cursor:pointer;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .yx-au:active{color:var(--primary)}
+  @media (min-width:900px){
+    .yx-in{width:min(100%,1440px);padding:0 28px}
+    .yx-np.on{display:grid;grid-template-columns:minmax(0,1fr) 340px;grid-template-rows:auto 1fr;column-gap:28px;align-items:start}
+    .yx-np .yx-slot{grid-row:1 / 3;width:min(100%,calc((100dvh - 250px) * 16 / 9));max-width:none;min-width:0;margin:0;justify-self:center;align-self:center}
+    .yx-np .yx-meta{grid-column:2;margin:6px 0 0}
+    .yx-np .yx-meta b{font-size:1.35rem;-webkit-line-clamp:3}
+    .yx-np .yx-ctl{grid-column:2;margin:18px 0 0;display:block}
+    .yx-np .yx-main{margin:0 0 18px;gap:18px}
+    .yx-np .yx-acts{grid-template-columns:repeat(3,minmax(0,1fr))}
+    .yx-list{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+  }
+</style>
 </head>
 <body>
 <div id="app">
@@ -1983,7 +2004,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.99.3';
+const APP_VERSION = '17.99.4';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2601,8 +2622,8 @@ function gem(px = 22, grad = false) {
 const aiOpened = () => { try { return !!localStorage.getItem('kosa-ai-opened'); } catch (e) { return true; } };
 const DEF_NAV = ['home', 'tasks', 'cal', 'stats', 'ai', 'tools', 'settings'];
 const NAV_META = { home: ['ホーム', 'home'], tasks: ['課題', 'checklist'], cal: ['予定', 'calendar_month'], stats: ['記録', 'insights'], ai: ['AI', 'auto_awesome'], tools: ['ツール', 'grid_view'], settings: ['設定', 'settings'] };
-const NAV_MAXTOOLS = 3;
-// バーに並べる項目（基本の7つは必ず入る。ツールは "tool:電卓のID" の形で最大3つまで）
+const NAV_MAXTOOLS = 4;
+// バーに並べる項目（基本の7つは必ず入る。ツールは "tool:電卓のID" の形で最大4つまで）
 function isPhoneUI() { return matchMedia('(max-width:699px)').matches; }   // スマホ（狭い画面）
 function navList() {
   if (isPhoneUI()) return ['home', 'tasks', 'cal', 'stats', 'tools'];   // スマホの下のバーは5つだけ（設定・AI・通知は、ほかの場所から開けます）
@@ -2797,6 +2818,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.99.4', d: '__BUILD__', t: 'アーティストの保存・検索・AIのおすすめを強化、iPadの動画画面を広く', n: ['アーティスト名を押すと、そのアーティストのページが開きます。「保存」で好きなアーティストに追加できます（押しても反応しなかった不具合を直しました）', '検索バーを「こんにちは」のすぐ下に置き、二重になっていた枠を一本にしました', '検索結果に、アーティストの一覧を出すようにしました', 'AIが、読みや綴りのまちがいを直し、「もしかして」で出します。アーティストの名前なら、そのページへ案内します（Googleログイン中に使えます）', 'AIが、同じアーティストの動画の綴りをそろえ、曲名とアーティストを分けます（Googleログイン中に使えます）', 'おすすめは、保存したアーティスト・よく聴くアーティストと、AIが選ぶ似たアーティストから選びます', 'iPadで動画を大きく開いたとき、動画と操作ボタンを横に並べて、余白を減らしました', 'iPadのナビゲーションバーに置けるツールは、4つまでにしました'] },
   { v: '17.99.3', d: '__BUILD__', t: '音楽の見た目とおすすめ・アーティスト保存、単語帳の上部、アニメーション', n: ['AI先生のツールを消しました（AIタブに入っています）', '音楽の画面を、YouTube MusicやSpotifyに近い見た目にしました', '音楽のおすすめが、音楽の動画だけになるようにしました', '好きなアーティストを保存できるようにしました。保存した人の曲が、おすすめに出ます', '音楽の小さなプレーヤーは、曲名（上）とアーティスト名（下）で出ます。区切りが分からないときは、AIで分けます', '音楽を大きく開いたときの操作ボタンを、大きく押しやすくしました', '単語帳の「追加」と「…」を、ツールの名前と同じ列に移しました。シャッフルや全画面のボタンは、覚えた・すべてのボタンの右に並べました', 'ツールのアイコンが揺れるアニメーションを消しました', '画面を切り替えるときのアニメーションを増やしました', '元素マージにも「人気」の帯をつけました'] },
   { v: '17.99.2', d: '__BUILD__', t: '実績・歴打の問題を追加、ダークモードの見出し、上へ戻るボタン', n: ['実績を大幅に追加しました（元素マージ・歴打・元素インベーダーなど）', 'ダークモードでは、ツールの教科見出しを落ち着いた色にしました', 'ホームで下にスクロールすると、右下に「上へ戻る」ボタンが出るようにしました', '歴打の侍大将・征夷大将軍の問題を追加しました（明治以降の内容を増やしました）', '歴打の問題の数の表示を、実際の数に合わせました'] },
   { v: '17.99.1', d: '__BUILD__', t: 'ツール画面の見た目と並び順・ホームの背景を追加', n: ['ツールタブの教科ごとの見出しを、見やすくデザインし直しました', '各教科の一番前に、人気のツールが出るようにしました', '「教科に分けにくいツールです」の文字を消しました', '電卓を「数学」に移しました', 'ホームの背景を追加しました', 'プレビュー中に出る「ホームの配置を編集」ボタンの見た目と、下に出る位置を直しました'] },
@@ -8064,7 +8086,7 @@ function ytInner() {
   if (MY.busy) return `<div class="mz-empty">${gspin(36)}<p>探しています…</p></div>`;
   if (MY.fail) return `<div class="mz-empty">${ms('cloud_off')}<p>検索サーバーにつながりませんでした。少し待ってから、もう一度試すか、動画のURLを貼り付けてください。</p></div>`;
   if (!MY.list.length) return MY.last ? '<div class="mz-empty">見つかりませんでした</div>' : '<div class="mz-empty">曲名やアーティスト名を入れて、探してください</div>';
-  return `<div class="mz-list">${MY.list.map(ytRowHtml).join('')}</div>`;
+  return artStrip(MY.list) + `<div class="mz-list">${MY.list.map(ytRowHtml).join('')}</div>`;
 }
 function muYtPaint() { const el = $('#muyt'); if (el) el.innerHTML = ytInner(); }
 function muYtPlayId(id) { const m = ytMeta(id); if (!m) return; muYtStart({ id, title: m.title, author: m.author }); }
@@ -8081,7 +8103,10 @@ async function muYtGo() {
   const q = MY.q.trim(); if (!q || MY.busy) return;
   const p = yxParse(q);
   if (p) { MY.q = ''; const el = $('#muyq'); if (el) el.value = ''; muYtStart(p); return; }
-  if (MY.artist) { MY.artist = ''; muRefresh(); }
+  const changed = MY.view !== 'search' || !!MY.artist;
+  MY.view = 'search'; MY.artist = ''; MY.help = null;
+  if (changed) muRefresh();   // ホームの検索バーからも、ここで結果を出す
+  aiSearchHelp(q);
   await muYtRunQ(q);
 }
 async function muYtHome() {
@@ -8089,6 +8114,7 @@ async function muYtHome() {
   MY.hBusy = true; MY.hFail = false; yxDiscover(); muRefresh();
   try { MY.home = await musicHomeList(); } catch (e) { MY.home = []; MY.hFail = true; }
   MY.hBusy = false; muRefresh();
+  if (MY.home.length) ytAiBatch(MY.home);
 }
 function muRowHtml(t) {
   const u = muCovUrl(t), on = t.id === MU.cur;
@@ -8105,19 +8131,31 @@ function musOk(v, artist) {
   return MUS_GOOD.test(s);
 }
 async function musicHomeList() {
-  const jobs = YXS.artists.slice(0, 3).map(a => ({ q: a.name + ' 曲', artist: a.name }));
+  const rel = await aiRelated().catch(() => []);
+  const saved = YXS.artists.map(a => a.name).slice(0, 3);
+  const heard = artistsFromHistory().filter(n => !saved.includes(n)).slice(0, 2);
+  const names = [...saved, ...rel.slice(0, 3), ...heard].filter((n, i, a) => a.indexOf(n) === i).slice(0, 6);
+  const jobs = names.map(n => ({ q: n + ' 曲', artist: n }));
   jobs.push({ q: musicQ(), artist: '' });
   const res = await Promise.allSettled(jobs.map(j => yxQuery('music', j.q)));
+  const lists = res.map((r, i) => (r.status === 'fulfilled' ? r.value : []).filter(v => musOk(v, jobs[i].artist)));
   const seen = new Set(), out = [];
-  res.forEach((r, i) => { if (r.status !== 'fulfilled') return; r.value.forEach(v => { if (!seen.has(v.id) && musOk(v, jobs[i].artist)) { seen.add(v.id); out.push(v); } }); });
+  const longest = Math.max(0, ...lists.map(l => l.length));
+  for (let k = 0; k < longest; k++) lists.forEach(l => { const v = l[k]; if (v && !seen.has(v.id)) { seen.add(v.id); out.push(v); } });
   if (!out.length) throw new Error('empty');
   return out;
 }
-async function muYtRunQ(q) {
+async function muYtRunQ(q, artist) {
   if (!q || MY.busy) return;
   MY.busy = true; MY.fail = false; MY.last = q; muYtPaint();
-  try { MY.list = await yxQuery('music', q).catch(() => yxQuery('search', q)); } catch (e) { MY.list = []; MY.fail = true; }
+  try {
+    let l = await yxQuery('music', q).catch(() => yxQuery('search', q));
+    const k = String(artist || '').toLowerCase();
+    if (k) { const f = l.filter(v => { const inf = ytInfo(v); return [inf.artist, v.author, v.title].some(x => String(x || '').toLowerCase().includes(k)); }); if (f.length) l = f; }
+    MY.list = l;
+  } catch (e) { MY.list = []; MY.fail = true; }
   MY.busy = false; muYtPaint();
+  if (MY.list.length) ytAiBatch(MY.list);
 }
 const artHue = s => { let h = 0; for (const ch of String(s || '')) h = (h * 31 + ch.charCodeAt(0)) % 360; return h; };
 const artSaved = n => YXS.artists.some(a => a.name === n);
@@ -8166,6 +8204,81 @@ async function ytAiSplit(v) {
     if (r && (r.song || r.artist)) { YXS.split[v.id] = { song: String(r.song || '').slice(0, 60), artist: String(r.artist || '').slice(0, 40) }; yxSave(); muChipPaint(); yxSync(); muRefresh(); }
   } catch (e) { }
 }
+/* ---------- 17.99.4：アーティストのページ・検索（AIで言葉を直す）・同じアーティストの見分け・AIのおすすめ ---------- */
+function muOpenArtist(name) {
+  name = String(name || '').trim(); if (!name) return;
+  MY.artist = name; MY.view = 'search'; MY.q = name; MY.list = []; MY.fail = false; MY.help = null; MY.helpQ = ''; MY.busy = false;
+  muRefresh(); muYtRunQ(name + ' 曲', name);
+}
+function muBarHtml() {
+  return `<div class="mz-search"><input id="muyq" type="search" value="${esc(MY.q)}" placeholder="曲名・アーティスト・URL" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="曲・アーティストを探す"><button type="button" class="mz-go" data-act="muytgo" aria-label="探す">${ms('search')}</button></div>`;
+}
+function muHelpHtml() {
+  if (MY.artist) {
+    const on = artSaved(MY.artist);
+    return `<div class="mz-ahd" style="--h:${artHue(MY.artist)}"><span class="mz-avbig">${esc(MY.artist.charAt(0))}</span><div class="mz-ahd-t"><small>アーティスト</small><h2>${esc(MY.artist)}</h2></div><button type="button" class="mz-follow ${on ? 'on' : ''}" data-act="muartsave" data-name="${esc(MY.artist)}" aria-pressed="${on}">${ms(on ? 'favorite' : 'add', on ? 'f' : '')}${on ? '保存済み' : '保存'}</button></div><h3 class="mz-subh">曲・MV</h3>`;
+  }
+  const h = MY.help || {};
+  let t = '';
+  if (h.fixed && h.fixed !== MY.last) t += `<p class="mz-note">もしかして：<button type="button" class="mz-fix" data-act="muytfix" data-name="${esc(h.fixed)}">${esc(h.fixed)}</button></p>`;
+  if (h.artist) t += `<button type="button" class="mz-sug" data-act="muartist" data-name="${esc(h.artist)}">${ms('person')}${esc(h.artist)}のページを開く</button>`;
+  return t || '<p class="mz-note">曲名・アーティスト名・動画のURLで探せます。♡ で保存でき、アーティスト名を押すと、その人の曲が並びます。</p>';
+}
+// 検索語を、AIで読みや綴りを直し、アーティストかどうかも見る（Googleログイン中だけ）
+async function aiSearchHelp(q) {
+  if (!CLOUD.user || !q || q.length > 40 || MY.helpQ === q || yxParse(q)) return;
+  MY.helpQ = q;
+  const r = await aiRun({ system: AI_MINI + '音楽アプリの検索語を整えます。', prompt: `検索語：${q}\n次のJSONだけを返してください。\n{"fixed":"読みや綴りを直した検索語（直す必要がなければ同じ語）","artist":"検索語がアーティストの名前のときだけ、その正式な名前（日本語の名前があれば日本語。違えば空）"}`, json: true });
+  if (!r || MY.q.trim() !== q || MY.artist) return;
+  MY.help = { fixed: String(r.fixed || '').trim().slice(0, 60), artist: String(r.artist || '').trim().slice(0, 40) };
+  const el = $('#muhelp'); if (el && MY.view === 'search') el.innerHTML = muHelpHtml();
+}
+// 結果に出てきたアーティスト（多い順）
+function artistsOf(list) {
+  const c = new Map();
+  (list || []).forEach(v => { const a = ytInfo(v).artist; if (a) c.set(a, (c.get(a) || 0) + 1); });
+  return [...c.entries()].sort((x, y) => y[1] - x[1]).map(x => x[0]);
+}
+function artStrip(list) {
+  if (MY.artist) return '';
+  const names = artistsOf(list).slice(0, 8);
+  if (!names.length) return '';
+  return `<section class="mz-sec"><div class="mz-sh"><h3>アーティスト</h3></div><div class="mz-art">${names.map(n => artAvHtml({ name: n }, false)).join('')}</div></section>`;
+}
+function artDayKey() { const d = new Date(); return d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate(); }
+// 聴いた曲・お気に入りから、よく出てくるアーティスト
+function artistsFromHistory() {
+  const c = new Map();
+  [...YXS.fav, ...YXS.hist].forEach(v => { const a = ytInfo(v).artist; if (a) c.set(a, (c.get(a) || 0) + 1); });
+  return [...c.entries()].sort((x, y) => y[1] - x[1]).map(x => x[0]);
+}
+// AIが、保存したアーティストや聴いた曲から、似たアーティストを選ぶ（1日1回。Googleログイン中だけ）
+async function aiRelated() {
+  const rec = YXS.rec || {};
+  if (rec.d === artDayKey() && Array.isArray(rec.list) && rec.list.length) return rec.list;
+  if (!CLOUD.user) return [];
+  const saved = YXS.artists.map(a => a.name).slice(0, 12);
+  const heard = [...YXS.fav, ...YXS.hist].slice(0, 16).map(v => { const f = ytInfo(v); return [f.artist, f.song].filter(Boolean).join(' - '); }).filter(Boolean);
+  if (!saved.length && !heard.length) return [];
+  const r = await aiRun({ system: AI_MINI + '聴いている音楽の好みから、似たアーティストを提案します。', prompt: `好きなアーティスト：${saved.join('、') || 'なし'}\n最近聴いた曲：${heard.join('、') || 'なし'}\n好みに近いアーティストを6人提案してください。すでに挙げたアーティストは入れないでください。\n次のJSONだけを返してください。\n{"artists":["アーティスト名"]}`, json: true });
+  const list = r && Array.isArray(r.artists) ? r.artists.map(x => String(x || '').trim()).filter(x => x && !saved.includes(x)).slice(0, 6) : [];
+  if (list.length) { YXS.rec = { d: artDayKey(), list }; yxSave(); }
+  return list;
+}
+// 曲名とアーティストが分かれていない動画を、まとめてAIに分けてもらう（一度に最大20本。Googleログイン中だけ）
+async function ytAiBatch(list) {
+  if (!CLOUD.user) return;
+  const todo = (list || []).filter(v => v && v.id && !YXS.split[v.id] && !YT_AI_TRIED.has(v.id) && ytInfo(v).needsAI).slice(0, 20);
+  if (!todo.length) return;
+  todo.forEach(v => YT_AI_TRIED.add(v.id));
+  const r = await aiRun({ system: AI_MINI + '動画のタイトルから、曲名とアーティスト名を取り出します。同じアーティストは、同じ綴りにそろえます。', prompt: `次の動画を、曲名とアーティスト名に分けてください。\n${todo.map((v, i) => `${i + 1}. id:${v.id} ／ タイトル：${v.title || ''} ／ 投稿者：${v.author || ''}`).join('\n')}\n日本語の名前があれば日本語を優先し、MVや公式などの補足は除いてください。分からないときは空の文字にしてください。\n次のJSONだけを返してください。\n{"items":[{"id":"動画のid","song":"曲名","artist":"アーティスト名"}]}`, json: true });
+  if (!r || !Array.isArray(r.items)) return;
+  let n = 0;
+  r.items.forEach(x => { const id = String((x && x.id) || ''); if (!todo.some(v => v.id === id)) return; YXS.split[id] = { song: String(x.song || '').slice(0, 60), artist: String(x.artist || '').slice(0, 40) }; n++; });
+  if (!n) return;
+  yxSave(); muChipPaint(); yxSync();
+  if (ui.tab === 'tools' && ui.tool === 'music') { if (MY.view === 'search') muYtPaint(); else if (MY.view === 'home') muRefresh(); }
+}
 function muSec(title, more, body) {
   return `<section class="mz-sec"><div class="mz-sh"><h3>${title}</h3>${more ? `<button type="button" data-act="muview" data-id="${more}">すべて</button>` : ''}</div>${body}</section>`;
 }
@@ -8177,7 +8290,7 @@ function muHomeHtml(n) {
   if (MY.hBusy) grid = `<div class="mz-empty">${gspin(36)}<p>おすすめを探しています…</p></div>`;
   else if (MY.hFail) grid = `<div class="mz-empty">${ms('cloud_off')}<p>おすすめを読み込めませんでした。</p><button type="button" class="btn tonal" data-act="muytretry">もう一度</button></div>`;
   else grid = MY.home.length ? `<div class="mz-grid">${MY.home.slice(0, 16).map(ytCardHtml).join('')}</div>` : '<div class="mz-empty">おすすめを準備しています…</div>';
-  return `<div class="mz-hello">${greet}</div>`
+  return `<div class="mz-hello">${greet}</div>${muBarHtml()}`
     + muSec('あなたのアーティスト', arts.length ? 'fav' : '', arts.length ? `<div class="mz-art">${arts.map(a => artAvHtml(a, false)).join('')}</div>` : '<div class="mz-empty">好きなアーティストのページで「保存」を押すと、ここに並び、おすすめが変わります</div>')
     + muSec('あなたにおすすめの音楽', '', grid)
     + muSec('最近聴いた', '', hist.length ? hs(hist) : '<div class="mz-empty">動画を再生すると、ここに残ります</div>')
@@ -8185,12 +8298,7 @@ function muHomeHtml(n) {
     + (n ? muSec('端末の曲', 'local', `<div class="mz-list">${MU.list.slice(0, 4).map(muRowHtml).join('')}</div>`) : '');
 }
 function muSearchHtml() {
-  let head = '';
-  if (MY.artist) {
-    const on = artSaved(MY.artist);
-    head = `<div class="mz-ahd" style="--h:${artHue(MY.artist)}"><span class="mz-avbig">${esc(MY.artist.charAt(0))}</span><div class="mz-ahd-t"><small>アーティスト</small><h2>${esc(MY.artist)}</h2></div><button type="button" class="mz-follow ${on ? 'on' : ''}" data-act="muartsave" data-name="${esc(MY.artist)}" aria-pressed="${on}">${ms(on ? 'favorite' : 'add', on ? 'f' : '')}${on ? '保存済み' : '保存'}</button></div><h3 class="mz-subh">曲・MV</h3>`;
-  }
-  return `<div class="mz-search"><input id="muyq" type="search" value="${esc(MY.q)}" placeholder="曲名・アーティスト・URL" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="曲を探す"><button type="button" class="mz-go" data-act="muytgo" aria-label="探す">${ms('search')}</button></div>${head || '<p class="mz-note">曲名・アーティスト名・動画のURLで探せます。♡ で保存でき、アーティスト名を押すと、その人の曲が並びます。</p>'}<div id="muyt">${ytInner()}</div>`;
+  return muBarHtml() + `<div id="muhelp">${muHelpHtml()}</div><div id="muyt">${ytInner()}</div>`;
 }
 function muFavHtml() {
   const f = YXS.fav, a = YXS.artists;
@@ -8241,9 +8349,10 @@ Object.assign(ACT, {
   muytretry() { MY.hFail = false; MY.home = []; muYtHome(); }
 });
 Object.assign(ACT, {
-  muartist(name) { name = String(name || '').trim(); if (!name) return; MY.artist = name; MY.view = 'search'; MY.q = name; MY.busy = false; MY.list = []; MY.fail = false; muRefresh(); muYtRunQ(name + ' 曲'); },
-  muartsave(name) { artToggle(name); },
-  muartrm(name) { artToggle(name); }
+  muartist(_, b) { muOpenArtist(b && b.dataset.name); },
+  muartsave(_, b) { artToggle(b && b.dataset.name); },
+  muartrm(_, b) { artToggle(b && b.dataset.name); },
+  muytfix(_, b) { const n = String((b && b.dataset.name) || '').trim(); if (!n) return; MY.q = n; MY.helpQ = n; MY.help = null; const el = $('#muyq'); if (el) el.value = n; muYtGo(); }
 });
 document.addEventListener('input', e => { if (e.target && e.target.id === 'muyq') MY.q = e.target.value; });
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target && e.target.id === 'muyq') { e.preventDefault(); muYtGo(); } });
@@ -11194,7 +11303,7 @@ function yxDom() {
   ui.innerHTML = `<div class="yx-in">
     <div class="yx-hd"><b>${ms('smart_display')}動画</b><button type="button" class="yx-ib" data-yx="bg" aria-label="音声だけで聴く（動画を隠す）">${ms('headphones')}</button><button type="button" class="yx-ib" data-yx="pip" aria-label="小さな画面で見る">${ms('picture_in_picture_alt')}</button><button type="button" class="yx-ib" data-yx="stop" aria-label="閉じる">${ms('close')}</button></div>
     <div class="yx-sr"><input id="yxq" type="search" placeholder="キーワード、または動画のURL" enterkeyhint="search" autocomplete="off" autocapitalize="off" spellcheck="false"><button type="button" class="btn" data-yx="go">${ms('search')}検索</button></div>
-    <div class="yx-np" id="yxnp"><div class="yx-slot" id="yxslot"></div><div class="yx-meta"><b id="yxti"></b><small id="yxau"></small><div class="yx-err" id="yxerr"></div></div><div class="yx-ctl" id="yxctl"></div></div>
+    <div class="yx-np" id="yxnp"><div class="yx-slot" id="yxslot"></div><div class="yx-meta"><b id="yxti"></b><button type="button" class="yx-au" id="yxau" data-yx="artist"></button><div class="yx-err" id="yxerr"></div></div><div class="yx-ctl" id="yxctl"></div></div>
     <div class="yx-tabs" id="yxtabs"></div><div class="yx-list" id="yxlist"></div></div>`;
   document.body.appendChild(ui);
   const box = document.createElement('div'); box.id = 'yxp'; box.hidden = true; box.className = 'm-off';
@@ -11325,6 +11434,9 @@ Object.assign(yxAct, {
     if (yx.fb) { const f = $('#yxpl'); if (f) f.src = 'about:blank'; }
     yx.cur = null; yx.playing = false; yx.q = []; yx.qi = -1; yx.err = ''; yxMode('off');
   }
+});
+Object.assign(yxAct, {
+  artist() { const c = yx.cur; if (!c) return; const n = ytInfo({ id: c.id, title: c.title, author: c.author }).artist || c.author || ''; if (!n) return; yxMode('pip'); ACT.tab('tool:music'); muOpenArtist(n); }
 });
 document.addEventListener('click', e => { const b = e.target.closest && e.target.closest('[data-yx]'); if (b) yxAct[b.dataset.yx]?.(b.dataset.i, b, e); });
 const yxFsChg = () => { const on = !!(document.fullscreenElement || document.webkitFullscreenElement); if (on) yx.fsNative = true; else if (yx.mode === 'fs' && yx.fsNative) { yx.fsNative = false; yxMode(yx.prev || 'page'); } };
