@@ -1982,6 +1982,60 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
     .yx-list{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
   }
 </style>
+<style id="v17995">
+  .gr-wrap{display:flex;flex-direction:column;gap:14px}
+  .gr-hero{padding:18px;border-radius:24px;background:linear-gradient(135deg,hsl(285 70% 55% / .28),var(--s2))}
+  .gr-hero h3{margin:0 0 4px;font-size:1.25rem;font-weight:800}
+  .gr-hero p{margin:0;color:var(--on-v);font-size:.9rem;line-height:1.6}
+  .gr-h{margin:4px 2px 0;font-size:1.3rem;font-weight:800}
+  .gr-sub{margin:12px 2px 0;font-size:1rem;font-weight:800;color:var(--on-v)}
+  .gr-acts{display:flex;gap:8px;flex-wrap:wrap}
+  .gr-grid{display:grid;grid-template-columns:1fr;gap:10px}
+  @media (min-width:700px){.gr-grid{grid-template-columns:1fr 1fr}}
+  .gr-card{display:flex;gap:12px;align-items:center;padding:14px;border:0;border-radius:20px;background:var(--s2);color:var(--on);font:inherit;text-align:left;cursor:pointer;transition:transform .2s var(--spring)}
+  .gr-card:active{transform:scale(.98)}
+  .gr-card>span:nth-child(2){flex:1;min-width:0}
+  .gr-card .gi{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:hsl(285 70% 60% / .2);color:hsl(285 70% 40%);flex:none}
+  .gr-card b{display:block;font-size:1rem}
+  .gr-card small{display:block;color:var(--on-v);font-size:.8rem}
+  .gr-pg{font-size:.8rem;font-weight:700;color:var(--on-v);white-space:nowrap}
+  .gr-box{padding:14px 16px;border-radius:18px;background:var(--s2);line-height:1.7}
+  .gr-box b{font-size:1.02rem}
+  .gr-box p{margin:6px 0 0}
+  .gr-tip{margin:0;padding:10px 14px;border-radius:14px;background:var(--s3);font-size:.88rem;line-height:1.6}
+  .gr-list{margin:6px 0 0;padding-left:1.2em}
+  .gr-tree,.gr-tree ul{margin:4px 0 0;padding-left:1.1em;list-style:none}
+  .gr-tree>li{margin-top:4px}
+  .gr-tree li{position:relative;margin-top:4px}
+  .gr-tw{overflow-x:auto;border-radius:16px;background:var(--s2)}
+  .gr-t{display:table;width:100%;border-collapse:collapse;font-size:.92rem;min-width:300px;table-layout:fixed}
+  .gr-tw>table.gr-t{margin:0}
+  .gr-t th,.gr-t td{padding:9px 10px;border:1px solid var(--s3);text-align:center;vertical-align:middle;line-height:1.5}
+  .gr-t th{background:var(--s3);font-weight:800;font-size:.84rem}
+  .gr-t td:first-child{font-weight:800;background:var(--s3)}
+  .gr-t td.gc{font-weight:800;cursor:pointer}
+  .gr-t td.hid{background:repeating-linear-gradient(45deg,transparent 0 6px,var(--s3) 6px 12px);color:var(--on-v);font-size:1.1rem}
+  .gr-t td.open{background:var(--ter-c);color:var(--ter)}
+  .gr-qhd{display:flex;align-items:center;gap:10px}
+  .gr-qhd span{margin-left:auto;font-weight:800}
+  .gr-prog{height:8px;border-radius:4px;background:var(--s3);overflow:hidden}
+  .gr-prog i{display:block;height:100%;background:var(--primary);transition:width .4s var(--smooth)}
+  .gr-q{padding:18px;border-radius:22px;background:var(--s2)}
+  .gr-q small{color:var(--on-v);font-weight:700}
+  .gr-q p{font-size:1.2rem;font-weight:800;margin:6px 0 0;line-height:1.5}
+  .gr-opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  @media (min-width:700px){.gr-opts{grid-template-columns:repeat(4,minmax(0,1fr))}}
+  .gr-opt{min-height:64px;padding:10px;border:0;border-radius:18px;background:var(--s2);color:var(--on);font:inherit;font-weight:700;font-size:.95rem;line-height:1.4;cursor:pointer;transition:transform .2s var(--spring),background .3s}
+  .gr-opt:active{transform:scale(.97)}
+  .gr-opt.ok{background:#16a34a;color:#fff}
+  .gr-opt.ng{background:#dc2626;color:#fff}
+  .gr-opt:disabled{cursor:default}
+  .gr-note{padding:14px 16px;border-radius:18px;background:var(--s2);line-height:1.6}
+  .gr-note.ok b{color:#15803d}
+  .gr-note.ng b{color:#b91c1c}
+  .gr-note p{margin:4px 0 0;color:var(--on-v)}
+  .gr-card[disabled],.gr-wrap button:disabled{opacity:.45}
+</style>
 </head>
 <body>
 <div id="app">
@@ -2004,7 +2058,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.99.4';
+const APP_VERSION = '17.99.5';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2818,6 +2872,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.99.5', d: '__BUILD__', t: '国語文法ツールを追加', n: ['国語に「国語文法」ツールを追加しました', '音便・五段活用・形容詞・形容動詞・動詞の活用形・活用の種類・助詞助動詞・品詞分類を、表で覚えられます', '「表をかくして覚える」で、マスの答えを隠し、タップして確かめられます', 'テストは4択。まちがえた問題は保存され、あとで「まちがえた問題」から復習できます'] },
   { v: '17.99.4', d: '__BUILD__', t: 'アーティストの保存・検索・AIのおすすめを強化、iPadの動画画面を広く', n: ['アーティスト名を押すと、そのアーティストのページが開きます。「保存」で好きなアーティストに追加できます（押しても反応しなかった不具合を直しました）', '検索バーを「こんにちは」のすぐ下に置き、二重になっていた枠を一本にしました', '検索結果に、アーティストの一覧を出すようにしました', 'AIが、読みや綴りのまちがいを直し、「もしかして」で出します。アーティストの名前なら、そのページへ案内します（Googleログイン中に使えます）', 'AIが、同じアーティストの動画の綴りをそろえ、曲名とアーティストを分けます（Googleログイン中に使えます）', 'おすすめは、保存したアーティスト・よく聴くアーティストと、AIが選ぶ似たアーティストから選びます', 'iPadで動画を大きく開いたとき、動画と操作ボタンを横に並べて、余白を減らしました', 'iPadのナビゲーションバーに置けるツールは、4つまでにしました'] },
   { v: '17.99.3', d: '__BUILD__', t: '音楽の見た目とおすすめ・アーティスト保存、単語帳の上部、アニメーション', n: ['AI先生のツールを消しました（AIタブに入っています）', '音楽の画面を、YouTube MusicやSpotifyに近い見た目にしました', '音楽のおすすめが、音楽の動画だけになるようにしました', '好きなアーティストを保存できるようにしました。保存した人の曲が、おすすめに出ます', '音楽の小さなプレーヤーは、曲名（上）とアーティスト名（下）で出ます。区切りが分からないときは、AIで分けます', '音楽を大きく開いたときの操作ボタンを、大きく押しやすくしました', '単語帳の「追加」と「…」を、ツールの名前と同じ列に移しました。シャッフルや全画面のボタンは、覚えた・すべてのボタンの右に並べました', 'ツールのアイコンが揺れるアニメーションを消しました', '画面を切り替えるときのアニメーションを増やしました', '元素マージにも「人気」の帯をつけました'] },
   { v: '17.99.2', d: '__BUILD__', t: '実績・歴打の問題を追加、ダークモードの見出し、上へ戻るボタン', n: ['実績を大幅に追加しました（元素マージ・歴打・元素インベーダーなど）', 'ダークモードでは、ツールの教科見出しを落ち着いた色にしました', 'ホームで下にスクロールすると、右下に「上へ戻る」ボタンが出るようにしました', '歴打の侍大将・征夷大将軍の問題を追加しました（明治以降の内容を増やしました）', '歴打の問題の数の表示を、実際の数に合わせました'] },
@@ -5624,7 +5679,7 @@ function trHtml() {
 }
 const TOOLS = [['music', '音楽', 'library_music', '端末の音楽や、YouTubeで探した曲を、アプリの中でずっと流せる', 300, 'e'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
-  ['kanji', '漢字練習', 'draw', '漢字を書いて練習。読みと二字熟語もわかる', 20, 'b'], ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['merge', '元素マージ', 'bubble_chart', '同じ元素をくっつけて進化させるパズル（レベル7で解放）', 210, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], 
+  ['kanji', '漢字練習', 'draw', '漢字を書いて練習。読みと二字熟語もわかる', 20, 'b'], ['gram', '国語文法', 'auto_stories', '表を隠して覚え、テストで確かめる。活用・音便・品詞', 285, 'b'], ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['merge', '元素マージ', 'bubble_chart', '同じ元素をくっつけて進化させるパズル（レベル7で解放）', 210, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], 
   ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素・くっつけて反応を見る実験・分子量の計算', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 // 以前の「分子量・物質の量」のツールは、元素ラボの中へ
 function mgTileIcon() { return '<span class="mgb" aria-hidden="true"><i class="mgb-a"></i><i class="mgb-b"></i><i class="mgb-c"></i></span>'; }
@@ -5633,7 +5688,7 @@ const TOOL_SUBJ = { math: '数学', frac: '数学', shape: '数学', sim: '数�
   eigo: '英語', verbs: '英語', tr: '英語',
   rika: '理科', res: '理科', iden: '理科', ptable: '理科', merge: '理科', unit: '理科',
   jnen: '社会', sekai: '社会', nenpyo: '社会', nengo: '社会', jisa: '社会', rekida: '社会',
-  kanji: '国語', calc: '数学' };
+  kanji: '国語', gram: '国語', calc: '数学' };
 function viewTools() {
   if (ui.tool === 'mol') { ui.tool = 'ptable'; PT.mode = 'mol'; }
   const tl = ui.tool || '';
@@ -5648,7 +5703,7 @@ function viewTools() {
       + sec('人気', 'local_fire_department', '#e11d48', ['card', 'merge', 'rekida', 'ptable'].map(id => TOOLS.find(x => x[0] === id)))
       + SUBJ_ORDER.map(([name, icon, col]) => { const list = TOOLS.filter(t => subjOf(t) === name); return list.length ? sec(name, icon, col, byPop(list)) : ''; }).join('');
   }
-  const T = TOOLS.find(x => x[0] === tl), body = { kanji: kjHtml, rekida: rekidaHtml, merge: mergeHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { kanji: kjHtml, gram: gramHtml, rekida: rekidaHtml, merge: mergeHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2>${tl === 'card' ? wcTbarActs() : ''}</div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -8279,6 +8334,246 @@ async function ytAiBatch(list) {
   yxSave(); muChipPaint(); yxSync();
   if (ui.tab === 'tools' && ui.tool === 'music') { if (MY.view === 'search') muYtPaint(); else if (MY.view === 'home') muRefresh(); }
 }
+/* ===== 国語文法：表を隠して覚え、テストで確かめる（まちがえた問題は、あとで復習） ===== */
+const GR_TOPICS = [
+  { id: 'ondin', name: '音便', icon: 'record_voice_over', sum: '連用形が変わる3つの型' },
+  { id: 'godan', name: '五段活用の表', icon: 'table_chart', sum: '「書く」で語尾を覚える' },
+  { id: 'keiyo', name: '形容詞の活用', icon: 'format_size', sum: '「強い」「美しい」「青い」' },
+  { id: 'keiyodo', name: '形容動詞の活用', icon: 'text_fields', sum: '「暖かだ」「静かだ」' },
+  { id: 'katsukei', name: '動詞の活用形', icon: 'swap_horiz', sum: '6つの形と、続く言葉' },
+  { id: 'katsushu', name: '活用の種類', icon: 'account_tree', sum: '5つの見分け方' },
+  { id: 'fuzoku', name: '助詞・助動詞', icon: 'sell', sum: '覚え方つきの付属語' },
+  { id: 'bunrui', name: '品詞分類', icon: 'category', sum: '単語の分け方と用言' }
+];
+const GR = { view: 'home', hide: false, seen: new Set(), qs: [], i: 0, opts: [], cor: 0, pick: null, score: 0, scope: 'all', wrongNow: [], prog: { ok: {}, ng: {}, wrong: {} } };
+try { const o = JSON.parse(localStorage.getItem('kosa-gr') || '{}'); GR.prog = { ok: o.ok || {}, ng: o.ng || {}, wrong: o.wrong || {} }; } catch (e) { }
+function grSave() { try { localStorage.setItem('kosa-gr', JSON.stringify(GR.prog)); } catch (e) { } }
+function grShuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+// 表：hide に入れた列の答えは、「表をかくして覚える」のとき「？」になり、タップで見えます
+function grC(key, txt, hidable) {
+  if (!GR.hide || !hidable) return `<td>${txt}</td>`;
+  const open = GR.seen.has(key);
+  return `<td class="gc ${open ? 'open' : 'hid'}" data-act="grrev" data-id="${esc(key)}">${open ? txt : '？'}</td>`;
+}
+function grT(tid, head, rows, hide = []) {
+  const th = head.map(h => `<th>${h}</th>`).join('');
+  const body = rows.map((r, ri) => `<tr>${r.map((c, ci) => grC(`${tid}:${ri}:${ci}`, c, hide.includes(ci))).join('')}</tr>`).join('');
+  return `<div class="gr-tw"><table class="gr-t"><thead><tr>${th}</tr></thead><tbody>${body}</tbody></table></div>`;
+}
+const GR_BODY = {
+  ondin: () => `<div class="gr-box"><b>★音便（おんびん）とは</b><p>五段活用の動詞の「連用形」が、次の3種類に変化すること。</p></div>`
+    + grT('ondin', ['種類', '例', '×（そのまま）', '○（音便）'], [
+      ['① イ音便', '書く＋タ', '×書き＋タ', '○書い＋タ'],
+      ['② 促音便（そくおんびん）', '行く＋タ', '×行き＋タ', '○行っ＋タ'],
+      ['③ 撥音便（はつおんびん）', '読む＋タ', '×読み＋タ', '○読ん＋ダ']], [3]),
+  godan: () => `<div class="gr-box"><b>五段活用「書く」（語幹は「か」）</b><p>語尾は、ア・イ・ウ・エ・オの五段に変わる。</p></div>`
+    + grT('godan', ['活用形', '下に続く言葉', '語尾（語幹「か」＋）'], [
+      ['未然形', 'ウ・ナイ', 'こ ／ か'],
+      ['連用形', 'マス・タイ・テ・タ', 'き ／ い（※音便）'],
+      ['終止形', 'ケレド・カラ・ト', 'く'],
+      ['連体形', 'ノ・ノデ・ノニ・名詞', 'く'],
+      ['仮定形', 'バ', 'け'],
+      ['命令形', '！', 'け']], [2]),
+  keiyo: () => grT('keiyo', ['活用形', '下に続く言葉', '強い（語幹「強」）', '美しい（語幹「美し」）'], [
+      ['未然形', 'ウ', 'かろ', 'かろ'],
+      ['連用形', 'た・ない・なる', 'かっ／く／う', 'かっ／く／う'],
+      ['終止形', '言い切る', 'い', 'い'],
+      ['連体形', 'とき・ので', 'い', 'い'],
+      ['仮定形', 'ば', 'けれ', 'けれ'],
+      ['命令形', '—', 'なし', 'なし']], [2, 3])
+    + grT('keiyo2', ['活用形', '「青い」の例'], [
+      ['未然形', '青かろ＋う'],
+      ['連用形', '青かっ＋た ／ 青く＋なる'],
+      ['終止形', '青い。（言い切る形）'],
+      ['連体形', '青い＋とき'],
+      ['仮定形', '青けれ＋ば（仮定の意味）'],
+      ['命令形', 'なし（形容詞には命令形がない）']], [1])
+    + `<div class="gr-box"><b>覚え方のポイント</b><ul class="gr-list"><li>形容詞の活用は<b>1種類だけ</b></li><li>語幹に「し」が付く：寂しい・うれしい・悲しい など</li><li>語幹に「し」が付かない：大きい・重い・弱い など</li></ul></div>`,
+  keiyodo: () => grT('keiyodo', ['活用形', '下に続く言葉', '暖かです', '暖かだ'], [
+      ['未然形', 'ウ', 'でしょ', 'だろ'],
+      ['連用形', 'ナイ・タ・ナル', 'でし', 'で・に・だっ'],
+      ['終止形', '言い切る', 'です', 'だ'],
+      ['連体形', 'トキ・ノデ', 'です', 'な'],
+      ['仮定形', 'バ', 'なし', 'なら'],
+      ['命令形', '—', 'なし', 'なし']], [2, 3])
+    + `<p class="gr-tip">語幹は「暖か」。「です」の列は丁寧な形で、「だ」の列は普通の形。</p>`
+    + grT('keiyodo2', ['活用形', '「静かだ」の例'], [
+      ['未然形', '静かだろ＋う'],
+      ['連用形', '静かだっ＋た ／ 静かで＋ない ／ 静かに＋なる'],
+      ['終止形', '静かだ。（言い切る形）'],
+      ['連体形', '静かな＋とき'],
+      ['仮定形', '静かなら＋ば（仮定の意味）'],
+      ['命令形', 'なし（形容動詞には命令形がない）']], [1]),
+  katsukei: () => grT('katsukei', ['活用形', '下に続く言葉', '意味（どんなときか）', '例（持つ）'], [
+      ['未然形', 'ない・う・よう', 'まだ起こっておらず（未然）。「ない・う・よう」に続く', '持た＋ない ／ 持と＋う'],
+      ['連用形', 'ます・た・て・たい', '用言、または「ます・た・て・たい」などに続く', '持ち＋ます ／ 持っ＋て'],
+      ['終止形', 'と・から・けれど', '言い切りの形。または「と・から・けれど」などに続く', '持つ＋。 ／ 持つ＋と'],
+      ['連体形', '名詞・の・ので・のに', '体言（名詞）、「の・ので・のに」などに続く', '持つ＋人 ／ 持つ＋ので'],
+      ['仮定形', 'ば', '仮にそうしておくこと（仮定）の意味を表し、「ば」に続く', '持て＋ば'],
+      ['命令形', '（言い切る）', '命令の意味を表して言い切る形。2種類の命令形を持つ動詞もある', '持て ／ 起きろ・起きよ']], [1, 2, 3]),
+  katsushu: () => `<div class="gr-box"><b>見分ける手順</b><ol class="gr-list"><li>「来る」「する」は<b>暗記</b>する（カ変・サ変）</li><li>その他の動詞に「ない」を付けて、直前の音で見分ける</li></ol><p>書く＋ない → 書かない（ア段）／ 起きる＋ない → 起きない（イ段）／ 届ける＋ない → 届けない（エ段）</p></div>`
+    + grT('katsushu', ['種類', '見分け方・ルール', '例'], [
+      ['五段活用', 'ア段（書か）＋ない。語尾がアイウエオの五段に変わる', '沸く（自）、沸かす（他）、届く（自）、集まる（自）、吹く（自・他）'],
+      ['上一段活用', 'イ段（起き）＋ない。語尾がイ段だけに変わる', '起きる、見る、居る、着る、似る、煮る'],
+      ['下一段活用', 'エ段（届け）＋ない。語尾がエ段だけに変わる', '届ける（他）、集める（他）、出る、得る、寝る、経る、読める（可能）、書ける（可能）'],
+      ['カ行変格活用', 'カ行で特別な活用をする（暗記）。「来る」のみ', '来る（本動詞）、（帰って）くる（補助動詞。「て」があったら補助動詞）'],
+      ['サ行変格活用', 'サ行で特別な活用をする（暗記）。「する」と「〜する」の形の動詞のみ', 'する、勉強する、成長する（複合サ行変格活用）']], [1, 2]),
+  fuzoku: () => `<h4 class="gr-sub">助詞（活用がない）</h4>`
+    + grT('joshi', ['種類', '覚え方', 'くっつく語'], [
+      ['格助詞', '空部屋で殿が鬼より（助詞を勉強！）', 'から、へ、や、で、と、の、が、を、に、より'],
+      ['接続助詞', 'けれども、とても馬鹿らしいので、点が足りないながら、野に遊ぶ。', 'けれども、と、ても、ぱ、から、し、ので、て、が、たり、ながら、のに'],
+      ['副助詞', '浜でデモだっ？かなり暗いほど霧ばかり。も一視界なぞさえぎってしまう。', 'は、まで、でも、だけ、か、なり、くらい、ほど、きり、ばかり、も、しか、など、さえ'],
+      ['終助詞', '（覚え方なし）', '〜か、〜な、〜ぞ、〜よ、〜の、〜とも、〜ね、〜さ、〜や、〜わ、〜こと、〜かしら']], [2])
+    + `<h4 class="gr-sub">助動詞（活用がある）</h4>`
+    + grT('jodoshi', ['助動詞', '意味'], [
+      ['れる・られる', '受け身・可能・尊敬・自発'],
+      ['せる・させる', '使役'],
+      ['ない・ぬ', '否定・打ち消し'],
+      ['た', '過去・完了・確認・存続'],
+      ['だ', '断定'],
+      ['たい・たがる', '希望'],
+      ['ようだ', '推定・比況'],
+      ['らしい', '推定'],
+      ['そうだ', '様態・伝聞'],
+      ['う・よう', '意志・推量・勧誘'],
+      ['まい', '否定の意志・否定の推量'],
+      ['ます・です', '丁寧']], [1]),
+  bunrui: () => `<div class="gr-box"><b>単語の分け方</b><ul class="gr-tree"><li>単語<ul><li>付属語<ul><li>活用がある → <b>助動詞</b></li><li>活用がない → <b>助詞</b></li></ul></li><li>自立語<ul><li>活用がある → 述語になれる（用言）：<b>動詞・形容詞・形容動詞</b></li><li>活用がない → 主語になれない：<b>感動詞・接続詞・連体詞・副詞</b></li><li>活用がない → 主語になれる（体言）：<b>名詞</b></li></ul></li></ul></li></ul></div>`
+    + grT('yogen', ['品詞', '性質・働き', '例'], [
+      ['動詞', '動作・作用・存在を表す', '書く、起きる、来る、する など'],
+      ['形容詞', '性質・状態を表す（語尾が「い」）', 'ない、欲しい、暖かい、細かい、黄色い、四角い、やわらかい、まんまるい'],
+      ['形容動詞', '性質・状態を表す（語尾が「だ」）', '暖かだ、細かだ、黄色だ、四角だ、やわらかだ、まんまるだ、こんなだ、そんなだ、あんなだ、どんなだ、同じだ']], [1, 2])
+    + `<p class="gr-tip">補助形容詞（形式形容詞）：（正しく）ない、（行って）ほしい</p>`
+};
+// テスト問題：[単元, 問い, 正解, 選びのたね（まちがい3つ）, 解説]
+const GR_QZ = [
+  ['ondin', '「書く」＋「た」は、どの音便？', 'イ音便（書い＋た）', ['促音便（書っ＋た）', '撥音便（書ん＋だ）', '音便なし（書き＋た）'], '書く → 書い。語尾が「い」に変わるイ音便。'],
+  ['ondin', '「行く」＋「た」は、どの音便？', '促音便（行っ＋た）', ['イ音便（行い＋た）', '撥音便（行ん＋だ）', '音便なし（行き＋た）'], '行く → 行っ。「っ」に変わる促音便。'],
+  ['ondin', '「読む」＋「た」は、どの音便？', '撥音便（読ん＋だ）', ['イ音便（読い＋た）', '促音便（読っ＋た）', '音便なし（読み＋た）'], '読む → 読ん。「ん」に変わる撥音便（「た」は「だ」に）。'],
+  ['ondin', '音便の3種類で「ん」に変わるのは？', '撥音便', ['イ音便', '促音便', '音便なし'], '撥音便（はつおんびん）は「ん」に変わる。'],
+  ['ondin', '音便の3種類で「っ」に変わるのは？', '促音便', ['イ音便', '撥音便', '音便なし'], '促音便（そくおんびん）は「っ」に変わる。'],
+  ['ondin', '音便になるのは、どの活用の動詞？', '五段活用の連用形', ['上一段活用の連用形', '下一段活用の終止形', '形容詞の連用形'], '音便は、五段活用の動詞の「連用形」が変わること。'],
+  ['godan', '「書く」の未然形の語尾（ウ・ナイに続く）は？', 'こ・か', ['き・い', 'く', 'け'], '書こう（こ）、書かない（か）。'],
+  ['godan', '「書く」の仮定形の語尾（バに続く）は？', 'け', ['く', 'き', 'こ'], '書けば（け）。'],
+  ['godan', '「書く」の終止形・連体形の語尾は？', 'く', ['き', 'け', 'こ'], '書く（く）。'],
+  ['keiyo', '形容詞「強い」の未然形（〜ろう）は？', '強かろ（う）', ['強けろ（う）', '強く（う）', '強い（う）'], '未然形は「かろ」。'],
+  ['keiyo', '形容詞「青い」の連用形（〜なる）は？', '青く（なる）', ['青かっ（なる）', '青い（なる）', '青けれ（なる）'], '連用形は「く」。「青かっ（た）」は別の連用形。'],
+  ['keiyo', '形容詞「青い」の仮定形（〜ば）は？', '青けれ（ば）', ['青かれ（ば）', '青いなら（ば）', '青く（ば）'], '仮定形は「けれ」。'],
+  ['keiyo', '形容詞に命令形はある？', 'ない', ['ある（青い）', 'ある（青けろ）', 'ある（青かれ）'], '形容詞には命令形がない。'],
+  ['keiyo', '形容詞の活用の種類は？', '1種類だけ', ['2種類（五段・上一段）', '3種類', '5種類'], '形容詞の活用は一種類のみ。'],
+  ['keiyo', '語幹に「し」が付く形容詞は？', '寂しい', ['大きい', '重い', '弱い'], '寂し・うれし・悲し は語幹に「し」が付く。'],
+  ['keiyo', '語幹に「し」が付かない形容詞は？', '大きい', ['寂しい', 'うれしい', '悲しい'], '大き・重・弱 は「し」が付かない。'],
+  ['keiyodo', '「静かだ」の仮定形（〜ば）は？', '静かなら（ば）', ['静かだら（ば）', '静かで（ば）', '静かに（ば）'], '仮定形は「なら」。'],
+  ['keiyodo', '「静かだ」の連体形（〜とき）は？', '静かな（とき）', ['静かだ（とき）', '静かで（とき）', '静かに（とき）'], '連体形は「な」。'],
+  ['keiyodo', '「静かだ」の連用形（〜ない）は？', '静かで（ない）', ['静かに（ない）', '静かだっ（ない）', '静かなら（ない）'], '「静かで＋ない」。'],
+  ['keiyodo', '「静かだ」の連用形（〜なる）は？', '静かに（なる）', ['静かで（なる）', '静かだっ（なる）', '静かな（なる）'], '「静かに＋なる」。'],
+  ['keiyodo', '「静かだ」の未然形（〜う）は？', '静かだろ（う）', ['静かでしょ（う）', '静かに（う）', '静かなら（う）'], '未然形は「だろ」。'],
+  ['keiyodo', '形容動詞に命令形はある？', 'ない', ['ある（静かだ）', 'ある（静かなれ）', 'ある（静かであれ）'], '形容動詞には命令形がない。'],
+  ['keiyodo', '「暖かです」は何の品詞？', '形容動詞', ['形容詞', '動詞', '名詞'], '「です」の列の形容動詞。'],
+  ['katsukei', '「持つ＋ない」の「持た」は、何形？', '未然形', ['連用形', '終止形', '仮定形'], '「ない・う・よう」に続くのは未然形。'],
+  ['katsukei', '「持つ＋ます」の「持ち」は、何形？', '連用形', ['未然形', '連体形', '命令形'], '「ます・た・て・たい」に続くのは連用形。'],
+  ['katsukei', '「持つ＋と」の「持つ」は、何形？', '終止形', ['未然形', '連体形', '仮定形'], '「と・から・けれど」に続くのは終止形。'],
+  ['katsukei', '「持つ＋人」「持つ＋ので」の「持つ」は、何形？', '連体形', ['終止形', '連用形', '仮定形'], '「の・ので・のに・名詞」に続くのは連体形。'],
+  ['katsukei', '「持つ＋ば」の「持て」は、何形？', '仮定形', ['未然形', '命令形', '連用形'], '「ば」に続くのは仮定形。'],
+  ['katsukei', '「持つ＋う」の「持と」は、何形？', '未然形', ['連用形', '終止形', '連体形'], '「う・よう」に続くのは未然形。'],
+  ['katsukei', '「起きろ」「起きよ」は、何形？', '命令形', ['未然形', '仮定形', '連体形'], '命令の意味を表して言い切る形。'],
+  ['katsukei', '「〜ます・〜た・〜て」に続く活用形は？', '連用形', ['未然形', '連体形', '仮定形'], '用言、または「ます・た・て・たい」などに続く。'],
+  ['katsushu', '「起きる」の活用の種類は？', '上一段活用', ['下一段活用', '五段活用', 'カ行変格活用'], '「起きない」とイ段に変わるので上一段。'],
+  ['katsushu', '「届ける」の活用の種類は？', '下一段活用', ['上一段活用', '五段活用', 'サ行変格活用'], '「届けない」とエ段に変わるので下一段。'],
+  ['katsushu', '「書く」の活用の種類は？', '五段活用', ['上一段活用', '下一段活用', 'カ行変格活用'], '「書かない」とア段に変わるので五段。'],
+  ['katsushu', '「来る」の活用の種類は？', 'カ行変格活用', ['サ行変格活用', '上一段活用', '下一段活用'], '「来る」だけのカ変（暗記）。'],
+  ['katsushu', '「勉強する」の活用の種類は？', 'サ行変格活用', ['カ行変格活用', '五段活用', '下一段活用'], '「〜する」の形はサ変。'],
+  ['katsushu', '「出る」の活用の種類は？', '下一段活用', ['上一段活用', '五段活用', 'カ行変格活用'], '「出ない」とイ段ではなくエ段に変わるので下一段。'],
+  ['katsushu', '「沸かす」の活用の種類は？', '五段活用', ['上一段活用', '下一段活用', 'サ行変格活用'], '「沸かさない」とア段に変わる。'],
+  ['katsushu', '「ない」を付けて直前がア段（書かない）なら？', '五段活用', ['上一段活用', '下一段活用', 'サ行変格活用'], 'ア段は五段活用。'],
+  ['katsushu', '「ない」を付けて直前がエ段（届けない）なら？', '下一段活用', ['五段活用', '上一段活用', 'カ行変格活用'], 'エ段は下一段活用。'],
+  ['katsushu', '活用の種類で、暗記するものは？', '「来る」と「する」', ['「書く」と「読む」', '「起きる」と「見る」', '「届ける」と「出る」'], 'カ変とサ変は暗記する。'],
+  ['fuzoku', '「ばかり」は何助詞？', '副助詞', ['格助詞', '接続助詞', '終助詞'], '副助詞（は、まで、でも、だけ、ばかり…）。'],
+  ['fuzoku', '「ので」は何助詞？', '接続助詞', ['格助詞', '副助詞', '終助詞'], '接続助詞（…ので、…のに など）。'],
+  ['fuzoku', '「ね」は何助詞？', '終助詞', ['格助詞', '接続助詞', '副助詞'], '終助詞（〜か、〜ね、〜よ など）。'],
+  ['fuzoku', '「は」は何助詞？', '副助詞', ['格助詞', '接続助詞', '終助詞'], '副助詞（は、まで、でも…）。'],
+  ['fuzoku', '「れる・られる」の意味は？', '受け身・可能・尊敬・自発', ['使役', '過去・完了', '否定'], '四つの意味を覚える。'],
+  ['fuzoku', '「せる・させる」の意味は？', '使役', ['受け身', '推量', '希望'], '「〜させる」の意味。'],
+  ['fuzoku', '「た」の意味は？', '過去・完了・確認・存続', ['推定・比況', '否定', '丁寧'], '過去や完了など。'],
+  ['fuzoku', '「ない・ぬ」の意味は？', '否定・打ち消し', ['過去', '丁寧', '使役'], '打ち消しの意味。'],
+  ['fuzoku', '「たい・たがる」の意味は？', '希望', ['推定', '断定', '否定'], '「〜したい」の意味。'],
+  ['fuzoku', '「う・よう」の意味は？', '意志・推量・勧誘', ['否定', '丁寧', '過去'], '意志・推量・勧誘。'],
+  ['fuzoku', '「ようだ」の意味は？', '推定・比況', ['様態・伝聞', '意志・推量・勧誘', '断定'], '推定・比況。'],
+  ['fuzoku', '「らしい」の意味は？', '推定', ['希望', '断定', '丁寧'], '推定。'],
+  ['fuzoku', '「そうだ」の意味は？', '様態・伝聞', ['推定・比況', '断定', '希望'], '様態・伝聞。'],
+  ['fuzoku', '「まい」の意味は？', '否定の意志・否定の推量', ['受け身・可能・尊敬・自発', '過去・完了・確認・存続', '推定・比況'], '否定の意志・否定の推量。'],
+  ['fuzoku', '「ます・です」の意味は？', '丁寧', ['断定', '希望', '推定'], '丁寧な言い方。'],
+  ['fuzoku', '活用がない付属語は？', '助詞', ['助動詞', '名詞', '副詞'], '活用がない付属語は助詞、ある付属語は助動詞。'],
+  ['fuzoku', '活用がある付属語は？', '助動詞', ['助詞', '動詞', '接続詞'], '「ない」「た」「らしい」など。'],
+  ['bunrui', '「大きい」の品詞は？', '形容詞', ['形容動詞', '動詞', '名詞'], '語尾が「い」で性質・状態を表す。'],
+  ['bunrui', '「静かだ」の品詞は？', '形容動詞', ['形容詞', '動詞', '名詞'], '語尾が「だ」で性質・状態を表す。'],
+  ['bunrui', '「書く」の品詞は？', '動詞', ['形容詞', '名詞', '副詞'], '動作・作用・存在を表す。'],
+  ['bunrui', '用言にあたるのは？', '動詞・形容詞・形容動詞', ['名詞・副詞・連体詞', '助詞・助動詞', '感動詞・接続詞'], '述語になれる（用言）は3つ。'],
+  ['bunrui', '主語になれる自立語（体言）は？', '名詞', ['副詞', '連体詞', '接続詞'], '活用がなく、主語になれる。'],
+  ['bunrui', '活用がなく、主語になれない自立語の4つは？', '感動詞・接続詞・連体詞・副詞', ['名詞・動詞・形容詞・形容動詞', '助詞・助動詞', '動詞・形容詞・名詞・副詞'], '主語になれないものが4つ。']
+];
+const GR_QID = q => q[0] + '|' + q[1];
+function grSetOpts() { const it = GR.qs[GR.i]; if (!it) return; const o = grShuffle([it.a, ...it.d]); GR.opts = o; GR.cor = o.indexOf(it.a); GR.pick = null; }
+function grStart(scope) {
+  const all = GR_QZ.map(x => ({ t: x[0], q: x[1], a: x[2], d: x[3], n: x[4], key: GR_QID(x) }));
+  const list = scope === 'all' ? all : scope === 'wrong' ? all.filter(x => GR.prog.wrong[x.key]) : all.filter(x => x.t === scope);
+  if (!list.length) { toast('まちがえた問題はありません'); return; }
+  GR.qs = grShuffle(list); GR.scope = scope; GR.i = 0; GR.score = 0; GR.wrongNow = []; GR.view = 'quiz'; grSetOpts(); render();
+}
+function grHomeHtml() {
+  const wrong = Object.keys(GR.prog.wrong).length;
+  const cards = GR_TOPICS.map(t => {
+    const keys = GR_QZ.filter(x => x[0] === t.id).map(GR_QID);
+    const okN = keys.filter(k => GR.prog.ok[k] && !GR.prog.wrong[k]).length;
+    return `<button type="button" class="gr-card" data-act="grtopic" data-id="${t.id}"><span class="gi">${ms(t.icon)}</span><span><b>${t.name}</b><small>${t.sum}</small></span><span class="gr-pg">${okN}/${keys.length}</span></button>`;
+  }).join('');
+  return `<div class="gr-hero"><h3>国語文法を暗記</h3><p>表を隠して覚えてから、テストで確かめよう。まちがえた問題は、あとで復習できます。</p></div>`
+    + `<div class="gr-acts"><button type="button" class="btn filled" data-act="grstart" data-id="all">${ms('quiz')}全部をテスト</button><button type="button" class="btn tonal" data-act="grstart" data-id="wrong" ${wrong ? '' : 'disabled'}>${ms('replay')}まちがえた問題（${wrong}）</button></div>`
+    + `<div class="gr-grid">${cards}</div>`;
+}
+function grTopicHtml(id) {
+  const t = GR_TOPICS.find(x => x.id === id) || GR_TOPICS[0];
+  return `<div class="gr-acts"><button type="button" class="btn tonal sm" data-act="grhome">${ms('arrow_back')}一覧</button><button type="button" class="btn ${GR.hide ? 'filled' : 'tonal'} sm" data-act="grhide">${ms(GR.hide ? 'visibility' : 'visibility_off')}${GR.hide ? 'ふつうに見る' : '表をかくして覚える'}</button></div>`
+    + `<h3 class="gr-h">${t.name}</h3>`
+    + (GR.hide ? '<p class="gr-tip">「？」のマスを押すと、答えが見えます。</p>' : '')
+    + GR_BODY[t.id]()
+    + `<div class="gr-acts"><button type="button" class="btn filled" data-act="grstart" data-id="${t.id}">${ms('quiz')}この単元をテスト</button></div>`;
+}
+function grQuizHtml() {
+  const n = GR.qs.length;
+  if (GR.i >= n) {
+    const hasW = Object.keys(GR.prog.wrong).length;
+    return `<div class="gr-hero"><h3>結果：${GR.score} / ${n} 問正解</h3><p>${GR.score === n ? 'ぜんぶ正解！' : 'まちがえた問題は、「まちがえた問題」から、あとで復習できます。'}</p></div>`
+      + (GR.wrongNow.length ? `<div class="gr-box"><b>まちがえた問題</b><ul class="gr-list">${GR.wrongNow.map(x => `<li>${esc(x.q)} → <b>${esc(x.a)}</b></li>`).join('')}</ul></div>` : '')
+      + `<div class="gr-acts"><button type="button" class="btn filled" data-act="grstart" data-id="${esc(GR.scope)}">${ms('replay')}もう一度</button>${hasW ? `<button type="button" class="btn tonal" data-act="grstart" data-id="wrong">まちがえた問題だけ</button>` : ''}<button type="button" class="btn tonal" data-act="grhome">一覧にもどる</button></div>`;
+  }
+  const it = GR.qs[GR.i], done = GR.pick !== null;
+  const tn = (GR_TOPICS.find(t => t.id === it.t) || { name: 'まとめ' }).name;
+  return `<div class="gr-qhd"><button type="button" class="btn tonal sm" data-act="grhome">${ms('close')}やめる</button><span>${GR.i + 1} / ${n}</span></div>`
+    + `<div class="gr-prog"><i style="width:${(GR.i / n) * 100}%"></i></div>`
+    + `<div class="gr-q"><small>${tn}</small><p>${esc(it.q)}</p></div>`
+    + `<div class="gr-opts">${GR.opts.map((o, i) => { let c = ''; if (done) { if (i === GR.cor) c = ' ok'; else if (i === GR.pick) c = ' ng'; } return `<button type="button" class="gr-opt${c}" data-act="grpick" data-id="${i}" ${done ? 'disabled' : ''}>${esc(o)}</button>`; }).join('')}</div>`
+    + (done ? `<div class="gr-note ${GR.pick === GR.cor ? 'ok' : 'ng'}"><b>${GR.pick === GR.cor ? '正解！' : 'ざんねん… 正解は「' + esc(it.a) + '」'}</b><p>${esc(it.n)}</p></div><button type="button" class="btn filled" data-act="grnext">${GR.i + 1 < n ? '次へ' : '結果を見る'}</button>` : '');
+}
+function gramHtml() {
+  const h = GR.view === 'quiz' ? grQuizHtml() : GR.view === 'home' ? grHomeHtml() : grTopicHtml(GR.view);
+  return `<div class="gr-wrap">${h}</div>`;
+}
+Object.assign(ACT, {
+  grtopic(id) { GR.view = id; GR.hide = false; GR.seen = new Set(); render(); },
+  grhome() { GR.view = 'home'; GR.hide = false; GR.seen = new Set(); render(); },
+  grhide() { GR.hide = !GR.hide; GR.seen = new Set(); render(); },
+  grrev(id) { if (GR.seen.has(id)) GR.seen.delete(id); else GR.seen.add(id); render(); },
+  grstart(id) { grStart(id || 'all'); },
+  grpick(id) {
+    if (GR.pick !== null || GR.view !== 'quiz') return;
+    const it = GR.qs[GR.i], i = Number(id); GR.pick = i;
+    if (i === GR.cor) { GR.score++; GR.prog.ok[it.key] = (GR.prog.ok[it.key] || 0) + 1; delete GR.prog.wrong[it.key]; }
+    else { GR.prog.ng[it.key] = (GR.prog.ng[it.key] || 0) + 1; GR.prog.wrong[it.key] = 1; GR.wrongNow.push(it); }
+    grSave(); render();
+  },
+  grnext() { GR.i++; if (GR.i < GR.qs.length) grSetOpts(); render(); }
+});
 function muSec(title, more, body) {
   return `<section class="mz-sec"><div class="mz-sh"><h3>${title}</h3>${more ? `<button type="button" data-act="muview" data-id="${more}">すべて</button>` : ''}</div>${body}</section>`;
 }
