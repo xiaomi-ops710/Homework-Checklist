@@ -1134,7 +1134,7 @@ body{overflow-x:clip}
 @keyframes mgB{0%{transform:translateX(22px);opacity:1}40%{transform:translateX(0);opacity:1}46%,100%{transform:translateX(0);opacity:0}}
 @keyframes mgC{0%,44%{transform:scale(.2);opacity:0}52%{transform:scale(1.22);opacity:1}62%,88%{transform:scale(1);opacity:1}100%{transform:scale(.6);opacity:0}}
 @media (prefers-reduced-motion:reduce){.mgb-a,.mgb-b{opacity:0;animation:none!important}.mgb-c{animation:none!important;opacity:1;transform:none}}
-.tpbar{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);z-index:60;display:flex;align-items:center;gap:8px;padding:10px 12px 10px 14px;border-radius:24px;background:var(--scc);color:var(--on-scc);box-shadow:0 12px 32px rgba(0,0,0,.32);max-width:720px;margin:0 auto}
+.tpbar{position:fixed;left:12px;right:12px;bottom:calc(env(safe-area-inset-bottom,0px) + 92px);z-index:60;display:flex;align-items:center;gap:8px;padding:10px 12px 10px 14px;border-radius:24px;background:var(--scc,var(--s3));color:var(--on-scc,var(--on-v));box-shadow:0 12px 32px rgba(0,0,0,.32);max-width:720px;margin:0 auto}
 .tp-i{display:grid;place-items:center;width:40px;height:40px;border-radius:14px;background:linear-gradient(145deg,#ff7a3d,#8a1f0c);color:#fff8e1;flex:none}
 .tp-t{display:grid;min-width:0}
 .tp-t small{opacity:.75}
@@ -1861,11 +1861,29 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .kj-wm{width:100%;font-size:.85rem;opacity:.85}
 </style>
 <style id="tools-subj">
-  .tsec-h{display:flex;align-items:center;gap:10px;margin:26px 4px 10px;padding:10px 16px;border-radius:14px;background:var(--sc);color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.18);font-weight:800;font-size:17px;letter-spacing:.02em}
-  .tsec-h .ms{font-size:24px}
-  .tsec-h span{flex:1}
-  .tsec-h small{font-size:13px;font-weight:700;background:rgba(255,255,255,.22);padding:3px 10px;border-radius:999px}
-  .tsec-note{margin:-4px 6px 10px;font-size:13px;color:#57534e}
+  .tsec-h{position:relative;display:flex;align-items:center;gap:14px;margin:30px 2px 14px;padding:14px 16px 14px 14px;border-radius:24px;background:linear-gradient(135deg,var(--sc),color-mix(in srgb,var(--sc) 60%,#000));color:#fff;box-shadow:0 12px 24px -14px var(--sc),inset 0 1px 0 rgba(255,255,255,.25);overflow:hidden;isolation:isolate}
+  .tsec-h::after{content:'';position:absolute;right:-40px;top:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.24),rgba(255,255,255,0) 70%);z-index:-1;pointer-events:none}
+  .tsec-h .tsi{flex:none;width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:rgba(255,255,255,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
+  .tsec-h .tsi .ms{font-size:26px}
+  .tsec-h b{flex:1;min-width:0;font-size:20px;font-weight:800;letter-spacing:.04em;text-shadow:0 1px 2px rgba(0,0,0,.2)}
+  .tsec-h small{flex:none;font-size:13px;font-weight:800;padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.24);box-shadow:inset 0 0 0 1px rgba(255,255,255,.3);white-space:nowrap}
+  html[data-vol] .tsec-h{box-shadow:0 12px 26px -12px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.2)}
+  .hlay-f .btn{background:var(--s3);color:var(--primary);box-shadow:0 2px 12px rgba(0,0,0,.16);border:1px solid color-mix(in srgb,var(--primary) 28%,transparent)}
+  .hlay-f .btn .ms{display:inline-flex;align-items:center;justify-content:center;width:1em;height:1em;line-height:1;font-size:20px;flex:none;vertical-align:middle}
+  html[data-tpbar] .hlay-f{margin:26px 0 calc(env(safe-area-inset-bottom,0px) + 180px)}
+  html[data-tpbar] #fab{bottom:calc(env(safe-area-inset-bottom,0px) + 190px)}
+  .tpbar{gap:6px;padding:8px 8px 8px 12px}
+  .tpbar .tp-t{flex:1;min-width:0}
+  .tpbar .tp-t b{font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tpbar .tp-t small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .tpbar .sp{display:none}
+  .tpbar .btn{flex:none;height:40px;min-height:40px;padding:0 14px;font-size:.9rem;border-radius:20px;white-space:nowrap}
+  .tpbar .btn .ms{display:inline-flex;align-items:center;justify-content:center;width:1em;height:1em;line-height:1;font-size:18px;flex:none;vertical-align:middle}
+  .tpbar .btn:not(.text):not(:disabled){background:var(--primary);color:var(--on-primary);box-shadow:0 2px 8px rgba(0,0,0,.18)}
+  .tpbar .btn:disabled{opacity:1;background:var(--s3);color:var(--on-v);box-shadow:none}
+  .tpbar .btn.text{background:transparent!important;box-shadow:none;color:inherit!important;padding:0 10px}
+  html[data-vol] .tpbar .btn:disabled{background:rgba(255,233,199,.16);color:#ffe9c7}
+  @media (max-width:440px){.tpbar .tp-t small{display:none}}
 </style>
 </head>
 <body>
@@ -1889,7 +1907,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.99';
+const APP_VERSION = '17.99.1';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2621,6 +2639,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.99.1', d: '__BUILD__', t: 'ツール画面の見た目と並び順・ホームの背景を追加', n: ['ツールタブの教科ごとの見出しを、見やすくデザインし直しました', '各教科の一番前に、人気のツールが出るようにしました', '「教科に分けにくいツールです」の文字を消しました', '電卓を「数学」に移しました', 'ホームの背景を追加しました', 'プレビュー中に出る「ホームの配置を編集」ボタンの見た目と、下に出る位置を直しました'] },
   { v: '17.99', d: '__BUILD__', t: '火山テーマの改良・ツールの教科別表示・歴打の問題追加', n: ['火山のテーマを、実際の火山に近い絵にし、文字を見やすくしました', 'ツールを「数学・英語・理科・社会・国語・勉強」に分けて、見やすくしました（教科に分けにくいツールは「勉強」に入ります）', '一度出した吹き出しと、実績のおすすめは、もう出ないようにしました', '歴打の征夷大将軍コースの問題を追加しました'] },
   { v: '17.98', d: '__BUILD__', t: '歴打の画面を横に広げ、問題を追加しました', n: ['歴打の画面の幅を広げ、iPadで全体が見やすくなるようにしました', '歴打の下のスペルの文字を少し小さくしました', '歴打の問題を追加しました'] },
   { v: '17.97', d: '__BUILD__', t: '歴打の画面を見やすくし、問題を追加しました', n: ['歴打の画面下のキーボードを非表示にし、外付けキーボードで打ちやすくしました', '歴打の問題・答え・ふりがな・スペルの文字を大きくしました', '歴打の問題を追加しました'] },
@@ -5432,7 +5451,7 @@ const TOOL_SUBJ = { math: '数学', frac: '数学', shape: '数学', sim: '数�
   eigo: '英語', verbs: '英語', tr: '英語',
   rika: '理科', res: '理科', iden: '理科', ptable: '理科', merge: '理科', unit: '理科',
   jnen: '社会', sekai: '社会', nenpyo: '社会', nengo: '社会', jisa: '社会', rekida: '社会',
-  kanji: '国語' };
+  kanji: '国語', calc: '数学' };
 function viewTools() {
   if (ui.tool === 'mol') { ui.tool = 'ptable'; PT.mode = 'mol'; }
   const tl = ui.tool || '';
@@ -5440,10 +5459,12 @@ function viewTools() {
   if (!tl) {
     const SUBJ_ORDER = [['数学', 'calculate', '#2563eb'], ['英語', 'translate', '#db2777'], ['理科', 'science', '#059669'], ['社会', 'public', '#b45309'], ['国語', 'menu_book', '#7c3aed'], ['勉強', 'library_books', '#475569']];
     const subjOf = t => TOOL_SUBJ[t[0]] || '勉強';
-    const sec = (name, icon, col, list, note) => `<div class="tsec-h" style="--sc:${col}">${ms(icon)}<span>${name}</span><small>${list.length}件</small></div>${note ? `<p class="tsec-note">${note}</p>` : ''}<div class="tgrid2">${list.map(card).join('')}</div>`;
+    const POP = ['rekida', 'ptable', 'card'];
+    const byPop = list => list.slice().sort((a, b) => (POP.includes(b[0]) ? 1 : 0) - (POP.includes(a[0]) ? 1 : 0));
+    const sec = (name, icon, col, list) => `<div class="tsec-h" style="--sc:${col}"><span class="tsi">${ms(icon)}</span><b>${name}</b><small>${list.length}件</small></div><div class="tgrid2">${list.map(card).join('')}</div>`;
     return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div>`
       + sec('人気', 'local_fire_department', '#e11d48', ['card', 'merge', 'rekida', 'ptable'].map(id => TOOLS.find(x => x[0] === id)))
-      + SUBJ_ORDER.map(([name, icon, col]) => { const list = TOOLS.filter(t => subjOf(t) === name); return list.length ? sec(name, icon, col, list, name === '勉強' ? '教科に分けにくいツールです' : '') : ''; }).join('');
+      + SUBJ_ORDER.map(([name, icon, col]) => { const list = TOOLS.filter(t => subjOf(t) === name); return list.length ? sec(name, icon, col, byPop(list)) : ''; }).join('');
   }
   const T = TOOLS.find(x => x[0] === tl), body = { kanji: kjHtml, rekida: rekidaHtml, merge: mergeHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
@@ -9450,7 +9471,15 @@ const HOME_BG = {
   gold: { n: '金色', c: 0, lv: 20, css: 'linear-gradient(135deg,#fff3c4,#e7b64a 50%,#b07a1a)' },
   yozakura: { n: '夜桜', c: 0, lv: 23, css: 'radial-gradient(circle at 25% 30%,#ffb7cf 0 5px,transparent 6px),radial-gradient(circle at 70% 55%,#ff9ec0 0 4px,transparent 5px),radial-gradient(circle at 48% 80%,#ffd1e0 0 3px,transparent 4px),linear-gradient(180deg,#2a1640,#4a1f4f 60%,#2b1034)' },
   kyokkou: { n: '極光', c: 0, lv: 27, css: 'radial-gradient(ellipse at 30% 0,#4fffb0 0,transparent 45%),radial-gradient(ellipse at 70% 10%,#7a6bff 0,transparent 40%),linear-gradient(180deg,#071a2e,#0b2b3a)' },
-  hakuya: { n: '黄昏の海', c: 0, lv: 31, css: 'linear-gradient(180deg,#ff9e6b 0,#e0557a 35%,#3d2a6e 70%,#0f1c3d)' }
+  hakuya: { n: '黄昏の海', c: 0, lv: 31, css: 'linear-gradient(180deg,#ff9e6b 0,#e0557a 35%,#3d2a6e 70%,#0f1c3d)' },
+  matcha: { n: '抹茶', c: 180, css: 'linear-gradient(165deg,#e8f3d6,#f6fbea 55%,#d7ebc0)' },
+  peach: { n: '桃', c: 200, css: 'linear-gradient(170deg,#ffe0d2,#fff4ee 50%,#ffd0bd)' },
+  ice: { n: '氷', c: 240, css: 'linear-gradient(170deg,#e6fbff,#f6feff 50%,#cdeefb)' },
+  ume: { n: '梅', c: 260, lv: 10, css: 'linear-gradient(160deg,#ffe7ef,#fff8fa 50%,#fbd3e0)' },
+  ajisai: { n: '紫陽花', c: 280, css: 'linear-gradient(160deg,#c9d8ff,#eef2ff 50%,#f0d6ff)' },
+  bamboo: { n: '竹林', c: 300, lv: 13, css: 'linear-gradient(160deg,#dbeed3,#f2f9ec 50%,#bfe0ad)' },
+  ink: { n: '墨', c: 320, css: 'linear-gradient(170deg,#1c2026,#2b3139 60%,#3a424d)' },
+  fireworks: { n: '花火', c: 380, lv: 18, css: 'radial-gradient(circle at 30% 20%,#2e1f57,#0d0b22 70%)' }
 };
 const SFX_T = {
   classic: { n: '標準', c: 0, t: 'sine', m: 1 },
@@ -9513,7 +9542,7 @@ function sfxSeq(freqs, gap, dur, vol, th) {
   freqs.forEach((f, i) => { const o = AC.createOscillator(), g = AC.createGain(), t0 = AC.currentTime + i * gap; o.type = th.t; o.frequency.value = f * th.m; g.gain.setValueAtTime(0.0001, t0); g.gain.exponentialRampToValueAtTime(vol, t0 + .02); g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur); o.connect(g).connect(AC.destination); o.start(t0); o.stop(t0 + dur + .05); });
 }
 // 背景の動き（粒）：背景ごとに、花びら・雪・ほたる・泡・きらめき
-const BG_FX = { night: 'twinkle', galaxy: 'twinkle', midnight: 'twinkle', kyokkou: 'twinkle', yozakura: 'petal', sakura: 'petal', cherry: 'petal', autumn: 'leaf', snow: 'snow', deep: 'bubble', ocean: 'bubble', forest: 'firefly', hakuya: 'firefly', dawn: 'firefly', gold: 'sparkle', rainbow: 'sparkle', neon: 'sparkle', sunset: 'sparkle' };
+const BG_FX = { ume: 'petal', bamboo: 'leaf', fireworks: 'sparkle', night: 'twinkle', galaxy: 'twinkle', midnight: 'twinkle', kyokkou: 'twinkle', yozakura: 'petal', sakura: 'petal', cherry: 'petal', autumn: 'leaf', snow: 'snow', deep: 'bubble', ocean: 'bubble', forest: 'firefly', hakuya: 'firefly', dawn: 'firefly', gold: 'sparkle', rainbow: 'sparkle', neon: 'sparkle', sunset: 'sparkle' };
 const BG_FX_CFG = {
   petal: { n: 26, an: 'fxFall', col: ['#ffc2d6', '#ff9ec0', '#ffe3ec'], s: [10, 18], d: [9, 16], op: [.75, 1], dx: [-120, 120], shape: '80% 0 80% 0' },
   leaf: { n: 18, an: 'fxFall', col: ['#f29b4a', '#e0583a', '#ffc96b'], s: [9, 14], d: [10, 18], op: [.6, .9], dx: [-140, 140], shape: '0 80% 0 80%' },
@@ -9704,7 +9733,9 @@ function tpbarHtml() {
 }
 function tpbarSync() {
   let b = document.getElementById('tpbar');
-  if (!THEME_PREV && !BG_PREV) { if (b) b.remove(); return; }
+  const on = !!(THEME_PREV || BG_PREV);
+  document.documentElement.toggleAttribute('data-tpbar', on);
+  if (!on) { if (b) b.remove(); return; }
   if (!b) { b = document.createElement('div'); b.id = 'tpbar'; b.className = 'tpbar'; b.setAttribute('role', 'region'); b.setAttribute('aria-label', 'プレビュー'); document.body.appendChild(b); }
   b.innerHTML = tpbarHtml();
 }
