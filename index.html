@@ -96,7 +96,7 @@ html[data-vol] body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-
 @keyframes vEmber{from{background-position:0 0,40px 70px,0 0}to{background-position:-70px -1000px,-30px -800px,0 0}}
 html[data-vol] .card{background:color-mix(in srgb,var(--s2) 80%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 0 0 1px rgba(255,120,50,.24),0 12px 30px rgba(90,15,0,.3)}
 html[data-vol][data-theme=light] .card{background:color-mix(in srgb,#fff 66%,transparent)}
-html[data-vol] h1,html[data-vol] h2{text-shadow:0 0 18px rgba(255,120,40,.4)}
+html[data-vol] h1,html[data-vol] h2{text-shadow:0 1px 2px rgba(0,0,0,.55)}
 html[data-vol] .focus{background:linear-gradient(rgba(24,7,2,.55),rgba(24,7,2,.78))}
 html[data-vol][data-theme=light] .focus{background:rgba(255,236,220,.72)}
 /* 溶岩のボタン：岩の割れ目から、ゆっくり光が流れる */
@@ -1274,8 +1274,8 @@ html.noanim .hbg-fx,html.noanim #hbg::before{display:none}
 /* 17.85：クイズのお気に入り */
 .qz2-fav{display:inline-flex;align-items:center;gap:4px;font-size:.84rem;font-weight:700;color:var(--primary)}
 /* 17.84：火山の見やすさ（ぼかし・カード・戻るボタン・薄い文字）／フォント */
-html[data-vol] body::before{filter:blur(7px) saturate(1.05);transform:scale(1.08)}
-html[data-vol] .card{background:color-mix(in srgb,var(--s2) 86%,transparent);-webkit-backdrop-filter:blur(22px) saturate(1.1);backdrop-filter:blur(22px) saturate(1.1)}
+html[data-vol] body::before{filter:blur(2px) saturate(1.08);transform:scale(1.02)}
+html[data-vol] .card{background:color-mix(in srgb,var(--s2) 93%,transparent);-webkit-backdrop-filter:blur(22px) saturate(1.1);backdrop-filter:blur(22px) saturate(1.1)}
 html[data-vol][data-theme=light] .card{background:color-mix(in srgb,#fff 80%,transparent)}
 html[data-vol] .hlay:not(.hed) .hsec{background:color-mix(in srgb,var(--s2) 86%,transparent)!important;-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px)}
 html[data-vol][data-theme=light] .hlay:not(.hed) .hsec{background:color-mix(in srgb,#fff 80%,transparent)!important}
@@ -1860,6 +1860,13 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .kj-wr{font-size:.85rem;opacity:.7}
 .kj-wm{width:100%;font-size:.85rem;opacity:.85}
 </style>
+<style id="tools-subj">
+  .tsec-h{display:flex;align-items:center;gap:10px;margin:26px 4px 10px;padding:10px 16px;border-radius:14px;background:var(--sc);color:#fff;box-shadow:0 3px 0 rgba(0,0,0,.18);font-weight:800;font-size:17px;letter-spacing:.02em}
+  .tsec-h .ms{font-size:24px}
+  .tsec-h span{flex:1}
+  .tsec-h small{font-size:13px;font-weight:700;background:rgba(255,255,255,.22);padding:3px 10px;border-radius:999px}
+  .tsec-note{margin:-4px 6px 10px;font-size:13px;color:#57534e}
+</style>
 </head>
 <body>
 <div id="app">
@@ -1882,7 +1889,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.98';
+const APP_VERSION = '17.99';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2040,6 +2047,7 @@ function addLog(delta, task) {
 }
 function addMinutes(min, sid) {
   if (!min) return;
+  if (!(min <= 300)) { CHEAT.flag('min'); min = Math.min(Math.max(0, +min || 0), 300); if (!min) return; }
   const l = dayLog(today(), true); l.m += min;
   if (sid) l.sm[sid] = (l.sm[sid] || 0) + min;
 }
@@ -2089,7 +2097,9 @@ function wkReview() {
 }
 function setDone(t, v) {
   v = Math.max(0, Math.min(t.total, Math.round(Number(v) || 0)));
-  const d = v - t.done; if (!d) return false;
+  let d = v - t.done;
+  if (!CHEAT.pgJump(d)) { CHEAT.flag('pg'); d = Math.sign(d) * PG_TASK_MAX; v = t.done + d; }
+  if (!d) return false;
   t.done = v; syncItems(t); addLog(d, t); t.doneAt = v >= t.total ? Date.now() : null;
   if (d > 0 && v >= t.total) actLog('task', t.title);
   return true;
@@ -2611,6 +2621,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.99', d: '__BUILD__', t: '火山テーマの改良・ツールの教科別表示・歴打の問題追加', n: ['火山のテーマを、実際の火山に近い絵にし、文字を見やすくしました', 'ツールを「数学・英語・理科・社会・国語・勉強」に分けて、見やすくしました（教科に分けにくいツールは「勉強」に入ります）', '一度出した吹き出しと、実績のおすすめは、もう出ないようにしました', '歴打の征夷大将軍コースの問題を追加しました'] },
   { v: '17.98', d: '__BUILD__', t: '歴打の画面を横に広げ、問題を追加しました', n: ['歴打の画面の幅を広げ、iPadで全体が見やすくなるようにしました', '歴打の下のスペルの文字を少し小さくしました', '歴打の問題を追加しました'] },
   { v: '17.97', d: '__BUILD__', t: '歴打の画面を見やすくし、問題を追加しました', n: ['歴打の画面下のキーボードを非表示にし、外付けキーボードで打ちやすくしました', '歴打の問題・答え・ふりがな・スペルの文字を大きくしました', '歴打の問題を追加しました'] },
   { v: '17.96', d: '__BUILD__', t: '自動更新の表示と歴打の問題数、同じ設定でもう一度挑むボタンを直しました', n: ['自動更新がONのとき、更新があるのを見つけたらすぐ更新していることを画面に出すようにしました', '歴打の問題を追加しました', '歴打の結果画面で「同じ設定でもう一度挑む」ボタンを見やすくしました'] },
@@ -3121,7 +3132,9 @@ const ACH_TIPS = [
   { loc: 'tab:tools', ids: ['tu5', 'tu15', 'q_tools3', 'q_tools10'], act: 'いろいろなツールを開く' },
   { loc: 'tab:tools', ids: ['q_games5'], act: '歴打・元素マージ・元素インベーダーを遊ぶ' },
 ];
-const ACHTIP = { off: new Set() };   // 閉じたヒント（この画面を開いているあいだ）
+// 一度出したヒント・閉じたヒントは、ずっと出さない（端末に保存）
+const ACHTIP = { off: new Set((() => { try { return JSON.parse(localStorage.getItem('kosa-achtip')) || []; } catch (e) { return []; } })()), cur: null };
+function achTipSave() { lss('kosa-achtip', [...ACHTIP.off].slice(-300)); }
 function achInfo(id) {
   const b = BADGES.find(x => x[0] === id); if (b) return { id, name: b[2], done: !!S.badges[id] };
   const q = XP_Q.find(x => x.id === id); if (q) return { id, name: q.n, done: !!(S.xpq || {})[id] };
@@ -3135,11 +3148,16 @@ function achLoc() {
 function achTipPaint() {
   const old = document.getElementById('achtip'); if (old) old.remove();
   const loc = achLoc(), v = document.getElementById('view'); if (!loc || !v) return;
+  if (ACHTIP.cur && ACHTIP.cur.loc !== loc) ACHTIP.cur = null;   // 別の画面に移ったら、表示中のヒントは終わり
   for (const t of ACH_TIPS) {
     if (t.loc !== loc) continue;
-    const cand = t.ids.map(achInfo).filter(a => a && !a.done && !ACHTIP.off.has(a.id));
-    if (!cand.length) continue;
-    const a = cand[0];
+    let a = ACHTIP.cur && achInfo(ACHTIP.cur.id);
+    if (!a || a.done) {
+      const cand = t.ids.map(achInfo).filter(x => x && !x.done && !ACHTIP.off.has(x.id));
+      if (!cand.length) continue;
+      a = cand[0];
+      ACHTIP.cur = { loc, id: a.id }; ACHTIP.off.add(a.id); achTipSave();   // 出したら、二度と出さない
+    }
     v.insertAdjacentHTML('afterbegin', `<div class="achtip" id="achtip"><span class="achtip-ic">${ms('emoji_events')}</span><div class="achtip-t"><small>実績「${esc(a.name)}」</small><b>ここで${esc(t.act)}と、解除できます</b></div><button type="button" class="ibtn" data-act="achtipx" data-id="${esc(a.id)}" aria-label="閉じる">${ms('close')}</button></div>`);
     return;
   }
@@ -5409,11 +5427,24 @@ const TOOLS = [['music', '音楽', 'library_music', '端末の音楽や、YouTub
   ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素・くっつけて反応を見る実験・分子量の計算', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 // 以前の「分子量・物質の量」のツールは、元素ラボの中へ
 function mgTileIcon() { return '<span class="mgb" aria-hidden="true"><i class="mgb-a"></i><i class="mgb-b"></i><i class="mgb-c"></i></span>'; }
+/* ツールを教科ごとに分ける（ここにないツールは「勉強」に入る） */
+const TOOL_SUBJ = { math: '数学', frac: '数学', shape: '数学', sim: '数学', poly: '数学', stat: '数学', comb: '数学', line: '数学', trig: '数学', sqrt: '数学', seq: '数学', gcd: '数学', quad: '数学', graph: '数学', pct: '数学',
+  eigo: '英語', verbs: '英語', tr: '英語',
+  rika: '理科', res: '理科', iden: '理科', ptable: '理科', merge: '理科', unit: '理科',
+  jnen: '社会', sekai: '社会', nenpyo: '社会', nengo: '社会', jisa: '社会', rekida: '社会',
+  kanji: '国語' };
 function viewTools() {
   if (ui.tool === 'mol') { ui.tool = 'ptable'; PT.mode = 'mol'; }
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc${id === 'rekida' ? ' rk-tcard' : ''}${['rekida', 'ptable', 'card'].includes(id) ? ' pop' : ''}${id === 'ptable' || id === 'card' ? ' lux lux-' + id : ''}${id === 'merge' ? ' lux lux-merge' : ''}" style="--sh:${h}" data-act="tool" data-id="${id}">${['rekida', 'ptable', 'card'].includes(id) ? '<span class="tc-pop">人気</span>' : ''}<span class="tc-i${id === 'merge' ? ' mgt' : ''}">${id === 'merge' ? mgTileIcon() : ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
-  if (!tl) return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div><div class="lbl" style="margin:6px 4px 10px">人気</div><div class="tgrid2">${['card', 'merge', 'rekida', 'ptable'].map(id => card(TOOLS.find(x => x[0] === id))).join('')}</div><div class="lbl" style="margin:24px 4px 10px">計算・変換</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'a').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">数学</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'c').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">勉強</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'b').map(card).join('')}</div><div class="lbl" style="margin:24px 4px 10px">音楽</div><div class="tgrid2">${TOOLS.filter(x => x[5] === 'e').map(card).join('')}</div>`;
+  if (!tl) {
+    const SUBJ_ORDER = [['数学', 'calculate', '#2563eb'], ['英語', 'translate', '#db2777'], ['理科', 'science', '#059669'], ['社会', 'public', '#b45309'], ['国語', 'menu_book', '#7c3aed'], ['勉強', 'library_books', '#475569']];
+    const subjOf = t => TOOL_SUBJ[t[0]] || '勉強';
+    const sec = (name, icon, col, list, note) => `<div class="tsec-h" style="--sc:${col}">${ms(icon)}<span>${name}</span><small>${list.length}件</small></div>${note ? `<p class="tsec-note">${note}</p>` : ''}<div class="tgrid2">${list.map(card).join('')}</div>`;
+    return `<div class="h-sec" style="margin-top:4px"><h2>${ms('build')}ツール</h2></div>`
+      + sec('人気', 'local_fire_department', '#e11d48', ['card', 'merge', 'rekida', 'ptable'].map(id => TOOLS.find(x => x[0] === id)))
+      + SUBJ_ORDER.map(([name, icon, col]) => { const list = TOOLS.filter(t => subjOf(t) === name); return list.length ? sec(name, icon, col, list, name === '勉強' ? '教科に分けにくいツールです' : '') : ''; }).join('');
+  }
   const T = TOOLS.find(x => x[0] === tl), body = { kanji: kjHtml, rekida: rekidaHtml, merge: mergeHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2></div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
@@ -10568,7 +10599,7 @@ const HINT_TXT = {
 };
 const HINT = { on: false, k: '', last: 0, shown: {} };
 const hintSeen = () => new Set(lsj('kosa-hint-seen', []));
-function hintMark(k) { if (!k) return; const s = hintSeen(); if (s.has(k)) return; s.add(k); lss('kosa-hint-seen', [...s].slice(-80)); }
+function hintMark(k) { if (!k) return; const s = hintSeen(); if (s.has(k)) return; s.add(k); lss('kosa-hint-seen', [...s].slice(-300)); }
 function hintHide() { const b = $('#hintb'); if (b) b.remove(); HINT.on = false; HINT.last = Date.now(); }
 function hintKeyOf(el) { const a = el && el.dataset && el.dataset.act; if (!a) return ''; return a === 'tab' ? 'tab:' + el.dataset.id : a; }
 function hintShow(k, r) {
@@ -10582,7 +10613,7 @@ function hintShow(k, r) {
   const h = b.offsetHeight, below = r.top < innerHeight / 2;
   b.style.top = (below ? r.bottom + 12 : Math.max(12, r.top - h - 12)) + 'px';
   b.classList.add(below ? 'down' : 'up'); b.style.setProperty('--tx', (cx - left) + 'px');
-  HINT.on = true; HINT.k = k; HINT.shown[k] = (HINT.shown[k] || 0) + 1;
+  HINT.on = true; HINT.k = k; HINT.shown[k] = (HINT.shown[k] || 0) + 1; hintMark(k);
   setTimeout(() => { if (HINT.on && HINT.k === k) hintHide(); }, 9000);
 }
 function hintTick() {
@@ -10771,7 +10802,7 @@ Object.assign(ACT, {
     art.classList.toggle('open', on); const b = art.querySelector('.fbm-rbtn'); if (b) b.setAttribute('aria-expanded', String(on));
     if (on) { const t = art.querySelector('textarea'); if (t) setTimeout(() => t.focus(), 60); }
   },
-  achtipx(id) { const loc = achLoc(); ACH_TIPS.forEach(t => { if (t.loc === loc) t.ids.forEach(x => ACHTIP.off.add(x)); }); achTipPaint(); },
+  achtipx(id) { const loc = achLoc(); ACH_TIPS.forEach(t => { if (t.loc === loc) t.ids.forEach(x => ACHTIP.off.add(x)); }); achTipSave(); ACHTIP.cur = null; achTipPaint(); },
   grkreload() { grkLoad(true); },
 });
 // 設定の「データ」の文字を、5回続けてタップすると開く
@@ -11270,16 +11301,31 @@ Object.assign(ACT, {
 
 /* ====================== 歴打（REKIDA）：レベル5で解放。games/rekida.html を埋め込み、石高を実績へつなぐ ====================== */
 const RK_LV = 5;
-function rkStat() { try { return JSON.parse(localStorage.getItem('kosa-rekida') || '{}') || {}; } catch (e) { return {}; } }
+/* 記録の確認：ゲームの点数・勉強のページ数などが、ありえない値なら記録しない（すべてのゲーム・記録で使う） */
+const CHEAT = {
+  // 歴打：1打ごとの点数は最大183.6、1問は最大1755（連続・フィーバー・暗記モードを含む）。打った数から上限を決める
+  rkRun: (score, keys) => keys >= 0 && keys <= 2000 && score >= 0 && score <= keys * 1061 + 1000,
+  // 元素インベーダー：1回の加点は最大150点
+  ivRun: (score, hits) => hits >= 0 && hits <= 3000 && score >= 0 && score <= hits * 150 + 1000,
+  // 元素マージ：1回の合成は最大2117点（Lv.11）。Lvから上限を決める
+  mgRun: (score, lv) => lv >= 1 && lv <= 11 && score >= 0 && score <= 2200 * Math.pow(2, lv) + 3000,
+  // ページ：1回の操作で増やせる上限
+  pgJump: d => Math.abs(d) <= PG_TASK_MAX,
+  flag(k) { try { S.cheat = S.cheat || {}; S.cheat[k] = (S.cheat[k] || 0) + 1; } catch (e) { } },
+  RK_BEST: 300000, IV_BEST: 451000, MG_LV: 11
+};
+function rkStat() { try { const v = JSON.parse(localStorage.getItem('kosa-rekida') || '{}') || {}; v.best = Math.min(v.best || 0, CHEAT.RK_BEST); return v; } catch (e) { return {}; } }
 function rkStatHtml() { const v = rkStat(); return `<span>1ゲームの最高石高 <b>${v.best || 0}</b></span><span>累計石高 <b>${v.total || 0}</b></span><span>挑戦 <b>${v.plays || 0}</b>回</span>`; }
 window.addEventListener('message', e => {
   const d = e.data; if (!d || d.type !== 'kosa-rekida') return;
   const fr = document.querySelector('#rkframe iframe'); if (!fr || e.source !== fr.contentWindow) return;
   const score = Math.max(0, Math.min(10000000, Math.floor(Number(d.score) || 0)));
+  const keys = Math.max(0, Math.min(1000000, Math.floor(Number(d.keys) || 0)));
+  if (!CHEAT.rkRun(score, keys)) { CHEAT.flag('rk'); save(); return; }
   const total = Math.max(0, Math.min(100000000, Math.floor(Number(d.total) || 0)));
   const v = rkStat();
-  v.plays = (v.plays || 0) + 1; v.best = Math.max(v.best || 0, score); v.total = Math.max(v.total || 0, total);
-  S.typed = (S.typed || 0) + Math.max(0, Math.min(1000000, Math.floor(Number(d.keys) || 0)));
+  v.plays = (v.plays || 0) + 1; v.best = Math.max(v.best || 0, score); v.total = Math.max(v.total || 0, Math.min(total, (v.total || 0) + score));
+  S.typed = (S.typed || 0) + keys;
   try { localStorage.setItem('kosa-rekida', JSON.stringify(v)); } catch (x) { }
   const el = document.getElementById('rkstat'); if (el) el.innerHTML = rkStatHtml();
   checkBadges(false); save(); frChanged();
@@ -11339,7 +11385,7 @@ const TOOL_LV = { merge: MG_LV };
 function toolHas(id) { return toolOwned(id) || (!!TOOL_LV[id] && level().L >= TOOL_LV[id]); }
 // 難易度の版（MG_VER）が変わると、最高点・最高の元素・友達との最高点は数え直す（挑戦回数は残す）
 const MG_VER = 2;
-function mgStat() { let v = {}; try { v = JSON.parse(localStorage.getItem('kosa-merge') || '{}') || {}; } catch (e) { v = {}; } if (v.mgv !== MG_VER) v = { plays: v.plays || 0, mgv: MG_VER }; return v; }
+function mgStat() { let v = {}; try { v = JSON.parse(localStorage.getItem('kosa-merge') || '{}') || {}; } catch (e) { v = {}; } if (v.mgv !== MG_VER) v = { plays: v.plays || 0, mgv: MG_VER }; v.maxLv = Math.min(v.maxLv || 0, CHEAT.MG_LV); if (v.best) v.best = Math.min(v.best, 2200 * Math.pow(2, v.maxLv || CHEAT.MG_LV) + 3000); return v; }
 const mgOf = d => (d && d.mg && typeof d.mg === 'object' && d.mg.v === MG_VER) ? (Number(d.mg.b) || 0) : 0;
 function mgStatHtml() { const v = mgStat(); return `<span>最高点 <b>${v.best || 0}</b></span><span>最高の元素 <b>${v.maxLv ? 'Lv.' + v.maxLv : '-'}</b></span><span>挑戦 <b>${v.plays || 0}</b>回</span>`; }
 // ゲームの結果を受け取って保存する（0点の挑戦は数えない）
@@ -11349,6 +11395,7 @@ window.addEventListener('message', e => {
   const score = Math.max(0, Math.min(10000000, Math.floor(Number(d.score) || 0)));
   if (score <= 0) return;
   const lv = Math.max(1, Math.min(11, Math.floor(Number(d.maxLv) || 1)));
+  if (!CHEAT.mgRun(score, lv)) { CHEAT.flag('mg'); save(); return; }
   actLog('mg', `${score}点 Lv.${lv}`);
   const v = mgStat();
   v.plays = (v.plays || 0) + 1; v.best = Math.max(v.best || 0, score); v.maxLv = Math.max(v.maxLv || 0, lv);
@@ -11663,7 +11710,7 @@ TPAINT.rekida = () => { grkLoad(); };
 const PS = { best: 0 };
 try { PS.best = +(localStorage.getItem('kosa-ps-best') || 0) || 0; } catch (e) { }
 // 元素インベーダーの記録（ゲームから届いた結果を保存して、実績に反映する）
-function invStat() { try { return JSON.parse(localStorage.getItem('kosa-inv') || '{}') || {}; } catch (e) { return {}; } }
+function invStat() { try { const v = JSON.parse(localStorage.getItem('kosa-inv') || '{}') || {}; v.best = Math.min(v.best || 0, CHEAT.IV_BEST); return v; } catch (e) { return {}; } }
 function invStatHtml() {
   const v = invStat();
   return `<span>最高点 <b>${v.best || 0}</b></span><span>挑戦 <b>${v.plays || 0}</b>回</span><span>正解 <b>${v.hits || 0}</b></span>`;
@@ -11673,6 +11720,7 @@ window.addEventListener('message', e => {
   const fr = document.querySelector('#psframe iframe'); if (!fr || e.source !== fr.contentWindow) return;
   const score = Math.max(0, Math.min(1000000, Math.floor(Number(d.score) || 0)));
   const hits = Math.max(0, Math.min(100000, Math.floor(Number(d.hits) || 0)));
+  if (!CHEAT.ivRun(score, hits)) { CHEAT.flag('iv'); save(); return; }
   const v = invStat();
   v.plays = (v.plays || 0) + 1; v.hits = (v.hits || 0) + hits; v.best = Math.max(v.best || 0, score);
   try { localStorage.setItem('kosa-inv', JSON.stringify(v)); } catch (x) { }
