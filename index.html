@@ -1861,8 +1861,21 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .kj-wm{width:100%;font-size:.85rem;opacity:.85}
 </style>
 <style id="tools-subj">
+  #totop{position:fixed;z-index:29;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 176px);width:52px;height:52px;border:0;border-radius:18px;background:var(--pc);color:var(--on-pc);box-shadow:0 10px 24px -8px rgba(0,0,0,.45);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(28px) scale(.6);pointer-events:none;transition:opacity .35s ease,transform .55s var(--spring),border-radius .45s var(--spring)}
+  #totop.on{opacity:1;transform:none;pointer-events:auto}
+  #totop:active{transform:scale(.9);border-radius:24px}
+  #totop .ms{font-size:26px}
+  @media (min-width:900px){#totop{right:24px;bottom:calc(env(safe-area-inset-bottom,0px) + 28px)}}
+  html[data-tpbar] #totop{bottom:calc(env(safe-area-inset-bottom,0px) + 250px)}
+  @media (min-width:900px){html[data-tpbar] #totop{bottom:calc(env(safe-area-inset-bottom,0px) + 172px)}}
   .tsec-h{position:relative;display:flex;align-items:center;gap:14px;margin:30px 2px 14px;padding:14px 16px 14px 14px;border-radius:24px;background:linear-gradient(135deg,var(--sc),color-mix(in srgb,var(--sc) 60%,#000));color:#fff;box-shadow:0 12px 24px -14px var(--sc),inset 0 1px 0 rgba(255,255,255,.25);overflow:hidden;isolation:isolate}
   .tsec-h::after{content:'';position:absolute;right:-40px;top:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(255,255,255,.24),rgba(255,255,255,0) 70%);z-index:-1;pointer-events:none}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tsec-h{background:linear-gradient(135deg,color-mix(in srgb,var(--sc) 26%,#15171d),color-mix(in srgb,var(--sc) 12%,#15171d));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sc) 42%,transparent);color:#e5e7eb}}
+  :root[data-theme="dark"] .tsec-h{background:linear-gradient(135deg,color-mix(in srgb,var(--sc) 26%,#15171d),color-mix(in srgb,var(--sc) 12%,#15171d));box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sc) 42%,transparent);color:#e5e7eb}
+  @media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .tsec-h::after{opacity:.35}:root:not([data-theme="light"]) .tsec-h .tsi{background:color-mix(in srgb,var(--sc) 30%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sc) 50%,transparent)}}
+  :root[data-theme="dark"] .tsec-h::after{opacity:.35}
+  :root[data-theme="dark"] .tsec-h .tsi{background:color-mix(in srgb,var(--sc) 30%,transparent);box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--sc) 50%,transparent)}
+  :root[data-theme="dark"] .tsec-h small{background:rgba(255,255,255,.08);box-shadow:none;color:#d1d5db}
   .tsec-h .tsi{flex:none;width:46px;height:46px;border-radius:16px;display:grid;place-items:center;background:rgba(255,255,255,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.28)}
   .tsec-h .tsi .ms{font-size:26px}
   .tsec-h b{flex:1;min-width:0;font-size:20px;font-weight:800;letter-spacing:.04em;text-shadow:0 1px 2px rgba(0,0,0,.2)}
@@ -1907,7 +1920,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.99.1';
+const APP_VERSION = '17.99.2';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -1969,7 +1982,67 @@ const BADGES = [
   ['rkt10000', 'workspace_premium', '天下の蓄え', '歴打で石高を累計10000集める', c => c.rkt >= 10000, c => [c.rkt, 10000]],
   ['lv5', 'trending_up', 'レベル5到達', 'レベル5になる（ツールの「歴打」が遊べるようになります）', c => c.lv >= 5, c => [c.lv, 5]],
   ['lv10', 'stars', 'レベル10到達', 'レベル10になる', c => c.lv >= 10, c => [c.lv, 10]],
-  ['lv20', 'diamond', 'レベル20到達', 'レベル20になる', c => c.lv >= 20, c => [c.lv, 20]]
+  ['lv20', 'diamond', 'レベル20到達', 'レベル20になる', c => c.lv >= 20, c => [c.lv, 20]],
+  ['mg1', 'extension', '元素マージはじめて', '元素マージを1回遊ぶ', c => c.mgp >= 1, c => [c.mgp, 1]],
+  ['mg5', 'extension', '元素マージ5回', '元素マージを5回遊ぶ', c => c.mgp >= 5, c => [c.mgp, 5]],
+  ['mg20', 'extension', '元素マージ20回', '元素マージを20回遊ぶ', c => c.mgp >= 20, c => [c.mgp, 20]],
+  ['mg50', 'extension', '元素マージ50回', '元素マージを50回遊ぶ', c => c.mgp >= 50, c => [c.mgp, 50]],
+  ['mg100', 'extension', '元素マージ100回', '元素マージを100回遊ぶ', c => c.mgp >= 100, c => [c.mgp, 100]],
+  ['mg300', 'extension', '元素マージ300回', '元素マージを300回遊ぶ', c => c.mgp >= 300, c => [c.mgp, 300]],
+  ['mgs300', 'bubble_chart', '元素マージ300点', '元素マージで1ゲーム300点以上', c => c.mgb >= 300, c => [c.mgb, 300]],
+  ['mgs1000', 'bubble_chart', '元素マージ1000点', '元素マージで1ゲーム1000点以上', c => c.mgb >= 1000, c => [c.mgb, 1000]],
+  ['mgs3000', 'bubble_chart', '元素マージ3000点', '元素マージで1ゲーム3000点以上', c => c.mgb >= 3000, c => [c.mgb, 3000]],
+  ['mgs10000', 'bubble_chart', '元素マージ1万点', '元素マージで1ゲーム1万点以上', c => c.mgb >= 10000, c => [c.mgb, 10000]],
+  ['mgs30000', 'bubble_chart', '元素マージ3万点', '元素マージで1ゲーム3万点以上', c => c.mgb >= 30000, c => [c.mgb, 30000]],
+  ['mgs100000', 'bubble_chart', '元素マージ10万点', '元素マージで1ゲーム10万点以上', c => c.mgb >= 100000, c => [c.mgb, 100000]],
+  ['mgl3', 'science', '元素Lv3をつくる', '元素マージで Lv3 の元素をつくる', c => c.mgl >= 3, c => [c.mgl, 3]],
+  ['mgl4', 'science', '元素Lv4をつくる', '元素マージで Lv4 の元素をつくる', c => c.mgl >= 4, c => [c.mgl, 4]],
+  ['mgl5', 'science', '元素Lv5をつくる', '元素マージで Lv5 の元素をつくる', c => c.mgl >= 5, c => [c.mgl, 5]],
+  ['mgl6', 'science', '元素Lv6をつくる', '元素マージで Lv6 の元素をつくる', c => c.mgl >= 6, c => [c.mgl, 6]],
+  ['mgl7', 'science', '元素Lv7をつくる', '元素マージで Lv7 の元素をつくる', c => c.mgl >= 7, c => [c.mgl, 7]],
+  ['mgl8', 'science', '元素Lv8をつくる', '元素マージで Lv8 の元素をつくる', c => c.mgl >= 8, c => [c.mgl, 8]],
+  ['mgl9', 'science', '元素Lv9をつくる', '元素マージで Lv9 の元素をつくる', c => c.mgl >= 9, c => [c.mgl, 9]],
+  ['mgl10', 'science', '元素Lv10をつくる', '元素マージで Lv10 の元素をつくる', c => c.mgl >= 10, c => [c.mgl, 10]],
+  ['mgl11', 'trophy', '元素の頂点', '元素マージで最高の Lv11 をつくる', c => c.mgl >= 11, c => [c.mgl, 11]],
+  ['rkp1', 'history_edu', '歴打はじめて', '歴打を1回遊ぶ', c => c.rkp >= 1, c => [c.rkp, 1]],
+  ['rkp5', 'history_edu', '歴打5回', '歴打を5回遊ぶ', c => c.rkp >= 5, c => [c.rkp, 5]],
+  ['rkp20', 'history_edu', '歴打20回', '歴打を20回遊ぶ', c => c.rkp >= 20, c => [c.rkp, 20]],
+  ['rkp50', 'history_edu', '歴打50回', '歴打を50回遊ぶ', c => c.rkp >= 50, c => [c.rkp, 50]],
+  ['rkp100', 'history_edu', '歴打100回', '歴打を100回遊ぶ', c => c.rkp >= 100, c => [c.rkp, 100]],
+  ['rkh1', 'swords', '征夷大将軍コース', '歴打の征夷大将軍コースで1回遊ぶ', c => c.rkh >= 1, c => [c.rkh, 1]],
+  ['rkh10', 'swords', '征夷大将軍コース10回', '征夷大将軍コースで10回遊ぶ', c => c.rkh >= 10, c => [c.rkh, 10]],
+  ['rkh30', 'castle', '征夷大将軍コース30回', '征夷大将軍コースで30回遊ぶ', c => c.rkh >= 30, c => [c.rkh, 30]],
+  ['rk2000', 'history_edu', '石高2000', '歴打で1ゲームの石高を2000以上', c => c.rk >= 2000, c => [c.rk, 2000]],
+  ['rk3000', 'history_edu', '石高3000', '歴打で1ゲームの石高を3000以上', c => c.rk >= 3000, c => [c.rk, 3000]],
+  ['rkt30000', 'workspace_premium', '天下の蓄え', '歴打で石高を累計30000集める', c => c.rkt >= 30000, c => [c.rkt, 30000]],
+  ['rkt100000', 'workspace_premium', '天下統一', '歴打で石高を累計100000集める', c => c.rkt >= 100000, c => [c.rkt, 100000]],
+  ['inv50', 'sports_esports', 'インベーダー50回', '元素インベーダーに50回挑戦', c => c.invPlays >= 50, c => [c.invPlays, 50]],
+  ['inv100', 'sports_esports', 'インベーダー100回', '元素インベーダーに100回挑戦', c => c.invPlays >= 100, c => [c.invPlays, 100]],
+  ['inv2000', 'bolt', '正解2000回', '元素インベーダーで正解を2000回', c => c.invHits >= 2000, c => [c.invHits, 2000]],
+  ['ivs10000', 'rocket_launch', 'インベーダー1万点', '元素インベーダーで1ゲーム1万点以上', c => c.ivb >= 10000, c => [c.ivb, 10000]],
+  ['ivs50000', 'rocket_launch', 'インベーダー5万点', '元素インベーダーで1ゲーム5万点以上', c => c.ivb >= 50000, c => [c.ivb, 50000]],
+  ['ivs100000', 'rocket_launch', 'インベーダー10万点', '元素インベーダーで1ゲーム10万点以上', c => c.ivb >= 100000, c => [c.ivb, 100000]],
+  ['ps5000', 'military_tech', 'シューティング5000点', '元素シューティングで5000点', c => c.ps >= 5000, c => [c.ps, 5000]],
+  ['lab30', 'experiment', '元素ハンター上級', '元素ラボで30種類の元素を見つける', c => c.lab >= 30, c => [c.lab, 30]],
+  ['lab60', 'experiment', '元素ハンター達人', '元素ラボで60種類の元素を見つける', c => c.lab >= 60, c => [c.lab, 60]],
+  ['lab118', 'biotech', '全元素コンプリート', '元素ラボで118種類すべての元素を見つける', c => c.lab >= 118, c => [c.lab, 118]],
+  ['t200', 'task_alt', '課題200個', '課題を200個完了', c => c.done >= 200, c => [c.done, 200]],
+  ['p3000', 'menu_book', '3000ページ', '累計3000ページ', c => c.pages >= 3000, c => [c.pages, 3000]],
+  ['p10000', 'auto_stories', '10000ページ', '累計10000ページ', c => c.pages >= 10000, c => [c.pages, 10000]],
+  ['s90', 'calendar_month', '3か月連続', '90日続けて勉強', c => c.bestStreak >= 90, c => [c.bestStreak, 90]],
+  ['s180', 'event', '半年連続', '180日続けて勉強', c => c.bestStreak >= 180, c => [c.bestStreak, 180]],
+  ['s365', 'emoji_events', '1年連続', '365日続けて勉強', c => c.bestStreak >= 365, c => [c.bestStreak, 365]],
+  ['d200', 'flash_on', '1日200ページ', '1日で200ページ以上', c => c.best >= 200, c => [c.best, 200]],
+  ['f100', 'hourglass_full', '集中100時間', '集中が累計100時間', c => c.min >= 6000, c => [c.min, 6000]],
+  ['wc500', 'school', '単語を500個覚えた', '単語帳で「覚えた」を500個', c => c.known >= 500, c => [c.known, 500]],
+  ['wc1000', 'auto_awesome', '単語を1000個覚えた', '単語帳で「覚えた」を1000個', c => c.known >= 1000, c => [c.known, 1000]],
+  ['sub5', 'grade', '5教科コンプリート', '5教科の課題を全部完了', c => c.subDone >= 5, c => [c.subDone, 5]],
+  ['tu30', 'apps', 'ツール名人', '違うツールを30種類開く', c => c.tools >= 30, c => [c.tools, 30]],
+  ['lv15', 'star', 'レベル15到達', 'レベル15になる', c => c.lv >= 15, c => [c.lv, 15]],
+  ['lv30', 'auto_awesome', 'レベル30到達', 'レベル30になる', c => c.lv >= 30, c => [c.lv, 30]],
+  ['lv40', 'workspace_premium', 'レベル40到達', 'レベル40になる', c => c.lv >= 40, c => [c.lv, 40]],
+  ['lv50', 'trophy', 'レベル50到達', 'レベル50になる', c => c.lv >= 50, c => [c.lv, 50]],
+  ['xp5000', 'savings', '経験値5000', '経験値を5000ためる', c => c.xp >= 5000, c => [c.xp, 5000]]
 ];
 function badgeHtml(b, i, c) {
   const [id, ic, name, desc, , prog] = b, on = !!S.badges[id], pg = prog && !on ? prog(c) : null;
@@ -2305,7 +2378,7 @@ function totals() {
   const subDone = S.subjects.filter(s => { const ts = tasksOfSub(s.id); return ts.length && ts.every(isDone); }).length;
   return { pages, min, best, done: S.tasks.filter(isDone).length, streak: streak(), bestStreak: bestStreak(),
     subClear: subDone > 0, subDone, reqClear: rq.length > 0 && rq.every(isDone), xp, lv: Math.floor(Math.sqrt(xp / 25)) + 1,
-    known: (S.cards || []).filter(c => c.k).length, tools: tuList().length, lab: safeN(() => LAB.found.size), ps: safeN(() => PS.best), invPlays: invStat().plays || 0, invHits: invStat().hits || 0, rk: rkStat().best || 0, rkt: rkStat().total || 0 };
+    known: (S.cards || []).filter(c => c.k).length, tools: tuList().length, lab: safeN(() => LAB.found.size), ps: safeN(() => PS.best), invPlays: invStat().plays || 0, invHits: invStat().hits || 0, rk: rkStat().best || 0, rkt: rkStat().total || 0, rkp: rkStat().plays || 0, rkh: rkStat().hard || 0, mgp: mgStat().plays || 0, mgb: mgStat().best || 0, mgl: mgStat().maxLv || 0, ivb: invStat().best || 0 };
 }
 function level() {
   const c = totals(), xp = c.xp; let L = c.lv;
@@ -2410,6 +2483,28 @@ function navTrack() {
 }
 // 画面が表示できなかったときの案内（ほかの画面は、そのまま使えます）
 function viewBroken() { return `<div class="card broken"><b>この画面を表示できませんでした</b><p class="muted" style="font-weight:500;margin:6px 0 12px;line-height:1.7">ほかの画面は、そのまま使えます。もう一度、表示してみてください。直らないときは、設定の「動作の診断」の記録をフィードバックで送ってください。</p><button type="button" class="btn tonal" data-act="rerender">${ms('refresh')}もう一度表示</button></div>`; }
+const TOTOP = { y: 0 };
+function totopSync() {
+  let b = document.getElementById('totop');
+  if (!b) {
+    b = document.createElement('button'); b.id = 'totop'; b.type = 'button';
+    b.setAttribute('aria-label', '一番上へ戻る'); b.title = '一番上へ戻る';
+    b.innerHTML = ms('arrow_upward');
+    b.addEventListener('click', () => { const m = document.getElementById('main'); (document.scrollingElement || document.documentElement).scrollTo({ top: 0, behavior: 'smooth' }); if (m) m.scrollTo({ top: 0, behavior: 'smooth' }); });
+    document.body.appendChild(b);
+  }
+  const m = document.getElementById('main');
+  TOTOP.y = Math.max((document.scrollingElement || document.documentElement).scrollTop || 0, m ? m.scrollTop || 0 : 0);
+  b.classList.toggle('on', ui.tab === 'home' && !ui.sub && TOTOP.y > 360);
+}
+document.addEventListener('scroll', e => {
+  const t = e.target, el = t === document ? (document.scrollingElement || document.documentElement) : t;
+  if (!(el instanceof Element)) return;
+  if (!(el === document.scrollingElement || el === document.documentElement || el.id === 'main')) return;
+  totopSync();
+}, { capture: true, passive: true });
+const renderCore = render;
+render = function () { renderCore(); totopSync(); };
 function render() {
   if (gameOv()) return;   // 全画面のゲーム中は、画面を描き直さない（ゲームの枠を守る）
   applyHomeBg();
@@ -2639,6 +2734,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.99.2', d: '__BUILD__', t: '実績・歴打の問題を追加、ダークモードの見出し、上へ戻るボタン', n: ['実績を大幅に追加しました（元素マージ・歴打・元素インベーダーなど）', 'ダークモードでは、ツールの教科見出しを落ち着いた色にしました', 'ホームで下にスクロールすると、右下に「上へ戻る」ボタンが出るようにしました', '歴打の侍大将・征夷大将軍の問題を追加しました（明治以降の内容を増やしました）', '歴打の問題の数の表示を、実際の数に合わせました'] },
   { v: '17.99.1', d: '__BUILD__', t: 'ツール画面の見た目と並び順・ホームの背景を追加', n: ['ツールタブの教科ごとの見出しを、見やすくデザインし直しました', '各教科の一番前に、人気のツールが出るようにしました', '「教科に分けにくいツールです」の文字を消しました', '電卓を「数学」に移しました', 'ホームの背景を追加しました', 'プレビュー中に出る「ホームの配置を編集」ボタンの見た目と、下に出る位置を直しました'] },
   { v: '17.99', d: '__BUILD__', t: '火山テーマの改良・ツールの教科別表示・歴打の問題追加', n: ['火山のテーマを、実際の火山に近い絵にし、文字を見やすくしました', 'ツールを「数学・英語・理科・社会・国語・勉強」に分けて、見やすくしました（教科に分けにくいツールは「勉強」に入ります）', '一度出した吹き出しと、実績のおすすめは、もう出ないようにしました', '歴打の征夷大将軍コースの問題を追加しました'] },
   { v: '17.98', d: '__BUILD__', t: '歴打の画面を横に広げ、問題を追加しました', n: ['歴打の画面の幅を広げ、iPadで全体が見やすくなるようにしました', '歴打の下のスペルの文字を少し小さくしました', '歴打の問題を追加しました'] },
@@ -11355,7 +11451,7 @@ window.addEventListener('message', e => {
   if (!CHEAT.rkRun(score, keys)) { CHEAT.flag('rk'); save(); return; }
   const total = Math.max(0, Math.min(100000000, Math.floor(Number(d.total) || 0)));
   const v = rkStat();
-  v.plays = (v.plays || 0) + 1; v.best = Math.max(v.best || 0, score); v.total = Math.max(v.total || 0, Math.min(total, (v.total || 0) + score));
+  v.plays = (v.plays || 0) + 1; if (d.difficulty === 'hard') v.hard = (v.hard || 0) + 1; v.best = Math.max(v.best || 0, score); v.total = Math.max(v.total || 0, Math.min(total, (v.total || 0) + score));
   S.typed = (S.typed || 0) + keys;
   try { localStorage.setItem('kosa-rekida', JSON.stringify(v)); } catch (x) { }
   const el = document.getElementById('rkstat'); if (el) el.innerHTML = rkStatHtml();
