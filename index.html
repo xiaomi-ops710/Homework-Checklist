@@ -991,12 +991,17 @@ html[data-nav=bottom] .nbadge.new{top:-14px}
 .grow-b .btn[disabled]{opacity:.5}
 .shop-h{font-size:.95rem;margin:14px 2px 8px}
 .shop-l{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
+.ai-guide{display:grid;gap:8px;margin:0 0 12px;font-size:14px;line-height:1.6}
+.ai-guide p{margin:0;padding:10px 12px;border:1px solid rgba(127,127,127,.25);border-radius:14px}
 .shop-i{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:10px;border-radius:20px;background:var(--s2)}
 .shop-i.eq{outline:2px solid var(--primary);outline-offset:-2px}
 .shop-sw{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;background:var(--s3);color:var(--primary);box-shadow:inset 0 0 0 1px rgba(0,0,0,.06)}
 .shop-t{min-width:0;display:grid;gap:2px}
 .shop-t b{font-size:.92rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .shop-t small{color:var(--on-v);font-size:.78rem}
+.ai-cmp{margin:10px 4px 0;padding:0;list-style:none;display:grid;gap:8px;color:var(--on-v);font-size:.85rem;font-weight:500;line-height:1.6}
+.ai-cmp b{color:inherit;font-weight:800}
+.ai-model{margin:0 16px 6px;font-size:.82rem;font-weight:700;color:var(--on-v)}
 .shop-a{display:flex;flex-direction:column;gap:4px;align-items:stretch}
 .shop-a .btn{min-height:36px;height:36px;padding:0 12px;white-space:nowrap}
 .shop-a .btn[disabled]{opacity:.5}
@@ -1854,6 +1859,71 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .kj-w b mark{background:none;color:var(--primary);font-weight:800}
 .kj-wr{font-size:.85rem;opacity:.7}
 .kj-wm{width:100%;font-size:.85rem;opacity:.85}
+/* しりとり（Material 3 Expressive・ゲーム風） */
+.sr{--sr-p:#6d5ce8;--sr-s:#ff5d8f;--sr-t:#16c79a;--sr-y:#ffb938;--sr-b:#3aa0ff;--sr-ink:#1d1b2a;--sr-surf:#fff;--sr-line:rgba(29,27,42,.12);display:grid;gap:12px;color:var(--sr-ink)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sr{--sr-ink:#f3f1ff;--sr-surf:#23203a;--sr-line:rgba(255,255,255,.14)}}
+:root[data-theme="dark"] .sr{--sr-ink:#f3f1ff;--sr-surf:#23203a;--sr-line:rgba(255,255,255,.14)}
+.sr-hero{position:relative;overflow:hidden;border-radius:32px 28px 36px 24px;padding:22px 20px;background:linear-gradient(135deg,var(--sr-p),var(--sr-b) 55%,var(--sr-t));color:#fff;box-shadow:0 12px 30px -14px rgba(109,92,232,.7)}
+.sr-hero h2{margin:0 0 4px;font-size:28px;font-weight:900;letter-spacing:.02em}
+.sr-hero p{margin:0;font-size:14px;opacity:.93;line-height:1.6}
+.sr-deco{position:absolute;right:-34px;top:-34px;width:150px;height:150px;background:rgba(255,255,255,.18);animation:sr-blob 9s ease-in-out infinite}
+@keyframes sr-blob{0%,100%{border-radius:42% 58% 63% 37%/45% 40% 60% 55%;transform:rotate(0)}50%{border-radius:60% 40% 35% 65%/55% 60% 40% 45%;transform:rotate(25deg)}}
+.sr-modes{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sr-mode{all:unset;box-sizing:border-box;cursor:pointer;color:#fff;border-radius:28px;padding:18px 14px;display:grid;gap:4px;justify-items:start;min-height:128px;transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .2s;box-shadow:0 10px 22px -12px rgba(0,0,0,.4)}
+.sr-mode:active{transform:scale(.94)}
+.sr-mode:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.sr-mode b{font-size:18px;font-weight:900}
+.sr-mode small{font-size:12px;opacity:.92;font-weight:600}
+.sr-card{background:var(--sr-surf);border:1px solid var(--sr-line);border-radius:24px;padding:14px 16px;box-shadow:0 2px 10px rgba(0,0,0,.05);animation:sr-in .45s cubic-bezier(.2,.9,.3,1.2) both}
+.sr-lab{font-size:12px;font-weight:800;letter-spacing:.08em;opacity:.7}
+.sr-msg{font-size:13px;line-height:1.6;opacity:.85;margin:0}
+.sr-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.sr-chip{all:unset;cursor:pointer;padding:9px 14px;border-radius:999px;background:rgba(109,92,232,.1);font-weight:800;font-size:14px;transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s}
+.sr-chip:active{transform:scale(.9)}
+.sr-chip.on{background:var(--sr-p);color:#fff;box-shadow:0 6px 14px -6px var(--sr-p)}
+.sr-chip:focus-visible{outline:3px solid var(--sr-b);outline-offset:2px}
+.sr-in{flex:1;min-width:0;width:100%;box-sizing:border-box;border:2px solid var(--sr-line);border-radius:18px;padding:12px 14px;font:inherit;font-size:18px;font-weight:700;background:transparent;color:var(--sr-ink);transition:border-color .2s,box-shadow .2s}
+.sr-in:focus{outline:none;border-color:var(--sr-p);box-shadow:0 0 0 4px rgba(109,92,232,.18)}
+.sr-go{all:unset;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:12px 18px;border-radius:18px;background:linear-gradient(135deg,var(--sr-s),var(--sr-y));color:#fff;font-weight:900;font-size:15px;box-shadow:0 8px 18px -8px var(--sr-s);transition:transform .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
+.sr-go:active{transform:scale(.92)}
+.sr-go[disabled]{opacity:.5;filter:grayscale(.4);cursor:default}
+.sr-go:focus-visible{outline:3px solid var(--sr-b);outline-offset:2px}
+.sr-req{display:flex;align-items:center;gap:8px;padding:10px 0;border-top:1px dashed var(--sr-line)}
+.sr-req:first-child{border-top:0}
+.sr-pill{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:999px;background:rgba(255,185,56,.22);font-size:13px;font-weight:800}
+.sr-pill.me{background:rgba(22,199,154,.22)}
+.sr-need{font-size:15px;font-weight:700;margin:12px 0 10px}
+.sr-need span{display:inline-block;padding:2px 12px;border-radius:12px;background:var(--sr-y);color:#3b2a00;font-size:20px;font-weight:900;animation:sr-pop .5s cubic-bezier(.34,1.56,.64,1)}
+.sr-chain{display:flex;flex-wrap:wrap;gap:8px;min-height:64px;align-items:flex-start;max-height:260px;overflow:auto}
+.sr-b{display:inline-flex;flex-direction:column;align-items:center;padding:8px 14px;border-radius:18px 22px 16px 24px;font-weight:900;font-size:17px;background:rgba(58,160,255,.16);animation:sr-pop .45s cubic-bezier(.34,1.56,.64,1) both;max-width:100%;word-break:break-all}
+.sr-b small{font-size:11px;font-weight:700;opacity:.7}
+.sr-b.me{background:var(--sr-p);color:#fff}
+.sr-b.ai{background:var(--sr-y);color:#3b2a00}
+.sr-b.op{background:var(--sr-t);color:#fff}
+.sr-b.bad{background:#ff3d5a;color:#fff;text-decoration:line-through}
+.sr-arena{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:28px;background:linear-gradient(135deg,rgba(109,92,232,.16),rgba(255,93,143,.16));font-weight:900;font-size:16px}
+.sr-pl{padding:8px 12px;border-radius:16px;background:var(--sr-surf);transition:transform .4s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;max-width:40%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-pl.on{transform:scale(1.06);box-shadow:0 0 0 3px var(--sr-t),0 8px 18px -8px var(--sr-t)}
+.sr-ring{position:relative;width:76px;height:76px;flex:0 0 auto;display:grid;place-items:center}
+.sr-ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.sr-ring circle{fill:none;stroke-width:9;stroke-linecap:round}
+.sr-ring .bg{stroke:var(--sr-line)}
+.sr-ring .fg{stroke:var(--sr-t);stroke-dasharray:276.46;transition:stroke .3s}
+.sr-ring b{font-size:24px;font-weight:900;font-variant-numeric:tabular-nums}
+.sr-ring.low .fg{stroke:#ff3d5a}
+.sr-ring.low b{color:#ff3d5a;animation:sr-beat .6s ease-in-out infinite}
+.sr-code{font-size:40px;font-weight:900;letter-spacing:.22em;font-variant-numeric:tabular-nums;padding:14px;border-radius:24px;background:linear-gradient(135deg,rgba(109,92,232,.12),rgba(58,160,255,.12));margin:8px 0}
+.sr-res{position:relative;overflow:hidden;text-align:center;padding:22px 16px;border-radius:32px;background:linear-gradient(150deg,var(--sr-y),var(--sr-s));color:#fff;animation:sr-in .6s cubic-bezier(.2,.9,.3,1.3) both}
+.sr-res.lose{background:linear-gradient(150deg,#5b5870,#2c2a3d)}
+.sr-res h3{margin:0 0 6px;font-size:30px;font-weight:900}
+.sr-res p{margin:0;font-size:14px;line-height:1.6}
+.sr-cf{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.sr-cf i{position:absolute;top:-12px;left:var(--x);width:10px;height:14px;border-radius:3px;background:var(--c);animation:sr-fall 1.8s cubic-bezier(.2,.6,.4,1) var(--d) infinite}
+@keyframes sr-fall{0%{transform:translateY(0) rotate(0);opacity:1}100%{transform:translateY(260px) rotate(540deg);opacity:0}}
+@keyframes sr-pop{0%{transform:scale(.4);opacity:0}100%{transform:scale(1);opacity:1}}
+@keyframes sr-in{0%{transform:translateY(14px) scale(.97);opacity:0}100%{transform:none;opacity:1}}
+@keyframes sr-beat{0%,100%{transform:scale(1)}50%{transform:scale(1.15)}}
+@media (prefers-reduced-motion: reduce){.sr *,.sr *::before,.sr *::after{animation:none!important;transition:none!important}.sr-cf{display:none}}
 </style>
 <style id="tools-subj">
   #totop{position:fixed;z-index:29;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 176px);width:52px;height:52px;border:0;border-radius:18px;background:var(--pc);color:var(--on-pc);box-shadow:0 10px 24px -8px rgba(0,0,0,.45);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(28px) scale(.6);pointer-events:none;transition:opacity .35s ease,transform .55s var(--spring),border-radius .45s var(--spring)}
@@ -2165,7 +2235,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.99.8';
+const APP_VERSION = '17.99.9';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -3006,7 +3076,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '17.99.8', d: '__BUILD__', t: 'プラスボタンの並び替え・AIのモデルをショップで選べるように', n: ['iPadのプラスボタンから「AIに質問」を外し、「集中タイマー・課題を追加・予定を追加・単語帳を作成・板書を撮る・さがす」の順にしました（スマホは今までどおりです）', 'プラスボタンから、「予定を追加」と「単語帳を作成」を直接できるようにしました', 'XPショップに「AIのモデル」を追加しました。Gemini 3.5 Flash-Lite（標準）・3.8 Flash・4 Hydrogen から選べます。それぞれの違いも、ショップに書いています', '使っているモデルは、ショップの「AIのモデル」の欄に表示されます。選んだモデルが使えないときは、標準のモデルで答えます', '元素マージに「途中保存」を追加しました。途中の状態を保存でき、あとから「続きから遊ぶ」で再開できます。画面を離れたときも、自動で保存されます'] },
+  { v: '17.99.9', d: '__BUILD__', t: 'しりとりツールを追加（レベル7で解放）', n: ['レベル7で、「しりとり」ツールが使えるようになりました', 'AIと対戦：むずかしさ（やさしい・ふつう・むずかしい）を選べます。お題（英語の動詞など）を入れるか、お題なしの「自由」で遊べます。ルール違反をしたときは、AIがなぜだめかを説明します', '友達と対戦：制限時間（10・15・20秒）を選び、友達にリクエストを送るか、6文字のコードで参加できます。リクエストが届くと、通知でお知らせします', '友達との対戦では、AIが言葉のルールを判定します。判定は、答えた人の端末で行われます', 'AIの対戦や判定は、1日のAIの利用回数に含まれます', '対戦の部屋とリクエストを保存するため、Firebaseのルールを更新しました'] },
+  { v: '17.99.8', d: '__BUILD__', t: 'プラスボタンの並び替え・AIのモデルをショップで選べるように', n: ['iPadのプラスボタンから「AIに質問」を外し、「集中タイマー・課題を追加・予定を追加・単語帳を作成・板書を撮る・さがす」の順にしました（スマホは今までどおりです）', 'プラスボタンから、「予定を追加」と「単語帳を作成」を直接できるようにしました', 'XPショップに「AIのモデル」を追加しました。Gemini 3.5 Flash-Lite（標準）・3.8 Flash・4 Hydrogen から選べます。それぞれの違いも、ショップに書いています', '使っているモデルは、ショップの「AIのモデル」の欄に表示されます。選んだモデルが使えないときは、標準のモデルで答えます', '元素マージに「途中保存」を追加しました。途中の状態を保存でき、あとから「続きから遊ぶ」で再開できます。画面を離れたときも、自動で保存されます', 'ショップのAIモデルの説明を、見やすい欄にまとめました。AIタブに、使っているモデルを表示します'] },
   { v: '17.99.7', d: '__BUILD__', t: '板書ツール・テストの推移（折れ線）・ポップアップのぼかし・タブバーの安定', n: ['左上の「＋」から「板書を撮る」で、黒板やホワイトボードを撮れます。撮った板書は「板書」ツールで見返せ、AIで要点をまとめられます', '成績計算ツールを消しました。記録タブの「テストの推移」で、テストの種類（Aテスト・Bテストなど）ごと・学期ごとの点数と偏差値を記録し、折れ線グラフで見られます', '更新内容の画面に、左下の「スキップ」を追加しました。押すとすぐ閉じます', 'ポップアップが出ているときは、背景を少し暗くぼかすようにしました', 'タブバーが動いてしまう不具合を直しました（ツールを切り替えたときの高さの変化と、文字入力中のキーボードによるずれ）'] },
   { v: '17.99.6', d: '__BUILD__', t: '漢字練習を大幅強化・単語帳の表示と共有の更新通知', n: ['漢字練習に、写真からの練習プランを追加しました。漢字プリントを撮ると、AIが漢字・読み・二字熟語を読み取り、練習の順番を提案します', '漢字練習の方法を増やしました：なぞる・何度も書く（回数を記録）・読みを書く・熟語を書く・テスト', '単語帳の「覚えていない」「すべて」などの右側の空きをなくし、右のボタンの大きさをそろえました', '共有された単語帳に新しいカードが増えたら、お知らせを出します。「受け取る」で、新しいカードだけを追加できます', '単語帳のテストの絞り込み画面を、コンパクトにしました'] },
   { v: '17.99.5', d: '__BUILD__', t: '国語文法ツールを追加', n: ['国語に「国語文法」ツールを追加しました', '音便・五段活用・形容詞・形容動詞・動詞の活用形・活用の種類・助詞助動詞・品詞分類を、表で覚えられます', '「表をかくして覚える」で、マスの答えを隠し、タップして確かめられます', 'テストは4択。まちがえた問題は保存され、あとで「まちがえた問題」から復習できます'] },
@@ -5326,13 +5397,13 @@ function aiErr(e) {
 }
 /* ---- AIの共通呼び出し（ログイン・1日の回数・エラー表示をまとめる） ---- */
 const AI_MINI = 'あなたは日本の中学生を応援する、学習アドバイザーです。やさしく前向きな日本語で、です・ます調で書きます。難しい言葉は使わず、与えられた情報にないことは作りません。数式にLaTeXは使わず、ふつうの文字で書きます。個人情報は聞き出しません。';
-async function aiRun({ system, prompt, json = false, imgs = [] }) {
+async function aiRun({ system, prompt, json = false, imgs = [], model = '' }) {
   if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return null; }
   if (aiFull()) { toast(`今日のAI利用は${aiLimit()}回までです`); return null; }
   try {
     if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
     const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
-    const cfg = { model: aiModel() };
+    const cfg = { model: model || aiModel() };
     if (system) cfg.systemInstruction = system;
     if (json) cfg.generationConfig = { responseMimeType: 'application/json' };
     const content = imgs.length ? [prompt, ...imgs.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))] : prompt;
@@ -5374,7 +5445,7 @@ function renderAiLog() {
   AI._n = AI.msgs.length; log.scrollTop = log.scrollHeight;
   const sg = $('#aisug'), c = $('#aicnt'), b = $('#aisend'), q = $('#aiq');
   if (sg) sg.hidden = AI.msgs.length > 0;
-  if (c) { c.innerHTML = `<span><b>${aiUsed()}</b> 回（今日）</span>`; }
+  if (c) { c.innerHTML = `<span><b>${aiUsed()}</b> 回（今日）</span><span>使用モデル：<b>${esc(aiLabel(aiModel()))}</b></span>`; }
   if (b) { b.disabled = AI.busy; const bz = AI.busy ? '1' : ''; if (b.dataset.bz !== bz) { b.dataset.bz = bz; b.innerHTML = AI.busy ? gspin(26) : ms('arrow_upward'); } }
   if (q && !q.value) q.style.height = '';
   axReady();
@@ -5420,6 +5491,7 @@ function viewAi() {
     <div class="gm-scrim" data-act="gmside"></div>
     <section class="gm-main">
       <div class="gm-top"><button type="button" class="ibtn" data-act="gmside" aria-label="履歴を開く">${ms('menu')}</button><span class="gm-ttl">${esc(aiMainTitle())}</span></div>
+      <div class="ai-model">使用中：${esc(aiLabel(aiModel()))}</div>
       <div class="ax-log gm-log" id="ailog"></div>
       <div class="gm-sug" id="aisug">${AI.sug.map((x, i) => `<button type="button" class="ax-pc" style="--i:${i}" data-act="aisug" data-id="${i}"><span class="ax-pi">${ms(ico[i % ico.length])}</span><span>${esc(x)}</span></button>`).join('')}</div>
       <div class="ai-att" id="aiatt"></div>
@@ -5867,7 +5939,8 @@ function trHtml() {
 }
 const TOOLS = [['music', '音楽', 'library_music', '端末の音楽や、YouTubeで探した曲を、アプリの中でずっと流せる', 300, 'e'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
-  ['board', '板書', 'photo_library', '撮った黒板・ホワイトボードを見返し、AIで要点をまとめる', 205, 'c'], ['kanji', '漢字練習', 'draw', '漢字を書いて練習。読みと二字熟語もわかる', 20, 'b'], ['gram', '国語文法', 'auto_stories', '表を隠して覚え、テストで確かめる。活用・音便・品詞', 285, 'b'], ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['merge', '元素マージ', 'bubble_chart', '同じ元素をくっつけて進化させるパズル（レベル7で解放）', 210, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], 
+  ['board', '板書', 'photo_library', '撮った黒板・ホワイトボードを見返し、AIで要点をまとめる', 205, 'c'], ['kanji', '漢字練習', 'draw', '漢字を書いて練習。読みと二字熟語もわかる', 20, 'b'], ['gram', '国語文法', 'auto_stories', '表を隠して覚え、テストで確かめる。活用・音便・品詞', 285, 'b'], ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['merge', '元素マージ', 'bubble_chart', '同じ元素をくっつけて進化させるパズル（レベル7で解放）', 210, 'b'],
+  ['shiri', 'しりとり', 'forum', 'AIと対戦、または友達とオンラインで対戦（レベル7で解放）', 300, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], 
   ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素・くっつけて反応を見る実験・分子量の計算', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 // 以前の「分子量・物質の量」のツールは、元素ラボの中へ
 function mgTileIcon() { return '<span class="mgb" aria-hidden="true"><i class="mgb-a"></i><i class="mgb-b"></i><i class="mgb-c"></i></span>'; }
@@ -5891,7 +5964,7 @@ function viewTools() {
       + sec('人気', 'local_fire_department', '#e11d48', ['card', 'merge', 'rekida', 'ptable'].map(id => TOOLS.find(x => x[0] === id)))
       + SUBJ_ORDER.map(([name, icon, col]) => { const list = TOOLS.filter(t => subjOf(t) === name); return list.length ? sec(name, icon, col, byPop(list)) : ''; }).join('');
   }
-  const T = TOOLS.find(x => x[0] === tl), body = { board: boardHtml, kanji: kjHtml, gram: gramHtml, rekida: rekidaHtml, merge: mergeHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { board: boardHtml, kanji: kjHtml, gram: gramHtml, rekida: rekidaHtml, merge: mergeHtml, shiri: shiriHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2>${tl === 'card' ? wcTbarActs() : ''}</div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -10648,12 +10721,19 @@ const FONT_SHOP = {
 // AIのモデル（AIに質問・要約・翻訳で使う）。名前と特徴は、Googleの公式の発表による。ショップで買って、選ぶ
 const AI_STD = 'gemini-3.5-flash-lite';   // 標準（最初から使える。firebase-config.js の AI_MODEL と同じ）
 const AI_SHOP = {
-  'gemini-3.5-flash-lite': { n: 'Gemini 3.5 Flash-Lite（標準）', c: 0, d: '速くて、料金も安いモデルです。かんたんな質問や、ふつうの要約に向いています' },
-  'gemini-3.8-flash': { n: 'Gemini 3.8 Flash', c: 400, lv: 6, d: '2026年9月に出た、バランス型のモデルです。標準より賢く、考えるステップが多い説明や、長めの文章の整理が得意です。無料で使えるとされています' },
-  'gemini-4-hydrogen': { n: 'Gemini 4 Hydrogen', c: 800, lv: 10, d: '2026年11月に出た、第4世代の速いモデルです。日常の勉強や、ていねいな解き方の説明に向いています。Googleは、3.8 Flashより速いとしています。無料で使えるとされています' }
+  'gemini-3.5-flash-lite': { n: 'Gemini 3.5 Flash-Lite（標準）', c: 0, d: '速くて安い' },
+  'gemini-3.8-flash': { n: 'Gemini 3.8 Flash', c: 400, lv: 6, d: 'バランス型・考える力が高い' },
+  'gemini-4-hydrogen': { n: 'Gemini 4 Hydrogen', c: 800, lv: 10, d: '第4世代・速い日常モデル' }
 };
+// ショップの上に出す、モデルごとの違いの説明（長い説明は、カードに入れない）
+const AI_GUIDE = [
+  ['Gemini 3.5 Flash-Lite（標準）', '速くて、料金も安いモデルです。かんたんな質問や、ふつうの要約に向いています。'],
+  ['Gemini 3.8 Flash', '2026年9月に出た、バランス型のモデルです。標準より賢く、考える手順が多い説明や、長めの文章の整理が得意です。無料で使えるとされています。'],
+  ['Gemini 4 Hydrogen', '2026年11月に出た、第4世代の速いモデルです。日常の勉強や、ていねいな解き方の説明に向いています。Googleは、3.8 Flashより速いとしています。無料で使えるとされています。']
+];
 const aiLabel = id => (AI_SHOP[id] ? AI_SHOP[id].n : id);
 function aiModel() { try { const g = growGet(); if (g.ai && shopHas('ai', g.ai)) return g.ai; } catch (e) { } return window.AI_MODEL || AI_STD; }   // いま使うモデル（ショップで選んだもの。なければ標準）
+function aiGuideHtml() { return AI_GUIDE.map(([n, t]) => `<p><b>${n}</b><br>${t}</p>`).join(''); }
 const SHOP_MAP = { bg: HOME_BG, sfx: SFX_T, theme: THEME_SHOP, font: FONT_SHOP, ai: AI_SHOP };
 // 買っている、または、レベルで使える（lv があって c が 0のもの）
 function shopHas(kind, id) { const map = SHOP_MAP[kind], it = map && map[id]; if (!it) return false; if (growGet().owned[kind].includes(id)) return true; if (it.free) return level().L >= it.lv; return !it.c && (!it.lv || level().L >= it.lv); }
@@ -10835,7 +10915,7 @@ function shopHtml() {
     `<h3 class="shop-h">テーマ</h3><div class="shop-l">${Object.entries(THEME_SHOP).map(([id, it]) => card('theme', id, it)).join('')}</div>` +
     `<h3 class="shop-h">ホームの背景</h3><div class="shop-l">${Object.entries(HOME_BG).map(([id, it]) => card('bg', id, it)).join('')}</div>` +
     `<h3 class="shop-h">効果音</h3><div class="shop-l">${Object.entries(SFX_T).map(([id, it]) => card('sfx', id, it)).join('')}</div>` + `<h3 class="shop-h">フォント（アプリ全体）</h3><div class="shop-l">${Object.entries(FONT_SHOP).map(([id, it]) => card('font', id, it)).join('')}</div>` +
-    `<h3 class="shop-h">AIのモデル</h3><p class="muted" style="font-weight:500;margin:0 0 6px">いま使っているのは「${esc(aiLabel(aiModel()))}」です。AIに質問・要約・翻訳に使われます。モデルごとに、速さ・賢さ・料金が違います。それぞれの説明を見て選んでください。モデルを変えても、1日に使える回数は同じです。</p><div class="shop-l">${Object.entries(AI_SHOP).map(([id, it]) => card('ai', id, it)).join('')}</div>` +
+    `<h3 class="shop-h">AIのモデル</h3><p class="muted" style="font-weight:500;margin:0 0 8px">いま使っているのは「${esc(aiLabel(aiModel()))}」です。モデルを変えても、1日に使える回数は同じです。</p><div class="ai-guide">${aiGuideHtml()}</div><div class="shop-l">${Object.entries(AI_SHOP).map(([id, it]) => card('ai', id, it)).join('')}</div>` +
     `<h3 class="shop-h">ツール</h3><div class="shop-l">${Object.entries(TOOL_SHOP).map(([id, it]) => toolShopCard(id, it)).join('')}</div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
 }
 // 背景のプレビュー（買う前に、ホームの見た目を試せる）
@@ -11242,6 +11322,7 @@ async function friendNotify(ownerUid) {
 }
 function inboxStart() {
   inboxStop();
+  srInboxStart();
   if (!CLOUD.fb || !CLOUD.user) return;
   try {
     const { fs, db } = CLOUD.fb;
@@ -11258,7 +11339,7 @@ function inboxStart() {
     }, () => { });
   } catch (e) { }
 }
-function inboxStop() { if (INBOX_UNSUB) { try { INBOX_UNSUB(); } catch (e) { } INBOX_UNSUB = null; } }
+function inboxStop() { srInboxStop(); if (INBOX_UNSUB) { try { INBOX_UNSUB(); } catch (e) { } INBOX_UNSUB = null; } }
 // ログインの確認が終わったら、友達の画面を描き直す
 function frAuthRedraw() { if (ui.tab === 'stats' || ui.tab === 'home') render(); }
 /* 最初の描画は、スクリプトの最後（すべての const / let の宣言が終わったあと）に行う。
@@ -12552,12 +12633,392 @@ function rekidaHtml() {
   return `<div class="ps"><div class="card ps-st" id="rkstat">${rkStatHtml()}</div><div class="card grk" id="grk-rk">${grkInner('rk')}</div><div class="ps-bar"><button type="button" class="btn tonal sm" id="rkfb" data-act="rkfull">${ms('fullscreen')}全画面</button></div><div class="ps-frame rk-frame" id="rkframe"><iframe src="games/rekida.html" title="歴打 -REKIDA-"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">1ゲームの石高や累計は、実績「石高1000」などに反映されます。</p></div>`;
 }
 
+/* ====================== しりとり（レベル7で解放）：AIと対戦 ／ 友達とオンライン対戦（Firestore: shiriRooms・shiriInbox） ====================== */
+const SHIRI_DIFF = [{ n: 'やさしい', d: 'みじかく、だれでも知っている身近な言葉を選びます' }, { n: 'ふつう', d: 'ふつうの言葉から、いろいろ選びます' }, { n: 'むずかしい', d: '少しむずかしい言葉や、長めの言葉も使います' }];
+const SHIRI_TH = ['英語の動詞', '動物', '食べ物', '乗り物', '学校の教科', '（お題なし・自由）'];
+const SR = { view: 'home', lang: 'ja', theme: '', diff: 1, lim: 15, input: '', codeIn: '', ai: null, code: '', room: null, unsub: null, reqs: [], busy: false, toBusy: false };
+// 速くて、無料で使えるモデル（判定も、AIの対戦相手も、これで答える）
+const SHIRI_FAST = () => window.AI_MODEL || AI_STD;
+// 「ゃ」「っ」などの小さい字を、大きい字にする（しりとりの「つなぐ文字」）
+const SR_SMALL = { 'ぁ': 'あ', 'ぃ': 'い', 'ぅ': 'う', 'ぇ': 'え', 'ぉ': 'お', 'ゃ': 'や', 'ゅ': 'ゆ', 'ょ': 'よ', 'っ': 'つ', 'ゎ': 'わ' };
+// 「ー」の前の字の母音（コーヒー→い）
+const SR_VOW = (() => { const m = {}; ['あいうえお', 'かきくけこ', 'さしすせそ', 'たちつてと', 'なにぬねの', 'はひふへほ', 'まみむめも', 'らりるれろ'].forEach(r => [...r].forEach((c, i) => { m[c] = 'あいうえお'[i]; })); [...'やゆよ'].forEach((c, i) => { m[c] = 'あうお'[i]; }); m['わ'] = 'あ'; m['を'] = 'お'; return m; })();
+// 読みをひらがなにそろえる（カタカナ→ひらがな、空白と記号を取る）
+function srYomi(s) { return String(s || '').trim().replace(/[ァ-ヶ]/g, c => String.fromCharCode(c.charCodeAt(0) - 0x60)).replace(/[\s・\-―]/g, '').toLowerCase(); }
+// 次の言葉でつなぐ文字（最後の文字）
+function srTail(w, lang) {
+  if (lang === 'en') return String(w).toLowerCase().slice(-1);
+  const s = srYomi(w); let c = s.slice(-1);
+  if (c === 'ー') { const p = s.slice(0, -1).slice(-1).normalize('NFD')[0]; c = SR_VOW[p] || 'あ'; }
+  return SR_SMALL[c] || c;
+}
+// ルールの確認：つなぎ・「ん」・くり返し。問題があれば、やさしい理由を返す
+function srRule(w, lang, words, known) {
+  const list = words || [], prev = list.slice(-1)[0];
+  if (known && prev) { const need = srTail(prev.y || prev.w, lang); if (w.charAt(0) !== need) return `「${need}」から始まる言葉を入れてください`; }
+  if (lang === 'ja' && w.slice(-1) === 'ん') return '「ん」で終わる言葉は、しりとりでは負けになります';
+  const used = list.map(x => (lang === 'en' ? String(x.w).toLowerCase() : (x.y || srYomi(x.w))));
+  if (used.includes(w)) return 'その言葉は、もう使われています';
+  return '';
+}
+// 入力した言葉を、ルールだけで先に確かめる（AIを呼ぶ前）
+function srLocal(text, lang, words) {
+  const raw = String(text || '').trim();
+  if (!raw) return 'ことばを入れてください';
+  if (lang === 'en') { const w = raw.toLowerCase(); if (!/^[a-z]+$/.test(w)) return 'English（アルファベット）の言葉で入れてください'; return srRule(w, 'en', words, true); }
+  const y = srYomi(raw);
+  return srRule(y, 'ja', words, /^[ぁ-ゖー]+$/.test(y));
+}
+function srNameOf(d, uid) { return uid === d.host ? d.hostName : d.guestName; }
+function srMe() { return CLOUD.user ? CLOUD.user.uid : ''; }
+function srName() { return String((growGet().nick) || (CLOUD.user && CLOUD.user.displayName) || '自分').slice(0, 20); }
+function srNeedLogin() { if (!CLOUD.user) { toast('対戦とAIは、Googleログインのあとに使えます'); return true; } return false; }
+
+// AIに判定させる（ルールの確認も、もう一度する）。答えられなかったときは null
+async function srJudge(text, lang, theme, words, local) {
+  const list = words || [], prev = list.slice(-1)[0], need = prev ? srTail(prev.y || prev.w, lang) : '';
+  const system = 'あなたは、中学生のしりとりゲームの審判です。ルールを正しく判定し、理由はやさしい日本語で説明します。';
+  const prompt = [
+    `言語：${lang === 'en' ? '英語（English）' : '日本語（ひらがなのしりとり）'}`,
+    `お題：${theme || 'なし（自由）'}`,
+    `前の言葉：${prev ? prev.w : 'なし（最初の言葉）'}`,
+    `つなぐ文字：${need || 'なし'}`,
+    `これまでの言葉：${list.map(x => x.w).join('、') || 'なし'}`,
+    `判定する言葉：${text}`,
+    local ? `ルールの確認で分かったこと：${local}` : '',
+    '判定の基準：',
+    '・実在する、ふつうに使われる言葉か（辞書にある言葉）',
+    theme ? '・お題に合っているか' : '',
+    lang === 'ja' ? '・読み（ひらがな）を答える。漢字の言葉も、読みを答える' : '・英語は、読みの欄を空にする',
+    '・「つなぐ文字」で始まっているか',
+    '・「ん」で終わる言葉、同じ言葉のくり返しは、だめ',
+    'JSONだけで答えてください。形式：{"ok": true または false, "yomi": "読み", "reason": "だめなときは、中学生にやさしく、理由を2文で。よいときは空文字"}'
+  ].filter(Boolean).join('\n');
+  const r = await aiRun({ system, prompt, json: true, model: SHIRI_FAST() });
+  if (!r) return null;
+  if (typeof r.ok !== 'boolean') { toast('判定の答えを読めませんでした。もう一度お試しください'); return null; }
+  const raw = lang === 'en' ? text.trim().toLowerCase() : srYomi(text);
+  const yomi = lang === 'en' ? raw : (String(r.yomi || '').trim() ? srYomi(r.yomi) : raw);
+  const known = lang === 'en' || /^[ぁ-ゖー]+$/.test(yomi);
+  const again = (lang === 'en' && !/^[a-z]+$/.test(yomi)) ? '英語の言葉ではありません' : srRule(yomi, lang, list, known);
+  const ok = !!r.ok && !local && !again;
+  return { ok, yomi, reason: ok ? '' : (String(r.reason || '').trim() || local || again || 'ルールに合わない言葉でした') };
+}
+// AIの対戦相手が、言葉を考える（ルール違反は、ここでやり直させる。3回でだめなら、AIが負け）
+async function srAiWord(words, lang, theme, diff) {
+  const list = words || [], prev = list.slice(-1)[0], need = prev ? srTail(prev.y || prev.w, lang) : '';
+  let fail = '';
+  for (let k = 0; k < 3; k++) {
+    const system = 'あなたは、中学生のしりとりゲームの対戦相手です。必ずルールを守り、実在する言葉だけを答えます。答える前に、ルールと実在するかを自分で確かめてください。';
+    const prompt = [
+      `言語：${lang === 'en' ? '英語（English）' : '日本語（ひらがなのしりとり）'}`,
+      `お題：${theme || 'なし（自由）'}`,
+      `難しさ：${SHIRI_DIFF[diff].d}`,
+      need ? `必ず「${need}」で始まる言葉を答えてください。` : '最初の言葉を答えてください。',
+      `使われた言葉（使えません）：${list.map(x => x.w).join('、') || 'なし'}`,
+      lang === 'ja' ? '「ん」で終わる言葉は、使わないでください。読み（ひらがな）も答えてください。' : '英語は、アルファベットだけの一般的な単語で答えてください。',
+      fail ? `前の答えは、ルール違反でした（${fail}）。ルールを守った別の言葉にしてください。` : '',
+      'JSONだけで答えてください。形式：{"word": "言葉", "yomi": "読み（英語は空）"}'
+    ].filter(Boolean).join('\n');
+    const r = await aiRun({ system, prompt, json: true, model: SHIRI_FAST() });
+    if (!r || !r.word) { fail = '答えが読めませんでした'; continue; }
+    const word = String(r.word).trim();
+    const yomi = lang === 'en' ? word.toLowerCase() : srYomi(r.yomi || word);
+    const shape = lang === 'en' ? /^[a-z]+$/.test(yomi) : /^[ぁ-ゖー]+$/.test(yomi);
+    const why = !shape ? '読みが正しくありませんでした' : srRule(yomi, lang, list, true);
+    if (!why) return { word, yomi };
+    fail = why;
+  }
+  return null;
+}
+
+// ---- AIと対戦（この端末の中で進める） ----
+function srAiStart() {
+  if (!CLOUD.user) { toast('AIとの対戦は、Googleログインのあとに使えます'); return; }
+  SR.ai = { lang: SR.lang, theme: SR.theme.trim(), diff: SR.diff, words: [], status: 'playing', winner: '', reason: '', busy: false };
+  SR.view = 'aigame'; srRender();
+}
+async function srAiSend(text) {
+  const a = SR.ai; if (!a || a.status !== 'playing' || a.busy) return;
+  const local = srLocal(text, a.lang, a.words);
+  a.busy = true; srRender();
+  const v = await srJudge(text, a.lang, a.theme, a.words, local);
+  if (!v) { a.busy = false; srRender(); return; }
+  a.words.push({ by: 'me', w: text, y: v.yomi, ok: v.ok, why: v.reason });
+  SR.input = '';
+  if (!v.ok) { a.status = 'done'; a.winner = 'ai'; a.reason = v.reason; a.busy = false; srRender(); return; }
+  srRender();
+  const aw = await srAiWord(a.words, a.lang, a.theme, a.diff);
+  if (aw) a.words.push({ by: 'ai', w: aw.word, y: aw.yomi, ok: true });
+  else { a.status = 'done'; a.winner = 'me'; a.reason = 'AIが、次の言葉を思いつけませんでした。あなたの勝ちです'; }
+  a.busy = false; srRender();
+}
+function srAiGiveUp() {
+  const a = SR.ai; if (!a || a.status !== 'playing' || a.busy) return;
+  a.status = 'done'; a.winner = 'ai'; a.reason = 'あきらめました。次は、ぜひ勝ちをねらいましょう！'; srRender();
+}
+
+// ---- 友達とオンライン対戦（Firestore の部屋で、番と時間を共有する） ----
+function srWatch(code) {
+  srUnwatch(); SR.code = code;
+  const { fs, db } = CLOUD.fb;
+  SR.unsub = fs.onSnapshot(fs.doc(db, 'shiriRooms', code), snap => {
+    if (!snap.exists()) { SR.room = null; if (SR.view === 'wait' || SR.view === 'fgame') { SR.view = 'home'; toast('対戦の部屋がなくなりました'); } srUnwatch(); srRender(); return; }
+    SR.room = snap.data();
+    SR.view = SR.room.status === 'waiting' ? 'wait' : 'fgame';
+    srRender();
+  }, () => { toast('対戦の通信が切れました。もう一度開いてください'); });
+}
+function srUnwatch() { if (SR.unsub) { try { SR.unsub(); } catch (e) { } SR.unsub = null; } }
+async function srCreateRoom(friend) {
+  if (srNeedLogin()) return;
+  const { fs, db } = CLOUD.fb, me = srMe();
+  const code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join('');
+  const theme = SR.theme.trim().slice(0, 30);
+  try {
+    await fs.setDoc(fs.doc(db, 'shiriRooms', code), { host: me, hostName: srName(), guest: '', guestName: '', status: 'waiting', lang: SR.lang, theme, lim: SR.lim, turn: '', deadline: 0, words: [], winner: '', reason: '', t: Date.now() });
+    if (friend) await fs.setDoc(fs.doc(fs.collection(db, 'shiriInbox', friend.uid, 'items')), { from: me, name: srName(), room: code, lim: SR.lim, lang: SR.lang, theme, t: Date.now() });
+    srWatch(code);
+    if (friend) toast(`${friend.name}さんに、対戦リクエストを送りました`);
+  } catch (e) { toast('部屋をつくれませんでした（Firestoreのルールを確認してください）'); }
+}
+async function srJoin(code) {
+  if (srNeedLogin()) return;
+  code = String(code || '').trim().toUpperCase();
+  if (!/^[A-Z0-9]{6}$/.test(code)) return toast('参加コードは、6文字で入れてください');
+  const { fs, db } = CLOUD.fb, me = srMe(), ref = fs.doc(db, 'shiriRooms', code);
+  try {
+    let ok = false;
+    await fs.runTransaction(db, async tx => {
+      const s = await tx.get(ref), d = s.data();
+      ok = false;
+      if (!d || d.host === me || d.status !== 'waiting' || d.guest) return;
+      ok = true;
+      tx.update(ref, { guest: me, guestName: srName(), status: 'playing', turn: d.host, deadline: Date.now() + d.lim * 1000 });
+    });
+    if (!ok) { toast('参加できませんでした（コードがちがうか、もう始まっています）'); return false; }
+    srWatch(code);
+    return true;
+  } catch (e) { toast('参加できませんでした。もう一度お試しください'); return false; }
+}
+async function srDeleteReq(rid) { try { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'shiriInbox', srMe(), 'items', rid)); } catch (e) { } }
+async function srAcceptReq(rid, code) { const ok = await srJoin(code); if (ok) srDeleteReq(rid); else srRender(); }
+// 番の人が答える：ルールと判定を通ったら、番を相手に渡す。ルール違反なら、その場で負け
+async function srFriendSend(text) {
+  const r = SR.room, me = srMe();
+  if (!r || r.status !== 'playing' || SR.busy) return;
+  if (r.turn !== me) return toast('いまは、相手の番です');
+  if (Date.now() > r.deadline) return srTimeout();
+  const local = srLocal(text, r.lang, r.words || []);
+  SR.busy = true; srRender();
+  const v = await srJudge(text, r.lang, r.theme, r.words || [], local);
+  SR.busy = false;
+  if (!v) { srRender(); return; }
+  const opp = r.host === me ? r.guest : r.host, { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shiriRooms', SR.code);
+  try {
+    await fs.runTransaction(db, async tx => {
+      const s = await tx.get(ref), d = s.data();
+      if (!d || d.status !== 'playing' || d.turn !== me) return;
+      if (Date.now() > d.deadline + 4000) return;   // AIの判定に使った時間は、少しだけ待つ
+      const words = [...(d.words || []), { by: me, w: text, y: v.yomi, ok: v.ok, why: v.reason, t: Date.now() }].slice(-200);
+      if (v.ok) tx.update(ref, { words, turn: opp, deadline: Date.now() + d.lim * 1000 });
+      else tx.update(ref, { words, status: 'done', winner: opp, reason: `${srNameOf(d, me)}さんの「${text}」は、ルール違反です。${v.reason}` });
+    });
+    SR.input = '';
+  } catch (e) { toast('送れませんでした。もう一度お試しください'); }
+  srRender();
+}
+async function srFriendGiveUp() {
+  const r = SR.room, me = srMe(); if (!r || r.status !== 'playing' || r.turn !== me) return;
+  const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shiriRooms', SR.code);
+  try { await fs.runTransaction(db, async tx => { const d = (await tx.get(ref)).data(); if (!d || d.status !== 'playing' || d.turn !== me) return; tx.update(ref, { status: 'done', winner: d.host === me ? d.guest : d.host, reason: `${srNameOf(d, me)}さんは、あきらめました` }); }); } catch (e) { }
+}
+// 制限時間を過ぎたら、その番の人が負け（どちらの画面からでも確かめられる）
+async function srTimeout() {
+  if (SR.toBusy || !SR.code) return; SR.toBusy = true;
+  const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shiriRooms', SR.code);
+  try {
+    await fs.runTransaction(db, async tx => {
+      const d = (await tx.get(ref)).data();
+      if (!d || d.status !== 'playing' || !d.deadline || Date.now() < d.deadline + 1000) return;
+      const loser = d.turn;
+      tx.update(ref, { status: 'done', winner: loser === d.host ? d.guest : d.host, reason: `${srNameOf(d, loser)}さんは、制限時間（${d.lim}秒）を過ぎました` });
+    });
+  } catch (e) { }
+  SR.toBusy = false;
+}
+async function srLeave() {
+  const code = SR.code, r = SR.room, me = srMe();
+  srUnwatch(); SR.room = null; SR.code = ''; SR.view = 'home'; srRender();
+  if (!code || !CLOUD.fb || !CLOUD.user) return;
+  const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shiriRooms', code);
+  try {
+    if (r && (r.host === me && (r.status === 'waiting' || r.status === 'done'))) { await fs.deleteDoc(ref); return; }
+    if (r && r.status === 'playing') await fs.runTransaction(db, async tx => { const d = (await tx.get(ref)).data(); if (!d || d.status !== 'playing') return; tx.update(ref, { status: 'done', winner: d.host === me ? d.guest : d.host, reason: `${srNameOf(d, me)}さんが、とちゅうでやめました` }); });
+  } catch (e) { }
+}
+// 届いた対戦リクエストを、見張る（ログイン中、いつでも）
+let SR_INBOX_UNSUB = null;
+function srInboxStart() {
+  srInboxStop();
+  if (!CLOUD.fb || !CLOUD.user) return;
+  try {
+    const { fs, db } = CLOUD.fb;
+    SR_INBOX_UNSUB = fs.onSnapshot(fs.collection(db, 'shiriInbox', CLOUD.user.uid, 'items'), snap => {
+      SR.reqs = []; snap.forEach(d => SR.reqs.push({ id: d.id, ...d.data() }));
+      snap.docChanges().forEach(ch => {
+        if (ch.type !== 'added') return;
+        const x = ch.doc.data() || {}, nm = String(x.name || '友達').slice(0, 20);
+        notiAdd({ k: 'shiri-' + ch.doc.id, icon: 'forum', text: `${nm}さんから、しりとりの対戦リクエスト`, sub: 'ツールの「しりとり」で、参加できます', act: 'tab', aid: 'tools' });
+        toast(`${nm}さんから、しりとりの対戦リクエストが届きました`);
+      });
+      srRender();
+    }, () => { });
+  } catch (e) { }
+}
+function srInboxStop() { if (SR_INBOX_UNSUB) { try { SR_INBOX_UNSUB(); } catch (e) { } SR_INBOX_UNSUB = null; } }
+
+// ---- 画面 ----
+const SR_CHIP = (act, id, label, on) => `<button class="sr-chip ${on ? 'on' : ''}" data-act="${act}" data-id="${esc(id)}">${esc(label)}</button>`;
+function srLangChips() { return SR_CHIP('srlang', 'ja', 'ひらがな（にほんご）', SR.lang === 'ja') + SR_CHIP('srlang', 'en', 'English（英語）', SR.lang === 'en'); }
+function srThemeBox() { return `<input id="srTheme" class="sr-in" style="font-size:17px" placeholder="例：英語の動詞、動物（空欄は自由）" autocomplete="off" value="${esc(SR.theme)}"><div class="sr-chips">${SHIRI_TH.map(t => SR_CHIP('srtheme', t, t, (t === '（お題なし・自由）' ? '' : t) === SR.theme)).join('')}</div>`; }
+function srNav(label) { return `<div class="dact" style="margin:0 0 4px"><button class="btn text" data-act="srhome">${ms('arrow_back')}ホーム</button><span class="sp"></span><span class="muted" style="font-weight:800">${esc(label)}</span></div>`; }
+function srLoginNote() { return CLOUD.user ? '' : `<p class="sr-msg" style="margin:12px 4px 0">対戦とAIは、Googleログインのあとに使えます。</p>`; }
+function srReqsHtml() {
+  if (!SR.reqs.length) return '';
+  return `<div class="sr-card"><div class="sr-lab">届いた対戦リクエスト</div>${SR.reqs.map(x => `<div class="sr-req"><b style="flex:1;min-width:0">${esc(String(x.name || '友達').slice(0, 20))}さん<small style="display:block;font-weight:600;opacity:.75">${x.lang === 'en' ? 'English' : 'ひらがな'}・${Number(x.lim) || 15}秒${x.theme ? '・' + esc(x.theme) : ''}</small></b><button class="sr-go" style="padding:10px 14px;font-size:14px" data-act="srjoinreq" data-id="${esc(x.room)}|${esc(x.id)}">${ms('check')}参加</button><button class="btn text xs" data-act="srdecline" data-id="${esc(x.id)}">${ms('close')}</button></div>`).join('')}</div>`;
+}
+function srHomeHtml() {
+  return `<div class="sr"><div class="sr-hero"><div class="sr-deco"></div><h2>しりとり</h2><p>AIと、ことばの勝負。友達とは、オンラインで対戦できます。</p></div>
+  <div class="sr-modes">
+    <button class="sr-mode" data-act="srgo" data-id="aisetup" style="background:linear-gradient(150deg,#6d5ce8,#3aa0ff)">${ms('smart_toy')}<b>AIと対戦</b><small>3つの難しさ・お題つき</small></button>
+    <button class="sr-mode" data-act="srgo" data-id="fsetup" style="background:linear-gradient(150deg,#ff5d8f,#ffb938)">${ms('group')}<b>友達と対戦</b><small>リクエストか、コードで</small></button>
+  </div>${srReqsHtml()}
+  <div class="sr-card"><div class="sr-lab">あそび方</div><p class="sr-msg" style="margin:6px 0 0">前の言葉の最後の文字から、次の言葉を始めます。「ん」で終わると負け。同じ言葉は使えません。ルール違反や、時間切れは負けです。</p></div></div>`;
+}
+function srAiSetupHtml() {
+  return `<div class="sr">${srNav('AIと対戦')}
+  <div class="sr-card"><div class="sr-lab">ことば</div><div class="sr-chips">${srLangChips()}</div></div>
+  <div class="sr-card"><div class="sr-lab">お題</div>${srThemeBox()}</div>
+  <div class="sr-card"><div class="sr-lab">むずかしさ</div><div class="sr-chips">${SHIRI_DIFF.map((d, i) => SR_CHIP('srdiff', String(i), d.n, SR.diff === i)).join('')}</div><p class="sr-msg" style="margin:6px 2px 0">${SHIRI_DIFF[SR.diff].d}</p></div>
+  <div style="display:flex;justify-content:center;margin-top:16px"><button class="sr-go" data-act="sraistart">${ms('play_arrow')}はじめる</button></div>${srLoginNote()}</div>`;
+}
+function srFSetupHtml() {
+  const fr = growGet().friends || [];
+  const rows = fr.length ? fr.map(f => `<div class="sr-req"><b style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis">${esc(f.name || '名前なし')}</b><button class="sr-go" style="padding:10px 14px;font-size:14px" data-act="srfreq" data-id="${esc(f.uid)}">${ms('send')}リクエスト</button></div>`).join('') : `<p class="sr-msg" style="margin:0">まだ友達がいません。「記録」タブの「友達と比べる」で、友達を追加できます。</p>`;
+  return `<div class="sr">${srNav('友達と対戦')}
+  <div class="sr-card"><div class="sr-lab">ことば</div><div class="sr-chips">${srLangChips()}</div></div>
+  <div class="sr-card"><div class="sr-lab">お題</div>${srThemeBox()}</div>
+  <div class="sr-card"><div class="sr-lab">制限時間（1回の答え）</div><div class="sr-chips">${[10, 15, 20].map(s => SR_CHIP('srlim', String(s), s + '秒', SR.lim === s)).join('')}</div></div>
+  <div class="sr-card"><div class="sr-lab">友達にリクエスト</div>${rows}</div>
+  <div class="sr-card"><div class="sr-lab">コードで対戦</div><div class="dact" style="margin:0"><button class="btn tonal" data-act="srcode">${ms('add_circle')}部屋をつくって、コードを出す</button></div>
+    <div style="display:flex;gap:8px;margin-top:10px"><input id="srCode" class="sr-in" style="text-transform:uppercase;letter-spacing:.12em" placeholder="コード（6文字）" maxlength="6" autocomplete="off"><button class="sr-go" data-act="srjoin">${ms('login')}参加</button></div></div>
+  ${srReqsHtml()}${srLoginNote()}</div>`;
+}
+function srWaitHtml() {
+  return `<div class="sr">${srNav('対戦の部屋')}<div class="sr-card" style="text-align:center"><div class="sr-lab">参加コード</div><div class="sr-code">${esc(SR.code)}</div>
+  <p class="sr-msg">友達に、コードを伝えるか、友達が届いたリクエストから「参加」すると、すぐ始まります。</p>
+  <div class="sr-pill" style="margin-top:8px">${ms('hourglass_top')}相手を待っています</div>
+  <div style="margin-top:14px"><button class="btn tonal" data-act="srleave">${ms('close')}部屋をやめる</button></div></div></div>`;
+}
+function srChainHtml(words, isMine) {
+  if (!words || !words.length) return `<div class="sr-msg" style="margin:auto;text-align:center">まだ、言葉がありません。最初の言葉をどうぞ！</div>`;
+  return words.map(x => {
+    const mine = isMine(x), cls = !x.ok ? 'bad' : mine ? 'me' : (x.by === 'ai' ? 'ai' : 'op');
+    const sub = x.y && x.y !== x.w ? `<small>${esc(x.y)}</small>` : '';
+    return `<span class="sr-b ${cls}">${esc(x.w)}${sub}</span>`;
+  }).join('');
+}
+function srResultHtml(win, reason, again) {
+  const cf = Array.from({ length: 10 }, (_, i) => `<i style="--x:${(i * 37) % 100}%;--d:${(i * 0.23).toFixed(2)}s;--c:${['#ffb938', '#ff5d8f', '#16c79a', '#3aa0ff', '#fff'][i % 5]}"></i>`).join('');
+  return `<div class="sr-res ${win ? '' : 'lose'}">${win ? `<div class="sr-cf">${cf}</div>` : ''}<h3>${win ? '勝ち！' : 'まけ…'}</h3><p>${esc(reason || '')}</p><div style="display:flex;gap:8px;justify-content:center;margin-top:14px;flex-wrap:wrap">${again}</div></div>`;
+}
+function srAiGameHtml() {
+  const a = SR.ai; if (!a) return srHomeHtml();
+  const last = a.words.slice(-1)[0], need = last ? srTail(last.y || last.w, a.lang) : '';
+  const done = a.status === 'done';
+  const inputRow = done ? '' : `<div class="sr-need">${need ? `次は「<span>${esc(need)}</span>」` : 'どんな言葉でも、お題に合えばOK'}</div>
+    <div style="display:flex;gap:8px;align-items:center"><input id="srIn" class="sr-in" placeholder="ことばを入れる" autocomplete="off" autocapitalize="off" spellcheck="false" ${a.busy ? 'disabled' : ''}><button class="sr-go" data-act="srsend" ${a.busy ? 'disabled' : ''}>${ms('send')}</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><span class="sr-pill ${a.busy ? '' : 'me'}">${a.busy ? 'AIが判定・考え中…' : 'あなたの番'}</span><button class="btn text xs" data-act="srgiveup" ${a.busy ? 'disabled' : ''}>あきらめる</button></div>`;
+  const res = done ? srResultHtml(a.winner === 'me', a.reason, `<button class="sr-go" data-act="sraistart">${ms('replay')}もう一度</button><button class="btn tonal" data-act="srhome">ホームへ</button>`) : '';
+  return `<div class="sr">${srNav('AIと対戦')}
+  <div class="sr-card"><div class="sr-lab">お題：${esc(a.theme || 'なし（自由）')}・${esc(SHIRI_DIFF[a.diff].n)}</div>
+    <div class="sr-chain" style="margin-top:8px">${srChainHtml(a.words, x => x.by === 'me')}</div>${inputRow}</div>${res}</div>`;
+}
+function srFGameHtml() {
+  const r = SR.room; if (!r) return srHomeHtml();
+  const me = srMe(), myTurn = r.status === 'playing' && r.turn === me, done = r.status === 'done';
+  const myName = r.host === me ? r.hostName : r.guestName, oppName = r.host === me ? r.guestName : r.hostName;
+  const left = r.status === 'playing' && r.deadline ? Math.max(0, Math.ceil((r.deadline - Date.now()) / 1000)) : r.lim;
+  const last = (r.words || []).slice(-1)[0], need = last ? srTail(last.y || last.w, r.lang) : '';
+  const ring = r.status === 'playing' ? `<div class="sr-ring ${left <= 5 ? 'low' : ''}"><svg viewBox="0 0 100 100"><circle class="bg" cx="50" cy="50" r="44"/><circle class="fg" id="srFg" cx="50" cy="50" r="44" style="stroke-dashoffset:${(276.46 * (1 - left / r.lim)).toFixed(1)}"/></svg><b id="srT">${left}</b></div>` : '';
+  const inputRow = done ? '' : `<div class="sr-need">${myTurn ? (need ? `次は「<span>${esc(need)}</span>」` : '最初の言葉をどうぞ') : `${esc(oppName || '相手')}さんの番です`}</div>
+    ${myTurn ? `<div style="display:flex;gap:8px;align-items:center"><input id="srIn" class="sr-in" placeholder="ことばを入れる" autocomplete="off" autocapitalize="off" spellcheck="false" ${SR.busy ? 'disabled' : ''}><button class="sr-go" data-act="srsend" ${SR.busy ? 'disabled' : ''}>${ms('send')}</button></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px"><span class="sr-pill ${SR.busy ? '' : 'me'}">${SR.busy ? 'AIが判定中…' : 'あなたの番'}</span><button class="btn text xs" data-act="srgiveup2" ${SR.busy ? 'disabled' : ''}>あきらめる</button></div>` : ''}`;
+  const res = done ? srResultHtml(r.winner === me, r.reason, `<button class="btn tonal" data-act="srleave">ホームへ</button>`) : '';
+  return `<div class="sr">${srNav('友達と対戦')}
+  <div class="sr-arena">
+    <div class="sr-pl ${myTurn && !done ? 'on' : ''}">${esc(myName || 'あなた')}<small style="display:block;opacity:.8">あなた</small></div>
+    ${ring || `<div style="width:8px"></div>`}
+    <div class="sr-pl ${!myTurn && !done ? 'on' : ''}" style="text-align:right">${esc(oppName || '相手')}<small style="display:block;opacity:.8">相手</small></div>
+  </div>
+  <div class="sr-card"><div class="sr-lab">お題：${esc(r.theme || 'なし（自由）')}・制限時間 ${r.lim}秒</div>
+    <div class="sr-chain" style="margin-top:8px">${srChainHtml(r.words, x => x.by === me)}</div>${inputRow}</div>${res}</div>`;
+}
+function srInner() {
+  if (!toolHas('shiri')) return `<div class="sr"><div class="sr-hero"><div class="sr-deco"></div><h2>${ms('lock')} しりとり</h2><p>レベル${SHIRI_LV}で使えるようになります（いまのレベル：${level().L}）。</p></div></div>`;
+  switch (SR.view) {
+    case 'aisetup': return srAiSetupHtml();
+    case 'aigame': return srAiGameHtml();
+    case 'fsetup': return srFSetupHtml();
+    case 'wait': return srWaitHtml();
+    case 'fgame': return srFGameHtml();
+    default: return srHomeHtml();
+  }
+}
+function srPaint() {
+  const inp = document.getElementById('srIn');
+  if (inp) { inp.value = SR.input || ''; inp.oninput = () => { SR.input = inp.value; }; inp.onkeydown = e => { if (e.key === 'Enter' && !e.isComposing) { e.preventDefault(); ACT.srsend(); } }; }
+  const th = document.getElementById('srTheme'); if (th) th.oninput = () => { SR.theme = th.value; };
+  const cd = document.getElementById('srCode'); if (cd) { cd.value = SR.codeIn || ''; cd.oninput = () => { SR.codeIn = cd.value; }; }
+}
+function srRender() { const root = document.getElementById('shiriRoot'); if (!root) return; root.innerHTML = srInner(); srPaint(); }
+function shiriHtml() { return `<div id="shiriRoot">${srInner()}</div>`; }
+TPAINT.shiri = srPaint;
+setInterval(() => {
+  const r = SR.room; const el = document.getElementById('srT'); if (!el || !r || r.status !== 'playing' || !r.deadline) return;
+  const left = Math.max(0, r.deadline - Date.now());
+  el.textContent = String(Math.ceil(left / 1000));
+  const fg = document.getElementById('srFg'); if (fg) fg.style.strokeDashoffset = (276.46 * (1 - left / (r.lim * 1000))).toFixed(1);
+  const ring = el.parentElement; if (ring) ring.classList.toggle('low', left <= 5000);
+  if (left <= 0) srTimeout();
+}, 250);
+Object.assign(ACT, {
+  srgo(id) { if (id === 'fsetup' && srNeedLogin()) return; SR.view = id; srRender(); },
+  srhome() { if (SR.view === 'wait' || SR.view === 'fgame') { srLeave(); return; } SR.ai = null; SR.view = 'home'; srRender(); },
+  srlang(id) { SR.lang = id === 'en' ? 'en' : 'ja'; srRender(); },
+  srtheme(id) { SR.theme = id === '（お題なし・自由）' ? '' : id; srRender(); },
+  srdiff(id) { SR.diff = Math.max(0, Math.min(2, Number(id) || 0)); srRender(); },
+  srlim(id) { SR.lim = [10, 15, 20].includes(Number(id)) ? Number(id) : 15; srRender(); },
+  sraistart() { srAiStart(); },
+  srfreq(id) { const f = (growGet().friends || []).find(x => x.uid === id); if (f) srCreateRoom(f); },
+  srcode() { srCreateRoom(null); },
+  srjoin() { srJoin(SR.codeIn || ''); },
+  srjoinreq(id) { const [code, rid] = String(id).split('|'); srAcceptReq(rid, code); },
+  srdecline(id) { srDeleteReq(id); srRender(); },
+  srleave() { srLeave(); },
+  srsend() { const t = (SR.input || '').trim(); if (!t) return; if (SR.view === 'aigame') srAiSend(t); else if (SR.view === 'fgame') srFriendSend(t); },
+  srgiveup() { srAiGiveUp(); },
+  srgiveup2() { srFriendGiveUp(); }
+});
+
 /* ====================== 元素マージ：レベル7で解放、またはXP（500）で購入。games/merge.html を埋め込み、最高点を友達と比べる（Matter.js を CDN から読むので通信が必要） ====================== */
 const MG_LV = 7;
 const TOOL_SHOP = { merge: { n: '元素マージ', c: 500, d: 'レベル7になるまで待たずに使えます' } };
 function toolOwned(id) { return (growGet().owned.tool || []).includes(id); }
 // レベルで使えるツール（買っていなくても、レベルに達していれば使える＝購入済み）
-const TOOL_LV = { merge: MG_LV };
+const SHIRI_LV = 7;
+const TOOL_LV = { merge: MG_LV, shiri: SHIRI_LV };
 function toolHas(id) { return toolOwned(id) || (!!TOOL_LV[id] && level().L >= TOOL_LV[id]); }
 // 難易度の版（MG_VER）が変わると、最高点・最高の元素・友達との最高点は数え直す（挑戦回数は残す）
 const MG_VER = 2;
