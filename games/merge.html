@@ -587,6 +587,13 @@
         <span id="sfxToggleIcon" class="material-symbols-rounded text-base">volume_up</span>
       </button>
 
+      <!-- 途中保存（あとから続きから遊べる） -->
+      <button id="saveBtn" type="button" title="途中で保存（あとから続きから遊べます）"
+        class="jelly-btn px-2.5 py-1 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-black shadow-sm flex items-center gap-0.5">
+        <span class="material-symbols-rounded text-sm">save</span>
+        <span class="hidden sm:inline">途中保存</span>
+      </button>
+
       <!-- リセットボタン -->
       <button id="resetBtn" type="button" title="最初からやり直す"
         class="jelly-btn px-2.5 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-black shadow-sm flex items-center gap-0.5">
@@ -2858,6 +2865,7 @@
       if (isGameOver) return;
       isGameOver = true;
       canDrop = false;
+      clearSave();
       audio.playGameOver();
 
       const prevBest = rankingService.getBestLocalScore();
@@ -2877,6 +2885,63 @@
       const modal = document.getElementById('gameOverModal');
       modal.classList.remove('hidden');
       modal.classList.add('flex');
+    }
+
+    // ===== 途中保存（あとから続きから遊べる）。ゲームの途中の状態を、この端末に保存します =====
+    const SAVE_KEY = 'kosa-merge-save';
+    const SAVE_VER = 1;
+    const clampLevel = v => Math.max(1, Math.min(ELEMENTS.length, Math.floor(Number(v)) || 1));
+    function loadSave() {
+      try { const sv = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null'); return (sv && sv.v === SAVE_VER && Array.isArray(sv.bodies)) ? sv : null; } catch (e) { return null; }
+    }
+    function clearSave() { try { localStorage.removeItem(SAVE_KEY); } catch (e) { } }
+    // 途中の状態を保存する。終わったゲーム・まだ何もないときは保存しない
+    function saveGame(quiet) {
+      if (!engine || isGameOver || scoreReported) return false;
+      const bodies = Composite.allBodies(world).filter(b => b.label === 'element' && !b.isMerged)
+        .map(b => ({ l: b.elementLevel, x: b.position.x, y: b.position.y, a: b.angle, vx: b.velocity.x, vy: b.velocity.y, av: b.angularVelocity }));
+      if (!bodies.length && score <= 0) return false;
+      const sv = { v: SAVE_VER, t: Date.now(), score, ep, comboCount, maxCombo, currentDropLevel, nextDropLevel, maxReachedLevel, discovered: [...discoveredLevels], completed: [...completedMissions], bodies };
+      try { localStorage.setItem(SAVE_KEY, JSON.stringify(sv)); } catch (e) { return false; }
+      if (!quiet) showCelebrationBanner('途中の状態を保存しました。あとから続きから遊べます');
+      return true;
+    }
+    // 保存した状態から再開する（新しいゲームを作ってから、玉と点数などを入れなおす）
+    function resumeGame(sv) {
+      initPhysicsGame();
+      score = Number(sv.score) || 0;
+      ep = Math.min(2000, Math.max(0, Number(sv.ep) || 0));
+      comboCount = 0; lastMergeTime = 0;
+      maxCombo = Math.max(1, Number(sv.maxCombo) || 1);
+      currentDropLevel = clampLevel(sv.currentDropLevel);
+      nextDropLevel = clampLevel(sv.nextDropLevel);
+      maxReachedLevel = clampLevel(sv.maxReachedLevel);
+      discoveredLevels = new Set([1, ...(Array.isArray(sv.discovered) ? sv.discovered : []).map(v => clampLevel(v))]);
+      completedMissions = new Set(Array.isArray(sv.completed) ? sv.completed : []);
+      sv.bodies.forEach(b => {
+        const body = createElementBody(Number(b.x) || 0, Number(b.y) || 0, clampLevel(b.l));
+        Body.setPosition(body, { x: Number(b.x) || 0, y: Number(b.y) || 0 });
+        Body.setAngle(body, Number(b.a) || 0);
+        Body.setVelocity(body, { x: Number(b.vx) || 0, y: Number(b.vy) || 0 });
+        Body.setAngularVelocity(body, Number(b.av) || 0);
+      });
+      updateScoreBoardUI(); updateEpUI(); updateNextPreviewUI(); renderEvolutionRingUI(); checkAndRenderMissions();
+      showCelebrationBanner('続きから遊びます');
+    }
+    // 途中のゲームがあるとき、続きから遊ぶか、新しく始めるかを選んでもらう
+    function askResume(sv) {
+      const ov = document.createElement('div');
+      ov.id = 'resumeOv';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(40,20,0,.55)';
+      const when = new Date(sv.t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+      ov.innerHTML = '<div style="background:#fff7e6;border-radius:20px;padding:22px 20px;max-width:340px;width:100%;text-align:center;font-family:sans-serif;color:#451a03;box-shadow:0 10px 30px rgba(0,0,0,.25)">'
+        + '<div style="font-weight:900;font-size:18px;margin-bottom:6px">途中のゲームがあります</div>'
+        + '<div style="font-size:14px;margin-bottom:6px">' + when + ' に保存した、' + (Number(sv.score) || 0) + '点の続きです。</div>'
+        + '<button id="resumeYes" type="button" style="margin-top:10px;width:100%;padding:12px;border-radius:14px;border:0;font-weight:900;font-size:16px;background:linear-gradient(#a3e635,#16a34a);color:#fff">続きから遊ぶ</button>'
+        + '<button id="resumeNo" type="button" style="margin-top:10px;width:100%;padding:12px;border-radius:14px;font-weight:900;font-size:15px;background:#fff;color:#92400e;border:2px solid rgba(146,64,14,.3)">新しく始める</button></div>';
+      document.body.appendChild(ov);
+      ov.querySelector('#resumeYes').onclick = () => { ov.remove(); resumeGame(sv); ensureGameFocus(); };
+      ov.querySelector('#resumeNo').onclick = () => { ov.remove(); clearSave(); ensureGameFocus(); };
     }
 
     // メインアニメーションループ（60fps固定・キーボード慣性移動対応）
@@ -3496,11 +3561,18 @@
       ensureGameFocus();
     });
 
+    // 途中保存のボタン
+    document.getElementById('saveBtn').addEventListener('click', () => { ensureGameFocus(); if (!saveGame(false)) showCelebrationBanner('今は保存できません'); });
+    // 画面を離れたとき（タブを切り替えた・アプリを閉じた）は、自動で途中保存
+    document.addEventListener('visibilitychange', () => { if (document.hidden) saveGame(true); });
+    window.addEventListener('pagehide', () => saveGame(true));
+
     // リセット＆リトライ
     document.getElementById('resetBtn').addEventListener('click', async () => {
       ensureGameFocus();
       audio.init();
       if (!scoreReported) { scoreReported = true; reportMerge(score, maxReachedLevel); try { await rankingService.recordGameScore(score, maxReachedLevel); } catch (err) { console.warn('score save failed', err); } }
+      clearSave();
       initPhysicsGame();
     });
     document.getElementById('quitBtn').addEventListener('click', () => {
@@ -3509,6 +3581,7 @@
     document.getElementById('playAgainBtn').addEventListener('click', () => {
       ensureGameFocus();
       audio.init();
+      clearSave();
       initPhysicsGame();
     });
 
@@ -3530,7 +3603,7 @@
       }
       setupCanvases();
       try { await rankingService.initialize(); } catch (err) { console.warn('ranking init failed', err); }
-      try { updateScoreBoardUI(); initPhysicsGame(); } catch (err) { console.error('init failed', err); }
+      try { updateScoreBoardUI(); initPhysicsGame(); const sv = loadSave(); if (sv && (sv.bodies.length || sv.score > 0)) askResume(sv); } catch (err) { console.error('init failed', err); }
       ensureGameFocus();
       requestAnimationFrame(gameLoop);
     };

@@ -2087,6 +2087,61 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
   .wc-upd-t b{display:block;font-size:.98rem}
   .wc-upd-t small{opacity:.85}
   .wc-upd-b{display:flex;gap:8px;flex-wrap:wrap}
+<style id="v17997">
+  /* 下のバー（#nav）は、位置が動かないように作る：
+     高さは固定（文字の出し分けで高さが変わらない）／項目は同じ幅で並ぶ／入力中は隠す */
+  :root{--navh:76px}
+  @media (max-width:699px){:root{--navh:69px}}
+  html[data-nav=bottom] #nav, #nav.bar-b{height:var(--navh)!important;max-height:var(--navh)!important;min-height:0!important}
+  html[data-nav=bottom] #nav, #nav.bar-b, html[data-nav=bottom] #nav.many{overflow:hidden!important}
+  html[data-nav=bottom] #nav .ni, html[data-nav=bottom] #nav.many .ni{flex:1 1 0!important;min-width:0!important;max-width:none!important;width:auto!important}
+  @media (max-width:699px){
+    #nav{height:var(--navh)!important;max-height:var(--navh)!important;min-height:0!important;overflow:hidden!important}
+    #nav .ni,#nav.many .ni{flex:1 1 0!important;min-width:0!important;max-width:none!important;width:auto!important}
+  }
+  html.kb #nav{visibility:hidden!important}
+<style id="v17998">
+  /* 更新内容のスキップ（左下）：文字の位置がずれないように、左にまとめる */
+  .ob-foot{gap:6px}
+  .ob-skip{padding-left:8px;padding-right:12px;opacity:.9}
+  /* ポップアップの背景：少し暗く、ぼかす（どの端末でも同じに） */
+  dialog:not(.ty-full)::backdrop,dialog:not(.ty-full)::backdrop{background:rgba(8,10,20,.42)!important;backdrop-filter:blur(6px) saturate(.9)!important;-webkit-backdrop-filter:blur(6px) saturate(.9)!important}
+  .fabscrim{background:rgba(8,10,20,.32)!important;backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px)}
+<style id="v17999">
+  /* 板書 */
+  .bd{display:grid;gap:14px}
+  .bd-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .bd-n{font-weight:600}
+  .bd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .bd-th{display:grid;gap:6px;padding:6px;border:0;border-radius:18px;background:var(--s2);color:var(--on);cursor:pointer;text-align:left;font:inherit}
+  .bd-th img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:12px;display:block;background:var(--s3)}
+  .bd-th span{font-size:.82rem;font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 4px}
+  .bd-th.on{box-shadow:0 0 0 3px var(--primary)}
+  .bd-det{display:grid;gap:12px}
+  .bd-big{width:100%;max-height:60vh;object-fit:contain;border-radius:18px;background:var(--s3);display:block}
+  .bd-btns{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  /* テストの推移 */
+  .gr-card{display:grid;gap:12px}
+  .gr-ctl{display:grid;gap:8px}
+  .gr-ctl .wx-seg{display:flex;gap:6px;margin:0;padding:4px}
+  .gr-ctl .wx-sg{flex:1 1 0;min-width:0;margin:0;white-space:nowrap}
+  .gr-subs{overflow-x:auto;scrollbar-width:none;justify-content:flex-start}
+  .gr-subs .wx-sg{flex:0 0 auto}
+  .grc{width:100%;max-width:640px;height:auto;display:block;margin:0 auto}
+  .lg-row{display:flex;flex-wrap:wrap;gap:8px 14px}
+  .grt-w{overflow-x:auto}
+  .grt{width:100%;border-collapse:collapse;font-size:.9rem}
+  .grt th,.grt td{padding:6px 8px;border-bottom:1px solid var(--s3);text-align:center;white-space:nowrap}
+  .grt th:first-child{text-align:left}
+  .grt-dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:6px;vertical-align:middle}
+  .gr-it{display:flex;align-items:center;gap:8px;padding:8px 0;border-top:1px solid var(--s3)}
+  .gr-it-t{flex:1;min-width:0;display:grid;gap:2px}
+  .gr-it-t small{color:var(--on-v);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .gr-head,.gr-row{display:grid;grid-template-columns:1.4fr 1fr auto 1fr 1fr auto;gap:6px;align-items:center}
+  .gr-head{font-size:.78rem;font-weight:700;color:var(--on-v);margin:6px 0 4px}
+  .gr-row{margin-bottom:6px}
+  .gr-row input{min-width:0;width:100%}
+  .gr-sl{text-align:center}
 </style>
 </head>
 <body>
@@ -2110,7 +2165,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script>
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.99.6';
+const APP_VERSION = '17.99.8';
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2759,20 +2814,47 @@ function renderNav() {
   const nav = $('#nav'); if (nav.parentElement !== document.body) document.body.appendChild(nav); nav.classList.toggle('many', items.length > 8);
   const navFresh = NAVL.last !== cur; NAVL.last = cur;
   nav.innerHTML = items.map(id => { const [l, i] = navInfo(id); const on = cur === id, b = id === 'home' && bt; return `<button class="ni ${on ? 'on' : ''} ${on && navFresh ? 'fresh' : ''}" data-act="tab" data-id="${id}" title="${l}" aria-label="${l}${b ? `（${bt}）` : ''}" ${on ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24) : ms(i)}</span>${b ? `<b class="nbadge ${bhot ? 'hot' : ''}">${bt}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span><span class="nl">${l}</span></button>`; }).join('') + (isPhoneUI() ? '' : notiNavBtn());
-  navFit();
+  kbSync(); navFit();
 }
-// 下のバーに文字が入りきらないときは、アイコンだけにする
+// 下のバーの文字の出し分けは、文字の幅と項目数から計算して決めます（描き直しのたびに、高さが変わって位置が動かないように）
+const NAVM = { c: null };
 function navFit() {
-  const nav = $('#nav'); if (!nav) return; nav.classList.remove('ionly');
-  if (!(innerWidth < 700 || document.documentElement.dataset.nav === 'bottom')) return;
-  requestAnimationFrame(() => { const bad = [...nav.querySelectorAll('.ni .nl')].some(e => e.scrollWidth > e.clientWidth + 1) || nav.scrollWidth > nav.clientWidth + 1; nav.classList.toggle('ionly', bad); });
+  const nav = $('#nav'); if (!nav) return;
+  const bottom = innerWidth < 700 || document.documentElement.dataset.nav === 'bottom';
+  const items = nav.querySelectorAll('.ni');
+  if (!bottom || !items.length) { nav.classList.remove('ionly'); return; }
+  const cs = getComputedStyle(nav), inner = nav.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight);
+  const w = inner / items.length - 4;
+  if (!NAVM.c) NAVM.c = document.createElement('canvas').getContext('2d');
+  let bad = false;
+  items.forEach(it => {
+    const nl = it.querySelector('.nl'); if (!nl || bad) return;
+    const st = getComputedStyle(nl); NAVM.c.font = `${st.fontWeight} ${st.fontSize} ${st.fontFamily}`;
+    if (NAVM.c.measureText(nl.textContent).width > w) bad = true;
+  });
+  nav.classList.toggle('ionly', bad);
 }
+// 文字入力中は、下のバー（サイドバー）を隠す。iPadのキーボードで固定のバーが動いて見えるのを防ぎます
+const KB_SEL = 'input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=button]):not([type=submit]):not([type=reset]):not([type=file]):not([type=color]):not([type=hidden]),textarea,[contenteditable="true"]';
+function kbSync() { const a = document.activeElement; document.documentElement.classList.toggle('kb', !!(a && a !== document.body && a.matches && a.matches(KB_SEL))); }
+document.addEventListener('focusin', kbSync, true);
+document.addEventListener('focusout', () => setTimeout(kbSync, 150), true);
+document.addEventListener('close', () => setTimeout(kbSync, 0), true);   // ダイアログを閉じたときも、隠した状態が残らないように
 // 並んだボタンの文字が入りきらないときは、アイコンだけにする（data-fit を付けた並びが対象）
 function fitIcons() { document.querySelectorAll('[data-fit]').forEach(c => { c.classList.remove('ionly'); if (c.scrollWidth > c.clientWidth + 1) c.classList.add('ionly'); }); }
 window.addEventListener('resize', () => { navFit(); fitIcons(); }); window.addEventListener('orientationchange', () => setTimeout(() => { navFit(); fitIcons(); }, 300));
+// 追加ボタン（＋）のメニュー。iPad（広い画面）と、スマホで中身が少しちがう
+function fabHtml(lay) {
+  const fb = (act, icn, t) => `<button class="fabi" data-act="${act}">${ms(icn)}${t}</button>`;
+  const items = lay === 'p'
+    ? fb('bsnap', 'photo_camera', '板書を撮る') + fb('focus', 'timer', '集中タイマー') + fb('addtask', 'add_task', '課題を追加') + fb('addsubj', 'library_add', '教科を追加') + `<button class="fabi" data-act="ai">${gem(20)}AIに質問</button>` + fb('gsearch', 'search', 'さがす')
+    : fb('focus', 'timer', '集中タイマー') + fb('addtask', 'add_task', '課題を追加') + fb('fabev', 'event', '予定を追加') + fb('fabdeck', 'style', '単語帳を作成') + fb('bsnap', 'photo_camera', '板書を撮る') + fb('gsearch', 'search', 'さがす');
+  return `<div class="fabscrim" data-act="fab"></div><div class="fabm">${items}</div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
+}
 function renderFab() {
   const f = $('#fab'); f.hidden = false; document.documentElement.dataset.tab = ui.tab;
-  if (!f.firstElementChild) f.innerHTML = `<div class="fabscrim" data-act="fab"></div><div class="fabm"><button class="fabi" data-act="focus">${ms('timer')}集中タイマー</button><button class="fabi" data-act="addtask">${ms('add_task')}課題を追加</button><button class="fabi" data-act="addsubj">${ms('library_add')}教科を追加</button><button class="fabi" data-act="ai">${gem(20)}AIに質問</button><button class="fabi" data-act="gsearch">${ms('search')}さがす</button></div><button class="fabb" data-act="fab" aria-label="追加メニュー" aria-expanded="false">${ms('add', '', 'font-size:34px')}</button>`;
+  const lay = isPhoneUI() ? 'p' : 'w';   // 画面の幅で、メニューの中身を変える（iPadは「AIに質問」を出さず、並び順も変える）
+  if (f.dataset.lay !== lay || !f.firstElementChild) { f.dataset.lay = lay; f.innerHTML = fabHtml(lay); }
   f.classList.toggle('open', !!ui.fab); requestAnimationFrame(fabDir);
   f.querySelector('.fabb').setAttribute('aria-expanded', String(!!ui.fab));
 }
@@ -2924,6 +3006,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.99.8', d: '__BUILD__', t: 'プラスボタンの並び替え・AIのモデルをショップで選べるように', n: ['iPadのプラスボタンから「AIに質問」を外し、「集中タイマー・課題を追加・予定を追加・単語帳を作成・板書を撮る・さがす」の順にしました（スマホは今までどおりです）', 'プラスボタンから、「予定を追加」と「単語帳を作成」を直接できるようにしました', 'XPショップに「AIのモデル」を追加しました。Gemini 3.5 Flash-Lite（標準）・3.8 Flash・4 Hydrogen から選べます。それぞれの違いも、ショップに書いています', '使っているモデルは、ショップの「AIのモデル」の欄に表示されます。選んだモデルが使えないときは、標準のモデルで答えます', '元素マージに「途中保存」を追加しました。途中の状態を保存でき、あとから「続きから遊ぶ」で再開できます。画面を離れたときも、自動で保存されます'] },
+  { v: '17.99.7', d: '__BUILD__', t: '板書ツール・テストの推移（折れ線）・ポップアップのぼかし・タブバーの安定', n: ['左上の「＋」から「板書を撮る」で、黒板やホワイトボードを撮れます。撮った板書は「板書」ツールで見返せ、AIで要点をまとめられます', '成績計算ツールを消しました。記録タブの「テストの推移」で、テストの種類（Aテスト・Bテストなど）ごと・学期ごとの点数と偏差値を記録し、折れ線グラフで見られます', '更新内容の画面に、左下の「スキップ」を追加しました。押すとすぐ閉じます', 'ポップアップが出ているときは、背景を少し暗くぼかすようにしました', 'タブバーが動いてしまう不具合を直しました（ツールを切り替えたときの高さの変化と、文字入力中のキーボードによるずれ）'] },
   { v: '17.99.6', d: '__BUILD__', t: '漢字練習を大幅強化・単語帳の表示と共有の更新通知', n: ['漢字練習に、写真からの練習プランを追加しました。漢字プリントを撮ると、AIが漢字・読み・二字熟語を読み取り、練習の順番を提案します', '漢字練習の方法を増やしました：なぞる・何度も書く（回数を記録）・読みを書く・熟語を書く・テスト', '単語帳の「覚えていない」「すべて」などの右側の空きをなくし、右のボタンの大きさをそろえました', '共有された単語帳に新しいカードが増えたら、お知らせを出します。「受け取る」で、新しいカードだけを追加できます', '単語帳のテストの絞り込み画面を、コンパクトにしました'] },
   { v: '17.99.5', d: '__BUILD__', t: '国語文法ツールを追加', n: ['国語に「国語文法」ツールを追加しました', '音便・五段活用・形容詞・形容動詞・動詞の活用形・活用の種類・助詞助動詞・品詞分類を、表で覚えられます', '「表をかくして覚える」で、マスの答えを隠し、タップして確かめられます', 'テストは4択。まちがえた問題は保存され、あとで「まちがえた問題」から復習できます'] },
   { v: '17.99.4', d: '__BUILD__', t: 'アーティストの保存・検索・AIのおすすめを強化、iPadの動画画面を広く', n: ['アーティスト名を押すと、そのアーティストのページが開きます。「保存」で好きなアーティストに追加できます（押しても反応しなかった不具合を直しました）', '検索バーを「こんにちは」のすぐ下に置き、二重になっていた枠を一本にしました', '検索結果に、アーティストの一覧を出すようにしました', 'AIが、読みや綴りのまちがいを直し、「もしかして」で出します。アーティストの名前なら、そのページへ案内します（Googleログイン中に使えます）', 'AIが、同じアーティストの動画の綴りをそろえ、曲名とアーティストを分けます（Googleログイン中に使えます）', 'おすすめは、保存したアーティスト・よく聴くアーティストと、AIが選ぶ似たアーティストから選びます', 'iPadで動画を大きく開いたとき、動画と操作ボタンを横に並べて、余白を減らしました', 'iPadのナビゲーションバーに置けるツールは、4つまでにしました'] },
@@ -3366,14 +3450,14 @@ function lastDays(n) {
 }
 function viewStats() {
   const subs = subjects();
-  if (!subs.length) return achBigHtml() + frBigHtml() + myStatCard() + emptyHome();
+  if (!subs.length) return achBigHtml() + frBigHtml() + myStatCard() + gradeRecHtml() + emptyHome();   // テストの推移は、考査がなくても見られます
   const all = examTasks(), Rq = agg(all.filter(t => t.req)), Op = agg(all.filter(t => !t.req));
   const days = lastDays(ui.period), n = days.length, isM = ui.metric === 'min', V = d => isM ? d.m : d.a;
   const sum = days.reduce((a, d) => a + V(d), 0), max = Math.max(isM ? 30 : 5, ...days.map(V));
   const best = days.reduce((b, d) => V(d) > V(b) ? d : b, days[0]), unit = isM ? '分' : 'p';
   const lab = (d, i) => n <= 7 ? WD[d.d.getDay()] : n <= 14 ? d.d.getDate() : (i % 5 === 0 || i === n - 1 ? `${d.d.getMonth() + 1}/${d.d.getDate()}` : '');
   const tt = totals(), lv = level();
-  let h = achBigHtml() + frBigHtml() + myStatCard() + wkReview() + scoreCard() + scoreTrend() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
+  let h = achBigHtml() + frBigHtml() + myStatCard() + wkReview() + scoreCard() + gradeRecHtml() + scoreTrend() + `<div class="h-sec"><h2>${ms('bar_chart')}学習量</h2><span class="sp"></span><div class="seg"><button class="${!isM ? 'on' : ''}" data-act="metric" data-id="pages">ページ</button><button class="${isM ? 'on' : ''}" data-act="metric" data-id="min">時間</button></div></div>
   <div class="chips mb"><div class="seg" role="group">${[7, 14, 30].map(p => `<button class="${ui.period === p ? 'on' : ''}" data-act="period" data-id="${p}">${p}日</button>`).join('')}</div></div>
   <div class="card"><div class="bars" style="--n:${n}">${days.map((d, i) => `<div class="bcol ${d.k === today() ? 'today' : ''}"><div class="bval">${n <= 14 && V(d) ? V(d) : ''}</div><div class="bar">${isM ? `<i class="m" style="height:${V(d) / max * 100}%"></i>` : `<i class="o" style="height:${d.a / max * 100}%"></i><i class="r" style="height:${d.r / max * 100}%"></i>`}</div><div class="blab">${lab(d, i)}</div></div>`).join('')}</div>
   ${isM ? '' : `<div class="chips" style="margin-top:14px"><span class="lg"><i style="background:var(--primary)"></i><span>必須</span></span><span class="lg"><i style="background:var(--ter-c)"></i><span>任意</span></span></div>`}</div>
@@ -4232,6 +4316,8 @@ const ACT = {
   addtask(id) { ui.fab = false; renderFab(); taskDlg(null, id); },
   'addtask-due'(id) { taskDlg(null, null, id); },
   addsubj() { ui.fab = false; renderFab(); subjDlg(); },
+  fabev() { ui.fab = false; renderFab(); evDlg('', today()); },
+  fabdeck() { ui.fab = false; renderFab(); deckDlg(''); },
   addexam() { examDlg(); },
   edittask(id) { taskDlg(id); },
   editsubj(id) { subjDlg(id); },
@@ -5223,7 +5309,7 @@ async function aiStart() {
   if (!CLOUD.fb) throw new Error('nofb');
   if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
   const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
-  const model = AI.mod.getGenerativeModel(ai, { model: window.AI_MODEL || 'gemini-3.5-flash-lite', systemInstruction: AI_SYS + '\n\n' + AIM_TXT[AIM.mode] + '\n\n' + aiContext() });
+  const model = AI.mod.getGenerativeModel(ai, { model: aiModel(), systemInstruction: AI_SYS + '\n\n' + AIM_TXT[AIM.mode] + '\n\n' + aiContext() });
   { const h = aiHistory(); AI.chat = h.length ? model.startChat({ history: h }) : model.startChat(); }   // 前の会話があれば、続きから
 }
 function aiErr(e) {
@@ -5246,12 +5332,17 @@ async function aiRun({ system, prompt, json = false, imgs = [] }) {
   try {
     if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
     const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
-    const cfg = { model: window.AI_MODEL || 'gemini-3.5-flash-lite' };
+    const cfg = { model: aiModel() };
     if (system) cfg.systemInstruction = system;
     if (json) cfg.generationConfig = { responseMimeType: 'application/json' };
-    const model = AI.mod.getGenerativeModel(ai, cfg);
+    const content = imgs.length ? [prompt, ...imgs.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))] : prompt;
     aiCount();
-    const res = await model.generateContent(imgs.length ? [prompt, ...imgs.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))] : prompt);
+    let res;
+    try { res = await AI.mod.getGenerativeModel(ai, cfg).generateContent(content); }
+    catch (e) {   // 選んだモデルが使えないときは、標準のモデルで答えなおす
+      const std = window.AI_MODEL || AI_STD; if (cfg.model === std) throw e;
+      res = await AI.mod.getGenerativeModel(ai, { ...cfg, model: std }).generateContent(content); toast('選んだモデルは使えなかったので、標準のモデルで答えました');
+    }
     const t = String(res.response.text() || '').trim();
     if (!t) throw new Error('empty');
     return json ? JSON.parse(t.replace(/```json|```/g, '').trim()) : t;
@@ -5758,7 +5849,7 @@ async function trRun() {
   try {
     if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
     const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
-    const model = AI.mod.getGenerativeModel(ai, { model: window.AI_MODEL || 'gemini-3.5-flash-lite', systemInstruction: 'あなたは正確な翻訳者です。指定された言語に翻訳し、翻訳文だけを出力します。説明・引用符・注釈は付けません。' });
+    const model = AI.mod.getGenerativeModel(ai, { model: aiModel(), systemInstruction: 'あなたは正確な翻訳者です。指定された言語に翻訳し、翻訳文だけを出力します。説明・引用符・注釈は付けません。' });
     aiCount();
     const res = await model.generateContent(`${TR.from === 'auto' ? '' : `原文は${langName(TR.from)}です。`}次の文章を${langName(TR.to)}に翻訳してください。\n\n${text}`);
     TR.out = res.response.text().trim();
@@ -5776,7 +5867,7 @@ function trHtml() {
 }
 const TOOLS = [['music', '音楽', 'library_music', '端末の音楽や、YouTubeで探した曲を、アプリの中でずっと流せる', 300, 'e'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
-  ['kanji', '漢字練習', 'draw', '漢字を書いて練習。読みと二字熟語もわかる', 20, 'b'], ['gram', '国語文法', 'auto_stories', '表を隠して覚え、テストで確かめる。活用・音便・品詞', 285, 'b'], ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['merge', '元素マージ', 'bubble_chart', '同じ元素をくっつけて進化させるパズル（レベル7で解放）', 210, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], ['grade', '成績計算', 'bar_chart', '平均・偏差値・目標までの点数', 170, 'b'], 
+  ['board', '板書', 'photo_library', '撮った黒板・ホワイトボードを見返し、AIで要点をまとめる', 205, 'c'], ['kanji', '漢字練習', 'draw', '漢字を書いて練習。読みと二字熟語もわかる', 20, 'b'], ['gram', '国語文法', 'auto_stories', '表を隠して覚え、テストで確かめる。活用・音便・品詞', 285, 'b'], ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['merge', '元素マージ', 'bubble_chart', '同じ元素をくっつけて進化させるパズル（レベル7で解放）', 210, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], 
   ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素・くっつけて反応を見る実験・分子量の計算', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 // 以前の「分子量・物質の量」のツールは、元素ラボの中へ
 function mgTileIcon() { return '<span class="mgb" aria-hidden="true"><i class="mgb-a"></i><i class="mgb-b"></i><i class="mgb-c"></i></span>'; }
@@ -5800,7 +5891,7 @@ function viewTools() {
       + sec('人気', 'local_fire_department', '#e11d48', ['card', 'merge', 'rekida', 'ptable'].map(id => TOOLS.find(x => x[0] === id)))
       + SUBJ_ORDER.map(([name, icon, col]) => { const list = TOOLS.filter(t => subjOf(t) === name); return list.length ? sec(name, icon, col, byPop(list)) : ''; }).join('');
   }
-  const T = TOOLS.find(x => x[0] === tl), body = { kanji: kjHtml, gram: gramHtml, rekida: rekidaHtml, merge: mergeHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, grade: gradeHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { board: boardHtml, kanji: kjHtml, gram: gramHtml, rekida: rekidaHtml, merge: mergeHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2>${tl === 'card' ? wcTbarActs() : ''}</div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -7195,23 +7286,203 @@ TPAINT.date = () => {
   const c = dpar(DT.d3), n = parseInt(DT.n, 10);
   put('dtres2', c && !isNaN(n) ? `<b>${dstr(new Date(c.getFullYear(), c.getMonth(), c.getDate() + n * +DT.sign))}</b>` : '');
 };
-/* 成績計算 */
-const erf = x => { const s = x < 0 ? -1 : 1; x = Math.abs(x); const t = 1 / (1 + .3275911 * x); return s * (1 - (((((1.061405429 * t - 1.453152027) * t) + 1.421413741) * t - .284496736) * t + .254829592) * t * Math.exp(-x * x)); };
-function gradeHtml() {
-  const c = (h, body, id) => `<div class="card" style="margin-top:12px"><h3 class="mh">${h}</h3>${body}<div class="mres" id="${id}"></div></div>`;
-  const fl = (id, l, ph, tp = 'grade') => `<div class="fld" style="flex:1;min-width:130px"><label for="${id}">${l}</label>${numIn(id, tp, ph)}</div>`;
-  return `<div class="card"><h3 class="mh">合計・平均</h3><div class="fld"><label for="grs">各教科の点数（スペースやカンマで区切る）</label><input id="grs" data-tp="grade" inputmode="decimal" placeholder="例：85 72 90 68 77"></div><div class="fld"><label for="grf">1教科の満点</label>${numIn('grf', 'grade', '', '100')}</div><div class="mres" id="gr1"></div></div>`
-    + c('偏差値', `<div class="mq" style="flex-wrap:wrap">${fl('gx', 'あなたの点数', '例：72')}${fl('ga', '平均点', '例：60')}${fl('gs', '標準偏差', '例：12')}</div>`, 'gr2')
-    + c('目標の平均点までに必要な点数', `<div class="mq" style="flex-wrap:wrap">${fl('gt', 'いまの合計点', '例：250')}${fl('gn', '終わった教科数', '例：3')}${fl('gm', '全部の教科数', '例：5')}${fl('gg', '目標の平均点', '例：75')}</div>`, 'gr3');
+/* ====================== 板書（17.99.7）：黒板・ホワイトボードの写真を撮って、見返す・AIで要点をまとめる ====================== */
+// 写真は、端末の中のデータ（IndexedDB）に保存します（ほかの機器とは同期しません）
+let BDB = null;
+const BD = { list: null, sel: '', busy: false };
+function bdbOpen() {
+  if (BDB) return Promise.resolve(BDB);
+  return new Promise((ok, ng) => {
+    const r = indexedDB.open('kosa-board', 1);
+    r.onupgradeneeded = () => r.result.createObjectStore('shots', { keyPath: 'id' });
+    r.onsuccess = () => { BDB = r.result; ok(BDB); };
+    r.onerror = () => ng(r.error);
+  });
 }
-TPAINT.grade = () => {
-  const sc = (($('#grs') || {}).value || '').split(/[\s,、，]+/).filter(Boolean).map(Number), full = nv('grf') || 100;
-  put('gr1', sc.length && sc.every(x => !isNaN(x)) ? `合計：<b>${pf(sc.reduce((a, b) => a + b, 0))}</b>（${sc.length}教科）<br>平均：<b>${pf(sc.reduce((a, b) => a + b, 0) / sc.length)}</b>　得点率：<b>${pf(sc.reduce((a, b) => a + b, 0) / sc.length / full * 100)}%</b><br>最高：${Math.max(...sc)}　最低：${Math.min(...sc)}` : '');
-  const x = nv('gx'), a = nv('ga'), s = nv('gs');
-  put('gr2', [x, a, s].every(v => !isNaN(v)) && s > 0 ? (() => { const z = (x - a) / s, top = (1 - (1 + erf(z / Math.SQRT2)) / 2) * 100; return `偏差値：<b>${pf(50 + 10 * z)}</b><br>上位の目安：約 ${top < .1 ? '0.1' : pf(Math.round(top * 10) / 10)}%`; })() : '');
-  const t = nv('gt'), n = nv('gn'), m = nv('gm'), g = nv('gg');
-  put('gr3', [t, n, m, g].every(v => !isNaN(v)) && m > n && n >= 0 ? (() => { const need = g * m - t, rest = m - n; return `残り${rest}教科の合計：<b>${pf(need)}</b> 点<br>残りの教科の平均：<b>${pf(need / rest)}</b> 点が必要${need / rest > 100 ? '<br><span class="muted">（100点を超えます。目標を見直してみてください）</span>' : ''}`; })() : '');
-};
+function bdbTx(mode, f) {
+  return bdbOpen().then(db => new Promise((ok, ng) => {
+    const tx = db.transaction('shots', mode); let req = null;
+    tx.oncomplete = () => ok(req ? req.result : undefined);
+    tx.onerror = tx.onabort = () => ng(tx.error || new Error('tx'));
+    req = f(tx.objectStore('shots'));
+  }));
+}
+const bdbAll = () => bdbTx('readonly', s => s.getAll()).then(a => (a || []).sort((x, y) => (y.at || 0) - (x.at || 0)));
+const bdbPut = r => bdbTx('readwrite', s => s.put(r));
+const bdbDel = id => bdbTx('readwrite', s => s.delete(id));
+function bdLoad() {
+  if (BD.busy) return; BD.busy = true;
+  bdbAll().then(l => { BD.list = l; BD.busy = false; if (ui.tool === 'board') toolsRefresh(); })
+    .catch(() => { BD.list = []; BD.busy = false; toast('板書の写真を読み込めませんでした'); });
+}
+// 「板書を撮る」：カメラを開く（iPadでは写真を選ぶ画面でも撮れます）
+function bdInput() {
+  let f = document.getElementById('bdsnapf');
+  if (!f) {
+    f = document.createElement('input'); f.type = 'file'; f.id = 'bdsnapf'; f.accept = 'image/*'; f.setAttribute('capture', 'environment'); f.hidden = true;
+    document.body.appendChild(f);
+    f.addEventListener('change', () => { const file = f.files && f.files[0]; f.value = ''; if (file) bdSnap(file); });
+  }
+  return f;
+}
+async function bdSnap(file) {
+  toast('板書を保存しています…');
+  try {
+    const img = await aiResize(file, 1600);
+    const rec = { id: uid(), at: Date.now(), title: `板書 ${today()}`, url: img.url, summary: '' };
+    await bdbPut(rec);
+    BD.list = null; BD.sel = rec.id;
+    toast('板書を保存しました');
+    // 板書ツールを開いたまま撮ったときも、一覧を読み直して表示する（開き直しの処理に頼らない）
+    if (ui.tab === 'tools' && ui.tool === 'board') bdLoad(); else ACT.tab('tool:board');
+  } catch (e) { toast('写真を保存できませんでした。もう一度お試しください'); }
+}
+function boardHtml() {
+  if (BD.list === null) return `<div class="bd"><p class="muted" style="font-weight:500">板書の写真を読み込んでいます…</p></div>`;
+  const L = BD.list; if (BD.sel && !L.some(r => r.id === BD.sel)) BD.sel = '';
+  const cur = L.find(r => r.id === BD.sel) || null;
+  const top = `<div class="bd-top"><button type="button" class="btn" data-act="bsnap">${ms('photo_camera')}板書を撮る</button><span class="muted bd-n">${L.length ? `${L.length}枚` : ''}</span></div>`;
+  if (!L.length) return `<div class="bd">${top}<div class="card muted" style="font-weight:500;line-height:1.8">黒板やホワイトボードを撮ると、ここに並びます。<br>左上の「＋」から「板書を撮る」を押してください。</div></div>`;
+  const grid = `<div class="bd-grid" role="list">${L.map(r => `<button type="button" role="listitem" class="bd-th ${r.id === BD.sel ? 'on' : ''}" data-act="bdsel" data-id="${esc(r.id)}"><img src="${r.url}" alt="${esc(r.title)}"><span>${esc(r.title)}</span></button>`).join('')}</div>`;
+  const det = cur ? `<div class="card bd-det">
+      <img class="bd-big" src="${cur.url}" alt="${esc(cur.title)}">
+      <div class="fld"><label for="bdt">名前</label><input id="bdt" maxlength="30" value="${esc(cur.title)}"></div>
+      ${cur.summary ? `<div class="td-ai">${gem(22)}<span>${esc(cur.summary).replace(/\n/g, '<br>')}</span></div>` : `<p class="muted" style="margin:0 0 10px;font-weight:500">まだ要約はありません。AIで、写真の内容の要点をまとめられます。</p>`}
+      <div class="bd-btns"><button type="button" class="btn tonal" data-act="bdai" data-id="${esc(cur.id)}">${gem(18)}${cur.summary ? 'AIでまとめ直す' : 'AIで要点をまとめる'}</button><span class="sp"></span><button type="button" class="btn text" data-act="bddel" data-id="${esc(cur.id)}">${ms('delete')}消す</button></div>
+    </div>` : '';
+  return `<div class="bd">${top}${grid}${det}</div>`;
+}
+TPAINT.board = () => { if (BD.list === null) bdLoad(); };
+document.addEventListener('change', e => {
+  if (!e.target || e.target.id !== 'bdt') return;
+  const r = (BD.list || []).find(x => x.id === BD.sel); if (!r) return;
+  r.title = (e.target.value || '').trim().slice(0, 30) || r.title;
+  bdbPut(r).then(() => toast('名前を変えました')).catch(() => toast('名前を保存できませんでした'));
+});
+Object.assign(ACT, {
+  bsnap() { ui.fab = false; renderFab(); bdInput().click(); },
+  bdsel(id) { BD.sel = id; toolsRefresh(); },
+  async bdai(id) {
+    const r = (BD.list || []).find(x => x.id === id); if (!r) return;
+    const m = /^data:([^;,]+);base64,(.*)$/.exec(r.url || ''); if (!m) return toast('写真を読み込めませんでした');
+    toast('写真の要点を、まとめています…');
+    const out = await aiRun({ system: AI_MINI, prompt: 'この画像は、学校の授業で撮った黒板やホワイトボードの写真です。書かれている内容を読み取り、要点を、やさしい日本語で「・」の箇条書き5つくらいにまとめてください。最後に「テストに出そうな言葉：」の形で、言葉を1行で書いてください。本文だけを書いてください。', imgs: [{ mime: m[1], data: m[2] }] });
+    if (!out) return;
+    r.summary = String(out).replace(/\*\*/g, '').trim().slice(0, 1200);
+    await bdbPut(r); toolsRefresh(); toast('要点をまとめました');
+  },
+  bddel(id) {
+    const r = (BD.list || []).find(x => x.id === id); if (!r) return;
+    okDlg('この板書を消しますか？', '写真と要約を、この端末から消します。', '消す', async () => { await bdbDel(id); BD.list = null; if (BD.sel === id) BD.sel = ''; toolsRefresh(); toast('板書を消しました'); });
+  },
+});
+/* ====================== テストの推移（17.99.7）：テストの種類ごと・学期ごとに、得点率と偏差値を記録して折れ線で見る ====================== */
+const GR_TERMS = ['1学期', '2学期', '3学期'];
+const GR_HUES = [222, 12, 150, 280, 40, 330];
+const GRV = { m: 'rate', s: '' };   // 指標（rate＝得点率、dev＝偏差値）・教科（空＝全教科の平均）
+const grecAll = () => (Array.isArray(S.grec) ? S.grec : []);
+const grRate = r => (r.s != null && r.f ? r.s / r.f * 100 : null);
+const grHue = i => GR_HUES[i % GR_HUES.length];
+const grSubjects = () => [...new Set(grecAll().flatMap(e => (e.rows || []).map(r => r.n)))];
+function grTerms(list) {
+  const out = GR_TERMS.filter(t => list.some(e => e.term === t));
+  list.forEach(e => { if (!out.includes(e.term)) out.push(e.term); });
+  return out;
+}
+function grValue(recs, metric, subj) {
+  const vals = [];
+  recs.forEach(e => (e.rows || []).forEach(r => {
+    if (subj && r.n !== subj) return;
+    const v = metric === 'dev' ? r.d : grRate(r);
+    if (v != null && !isNaN(v)) vals.push(v);
+  }));
+  return vals.length ? Math.round(vals.reduce((a, b) => a + b, 0) / vals.length * 10) / 10 : null;
+}
+function grSeries() {
+  const recs = grecAll(), types = [...new Set(recs.map(e => e.type))], terms = grTerms(recs);
+  return { types, terms, lines: types.map((t, i) => ({ t, hue: grHue(i), pts: terms.map(term => grValue(recs.filter(e => e.type === t && e.term === term), GRV.m, GRV.s)) })) };
+}
+function grChart(sr) {
+  const ph = isPhoneUI(), W = ph ? 330 : 640, H = ph ? 210 : 250, L = ph ? 34 : 44, R = ph ? 14 : 24, T = 16, B = ph ? 30 : 34, n = sr.terms.length, dev = GRV.m === 'dev';
+  const all = sr.lines.flatMap(l => l.pts).filter(v => v != null);
+  let lo = 0, hi = 100;
+  if (dev) { const a = Math.min(...all, 50), b = Math.max(...all, 50); lo = Math.max(0, Math.floor((a - 5) / 10) * 10); hi = Math.ceil((b + 5) / 10) * 10; }
+  const x = i => n === 1 ? (L + W - R) / 2 : L + (W - L - R) * i / (n - 1);
+  const y = v => T + (H - T - B) * (1 - (v - lo) / (hi - lo));
+  const ticks = dev ? [lo, (lo + hi) / 2, hi] : [0, 50, 100];
+  const grid = ticks.map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" style="stroke:var(--s3)" stroke-width="1"/><text x="${L - 6}" y="${(y(v) + 4).toFixed(1)}" text-anchor="end" style="fill:var(--on-v)" font-size="10">${v}</text>`).join('');
+  const xl = sr.terms.map((t, i) => `<text x="${x(i).toFixed(1)}" y="${H - 8}" text-anchor="middle" style="fill:var(--on-v)" font-size="11">${esc(t)}</text>`).join('');
+  const lines = sr.lines.map(l => {
+    const segs = []; let cur = [];
+    l.pts.forEach((v, i) => { if (v == null) { if (cur.length) segs.push(cur); cur = []; } else cur.push(`${x(i).toFixed(1)},${y(v).toFixed(1)}`); });
+    if (cur.length) segs.push(cur);
+    const col = `hsl(${l.hue} 70% 50%)`;
+    return segs.map(s => `<polyline points="${s.join(' ')}" fill="none" stroke="${col}" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>`).join('')
+      + l.pts.map((v, i) => v == null ? '' : `<circle cx="${x(i).toFixed(1)}" cy="${y(v).toFixed(1)}" r="4" fill="${col}"><title>${esc(l.t)}　${esc(sr.terms[i])}：${v}${dev ? '' : '%'}</title></circle>`).join('');
+  }).join('');
+  return `<svg class="grc" viewBox="0 0 ${W} ${H}" role="img" aria-label="テストの種類ごとの推移（折れ線グラフ）">${grid}${xl}${lines}</svg>`;
+}
+function grTable(sr) {
+  const u = GRV.m === 'dev' ? '' : '%';
+  return `<div class="grt-w"><table class="grt"><thead><tr><th></th>${sr.terms.map(t => `<th>${esc(t)}</th>`).join('')}</tr></thead><tbody>${sr.lines.map(l => `<tr><th><span class="grt-dot" style="background:hsl(${l.hue} 70% 50%)"></span>${esc(l.t)}</th>${l.pts.map(v => `<td>${v == null ? '—' : v + u}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+function gradeRecHtml() {
+  const recs = grecAll();
+  const head = `<div class="h-sec"><h2>${ms('show_chart')}テストの推移</h2><span class="sp"></span><button class="btn tonal xs" data-act="grnew">${ms('add')}記録する</button></div>`;
+  if (!recs.length) return head + `<div class="card muted" style="font-weight:500;line-height:1.8">テストの点数と偏差値を記録すると、テストの種類ごと・学期ごとの推移が折れ線グラフで出ます。<br>例：「Aテスト」の1〜3学期と、「Bテスト」の1〜3学期を、それぞれ別の線で見られます。</div>`;
+  const sr = grSeries(), subs = grSubjects(), has = sr.lines.some(l => l.pts.some(v => v != null));
+  const sorted = recs.slice().sort((a, b) => String(a.date || '9999').localeCompare(String(b.date || '9999')) || (a.at || 0) - (b.at || 0));
+  return head + `<div class="card gr-card">
+    <div class="gr-ctl">
+      <div class="wx-seg" role="radiogroup" aria-label="指標"><button type="button" role="radio" aria-checked="${GRV.m === 'rate'}" class="wx-sg ${GRV.m === 'rate' ? 'on' : ''}" data-act="grmetric" data-id="rate">得点率</button><button type="button" role="radio" aria-checked="${GRV.m === 'dev'}" class="wx-sg ${GRV.m === 'dev' ? 'on' : ''}" data-act="grmetric" data-id="dev">偏差値</button></div>
+      <div class="wx-seg gr-subs" role="radiogroup" aria-label="教科"><button type="button" role="radio" aria-checked="${!GRV.s}" class="wx-sg ${!GRV.s ? 'on' : ''}" data-act="grsubj" data-id="">全教科の平均</button>${subs.map(n => `<button type="button" role="radio" aria-checked="${GRV.s === n}" class="wx-sg ${GRV.s === n ? 'on' : ''}" data-act="grsubj" data-id="${esc(n)}">${esc(n)}</button>`).join('')}</div>
+    </div>
+    ${has ? `${grChart(sr)}<div class="lg-row">${sr.lines.map(l => `<span class="lg"><i style="background:hsl(${l.hue} 70% 50%)"></i><span>${esc(l.t)}</span></span>`).join('')}</div>${grTable(sr)}` : `<p class="muted" style="margin:8px 0 0;font-weight:500">この教科・指標の記録は、まだありません。</p>`}
+    <div class="gr-list"><div class="lbl" style="margin:14px 0 6px">記録した回（新しい順）</div>${sorted.slice().reverse().map(e => `<div class="gr-it"><div class="gr-it-t"><b>${esc(e.type)}・${esc(e.term)}</b><small>${e.date ? fmtDate(e.date) + ' ・ ' : ''}${(e.rows || []).map(r => `${esc(r.n)} ${r.s}/${r.f}${r.d != null ? ` 偏${r.d}` : ''}`).join('、')}</small></div><button type="button" class="ibtn" data-act="grnew" data-id="${esc(e.id)}" aria-label="直す">${ms('edit')}</button><button type="button" class="ibtn" data-act="grdel" data-id="${esc(e.id)}" aria-label="消す">${ms('delete')}</button></div>`).join('')}</div>
+  </div>`;
+}
+const grRowHtml = r => `<div class="gr-row"><input class="grn" maxlength="12" placeholder="教科" value="${esc(r.n || '')}" aria-label="教科"><input class="grs" type="number" inputmode="decimal" min="0" placeholder="点数" value="${r.s ?? ''}" aria-label="点数"><span class="gr-sl">/</span><input class="grf" type="number" inputmode="decimal" min="1" placeholder="満点" value="${r.f ?? 100}" aria-label="満点"><input class="grdv" type="number" inputmode="decimal" min="0" max="100" placeholder="偏差値" value="${r.d ?? ''}" aria-label="偏差値"><button type="button" class="ibtn" data-act="grrowdel" aria-label="この行を消す">${ms('close')}</button></div>`;
+function grFormDlg(id) {
+  const e = id ? grecAll().find(x => x.id === id) : null;
+  const kinds = [...new Set(grecAll().map(x => x.type))];
+  const termNow = e ? e.term : '1学期', isOther = !GR_TERMS.includes(termNow);
+  const seed = e ? e.rows : (subjects().map(x => x.name).slice(0, 5).concat(['', '', '']).slice(0, 5)).map(n => ({ n, s: '', f: 100, d: null }));
+  openDlg(`<h2>${ms('edit_note')}${e ? 'テストの記録を直す' : 'テストの点数を記録'}</h2>
+    <div class="fld"><label for="grk">テストの種類</label><input id="grk" list="grkl" maxlength="20" value="${esc(e ? e.type : '')}" placeholder="例：Aテスト"><datalist id="grkl">${kinds.map(k => `<option value="${esc(k)}">`).join('')}</datalist></div>
+    <div class="fld"><label for="grterm">学期</label><select id="grterm">${[...GR_TERMS, 'その他'].map(t => `<option value="${t}" ${(isOther ? 'その他' : termNow) === t ? 'selected' : ''}>${t}</option>`).join('')}</select></div>
+    <div class="fld" id="grtxw" ${isOther ? '' : 'hidden'}><label for="grtx">学期の名前</label><input id="grtx" maxlength="12" value="${esc(isOther ? termNow : '')}" placeholder="例：学年末"></div>
+    <div class="fld"><label for="grd">日付（わかれば）</label><input id="grd" type="date" value="${esc(e && e.date || '')}"></div>
+    <div class="gr-head"><span>教科</span><span>点数</span><span></span><span>満点</span><span>偏差値</span><span></span></div>
+    <div id="grrows">${seed.map(grRowHtml).join('')}</div>
+    <button type="button" class="btn text sm" data-act="grrowadd">${ms('add')}教科を追加</button>
+    <div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">やめる</button><button type="button" class="btn" data-act="grsave" data-id="${esc(id || '')}">保存する</button></div>`);
+  const sel = $('#grterm'), w = $('#grtxw');
+  if (sel && w) sel.onchange = () => { w.hidden = sel.value !== 'その他'; };
+}
+Object.assign(ACT, {
+  grnew(id) { grFormDlg(id || ''); },
+  grmetric(m) { GRV.m = m === 'dev' ? 'dev' : 'rate'; render(); },
+  grsubj(n) { GRV.s = n || ''; render(); },
+  grrowadd() { const w = $('#grrows'); if (w) w.insertAdjacentHTML('beforeend', grRowHtml({ n: '', s: '', f: 100, d: null })); },
+  grrowdel(_, b) { const row = b && b.closest('.gr-row'); if (row) row.remove(); },
+  grsave(id) {
+    const type = (($('#grk') || {}).value || '').trim().slice(0, 20);
+    let term = (($('#grterm') || {}).value || '1学期');
+    if (term === 'その他') term = (($('#grtx') || {}).value || '').trim().slice(0, 12);
+    if (!type) return toast('テストの種類を入れてください');
+    if (!term) return toast('学期の名前を入れてください');
+    const rows = [...document.querySelectorAll('#grrows .gr-row')].map(r => {
+      const n = (r.querySelector('.grn').value || '').trim().slice(0, 12), s = parseFloat(r.querySelector('.grs').value), f = parseFloat(r.querySelector('.grf').value) || 100, dv = parseFloat(r.querySelector('.grdv').value);
+      return n && !isNaN(s) && s >= 0 ? { n, s, f: f > 0 ? f : 100, d: !isNaN(dv) ? dv : null } : null;
+    }).filter(Boolean);
+    if (!rows.length) return toast('教科名と点数を、1つ以上入れてください');
+    const date = (($('#grd') || {}).value || '');
+    const rec = { id: id || uid(), type, term, date, rows, at: Date.now() };
+    const list = grecAll().filter(x => x.id !== rec.id); list.push(rec);
+    S.grec = list; save(); closeDlg(); toast(id ? '記録を直しました' : '記録しました'); render();
+  },
+  grdel(id) { const e = grecAll().find(x => x.id === id); if (!e) return; okDlg('この記録を消しますか？', `「${esc(e.type)}・${esc(e.term)}」の記録を消します。`, '消す', () => { S.grec = grecAll().filter(x => x.id !== id); save(); render(); toast('記録を消しました'); }); },
+});
 /* 暗記クイズ */
 const QD = {
   pref: ['都道府県 → 県庁所在地', '北海道,札幌市;青森県,青森市;岩手県,盛岡市;宮城県,仙台市;秋田県,秋田市;山形県,山形市;福島県,福島市;茨城県,水戸市;栃木県,宇都宮市;群馬県,前橋市;埼玉県,さいたま市;千葉県,千葉市;東京都,東京（新宿区）;神奈川県,横浜市;新潟県,新潟市;富山県,富山市;石川県,金沢市;福井県,福井市;山梨県,甲府市;長野県,長野市;岐阜県,岐阜市;静岡県,静岡市;愛知県,名古屋市;三重県,津市;滋賀県,大津市;京都府,京都市;大阪府,大阪市;兵庫県,神戸市;奈良県,奈良市;和歌山県,和歌山市;鳥取県,鳥取市;島根県,松江市;岡山県,岡山市;広島県,広島市;山口県,山口市;徳島県,徳島市;香川県,高松市;愛媛県,松山市;高知県,高知市;福岡県,福岡市;佐賀県,佐賀市;長崎県,長崎市;熊本県,熊本市;大分県,大分市;宮崎県,宮崎市;鹿児島県,鹿児島市;沖縄県,那覇市'],
@@ -7467,7 +7738,7 @@ async function snStart() {
   if (!CLOUD.fb) throw new Error('nofb');
   if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
   const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
-  const model = AI.mod.getGenerativeModel(ai, { model: window.AI_MODEL || 'gemini-3.5-flash-lite', systemInstruction: snSys() });
+  const model = AI.mod.getGenerativeModel(ai, { model: aiModel(), systemInstruction: snSys() });
   const hist = snHistory();
   SN.chat = hist.length ? model.startChat({ history: hist }) : model.startChat();
   SN.sig = snSig();
@@ -9767,7 +10038,7 @@ function updPgHtml(i) {
   <div class="ob-art ${UPG.dir || 'fwd'}"><div class="ob-blob"></div><div class="obm-wrap upd-art">${art}</div></div>
   <div class="ob-txt ${UPG.dir || 'fwd'}"><small class="ob-step">${i + 1} / ${UPG.pages.length}</small><h2>${title}</h2>${body}</div>
   <div class="ob-dots">${UPG.pages.map((_, k) => `<i class="${k === i ? 'on' : ''}"></i>`).join('')}</div>
-  <div class="ob-foot">${i ? '<button type="button" class="btn text" data-act="updprev">戻る</button>' : '<span></span>'}<span class="sp"></span><button type="button" class="btn ob-next" data-act="${last ? 'updclose' : 'updnext'}">${last ? 'はじめる' : '次へ'}${ms(last ? 'check' : 'arrow_forward')}</button></div></div>`;
+  <div class="ob-foot"><button type="button" class="btn text ob-skip" data-act="updclose">${ms('skip_next')}スキップ</button>${i ? '<button type="button" class="btn text" data-act="updprev">戻る</button>' : ''}<span class="sp"></span><button type="button" class="btn ob-next" data-act="${last ? 'updclose' : 'updnext'}">${last ? 'はじめる' : '次へ'}${ms(last ? 'check' : 'arrow_forward')}</button></div></div>`;
 }
 function whatsNewDlg(last) {
   const all = CHANGELOG.filter(e => verCmp(e.v, last) > 0 && verCmp(e.v, APP_VERSION) <= 0), list = all.slice(0, 6);
@@ -10374,7 +10645,16 @@ const FONT_SHOP = {
   tokumin: { n: '太い明朝（かっこいい）', c: 300, lv: 16, fam: 'Kaisei+Tokumin:wght@400;700;800', stack: '"Kaisei Tokumin","Hiragino Mincho ProN","Yu Mincho",serif', d: '太くて品のある明朝です（レベル16で解放）' },
   kurenaido: { n: '筆ペン風の手書き', c: 200, fam: 'Zen+Kurenaido', stack: '"Zen Kurenaido","Noto Sans JP",sans-serif', d: 'さらっとした筆ペンの字です' }
 };
-const SHOP_MAP = { bg: HOME_BG, sfx: SFX_T, theme: THEME_SHOP, font: FONT_SHOP };
+// AIのモデル（AIに質問・要約・翻訳で使う）。名前と特徴は、Googleの公式の発表による。ショップで買って、選ぶ
+const AI_STD = 'gemini-3.5-flash-lite';   // 標準（最初から使える。firebase-config.js の AI_MODEL と同じ）
+const AI_SHOP = {
+  'gemini-3.5-flash-lite': { n: 'Gemini 3.5 Flash-Lite（標準）', c: 0, d: '速くて、料金も安いモデルです。かんたんな質問や、ふつうの要約に向いています' },
+  'gemini-3.8-flash': { n: 'Gemini 3.8 Flash', c: 400, lv: 6, d: '2026年9月に出た、バランス型のモデルです。標準より賢く、考えるステップが多い説明や、長めの文章の整理が得意です。無料で使えるとされています' },
+  'gemini-4-hydrogen': { n: 'Gemini 4 Hydrogen', c: 800, lv: 10, d: '2026年11月に出た、第4世代の速いモデルです。日常の勉強や、ていねいな解き方の説明に向いています。Googleは、3.8 Flashより速いとしています。無料で使えるとされています' }
+};
+const aiLabel = id => (AI_SHOP[id] ? AI_SHOP[id].n : id);
+function aiModel() { try { const g = growGet(); if (g.ai && shopHas('ai', g.ai)) return g.ai; } catch (e) { } return window.AI_MODEL || AI_STD; }   // いま使うモデル（ショップで選んだもの。なければ標準）
+const SHOP_MAP = { bg: HOME_BG, sfx: SFX_T, theme: THEME_SHOP, font: FONT_SHOP, ai: AI_SHOP };
 // 買っている、または、レベルで使える（lv があって c が 0のもの）
 function shopHas(kind, id) { const map = SHOP_MAP[kind], it = map && map[id]; if (!it) return false; if (growGet().owned[kind].includes(id)) return true; if (it.free) return level().L >= it.lv; return !it.c && (!it.lv || level().L >= it.lv); }
 // 集中・休憩の時間の選択肢（レベルで増える）
@@ -10384,11 +10664,11 @@ const LV_REWARD = { 2: 'XPショップが使えるようになりました', 4: 
 function growGet() {
   // 友達・プロフィールは、アカウントの状態（S.soc）に入れて、どの端末でも同じにする（以前の端末ごとの保存も引き継ぐ）
   const g = lsj(GROW_KEY, null) || {}, so = (S.soc && typeof S.soc === 'object') ? S.soc : g;
-  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [], theme: (g.owned && g.owned.theme) || [], font: (g.owned && g.owned.font) || ['def'] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', theme: g.theme || '', font: g.font || 'def', lvSeen: g.lvSeen, code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
+  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [], theme: (g.owned && g.owned.theme) || [], font: (g.owned && g.owned.font) || ['def'], ai: (g.owned && g.owned.ai) || ['gemini-3.5-flash-lite'] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', lvSeen: g.lvSeen, code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
 }
 function growPut(g) {
   const soc = { code: g.code || '', nick: g.nick || '', av: g.av || '', shared: !!g.shared, friends: g.friends || [], at: g.at || {}, rm: g.rm || {} };
-  lss(GROW_KEY, { spent: g.spent || 0, owned: g.owned, bg: g.bg, sfx: g.sfx, theme: g.theme || '', font: g.font || 'def', lvSeen: g.lvSeen });
+  lss(GROW_KEY, { spent: g.spent || 0, owned: g.owned, bg: g.bg, sfx: g.sfx, theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', lvSeen: g.lvSeen });
   const before = JSON.stringify(S.soc || null); S.soc = soc;
   if (JSON.stringify(soc) !== before) save();
 }
@@ -10540,21 +10820,22 @@ function growEntryHtml(L) {
 function shopHtml() {
   const g = growGet(), sp = spendXp();
   const card = (kind, id, it) => {
-    const has = shopHas(kind, id), eq = g[kind] === id, locked = !!it.lv && !it.free && level().L < it.lv;
-    const sw = kind === 'bg' ? (it.css ? `background:${it.css}` : 'background:linear-gradient(135deg,var(--pc),var(--s3))') : kind === 'theme' ? 'background:linear-gradient(135deg,#ff7a3d,#8a1f0c 60%,#1a0a06)' : kind === 'font' ? 'background:var(--pc)' : '';
-    const ic = kind === 'sfx' ? ms('music_note') : kind === 'theme' ? ms('local_fire_department') : kind === 'font' ? `<span class="fnt-s" style='font-family:${it.stack}'>あ</span>` : '';
+    const has = shopHas(kind, id), eq = kind === 'ai' ? aiModel() === id : g[kind] === id, locked = !!it.lv && !it.free && level().L < it.lv;
+    const sw = kind === 'bg' ? (it.css ? `background:${it.css}` : 'background:linear-gradient(135deg,var(--pc),var(--s3))') : kind === 'theme' ? 'background:linear-gradient(135deg,#ff7a3d,#8a1f0c 60%,#1a0a06)' : kind === 'font' ? 'background:var(--pc)' : kind === 'ai' ? 'background:linear-gradient(135deg,#4285f4,#9b72cb 55%,#e0637a)' : '';
+    const ic = kind === 'sfx' ? ms('music_note') : kind === 'theme' ? ms('local_fire_department') : kind === 'font' ? `<span class="fnt-s" style='font-family:${it.stack}'>あ</span>` : kind === 'ai' ? gem(22) : '';
     const prev = kind === 'theme' ? `<button type="button" class="btn text xs" data-act="themeprev" data-id="${id}">${ms('visibility')}見る</button>` : kind === 'bg' ? `<button class="btn text xs" data-act="bgprev" data-id="${id}">${ms('visibility')}見る</button>` : kind === 'sfx' ? `<button class="btn text xs" data-act="shoptry" data-id="${id}">${ms('play_arrow')}試す</button>` : kind === 'font' ? `<button class="btn text xs" data-act="fontprev" data-id="${id}">${ms('visibility')}見る</button>` : '';
     const act = locked ? `<button class="btn xs" disabled>${ms('lock')}Lv.${it.lv}で解放</button>`
       : eq ? (kind === 'theme' ? `<button class="btn tonal xs" data-act="shopeq" data-id="theme:none">${ms('undo')}標準にもどす</button>` : `<button class="btn xs" disabled>${ms('check')}使用中</button>`)
       : has ? `<button class="btn tonal xs" data-act="shopeq" data-id="${kind}:${id}">${ms('done')}使う</button>`
       : `<button class="btn xs" data-act="shopbuy" data-id="${kind}:${id}" ${sp < it.c ? 'disabled' : ''}>${ms('shopping_cart')}${it.c} XP</button>`;
-    const state = eq ? '使用中' : locked ? `Lv.${it.lv}で解放` : has ? (g.owned[kind].includes(id) ? '購入済み' : 'レベルで解放ずみ') : `${it.c} XP`;
+    const state = eq ? '使用中' : locked ? `Lv.${it.lv}で解放` : has ? (kind === 'ai' && it.c === 0 ? '最初から使えます' : g.owned[kind].includes(id) ? '購入済み' : 'レベルで解放ずみ') : `${it.c} XP`;
     return `<div class="shop-i ${eq ? 'eq' : ''}"><div class="shop-sw" style="${sw}">${ic}</div><div class="shop-t"><b>${esc(it.n)}</b><small>${state}</small>${it.d ? `<small>${esc(it.d)}</small>` : ''}</div><div class="shop-a">${prev}${act}</div></div>`;
   };
   return `<h2 class="noti-h">${ms('storefront')}<span>XPショップ</span><em class="noti-cnt">使えるXP ${sp}</em></h2><p class="muted" style="font-weight:500;margin:0 0 6px">XPを使っても、レベルは下がりません。レベルで使えるようになるものもあります（レベルの特典で確認できます）。</p>` +
     `<h3 class="shop-h">テーマ</h3><div class="shop-l">${Object.entries(THEME_SHOP).map(([id, it]) => card('theme', id, it)).join('')}</div>` +
     `<h3 class="shop-h">ホームの背景</h3><div class="shop-l">${Object.entries(HOME_BG).map(([id, it]) => card('bg', id, it)).join('')}</div>` +
     `<h3 class="shop-h">効果音</h3><div class="shop-l">${Object.entries(SFX_T).map(([id, it]) => card('sfx', id, it)).join('')}</div>` + `<h3 class="shop-h">フォント（アプリ全体）</h3><div class="shop-l">${Object.entries(FONT_SHOP).map(([id, it]) => card('font', id, it)).join('')}</div>` +
+    `<h3 class="shop-h">AIのモデル</h3><p class="muted" style="font-weight:500;margin:0 0 6px">いま使っているのは「${esc(aiLabel(aiModel()))}」です。AIに質問・要約・翻訳に使われます。モデルごとに、速さ・賢さ・料金が違います。それぞれの説明を見て選んでください。モデルを変えても、1日に使える回数は同じです。</p><div class="shop-l">${Object.entries(AI_SHOP).map(([id, it]) => card('ai', id, it)).join('')}</div>` +
     `<h3 class="shop-h">ツール</h3><div class="shop-l">${Object.entries(TOOL_SHOP).map(([id, it]) => toolShopCard(id, it)).join('')}</div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
 }
 // 背景のプレビュー（買う前に、ホームの見た目を試せる）
@@ -10671,14 +10952,14 @@ Object.assign(ACT, {
     if (shopHas(kind, id)) return;
     if (it.lv && !it.free && level().L < it.lv) return toast(`Lv.${it.lv}で解放されます`);
     const g = growGet(), sp = spendXp(); if (sp < it.c) return toast(`XPが${it.c - sp}足りません`);
-    g.spent += it.c; g.owned[kind] = [...(g.owned[kind] || []), id]; g[kind] = id; growPut(g);
+    g.spent += it.c; g.owned[kind] = [...(g.owned[kind] || []), id]; g[kind] = id; if (kind === 'ai') AI.chat = null; growPut(g);
     applyHomeBg(); applyTheme(); if (kind === 'theme') volcanoFx(); toast(`${it.n}を買って、使い始めました`); shopRedraw();
   },
   shopeq(v) {
     const [kind, id] = String(v).split(':'), g = growGet();
     if (kind === 'theme' && id === 'none') { g.theme = ''; growPut(g); applyTheme(); toast('標準の色にもどしました'); return shopRedraw(); }
     if (!shopHas(kind, id)) return;
-    g[kind] = id; growPut(g); applyHomeBg(); applyTheme(); if (kind === 'theme') volcanoFx(); toast('使うものを変えました'); shopRedraw();
+    g[kind] = (kind === 'ai' && id === AI_STD) ? '' : id; if (kind === 'ai') AI.chat = null; growPut(g); applyHomeBg(); applyTheme(); if (kind === 'theme') volcanoFx(); toast('使うものを変えました'); shopRedraw();
   },
   fontprev(id) { fontPrevDlg(id); },
   themeprev(id) {
@@ -11035,7 +11316,7 @@ function fabDir() {
   const r = b.getBoundingClientRect(); if (!r.width) return;
   f.classList.toggle('up', r.top + r.height / 2 > innerHeight / 2); f.classList.toggle('rt', r.left + r.width / 2 > innerWidth / 2);   // メニューは、画面の中心の側に向かって開く
 }
-function fabApply() { const f = $('#fab'); if (!f) return; ['left', 'top', 'right', 'bottom'].forEach(k => f.style.removeProperty(k)); fabDir(); }
+function fabApply() { const f = $('#fab'); if (!f) return; ['left', 'top', 'right', 'bottom'].forEach(k => f.style.removeProperty(k)); if (f.firstElementChild && f.dataset.lay !== (isPhoneUI() ? 'p' : 'w')) renderFab(); fabDir(); }
 try { localStorage.removeItem('kosa-fab'); } catch (e) { }   // 以前に動かした位置は、わすれる（もとの場所にもどる）
 window.addEventListener('resize', fabApply); window.addEventListener('orientationchange', () => setTimeout(fabApply, 300));
 setTimeout(fabApply, 0);
