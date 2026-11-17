@@ -566,8 +566,8 @@
         <span id="faceStyleLabel" class="hidden xl:inline">顔ON</span>
       </button>
 
-      <!-- BGM 4曲切替ボタン -->
-      <button id="bgmTrackBtn" type="button" title="BGMの楽曲を切り替え（全4曲）"
+      <!-- BGM 6曲切替ボタン -->
+      <button id="bgmTrackBtn" type="button" title="BGMの楽曲を切り替え（全6曲）"
         class="jelly-btn px-2.5 py-1 rounded-full bg-amber-950/80 hover:bg-amber-950 text-amber-100 text-[11px] font-black flex items-center gap-1 shadow-sm">
         <span class="material-symbols-rounded text-amber-300 text-sm">queue_music</span>
         <span id="bgmTrackName" class="hidden sm:inline">1.陽だまりラグタイム</span>
@@ -953,11 +953,15 @@
     }
 
     /**
-     * 2. スイカゲーム風・高再現度マルチ楽器3D立体音響 Web Audio API エンジン（全4曲）
+     * 2. スイカゲーム風・高再現度マルチ楽器3D立体音響 Web Audio API エンジン（全6曲）
      * - 本家スイカゲーム特有の「木琴（マリンバ）のコロコロした倍音＋打撃トランジェント」
      * - 「クラリネット/木管の温かい奇数倍音＋ビブラート＋装飾音（グレースノート）」
      * - 「チューバ/ウッドベースの1・3拍バウンス＆ストライドピアノの2・4拍裏打ち（ブン・チャッ・ブン・チャッ）」
      * - 「ウッドブロック（カッ・コッ）とブラシスネア」を物理モデリング風に合成します。
+     * - 追加: ストリングス／コーラスのパッド、チェレスタ・グロッケン・ハープ・フルート・ピチカート、
+     *   ブラス・スタブ、太鼓（タム・フィル）、シェイカー・ハイハット・クラップ、
+     *   重低音シンセ（サブベース＋ノコギリ波リード＋フィルタースイープ＋ポンピング）の2曲。
+     *   全楽器はWebAudioの発振器・ノイズ・フィルターで合成（音源ファイル・通信は不使用）。
      */
     const BGM_TRACKS = [
       {
@@ -965,6 +969,13 @@
         name: '1.陽だまりラグタイム',
         tempo: 126,
         style: 'suika_rag',
+        groove: 'rag',
+        hat: 'shaker', fill: true, vol: 0.85,
+        pad: 'strings',
+        arp: 'harp',
+        brass: true, brassVel: 0.6,
+        counter: true, counterInst: 'flute',
+        alt: { marimba: 'glock', clarinet: 'flute' },
         chords: [
           [60, 64, 67, 72], // C
           [69, 73, 76, 79], // A7
@@ -1045,6 +1056,14 @@
         name: '2.わくわく実験マーチ',
         tempo: 130,
         style: 'lab_march',
+        groove: 'march',
+        hat: 'hat', fill: true, vol: 0.85,
+        pad: 'strings',
+        arp: 'celesta',
+        brass: true, brassVel: 1.0,
+        timp: true,
+        counter: true, counterInst: 'flute',
+        alt: { marimba: 'glock' },
         chords: [
           [65, 69, 72, 77], // F
           [60, 64, 67, 70], // C7
@@ -1115,6 +1134,12 @@
         name: '3.トロピカル分子ボサ',
         tempo: 116,
         style: 'bossa',
+        groove: 'bossa',
+        hat: 'shaker', fill: true, vol: 0.85,
+        pad: 'choir',
+        arp: 'harp',
+        counter: true, counterInst: 'pizz',
+        alt: { clarinet: 'flute' },
         chords: [
           [65, 69, 72, 76], // Fmaj7
           [64, 67, 71, 74], // Em7
@@ -1185,6 +1210,12 @@
         name: '4.星空オルゴール',
         tempo: 96,
         style: 'musicbox',
+        groove: 'chill',
+        fill: true, vol: 0.8,
+        pad: 'strings',
+        arp: 'celesta',
+        counter: true, counterInst: 'flute',
+        alt: { marimba: 'celesta' },
         chords: [
           [63, 67, 70, 74], // Ebmaj7
           [62, 65, 69, 72], // Dm7
@@ -1249,17 +1280,104 @@
             null, null, null, null
           ]
         ]
+      },
+      {
+        // Track 5: ネオン・サブベース（136BPM・シンセウェーブ／エレクトロ。重低音サブ＋ノコギリ波リード＋フィルタースイープ）
+        name: '5.ネオン・サブベース',
+        tempo: 136,
+        style: 'synth',
+        groove: 'synth',
+        pad: 'synth',
+        arp: 'pluck',
+        kickSteps: [0, 4, 8, 12],
+        subPat: [0, null, 0, 12, 0, null, 7, 12], // 8分音符ごとの根音からの半音オフセット（null は休符）
+        riser: true,
+        vol: 0.35,
+        chords: [
+          [57, 60, 64, 69], // Am
+          [53, 57, 60, 65], // F
+          [60, 64, 67, 72], // C
+          [55, 59, 62, 67], // G
+          [57, 60, 64, 69], // Am
+          [53, 57, 60, 65], // F
+          [62, 65, 69, 74], // Dm7
+          [64, 68, 71, 74]  // E7
+        ],
+        bass: [
+          [33, 40], [29, 36], [36, 43], [31, 38],
+          [33, 40], [29, 36], [38, 45], [40, 47]
+        ],
+        // リード（8分音符ごと・8個／小節）
+        lead: [
+          [69, null, 72, 76, 74, null, 72, 69],
+          [72, null, 77, 76, 72, null, 69, null],
+          [76, null, 79, 79, 76, 72, null, 76],
+          [79, null, 83, 79, 76, 74, 71, null],
+          [69, null, 72, 76, 81, null, 79, 76],
+          [77, null, 72, 69, null, 72, 77, 81],
+          [74, null, 77, 81, 79, null, 77, 74],
+          [76, null, 80, 83, null, 81, 80, 76]
+        ]
+      },
+      {
+        // Track 6: メルトダウン・ドライブ（140BPM・ダークなエレクトロ。ハードな低音と跳ねるキック）
+        name: '6.メルトダウン・ドライブ',
+        tempo: 140,
+        style: 'synth',
+        groove: 'synth',
+        pad: 'synth',
+        arp: null,
+        kickSteps: [0, 6, 8, 14],
+        subPat: [0, 0, 12, 0, 0, 7, 0, 12],
+        riser: true,
+        vol: 0.35,
+        chords: [
+          [62, 65, 69, 72], // Dm
+          [58, 62, 65, 70], // Bb
+          [53, 57, 60, 65], // F
+          [60, 64, 67, 72], // C
+          [55, 58, 62, 67], // Gm
+          [58, 62, 65, 70], // Bb
+          [57, 61, 64, 67], // A7
+          [62, 65, 69, 72]  // Dm
+        ],
+        bass: [
+          [38, 45], [34, 41], [29, 36], [36, 43],
+          [31, 38], [34, 41], [33, 40], [38, 45]
+        ],
+        lead: [
+          [74, null, 77, 81, 79, null, 77, 74],
+          [70, null, 74, 77, 77, null, 74, 70],
+          [65, null, 69, 72, 72, null, 69, 65],
+          [72, null, 76, 79, 79, null, 76, 72],
+          [70, null, 74, 77, 79, null, 77, 74],
+          [70, null, 74, 77, 81, null, 77, 70],
+          [73, null, 76, 79, 81, null, 79, 76],
+          [74, null, 77, 81, 84, null, 81, 77]
+        ]
       }
     ];
+
+    const BGM_BASE_GAIN = 0.45;  // BGMバスの基準音量（曲ごとの vol を掛けて使う）
+    const BGM_MAX_VOICES = 56;   // BGMの同時発音数の上限（iPad Safari の負荷対策）
+    // 鐘・木琴系の倍音定義 [倍音比, 音量比, 減衰秒]
+    const CELESTA_PARTIALS = [[1, 1.0, 1.1], [4, 0.28, 0.45]];
+    const GLOCK_PARTIALS = [[1, 1.0, 1.0], [2.76, 0.35, 0.35], [5.4, 0.12, 0.12]];
+    const HARP_PARTIALS = [[1, 1.0, 0.9], [2, 0.3, 0.45]];
+    // パッドの音色設定（ストリングス＝柔らかい / シンセ＝フィルタースイープ）
+    const PAD_STRINGS = { lo: 900, hi: 2200, end: 1500, peakAt: 0.6, q: 0.7, attack: 0.35, release: 0.3 };
+    const PAD_SYNTH = { lo: 260, hi: 1700, end: 700, peakAt: 0.7, q: 2.5, attack: 0.12, release: 0.25 };
 
     class SpatialLabAudioEngine {
       constructor() {
         this.ctx = null;
         this.masterGain = null;
         this.bgmBus = null;
+        this.bgmLimiter = null;
         this.sfxBus = null;
         this.analyser = null;
         this.noiseBuffer = null;
+        this.voiceSlots = null;
 
         this.bgmEnabled = true;
         this.sfxEnabled = true;
@@ -1290,7 +1408,15 @@
           this.analyser.fftSize = 32;
 
           this.bgmBus = this.ctx.createGain();
-          this.bgmBus.gain.value = this.bgmEnabled ? 0.52 : 0.0;
+          this.bgmBus.gain.value = this.bgmEnabled ? BGM_BASE_GAIN * (BGM_TRACKS[this.trackIndex].vol || 1) : 0.0;
+
+          // BGM専用リミッター（多層化したBGMの歪み防止。SEの経路には入れない）
+          this.bgmLimiter = this.ctx.createDynamicsCompressor();
+          this.bgmLimiter.threshold.value = -9;
+          this.bgmLimiter.knee.value = 4;
+          this.bgmLimiter.ratio.value = 12;
+          this.bgmLimiter.attack.value = 0.003;
+          this.bgmLimiter.release.value = 0.12;
 
           this.sfxBus = this.ctx.createGain();
           this.sfxBus.gain.value = this.sfxEnabled ? 0.82 : 0.0;
@@ -1301,9 +1427,11 @@
           reverbSend.gain.value = 0.24;
 
           this.noiseBuffer = this.createWhiteNoiseBuffer(0.25);
+          this.voiceSlots = new Float64Array(BGM_MAX_VOICES);
 
-          this.bgmBus.connect(comp);
+          this.bgmBus.connect(this.bgmLimiter);
           this.bgmBus.connect(reverbSend);
+          this.bgmLimiter.connect(comp);
           this.sfxBus.connect(comp);
           this.sfxBus.connect(reverbSend);
 
@@ -1363,23 +1491,54 @@
         return 440 * Math.pow(2, (midi - 69) / 12);
       }
 
+      /**
+       * 同時発音数の管理。空きスロットがあり上限未満なら発音を許可し、終了時刻を記録する。
+       * prio 0: 主旋律・ベース・キック（常に許可）/ prio 1: パッド・アルペジオ・対旋律 / prio 2: 細かな打楽器
+       */
+      allocVoice(endTime, prio = 0) {
+        const slots = this.voiceSlots;
+        if (!slots) return false;
+        const now = this.ctx.currentTime;
+        let active = 0;
+        let free = -1;
+        for (let i = 0; i < slots.length; i++) {
+          if (slots[i] > now) {
+            active++;
+          } else if (free < 0) {
+            free = i;
+          }
+        }
+        const cap = prio === 0 ? slots.length : (prio === 1 ? 36 : 28);
+        if (free < 0 || active >= cap) return false;
+        slots[free] = endTime;
+        return true;
+      }
+
+      applyBgmLevel() {
+        if (!this.bgmBus || !this.ctx) return;
+        const vol = BGM_TRACKS[this.trackIndex].vol || 1;
+        this.bgmBus.gain.setTargetAtTime(this.bgmEnabled ? BGM_BASE_GAIN * vol : 0.0, this.ctx.currentTime, 0.08);
+      }
+
       nextTrack() {
         this.init();
         this.trackIndex = (this.trackIndex + 1) % BGM_TRACKS.length;
         this.currentStep = 0;
+        this.applyBgmLevel();
         return BGM_TRACKS[this.trackIndex].name;
       }
 
       /**
        * アコースティック・ストライドピアノ / ウクレレ裏打ちコード（わずかなストラム時間差で人間味を再現）
        */
-      playAcousticStrideChord(chordNotes, time, dur, style, pan = -0.3) {
+      playAcousticStrideChord(chordNotes, time, dur, style, pan = -0.3, vmul = 1) {
         if (!this.ctx || !this.bgmEnabled) return;
         const panner = this.createPanner(pan);
         panner.connect(this.bgmBus);
 
         chordNotes.forEach((midi, idx) => {
           const noteTime = time + idx * 0.009; // 9msずつの自然なストローク/打鍵ズレ
+          if (!this.allocVoice(noteTime + dur + 0.02, 1)) return;
           const freq = this.mtof(midi);
 
           const osc1 = this.ctx.createOscillator();
@@ -1391,7 +1550,7 @@
           osc1.frequency.setValueAtTime(freq, noteTime);
           osc2.frequency.setValueAtTime(freq * 2, noteTime);
 
-          const peak = style === 'suika_rag' ? 0.062 : 0.052;
+          const peak = (style === 'suika_rag' ? 0.062 : 0.052) * vmul;
           amp.gain.setValueAtTime(0.0001, noteTime);
           amp.gain.linearRampToValueAtTime(peak, noteTime + 0.008);
           amp.gain.exponentialRampToValueAtTime(0.0008, noteTime + dur);
@@ -1415,19 +1574,21 @@
       /**
        * スイカゲーム風 ローズウッド・マリンバ / シロフォン（基音 + 4倍音 + マレット打撃トランジェント）
        */
-      playWoodyMarimba(midi, time, dur, style, pan = 0.25, graceMidi = null) {
+      playWoodyMarimba(midi, time, dur, style, pan = 0.25, graceMidi = null, vmul = 1) {
         if (!this.ctx || !this.bgmEnabled) return;
 
         // 装飾音（グレースノート）がある場合は本音の32ms前にコロッと鳴らす
         if (graceMidi) {
-          this.triggerMarimbaVoice(this.mtof(graceMidi), time, 0.05, 0.09, pan - 0.1, style);
-          this.triggerMarimbaVoice(this.mtof(midi), time + 0.034, dur, 0.17, pan, style);
+          this.triggerMarimbaVoice(this.mtof(graceMidi), time, 0.05, 0.09 * vmul, pan - 0.1, style);
+          this.triggerMarimbaVoice(this.mtof(midi), time + 0.034, dur, 0.17 * vmul, pan, style);
         } else {
-          this.triggerMarimbaVoice(this.mtof(midi), time, dur, 0.165, pan, style);
+          this.triggerMarimbaVoice(this.mtof(midi), time, dur, 0.165 * vmul, pan, style);
         }
       }
 
       triggerMarimbaVoice(freq, time, dur, velocity, pan, style) {
+        const release = style === 'musicbox' ? dur * 1.4 : Math.min(dur, 0.24);
+        if (!this.allocVoice(time + release + 0.02, 0)) return;
         const panner = this.createPanner(pan);
         panner.connect(this.bgmBus);
 
@@ -1437,7 +1598,6 @@
         fund.type = 'sine';
         fund.frequency.setValueAtTime(freq, time);
 
-        const release = style === 'musicbox' ? dur * 1.4 : Math.min(dur, 0.24);
         fundAmp.gain.setValueAtTime(0.0001, time);
         fundAmp.gain.linearRampToValueAtTime(velocity, time + 0.004);
         fundAmp.gain.exponentialRampToValueAtTime(0.0008, time + release);
@@ -1481,16 +1641,17 @@
       /**
        * スイカゲーム風 クラリネット / 木管リード（奇数倍音＋ローパスフィルタ＋柔らかなビブラート）
        */
-      playClarinetWoodwind(midi, time, dur, pan = -0.25, graceMidi = null) {
+      playClarinetWoodwind(midi, time, dur, pan = -0.25, graceMidi = null, vmul = 1) {
         if (!this.ctx || !this.bgmEnabled) return;
         const startT = graceMidi ? time + 0.032 : time;
         if (graceMidi) {
-          this.triggerClarinetVoice(this.mtof(graceMidi), time, 0.045, 0.06, pan);
+          this.triggerClarinetVoice(this.mtof(graceMidi), time, 0.045, 0.06 * vmul, pan);
         }
-        this.triggerClarinetVoice(this.mtof(midi), startT, dur, 0.095, pan);
+        this.triggerClarinetVoice(this.mtof(midi), startT, dur, 0.095 * vmul, pan);
       }
 
       triggerClarinetVoice(freq, time, dur, velocity, pan) {
+        if (!this.allocVoice(time + dur + 0.02, 0)) return;
         const osc = this.ctx.createOscillator();
         const sub = this.ctx.createOscillator();
         const filter = this.ctx.createBiquadFilter();
@@ -1540,8 +1701,9 @@
       /**
        * チューバ / ウッドベース（弾むような低音ブン・チャッの「ブン」）
        */
-      playUprightBass(midi, time, dur) {
+      playUprightBass(midi, time, dur, vmul = 1) {
         if (!this.ctx || !this.bgmEnabled) return;
+        if (!this.allocVoice(time + dur + 0.02, 0)) return;
         const freq = this.mtof(midi);
         const osc1 = this.ctx.createOscillator();
         const osc2 = this.ctx.createOscillator();
@@ -1558,7 +1720,7 @@
         filter.frequency.exponentialRampToValueAtTime(freq * 1.6, time + 0.14);
 
         amp.gain.setValueAtTime(0.001, time);
-        amp.gain.linearRampToValueAtTime(0.21, time + 0.012);
+        amp.gain.linearRampToValueAtTime(0.21 * vmul, time + 0.012);
         amp.gain.exponentialRampToValueAtTime(0.001, time + dur);
 
         const sawGain = this.ctx.createGain();
@@ -1582,6 +1744,7 @@
       playToyPercussion(type, time) {
         if (!this.ctx || !this.bgmEnabled) return;
         if (type === 'kick') {
+          if (!this.allocVoice(time + 0.12, 0)) return;
           const osc = this.ctx.createOscillator();
           const amp = this.ctx.createGain();
           osc.type = 'sine';
@@ -1594,6 +1757,7 @@
           osc.start(time);
           osc.stop(time + 0.12);
         } else if (type === 'woodblock_hi' || type === 'woodblock_lo') {
+          if (!this.allocVoice(time + 0.04, 2)) return;
           const osc = this.ctx.createOscillator();
           const amp = this.ctx.createGain();
           const panner = this.createPanner(type === 'woodblock_hi' ? 0.38 : 0.25);
@@ -1609,6 +1773,7 @@
           osc.start(time);
           osc.stop(time + 0.04);
         } else if (type === 'brush' && this.noiseBuffer) {
+          if (!this.allocVoice(time + 0.06, 2)) return;
           const src = this.ctx.createBufferSource();
           src.buffer = this.noiseBuffer;
           const filter = this.ctx.createBiquadFilter();
@@ -1628,15 +1793,562 @@
         }
       }
 
-      scheduleStep(step, time) {
-        const track = BGM_TRACKS[this.trackIndex];
-        const stepDur = 60 / track.tempo / 4;
-        const bar = Math.floor(step / 16) % track.chords.length;
-        const beatStep = step % 16;
+      /* ---------- 追加楽器（すべてWebAudioの発振器・ノイズ・フィルターで合成） ---------- */
 
-        const chord = track.chords[bar];
-        const bassPair = track.bass[bar];
+      /** 鐘系（チェレスタ・グロッケン・ハープ）：倍音の組み合わせで音色を作る */
+      playBell(midi, time, vel, pan, partials, prio) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        let maxDecay = 0;
+        for (let i = 0; i < partials.length; i++) {
+          maxDecay = Math.max(maxDecay, partials[i][2]);
+        }
+        if (!this.allocVoice(time + maxDecay + 0.05, prio)) return;
+        const f = this.mtof(midi);
+        const panner = this.createPanner(pan);
+        for (let i = 0; i < partials.length; i++) {
+          const p = partials[i];
+          const osc = this.ctx.createOscillator();
+          const g = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(f * p[0], time);
+          g.gain.setValueAtTime(0.0001, time);
+          g.gain.linearRampToValueAtTime(vel * p[1], time + 0.004);
+          g.gain.exponentialRampToValueAtTime(0.0001, time + p[2]);
+          osc.connect(g);
+          g.connect(panner);
+          osc.start(time);
+          osc.stop(time + p[2] + 0.05);
+        }
+        panner.connect(this.bgmBus);
+      }
 
+      /** ピチカート（三角波＋減衰するローパス） */
+      playPizz(midi, time, dur, vel, pan = 0) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        const end = time + 0.4;
+        if (!this.allocVoice(end, 1)) return;
+        const osc = this.ctx.createOscillator();
+        const filter = this.ctx.createBiquadFilter();
+        const amp = this.ctx.createGain();
+        const panner = this.createPanner(pan);
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(this.mtof(midi), time);
+        filter.type = 'lowpass';
+        filter.Q.value = 0.8;
+        filter.frequency.setValueAtTime(2400, time);
+        filter.frequency.exponentialRampToValueAtTime(500, time + 0.2);
+        amp.gain.setValueAtTime(0.0001, time);
+        amp.gain.linearRampToValueAtTime(vel, time + 0.005);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + 0.35);
+        osc.connect(filter);
+        filter.connect(amp);
+        amp.connect(panner);
+        panner.connect(this.bgmBus);
+        osc.start(time);
+        osc.stop(end);
+      }
+
+      /** フルート（純音＋2倍音＋息のノイズ＋ゆるいビブラート） */
+      playFlute(midi, time, dur, vel, pan = 0) {
+        if (!this.ctx || !this.bgmEnabled || !this.noiseBuffer) return;
+        const end = time + dur + 0.05;
+        if (!this.allocVoice(end, 1)) return;
+        const f = this.mtof(midi);
+        const panner = this.createPanner(pan);
+        const amp = this.ctx.createGain();
+        const osc = this.ctx.createOscillator();
+        const second = this.ctx.createOscillator();
+        const secondGain = this.ctx.createGain();
+        const lfo = this.ctx.createOscillator();
+        const lfoGain = this.ctx.createGain();
+        const src = this.ctx.createBufferSource();
+        const breathFilter = this.ctx.createBiquadFilter();
+        const breathGain = this.ctx.createGain();
+
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f, time);
+        second.type = 'sine';
+        second.frequency.setValueAtTime(f * 2, time);
+        secondGain.gain.value = 0.18;
+        lfo.frequency.value = 5.2;
+        lfoGain.gain.setValueAtTime(0, time);
+        lfoGain.gain.linearRampToValueAtTime(f * 0.008, time + 0.25);
+        lfo.connect(lfoGain);
+        lfoGain.connect(osc.frequency);
+
+        src.buffer = this.noiseBuffer;
+        src.loop = true;
+        breathFilter.type = 'bandpass';
+        breathFilter.frequency.value = f * 3;
+        breathFilter.Q.value = 3;
+        breathGain.gain.value = 0.05;
+
+        amp.gain.setValueAtTime(0.0001, time);
+        amp.gain.linearRampToValueAtTime(vel, time + 0.07);
+        amp.gain.setValueAtTime(vel, time + dur - 0.12);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+
+        osc.connect(amp);
+        second.connect(secondGain);
+        secondGain.connect(amp);
+        src.connect(breathFilter);
+        breathFilter.connect(breathGain);
+        breathGain.connect(amp);
+        amp.connect(panner);
+        panner.connect(this.bgmBus);
+
+        osc.start(time);
+        second.start(time);
+        lfo.start(time);
+        src.start(time);
+        osc.stop(end);
+        second.stop(end);
+        lfo.stop(end);
+        src.stop(end);
+      }
+
+      /** ストリングス／コーラス／シンセのパッド（和音ごとに鳴らす。cfg で音色を切り替え） */
+      playSawPad(chord, time, dur, vel, cfg, pan) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        const count = Math.min(chord.length, 4);
+        for (let i = 0; i < count; i++) {
+          const end = time + dur + 0.05;
+          if (!this.allocVoice(end, 1)) continue;
+          const f = this.mtof(chord[i]);
+          const panner = this.createPanner(pan + (i - 1.5) * 0.35);
+          const filter = this.ctx.createBiquadFilter();
+          const amp = this.ctx.createGain();
+          filter.type = 'lowpass';
+          filter.Q.value = cfg.q;
+          filter.frequency.setValueAtTime(cfg.lo, time);
+          filter.frequency.exponentialRampToValueAtTime(cfg.hi, time + dur * cfg.peakAt);
+          filter.frequency.exponentialRampToValueAtTime(cfg.end, time + dur);
+          amp.gain.setValueAtTime(0.0001, time);
+          amp.gain.linearRampToValueAtTime(vel, time + cfg.attack);
+          amp.gain.setValueAtTime(vel, time + dur - cfg.release);
+          amp.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+          for (let d = -1; d <= 1; d += 2) {
+            const osc = this.ctx.createOscillator();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(f, time);
+            osc.detune.setValueAtTime(d * 8, time);
+            osc.connect(filter);
+            osc.start(time);
+            osc.stop(end);
+          }
+          filter.connect(amp);
+          amp.connect(panner);
+          panner.connect(this.bgmBus);
+        }
+      }
+
+      /** コーラス風パッド（ノコギリ波を2つの帯域通過フィルターに通して母音の共鳴を作る） */
+      playPadChoir(chord, time, dur, vel, pan = 0) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        const count = Math.min(chord.length, 3);
+        for (let i = 0; i < count; i++) {
+          const end = time + dur + 0.05;
+          if (!this.allocVoice(end, 1)) continue;
+          const osc = this.ctx.createOscillator();
+          const f1 = this.ctx.createBiquadFilter();
+          const f2 = this.ctx.createBiquadFilter();
+          const g1 = this.ctx.createGain();
+          const g2 = this.ctx.createGain();
+          const amp = this.ctx.createGain();
+          const panner = this.createPanner(pan + (i - 1) * 0.4);
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(this.mtof(chord[i]), time);
+          f1.type = 'bandpass';
+          f1.frequency.value = 720;
+          f1.Q.value = 5;
+          f2.type = 'bandpass';
+          f2.frequency.value = 1180;
+          f2.Q.value = 6;
+          g1.gain.value = 0.8;
+          g2.gain.value = 0.5;
+          amp.gain.setValueAtTime(0.0001, time);
+          amp.gain.linearRampToValueAtTime(vel, time + 0.5);
+          amp.gain.setValueAtTime(vel, time + dur - 0.45);
+          amp.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+          osc.connect(f1);
+          osc.connect(f2);
+          f1.connect(g1);
+          f2.connect(g2);
+          g1.connect(amp);
+          g2.connect(amp);
+          amp.connect(panner);
+          panner.connect(this.bgmBus);
+          osc.start(time);
+          osc.stop(end);
+        }
+      }
+
+      /** ブラス・スタブ（ノコギリ波の二重奏＋開いていくローパス。短い和音のファンファーレ） */
+      playBrassStab(chord, time, dur, vel, pan = 0) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        const count = Math.min(chord.length, 3);
+        for (let i = 0; i < count; i++) {
+          const end = time + dur + 0.05;
+          if (!this.allocVoice(end, 1)) continue;
+          const f = this.mtof(chord[i]);
+          const panner = this.createPanner(pan + (i - 1) * 0.25);
+          const filter = this.ctx.createBiquadFilter();
+          const amp = this.ctx.createGain();
+          filter.type = 'lowpass';
+          filter.Q.value = 2.5;
+          filter.frequency.setValueAtTime(500, time);
+          filter.frequency.exponentialRampToValueAtTime(2600, time + 0.06);
+          filter.frequency.exponentialRampToValueAtTime(1000, time + dur);
+          amp.gain.setValueAtTime(0.0001, time);
+          amp.gain.linearRampToValueAtTime(vel, time + 0.025);
+          amp.gain.setValueAtTime(vel * 0.85, time + dur * 0.6);
+          amp.gain.exponentialRampToValueAtTime(0.0001, time + dur + 0.04);
+          for (let d = -1; d <= 1; d += 2) {
+            const osc = this.ctx.createOscillator();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(f, time);
+            osc.detune.setValueAtTime(d * 8, time);
+            osc.connect(filter);
+            osc.start(time);
+            osc.stop(end);
+          }
+          filter.connect(amp);
+          amp.connect(panner);
+          panner.connect(this.bgmBus);
+        }
+      }
+
+      /** 太鼓（テーラ／タム）：ピッチが少し下がるサイン波＋打撃の低域ノイズ */
+      playTaiko(midi, time, dur, vel, pan = 0) {
+        if (!this.ctx || !this.bgmEnabled || !this.noiseBuffer) return;
+        if (!this.allocVoice(time + dur + 0.02, 0)) return;
+        const f = this.mtof(midi);
+        const panner = this.createPanner(pan);
+        const osc = this.ctx.createOscillator();
+        const amp = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(f * 1.35, time);
+        osc.frequency.exponentialRampToValueAtTime(f, time + 0.05);
+        amp.gain.setValueAtTime(vel, time);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+        osc.connect(amp);
+        amp.connect(panner);
+        panner.connect(this.bgmBus);
+        osc.start(time);
+        osc.stop(time + dur + 0.02);
+
+        const src = this.ctx.createBufferSource();
+        src.buffer = this.noiseBuffer;
+        const lp = this.ctx.createBiquadFilter();
+        lp.type = 'lowpass';
+        lp.frequency.value = 700;
+        lp.Q.value = 0.7;
+        const ng = this.ctx.createGain();
+        ng.gain.setValueAtTime(vel * 0.6, time);
+        ng.gain.exponentialRampToValueAtTime(0.0001, time + 0.05);
+        src.connect(lp);
+        lp.connect(ng);
+        ng.connect(panner);
+        src.start(time);
+        src.stop(time + 0.06);
+      }
+
+      /** 重低音キック（155Hz→42Hzのピッチ落下） */
+      playBigKick(time, vel) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        if (!this.allocVoice(time + 0.34, 0)) return;
+        const osc = this.ctx.createOscillator();
+        const amp = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(155, time);
+        osc.frequency.exponentialRampToValueAtTime(42, time + 0.12);
+        amp.gain.setValueAtTime(vel, time);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + 0.32);
+        osc.connect(amp);
+        amp.connect(this.bgmBus);
+        osc.start(time);
+        osc.stop(time + 0.34);
+      }
+
+      /** スネア（ノイズ＋短いトーン） */
+      playSnare(time, vel) {
+        if (!this.ctx || !this.bgmEnabled || !this.noiseBuffer) return;
+        if (!this.allocVoice(time + 0.18, 0)) return;
+        const src = this.ctx.createBufferSource();
+        src.buffer = this.noiseBuffer;
+        const bp = this.ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = 1700;
+        bp.Q.value = 0.8;
+        const amp = this.ctx.createGain();
+        amp.gain.setValueAtTime(vel, time);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + 0.17);
+        src.connect(bp);
+        bp.connect(amp);
+        amp.connect(this.bgmBus);
+        src.start(time);
+        src.stop(time + 0.18);
+
+        const body = this.ctx.createOscillator();
+        const bodyAmp = this.ctx.createGain();
+        body.type = 'triangle';
+        body.frequency.setValueAtTime(190, time);
+        body.frequency.exponentialRampToValueAtTime(160, time + 0.06);
+        bodyAmp.gain.setValueAtTime(vel * 0.55, time);
+        bodyAmp.gain.exponentialRampToValueAtTime(0.0001, time + 0.09);
+        body.connect(bodyAmp);
+        bodyAmp.connect(this.bgmBus);
+        body.start(time);
+        body.stop(time + 0.1);
+      }
+
+      /** クラップ（ノイズを3回短く打ち直す） */
+      playClap(time, vel) {
+        if (!this.ctx || !this.bgmEnabled || !this.noiseBuffer) return;
+        if (!this.allocVoice(time + 0.18, 1)) return;
+        const src = this.ctx.createBufferSource();
+        src.buffer = this.noiseBuffer;
+        const bp = this.ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = 1300;
+        bp.Q.value = 1.0;
+        const amp = this.ctx.createGain();
+        amp.gain.setValueAtTime(0.0001, time);
+        amp.gain.linearRampToValueAtTime(vel, time + 0.002);
+        amp.gain.linearRampToValueAtTime(vel * 0.2, time + 0.012);
+        amp.gain.linearRampToValueAtTime(vel, time + 0.016);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + 0.18);
+        src.connect(bp);
+        bp.connect(amp);
+        amp.connect(this.bgmBus);
+        src.start(time);
+        src.stop(time + 0.19);
+      }
+
+      /** ハイハット（ノイズのハイパス。open=true で余韻を長く） */
+      playHat(time, vel, open) {
+        if (!this.ctx || !this.bgmEnabled || !this.noiseBuffer) return;
+        const dec = open ? 0.2 : 0.04;
+        if (!this.allocVoice(time + dec + 0.02, 2)) return;
+        const src = this.ctx.createBufferSource();
+        src.buffer = this.noiseBuffer;
+        const hp = this.ctx.createBiquadFilter();
+        hp.type = 'highpass';
+        hp.frequency.value = 7600;
+        const amp = this.ctx.createGain();
+        amp.gain.setValueAtTime(vel, time);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + dec);
+        src.connect(hp);
+        hp.connect(amp);
+        amp.connect(this.bgmBus);
+        src.start(time);
+        src.stop(time + dec + 0.02);
+      }
+
+      /** シェイカー（帯域通過ノイズの短い擦過音） */
+      playShaker(time, vel, pan) {
+        if (!this.ctx || !this.bgmEnabled || !this.noiseBuffer) return;
+        if (!this.allocVoice(time + 0.06, 2)) return;
+        const src = this.ctx.createBufferSource();
+        src.buffer = this.noiseBuffer;
+        const bp = this.ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.frequency.value = 6200;
+        bp.Q.value = 1.2;
+        const amp = this.ctx.createGain();
+        const panner = this.createPanner(pan);
+        amp.gain.setValueAtTime(0.0001, time);
+        amp.gain.linearRampToValueAtTime(vel, time + 0.006);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + 0.05);
+        src.connect(bp);
+        bp.connect(amp);
+        amp.connect(panner);
+        panner.connect(this.bgmBus);
+        src.start(time);
+        src.stop(time + 0.06);
+      }
+
+      /** ライザー（ノイズの帯域を下から上へ掃引して次の小節への盛り上がりを作る） */
+      playRiser(time, dur) {
+        if (!this.ctx || !this.bgmEnabled || !this.noiseBuffer) return;
+        if (!this.allocVoice(time + dur + 0.02, 2)) return;
+        const src = this.ctx.createBufferSource();
+        src.buffer = this.noiseBuffer;
+        src.loop = true;
+        const bp = this.ctx.createBiquadFilter();
+        bp.type = 'bandpass';
+        bp.Q.value = 1.4;
+        bp.frequency.setValueAtTime(300, time);
+        bp.frequency.exponentialRampToValueAtTime(6500, time + dur);
+        const amp = this.ctx.createGain();
+        amp.gain.setValueAtTime(0.0001, time);
+        amp.gain.linearRampToValueAtTime(0.09, time + dur);
+        src.connect(bp);
+        bp.connect(amp);
+        amp.connect(this.bgmBus);
+        src.start(time);
+        src.stop(time + dur + 0.02);
+      }
+
+      /** 重低音サブベース：サイン波＋ノコギリ波（ローパス）。発音直後に一度沈んでから戻る＝ポンピング */
+      playSubBass(midi, time, dur, vel) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        const end = time + dur + 0.04;
+        if (!this.allocVoice(end, 0)) return;
+        const f = this.mtof(midi);
+        const amp = this.ctx.createGain();
+        const sub = this.ctx.createOscillator();
+        const saw = this.ctx.createOscillator();
+        const sawGain = this.ctx.createGain();
+        const filter = this.ctx.createBiquadFilter();
+        sub.type = 'sine';
+        sub.frequency.setValueAtTime(f, time);
+        saw.type = 'sawtooth';
+        saw.frequency.setValueAtTime(f, time);
+        sawGain.gain.value = 0.42;
+        filter.type = 'lowpass';
+        filter.Q.value = 3.5;
+        filter.frequency.setValueAtTime(130, time);
+        filter.frequency.exponentialRampToValueAtTime(560, time + 0.09);
+        filter.frequency.exponentialRampToValueAtTime(230, time + dur);
+        amp.gain.setValueAtTime(vel * 0.4, time);
+        amp.gain.linearRampToValueAtTime(vel, time + 0.1);
+        amp.gain.setValueAtTime(vel, time + dur - 0.04);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+        sub.connect(amp);
+        saw.connect(filter);
+        filter.connect(sawGain);
+        sawGain.connect(amp);
+        amp.connect(this.bgmBus);
+        sub.start(time);
+        saw.start(time);
+        sub.stop(end);
+        saw.stop(end);
+      }
+
+      /** シンセリード：デチューンしたノコギリ波2本＋フィルタースイープ（開いてから閉じる） */
+      playSawLead(midi, time, dur, vel, pan = 0) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        const end = time + dur + 0.05;
+        if (!this.allocVoice(end, 1)) return;
+        const f = this.mtof(midi);
+        const panner = this.createPanner(pan);
+        const filter = this.ctx.createBiquadFilter();
+        const amp = this.ctx.createGain();
+        filter.type = 'lowpass';
+        filter.Q.value = 7;
+        filter.frequency.setValueAtTime(f * 2, time);
+        filter.frequency.exponentialRampToValueAtTime(f * 7, time + 0.05);
+        filter.frequency.exponentialRampToValueAtTime(f * 3, time + dur);
+        amp.gain.setValueAtTime(0.0001, time);
+        amp.gain.linearRampToValueAtTime(vel, time + 0.008);
+        amp.gain.setValueAtTime(vel * 0.8, time + dur * 0.7);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+        for (let d = -1; d <= 1; d += 2) {
+          const osc = this.ctx.createOscillator();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(f, time);
+          osc.detune.setValueAtTime(d * 9, time);
+          osc.connect(filter);
+          osc.start(time);
+          osc.stop(end);
+        }
+        filter.connect(amp);
+        amp.connect(panner);
+        panner.connect(this.bgmBus);
+      }
+
+      /** メロディ楽器の振り分け（曲の音色指定 inst と、後半の入れ替え先 alt の名前で選ぶ） */
+      playMelodyNote(inst, style, midi, time, dur, pan, grace, vmul) {
+        if (inst === 'clarinet') {
+          this.playClarinetWoodwind(midi, time, dur, pan, grace, vmul);
+        } else if (inst === 'glock') {
+          this.playBell(midi, time, 0.13 * vmul, pan, GLOCK_PARTIALS, 0);
+        } else if (inst === 'celesta') {
+          this.playBell(midi, time, 0.12 * vmul, pan, CELESTA_PARTIALS, 0);
+        } else if (inst === 'flute') {
+          this.playFlute(midi, time, dur, 0.09 * vmul, pan);
+        } else if (inst === 'pizz') {
+          this.playPizz(midi, time, dur, 0.12 * vmul, pan);
+        } else {
+          this.playWoodyMarimba(midi, time, dur, style, pan, grace, vmul);
+        }
+      }
+
+      /**
+       * 全曲共通の伴奏レイヤー（パッド・アルペジオ・ブラス・対旋律・太鼓・フィル・シェイカー）
+       */
+      scheduleLayers(track, bar, beatStep, time, stepDur, chord, bassPair, dyn) {
+        const isLastBar = bar === track.chords.length - 1;
+
+        // 1. パッド：小節頭で和音を長く伸ばす
+        if (beatStep === 0 && track.pad) {
+          const padDur = stepDur * 16 * 1.04;
+          if (track.pad === 'choir') {
+            this.playPadChoir(chord, time, padDur, 0.05 * dyn, 0);
+          } else if (track.pad === 'synth') {
+            this.playSawPad(chord, time, padDur, 0.03 * dyn, PAD_SYNTH, 0);
+          } else {
+            this.playSawPad(chord, time, padDur, 0.034 * dyn, PAD_STRINGS, 0);
+          }
+        }
+
+        // 2. アルペジオ（16分の2・6・10・14）：和音をずらしながら上下に回す
+        if (track.arp && beatStep % 4 === 2) {
+          const k = beatStep >> 2;
+          const n = chord.length;
+          let midi = chord[(k + bar) % n] + (k % 2 === 1 ? 12 : 0);
+          if (midi > 84) midi -= 12;
+          const pan = k % 2 === 0 ? 0.35 : -0.35;
+          if (track.arp === 'celesta') {
+            this.playBell(midi, time, 0.05 * dyn, pan, CELESTA_PARTIALS, 1);
+          } else {
+            this.playBell(midi, time, 0.045 * dyn, pan, HARP_PARTIALS, 1);
+          }
+        }
+
+        // 3. ブラス・スタブ：偶数小節の頭と、4小節目の裏で短く鳴らす
+        if (track.brass && ((beatStep === 0 && bar % 2 === 0) || (beatStep === 10 && bar % 4 === 3))) {
+          this.playBrassStab(chord, time, stepDur * 3.2, 0.03 * (track.brassVel || 1) * dyn, -0.15);
+        }
+
+        // 4. 対旋律：小節頭と中間で、和音の内声を1オクターブ上に置く（フルート or ピチカート）
+        if (track.counter && (beatStep === 0 || beatStep === 8)) {
+          let cn = chord[(bar + (beatStep ? 1 : 0)) % chord.length] + 12;
+          if (cn > 84) cn -= 12;
+          const cdur = stepDur * 7.6;
+          if (track.counterInst === 'pizz') {
+            this.playPizz(cn, time, cdur, 0.075 * dyn, 0.4);
+          } else {
+            this.playFlute(cn, time, cdur, 0.07 * dyn, 0.4);
+          }
+        }
+
+        // 5. 太鼓：小節頭のドン（timp 指定の曲）
+        if (track.timp) {
+          if (beatStep === 0) {
+            this.playTaiko(bassPair[0] + 12, time, stepDur * 6, 0.22 * dyn, 0);
+          } else if (beatStep === 8) {
+            this.playTaiko(bassPair[0] + 7, time, stepDur * 4, 0.14 * dyn, 0.2);
+          }
+        }
+
+        // 6. 最終小節の後半：タムのロール（音程を下げながら音量を上げる）→ 次のフレーズへの盛り上がり
+        if (track.fill && isLastBar && beatStep >= 12) {
+          const fm = chord[0] + 12 - (beatStep - 12) * 3;
+          this.playTaiko(fm, time, stepDur * 1.6, (0.12 + (beatStep - 12) * 0.05) * dyn, (beatStep - 12) * 0.2 - 0.3);
+        }
+
+        // 7. シェイカー／ハイハット（細かな刻み）
+        if (track.hat === 'shaker' && beatStep % 2 === 0) {
+          this.playShaker(time, (beatStep % 4 === 0 ? 0.03 : 0.018) * dyn, beatStep % 4 === 0 ? -0.4 : 0.4);
+        } else if (track.hat === 'hat' && beatStep % 4 === 2) {
+          this.playHat(time, 0.035 * dyn, false);
+        }
+      }
+
+      /** 従来のスイカゲーム風リズム（ラグ／マーチ／ボサ／オルゴール）＋メロディ */
+      scheduleClassicStep(track, step, bar, beatStep, time, stepDur, chord, bassPair, dyn) {
         if (track.style === 'suika_rag' || track.style === 'lab_march') {
           // スイカゲーム特有の「ブン・チャッ・ブン・チャッ」ストライド伴奏
           if (beatStep === 0 || beatStep === 8) {
@@ -1651,11 +2363,11 @@
 
           // 2拍目・4拍目の裏打ちアコースティックコード＆ブラシスネア
           if (beatStep === 4 || beatStep === 12) {
-            this.playAcousticStrideChord(chord, time, stepDur * 1.9, track.style, -0.32);
+            this.playAcousticStrideChord(chord, time, stepDur * 1.9, track.style, -0.32, dyn);
             this.playToyPercussion('brush', time);
           } else if (beatStep === 15 && bar % 2 === 0) {
             // シンコペーションの軽いチャッ
-            this.playAcousticStrideChord(chord, time, stepDur * 1.2, track.style, -0.2);
+            this.playAcousticStrideChord(chord, time, stepDur * 1.2, track.style, -0.2, dyn);
           }
 
           // コミカルなウッドブロックの合いの手（カッ・コッ）
@@ -1665,7 +2377,7 @@
         } else if (track.style === 'bossa') {
           // ボサノヴァ・クラーヴェパターン
           if (beatStep === 0 || beatStep === 3 || beatStep === 6 || beatStep === 10 || beatStep === 12) {
-            this.playAcousticStrideChord(chord, time, stepDur * 2.4, track.style, -0.3);
+            this.playAcousticStrideChord(chord, time, stepDur * 2.4, track.style, -0.3, dyn);
           }
           if (beatStep === 0 || beatStep === 6 || beatStep === 8 || beatStep === 14) {
             const bNote = beatStep < 8 ? bassPair[0] : bassPair[1];
@@ -1680,24 +2392,81 @@
           // オルゴール・アルペジオ伴奏
           if (beatStep % 4 === 0) {
             const noteIdx = (beatStep / 4) % chord.length;
-            this.playAcousticStrideChord([chord[noteIdx], chord[(noteIdx + 2) % chord.length]], time, stepDur * 3.8, track.style, -0.25);
+            this.playAcousticStrideChord([chord[noteIdx], chord[(noteIdx + 2) % chord.length]], time, stepDur * 3.8, track.style, -0.25, dyn);
           }
           if (beatStep === 0 || beatStep === 8) {
             this.playUprightBass(beatStep === 0 ? bassPair[0] : bassPair[1], time, stepDur * 4.5);
           }
         }
 
-        // メロディパート（マリンバ ⇄ クラリネットの掛け合い＋立体パンニング）
+        // メロディパート：後半の小節は alt の音色に入れ替えて変化をつける
         const melEvent = track.melody[bar][beatStep];
         if (melEvent) {
           const noteDur = (melEvent.d || 2) * stepDur * 0.95;
           const panPos = Math.sin(step * 0.35) * 0.45;
-          if (melEvent.inst === 'clarinet') {
-            this.playClarinetWoodwind(melEvent.n, time, noteDur, panPos, melEvent.g || null);
-          } else {
-            this.playWoodyMarimba(melEvent.n, time, noteDur, track.style, panPos, melEvent.g || null);
+          let inst = melEvent.inst;
+          if (bar >= track.chords.length / 2 && track.alt && track.alt[inst]) {
+            inst = track.alt[inst];
+          }
+          this.playMelodyNote(inst, track.style, melEvent.n, time, noteDur, panPos, melEvent.g || null, dyn);
+        }
+      }
+
+      /** シンセ曲（重低音サブベース・ノコギリ波リード・四つ打ちキック・ライザー） */
+      scheduleSynthStep(track, step, bar, beatStep, time, stepDur, chord, bassPair, dyn) {
+        const isLastBar = bar === track.chords.length - 1;
+
+        if (track.kickSteps.indexOf(beatStep) >= 0) {
+          this.playBigKick(time, 0.85 * dyn);
+        }
+        if (beatStep === 4 || beatStep === 12) {
+          this.playSnare(time, 0.2 * dyn);
+          this.playClap(time, 0.1 * dyn);
+        }
+
+        if (beatStep % 2 === 0) {
+          const idx = beatStep >> 1;
+          const off = track.subPat[idx];
+          if (off !== null) {
+            this.playSubBass(bassPair[0] + off, time, stepDur * 1.9, 0.5 * dyn);
+          }
+          const note = track.lead[bar][idx];
+          if (note !== null) {
+            this.playSawLead(note, time, stepDur * 1.8, 0.05 * dyn, idx % 4 < 2 ? 0.3 : -0.3);
           }
         }
+
+        if (beatStep % 4 === 2) {
+          this.playHat(time, 0.04 * dyn, beatStep === 14 && bar % 2 === 1);
+        }
+
+        // 最終小節：ライザーとスネアの連打で次のフレーズへ
+        if (isLastBar && beatStep === 0 && track.riser) {
+          this.playRiser(time, stepDur * 16);
+        }
+        if (isLastBar && beatStep >= 8 && beatStep % 2 === 0 && beatStep !== 12) {
+          this.playSnare(time, (0.08 + (beatStep - 8) * 0.02) * dyn);
+        }
+      }
+
+      scheduleStep(step, time) {
+        const track = BGM_TRACKS[this.trackIndex];
+        const stepDur = 60 / track.tempo / 4;
+        const bars = track.chords.length;
+        const bar = Math.floor(step / 16) % bars;
+        const beatStep = step % 16;
+
+        const chord = track.chords[bar];
+        const bassPair = track.bass[bar];
+        // 4小節ごとのクレッシェンド（強弱のうねり）
+        const dyn = 0.8 + 0.2 * ((bar % 4) / 3);
+
+        if (track.style === 'synth') {
+          this.scheduleSynthStep(track, step, bar, beatStep, time, stepDur, chord, bassPair, dyn);
+        } else {
+          this.scheduleClassicStep(track, step, bar, beatStep, time, stepDur, chord, bassPair, dyn);
+        }
+        this.scheduleLayers(track, bar, beatStep, time, stepDur, chord, bassPair, dyn);
       }
 
       startBgmLoop() {
@@ -1723,9 +2492,7 @@
       toggleBgm() {
         this.init();
         this.bgmEnabled = !this.bgmEnabled;
-        if (this.bgmBus && this.ctx) {
-          this.bgmBus.gain.setTargetAtTime(this.bgmEnabled ? 0.45 : 0.0, this.ctx.currentTime, 0.06);
-        }
+        this.applyBgmLevel();
         if (this.bgmEnabled && !this.isPlayingBgm) {
           this.startBgmLoop();
         }
@@ -3529,7 +4296,7 @@
       updateNextPreviewUI();
     });
 
-    // BGM 4曲切替
+    // BGM 6曲切替
     document.getElementById('bgmTrackBtn').addEventListener('click', () => {
       ensureGameFocus();
       const name = audio.nextTrack();
