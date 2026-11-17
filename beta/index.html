@@ -2438,6 +2438,33 @@ html.is-beta #nav .noti-b::before{content:'Beta';position:absolute;left:50%;top:
 @keyframes bcOrb{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-14px)}}
 @media (prefers-reduced-motion: reduce){#betaCur *{animation-duration:.01s!important;animation-delay:0s!important;animation-iteration-count:1!important}}
 </style>
+<style id="ti-css">
+.ti{position:fixed;inset:0;z-index:2147483000;overflow:hidden;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:tiOut .45s ease 2.3s forwards}
+@keyframes tiOut{to{opacity:0;visibility:hidden}}
+.ti-rekida{background:radial-gradient(90% 70% at 50% 40%,#3b2a1c 0%,#1b120a 70%,#0c0704 100%);color:#f5e6c8;font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif}
+.ti-rekida .ti-paper{position:absolute;left:50%;top:50%;width:min(78vw,380px);height:min(56vh,440px);transform:translate(-50%,-50%) scaleY(0);background:linear-gradient(#f6ecd2,#e9d9b0);box-shadow:0 0 0 1px #8b6a3d inset,0 20px 60px #000a;animation:tiUnroll .9s cubic-bezier(.2,.8,.2,1) .15s forwards}
+.ti-rekida .ti-roll{position:absolute;top:50%;width:26px;height:min(56vh,440px);margin-top:calc(min(56vh,440px) / -2);background:linear-gradient(90deg,#7a4e22,#c9a46a,#7a4e22);border-radius:14px;transform:scaleY(0);animation:tiRoll .9s cubic-bezier(.2,.8,.2,1) .15s forwards}
+.ti-rekida .ti-roll.l{left:calc(50% - min(78vw,380px) / 2 - 12px)}
+.ti-rekida .ti-roll.r{left:calc(50% + min(78vw,380px) / 2 - 14px)}
+.ti-rekida .ti-seal{--sx:calc(min(78vw,380px) / 4 - 42px);position:absolute;left:50%;top:50%;width:84px;height:84px;margin:0;display:grid;place-items:center;background:#b3261e;color:#fff6e8;font-size:26px;font-weight:900;border-radius:10px;box-shadow:0 6px 16px #0008;transform:translate(var(--sx),-42px) scale(2.6) rotate(-8deg);opacity:0;animation:tiStamp .4s cubic-bezier(.3,1.6,.5,1) 1.05s forwards}
+.ti-rekida .ti-title{position:absolute;left:50%;top:14%;transform:translateX(-50%);font-size:clamp(28px,8vw,44px);font-weight:900;letter-spacing:.3em;color:#d8b26a;text-shadow:0 2px 16px #000;opacity:0;animation:tiFade .7s ease .4s forwards}
+.ti-rekida .ti-petal{position:absolute;top:-8%;width:12px;height:9px;border-radius:70% 0 70% 0;background:#f4b6c8;opacity:.9;animation:tiPetal 2.6s linear forwards}
+@keyframes tiUnroll{to{transform:translate(-50%,-50%) scaleY(1)}}
+@keyframes tiRoll{to{transform:scaleY(1)}}
+@keyframes tiStamp{to{transform:translate(var(--sx),-42px) scale(1) rotate(-8deg);opacity:1}}
+@keyframes tiFade{to{opacity:1}}
+@keyframes tiPetal{0%{transform:translate(0,0) rotate(0)}100%{transform:translate(60px,110vh) rotate(540deg)}}
+.ti-merge{background:radial-gradient(80% 70% at 50% 50%,#1a2a4a 0%,#0b1020 75%);color:#e8f4ff;font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif}
+.ti-merge .ti-atom{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;display:grid;place-items:center;border-radius:50%;font-weight:900;font-size:18px;color:#0b1020;background:radial-gradient(circle at 35% 35%,#fff,#7fd6ff);box-shadow:0 0 22px #7fd6ff99;transform:translate(var(--dx),var(--dy));animation:tiAtom .95s cubic-bezier(.6,0,.2,1) forwards}
+@keyframes tiAtom{0%{transform:translate(var(--dx),var(--dy)) scale(1);opacity:1}70%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(0,0) scale(.1);opacity:0}}
+.ti-merge .ti-bonds{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.ti-merge .ti-bonds path{fill:none;stroke:#ffe27a;stroke-width:1.4;vector-effect:non-scaling-stroke;stroke-dasharray:80;stroke-dashoffset:80;filter:drop-shadow(0 0 4px #ffe27a);animation:tiBond .5s ease 1s forwards}
+@keyframes tiBond{to{stroke-dashoffset:0}}
+.ti-merge .ti-flash{position:absolute;left:50%;top:50%;width:10px;height:10px;margin:-5px;border-radius:50%;background:#fff;box-shadow:0 0 80px 40px #fff9;opacity:0;animation:tiFlash .5s ease 1.3s forwards}
+@keyframes tiFlash{0%{opacity:0;transform:scale(1)}40%{opacity:1;transform:scale(30)}100%{opacity:0;transform:scale(40)}}
+.ti-merge .ti-title{position:absolute;left:50%;top:62%;transform:translateX(-50%);font-size:clamp(24px,7vw,40px);font-weight:900;letter-spacing:.12em;opacity:0;text-shadow:0 0 18px #7fd6ff;animation:tiFade .6s ease 1.5s forwards}
+@media (prefers-reduced-motion: reduce){.ti,.ti *{animation-duration:.01s!important;animation-delay:0s!important}}
+</style>
 </head>
 <body>
 <div id="app">
@@ -2462,7 +2489,7 @@ html.is-beta #nav .noti-b::before{content:'Beta';position:absolute;left:50%;top:
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
 const STABLE_VER = '17.99.13';
-const BETA_VER = '17.99.14-beta1';
+const BETA_VER = '17.99.14-beta3';
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3344,6 +3371,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.99.14-beta3', d: '__BUILD__', beta: true, t: 'しりとり・元素マージ・歴打の改善（ベータ3）', n: ['しりとりのAI対戦で、自分で入力したお題に合う言葉を答えるようにしました（お題の一覧にない言葉は、AIが考えます）', 'ベータ版に招待されると、開いている画面にも通知が出るようにしました', '元素マージのBGMを強化し、楽器を増やしました。新しい曲を2曲追加（5.ネオン・サブベース、6.メルトダウン・ドライブ）', '元素マージの画面の下にあったランキングの表示を削除しました（ゲーム内のランキングはそのままです）', '歴打と元素マージを開くときに、演出を出すようにしました（歴打は巻物と判子、元素マージは元素がくっつく演出）'] },
+  { v: '17.99.14-beta2', d: '__BUILD__', beta: true, t: 'ベータ版に入れない問題の確認を改善', n: ['ベータ版に登録されているのに、ベータ版へ移れないことがあるのを直しました（更新の画面を開くたびに登録を確かめ直します）', '管理者には、ベータ版に移れない理由（未登録・確認の失敗など）を設定と更新の画面に表示します'] },
   { v: '17.99.14-beta1', d: '__BUILD__', beta: true, t: 'ベータ版の最初の版（17.99.14 Beta1）', n: ['ベータ版の番号を、正式版より上（17.99.14 Beta1）にしました', 'ベータ版の更新履歴は、ベータ版の画面だけに出ます', 'この版は、正式版（17.99.13）と機能は同じです。新しい機能を追加したら、ここに書いていきます'] },
   { v: '17.99.13', d: '__BUILD__', t: 'しりとりに英語を復活・ベータ版の切り替えと案内を改善', n: ['しりとりに「English（英語）」を戻しました。英語の言葉は、前の言葉の最後の文字でつなぎます（ひらがなのしりとりも、これまでどおりです）', 'ベータ版を使っているときは、タブバーの通知ボタンの上に「Beta」を表示します', 'ベータ版へ移るとき・正式版に戻るときに、説明と、移動のあいさつの画面を出すようにしました', '更新の画面と設定から、ベータ版を使う・正式版に戻すことができます。どちらも、データはそのまま残ります'] },
   { v: '17.99.12', d: '__BUILD__', t: 'ベータ版を追加・フィードバックの写真・ツールバーの修正・しりとりの速さ', n: ['ベータ版を追加しました。ベータ版に登録された方は、新しい版を正式版より先に使えます（設定の「ベータ版を開く」から）。登録されていない方は、正式版を使います', 'フィードバックに添付された写真を、押すとアプリの中で大きく見られるようにしました（iPadで白い画面になる不具合を直しました）', 'ショップのAIモデルの説明を、生徒に関係のある違いだけにしました（料金の説明を消しました）', 'ツールバーの並べ替えが、あとで元に戻ることがある不具合を直しました', '元素マージ：下の操作の文字がはみ出ないように、ボタンを2段に並べられるようにしました', 'しりとり：友達との対戦やAIの返事が遅れることを減らしました。一覧にある言葉はAIに聞かずに判定し、AIが返事をしないときは6秒でルールだけで判定します'] },
@@ -4989,7 +5018,7 @@ const ACT = {
     const f = $('#labf'); if (f && f.scrollIntoView) f.scrollIntoView({ behavior: 'smooth', block: 'center' });
   },
   vbmode(id) { VB.mode = id; VB.rev = {}; vbPaint(); }, vbrev(id) { VB.rev[id] = !VB.rev[id]; vbPaint(); }, vbclear() { VB.rev = {}; vbPaint(); },
-  uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; ui.vin = true; ui.dir = 1; render(); scrollTo(0, 0); }, toolback() {
+  uncat(id) { UN.cat = id; UN.from = 0; UN.to = 1; render(); }, tool(id) { ui.tool = id; ui.vin = true; ui.dir = 1; render(); scrollTo(0, 0); toolIntro(id); }, toolback() {
     if (ui.tool === 'quiz') { QZ.from = ''; QZ.phase = 'setup'; }
     const prev = NAVH.stack.pop(), cur = ui.tool || '';
     // 「ツール一覧へ戻る」：ツールの中から開いたツール（単語帳→クイズなど）だけ、そのツールへ戻る。それ以外は、必ずツール一覧へ
@@ -5454,23 +5483,79 @@ function syncChoiceDlg() {
   <div class="dact"><button class="btn text" data-act="cloudout">${ms('logout')}ログアウトする</button><span class="sp"></span><button class="btn text" data-act="close">あとで決める</button></div>`);
 }
 // ベータ版の確認：/beta/ を開けるのは、ベータ版に登録された人だけです（それ以外は正式版へ戻します）
-async function betaCheck(u) {
-  let ok = false;
-  try { if (u) { const fs = CLOUD.fb.fs; ok = (await fs.getDoc(fs.doc(CLOUD.fb.db, 'betaTesters', u.uid))).exists(); } } catch (e) { ok = false; }
+let BETA_ERR = ''; // 登録されていないときの理由（'login' ログイン前 / 'none' 未登録 / それ以外は確認に失敗した内容）
+async function betaCheck(u, quiet) {
+  let ok = false, err = '';
+  if (u) {
+    try { const fs = CLOUD.fb.fs; ok = (await fs.getDoc(fs.doc(CLOUD.fb.db, 'betaTesters', u.uid))).exists(); }
+    catch (e) { err = String((e && (e.code || e.message)) || e).slice(0, 80); }
+  }
   const was = BETA_OK; BETA_OK = ok;
+  BETA_ERR = ok ? '' : (!u ? 'login' : (err || 'none'));
   if (IS_BETA && !ok) { toast('ベータ版は、登録された方だけが使えます。正式版を開きます'); setTimeout(() => location.replace(new URL('../', location.href).href), 1400); return; }
   if (IS_BETA) document.title = '【ベータ】考査課題マネージャー';
-  if (was !== ok) render();
+  if (was !== ok && !quiet) render();
+  if (u && BETA_WATCH_UID !== u.uid) betaWatch(u);
+}
+// 登録の変化を見張る（ベータ版に招待されたら、開いている画面にも通知する）
+let BETA_WATCH_UID = '', BETA_UNSUB = null;
+function betaWatch(u) {
+  try { if (BETA_UNSUB) BETA_UNSUB(); } catch (e) { }
+  BETA_UNSUB = null; BETA_WATCH_UID = u ? u.uid : '';
+  if (!u || !CLOUD.fb) return;
+  const { fs, db } = CLOUD.fb; let first = true;
+  try {
+    BETA_UNSUB = fs.onSnapshot(fs.doc(db, 'betaTesters', u.uid), sn => {
+      const ok = sn.exists(), was = BETA_OK;
+      BETA_OK = ok; BETA_ERR = ok ? '' : 'none';
+      if (!first && !was && ok) betaInvited();
+      first = false;
+      if (was !== ok) render();
+    }, e => { BETA_OK = false; BETA_ERR = String((e && (e.code || e.message)) || e).slice(0, 80); });
+  } catch (e) { }
+}
+function betaInvited() {
+  notiAdd({ k: 'beta-invite', icon: 'science', text: 'ベータ版に招待されました', sub: '「ベータ版を使う」から、新しい版を先に試せます' });
+  nbar({ icon: 'science', text: 'ベータ版に招待されました', label: '見る', act: 'betago' });
+}
+// ツールを開くときの演出：歴打は和風の巻物と判子、元素マージは元素がくっついて分子になる
+function toolIntro(id) {
+  if (!['rekida', 'merge'].includes(id) || (typeof reduced === 'function' && reduced())) return;
+  document.querySelectorAll('.ti').forEach(e => e.remove());
+  const el = document.createElement('div'); el.className = 'ti ti-' + id; el.setAttribute('aria-hidden', 'true');
+  if (id === 'rekida') {
+    let h = '<div class="ti-paper"></div><div class="ti-roll l"></div><div class="ti-roll r"></div><div class="ti-seal">歴打</div><div class="ti-title">歴 打</div>';
+    for (let i = 0; i < 18; i++) h += `<i class="ti-petal" style="left:${(i * 5.7) % 100}%;animation-delay:${((i * 7) % 9) * 0.14}s;animation-duration:${2.4 + (i % 5) * 0.3}s"></i>`;
+    el.innerHTML = h;
+  } else {
+    const atoms = ['H', 'C', 'N', 'O', 'Na', 'Cl', 'Fe', 'Cu'];
+    let h = '<div class="ti-flash"></div><svg class="ti-bonds" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50 50L24 26M50 50L76 26M50 50L50 80M50 50L22 66M50 50L80 62"/></svg>';
+    atoms.forEach((a, i) => { const ang = i / atoms.length * Math.PI * 2; h += `<b class="ti-atom" style="--dx:${(Math.cos(ang) * 46).toFixed(1)}vmin;--dy:${(Math.sin(ang) * 46).toFixed(1)}vmin;animation-delay:${(i * 0.07).toFixed(2)}s">${a}</b>`; });
+    h += '<div class="ti-title">元素マージ</div>';
+    el.innerHTML = h;
+  }
+  el.addEventListener('click', () => el.remove());
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), 2800);
+}
+// 管理者に出す、ベータ版の状態の説明
+function betaStatusTxt() {
+  if (BETA_OK) return 'ベータ版に登録されています';
+  if (BETA_ERR === 'login') return 'ログインすると、ベータ版を確認できます';
+  if (BETA_ERR === 'none') return 'このアカウントは、ベータ版に登録されていません（ベータ版の登録を確かめてください）';
+  return 'ベータ版の確認に失敗しました（' + BETA_ERR + '）。Firestore のルールを公開したか確かめてください';
 }
 // 設定の中の、ベータ版の行（登録されている人だけに出ます）
 function betaRowHtml() {
   if (IS_BETA) return `<div class="card"><div class="setrow"><span class="t">ベータ版を使っています<small>新しい機能を先に試せます。データはそのまま残ります</small></span><button type="button" class="btn tonal xs" data-act="betaback">${ms('undo')}正式版に戻る</button></div></div>`;
-  return BETA_OK ? `<div class="card"><div class="setrow"><span class="t">ベータ版<small>使えるようになっているので、新しい版を先に試せます</small></span><button type="button" class="btn tonal xs" data-act="betago">${ms('science')}ベータ版を開く</button></div></div>` : '';
+  if (BETA_OK) return `<div class="card"><div class="setrow"><span class="t">ベータ版<small>使えるようになっているので、新しい版を先に試せます</small></span><button type="button" class="btn tonal xs" data-act="betago">${ms('science')}ベータ版を開く</button></div></div>`;
+  return adminOn() ? `<div class="card"><div class="setrow"><span class="t">ベータ版（管理者の確認）<small>${esc(betaStatusTxt())}</small></span></div></div>` : '';
 }
 // 更新の画面に出す、ベータ版の行き来ボタン
 function betaUpdBtn() {
   if (IS_BETA) return `<button class="ux-btn x" data-act="betaback">${ms('undo')}正式版に戻る</button>`;
-  return BETA_OK ? `<button class="ux-btn x" data-act="betago">${ms('science')}ベータ版を使う</button>` : '';
+  if (BETA_OK) return `<button class="ux-btn x" data-act="betago">${ms('science')}ベータ版を使う</button>`;
+  return adminOn() ? `<span class="muted" style="font-size:.85rem;align-self:center">${esc(betaStatusTxt())}</span>` : '';
 }
 // ベータ版と正式版の行き来。データは同じ場所に残るので、行く前に保存し、行ったあとも同じデータで開きます
 let betaBusy = false;
@@ -10683,7 +10768,11 @@ function updHtml() {
     <div class="ux-btns">${btns}</div>
   </div>`;
 }
-function updDlg() { openDlg(updHtml()); dlg.dataset.k = 'upd'; if (UPD.state === 'idle') checkUpdate(); }
+function updDlg() {
+  openDlg(updHtml()); dlg.dataset.k = 'upd'; if (UPD.state === 'idle') checkUpdate();
+  // 開くたびに、ベータ版に登録されているかを確かめ直す（登録したあとでも、再読み込みせずに使えるように）
+  if (CLOUD.user && CLOUD.fb) betaCheck(CLOUD.user, true).then(() => { if (dlg.open && dlg.dataset.k === 'upd') dlg.innerHTML = `<div class="dlg">${updHtml()}</div>`; });
+}
 function updCard() { const [, ti, su] = updInfo(), av = UPD.state === 'available'; return `<div class="card"><div class="setrow" style="padding:0"><span class="t">${ti}<small>${su}</small></span><button class="btn ${av ? '' : 'tonal'}" data-act="upd">${ms(av ? 'download' : 'refresh')}${av ? '更新' : '更新を確認'}</button></div></div>`; }
 function updRefresh() {
   const b = $('#updbar'); b.hidden = UPD.state !== 'available';
@@ -13084,8 +13173,9 @@ function srRuleMsg(r, words, w) {
 function srBankWordJa(words, theme, diff) {
   const used = new Set(words.map(srR)), last = words[words.length - 1], head = last ? srTail(srR(last)) : '', max = SR_DIFF[diff].max;
   const ok = w => w.length <= max && !w.endsWith('ん') && !used.has(w) && (!head || srHead(w) === head);
-  for (const pool of [theme && SR_BANK[theme] ? SR_BANK[theme] : null, Object.values(SR_BANK).flat()]) {
-    if (!pool) continue;
+  // お題があるときは、そのお題の一覧だけを使う（お題と関係のない言葉で答えないように）
+  const pools = theme ? (SR_BANK[theme] ? [SR_BANK[theme]] : []) : [Object.values(SR_BANK).flat()];
+  for (const pool of pools) {
     const c = pool.filter(ok);
     if (c.length) return c[Math.floor(Math.random() * c.length)];
   }
@@ -13115,8 +13205,9 @@ function srVerify(raw, words, theme, diff, lang) { return lang === 'en' ? srVeri
 function srAiTurn(raw, words, theme, diff, lang) { return lang === 'en' ? srAiTurnEn(raw, words, theme, diff) : srAiTurnJa(raw, words, theme, diff); }
 function srTurnPrompt(w, r, theme, diff, need, lang) { return lang === 'en' ? srTurnPromptEn(w, theme, diff, need) : srTurnPromptJa(w, r, theme, diff, need); }
 function srPickCand(cands, words, diff, lang) { return lang === 'en' ? srPickCandEn(cands, words, diff) : srPickCandJa(cands, words, diff); }
-function srBankWord(words, theme, diff, lang) { return lang === 'en' ? srBankWordEn(words, diff) : srBankWordJa(words, theme, diff); }
-function srBankWordEn(words, diff) {
+function srBankWord(words, theme, diff, lang) { return lang === 'en' ? srBankWordEn(words, diff, theme) : srBankWordJa(words, theme, diff); }
+function srBankWordEn(words, diff, theme) {
+  if (theme) return null; // 英語の自由なお題は、一覧では答えられない（AIの答えを使う）
   const used = new Set(words.map(srR)), last = words[words.length - 1], head = last ? srTail(srR(last)) : '', max = srMax(diff, 'en');
   const c = SR_BANK_EN.filter(w => w.length <= max && !used.has(w) && (!head || srHead(w) === head));
   return c.length ? c[Math.floor(Math.random() * c.length)] : null;
@@ -13139,7 +13230,7 @@ function srTurnPromptEn(w, theme, diff, need) {
     `むずかしさ：${SR_DIFF[diff].d}`,
     '1. 相手の言葉が実在する英単語か、お題に合うかを判定してください。',
     `2. 相手の言葉の最後の文字で始まる、あなたの答えの候補を3個出してください。${need ? `候補は、必ず「${need}」で始まる言葉にしてください。` : ''}`,
-    `候補の条件：アルファベットだけの、一般的な英単語（小文字）。${srMax(diff, 'en')}文字以内。`,
+    `候補の条件：アルファベットだけの、一般的な英単語（小文字）。${theme ? `必ずお題「${theme}」に合う言葉にする。` : ''}${srMax(diff, 'en')}文字以内。`,
     '次のJSONだけで答えてください。',
     '{"exists": 実在すれば true, "fits": お題に合えば true（お題がなければ true）, "reason": "exists か fits が false のとき、中学生にやさしい1文（40字以内）。それ以外は空文字", "candidates": [{"word": "english word"}]}'
   ].join('\n');
@@ -13206,7 +13297,7 @@ function srTurnPromptJa(w, r, theme, diff, need) {
     `むずかしさ：${d.d}`,
     '1. 相手の言葉が実在する日本語か、お題に合うかを判定してください。',
     `2. 相手の言葉の読みの最後の字で始まる、あなたの答えの候補を3個出してください。${need ? `候補は、必ず「${need}」で始まる言葉にしてください。` : ''}`,
-    `候補の条件：一般的な日本語の名詞。「ん」で終わらない。読みは${d.max}文字以内。`,
+    `候補の条件：一般的な日本語の名詞。${theme ? `必ずお題「${theme}」に合う言葉にする。` : ''}「ん」で終わらない。読みは${d.max}文字以内。`,
     '次のJSONだけで答えてください。',
     '{"reading": "相手の言葉のひらがなの読み（漢字のときだけ。ほかは空文字）", "exists": 実在すれば true, "fits": お題に合えば true（お題がなければ true）, "reason": "exists か fits が false のとき、中学生にやさしい1文（40字以内）。それ以外は空文字", "candidates": [{"word": "言葉", "reading": "ひらがなの読み"}]}'
   ].join('\n');
@@ -13956,7 +14047,7 @@ function mergeHtml() {
     const buy = `<div class="mg-buy"><button type="button" class="btn" data-act="toolbuy" data-id="merge" ${sp < TOOL_SHOP.merge.c ? 'disabled' : ''}>${ms('shopping_cart')}${TOOL_SHOP.merge.c} XPで使えるようにする</button><small class="muted">いまの使えるXP ${sp}</small></div>`;
     return `<div class="rk-lock card mg-lux"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>元素マージは、レベル${MG_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。レベルを上げるか、XPを使うと、今すぐ遊べます。あと${MG_LV - lv}レベルです。</p>${buy}</div>`;
   }
-  return `<div class="ps"><div class="card ps-st mg-lux" id="mgstat">${mgStatHtml()}</div><div class="ps-bar"><button type="button" class="btn tonal sm" id="mgfb" data-act="mgfull">${ms('fullscreen')}全画面</button></div><div class="ps-frame rk-frame" id="mgframe"><iframe src="games/merge.html" title="中2理科 元素マージ"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">同じ元素をくっつけると、次の段階に進化します。画面をタップするか、← → とスペースで操作します。</p><div class="card mg-rank mg-lux" id="mgrank">${mgRankInner()}</div></div>`;
+  return `<div class="ps"><div class="card ps-st mg-lux" id="mgstat">${mgStatHtml()}</div><div class="ps-bar"><button type="button" class="btn tonal sm" id="mgfb" data-act="mgfull">${ms('fullscreen')}全画面</button></div><div class="ps-frame rk-frame" id="mgframe"><iframe src="games/merge.html" title="中2理科 元素マージ"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">同じ元素をくっつけると、次の段階に進化します。画面をタップするか、← → とスペースで操作します。</p></div>`;
 }
 // 友達との最高点ランキング（直接の友達だけ。自分と並べて表示）
 const MG_RANK = { rows: null, err: false, busy: false, at: 0 };
