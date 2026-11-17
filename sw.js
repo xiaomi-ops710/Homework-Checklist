@@ -1,6 +1,11 @@
-// バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。index.html の APP_VERSION も同じ値にする
-const APP_VERSION = '17.99.11';
-const V = 'kosa-v' + APP_VERSION;
+// バージョン番号：index.html の STABLE_VER / BETA_VER と同じ値にする（ベータ版は /beta/ の中で、BETA_VER を使う）
+const STABLE_VER = '17.99.13';
+const BETA_VER = '17.99.14-beta1';
+const APP_VERSION = self.location.pathname.includes('/beta/') ? BETA_VER : STABLE_VER;
+// ベータ版（beta/ の中）と正式版（いちばん上）は、別々のキャッシュを使う（互いに消し合わないように）
+const BETA = self.location.pathname.includes('/beta/');
+const PFX = BETA ? 'kosa-beta-v' : 'kosa-v';
+const V = PFX + APP_VERSION;
 // フォント用のキャッシュは、バージョンが変わっても消さない（更新のあと最初に開くときも、すぐに表示できるように）
 const FC = 'kosa-fonts';
 const CORE = ['./', 'index.html', 'firebase-config.js'];
@@ -20,7 +25,7 @@ const keepFonts = async () => {
   try {
     const fc = await caches.open(FC);
     for (const k of await caches.keys()) {
-      if (!k.startsWith('kosa-v') || k === V) continue;
+      if (!(k.startsWith('kosa-v') || k.startsWith('kosa-beta-v')) || k === V) continue;
       const old = await caches.open(k);
       for (const r of await old.keys()) { if (FONT.includes(new URL(r.url).hostname)) { const res = await old.match(r); if (res) await fc.put(r, res); } }
     }
@@ -33,7 +38,7 @@ const tick = () => { got++; self.clients.matchAll({ includeUncontrolled: true, t
 self.addEventListener('install', e => { got = 0; e.waitUntil(
   caches.open(V).then(c => Promise.all([grabHtml(c).then(tick), grab(c, 'firebase-config.js').then(tick), ...EXTRA.map(u => grab(c, u).catch(() => { }).then(tick))])).then(keepFonts)
 ); });
-self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== FC).map(k => caches.delete(k)))).then(() => self.clients.claim())));
+self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith(PFX) && k !== V && k !== FC).map(k => caches.delete(k)))).then(() => self.clients.claim())));
 // プッシュ通知の受け取りと、通知を押したときの処理（アプリを開く）
 self.addEventListener('push', e => {
   let d = {};
@@ -49,6 +54,8 @@ self.addEventListener('message', e => { if (e.data === 'skip') self.skipWaiting(
 self.addEventListener('fetch', e => {
   const r = e.request, u = new URL(r.url);
   if (r.method !== 'GET') return;
+  // 正式版は beta/ の中を、ベータ版は beta/ の中だけを扱う（同じ場所を両方が取り合わないように）
+  if (u.origin === location.origin && u.pathname.includes('/beta/') !== BETA) return;
   if (FONT.includes(u.hostname)) {
     e.respondWith(caches.open(FC).then(c => c.match(r).then(h => h || fetch(r).then(res => { if (res && (res.ok || res.type === 'opaque')) c.put(r, res.clone()); return res; }))));
   } else if (u.origin === location.origin) {

@@ -1815,6 +1815,12 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .fb-pl input{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
 .fbm-imgs{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
 .fbm-imgs img{width:120px;height:120px;object-fit:cover;border-radius:14px;border:1px solid var(--s3);display:block}
+.fbm-zoom{padding:0;border:0;background:none;cursor:zoom-in;border-radius:14px;display:block}
+/* 写真を大きく見る（アプリの中で表示。開いている画面の上に重なる） */
+.fbz{position:fixed;inset:0;z-index:9500;display:grid;place-items:center;padding:24px;background:rgba(8,8,14,.92);animation:fadeIn .2s ease both}
+.fbz img{max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:12px;user-select:none;-webkit-user-select:none}
+.fbz-x{position:absolute;top:calc(12px + env(safe-area-inset-top,0px));right:12px;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.18);color:#fff;display:grid;place-items:center;cursor:pointer}
+.fbz-x .ms{font-size:24px}
 /* 課題の追加（刷新） */
 [hidden]{display:none!important}
 .tdx{display:grid;gap:14px}
@@ -2404,6 +2410,34 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
   .gr-row input{min-width:0;width:100%}
   .gr-sl{text-align:center}
 </style>
+<style id="beta-css">
+html.is-beta #nav .noti-b{position:relative}
+html.is-beta #nav .noti-b::before{content:'Beta';position:absolute;left:50%;top:-17px;transform:translateX(-50%);padding:2px 7px;border-radius:999px;background:#2f5fd6;color:#fff;font:800 10px/1.2 system-ui,-apple-system,sans-serif;letter-spacing:.08em;white-space:nowrap;pointer-events:none;box-shadow:0 4px 10px -4px #2f5fd6;z-index:2}
+.beta-list{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:9px;font-weight:600;line-height:1.6}
+.beta-list li{display:flex;gap:10px;align-items:flex-start}
+.beta-list .material-symbols-rounded{flex:none;color:var(--p)}
+#betaCur{position:fixed;inset:0;z-index:2147483100;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(120% 90% at 20% 0%,#6d5ce8 0%,#2f5fd6 46%,#14183a 100%);color:#fff;opacity:0;animation:bcIn .45s ease forwards;overflow:hidden;font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif}
+#betaCur .bc-orb{position:absolute;border-radius:50%;background:rgba(255,255,255,.12);animation:bcOrb 4s ease-in-out infinite;pointer-events:none}
+#betaCur .bc-in{position:relative;text-align:center;width:100%;max-width:360px;transform:translateY(18px) scale(.96);animation:bcUp .6s cubic-bezier(.2,.9,.3,1.2) .12s forwards}
+#betaCur .bc-ic{font-size:76px;line-height:1;animation:bcFloat 1.6s ease-in-out infinite}
+#betaCur h2{margin:14px 0 6px;font-size:1.45rem;font-weight:900}
+#betaCur .bc-sub{margin:0;opacity:.9;font-weight:600}
+#betaCur .bc-bar{height:8px;border-radius:99px;background:rgba(255,255,255,.24);overflow:hidden;margin:20px auto 0;max-width:260px}
+#betaCur .bc-bar i{display:block;height:100%;width:0;background:#fff;border-radius:99px;animation:bcBar 1.8s cubic-bezier(.4,0,.2,1) .25s forwards}
+#betaCur .bc-steps{list-style:none;padding:0;margin:16px auto 0;text-align:left;display:inline-grid;gap:8px;font-weight:700}
+#betaCur .bc-steps li{display:flex;gap:8px;align-items:center;opacity:0;transform:translateX(-8px);animation:bcStep .45s ease forwards}
+#betaCur .bc-steps li:nth-child(1){animation-delay:.35s}
+#betaCur .bc-steps li:nth-child(2){animation-delay:.95s}
+#betaCur .bc-steps li:nth-child(3){animation-delay:1.6s}
+#betaCur .bc-btn{margin-top:22px;border:0;border-radius:999px;padding:14px 28px;font:900 1rem system-ui,-apple-system,sans-serif;background:#fff;color:#2f5fd6;cursor:pointer;box-shadow:0 12px 24px -12px #000}
+@keyframes bcIn{to{opacity:1}}
+@keyframes bcUp{to{transform:none}}
+@keyframes bcFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes bcBar{to{width:100%}}
+@keyframes bcStep{to{opacity:1;transform:none}}
+@keyframes bcOrb{0%,100%{transform:translate(0,0)}50%{transform:translate(20px,-14px)}}
+@media (prefers-reduced-motion: reduce){#betaCur *{animation-duration:.01s!important;animation-delay:0s!important;animation-iteration-count:1!important}}
+</style>
 </head>
 <body>
 <div id="app">
@@ -2425,8 +2459,16 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 <script src="firebase-config.js"></script>
 <script>
 'use strict';
-// バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の APP_VERSION も同じ値にする
-const APP_VERSION = '17.99.11';
+// バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
+// 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
+const STABLE_VER = '17.99.13';
+const BETA_VER = '17.99.14-beta1';
+// ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
+const IS_BETA = location.pathname.includes('/beta/');
+const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
+if (IS_BETA) document.documentElement.classList.add('is-beta');
+const CACHE_PFX = IS_BETA ? 'kosa-beta-v' : 'kosa-v';
+let BETA_OK = false; // ベータ版に登録されているか（ログインしたあとに確かめます）
 /* Googleログイン後に戻ってきたトークンは、通信より先に端末へ一時保存する（PWAの再読み込み対策） */
 const OAUTH_KEY = 'kosa-oauth', TOKEN_KEY = 'kosa-pending-token';
 (function captureToken() {
@@ -2602,11 +2644,31 @@ function load() {
   }
   return fresh();
 }
+// 設定の項目ごとの「変えた時刻」。別の端末の古い設定で、変えていない項目まで戻らないように、項目ごとに新しい方を残す
+let _setSnap = null;   // 最後に保存（または、クラウドから取り込んだ）ときの設定
+function setStamp() {
+  const cur = (S && S.set) || {}; S.setT = S.setT || {};
+  if (_setSnap) { const now = Date.now(); for (const k of new Set([...Object.keys(cur), ...Object.keys(_setSnap)])) if (JSON.stringify(cur[k]) !== JSON.stringify(_setSnap[k])) S.setT[k] = now; }
+  _setSnap = JSON.parse(JSON.stringify(cur));
+}
+function setApplied() { _setSnap = JSON.parse(JSON.stringify((S && S.set) || {})); }
+function mergeSetKeys(lSet, lT, rSet, rT) {
+  const L = lSet || {}, R = rSet || {}, LT = lT || {}, RT = rT || {}, out = {}, t = {}, has = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+  for (const k of new Set([...Object.keys(L), ...Object.keys(R), ...Object.keys(LT), ...Object.keys(RT)])) {
+    const lt = LT[k] || 0, rt = RT[k] || 0, hl = has(L, k), hr = has(R, k);
+    const useR = hl && !hr ? rt > lt : (!hl && hr ? rt >= lt : rt > lt);
+    const src = useR ? R : L;
+    if (has(src, k)) out[k] = src[k];
+    t[k] = Math.max(lt, rt);
+  }
+  return { set: out, t };
+}
 let S = load();
 let ui = { tab: 'home', filter: 'all', sid: '', q: '', sort: 'due', period: 7, metric: 'pages', collapsed: {}, anim: false, fab: false, flash: null, cal: { y: new Date().getFullYear(), m: new Date().getMonth() }, sel: today() };
 let lastUndo = null;
 let _noSync = false;
-function save() { try { pushSyncSoon(); } catch (e) { } try { if (!_noSync) S.mt = Date.now(); trackDeletes(S); localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('保存に失敗しました。容量を確認してください'); } if (!_noSync) cloudPush(); }
+function save() { try { pushSyncSoon(); } catch (e) { } try { setStamp(); if (!_noSync) S.mt = Date.now(); trackDeletes(S); localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { toast('保存に失敗しました。容量を確認してください'); } if (!_noSync) cloudPush(); }
+setApplied();
 const snap = () => JSON.stringify(S);
 const activeExams = () => S.exams.filter(e => !e.arc);
 const pastExams = () => S.exams.filter(e => e.arc).sort((a, b) => (b.arcAt || 0) - (a.arcAt || 0));
@@ -2845,22 +2907,35 @@ async function admList() {
     el.innerHTML = rows.length ? rows.map(r => `<button type="button" class="adm-row" data-act="admview" data-id="${esc(r.id)}"><b>${esc(r.s ? r.s.name : '（まだ同期していません）')}</b>${r.s ? `<span>Lv.${r.s.lv}・XP ${r.s.xp}・${r.s.pg}ページ・完了 ${r.s.done}件</span>` : ''}${r.s && r.s.at ? `<small>最終同期 ${new Date(r.s.at).toLocaleString('ja-JP')}</small>` : ''}</button>`).join('') : '<p class="muted">まだ生徒がいません</p>';
   } catch (e) { el.innerHTML = `<p class="muted">読み込めませんでした（${esc(String((e && (e.code || e.message)) || e).slice(0, 120))}）</p>`; }
 }
+async function admBeta(v) {
+  const [uid, on] = String(v || '').split('|');
+  if (!uid || !CLOUD.fb || !adminOn()) return;
+  const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'betaTesters', uid);
+  try {
+    if (on === '1') await fs.setDoc(ref, { on: true, t: Date.now() }); else await fs.deleteDoc(ref);
+    toast(on === '1' ? 'ベータ版を使えるようにしました' : 'ベータ版を使えなくしました');
+    admView(uid);
+  } catch (e) { toast('変更できませんでした。ルールの公開を確かめてください'); }
+}
 async function admView(uid) {
   openDlg(`<h2>${ms('person')}生徒の記録</h2><div id="admDet"><p class="muted">読み込み中…</p></div><div class="dact"><button type="button" class="btn text" data-act="admopen">一覧にもどる</button></div>`);
   dlg.dataset.k = 'admv';
   const el = document.getElementById('admDet');
   try {
     const { fs, db } = CLOUD.fb;
-    const [u, ev] = await Promise.all([
+    const [u, ev, bt] = await Promise.all([
       fs.getDoc(fs.doc(db, 'users', uid)),
-      fs.getDocs(fs.query(fs.collection(db, 'activity', uid, 'ev'), fs.where('t', '>=', Date.now() - ACT_KEEP), fs.orderBy('t', 'desc'), fs.limit(300)))
+      fs.getDocs(fs.query(fs.collection(db, 'activity', uid, 'ev'), fs.where('t', '>=', Date.now() - ACT_KEEP), fs.orderBy('t', 'desc'), fs.limit(300))),
+      fs.getDoc(fs.doc(db, 'betaTesters', uid)).catch(() => null)
     ]);
+    const bOn = !!(bt && bt.exists());
+    const betaHtml = `<div class="adm-beta" style="margin-bottom:12px"><div class="lbl">ベータ版</div><p class="muted" style="font-weight:500;margin:6px 0 10px">${bt ? (bOn ? 'この生徒は、ベータ版を使えます（設定と更新の画面から移れます）' : 'まだ、ベータ版は使えません') : 'ベータ版の状態を読めませんでした'}</p><button type="button" class="btn ${bOn ? 'text' : 'tonal'} sm" data-act="admbeta" data-id="${esc(uid)}|${bOn ? 0 : 1}">${bOn ? 'ベータ版を使えなくする' : 'ベータ版を使えるようにする'}</button></div>`;
     const x = u.exists() ? (u.data() || {}) : {}, sm = x.sum || {};
     let data = null; try { data = JSON.parse(x.json || 'null'); } catch (e) { }
     const KL = { open: 'アプリを開いた', task: '課題を完了', xp: 'XPを獲得', lv: 'レベルアップ', mg: '元素マージの結果' };
     const acts = []; ev.forEach(d => acts.push(d.data()));
     const fmt = t => new Date(t).toLocaleString('ja-JP');
-    el.innerHTML = `<div class="adm-sum"><p><b>${esc(sm.name || '（名前なし）')}</b></p>
+    el.innerHTML = `${betaHtml}<div class="adm-sum"><p><b>${esc(sm.name || '（名前なし）')}</b></p>
       <p>Lv.${sm.lv ?? '-'}・XP ${sm.xp ?? '-'}・ページ ${sm.pg ?? '-'}・勉強 ${sm.min ?? '-'}分・完了 ${sm.done ?? '-'}件・連続 ${sm.streak ?? '-'}日</p>
       <p class="muted" style="font-weight:500">最終同期：${sm.at ? fmt(sm.at) : 'なし'}</p></div>
       <div class="lbl" style="margin-top:12px">いつ・何をしたか（直近3日）</div>
@@ -3269,6 +3344,9 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.99.14-beta1', d: '__BUILD__', beta: true, t: 'ベータ版の最初の版（17.99.14 Beta1）', n: ['ベータ版の番号を、正式版より上（17.99.14 Beta1）にしました', 'ベータ版の更新履歴は、ベータ版の画面だけに出ます', 'この版は、正式版（17.99.13）と機能は同じです。新しい機能を追加したら、ここに書いていきます'] },
+  { v: '17.99.13', d: '__BUILD__', t: 'しりとりに英語を復活・ベータ版の切り替えと案内を改善', n: ['しりとりに「English（英語）」を戻しました。英語の言葉は、前の言葉の最後の文字でつなぎます（ひらがなのしりとりも、これまでどおりです）', 'ベータ版を使っているときは、タブバーの通知ボタンの上に「Beta」を表示します', 'ベータ版へ移るとき・正式版に戻るときに、説明と、移動のあいさつの画面を出すようにしました', '更新の画面と設定から、ベータ版を使う・正式版に戻すことができます。どちらも、データはそのまま残ります'] },
+  { v: '17.99.12', d: '__BUILD__', t: 'ベータ版を追加・フィードバックの写真・ツールバーの修正・しりとりの速さ', n: ['ベータ版を追加しました。ベータ版に登録された方は、新しい版を正式版より先に使えます（設定の「ベータ版を開く」から）。登録されていない方は、正式版を使います', 'フィードバックに添付された写真を、押すとアプリの中で大きく見られるようにしました（iPadで白い画面になる不具合を直しました）', 'ショップのAIモデルの説明を、生徒に関係のある違いだけにしました（料金の説明を消しました）', 'ツールバーの並べ替えが、あとで元に戻ることがある不具合を直しました', '元素マージ：下の操作の文字がはみ出ないように、ボタンを2段に並べられるようにしました', 'しりとり：友達との対戦やAIの返事が遅れることを減らしました。一覧にある言葉はAIに聞かずに判定し、AIが返事をしないときは6秒でルールだけで判定します'] },
   { v: '17.99.11', d: '__BUILD__', t: 'しりとりをLINE風の画面に刷新・AIの返事を速く・AIタブの文字とモデル切り替え', n: ['しりとりの対戦画面を、LINEのようなチャット画面に作り直しました（吹き出し・時刻・既読・相手の入力中の表示）', 'しりとり：「ヒント」ボタンで、使える言葉を入れられるようにしました（そのまま送っても、直してから送ってもよいです）', 'しりとり：AIとの対戦は、相手の言葉の判定とAIの答えを1回の返事でまとめて受け取るようにして、返事が速くなりました', 'しりとり：ルール違反の理由は、言葉と文字から決まった文で説明するようにしました（AIの説明が話とずれる不具合を直しました）', 'しりとり：友達からの対戦リクエストの通知をタップすると、「参加する／断る」を出すようにしました。一覧が隠れて参加できなかった不具合を直しました', 'しりとり：友達に申し込む・コードで対戦の画面で、ボタンが右にはみ出して隠れる不具合を直しました', 'AIタブ：「使用中」の文字や、今日の質問の回数が隠れないようにしました', 'AIタブから、持っているAIモデルをすぐ切り替えられるようにしました（まだ持っていないモデルは、ショップへの案内になります）'] },
   { v: '17.99.10', d: '__BUILD__', t: 'しりとりを全面改良・iPadのキーボードでツールバーが消える不具合を修正', n: ['iPadで文字入力のキーボードを閉じたあとに、下のツールバーが消えたままになることがある不具合を直しました', 'しりとり：「英語」の選択を消し、日本語だけで遊べるようにしました', 'しりとり：言葉のつなぎを、読みで正しく判定するようにしました（ノルウェーの「え」、小さい字、伸ばす音など）。「ん」の判定も、読みで行います', 'しりとり：AIの答えが長すぎて負けになる問題を直しました。AIは短い言葉で答え、思いつけないときは言葉の一覧から選びます', 'しりとり：言葉の一覧は、いちばん新しい言葉まで自動で見えるようにしました。古い言葉も、スクロールで見返せます', 'しりとり：招待の通知をタップすると、対戦のリクエストの画面が開くようにしました。対戦するには、お互いがレベル7になっている必要があります', 'しりとり：入力欄と送信ボタンがはみ出ないように直し、画面をゲームらしく豪華にしました'] },
   { v: '17.99.9', d: '__BUILD__', t: 'しりとりツールを追加（レベル7で解放）', n: ['レベル7で、「しりとり」ツールが使えるようになりました', 'AIと対戦：むずかしさ（やさしい・ふつう・むずかしい）を選べます。お題（英語の動詞など）を入れるか、お題なしの「自由」で遊べます。ルール違反をしたときは、AIがなぜだめかを説明します', '友達と対戦：制限時間（10・15・20秒）を選び、友達にリクエストを送るか、6文字のコードで参加できます。リクエストが届くと、通知でお知らせします', '友達との対戦では、AIが言葉のルールを判定します。判定は、答えた人の端末で行われます', 'AIの対戦や判定は、1日のAIの利用回数に含まれます', '対戦の部屋とリクエストを保存するため、Firebaseのルールを更新しました'] },
@@ -3437,10 +3515,16 @@ const CHANGELOG = [
   { v: '1.1', t: '表示の修正', n: ['画面の横幅に合わせて、表示が崩れないようにしました'] },
   { v: '1.0', t: '最初のバージョン', n: ['課題を登録して、一覧で見られるアプリを作りました'] },
 ];
-const verCmp = (a, b) => { const x = String(a).split('.').map(Number), y = String(b).split('.').map(Number); for (let i = 0; i < Math.max(x.length, y.length); i++) { const d = (x[i] || 0) - (y[i] || 0); if (d) return d; } return 0; };
+// 版の比べ方：17.99.14-beta1 は 17.99.13 より新しく、17.99.14 は 17.99.14-beta1 より新しい。ベータ版どうしは番号で比べる
+const verKey = v => { const m = String(v).match(/^([\d.]+)(?:-beta(\d+))?$/); return m ? { n: m[1].split('.').map(Number), b: m[2] ? Number(m[2]) : Infinity } : { n: [0], b: Infinity }; };
+const verCmp = (a, b) => { const x = verKey(a), y = verKey(b); for (let i = 0; i < Math.max(x.n.length, y.n.length); i++) { const d = (x.n[i] || 0) - (y.n[i] || 0); if (d) return d; } return x.b === y.b ? 0 : (x.b > y.b ? 1 : -1); };
+// 画面に出す版の名前（17.99.14-beta1 → 17.99.14 Beta1）
+const verTxt = v => String(v).replace(/-beta(\d+)$/, ' Beta$1');
+// 更新履歴：ベータ版の項目は、ベータ版の画面だけに出す
+const changelogList = () => CHANGELOG.filter(e => !e.beta || IS_BETA);
 const clBlock = e => `<section class="clv"><div class="clh"><b>v${e.v}</b><span>${esc(e.t)}</span>${e.d ? `<small class="cl-d">${esc(e.d)}</small>` : ''}</div><ul>${e.n.map(x => `<li>${esc(x)}</li>`).join('')}</ul></section>`;
 function historyDlg() {
-  openDlg(`<h2>${ms('history')}更新履歴<span class="vchip">v${APP_VERSION}</span></h2><div class="cll">${CHANGELOG.map((e, i) => `<details class="clv" ${i === 0 ? 'open' : ''}><summary><div class="clh"><b>v${e.v}</b><span>${esc(e.t)}</span>${e.d ? `<small class="cl-d">${esc(e.d)}</small>` : ''}</div></summary><ul>${e.n.map(x => `<li>${esc(x)}</li>`).join('')}</ul></details>`).join('')}</div><div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">${ms('check')}閉じる</button></div>`);
+  openDlg(`<h2>${ms('history')}更新履歴<span class="vchip">v${verTxt(APP_VERSION)}</span></h2><div class="cll">${changelogList().map((e, i) => `<details class="clv" ${i === 0 ? 'open' : ''}><summary><div class="clh"><b>v${e.v}</b><span>${esc(e.t)}</span>${e.d ? `<small class="cl-d">${esc(e.d)}</small>` : ''}</div></summary><ul>${e.n.map(x => `<li>${esc(x)}</li>`).join('')}</ul></details>`).join('')}</div><div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">${ms('check')}閉じる</button></div>`);
 }
 /* ---------- ホーム ---------- */
 function examCount(ex) {
@@ -3464,7 +3548,7 @@ function viewHome() {
   let h = `<div class="greet"><div style="flex:1 1 280px;min-width:240px"><h1 class="${rotSmall(ROT.phase, ROT.text || greeting()[0]) ? 'tip' : ''}"><span class="rot" id="rot">${rotHtml()}</span><small>${gd}</small></h1></div>
     ${urg ? `<span class="pillchip warnp">${ms('warning')}提出期限が近い課題 ${urg}件</span>` : ''}
     
-    <button class="pillchip hsearch" data-act="gsearch" aria-label="さがす" title="さがす">${ms('search')}<span>さがす</span></button><button class="pillchip hedit" data-act="homeedit" aria-label="ホームを編集" title="ホームを編集">${ms('edit')}編集</button><span class="pillchip ver" data-act="upd" role="button" aria-label="バージョン">v${APP_VERSION}</span>
+    <button class="pillchip hsearch" data-act="gsearch" aria-label="さがす" title="さがす">${ms('search')}<span>さがす</span></button><button class="pillchip hedit" data-act="homeedit" aria-label="ホームを編集" title="ホームを編集">${ms('edit')}編集</button><span class="pillchip ver" data-act="upd" role="button" aria-label="バージョン">v${verTxt(APP_VERSION)}</span>
     <button class="pillchip rp" data-act="tab" data-id="stats" aria-label="レベル"><span class="lv"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" style="stroke:color-mix(in srgb,var(--on-sec-c) 18%,transparent)"/><circle cx="16" cy="16" r="13" fill="none" stroke-width="3.5" stroke-linecap="round" style="stroke:var(--primary)" stroke-dasharray="${(C * lv.p).toFixed(1)} ${C.toFixed(1)}" transform="rotate(-90 16 16)"/></svg>${ms('stars', 'f', 'font-size:16px;color:var(--primary)')}</span>Lv.${lv.L}</button></div>`;
   { const past = pastExams();
     h += `<div class="chips scroll mb">${activeExams().map(e => `<button class="chip ${e.id === ex.id ? 'on' : ''}" data-act="exam" data-id="${e.id}">${esc(e.name)}</button>`).join('')}${past.length ? `<button class="chip ${ex.arc ? 'on' : ''}" data-act="pastlist">${ms('inventory_2')}${ex.arc ? esc(ex.name) : '保存した考査 ' + past.length}</button>` : ''}<button class="chip" data-act="addexam">${ms('add')}考査を追加</button></div>`;
@@ -3976,10 +4060,11 @@ function viewSettings() {
   <div class="fld"><div class="lbl">文字の大きさ</div><div class="seg">${[['s', '小'], ['m', '標準'], ['l', '大']].map(([v, l]) => `<button class="${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}">${l}</button>`).join('')}</div></div>
   ${swRow('wx', '今日の天気をホームに出す', '位置情報を使います（一度だけ確認します）')}${swRow('autoUpd', 'アップデートを自動で行う', '新しい版が見つかると、確認なしで自動的に更新します（タイマーの途中なら、終わってから）')}${swRow('noWhatsNew', 'アップデート後の更新内容を出さない', 'オンにすると、アップデートしたあとに「何が変わったか」の案内を出しません（更新の確認の画面からも変えられます）')}${swRow('anim', 'アニメーション', 'オフにすると動きを最小限にします')}${swRow('confetti', '完了時の演出', '課題を終えたとき紙吹雪を表示します')}${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}${swRow('timerAnim', 'タイマー画面のアニメーション', 'オフにすると、円の動きなどを止めます')}${swRow('natStop', 'タイマー終了で自然の音を止める', '時間が終わると、自然の音を自動で止めます')}</div>
 
+  ${betaRowHtml()}
   <div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>
   ${navSettings()}
 
-  <div class="h-sec"><h2>${ms('help')}使い方とバージョン</h2></div><div class="card"><div class="setrow" style="padding:0 0 14px"><span class="t">バージョン<small data-ytk style="display:block;width:fit-content;padding:8px 24px 8px 0;margin:-8px 0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation">v${APP_VERSION}</small></span></div><div class="chips"><button class="btn tonal" data-act="guide">${ms('help')}使い方を見る</button><button class="btn tonal" data-act="chlog">${ms('history')}更新履歴</button></div></div>
+  <div class="h-sec"><h2>${ms('help')}使い方とバージョン</h2></div><div class="card"><div class="setrow" style="padding:0 0 14px"><span class="t">バージョン<small data-ytk style="display:block;width:fit-content;padding:8px 24px 8px 0;margin:-8px 0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation">v${verTxt(APP_VERSION)}</small></span></div><div class="chips"><button class="btn tonal" data-act="guide">${ms('help')}使い方を見る</button><button class="btn tonal" data-act="chlog">${ms('history')}更新履歴</button></div></div>
 
   <div class="h-sec"><h2>${ms('system_update')}アプリのアップデート</h2></div>${updCard()}
 
@@ -4557,6 +4642,7 @@ const ACT = {
   bagtoggle(id) { const t = tblData(), nx = tblNext(); if (!t.chk || t.chk.d !== nx.date) t.chk = { d: nx.date, v: [] }; const i = t.chk.v.indexOf(id); if (i >= 0) t.chk.v.splice(i, 1); else t.chk.v.push(id); save(); bagRefresh(); },
   fbopen() { closeDlg(); fbDlg(); },
   fbreload() { fbInbox(); },
+  fbzoom(src) { fbZoom(src); },
   fbdel(id) { if (!CLOUD.fb) return; const { fs, db } = CLOUD.fb; confirmDlg('このフィードバックを消しますか？', '消すと、元にもどせません。', '消す', async () => { try { await fs.deleteDoc(fs.doc(db, 'feedback', id)); } catch (e) { toast('消せませんでした'); } fbInbox(); }); },
   syncchoice() { syncChoiceDlg(); },
   syncuse(id) {
@@ -5311,7 +5397,7 @@ function acctHtml() {
   const showMine = FBL.mine.length || fbQ().length;
   return `<div class="ac-top">${userAv(76)}<b class="ac-name">${esc(u.displayName || 'Google アカウント')}</b><span class="ac-mail">${esc(u.email || '')}</span><span class="ac-st st-${st}"><i></i>${label}</span></div>
   <div class="ac-tri">${pill('fbopen', 'rate_review', 'フィードバック')}${showMine ? pill('fbmine', 'forum', '送った内容', fbN ? `<i class="nbadge in">${fbN}</i>` : '') : ''}${FBL.isAdmin ? pill('fbinbox', 'inbox', '受信箱', admN ? `<i class="nbadge in">${admN}</i>` : '') : ''}${FBL.isAdmin ? pill('annsend', 'campaign', 'お知らせ') : ''}${pill('svlist', 'poll', 'アンケート', svUnanswered() ? `<i class="nbadge in">${svUnanswered()}</i>` : '')}</div>
-  <div class="ac-list ac-app"><button class="ac-row" data-act="notiopen">${ms('notifications')}<span>通知</span>${ms('chevron_right')}</button><button class="ac-row" data-act="updcheck">${ms('system_update')}<span>アップデートを確認</span><b>v${APP_VERSION}</b></button><button class="ac-row" data-act="setopen">${ms('settings')}<span>設定</span>${ms('chevron_right')}</button></div>
+  <div class="ac-list ac-app"><button class="ac-row" data-act="notiopen">${ms('notifications')}<span>通知</span>${ms('chevron_right')}</button><button class="ac-row" data-act="updcheck">${ms('system_update')}<span>アップデートを確認</span><b>v${verTxt(APP_VERSION)}</b></button><button class="ac-row" data-act="setopen">${ms('settings')}<span>設定</span>${ms('chevron_right')}</button></div>
   <div class="ac-list"><div class="ac-row">${ms('schedule')}<span>最終同期</span><b>${last}</b></div><button class="ac-row" data-act="cloudnow">${ms('sync')}<span>今すぐ同期</span>${ms('chevron_right')}</button><button class="ac-row danger" data-act="cloudout">${ms('logout')}<span>ログアウト</span></button></div>
   <div class="dact"><span class="sp"></span><button class="btn tonal" data-act="close">閉じる</button></div>`;
 }
@@ -5336,7 +5422,7 @@ async function cloudInit() {
     if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); CLOUD.ac = { mod: ac, inst: ac.initializeAppCheck(a, { provider: new ac.ReCaptchaEnterpriseProvider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }) }; } catch (e) { if (window.__kosaLog) window.__kosaLog('App Checkの初期化に失敗: ' + ((e && e.message) || e)); } }
     const authI = auth.getAuth(a), db = fs.getFirestore(a);
     CLOUD.fb = { auth, fs, authI, db, app: a }; CLOUD.status = 'out';
-    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; CLOUD.authed = true; if (u) inboxStart(); else { inboxStop(); svWatchStop(); } if (u) { cloudStart(); setTimeout(() => { fbWatchStart(); annWatchStart(); svWatchStart(); asgWatchStart(); }, 1500); } else { cloudStop(); fbWatchStop(); annWatchStop(); asgWatchStop(); } cloudRefresh(); frAuthRedraw(); });
+    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; CLOUD.authed = true; betaCheck(u); if (u) inboxStart(); else { inboxStop(); svWatchStop(); } if (u) { cloudStart(); setTimeout(() => { fbWatchStart(); annWatchStart(); svWatchStart(); asgWatchStart(); }, 1500); } else { cloudStop(); fbWatchStop(); annWatchStop(); asgWatchStop(); } cloudRefresh(); frAuthRedraw(); });
     cloudResume();
   } catch (e) { CLOUD.status = 'error'; }
   cloudRefresh();
@@ -5358,7 +5444,7 @@ function autoBackup(why, obj) {
   } catch (e) { }
 }
 const sameData = (a, b) => { try { return JSON.stringify({ ...a, mt: 0 }) === JSON.stringify({ ...b, mt: 0 }); } catch (e) { return false; } };
-function cloudPull(remote, rm) { _noSync = true; const local = S, raw = { decks: Array.isArray(remote.decks) ? remote.decks.slice() : [], cards: Array.isArray(remote.cards) ? remote.cards.slice() : [], gone: remote.gone, alive: remote.alive }; S = migrate(remote); S.mt = rm; if (!local.cleared && !remote.cleared) { S.log = unionLog(local.log, S.log); S.sessions = unionSessions(local.sessions, S.sessions); S.badges = unionBadges(local.badges, S.badges); } S.todos = unionById(local.todos, remote.todos); S.habits = unionById(local.habits, remote.habits); S.soc = socUnion(socOf(local), remote.soc, true); const m = unionDW(local, raw, true); S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive; ensureDecks(S); applyTheme(); save(); _noSync = false; ui.sid = ''; if (!dlg.open && !TM.open) render(); }
+function cloudPull(remote, rm) { _noSync = true; setStamp(); const local = S, raw = { decks: Array.isArray(remote.decks) ? remote.decks.slice() : [], cards: Array.isArray(remote.cards) ? remote.cards.slice() : [], gone: remote.gone, alive: remote.alive }; S = migrate(remote); { const mg = mergeSetKeys(local.set, local.setT, S.set, remote.setT); S.set = Object.assign({}, DEF_SET, mg.set); S.setT = mg.t; setApplied(); } S.mt = rm; if (!local.cleared && !remote.cleared) { S.log = unionLog(local.log, S.log); S.sessions = unionSessions(local.sessions, S.sessions); S.badges = unionBadges(local.badges, S.badges); } S.todos = unionById(local.todos, remote.todos); S.habits = unionById(local.habits, remote.habits); S.soc = socUnion(socOf(local), remote.soc, true); const m = unionDW(local, raw, true); S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive; ensureDecks(S); applyTheme(); save(); _noSync = false; ui.sid = ''; if (!dlg.open && !TM.open) render(); }
 function syncChoiceDlg() {
   const P = CLOUD.pend; if (!P) return;
   const fmt = t => t ? new Date(t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '不明';
@@ -5367,6 +5453,83 @@ function syncChoiceDlg() {
   <div class="wc-opt"><button class="wc-o" data-act="syncuse" data-id="cloud">${ms('cloud_download')}<b>クラウドのデータを使う</b><small>${cnt(P.remote)}（${fmt(P.rm)} 更新）</small></button><button class="wc-o" data-act="syncuse" data-id="local">${ms('smartphone')}<b>この端末のデータを使う</b><small>${cnt(S)}（${fmt(S.mt)} 更新）　クラウドを上書きします</small></button></div>
   <div class="dact"><button class="btn text" data-act="cloudout">${ms('logout')}ログアウトする</button><span class="sp"></span><button class="btn text" data-act="close">あとで決める</button></div>`);
 }
+// ベータ版の確認：/beta/ を開けるのは、ベータ版に登録された人だけです（それ以外は正式版へ戻します）
+async function betaCheck(u) {
+  let ok = false;
+  try { if (u) { const fs = CLOUD.fb.fs; ok = (await fs.getDoc(fs.doc(CLOUD.fb.db, 'betaTesters', u.uid))).exists(); } } catch (e) { ok = false; }
+  const was = BETA_OK; BETA_OK = ok;
+  if (IS_BETA && !ok) { toast('ベータ版は、登録された方だけが使えます。正式版を開きます'); setTimeout(() => location.replace(new URL('../', location.href).href), 1400); return; }
+  if (IS_BETA) document.title = '【ベータ】考査課題マネージャー';
+  if (was !== ok) render();
+}
+// 設定の中の、ベータ版の行（登録されている人だけに出ます）
+function betaRowHtml() {
+  if (IS_BETA) return `<div class="card"><div class="setrow"><span class="t">ベータ版を使っています<small>新しい機能を先に試せます。データはそのまま残ります</small></span><button type="button" class="btn tonal xs" data-act="betaback">${ms('undo')}正式版に戻る</button></div></div>`;
+  return BETA_OK ? `<div class="card"><div class="setrow"><span class="t">ベータ版<small>使えるようになっているので、新しい版を先に試せます</small></span><button type="button" class="btn tonal xs" data-act="betago">${ms('science')}ベータ版を開く</button></div></div>` : '';
+}
+// 更新の画面に出す、ベータ版の行き来ボタン
+function betaUpdBtn() {
+  if (IS_BETA) return `<button class="ux-btn x" data-act="betaback">${ms('undo')}正式版に戻る</button>`;
+  return BETA_OK ? `<button class="ux-btn x" data-act="betago">${ms('science')}ベータ版を使う</button>` : '';
+}
+// ベータ版と正式版の行き来。データは同じ場所に残るので、行く前に保存し、行ったあとも同じデータで開きます
+let betaBusy = false;
+function betaGoDlg() {
+  openDlg(`<h2>${ms('science')}ベータ版を使う</h2>
+  <p class="muted" style="font-weight:600;line-height:1.7;margin:0 0 10px">新しい機能を、正式版より先に試せる版です。</p>
+  <ul class="beta-list"><li>${ms('database')}<span>課題・記録・設定などのデータは、そのまま引きつぎます（消えません）</span></li><li>${ms('bug_report')}<span>まだ不具合があることがあります。おかしいところは、フィードバックで教えてください</span></li><li>${ms('undo')}<span>いつでも「正式版に戻る」で、もとの版に戻れます（データは残ります）</span></li></ul>
+  <div class="dact"><button type="button" class="btn text" data-act="close">やめる</button><button type="button" class="btn" data-act="betago2">${ms('rocket_launch')}ベータ版へ更新</button></div>`);
+  dlg.dataset.k = 'beta';
+}
+function betaBackDlg() {
+  openDlg(`<h2>${ms('undo')}正式版に戻す</h2>
+  <p class="muted" style="font-weight:600;line-height:1.7;margin:0 0 10px">もとの正式版に戻ります。</p>
+  <ul class="beta-list"><li>${ms('database')}<span>データは消えません。そのまま使えます</span></li><li>${ms('verified')}<span>正式版で、いつもどおり使えます</span></li></ul>
+  <div class="dact"><button type="button" class="btn text" data-act="close">やめる</button><button type="button" class="btn" data-act="betaback2">${ms('undo')}正式版に戻る</button></div>`);
+  dlg.dataset.k = 'beta';
+}
+function betaCurtain(o) {
+  const old = document.getElementById('betaCur'); if (old) old.remove();
+  const el = document.createElement('div'); el.id = 'betaCur'; el.setAttribute('role', 'status');
+  el.innerHTML = `<i class="bc-orb" style="left:-50px;top:8%;width:200px;height:200px"></i><i class="bc-orb" style="right:-40px;bottom:6%;width:150px;height:150px;animation-delay:-2s"></i>
+    <div class="bc-in"><div class="bc-ic">${ms(o.icon)}</div><h2>${esc(o.title)}</h2><p class="bc-sub">${esc(o.sub)}</p>${o.bar ? '<div class="bc-bar"><i></i></div>' : ''}<ul class="bc-steps">${o.steps.map(t => `<li>${ms('check_circle')}<span>${esc(t)}</span></li>`).join('')}</ul>${o.button ? `<button type="button" class="bc-btn" id="bcOk">${esc(o.button)}</button>` : ''}</div>`;
+  if (o.button) el.querySelector('#bcOk').addEventListener('click', () => el.remove());
+  document.body.appendChild(el);
+  return el;
+}
+async function betaSwitch(to) {
+  if (betaBusy) return; betaBusy = true;
+  if (dlg.open) closeDlg();
+  const toBeta = to === 'beta';
+  betaCurtain({ icon: toBeta ? 'rocket_launch' : 'undo', title: toBeta ? 'ベータ版へ更新しています' : '正式版に戻しています', sub: 'データは、そのまま引きつぎます', bar: true,
+    steps: ['データを保存しています', toBeta ? '新しいベータ版を準備しています' : '正式版を準備しています', toBeta ? 'ベータ版を開きます' : '正式版を開きます'] });
+  try { save(); } catch (e) { }
+  try { if (CLOUD.user) await Promise.race([cloudPushNow(), new Promise(r => setTimeout(r, 4000))]); } catch (e) { }
+  const u = new URL(toBeta ? 'beta/' : '../', location.href);
+  u.searchParams.set('from', toBeta ? 'stable' : 'beta');
+  setTimeout(() => { location.href = u.href; }, 2100);
+}
+// 行ったあとのあいさつ（?from= を見て、一度だけ出す）
+function betaArrive() {
+  const from = new URLSearchParams(location.search).get('from');
+  if (!from) return;
+  try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) { }
+  if (IS_BETA && from === 'stable') {
+    betaCurtain({ icon: 'rocket_launch', title: 'ベータ版へようこそ', sub: '新しい機能を、先に試せます', button: 'はじめる',
+      steps: ['データは、そのまま使えます', '不具合は、フィードバックで教えてください', 'いつでも「正式版に戻る」で戻れます'] });
+  } else if (!IS_BETA && from === 'beta') {
+    const el = betaCurtain({ icon: 'undo', title: '正式版に戻りました', sub: 'データは、そのまま残っています', steps: ['データは消えていません', '正式版で、いつもどおり使えます'] });
+    setTimeout(() => el.remove(), 2800);
+  }
+}
+if (document.body) setTimeout(betaArrive, 400); else document.addEventListener('DOMContentLoaded', () => setTimeout(betaArrive, 400));
+Object.assign(ACT, {
+  betago() { betaGoDlg(); },
+  betago2() { betaSwitch('beta'); },
+  betaback() { betaBackDlg(); },
+  betaback2() { betaSwitch('stable'); },
+  admbeta(id) { admBeta(id); },
+});
 function cloudStart() {
   openLogOnce();
   cloudStop(); const { fs, db } = CLOUD.fb; CLOUD.first = true; CLOUD.status = 'sync'; CLOUD.hold = false; CLOUD.pend = null;
@@ -10298,7 +10461,7 @@ function updPgHtml(i) {
   if (p.kind === 'hero') {
     art = `<img class="obm-appicon upd-icon" src="icon-192.png" alt="アプリのアイコン" width="112" height="112">`;
     title = 'アップデートしました';
-    body = `<p>v${esc(APP_VERSION)}に更新されました。新しくなった点を、順番に見ていきましょう。</p><div class="upd-chips"><span class="vchip">v${esc(APP_VERSION)}</span><span class="upd-cnt">${p.count}件の更新</span></div>`;
+    body = `<p>v${esc(verTxt(APP_VERSION))}に更新されました。新しくなった点を、順番に見ていきましょう。</p><div class="upd-chips"><span class="vchip">v${esc(verTxt(APP_VERSION))}</span><span class="upd-cnt">${p.count}件の更新</span></div>`;
   } else {
     art = `<div class="upd-ver"><b>v${esc(p.e.v)}</b></div>`;
     title = esc(p.e.t);
@@ -10311,7 +10474,7 @@ function updPgHtml(i) {
   <div class="ob-foot"><button type="button" class="btn text ob-skip" data-act="updclose">${ms('skip_next')}スキップ</button>${i ? '<button type="button" class="btn text" data-act="updprev">戻る</button>' : ''}<span class="sp"></span><button type="button" class="btn ob-next" data-act="${last ? 'updclose' : 'updnext'}">${last ? 'はじめる' : '次へ'}${ms(last ? 'check' : 'arrow_forward')}</button></div></div>`;
 }
 function whatsNewDlg(last) {
-  const all = CHANGELOG.filter(e => verCmp(e.v, last) > 0 && verCmp(e.v, APP_VERSION) <= 0), list = all.slice(0, 6);
+  const all = changelogList().filter(e => verCmp(e.v, last) > 0 && verCmp(e.v, APP_VERSION) <= 0), list = all.slice(0, 6);
   if (!list.length) return;
   UPG.pages = [{ kind: 'hero', count: all.length }, ...list.map(e => ({ kind: 'ver', e })), ...(all.length > list.length ? [] : [])];
   UPG.i = 0; UPG.dir = 'fwd';
@@ -10403,6 +10566,7 @@ function unionSessions(a, b) {
 }
 function unionBadges(a, b) { return Object.assign({}, b || {}, a || {}); }
 function applyUnion(rem, preferRem) {
+  setStamp(); { const mg = mergeSetKeys(S.set, S.setT, rem && rem.set, rem && rem.setT); S.set = Object.assign({}, DEF_SET, mg.set); S.setT = mg.t; setApplied(); }
   S.todos = unionById(S.todos, rem && rem.todos); S.habits = unionById(S.habits, rem && rem.habits);
   const m = unionDW(S, rem, preferRem);
   S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive;
@@ -10506,10 +10670,10 @@ function updHtml() {
   const pct = st === 'installing' ? 100 : (UPD.prog == null ? 0 : UPD.prog);
   const known = st === 'installing' || UPD.prog != null;
   const wave = busy ? `<div class="ux-lin" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${pct}" aria-label="更新の進み具合"><i style="width:${pct}%"></i></div><p class="ux-pct">${st === 'installing' ? '準備ができました。再読み込みします…' : (known ? '更新ファイルを取得中' : '更新の有無を確認しています…')}${known ? `　${pct}%` : ''}</p>` : '';
-  const chip = av && UPD.next ? `<span class="ux-chip">${ms('new_releases')}v${APP_VERSION} → v${UPD.next}</span>` : (busy || av ? '' : `<span class="ux-ver">v${APP_VERSION}</span>`);
+  const chip = av && UPD.next ? `<span class="ux-chip">${ms('new_releases')}v${verTxt(APP_VERSION)} → v${UPD.next}</span>` : (busy || av ? '' : `<span class="ux-ver">v${verTxt(APP_VERSION)}</span>`);
   const btns = av
-    ? `<button class="ux-btn p" data-act="reload">${ms('download')}今すぐ更新</button><button class="ux-btn x" data-act="chlog">${ms('history')}更新履歴</button><button class="ux-btn x" data-act="close">あとで</button>`
-    : `<button class="ux-btn t" data-act="updchk" ${busy ? 'disabled' : ''}>${ms('refresh')}更新を確認</button><button class="ux-btn x" data-act="chlog">${ms('history')}更新履歴を見る</button><button class="ux-btn x" data-act="wnoff">${ms(S.set && S.set.noWhatsNew ? 'notifications_active' : 'notifications_off')}${S.set && S.set.noWhatsNew ? '更新内容を出す' : '更新内容を出さない'}</button>${busy ? '' : `<button class="ux-btn x" data-act="hardrefresh">${ms('cleaning_services')}うまく更新されないとき</button>`}<button class="ux-btn x" data-act="close">閉じる</button>`;
+    ? `<button class="ux-btn p" data-act="reload">${ms('download')}今すぐ更新</button><button class="ux-btn x" data-act="chlog">${ms('history')}更新履歴</button>${betaUpdBtn()}<button class="ux-btn x" data-act="close">あとで</button>`
+    : `<button class="ux-btn t" data-act="updchk" ${busy ? 'disabled' : ''}>${ms('refresh')}更新を確認</button><button class="ux-btn x" data-act="chlog">${ms('history')}更新履歴を見る</button>${betaUpdBtn()}<button class="ux-btn x" data-act="wnoff">${ms(S.set && S.set.noWhatsNew ? 'notifications_active' : 'notifications_off')}${S.set && S.set.noWhatsNew ? '更新内容を出す' : '更新内容を出さない'}</button>${busy ? '' : `<button class="ux-btn x" data-act="hardrefresh">${ms('cleaning_services')}うまく更新されないとき</button>`}<button class="ux-btn x" data-act="close">閉じる</button>`;
   return `<div class="ux" role="status" aria-live="polite">
     <div class="ux-top"><img src="icon-192.png" alt="" width="32" height="32"><span>考査課題マネージャー</span></div>
     <div class="ux-hero ${tone} ${busy ? 'busy' : ''}">${ms(ic, '', 'font-size:76px')}</div>
@@ -10557,9 +10721,9 @@ async function healStale() {
   try {
     const reg = await navigator.serviceWorker.ready, sw = reg.active; if (!sw) return;
     const ver = await new Promise(res => { const ch = new MessageChannel(); ch.port1.onmessage = e => res(e.data); sw.postMessage('ver', [ch.port2]); setTimeout(() => res(null), 2000); });
-    if (!ver || ver === APP_VERSION || sessionStorage.getItem('kosa-heal') === ver) return;
-    sessionStorage.setItem('kosa-heal', ver);
-    const c = await caches.open('kosa-v' + ver);
+    if (!ver || ver === APP_VERSION || sessionStorage.getItem('kosa-heal' + CACHE_PFX) === ver) return;
+    sessionStorage.setItem('kosa-heal' + CACHE_PFX, ver);
+    const c = await caches.open(CACHE_PFX + ver);
     for (const u of ['./', 'index.html']) { const r = await fetch(u, { cache: 'reload' }); if (r.ok) await c.put(u, r.clone()); }
     location.reload();
   } catch (e) { }
@@ -10703,7 +10867,7 @@ async function cfgRefresh() {
       if (!r.ok) throw new Error(u + ' ' + r.status);
       return { u, body: await r.text(), type: r.headers.get('Content-Type') || 'text/plain' };
     }));
-    for (const n of (await caches.keys()).filter(k => k.startsWith('kosa-v'))) {
+    for (const n of (await caches.keys()).filter(k => k.startsWith(CACHE_PFX))) {
       const c = await caches.open(n);
       for (const g of got) await c.put(g.u, new Response(g.body, { headers: { 'Content-Type': g.type } }));
     }
@@ -10918,15 +11082,15 @@ const FONT_SHOP = {
 // AIのモデル（AIに質問・要約・翻訳で使う）。名前と特徴は、Googleの公式の発表による。ショップで買って、選ぶ
 const AI_STD = 'gemini-3.5-flash-lite';   // 標準（最初から使える。firebase-config.js の AI_MODEL と同じ）
 const AI_SHOP = {
-  'gemini-3.5-flash-lite': { n: 'Gemini 3.5 Flash-Lite（標準）', c: 0, d: '速くて安い' },
-  'gemini-3.8-flash': { n: 'Gemini 3.8 Flash', c: 400, lv: 6, d: 'バランス型・考える力が高い' },
-  'gemini-4-hydrogen': { n: 'Gemini 4 Hydrogen', c: 800, lv: 10, d: '第4世代・速い日常モデル' }
+  'gemini-3.5-flash-lite': { n: 'Gemini 3.5 Flash-Lite（標準）', c: 0, d: '返事が一番速い' },
+  'gemini-3.8-flash': { n: 'Gemini 3.8 Flash', c: 400, lv: 6, d: 'じっくり考えて、くわしく答える' },
+  'gemini-4-hydrogen': { n: 'Gemini 4 Hydrogen', c: 800, lv: 10, d: '速さと分かりやすさのバランス' }
 };
 // ショップの上に出す、モデルごとの違いの説明（長い説明は、カードに入れない）
 const AI_GUIDE = [
-  ['Gemini 3.5 Flash-Lite（標準）', '速くて、料金も安いモデルです。かんたんな質問や、ふつうの要約に向いています。'],
-  ['Gemini 3.8 Flash', '2026年9月に出た、バランス型のモデルです。標準より賢く、考える手順が多い説明や、長めの文章の整理が得意です。無料で使えるとされています。'],
-  ['Gemini 4 Hydrogen', '2026年11月に出た、第4世代の速いモデルです。日常の勉強や、ていねいな解き方の説明に向いています。Googleは、3.8 Flashより速いとしています。無料で使えるとされています。']
+  ['Gemini 3.5 Flash-Lite（標準）', '返事が一番速いモデルです。単語の意味や、かんたんな質問、短い答えがほしいときに向いています。'],
+  ['Gemini 3.8 Flash', '答える前にじっくり考えるモデルです。計算の途中式や、理由を順番に知りたいとき、長い文章の整理に向いています。'],
+  ['Gemini 4 Hydrogen', '速さと分かりやすさのバランスがよいモデルです。ふだんの勉強の質問や、解き方の説明に向いています。']
 ];
 const aiLabel = id => (AI_SHOP[id] ? AI_SHOP[id].n : id);
 function aiModel() { try { const g = growGet(); if (g.ai && shopHas('ai', g.ai)) return g.ai; } catch (e) { } return window.AI_MODEL || AI_STD; }   // いま使うモデル（ショップで選んだもの。なければ標準）
@@ -11708,7 +11872,7 @@ setTimeout(() => { try { recGen(); } catch (e) { } }, 1500);
 const FB_KEY = 'kosa-fbq', FB_CATS = [['want', '新機能の要望', 'lightbulb'], ['bug', '不具合', 'bug_report'], ['ui', '使いにくいところ', 'touch_app'], ['like', '感想・ほめ言葉', 'favorite']];
 const fbQ = () => { try { const a = JSON.parse(localStorage.getItem(FB_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; } };
 const fbQSet = a => { try { localStorage.setItem(FB_KEY, JSON.stringify(a.slice(0, 30))); } catch (e) { } };
-const fbEnv = () => `v${APP_VERSION} / ${/iPhone/.test(navigator.userAgent) ? 'iPhone' : /iPad|Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1 ? 'iPad' : 'その他'} / ${innerWidth}×${innerHeight} / ${matchMedia('(display-mode: standalone)').matches ? 'アプリ' : 'ブラウザ'}`;
+const fbEnv = () => `v${verTxt(APP_VERSION)} / ${/iPhone/.test(navigator.userAgent) ? 'iPhone' : /iPad|Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1 ? 'iPad' : 'その他'} / ${innerWidth}×${innerHeight} / ${matchMedia('(display-mode: standalone)').matches ? 'アプリ' : 'ブラウザ'}`;
 async function fbShrink(file) {
   const url = URL.createObjectURL(file);
   try {
@@ -12194,9 +12358,20 @@ function admMarkRead(ids) {
 }
 /* ---- 管理者：受信箱と、返信 ---- */
 const FB_TPL = ['ありがとうございます！とても助かります。', '対応しました。次の更新で直ります。', '検討します。もう少し、くわしく教えてもらえますか？'];
+// フィードバックの写真を、アプリの中で大きく表示する（開いている画面の上に重ねる）
+function fbZoom(src) {
+  if (!/^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(String(src || ''))) return;
+  const old = document.getElementById('fbzoom'); if (old) old.remove();
+  const ov = document.createElement('div');
+  ov.id = 'fbzoom'; ov.className = 'fbz'; ov.setAttribute('role', 'dialog'); ov.setAttribute('aria-modal', 'true'); ov.setAttribute('aria-label', '添付写真');
+  ov.innerHTML = `<img src="${src}" alt="添付写真"><button type="button" class="fbz-x" aria-label="閉じる">${ms('close')}</button>`;
+  ov.addEventListener('click', e => { if (e.target === ov || e.target.closest('.fbz-x')) { e.stopPropagation(); ov.remove(); } });
+  (dlg && dlg.open ? dlg : document.body).appendChild(ov);
+}
 function fbImgsHtml(a) {
   const ok = (Array.isArray(a) ? a : []).filter(u => typeof u === 'string' && /^data:image\/jpeg;base64,[A-Za-z0-9+/=]+$/.test(u)).slice(0, 2);
-  return ok.length ? `<div class="fbm-imgs">${ok.map((u, i) => `<a href="${u}" target="_blank" rel="noopener"><img src="${u}" alt="添付写真${i + 1}" loading="lazy"></a>`).join('')}</div>` : '';
+  // 写真は、アプリの中で大きく見せる（iPadは、data:の写真を新しいタブで開くと白い画面になるため）
+  return ok.length ? `<div class="fbm-imgs">${ok.map((u, i) => `<button type="button" class="fbm-zoom" data-act="fbzoom" data-id="${u}" aria-label="添付写真${i + 1}を大きく見る"><img src="${u}" alt="添付写真${i + 1}" loading="lazy"></button>`).join('')}</div>` : '';
 }
 function fbInboxHtml() {
   const rows = FBL.adm, all = rows.length, nr = rows.filter(r => !r.reply).length, nu = rows.filter(admUnread).length;
@@ -12564,7 +12739,7 @@ async function dgRun() {
     const G1 = 'アプリと端末', G2 = 'データの保存', G3 = '写真（写真からカード・AIに質問）', G4 = '通信', G5 = 'ログインと同期', G6 = 'AI', G7 = 'そのほかの機能', G8 = '最近のエラーの記録';
     await dgT(G1, 'アプリの版・端末', () => {
       const old = sf && +sf[1] < 16;
-      return [!navigator.onLine ? 'ng' : old ? 'warn' : 'ok', `v${APP_VERSION} ／ ${standalone ? 'ホーム画面から起動' : 'ブラウザで起動'} ／ ${navigator.onLine ? 'オンライン' : 'オフライン'}\nSafari ${sf ? sf[1] + '.' + sf[2] : '不明'}${old ? '（古いため、iPadOSの更新をおすすめします）' : ''} ／ 画面 ${innerWidth}×${innerHeight}（×${devicePixelRatio}）\n${ua}`];
+      return [!navigator.onLine ? 'ng' : old ? 'warn' : 'ok', `v${verTxt(APP_VERSION)} ／ ${standalone ? 'ホーム画面から起動' : 'ブラウザで起動'} ／ ${navigator.onLine ? 'オンライン' : 'オフライン'}\nSafari ${sf ? sf[1] + '.' + sf[2] : '不明'}${old ? '（古いため、iPadOSの更新をおすすめします）' : ''} ／ 画面 ${innerWidth}×${innerHeight}（×${devicePixelRatio}）\n${ua}`];
     });
     await dgT(G1, 'アプリの更新（Service Worker）', async () => {
       if (!('serviceWorker' in navigator)) return ['warn', 'この端末では使えません（オフライン機能なし）'];
@@ -12573,7 +12748,7 @@ async function dgRun() {
       if (!reg.active) return ['warn', '準備中です。しばらくしてからもう一度お試しください'];
       const v = await new Promise(ok => { const ch = new MessageChannel(); ch.port1.onmessage = e => ok(e.data); setTimeout(() => ok(''), 3000); try { reg.active.postMessage('ver', [ch.port2]); } catch (e) { ok(''); } });
       if (!v) return ['warn', '保存されている版を確認できませんでした'];
-      return v === APP_VERSION ? ['ok', `v${v}`] : ['warn', `保存されている版（v${v}）と画面（v${APP_VERSION}）がちがいます。設定の「アプリのアップデート」を実行してください`];
+      return v === APP_VERSION ? ['ok', `v${verTxt(v)}`] : ['warn', `保存されている版（v${verTxt(v)}）と画面（v${verTxt(APP_VERSION)}）がちがいます。設定の「アプリのアップデート」を実行してください`];
     });
     await dgT(G2, 'この端末への保存（LocalStorage）', () => {
       const k = 'kosa-diag-test', v = String(Date.now()); localStorage.setItem(k, v); const ok = localStorage.getItem(k) === v; localStorage.removeItem(k);
@@ -12672,7 +12847,7 @@ async function dgRun() {
   DG.busy = false; dgPaint();
 }
 function dgText() {
-  const L = ['考査課題マネージャー 診断結果', new Date().toLocaleString('ja-JP') + ' ／ v' + APP_VERSION, ''];
+  const L = ['考査課題マネージャー 診断結果', new Date().toLocaleString('ja-JP') + ' ／ v' + verTxt(APP_VERSION), ''];
   let g = ''; DG.rows.forEach(r => { if (r.g !== g) { g = r.g; L.push('■ ' + g); } L.push(`[${DG_IC[r.s][2]}] ${r.n}${r.d ? '：' + r.d.replace(/\n/g, ' / ') : ''}`); });
   return L.join('\n');
 }
@@ -12881,7 +13056,7 @@ const SR_VOW = (() => {
 })();
 const SR_JUDGE_SYS = 'あなたは中学生のしりとりの審判です。言葉が実在する日本語か、お題に合うかだけを判定します。説明は短く、JSONだけで答えます。';
 const SR_TURN_SYS = 'あなたは中学生のしりとりの審判であり、対戦相手です。相手の言葉が実在するか、お題に合うかを判定し、あなたの答えの候補を出します。説明は書かず、JSONだけを返します。';
-const SR = { view: 'home', theme: '', diff: 1, lim: 15, codeIn: '', input: '', ai: null, code: '', room: null, unsub: null, reqs: [], busy: false, toBusy: false };
+const SR = { view: 'home', lang: 'ja', theme: '', diff: 1, lim: 15, codeIn: '', input: '', ai: null, code: '', room: null, unsub: null, reqs: [], busy: false, toBusy: false };
 
 // ---- 小さな道具 ----
 function srMe() { return CLOUD.user ? CLOUD.user.uid : ''; }
@@ -12906,7 +13081,7 @@ function srRuleMsg(r, words, w) {
   if (list.some(x => srR(x) === r)) return `「${show}」は、もう使われています`;
   return '';
 }
-function srBankWord(words, theme, diff) {
+function srBankWordJa(words, theme, diff) {
   const used = new Set(words.map(srR)), last = words[words.length - 1], head = last ? srTail(srR(last)) : '', max = SR_DIFF[diff].max;
   const ok = w => w.length <= max && !w.endsWith('ん') && !used.has(w) && (!head || srHead(w) === head);
   for (const pool of [theme && SR_BANK[theme] ? SR_BANK[theme] : null, Object.values(SR_BANK).flat()]) {
@@ -12917,7 +13092,79 @@ function srBankWord(words, theme, diff) {
   return null;
 }
 // AIに聞く（判定・解説・言葉づくりで使う。答えが読めないときは null）
-async function srAsk(system, prompt, maxTokens) { return aiRun({ system, prompt, json: true, model: window.AI_MODEL || AI_STD, maxTokens }); }
+// しりとりは、いつも返事のはやい標準のモデルを使い、返事が来ないときは SR_AI_MS で打ち切ります（そのときはルールだけで判定します）
+const SR_AI_MS = 6000;
+async function srAsk(system, prompt, maxTokens) {
+  const p = aiRun({ system, prompt, json: true, model: AI_STD, maxTokens }).catch(() => null);
+  return Promise.race([p, new Promise(res => setTimeout(() => res(null), SR_AI_MS))]);
+}
+// 言葉の一覧（SR_BANK）にある言葉は、AIに聞かずに「実在する・お題に合う」とみなす（お題があれば、そのお題の一覧にある言葉だけ）
+function srKnown(r, theme, lang) {
+  if (lang === 'en') return !theme && SR_BANK_EN.includes(r);
+  if (theme) return !!(SR_BANK[theme] && SR_BANK[theme].includes(r));
+  return Object.values(SR_BANK).flat().includes(r);
+}
+
+
+// ---- 英語のしりとり（英単語は、アルファベットの小文字で扱う。最後の文字と、最初の文字でつなぐ） ----
+const SR_BANK_EN = ['ant', 'apple', 'bear', 'bird', 'bus', 'cat', 'car', 'cow', 'cherry', 'cake', 'candy', 'carrot', 'dog', 'duck', 'desk', 'door', 'dolphin', 'egg', 'eagle', 'elephant', 'fish', 'frog', 'fox', 'flower', 'goat', 'garden', 'grape', 'giraffe', 'hat', 'horse', 'honey', 'house', 'heart', 'hill', 'ice', 'iron', 'jam', 'juice', 'jacket', 'kite', 'king', 'kangaroo', 'lion', 'leaf', 'lemon', 'lamp', 'lake', 'milk', 'monkey', 'moon', 'mouse', 'melon', 'net', 'nest', 'night', 'owl', 'onion', 'orange', 'ocean', 'pig', 'pen', 'peach', 'pear', 'pizza', 'paper', 'penguin', 'queen', 'rabbit', 'rain', 'river', 'rice', 'sun', 'snake', 'soup', 'star', 'tiger', 'tree', 'table', 'tomato', 'tea', 'train', 'truck', 'umbrella', 'van', 'violin', 'whale', 'wolf', 'water', 'window', 'wind', 'yak', 'yogurt', 'year', 'zebra', 'zoo', 'banana', 'bread', 'book', 'box', 'watch', 'ring', 'potato', 'dolphin'];
+const SR_EN_OK = /^[a-z]+$/;
+// むずかしさごとの、言葉の長さの上限（日本語は文字数、英語は字数）
+function srMax(diff, lang) { return lang === 'en' ? ([5, 7, 12][diff] || 7) : SR_DIFF[diff].max; }
+function srVerify(raw, words, theme, diff, lang) { return lang === 'en' ? srVerifyEn(raw, words, theme) : srVerifyJa(raw, words, theme, diff); }
+function srAiTurn(raw, words, theme, diff, lang) { return lang === 'en' ? srAiTurnEn(raw, words, theme, diff) : srAiTurnJa(raw, words, theme, diff); }
+function srTurnPrompt(w, r, theme, diff, need, lang) { return lang === 'en' ? srTurnPromptEn(w, theme, diff, need) : srTurnPromptJa(w, r, theme, diff, need); }
+function srPickCand(cands, words, diff, lang) { return lang === 'en' ? srPickCandEn(cands, words, diff) : srPickCandJa(cands, words, diff); }
+function srBankWord(words, theme, diff, lang) { return lang === 'en' ? srBankWordEn(words, diff) : srBankWordJa(words, theme, diff); }
+function srBankWordEn(words, diff) {
+  const used = new Set(words.map(srR)), last = words[words.length - 1], head = last ? srTail(srR(last)) : '', max = srMax(diff, 'en');
+  const c = SR_BANK_EN.filter(w => w.length <= max && !used.has(w) && (!head || srHead(w) === head));
+  return c.length ? c[Math.floor(Math.random() * c.length)] : null;
+}
+async function srVerifyEn(raw, words, theme) {
+  const w = String(raw || '').trim().slice(0, 12), r = w.toLowerCase();
+  if (!w) return { input: true, reason: 'ことばを入れてください' };
+  if (!SR_EN_OK.test(r)) return { input: true, reason: 'English（アルファベット）の言葉で入れてください' };
+  const local = srRuleMsg(r, words, w);
+  if (local) return { ok: false, w, r, reason: local };
+  if (srKnown(r, theme, 'en')) return { ok: true, w, r };
+  const v = await srAsk(SR_JUDGE_SYS, `言葉：${w}（英語）\nお題：${theme || 'なし（自由）'}\n次のJSONだけで答えてください。{"exists": 実在する英単語なら true, "fits": お題に合えば true（お題がなければ true）, "reason": "exists か fits が false のとき、中学生にやさしい1文（40字以内）。それ以外は空文字"}`, 120);
+  if (!v) return { ok: true, w, r, unverified: true };
+  return srJudged(v, w, r);
+}
+function srTurnPromptEn(w, theme, diff, need) {
+  return [
+    `英語のしりとりです。相手が「${w}」と答えました。`,
+    `お題：${theme || 'なし（自由）'}`,
+    `むずかしさ：${SR_DIFF[diff].d}`,
+    '1. 相手の言葉が実在する英単語か、お題に合うかを判定してください。',
+    `2. 相手の言葉の最後の文字で始まる、あなたの答えの候補を3個出してください。${need ? `候補は、必ず「${need}」で始まる言葉にしてください。` : ''}`,
+    `候補の条件：アルファベットだけの、一般的な英単語（小文字）。${srMax(diff, 'en')}文字以内。`,
+    '次のJSONだけで答えてください。',
+    '{"exists": 実在すれば true, "fits": お題に合えば true（お題がなければ true）, "reason": "exists か fits が false のとき、中学生にやさしい1文（40字以内）。それ以外は空文字", "candidates": [{"word": "english word"}]}'
+  ].join('\n');
+}
+async function srAiTurnEn(raw, words, theme, diff) {
+  const w = String(raw || '').trim().slice(0, 12), r = w.toLowerCase();
+  if (!w) return { input: true, reason: 'ことばを入れてください' };
+  if (!SR_EN_OK.test(r)) return { input: true, reason: 'English（アルファベット）の言葉で入れてください' };
+  const local = srRuleMsg(r, words, w);
+  if (local) return { ok: false, w, r, reason: local, cands: [] };
+  if (srKnown(r, theme, 'en')) return { ok: true, w, r, cands: [] };
+  const v = await srAsk(SR_TURN_SYS, srTurnPromptEn(w, theme, diff, srTail(r)), 300);
+  if (!v) return { ok: true, w, r, unverified: true, cands: [] };
+  return { ...srJudged(v, w, r), cands: Array.isArray(v.candidates) ? v.candidates : [] };
+}
+function srPickCandEn(cands, words, diff) {
+  const max = srMax(diff, 'en');
+  for (const c of cands || []) {
+    const rd = String((c && c.word) || '').trim().slice(0, 12).toLowerCase();
+    if (!SR_EN_OK.test(rd) || rd.length > max) continue;
+    if (srRuleMsg(rd, words, rd)) continue;
+    return { w: rd, r: rd };
+  }
+  return null;
+}
 
 // ---- 言葉の判定（AIと友達戦の両方で使う） ----
 // 返り値：{input:true} 入力のまちがい（番は進まない）／ {ok, w, r, reason} ／ unverified（AIが使えず、ルールだけで判定）
@@ -12926,7 +13173,7 @@ function srJudged(v, w, r) {
   if (v.fits === false) return { ok: false, w, r, reason: String(v.reason || '').slice(0, 60) || 'お題に合わない言葉なので、だめです' };
   return { ok: true, w, r };
 }
-async function srVerify(raw, words, theme, diff) {
+async function srVerifyJa(raw, words, theme, diff) {
   void diff;
   const w = String(raw || '').trim().slice(0, 12);
   if (!w) return { input: true, reason: 'ことばを入れてください' };
@@ -12936,6 +13183,7 @@ async function srVerify(raw, words, theme, diff) {
     if (!srIsKana(r)) return { input: true, reason: 'ひらがな・カタカナ・漢字で入れてください' };
     const local = srRuleMsg(r, words, w);
     if (local) return { ok: false, w, r, reason: local };
+    if (srKnown(r, theme)) return { ok: true, w, r };
     const v = await srAsk(SR_JUDGE_SYS, `言葉：${w}（読み：${r}）\nお題：${themeTxt}\n次のJSONだけで答えてください。{"exists": 実在する日本語の言葉なら true, "fits": お題に合えば true（お題がなければ true）, "reason": "exists か fits が false のとき、中学生にやさしい1文（40字以内）。それ以外は空文字"}`, 120);
     if (!v) return { ok: true, w, r, unverified: true };
     return srJudged(v, w, r);
@@ -12950,20 +13198,20 @@ async function srVerify(raw, words, theme, diff) {
 }
 
 // ---- AIと対戦：相手の言葉の判定と、AIの答えの候補を、1回の通信でまとめて聞く ----
-function srTurnPrompt(w, r, theme, diff, need) {
+function srTurnPromptJa(w, r, theme, diff, need) {
   const d = SR_DIFF[diff];
   return [
     `しりとりです。相手が「${w}」と答えました。${r ? `読みは「${r}」です。` : ''}`,
     `お題：${theme || 'なし（自由）'}`,
     `むずかしさ：${d.d}`,
     '1. 相手の言葉が実在する日本語か、お題に合うかを判定してください。',
-    `2. 相手の言葉の読みの最後の字で始まる、あなたの答えの候補を5個出してください。${need ? `候補は、必ず「${need}」で始まる言葉にしてください。` : ''}`,
+    `2. 相手の言葉の読みの最後の字で始まる、あなたの答えの候補を3個出してください。${need ? `候補は、必ず「${need}」で始まる言葉にしてください。` : ''}`,
     `候補の条件：一般的な日本語の名詞。「ん」で終わらない。読みは${d.max}文字以内。`,
     '次のJSONだけで答えてください。',
     '{"reading": "相手の言葉のひらがなの読み（漢字のときだけ。ほかは空文字）", "exists": 実在すれば true, "fits": お題に合えば true（お題がなければ true）, "reason": "exists か fits が false のとき、中学生にやさしい1文（40字以内）。それ以外は空文字", "candidates": [{"word": "言葉", "reading": "ひらがなの読み"}]}'
   ].join('\n');
 }
-async function srAiTurn(raw, words, theme, diff) {
+async function srAiTurnJa(raw, words, theme, diff) {
   const w = String(raw || '').trim().slice(0, 12);
   if (!w) return { input: true, reason: 'ことばを入れてください' };
   let r = '';
@@ -12972,8 +13220,9 @@ async function srAiTurn(raw, words, theme, diff) {
     if (!srIsKana(r)) return { input: true, reason: 'ひらがな・カタカナ・漢字で入れてください' };
     const local = srRuleMsg(r, words, w);
     if (local) return { ok: false, w, r, reason: local, cands: [] };   // ルール違反は、通信せずに答える
+    if (srKnown(r, theme)) return { ok: true, w, r, cands: [] };        // 一覧にある言葉は、通信せずに答える（答えも一覧から選ぶ）
   }
-  const v = await srAsk(SR_TURN_SYS, srTurnPrompt(w, r, theme, diff, r ? srTail(r) : ''), 400);
+  const v = await srAsk(SR_TURN_SYS, srTurnPrompt(w, r, theme, diff, r ? srTail(r) : ''), 300);
   if (!v) {
     if (!r) return { input: true, reason: 'AIが使えず、読みを確かめられませんでした。ひらがなで入れてください' };
     return { ok: true, w, r, unverified: true, cands: [] };
@@ -12987,7 +13236,7 @@ async function srAiTurn(raw, words, theme, diff) {
   return { ...srJudged(v, w, r), cands: Array.isArray(v.candidates) ? v.candidates : [] };
 }
 // AIの答え：候補のうち、ルールに合う最初のものを使う（候補も、ここで必ず確かめ直す）
-function srPickCand(cands, words, diff) {
+function srPickCandJa(cands, words, diff) {
   const max = SR_DIFF[diff].max;
   for (const c of cands || []) {
     const word = String((c && c.word) || '').trim().slice(0, 12);
@@ -13003,7 +13252,7 @@ function srPickCand(cands, words, diff) {
 // ---- AIと対戦（この端末の中で進める） ----
 function srAiStart() {
   if (srNeedLogin()) return;
-  SR.ai = { theme: SR.theme.trim().slice(0, 20), diff: SR.diff, words: [], status: 'playing', winner: '', reason: '', busy: false };
+  SR.ai = { lang: SR.lang, theme: SR.theme.trim().slice(0, 20), diff: SR.diff, words: [], status: 'playing', winner: '', reason: '', busy: false };
   SR.input = '';
   SR.view = 'aigame';
   srRender();
@@ -13011,17 +13260,17 @@ function srAiStart() {
 async function srAiSend(raw) {
   const a = SR.ai; if (!a || a.status !== 'playing' || a.busy) return;
   a.busy = true; srSync();
-  const v = await srAiTurn(raw, a.words, a.theme, a.diff);
+  const v = await srAiTurn(raw, a.words, a.theme, a.diff, a.lang);
   if (SR.ai !== a) return;
   a.busy = false;
   if (v.input) { toast(v.reason); srSync(); return; }
-  if (v.unverified) toast('AIが使えないので、ルールだけで判定しました');
+  if (v.unverified) toast('AIの返事がないので、ルールだけで判定しました');
   SR.input = '';
   const inp = document.getElementById('srIn'); if (inp) inp.value = '';
   a.words.push({ by: 'me', w: v.w, r: v.r, ok: v.ok, note: v.ok ? '' : v.reason, t: Date.now() });
   if (!v.ok) { a.status = 'done'; a.winner = 'op'; a.reason = v.reason; srSync(); return; }
-  let pick = srPickCand(v.cands, a.words, a.diff);
-  if (!pick) { const b = srBankWord(a.words, a.theme, a.diff); if (b) pick = { w: b, r: b }; }
+  let pick = srPickCand(v.cands, a.words, a.diff, a.lang);
+  if (!pick) { const b = srBankWord(a.words, a.theme, a.diff, a.lang); if (b) pick = { w: b, r: b }; }
   if (pick) a.words.push({ by: 'ai', w: pick.w, r: pick.r, ok: true, t: Date.now() });
   else { a.status = 'done'; a.winner = 'me'; a.reason = 'AIが次の言葉を思いつけませんでした。あなたの勝ちです！'; }
   srSync();
@@ -13059,8 +13308,8 @@ async function srCreateRoom(friend) {
   const code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join('');
   const theme = SR.theme.trim().slice(0, 20), lim = SR.lim, name = srName();
   try {
-    await fs.setDoc(fs.doc(db, 'shiriRooms', code), { host: me, hostName: name, guest: '', guestName: '', status: 'waiting', lang: 'ja', theme, lim, turn: '', deadline: 0, words: [], winner: '', reason: '', t: Date.now() });
-    if (friend) await fs.setDoc(fs.doc(fs.collection(db, 'shiriInbox', friend.uid, 'items')), { from: me, name, room: code, lim, lang: 'ja', theme, t: Date.now() });
+    await fs.setDoc(fs.doc(db, 'shiriRooms', code), { host: me, hostName: name, guest: '', guestName: '', status: 'waiting', lang: SR.lang, theme, lim, turn: '', deadline: 0, words: [], winner: '', reason: '', t: Date.now() });
+    if (friend) await fs.setDoc(fs.doc(fs.collection(db, 'shiriInbox', friend.uid, 'items')), { from: me, name, room: code, lim, lang: SR.lang, theme, t: Date.now() });
   } catch (e) { toast('部屋をつくれませんでした。通信をかくにんしてください'); return; }
   srWatch(code);
   toast(friend ? `${friend.name || '友達'}さんに、対戦リクエストを送りました` : '部屋をつくりました。コードを友達に伝えてください');
@@ -13097,10 +13346,10 @@ async function srFriendSend(raw) {
   if (r.turn !== me) { toast('いまは、相手の番です'); return; }
   if (Date.now() > r.deadline) { srTimeout(); return; }
   SR.busy = true; srSync();
-  const v = await srVerify(raw, r.words || [], r.theme, 2);
+  const v = await srVerify(raw, r.words || [], r.theme, 2, r.lang || 'ja');
   SR.busy = false;
   if (v.input) { toast(v.reason); srSync(); return; }
-  if (v.unverified) toast('AIが使えないので、ルールだけで判定しました');
+  if (v.unverified) toast('AIの返事がないので、ルールだけで判定しました');
   const code = SR.code, { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shiriRooms', code);
   let sent = false, late = false;
   try {
@@ -13219,6 +13468,7 @@ function srHomeHtml() {
 }
 function srAiSetupHtml() {
   return `<div class="sr">${srTop('AIと対戦')}
+  <div class="sr-card"><div class="sr-lab">${ms('translate')}ことば</div><div class="sr-chips">${srChip('srlang', 'ja', 'ひらがな（にほんご）', SR.lang !== 'en')}${srChip('srlang', 'en', 'English（英語）', SR.lang === 'en')}</div></div>
   <div class="sr-card"><div class="sr-lab">${ms('palette')}お題</div>${srThemeBox()}</div>
   <div class="sr-card"><div class="sr-lab">${ms('tune')}むずかしさ</div><div class="sr-diffs">${SR_DIFF.map((d, i) => `<button class="sr-diff ${SR.diff === i ? 'sr-on' : ''}" data-act="srdiff" data-id="${i}">${ms(d.ic)}<b>${d.n}</b><small>${d.d}</small></button>`).join('')}</div></div>
   <button class="sr-go big" data-act="sraistart">${ms('play_arrow')}はじめる</button>${srLoginNote()}</div>`;
@@ -13228,6 +13478,7 @@ function srFSetupHtml() {
   const rows = fr.length ? fr.map(f => `<div class="sr-friend"><span class="sr-av">${esc(srInit(f.name))}</span><div><b>${esc(f.name || '名前なし')}</b><small>友達</small></div><button class="sr-go sm" data-act="srfreq" data-id="${esc(f.uid)}">${ms('send')}申し込む</button></div>`).join('') : `<p class="sr-msg">まだ友達がいません。「記録」タブの「友達と比べる」で、友達を追加できます。</p>`;
   return `<div class="sr">${srTop('友達と対戦')}
   ${srReqsHtml()}
+  <div class="sr-card"><div class="sr-lab">${ms('translate')}ことば</div><div class="sr-chips">${srChip('srlang', 'ja', 'ひらがな（にほんご）', SR.lang !== 'en')}${srChip('srlang', 'en', 'English（英語）', SR.lang === 'en')}</div></div>
   <div class="sr-card"><div class="sr-lab">${ms('palette')}お題</div>${srThemeBox()}</div>
   <div class="sr-card"><div class="sr-lab">${ms('timer')}1回の制限時間</div><div class="sr-seg">${[10, 15, 20].map(s => `<button class="sr-seg-b ${SR.lim === s ? 'sr-on' : ''}" data-act="srlim" data-id="${s}">${s}秒<small>${s === 10 ? 'はやい' : s === 15 ? 'ふつう' : 'ゆっくり'}</small></button>`).join('')}</div></div>
   <div class="sr-card"><div class="sr-lab">${ms('group')}友達に申し込む</div>${rows}</div>
@@ -13249,7 +13500,7 @@ function srGameFrame(mode) {
   <div class="ln-foot">
     <div id="srHero" class="ln-hero"></div>
     <div id="srInfo" class="ln-info"></div>
-    <div class="ln-dock"><button id="srHint" class="ln-hint" data-act="srhint" aria-label="ヒントを入れる" title="ヒント">${ms('lightbulb')}</button><input id="srIn" class="ln-in" type="text" placeholder="ことばを入れる" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send"><button id="srSend" class="ln-send" data-act="srsend" aria-label="送る">${ms('send')}</button></div>
+    <div class="ln-dock"><button id="srHint" class="ln-hint" data-act="srhint" aria-label="ヒントを入れる" title="ヒント">${ms('lightbulb')}</button><input id="srIn" class="ln-in" type="text" placeholder="${srLangNow() === 'en' ? 'English で入れる' : 'ことばを入れる'}" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send"><button id="srSend" class="ln-send" data-act="srsend" aria-label="送る">${ms('send')}</button></div>
     <div class="ln-give" id="srGiveW" hidden><button id="srGive" class="ln-ghost" data-act="${mode === 'ai' ? 'srgiveup' : 'srgiveup2'}">あきらめる</button></div>
   </div>
   <div id="srResult"></div>
@@ -13259,11 +13510,11 @@ function srModel() {
   const me = srMe();
   if (SR.view === 'aigame' && SR.ai) {
     const a = SR.ai;
-    return { mode: 'ai', words: a.words.map(w => ({ ...w, who: w.by === 'me' ? 'me' : 'op' })), status: a.status, winner: a.winner === 'me' ? 'me' : (a.winner ? 'op' : ''), reason: a.reason, myName: srName(), opName: 'AI', turnMe: a.status === 'playing' && !a.busy, busy: a.busy, theme: a.theme, diff: a.diff, lim: 0, deadline: 0 };
+    return { mode: 'ai', words: a.words.map(w => ({ ...w, who: w.by === 'me' ? 'me' : 'op' })), status: a.status, winner: a.winner === 'me' ? 'me' : (a.winner ? 'op' : ''), reason: a.reason, myName: srName(), opName: 'AI', turnMe: a.status === 'playing' && !a.busy, busy: a.busy, theme: a.theme, diff: a.diff, lang: a.lang, lim: 0, deadline: 0 };
   }
   if (SR.view === 'fgame' && SR.room) {
     const r = SR.room, host = r.host === me;
-    return { mode: 'friend', words: (r.words || []).map(w => ({ ...w, who: w.by === me ? 'me' : 'op' })), status: r.status, winner: r.winner === me ? 'me' : (r.winner ? 'op' : ''), reason: r.reason, myName: host ? r.hostName : r.guestName, opName: host ? r.guestName : r.hostName, turnMe: r.status === 'playing' && r.turn === me, busy: SR.busy, theme: r.theme, diff: 2, lim: r.lim, deadline: r.deadline };
+    return { mode: 'friend', words: (r.words || []).map(w => ({ ...w, who: w.by === me ? 'me' : 'op' })), status: r.status, winner: r.winner === me ? 'me' : (r.winner ? 'op' : ''), reason: r.reason, myName: host ? r.hostName : r.guestName, opName: host ? r.guestName : r.hostName, turnMe: r.status === 'playing' && r.turn === me, busy: SR.busy, lang: r.lang || 'ja', theme: r.theme, diff: 2, lim: r.lim, deadline: r.deadline };
   }
   return null;
 }
@@ -13366,6 +13617,7 @@ function srPaint() {
   if (cd) { cd.value = SR.codeIn || ''; cd.oninput = () => { cd.value = cd.value.toUpperCase().replace(/[^A-Z0-9]/g, '').slice(0, 6); SR.codeIn = cd.value; }; cd.onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); ACT.srjoin(); } }; }
   if (document.getElementById('srGame')) srSync();
 }
+function srLangNow() { return (SR.view === 'aigame' && SR.ai ? SR.ai.lang : (SR.room && SR.view === 'fgame' ? SR.room.lang : SR.lang)) || 'ja'; }
 function srRender() { const root = document.getElementById('shiriRoot'); if (!root) return; root.innerHTML = srInner(); srPaint(); }
 function shiriHtml() { return `<div id="shiriRoot">${srInner()}</div>`; }
 TPAINT.shiri = srPaint;
@@ -13384,6 +13636,7 @@ Object.assign(ACT, {
   srhome() { if (SR.view === 'wait' || SR.view === 'fgame') { srLeave(); return; } SR.ai = null; SR.input = ''; SR.view = 'home'; srRender(); },
   srtheme(id) { SR.theme = id === SR_FREE ? '' : String(id); srRender(); },
   srdiff(id) { SR.diff = Math.max(0, Math.min(2, Number(id) || 0)); srRender(); },
+  srlang(id) { SR.lang = id === 'en' ? 'en' : 'ja'; srRender(); },
   srlim(id) { SR.lim = [10, 15, 20].includes(Number(id)) ? Number(id) : 15; srRender(); },
   sraistart() { srAiStart(); },
   srfreq(id) { const f = (growGet().friends || []).find(x => x.uid === id); if (f) srCreateRoom(f); else toast('その友達が見つかりません'); },
@@ -13393,7 +13646,7 @@ Object.assign(ACT, {
   srdecline(id) { srDeleteReq(id); },
   srhint() {
     const m = srModel(); if (!m || m.status !== 'playing' || !m.turnMe || m.busy) return;
-    const w = srBankWord(m.words, m.theme, m.diff);
+    const w = srBankWord(m.words, m.theme, m.diff, m.lang);
     if (!w) return toast('ヒントが見つかりませんでした');
     SR.input = w; const inp = document.getElementById('srIn'); if (inp) inp.value = w;
     toast('ヒントを入れました。そのまま送れます');
@@ -13648,7 +13901,7 @@ async function pushDiagRender() {
   const el = document.getElementById('pdBody'); if (!el) return;
   const ic = { ok: 'check_circle', ng: 'cancel', warn: 'error' }, mark = { ok: '〇', ng: '×', warn: '△' };
   el.innerHTML = `<ul class="pd-list">${R.map(([s, t]) => `<li class="pd-${s}">${ms(ic[s])}<span>${esc(t)}</span></li>`).join('')}</ul><h3 class="pd-h">送信の記録（新しい順）</h3>${diag === null ? (CLOUD.user ? '<p class="muted">記録を読めませんでした（通信を確かめて、もう一度開いてください）</p>' : '<p class="muted">Googleログインすると、記録が見られます</p>') : diag.length ? `<ul class="pd-log">${[...diag].reverse().map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '<p class="muted">まだ記録がありません。今日・明日の内容が変わると、ここに送った結果が出ます</p>'}`;
-  PD_TEXT = ['考査課題マネージャー 通知の診断', new Date().toLocaleString('ja-JP') + ' ／ v' + APP_VERSION, '', ...R.map(([s, t]) => `${mark[s]} ${t}`), '', '【送信の記録】', ...(diag && diag.length ? [...diag].reverse() : ['（記録なし）'])].join('\n');
+  PD_TEXT = ['考査課題マネージャー 通知の診断', new Date().toLocaleString('ja-JP') + ' ／ v' + verTxt(APP_VERSION), '', ...R.map(([s, t]) => `${mark[s]} ${t}`), '', '【送信の記録】', ...(diag && diag.length ? [...diag].reverse() : ['（記録なし）'])].join('\n');
 }
 function pushDiagDlg() {
   openDlg(`<h2>${ms('bug_report')}通知の診断</h2><p class="muted">届かないときは、上から順に見てください。×と△が、届かない原因の候補です。</p><div id="pdBody"><p class="muted">点検しています…</p></div><div class="dact"><button type="button" class="btn tonal" data-act="pushdiagcopy">${ms('content_copy')}コピー</button><button type="button" class="btn tonal" data-act="pushdiagtest">${ms('notifications_active')}今すぐ送って確かめる</button></div><div class="dact"><button type="button" class="btn" data-act="pushdiagfb">${ms('rate_review')}この内容をフィードバックで送る</button><span class="sp"></span><button type="button" class="btn text" data-act="close">閉じる</button></div>`);
