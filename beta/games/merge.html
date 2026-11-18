@@ -1292,7 +1292,9 @@
         kickSteps: [0, 4, 8, 12],
         subPat: [0, null, 0, 12, 0, null, 7, 12], // 8分音符ごとの根音からの半音オフセット（null は休符）
         riser: true,
-        vol: 0.35,
+        heavy: true,
+        stab: true,
+        vol: 0.55,
         chords: [
           [57, 60, 64, 69], // Am
           [53, 57, 60, 65], // F
@@ -1330,7 +1332,9 @@
         kickSteps: [0, 6, 8, 14],
         subPat: [0, 0, 12, 0, 0, 7, 0, 12],
         riser: true,
-        vol: 0.35,
+        heavy: true,
+        pump: true,
+        vol: 0.55,
         chords: [
           [62, 65, 69, 72], // Dm
           [58, 62, 65, 70], // Bb
@@ -2226,6 +2230,65 @@
         saw.stop(end);
       }
 
+      /** 重いキック：ピッチが速く落ちるパンチ＋長く沈む低音（heavy の曲で使う） */
+      playHeavyKick(time, vel) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        if (!this.allocVoice(time + 0.5, 0)) return;
+        const body = this.ctx.createOscillator();
+        const bodyAmp = this.ctx.createGain();
+        body.type = 'sine';
+        body.frequency.setValueAtTime(170, time);
+        body.frequency.exponentialRampToValueAtTime(44, time + 0.14);
+        bodyAmp.gain.setValueAtTime(vel, time);
+        bodyAmp.gain.exponentialRampToValueAtTime(0.0001, time + 0.42);
+        body.connect(bodyAmp);
+        bodyAmp.connect(this.bgmBus);
+        body.start(time);
+        body.stop(time + 0.44);
+        // 打ち込みの「カッ」という立ち上がり
+        const click = this.ctx.createOscillator();
+        const clickAmp = this.ctx.createGain();
+        click.type = 'triangle';
+        click.frequency.setValueAtTime(1200, time);
+        click.frequency.exponentialRampToValueAtTime(300, time + 0.02);
+        clickAmp.gain.setValueAtTime(vel * 0.5, time);
+        clickAmp.gain.exponentialRampToValueAtTime(0.0001, time + 0.025);
+        click.connect(clickAmp);
+        clickAmp.connect(this.bgmBus);
+        click.start(time);
+        click.stop(time + 0.03);
+      }
+
+      /** リースベース：デチューンしたノコギリ波2本を低域フィルターで揺らす（重低音の芯） */
+      playReese(midi, time, dur, vel) {
+        if (!this.ctx || !this.bgmEnabled) return;
+        const end = time + dur + 0.04;
+        if (!this.allocVoice(end, 0)) return;
+        const f = this.mtof(midi);
+        const filter = this.ctx.createBiquadFilter();
+        const amp = this.ctx.createGain();
+        filter.type = 'lowpass';
+        filter.Q.value = 6;
+        filter.frequency.setValueAtTime(f * 2.2, time);
+        filter.frequency.exponentialRampToValueAtTime(f * 6, time + dur * 0.35);
+        filter.frequency.exponentialRampToValueAtTime(f * 2.6, time + dur);
+        amp.gain.setValueAtTime(0.0001, time);
+        amp.gain.linearRampToValueAtTime(vel, time + 0.01);
+        amp.gain.setValueAtTime(vel * 0.75, time + dur * 0.7);
+        amp.gain.exponentialRampToValueAtTime(0.0001, time + dur);
+        for (let d = -1; d <= 1; d += 2) {
+          const osc = this.ctx.createOscillator();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(f, time);
+          osc.detune.setValueAtTime(d * 14, time);
+          osc.connect(filter);
+          osc.start(time);
+          osc.stop(end);
+        }
+        filter.connect(amp);
+        amp.connect(this.bgmBus);
+      }
+
       /** シンセリード：デチューンしたノコギリ波2本＋フィルタースイープ（開いてから閉じる） */
       playSawLead(midi, time, dur, vel, pan = 0) {
         if (!this.ctx || !this.bgmEnabled) return;
@@ -2412,23 +2475,32 @@
         }
       }
 
-      /** シンセ曲（重低音サブベース・ノコギリ波リード・四つ打ちキック・ライザー） */
+      /** シンセ曲（重低音サブベース・ノコギリ波リード・四つ打ちキック・ライザー）。heavy の曲は、低音とドラムを厚くする */
       scheduleSynthStep(track, step, bar, beatStep, time, stepDur, chord, bassPair, dyn) {
         const isLastBar = bar === track.chords.length - 1;
+        const heavy = !!track.heavy;
 
+        // キック（heavy の曲は、パンチのある重いキック）
         if (track.kickSteps.indexOf(beatStep) >= 0) {
-          this.playBigKick(time, 0.85 * dyn);
+          if (heavy) this.playHeavyKick(time, 1.0 * dyn);
+          else this.playBigKick(time, 0.85 * dyn);
         }
+        // スネア＋クラップ（heavy の曲は、大きく）
         if (beatStep === 4 || beatStep === 12) {
-          this.playSnare(time, 0.2 * dyn);
-          this.playClap(time, 0.1 * dyn);
+          this.playSnare(time, (heavy ? 0.3 : 0.2) * dyn);
+          this.playClap(time, (heavy ? 0.16 : 0.1) * dyn);
+        }
+        // ゴーストスネア（heavy の曲だけ、偶数小節の4拍目の裏）
+        if (heavy && beatStep === 14 && bar % 2 === 0) {
+          this.playSnare(time, 0.07 * dyn);
         }
 
         if (beatStep % 2 === 0) {
           const idx = beatStep >> 1;
           const off = track.subPat[idx];
           if (off !== null) {
-            this.playSubBass(bassPair[0] + off, time, stepDur * 1.9, 0.5 * dyn);
+            this.playSubBass(bassPair[0] + off, time, stepDur * 1.9, (heavy ? 0.6 : 0.5) * dyn);
+            if (heavy) this.playReese(bassPair[0] + off, time, stepDur * 1.8, 0.2 * dyn);
           }
           const note = track.lead[bar][idx];
           if (note !== null) {
@@ -2436,8 +2508,24 @@
           }
         }
 
+        // ポンプ（pump の曲）：16分の裏で、低音を短く打ち込む
+        if (heavy && track.pump && beatStep % 4 === 3) {
+          this.playSubBass(bassPair[0], time, stepDur * 0.9, 0.22 * dyn);
+        }
+
         if (beatStep % 4 === 2) {
           this.playHat(time, 0.04 * dyn, beatStep === 14 && bar % 2 === 1);
+        }
+        // ハイハットを16分で刻む（heavy の曲だけ、弱めに）
+        if (heavy && beatStep % 2 === 1) {
+          this.playHat(time, 0.018 * dyn, false);
+        }
+
+        // シンセのスタブ（stab の曲）：奇数小節の4拍目の裏で、和音を短く鳴らす
+        if (track.stab && beatStep === 10 && bar % 2 === 1) {
+          for (let i = 0; i < 3; i++) {
+            this.playSawLead(chord[i] + 12, time, stepDur * 2.4, 0.035 * dyn, (i - 1) * 0.4);
+          }
         }
 
         // 最終小節：ライザーとスネアの連打で次のフレーズへ

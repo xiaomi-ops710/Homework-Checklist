@@ -2488,7 +2488,7 @@ html.is-beta #nav .beta-fb .material-symbols-rounded{font-size:18px}
 .ti-ptable .lb-scan{position:absolute;left:-10px;right:-10px;top:0;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#67e8f9,#fff,#67e8f9,transparent);box-shadow:0 0 18px #22d3ee,0 0 40px #22d3ee88;opacity:0;animation:lbScan 1.3s ease-in-out 1.2s forwards}
 .ti-ptable .lb-bub{position:absolute;bottom:-24px;left:var(--x);width:var(--s);height:var(--s);border-radius:50%;border:1.5px solid rgba(186,230,253,.7);background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.75),rgba(125,211,252,.12) 60%);opacity:0;animation:lbBub var(--t) ease-in var(--d) forwards}
 .ti-ptable .lb-flash{position:absolute;left:50%;top:42%;width:20px;height:20px;margin:-10px;border-radius:50%;background:#fff;box-shadow:0 0 90px 50px #fde68a88;opacity:0;animation:lbFlash .9s ease 2.05s forwards}
-.ti-ptable .lb-title{position:absolute;left:50%;bottom:17%;transform:translateX(-50%);white-space:nowrap;font-size:clamp(30px,9vw,54px);font-weight:900;letter-spacing:.22em;background:linear-gradient(90deg,#a5f3fc,#fde68a,#c4b5fd,#a5f3fc);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(103,232,249,.55));opacity:0;animation:lbTitle .9s cubic-bezier(.2,.8,.2,1) 2.2s forwards,lbShine 2.4s linear 2.2s infinite}
+.ti-ptable .lb-title{position:absolute;left:50%;bottom:17%;transform:translateX(-50%);white-space:nowrap;font-size:clamp(30px,9vw,54px);font-weight:900;letter-spacing:.22em;color:#f0fdff;text-shadow:0 0 6px rgba(165,243,252,.9),0 0 22px rgba(34,211,238,.75),0 0 46px rgba(34,211,238,.45);opacity:0;animation:lbTitle .8s cubic-bezier(.2,.8,.2,1) 2.5s forwards}
 .ti-ptable .lb-sub{position:absolute;left:50%;bottom:11%;transform:translateX(-50%);white-space:nowrap;font-size:clamp(12px,3.4vw,15px);font-weight:700;letter-spacing:.12em;color:#a5f3fc;opacity:0;animation:tiFade .7s ease 2.7s forwards}
 @keyframes lbDrift{to{background-position:36px 36px}}
 @keyframes lbGlow{to{opacity:1;transform:scale(1)}}
@@ -2497,7 +2497,7 @@ html.is-beta #nav .beta-fb .material-symbols-rounded{font-size:18px}
 @keyframes lbScan{0%{top:0;opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
 @keyframes lbBub{0%{transform:translateY(0);opacity:0}12%{opacity:.95}100%{transform:translateY(-115vh);opacity:0}}
 @keyframes lbFlash{0%{opacity:0;transform:scale(1)}35%{opacity:.6;transform:scale(8)}100%{opacity:0;transform:scale(12)}}
-@keyframes lbTitle{from{opacity:0;letter-spacing:.6em;filter:blur(10px) drop-shadow(0 0 14px rgba(103,232,249,.55))}to{opacity:1;letter-spacing:.22em;filter:drop-shadow(0 0 14px rgba(103,232,249,.55))}}
+@keyframes lbTitle{from{opacity:0;letter-spacing:.4em;transform:translate(-50%,8px)}to{opacity:1;letter-spacing:.22em;transform:translate(-50%,0)}}
 @keyframes lbShine{to{background-position:200% 0}}
 .ti-ptable .lb-bubs{position:absolute;inset:0;pointer-events:none}
 .ti-merge{background:radial-gradient(80% 70% at 50% 50%,#1a2a4a 0%,#0b1020 75%);color:#e8f4ff;font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif}
@@ -2561,8 +2561,9 @@ html.is-beta #nav .beta-fb .material-symbols-rounded{font-size:18px}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '17.99.13';
-const BETA_VER = '17.99.14-beta6';
+const STABLE_VER = '18.0.0';
+const BETA_VER = '18.0.0';
+const RELEASE_VER = '18.0.0'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3446,6 +3447,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.0.0', d: '__BUILD__', t: '元素ラボの題名・元素マージのBGM・単語帳の操作・しりとりの参加を改善', n: ['元素ラボを開くときの「元素ラボ」の題名が、ぼやけずに見えるようにしました', '元素マージの5曲目・6曲目は、重低音のベース・キック・ドラム・シンセを強くして、かっこいい曲にしました', '単語帳の下の「戻る・お気に入り・読み上げ・AIに質問」を、中央にそろえて文字つきにしました。AIに質問の答えは、全画面でも下から出ます', '単語帳の「その他の操作」を2列で見やすくし、カードの模様をショップでも選べるようにしました', 'しりとりの対戦リクエストから参加できない問題を直しました（招待を送った部屋は、相手が参加するまで残ります）', '単語帳の操作ボタンの大きさをそろえ、機能を足しても動かないようにしました'] },
+  { v: '18.0.0', d: '__BUILD__', beta: true, t: 'ベータ版の起動（自動で切り替え）', n: ['ベータ版に登録されているアカウントは、起動したときに自動でベータ版に切り替わります（切り替えの間は、読み込み中の表示です）'] },
   { v: '17.99.14-beta6', d: '__BUILD__', beta: true, t: '単語帳の操作・しりとりの参加・ベータ版の起動・ツールバーの安定（ベータ6）', n: ['しりとりの対戦リクエストから参加できない問題を直しました（招待を送った部屋は、相手が参加するまで残るようにしました）', '単語帳の「表・裏・ヒント・例文」のボタンをやめました', '単語帳の「戻る・お気に入り・読み上げ・AIに質問」を、中央にそろえて文字つきにしました', 'AIに質問の答えは、全画面でも下から出るようにしました', 'カードの模様は「その他の操作」と、XPショップで選べるようにしました', 'その他の操作を、2列のボタンで見やすくしました', 'ベータ版の登録があるアカウントは、起動したときに自動でベータ版を開くようにしました（読み込み中の表示です）'] },
   { v: '17.99.14-beta5', d: '__BUILD__', beta: true, t: 'ベータ版のフィードバック・元素ラボの演出・更新の不具合（ベータ5）', n: ['ベータ版では、タブバーの「Beta」のすぐ上に、フィードバックのボタンを出しました', '元素ラボを開くときに、元素の表が光でそろい、レーザーが走って題名が出る演出をつけました', 'ベータ版へ行ったとき・正式版に戻ったときに、更新内容が出てしまう問題を直しました（版ごとに、見た版を覚えるようにしました）', '「更新しています」の画面で止まってしまう問題を直しました（止まったときは、エラーを出して、もう一度試せるようにしました）', 'ベータ版は、ホーム画面に「ベータ版」として追加すると、そのアイコンから開けるようにしました'] },
   { v: '17.99.14-beta4', d: '__BUILD__', beta: true, t: '元素マージの確認・ベータ版の説明・歴打の演出（ベータ4）', n: ['元素マージの「やり直す」を押すと、「本当に最初からにしますか？」と確認するようにしました（「やめる」で、続きから遊べます）', 'タブバーの「Beta」を押すと、ベータ版とは何かの説明を出すようにしました', '歴打を開くときの演出を、大幅に豪華にしました（墨の輪・金の光・巻物の軸・印の押印・桜の花びら）'] },
@@ -10679,6 +10682,14 @@ function updPgHtml(i) {
     art = `<img class="obm-appicon upd-icon" src="icon-192.png" alt="アプリのアイコン" width="112" height="112">`;
     title = 'アップデートしました';
     body = `<p>v${esc(verTxt(APP_VERSION))}に更新されました。新しくなった点を、順番に見ていきましょう。</p><div class="upd-chips"><span class="vchip">v${esc(verTxt(APP_VERSION))}</span><span class="upd-cnt">${p.count}件の更新</span></div>`;
+  } else if (p.kind === 'rel') {
+    art = `<div class="upd-ver"><b>v${esc(RELEASE_VER)}</b></div>`;
+    title = `v${esc(RELEASE_VER)}がリリースされました`;
+    body = `<p>${IS_BETA ? 'ベータ版も、' : ''}新しいバージョンになりました。次のページで、新しい機能を見てみましょう。</p>`;
+  } else if (p.kind === 'thanks') {
+    art = `<div class="upd-ver">${ms('favorite')}</div>`;
+    title = 'いつも使ってくれて、ありがとうございます';
+    body = `<p>これまで考査課題マネージャーを使ってくれて、本当にありがとうございます。これからも、よろしくお願いします。</p>`;
   } else {
     art = `<div class="upd-ver"><b>v${esc(p.e.v)}</b></div>`;
     title = esc(p.e.t);
@@ -10690,10 +10701,12 @@ function updPgHtml(i) {
   <div class="ob-dots">${UPG.pages.map((_, k) => `<i class="${k === i ? 'on' : ''}"></i>`).join('')}</div>
   <div class="ob-foot"><button type="button" class="btn text ob-skip" data-act="updclose">${ms('skip_next')}スキップ</button>${i ? '<button type="button" class="btn text" data-act="updprev">戻る</button>' : ''}<span class="sp"></span><button type="button" class="btn ob-next" data-act="${last ? 'updclose' : 'updnext'}">${last ? 'はじめる' : '次へ'}${ms(last ? 'check' : 'arrow_forward')}</button></div></div>`;
 }
-function whatsNewDlg(last) {
+function whatsNewDlg(last, rel) {
   const all = changelogList().filter(e => verCmp(e.v, last) > 0 && verCmp(e.v, APP_VERSION) <= 0), list = all.slice(0, 6);
-  if (!list.length) return;
-  UPG.pages = [{ kind: 'hero', count: all.length }, ...list.map(e => ({ kind: 'ver', e })), ...(all.length > list.length ? [] : [])];
+  if (!list.length && !rel) return;
+  UPG.pages = rel
+    ? [{ kind: 'rel' }, ...list.map(e => ({ kind: 'ver', e })), { kind: 'thanks' }]
+    : [{ kind: 'hero', count: all.length }, ...list.map(e => ({ kind: 'ver', e }))];
   UPG.i = 0; UPG.dir = 'fwd';
   openDlg(updPgHtml(0)); dlg.dataset.k = 'upd';
 }
@@ -11969,7 +11982,12 @@ try {
   const KEY = IS_BETA ? 'kosa-seen-ver-beta' : 'kosa-seen-ver', switching = new URLSearchParams(location.search).has('from');
   const seen = localStorage.getItem(KEY), gs = localStorage.getItem('kosa-guide-seen'), last = seen || (!IS_BETA && gs && /^\d+(\.\d+)*$/.test(gs) ? gs : null);
   pushSetupAuto();
-  if (seen !== APP_VERSION) { localStorage.setItem(KEY, APP_VERSION); if (!switching && last && verCmp(APP_VERSION, last) > 0 && !(S.set && S.set.noWhatsNew)) showWhenFree(() => whatsNewDlg(last), 1100); }
+  if (seen !== APP_VERSION) { localStorage.setItem(KEY, APP_VERSION);
+    if (!switching && last && verCmp(APP_VERSION, last) > 0) {
+      const rel = APP_VERSION === RELEASE_VER;
+      if (rel || !(S.set && S.set.noWhatsNew)) showWhenFree(() => whatsNewDlg(last, rel), 1100);
+    }
+  }
 } catch (e) { }
 
 /* 画面を引っぱったときのバウンスで、下のバーが動かないようにする（スマホ） */
