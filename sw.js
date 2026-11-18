@@ -1,5 +1,7 @@
-// バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。index.html の APP_VERSION も同じ値にする
-const APP_VERSION = '17.99.13';
+// バージョン番号：index.html の STABLE_VER / BETA_VER と同じ値にする（ベータ版は /beta/ の中で、BETA_VER を使う）
+const STABLE_VER = '18.0.0';
+const BETA_VER = '18.0.0';
+const APP_VERSION = self.location.pathname.includes('/beta/') ? BETA_VER : STABLE_VER;
 // ベータ版（beta/ の中）と正式版（いちばん上）は、別々のキャッシュを使う（互いに消し合わないように）
 const BETA = self.location.pathname.includes('/beta/');
 const PFX = BETA ? 'kosa-beta-v' : 'kosa-v';
