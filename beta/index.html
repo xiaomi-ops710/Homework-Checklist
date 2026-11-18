@@ -2538,6 +2538,83 @@ html.is-beta #nav .beta-fb .material-symbols-rounded{font-size:18px}
 .bc-load .bc-ic .material-symbols-rounded{animation:bcSpin 1s linear infinite}
 @keyframes bcSpin{to{transform:rotate(360deg)}}
 </style>
+<style id="qz7-css">
+/* 暗記クイズ：4択はボタンと文字を大きく（2列）、AIの解説を出す */
+.qz2-o{gap:14px}
+.qz2-o.four{display:grid;grid-template-columns:1fr 1fr}
+.qz2-b{min-height:96px;padding:14px 22px 14px 14px;font-size:1.4rem;border-radius:30px}
+.qz2-o.four .qz2-b{min-height:118px;font-size:1.5rem}
+.qz2-b .qz2-k{width:50px;height:50px;font-size:1.3rem;flex:0 0 auto}
+.qz2-x{font-size:inherit;line-height:1.3;word-break:break-word}
+.qz2-ai{min-height:46px}
+.qz2-why{display:flex;gap:10px;align-items:flex-start;margin-top:14px;padding:14px 16px;border-radius:20px;background:var(--s2);font-size:1.05rem;line-height:1.7}
+.qz2-why .material-symbols-rounded{color:var(--pc);flex:0 0 auto;margin-top:2px}
+/* 同じ問題のまま描き直したとき（AIの解説が出たときなど）は、アニメーションを再生しない */
+.qz2.calm *{animation:none!important}
+@media (max-width:520px){.qz2-o.four .qz2-b{min-height:104px;font-size:1.3rem}}
+</style>
+<style id="guide18-css">
+.obm-nf,.obm-ach{width:min(94%,360px)}
+.obm-banner{margin:0 0 4px;max-width:none;width:100%;box-sizing:border-box}
+.obm-nl{padding:12px 14px;display:grid;gap:8px;text-align:left}
+.obm-nl .obm-mh{margin:0;font-size:.95rem}
+.obm-nl .obm-mh b{flex:1}
+.obm-unread{font-style:normal;font-size:.75rem;font-weight:800;color:var(--on);background:var(--s3);border-radius:999px;padding:2px 8px}
+.obm-ni{display:flex;gap:10px;align-items:center}
+.obm-ni b{display:block;font-size:.9rem;line-height:1.3}
+.obm-ni small{color:var(--mut,#777);font-size:.78rem}
+.obm-nic{width:34px;height:34px;border-radius:12px;display:grid;place-items:center;background:var(--s3);flex:0 0 auto}
+.obm-pt2{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border-radius:18px;background:var(--s2);font-weight:700;font-size:.92rem}
+.obm-pt2>span:first-child{display:flex;align-items:center;gap:6px}
+.obm-sw{width:44px;height:26px;border-radius:999px;background:var(--s3);position:relative;flex:0 0 auto}
+.obm-sw i{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0004}
+.obm-sw.on{background:var(--pc)}
+.obm-sw.on i{left:21px}
+.obm-ab{width:100%;box-sizing:border-box;margin:0;cursor:default}
+.obm-al{padding:12px 14px;text-align:left}
+.obm-al .obm-mh{margin:0 0 4px;font-size:.95rem}
+.obm-al .obm-mh b{flex:1}
+.obm-al .obm-mh em{font-style:normal;font-size:.75rem;font-weight:800;color:var(--on);background:var(--s3);border-radius:999px;padding:2px 8px}
+.obm-al small{font-size:.78rem;color:var(--mut,#777)}
+.obm-ai2{width:30px;height:30px;border-radius:10px;display:grid;place-items:center;background:var(--s3)}
+.obm-xp{display:inline-flex;align-items:center;gap:4px;padding:6px 10px;border-radius:999px;background:var(--s2);font-size:.8rem;font-weight:800}
+.obm-xp.on{background:var(--s3);color:var(--on);box-shadow:inset 0 0 0 1.5px var(--pc)}
+.obm-ach .obm-row2{justify-content:flex-start;gap:8px;flex-wrap:wrap}
+</style>
+<style id="task18-css">
+.tgrid{gap:16px}
+@media(min-width:700px){.tgrid{grid-template-columns:repeat(auto-fill,minmax(440px,1fr))!important}}
+.task{padding:24px 22px 20px 28px;border-radius:28px;gap:16px}
+.task .tt{font-size:1.2rem;font-weight:700;line-height:1.35}
+.task .tnum b{font-size:3rem}
+.tpg{background:var(--s2);border-radius:20px;padding:14px;display:grid;gap:10px}
+.tpg-top{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.tpg-lbl{display:inline-flex;align-items:center;gap:4px;font-size:.95rem;font-weight:700;color:var(--on-v)}
+.tpg-ctl{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tpg-ctl>button{height:52px;min-width:52px;padding:0 12px;border-radius:16px;background:var(--sec-c);color:var(--on-sec-c);font-weight:700;font-size:1.05rem;display:inline-flex;align-items:center;justify-content:center;gap:2px;transition:transform .3s var(--spring)}
+.tpg-ctl>button.pl{background:var(--primary);color:var(--on-primary);min-width:60px}
+.tpg-ctl>button.jmp{min-width:58px;font-size:1rem}
+.tpg-ctl>button:active{transform:scale(.94)}
+.tpg-in{display:inline-flex;align-items:center;gap:4px;height:52px;padding:0 12px;border-radius:16px;background:var(--s1);font-weight:700;color:var(--on);box-shadow:inset 0 0 0 2px var(--s3)}
+.tpg-in:focus-within{box-shadow:inset 0 0 0 2px var(--primary)}
+.tpg-in>span{font-size:1rem;color:var(--on-v)}
+.tpg-in input{width:76px;height:44px;border:0;background:transparent;font:inherit;font-size:1.35rem;font-weight:800;text-align:center;color:var(--on);-moz-appearance:textfield}
+.tpg-in input:focus{outline:none}
+.tpg-in em{font-style:normal;font-size:1rem;color:var(--on-v);white-space:nowrap}
+.tpg-rest{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;font-size:.95rem;font-weight:600;color:var(--on-v)}
+.tpg-rest b{color:var(--on);font-size:1.1rem}
+.tpg-rest>span{display:inline-flex;align-items:center;gap:4px}
+.tact18{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.tbtn{height:52px;padding:0 18px;border-radius:26px;font-weight:700;font-size:1rem;display:inline-flex;align-items:center;gap:6px;background:var(--sec-c);color:var(--on-sec-c);transition:transform .3s var(--spring)}
+.tbtn:active{transform:scale(.95)}
+.tbtn.pinned{background:var(--ter-c);color:var(--on-ter-c)}
+.tbtn.pinned .ms{font-variation-settings:'FILL' 1}
+.tfin{height:52px;padding:0 20px;margin-left:auto;border-radius:26px;font-weight:800;font-size:1rem;display:inline-flex;align-items:center;gap:6px;background:var(--primary);color:var(--on-primary);transition:transform .3s var(--spring),opacity .3s}
+.tfin.undo{background:var(--s3);color:var(--on-v)}
+.tfin:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.tfin:not(:disabled):active{transform:scale(.95)}
+@media(max-width:420px){.tfin{margin-left:0;width:100%;justify-content:center}}
+</style>
 </head>
 <body>
 <div id="app">
@@ -2561,9 +2638,9 @@ html.is-beta #nav .beta-fb .material-symbols-rounded{font-size:18px}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.0.0';
-const BETA_VER = '18.0.0';
-const RELEASE_VER = '18.0.0'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.0.1';
+const BETA_VER = '18.0.1';
+const RELEASE_VER = '18.0.1'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -2977,8 +3054,9 @@ function admHtml() {
     <div class="fld"><div class="lbl">課題・考査日を届ける</div><p class="muted" style="font-weight:500;margin:6px 0 0">届けた内容は、生徒が次にアプリを開いたとき、その生徒の教科と課題に入ります。同じ内容は一度だけ入ります。</p></div>
     <div class="fld"><div class="lbl">送り先</div><div class="seg"><input type="radio" id="atg0" name="admtg" value="all" checked><label for="atg0">全員</label><input type="radio" id="atg1" name="admtg" value="some"><label for="atg1">選んだ生徒</label></div>
       <button type="button" class="btn tonal sm" data-act="admtglist" style="margin-top:10px">${ms('refresh')}生徒の一覧を読む</button><div id="admTg" class="adm-list"></div></div>
-    <div class="fld"><div class="lbl">内容</div><div class="seg"><input type="radio" id="ak0" name="admkind" value="task" checked><label for="ak0">課題</label><input type="radio" id="ak1" name="admkind" value="exam"><label for="ak1">考査日</label></div></div>
-    <div class="fld"><label for="admSub">教科の名前（生徒の教科と同じ名前）</label><input id="admSub" type="text" maxlength="20" placeholder="例：数学"></div>
+    <div class="fld"><div class="lbl">内容</div><div class="seg"><input type="radio" id="ak0" name="admkind" value="task" checked><label for="ak0">課題</label><input type="radio" id="ak1" name="admkind" value="exam"><label for="ak1">考査日</label><input type="radio" id="ak2" name="admkind" value="event"><label for="ak2">予定</label></div></div>
+    <div class="fld" id="admSubF"><label for="admSub">教科の名前（生徒の教科と同じ名前）</label><input id="admSub" type="text" maxlength="20" placeholder="例：数学"></div>
+    <div id="admEv" hidden><div class="fld"><label for="admEvTitle">予定の名前</label><input id="admEvTitle" type="text" maxlength="40" placeholder="例：球技大会"></div><div class="fld"><label for="admEvDate">日付</label><input id="admEvDate" type="date"></div><div class="fld"><label for="admEvTm">時刻（任意）</label><input id="admEvTm" type="time"></div><div class="fld"><label for="admEvNote">メモ（任意）</label><input id="admEvNote" type="text" maxlength="60" placeholder="持ち物など"></div></div>
     <div id="admTask">
       <div class="fld"><label for="admTitle">課題の名前</label><input id="admTitle" type="text" maxlength="60" placeholder="例：ワーク p.1〜20"></div>
       <div class="fld"><div class="lbl">種類</div><div class="seg"><input type="radio" id="at0" name="admtk" value="pg" checked><label for="at0">ページ</label><input type="radio" id="at1" name="admtk" value="chk"><label for="at1">完了のみ</label><input type="radio" id="at2" name="admtk" value="url"><label for="at2">リンク</label></div></div>
@@ -3447,6 +3525,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.0.1', d: '__BUILD__', t: '課題の画面を刷新・暗記クイズの改善・取り込んだ予定をまとめて消せるように・初めの使い方に通知と実績を追加', n: ['課題のカードを大きくし、「現在のページ」と「残りのページ」をわかりやすくしました', '現在のページの近くに「−」「＋」（+5・+10も）を置き、数字を直接入力して変えられるようにしました', '課題の下の操作を、「プランをたてる」「プランに追加」「完了にする」にまとめました。完了は、全ページが終わると押せます', '課題の「提出」ボタンと、鉛筆のボタンをなくしました（課題のカードを押すと、編集できます）', '暗記クイズで、ボタンを押すたびに上の進み具合のアニメーションが動いてしまうのを直しました', '暗記クイズの4択は、選択肢のボタンと文字を大きくしました', '暗記クイズで間違えたときは、「AIに質問」ですぐに、なぜ違うのかを解説できます', '取り込んだ予定（ICS）を、取り込みごとにまとめて消せるようにしました（「元に戻す」もできます）', '初めの使い方に、通知（プッシュ通知を含む）と実績の説明を追加しました'] },
   { v: '18.0.0', d: '__BUILD__', t: '元素ラボの題名・元素マージのBGM・単語帳の操作・しりとりの参加を改善', n: ['元素ラボを開くときの「元素ラボ」の題名が、ぼやけずに見えるようにしました', '元素マージの5曲目・6曲目は、重低音のベース・キック・ドラム・シンセを強くして、かっこいい曲にしました', '単語帳の下の「戻る・お気に入り・読み上げ・AIに質問」を、中央にそろえて文字つきにしました。AIに質問の答えは、全画面でも下から出ます', '単語帳の「その他の操作」を2列で見やすくし、カードの模様をショップでも選べるようにしました', 'しりとりの対戦リクエストから参加できない問題を直しました（招待を送った部屋は、相手が参加するまで残ります）', '単語帳の操作ボタンの大きさをそろえ、機能を足しても動かないようにしました'] },
   { v: '18.0.0', d: '__BUILD__', beta: true, t: 'ベータ版の起動（自動で切り替え）', n: ['ベータ版に登録されているアカウントは、起動したときに自動でベータ版に切り替わります（切り替えの間は、読み込み中の表示です）'] },
   { v: '17.99.14-beta6', d: '__BUILD__', beta: true, t: '単語帳の操作・しりとりの参加・ベータ版の起動・ツールバーの安定（ベータ6）', n: ['しりとりの対戦リクエストから参加できない問題を直しました（招待を送った部屋は、相手が参加するまで残るようにしました）', '単語帳の「表・裏・ヒント・例文」のボタンをやめました', '単語帳の「戻る・お気に入り・読み上げ・AIに質問」を、中央にそろえて文字つきにしました', 'AIに質問の答えは、全画面でも下から出るようにしました', 'カードの模様は「その他の操作」と、XPショップで選べるようにしました', 'その他の操作を、2列のボタンで見やすくしました', 'ベータ版の登録があるアカウントは、起動したときに自動でベータ版を開くようにしました（読み込み中の表示です）'] },
@@ -3832,10 +3911,24 @@ function feelRow(t, done) {
 function taskCard(t, s) {
   const lnk = t.kind === 'url', chk = t.kind === 'chk' || t.kind === 'list' || lnk, lst = t.kind === 'list', rem = t.total - t.done, done = isDone(t), pin = isPinned(t), p = progOf(t), end = lastPage(t);
   const num = lst ? `<b>${rem}</b><small>項目残り</small>` : chk ? `<b>${done ? '済' : '未'}</b><small>${done ? '完了' : '未完了'}</small>` : `<b>${rem}</b><small>ページ残り</small>`;
-  const trow = chk ? '' : `<div class="trow"><span class="tnext">${done ? '' : `${ms('arrow_forward')}次は p.${pageOf(t, t.done + 1)} から`}</span><label class="tcur"><span class="pp">現在 p.</span><input type="number" inputmode="numeric" data-cur="${t.id}" min="${firstPage(t) - 1}" max="${end}" value="${t.done ? pageOf(t, t.done) : ''}" placeholder="${firstPage(t) - 1}" aria-label="現在のページ（ここまで終わった）"><em>/ ${end}</em></label></div>`;
-  const left = chk ? `<div class="cgroup"><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}">${ms('check')}${done ? '未完了に戻す' : (lst ? 'すべて完了' : '完了にする')}</button></div>`
-    : `<div class="cgroup"><button data-act="inc" data-id="${t.id}" data-n="-1" aria-label="1ページ戻す">−1</button><button data-act="inc" data-id="${t.id}" data-n="1">+1</button><button data-act="inc" data-id="${t.id}" data-n="5">+5</button><button data-act="inc" data-id="${t.id}" data-n="10">+10</button></div>`;
-  const right = `<div class="cgroup">${t.subreq ? `<button class="${t.submitted ? 'undo' : ''}" data-act="submit" data-id="${t.id}" aria-label="${t.submitted ? '未提出に戻す' : '提出済みにする'}">${ms('outbox')}</button>` : ''}<button data-act="aitask" data-id="${t.id}" aria-label="この課題をAIに相談">${gem(20)}</button><button class="${pin ? 'pinned' : ''}" data-act="pin" data-id="${t.id}" aria-label="今日やる">${ms('star')}</button>${chk ? '' : `<button data-act="quick" data-id="${t.id}" aria-label="ページ数を入力">${ms('edit')}</button><button class="${done ? 'undo' : 'go'}" data-act="toggle" data-id="${t.id}" aria-label="${done ? '未完了に戻す' : '完了にする'}">${ms('check')}</button>`}</div>`;
+  // ページ：現在のページ（数字を直接入力できる）と、− ＋ +5 +10
+  const pg = chk ? '' : `<div class="tpg">
+      <div class="tpg-top"><span class="tpg-lbl">${ms('bookmark')}現在のページ</span></div>
+      <div class="tpg-ctl">
+        <button type="button" data-act="inc" data-id="${t.id}" data-n="-1" aria-label="1ページ戻す">${ms('remove')}</button>
+        <label class="tpg-in"><span>p.</span><input type="number" inputmode="numeric" data-cur="${t.id}" min="${firstPage(t) - 1}" max="${end}" value="${t.done ? pageOf(t, t.done) : ''}" placeholder="${firstPage(t) - 1}" aria-label="現在のページ（ここまで終わった）"><em>/ ${end}</em></label>
+        <button type="button" class="pl" data-act="inc" data-id="${t.id}" data-n="1" aria-label="1ページ進める">${ms('add')}</button>
+        <button type="button" class="jmp" data-act="inc" data-id="${t.id}" data-n="5" aria-label="5ページ進める">+5</button>
+        <button type="button" class="jmp" data-act="inc" data-id="${t.id}" data-n="10" aria-label="10ページ進める">+10</button>
+      </div>
+      <div class="tpg-rest"><span>残り <b>${rem}</b> ページ</span>${done ? `<span class="tag ok">${ms('check')}全部終わり</span>` : `<span>${ms('arrow_forward')}次は p.${pageOf(t, t.done + 1)} から</span>`}</div>
+    </div>`;
+  // 下の操作：AIにプラン、今日の計画に追加、完了（ページが全部終わるまで押せない）
+  const aiB = `<button type="button" class="tbtn" data-act="aitask" data-id="${t.id}" aria-label="この課題のプランをAIにたててもらう">${gem(20)}プランをたてる</button>`;
+  const pinB = `<button type="button" class="tbtn ${pin ? 'pinned' : ''}" data-act="pin" data-id="${t.id}" aria-pressed="${pin ? 'true' : 'false'}">${ms('star', pin ? 'f' : '')}${pin ? 'プランに追加済み' : 'プランに追加'}</button>`;
+  const fin = chk
+    ? `<button type="button" class="tfin ${done ? 'undo' : ''}" data-act="toggle" data-id="${t.id}">${ms('check')}${done ? '未完了に戻す' : (lst ? 'すべて完了' : '完了にする')}</button>`
+    : `<button type="button" class="tfin ${done ? 'undo' : ''}" data-act="toggle" data-id="${t.id}"${done ? '' : ' disabled title="全ページ終わると押せます"'}>${ms('check')}${done ? '完了を取り消す' : '全ページ終えたら完了'}</button>`;
   return `<article class="task sc ${done ? 'is-done' : ''}" style="--sh:${s.hue}" data-id="${t.id}">
     <button class="thead" data-act="edittask" data-id="${t.id}" aria-label="${esc(t.title)}を編集"><div><div class="tt">${esc(t.title)}</div><div class="tchips"><span class="tag ${t.req ? 'req' : 'opt'}">${ms(t.req ? 'priority_high' : 'low_priority')}${t.req ? '必須' : '任意'}</span>${chk ? `<span class="tag plain">${ms(lst ? 'checklist' : lnk ? 'link' : 'task_alt')}${lst ? 'チェックリスト' : lnk ? 'リンク' : '完了のみ'}</span>` : ''}${dueTag(t)}${subTags(t)}${pin ? `<span class="tag soon">${ms('star', 'f')}今日やる</span>` : ''}${done ? `<span class="tag ok">${ms('check')}完了</span>` : ''}</div></div><div class="tnum">${num}</div></button>
     ${t.note ? `<div class="tnote">${esc(t.note)}</div>` : ''}
@@ -3843,8 +3936,8 @@ function taskCard(t, s) {
     ${lst ? clHtml(t) : ''}
     <div class="tprog">${wave(p, 'tw' + t.id)}<span>${pct(p)}%</span>${chk ? '' : `<em>p.${rangesText(t)}</em>`}</div>
     ${t.kind === 'chk' ? feelRow(t, done) : ''}
-    ${trow}
-    <div class="tact">${left}${right}</div>
+    ${pg}
+    <div class="tact18">${aiB}${pinB}${fin}</div>
   </article>`;
 }
 
@@ -3867,7 +3960,7 @@ function upcomingHtml(map) {
     const lab = i === 0 ? '今日' : i === 1 ? '明日' : `${dt.getMonth() + 1}/${dt.getDate()}（${WD[dt.getDay()]}）`;
     days.push(`<button type="button" class="up-d" data-act="calday" data-id="${k}">${lab}</button>` + nm.map(x => `<div class="up-i"><i class="up-c ${x.c}"></i><span>${esc(x.t)}</span></div>`).join(''));
   }
-  return `<div class="card upc"><h3>${ms('upcoming')}これからの予定</h3>${days.length ? days.join('') : '<p class="muted" style="font-weight:500">これから3週間の予定は、まだありません。</p>'}<div class="dayp-a"><button class="btn tonal" data-act="icsimport">${ms('upload_file')}ICSファイルから予定を読み込む</button></div></div>`;
+  return `<div class="card upc"><h3>${ms('upcoming')}これからの予定</h3>${days.length ? days.join('') : '<p class="muted" style="font-weight:500">これから3週間の予定は、まだありません。</p>'}<div class="dayp-a"><button class="btn tonal" data-act="icsimport">${ms('upload_file')}ICSファイルから予定を読み込む</button>${evAll().some(e => e.src === 'ics') ? `<button class="btn tonal" data-act="icsmanage">${ms('delete_sweep')}取り込んだ予定を消す</button>` : ''}</div></div>`;
 }
 function viewCal() {
   if (!subjects().length) return emptyHome();
@@ -4926,7 +5019,7 @@ const ACT = {
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); S.cleared = Date.now(); ui.sid = ''; ui.tab = 'home'; })); },
   reload() { startUpdate(); },
   hardrefresh() { okDlg('最新版を読み込み直しますか？', 'アプリの保存済みファイルを消して、最新版を読み込み直します。課題や成績などのデータは消えません。ネットにつながっている状態で行ってください。', '読み込み直す', hardRefresh); }, ai() { ACT.tab('ai'); },
-  simn(id) { SM.n = +id; toolsRefresh(); }, qzset(id) { quizStart(id); }, qzpick(id) { if (QZ.pick >= 0) return; QZ.pick = +id; const q = QZ.q[QZ.i]; if (q.o[QZ.pick] === q.b) QZ.ok++; else QZ.wrong.push(q); toolsRefresh(); }, qzfav() { const q = QZ.q[QZ.i]; if (!q || QZ.pick < 0) return; qzFavAdd(q); toast('お気に入りに入れました'); toolsRefresh(); }, qznext() { QZ.i++; QZ.pick = -1; if (QZ.i >= QZ.q.length) { QZ.phase = 'done'; if (QZ.ok === QZ.q.length) { try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } } toolsRefresh(); }, qzreset() { QZ.phase = 'setup'; toolsRefresh(); }, nat(id) { if (NS.kind === id) natStop(); else natStart(id); renderMini(); renderFocus(); }, natoff() { natStop(); renderMini(); if (TM.open) renderFocus(); }, ftanim() { S.set.timerAnim = S.set.timerAnim === false; save(); renderFocus(); },
+  simn(id) { SM.n = +id; toolsRefresh(); }, qzset(id) { quizStart(id); }, qzpick(id) { if (QZ.pick >= 0) return; QZ.pick = +id; QZ.why = ''; QZ.whyBusy = false; const q = QZ.q[QZ.i]; if (q.o[QZ.pick] === q.b) QZ.ok++; else QZ.wrong.push(q); toolsRefresh(); }, qzfav() { const q = QZ.q[QZ.i]; if (!q || QZ.pick < 0) return; qzFavAdd(q); toast('お気に入りに入れました'); toolsRefresh(); }, qznext() { QZ.i++; QZ.pick = -1; QZ.why = ''; QZ.whyBusy = false; if (QZ.i >= QZ.q.length) { QZ.phase = 'done'; if (QZ.ok === QZ.q.length) { try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } } toolsRefresh(); }, qzreset() { QZ.phase = 'setup'; toolsRefresh(); }, nat(id) { if (NS.kind === id) natStop(); else natStart(id); renderMini(); renderFocus(); }, natoff() { natStop(); renderMini(); if (TM.open) renderFocus(); }, ftanim() { S.set.timerAnim = S.set.timerAnim === false; save(); renderFocus(); },
   wcsheet() { WC.sheet = null; wcPaint(false); },
   wcflip() { const c = $('#wcc'); if (!c || WC.busy) return; WC.flip = !WC.flip; c.classList.toggle('flip', WC.flip); },
   wcok() { wcMark(1); }, wcng() { wcMark(0); },
@@ -5876,6 +5969,8 @@ const GUIDE = [
   { ic: 'timer', ti: '集中タイマー', tx: 'ツールの「集中タイマー」で、集中と休憩をくり返せます。時間は設定で変えられます。', art: 'timer' },
   { ic: 'auto_awesome', ti: 'AIに質問する', tx: 'わからない問題は、写真を撮って「AI」タブから質問できます。使うにはGoogleログインが必要です。答えは間違うこともあるので、教科書でも確かめましょう。', art: 'chat' },
   { ic: 'apps', ti: 'ツールと、よく使うもの', tx: 'ホームの「よく使うツール」に、12個まで置けます。ツールは、ツール一覧からいつでも開けます。', art: 'tools' },
+  { ic: 'notifications_active', ti: '通知とプッシュ通知', tx: 'ベル（通知）には、提出や予定、実績、フィードバックの返信が届きます。Googleログインして「プッシュ通知」をオンにすると、アプリを閉じていても、今日・明日の提出や予定をお知らせします。iPhoneでは、ホーム画面に追加したアプリから設定してください。', art: 'notify' },
+  { ic: 'emoji_events', ti: '実績とレベル', tx: '課題を終わらせたり、勉強を続けたりすると、実績が解除されてXPがもらえます。XPでレベルが上がると、ショップで背景や効果音、ツールを選べます。「記録」タブの「実績・レベル」から、いつでも見られます。', art: 'achieve' },
   { ic: 'rate_review', ti: 'フィードバック', tx: '右上のフィードバックボタンから、いつでも意見や不具合を送れます。送った内容への返信も、アプリの中で届きます。', art: 'feedback' },
   { ic: 'cloud_sync', ti: 'データの保存と同期', tx: 'データは、この端末の中に保存されます。Googleでログインすると、同じアカウントの別の端末とも同期されます。この説明は、設定の「使い方を見る」からいつでも見られます。', art: 'sync' }
 ];
@@ -5896,6 +5991,8 @@ const OB_ART = {
     const t = [['calculate','電卓'],['function','関数グラフ'],['science','理科の計算'],['translate','翻訳'],['timeline','年表'],['numbers','最大公約数']];
     return `<div class="obm"><div class="obm-sec">${ms('star')}よく使うツール<small>12個まで</small></div><div class="obm-grid">${t.map(([i, n]) => `<div class="obm-tile"><span>${ms(i)}</span><small>${n}</small></div>`).join('')}<div class="obm-tile add"><span>${ms('add')}</span><small>追加</small></div></div></div>`;
   },
+  notify: () => `<div class="obm obm-nf"><div class="ios27 ios-banner obm-banner" aria-hidden="true"><div class="ib-app"><img src="icon-192.png" alt=""></div><div class="ib-main"><div class="ib-top"><b>考査課題マネージャー</b><span class="ib-n">今</span></div><div class="ib-from">from 課題管理</div><div class="ib-text">明日提出：数学ワーク p.10-30</div></div></div><div class="card obm-nl"><div class="obm-mh">${ms('notifications')}<b>通知</b><em class="obm-unread">未読 2件</em></div><div class="obm-ni"><span class="obm-nic">${ms('schedule')}</span><div><b>明日提出：数学ワーク</b><small>ワーク p.10-30</small></div></div><div class="obm-ni"><span class="obm-nic">${ms('emoji_events')}</span><div><b>実績を解除：単語を50個覚えた</b><small>単語帳で「覚えた」を50個</small></div></div></div><div class="obm-pt2"><span>${ms('campaign')}プッシュ通知</span><span class="obm-sw on" aria-hidden="true"><i></i></span></div></div>`,
+  achieve: () => `<div class="obm obm-ach"><div class="ach-big obm-ab" aria-hidden="true"><span class="ach-big-ic">${ms('emoji_events', 'f')}</span><span class="ach-big-t"><b>実績・レベル</b><small>Lv.5 ・ 次のレベルまで あと120XP</small></span></div><div class="card obm-al"><div class="obm-mh"><span class="obm-ai2">${ms('style')}</span><b>単語を50個覚えた</b><em>解除済み</em></div><div class="obm-bar"><i style="width:100%"></i></div><small>単語帳で「覚えた」を50個</small></div><div class="obm-row2"><span class="obm-xp">${ms('bolt')}+50 XP</span><span class="obm-xp on">${ms('storefront')}ショップで使う</span></div></div>`,
   feedback: () => `<div class="obm obm-fb"><div class="obm-bar-top"><span class="obm-st">${ms('event_repeat')}3日連続</span><span class="obm-fbb">${ms('rate_review')}</span><span class="obm-av">${ms('account_circle')}</span></div><div class="obm-pt">${ms('touch_app')}ここを押すと、すぐ送れます</div><div class="card obm-fbc"><small>フィードバック</small><div class="obm-fl"></div><div class="obm-fl short"></div><div class="obm-send2">${ms('send')}送信</div></div></div>`,
   sync: () => `<div class="obm obm-sync"><div class="obm-devs"><div class="obm-phone"><div class="obm-scr"><i></i><i></i><i></i></div></div><div class="obm-link">${ms('sync')}</div><div class="obm-tab"><div class="obm-scr"><i></i><i></i></div></div></div><div class="obm-gbtn"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>Googleでログイン</span></div><div class="obm-ok">${ms('cloud_done')}同期済み</div></div>`
 };
@@ -6097,11 +6194,11 @@ const evTime = v => /^\d{1,2}:\d{2}$/.test(String(v || '')) ? String(v).replace(
 function evAdd(o) {
   const t = snOne(o.t).slice(0, 40), d = String(o.d || ''); if (!t || !DRE.test(d)) return null;
   const a = evAll(); if (a.some(e => e.t === t && e.d === d)) return null;   // 同じ予定は、2回入れない
-  const e = { id: uid(), t, d, d2: DRE.test(String(o.d2 || '')) && o.d2 > d ? o.d2 : '', tm: evTime(o.tm), note: snOne(o.note).slice(0, 60), src: o.src || 'me' };
+  const e = { id: uid(), t, d, d2: DRE.test(String(o.d2 || '')) && o.d2 > d ? o.d2 : '', tm: evTime(o.tm), note: snOne(o.note).slice(0, 60), src: o.src || 'me', ib: o.ib || '' };
   a.push(e); if (a.length > EV_MAX) a.splice(0, a.length - EV_MAX); return e;
 }
 const evOn = k => evAll().filter(e => e.d <= k && k <= (e.d2 || e.d)).sort((a, b) => String(a.tm || '99').localeCompare(String(b.tm || '99')));
-const evRow = x => `<button type="button" class="ev rp evx" data-act="evedit" data-id="${x.id}"><b class="ev-tm">${x.tm || '終日'}</b>${ms('event', '', 'color:var(--primary)')}<div class="t">${esc(x.t)}<small>${x.d2 ? `${fmtDate(x.d)}〜${fmtDate(x.d2)}` : '予定'}${x.note ? ` ・ ${esc(x.note)}` : ''}${x.src === 'ai' ? ' ・ プリントから' : x.src === 'ics' ? ' ・ カレンダーから' : ''}</small></div></button>`;
+const evRow = x => `<button type="button" class="ev rp evx" data-act="evedit" data-id="${x.id}"><b class="ev-tm">${x.tm || '終日'}</b>${ms('event', '', 'color:var(--primary)')}<div class="t">${esc(x.t)}<small>${x.d2 ? `${fmtDate(x.d)}〜${fmtDate(x.d2)}` : '予定'}${x.note ? ` ・ ${esc(x.note)}` : ''}${x.src === 'ai' ? ' ・ プリントから' : x.src === 'ics' ? ' ・ カレンダーから' : x.src === 'teacher' ? ' ・ 先生から' : ''}</small></div></button>`;
 function evDlg(id, date) {
   const x = id ? evFind(id) : null; if (id && !x) return;
   openDlg(`<h2>${ms('event')}${x ? '予定を編集' : '予定を足す'}</h2><form id="evf" autocomplete="off" onsubmit="return false"><div class="fld"><label for="evt">予定の名前</label><input id="evt" name="evt" type="text" maxlength="40" value="${esc(x ? x.t : '')}" placeholder="例：三者面談 ／ 体育祭 ／ 修学旅行"></div><div class="fld2"><div class="fld"><label for="evd">日付</label><input id="evd" name="evd" type="date" value="${esc(x ? x.d : (date || today()))}"></div><div class="fld"><label for="evd2">終わりの日（複数日のとき）</label><input id="evd2" name="evd2" type="date" value="${esc(x ? x.d2 : '')}"></div></div><div class="fld"><label for="evtm">時刻（なくてもOK）</label><input id="evtm" name="evtm" type="time" value="${esc(x ? x.tm : '')}"></div><div class="fld"><label for="evn">メモ（場所・持ち物など）</label><input id="evn" name="evn" type="text" maxlength="60" value="${esc(x ? x.note : '')}"></div></form><div class="dact">${x ? `<button type="button" class="btn text danger" data-act="evdel" data-id="${x.id}">${ms('delete')}削除</button>` : ''}<span class="sp"></span><button type="button" class="btn text" data-act="close">キャンセル</button><button type="button" class="btn" data-act="evsave" data-id="${x ? x.id : ''}">${ms('check')}保存</button></div>`);
@@ -8143,7 +8240,7 @@ const QD = {
   verb: ['不規則動詞：原形 → 過去形', 'be,was/were;become,became;begin,began;break,broke;bring,brought;build,built;buy,bought;catch,caught;choose,chose;come,came;do,did;draw,drew;drink,drank;drive,drove;eat,ate;fall,fell;feel,felt;find,found;fly,flew;forget,forgot;get,got;give,gave;go,went;have,had;hear,heard;keep,kept;know,knew;leave,left;make,made;meet,met;read,read;run,ran;say,said;see,saw;sell,sold;send,sent;sing,sang;sit,sat;speak,spoke;take,took;teach,taught;tell,told;think,thought;write,wrote'],
   cards: ['自分の単語帳（表 → 裏）', '']
 };
-const QZ = { set: '', q: [], i: 0, ok: 0, pick: -1, wrong: [], phase: 'setup', from: '' };
+const QZ = { set: '', q: [], i: 0, ok: 0, pick: -1, wrong: [], phase: 'setup', from: '', why: '', whyBusy: false, barPct: -1, key: '' };
 // 間違えた問題の単語を、お気に入り（★）に入れる。単語帳にない単語は、「お気に入り」の単語帳に作る
 function qzFavOf(q) { return q.rev ? [q.b, q.f] : [q.f, q.b]; }
 function qzFavCard(q) { const [f, b] = qzFavOf(q); return (S.cards || []).find(c => c.f === f && c.b === b) || null; }
@@ -8187,7 +8284,7 @@ function quizStart(id) {
     return { f: Q, b: A, o: qzShuf(o), rev };
   }).filter(x => x.o.length >= 2);
   if (!q.length) return toast('選択肢をつくれませんでした。別のカードを追加してください');
-  QZ.set = id; QZ.i = 0; QZ.ok = 0; QZ.pick = -1; QZ.wrong = []; QZ.phase = 'play'; QZ.q = q;
+  QZ.set = id; QZ.i = 0; QZ.ok = 0; QZ.pick = -1; QZ.wrong = []; QZ.phase = 'play'; QZ.q = q; QZ.barPct = -1; QZ.key = ''; QZ.why = ''; QZ.whyBusy = false;
   toolsRefresh();
 }
 function quizHtml() {
@@ -8195,12 +8292,14 @@ function quizHtml() {
   const n = QZ.q.length, hue = qzHue(QZ.set);
   if (QZ.phase === 'play') {
     const q = QZ.q[QZ.i], done = QZ.pick >= 0, ok = done && q.o[QZ.pick] === q.b, prog = (QZ.i + (done ? 1 : 0)) / n * 100;
+    const barAnim = QZ.barPct !== prog; QZ.barPct = prog;
+    const key = QZ.i + ':' + (done ? 1 : 0), calm = QZ.key === key; QZ.key = key;
     const cap = QZ.set.startsWith('cards:') ? (q.rev ? '裏を見て、表を選びます' : '表を見て、裏を選びます') : qzTitle(QZ.set, q.rev);
-    return `<div class="qz2"><div class="qz2-top"><span class="qz2-chip sc" style="--sh:${hue}">${ms('quiz')}<span>${esc(qzName(QZ.set))}</span></span><span class="sp" style="flex:1"></span><span class="qz2-sc" title="正解数">${ms('check_circle')}<b>${QZ.ok}</b></span></div>
-    <div class="qz2-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${QZ.i + (done ? 1 : 0)}"><i style="width:${prog}%"></i></div>
+    return `<div class="qz2${calm ? ' calm' : ''}"><div class="qz2-top"><span class="qz2-chip sc" style="--sh:${hue}">${ms('quiz')}<span>${esc(qzName(QZ.set))}</span></span><span class="sp" style="flex:1"></span><span class="qz2-sc" title="正解数">${ms('check_circle')}<b>${QZ.ok}</b></span></div>
+    <div class="qz2-bar" role="progressbar" aria-valuemin="0" aria-valuemax="${n}" aria-valuenow="${QZ.i + (done ? 1 : 0)}"><i style="width:${prog}%;animation:${barAnim ? 'growX .9s var(--spring) both' : 'none'}"></i></div>
     <div class="qz2-q sc ${done ? (ok ? 'ok' : 'ng') : ''}" style="--sh:${hue}"><div class="qz2-m"><span>${QZ.i + 1}<small> / ${n}</small></span><em>${esc(cap)}</em></div><div class="qz2-t ${String(q.f).length > 22 ? 'long' : ''}">${wcNl(q.f)}</div></div>
-    <div class="qz2-o">${q.o.map((o, k) => { const st = done ? (o === q.b ? 'ok' : k === QZ.pick ? 'ng' : 'dim') : ''; return `<button type="button" class="qz2-b ${st}" data-act="qzpick" data-id="${k}" ${done ? 'disabled' : ''}><span class="qz2-k">${st === 'ok' ? ms('check') : st === 'ng' ? ms('close') : k + 1}</span><span class="qz2-x">${wcNl(o)}</span></button>`; }).join('')}</div>
-    ${done ? `<div class="qz2-fb ${ok ? 'ok' : 'ng'}">${ms(ok ? 'celebration' : 'lightbulb')}<div><b>${ok ? '正解です！' : 'おしい！'}</b>${ok ? '' : `<span>答えは「${esc(q.b)}」です</span>`}</div><span class="sp" style="flex:1"></span>${ok ? '' : qzFavBtn(q)}<button type="button" class="btn" data-act="qznext">${QZ.i + 1 >= n ? '結果を見る' : '次の問題'}${ms('arrow_forward')}</button></div>` : `<p class="muted qz2-h">${ms('keyboard')}キーボードの 1〜${q.o.length} でも選べます</p>`}</div>`;
+    <div class="qz2-o${q.o.length === 4 ? ' four' : ''}">${q.o.map((o, k) => { const st = done ? (o === q.b ? 'ok' : k === QZ.pick ? 'ng' : 'dim') : ''; return `<button type="button" class="qz2-b ${st}" data-act="qzpick" data-id="${k}" ${done ? 'disabled' : ''}><span class="qz2-k">${st === 'ok' ? ms('check') : st === 'ng' ? ms('close') : k + 1}</span><span class="qz2-x">${wcNl(o)}</span></button>`; }).join('')}</div>
+    ${done ? `<div class="qz2-fb ${ok ? 'ok' : 'ng'}">${ms(ok ? 'celebration' : 'lightbulb')}<div><b>${ok ? '正解です！' : 'おしい！'}</b>${ok ? '' : `<span>答えは「${esc(q.b)}」です</span>`}</div><span class="sp" style="flex:1"></span>${ok ? '' : qzWhyBtn()}${ok ? '' : qzFavBtn(q)}<button type="button" class="btn" data-act="qznext">${QZ.i + 1 >= n ? '結果を見る' : '次の問題'}${ms('arrow_forward')}</button></div>${!ok && (QZ.whyBusy || QZ.why) ? `<div class="qz2-why">${ms('auto_awesome')}<span>${QZ.whyBusy ? '解説を考えています…' : esc(QZ.why)}</span></div>` : ''}` : `<p class="muted qz2-h">${ms('keyboard')}キーボードの 1〜${q.o.length} でも選べます</p>`}</div>`;
   }
   const pct = Math.round(QZ.ok / n * 100), msg = pct === 100 ? 'パーフェクト！' : pct >= 80 ? 'すばらしい！' : pct >= 50 ? 'あと少し！' : 'もう一度チャレンジ！';
   return `<div class="qz2-res"><div class="qz2-ring sc" style="--sh:${hue};--p:${pct}"><div><b>${QZ.ok}</b><small>/ ${n}</small></div></div><h2>${msg}</h2><p class="muted" style="margin:0">正解率 ${pct}%　・　${esc(qzName(QZ.set))}</p>${QZ.wrong.length ? `<div class="card qz2-w"><div class="lbl">まちがえた問題</div>${QZ.wrong.map(w => `<div><span>${wcNl(w.f)}</span><b>${wcNl(w.b)}</b></div>`).join('')}</div>` : ''}<div class="qz2-acts">${QZ.wrong.length ? `<button type="button" class="btn tonal" data-act="qzagain">${ms('rule')}まちがえた問題だけ</button>` : ''}<button type="button" class="btn tonal" data-act="qzreset">別のクイズ</button><button type="button" class="btn" data-act="qzset" data-id="${QZ.set}">${ms('replay')}もう一度</button></div></div>`;
@@ -8209,7 +8308,23 @@ Object.assign(ACT, {
   qzdir(id) { if (!['f', 'b', 'r'].includes(id)) return; S.set.qzdir = id; save(); toolsRefresh(); },
   qzn(id) { const n = Math.round(+id); if (!(n >= 2 && n <= 100)) return toast('2〜100の数字を入れてください'); S.set.qzn = n; save(); toolsRefresh(); },
   qznstep(id) { const el = $('#qznin'), cur = el ? Math.round(+el.value) : qzN(); ACT.qzn(Math.min(100, Math.max(2, (isFinite(cur) ? cur : 4) + (+id)))); },
-  qzagain() { if (!QZ.wrong.length) return; QZ.q = QZ.wrong.map(q => ({ ...q, o: qzShuf(q.o) })); QZ.i = 0; QZ.ok = 0; QZ.pick = -1; QZ.wrong = []; QZ.phase = 'play'; toolsRefresh(); }
+  qzagain() { if (!QZ.wrong.length) return; QZ.q = QZ.wrong.map(q => ({ ...q, o: qzShuf(q.o) })); QZ.i = 0; QZ.ok = 0; QZ.pick = -1; QZ.wrong = []; QZ.phase = 'play'; QZ.barPct = -1; QZ.key = ''; QZ.why = ''; QZ.whyBusy = false; toolsRefresh(); }
+});
+/* 暗記クイズ：まちがえたとき、AIに「なぜ違うか」を聞く */
+function qzWhyBtn() {
+  if (QZ.whyBusy) return `<button type="button" class="btn tonal qz2-ai" disabled>${ms('auto_awesome')}解説中…</button>`;
+  return `<button type="button" class="btn tonal qz2-ai" data-act="qzwhy">${ms('auto_awesome')}AIに質問</button>`;
+}
+Object.assign(ACT, {
+  async qzwhy() {
+    const q = QZ.q[QZ.i]; if (!q || QZ.pick < 0 || QZ.whyBusy || q.o[QZ.pick] === q.b) return;
+    const pick = q.o[QZ.pick];
+    QZ.whyBusy = true; QZ.why = ''; toolsRefresh();
+    const r = await aiRun({ system: AI_MINI, prompt: `暗記クイズです。\n問題：${q.f}\n正しい答え：${q.b}\n選んだ答え：${pick}\n\n選んだ答えが、なぜ違うのかを、正しい答えの理由と合わせて、中学生にもわかる言葉で100字以内で書いてください。解説の本文だけを書いてください。` });
+    QZ.whyBusy = false; QZ.why = r ? r.replace(/\s+/g, ' ').slice(0, 200) : '';
+    if (!r) toast('解説できませんでした。もう一度押してください');
+    toolsRefresh();
+  }
 });
 document.addEventListener('keydown', e => {
   if (ui.tab !== 'tools' || ui.tool !== 'quiz' || QZ.phase !== 'play' || dlg.open || e.metaKey || e.ctrlKey || e.altKey) return;
@@ -11193,11 +11308,12 @@ function parseICS(text) {
   }
   return out;
 }
-function icsLoad(text) {
+function icsLoad(text, name) {
   const list = parseICS(text);
   if (!list.length) return toast('前後1年の間に、読み込める予定が見つかりませんでした');
-  let n = 0, full = false;
-  for (const x of list) { if (evAll().length >= EV_MAX) { full = true; break; } if (evAdd(x)) n++; }
+  const bid = uid(); let n = 0, full = false;
+  for (const x of list) { if (evAll().length >= EV_MAX) { full = true; break; } if (evAdd({ ...x, ib: bid })) n++; }
+  if (n) S.icsB = (Array.isArray(S.icsB) ? S.icsB : []).concat({ id: bid, t: Date.now(), n, name: String(name || '').replace(/\.ics$/i, '').slice(0, 30) }).slice(-30);
   save(); render();
   toast(`${n}件の予定を読み込みました${full ? `（上限の${EV_MAX}件までです）` : ''}`);
 }
@@ -11223,9 +11339,33 @@ Object.assign(ACT, {
     const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.ics,text/calendar'; inp.className = 'ics-in'; inp.hidden = true; document.body.appendChild(inp);
     inp.addEventListener('change', () => {
       const f = inp.files && inp.files[0]; inp.remove(); if (!f) return;
-      const rd = new FileReader(); rd.onload = () => icsLoad(String(rd.result || '')); rd.onerror = () => toast('ファイルを読めませんでした'); rd.readAsText(f);
+      const rd = new FileReader(); rd.onload = () => icsLoad(String(rd.result || ''), f.name); rd.onerror = () => toast('ファイルを読めませんでした'); rd.readAsText(f);
     });
     inp.click();
+  }
+});
+/* 取り込んだ予定（ICS）を、まとめて消す。取り込んだ回ごとに消せます（消したあとは「元に戻す」で戻せます） */
+function icsCount(bid) { return evAll().filter(e => e.src === 'ics' && (e.ib || '') === (bid || '')).length; }
+Object.assign(ACT, {
+  icsmanage() {
+    const all = evAll().filter(e => e.src === 'ics'), bs = (Array.isArray(S.icsB) ? S.icsB : []).slice().reverse();
+    const rows = bs.map(b => ({ id: b.id, name: b.name || 'ファイル', t: b.t, n: icsCount(b.id) })).filter(r => r.n > 0);
+    const old = icsCount('');
+    if (old) rows.push({ id: '', name: '以前に取り込んだ予定', t: 0, n: old });
+    const list = rows.length ? rows.map(r => `<div class="card" style="display:flex;align-items:center;gap:10px;padding:12px 14px;margin:0 0 8px"><div style="flex:1;min-width:0"><b>${esc(r.name)}</b><small class="muted" style="display:block">${r.t ? fmtDate(ymd(new Date(r.t))) + ' に取り込み ・ ' : ''}${r.n}件</small></div><button type="button" class="btn tonal sm" data-act="icsdel" data-id="${esc(r.id)}">${ms('delete')}消す</button></div>`).join('')
+      : '<p class="muted" style="font-weight:500">取り込んだ予定は、ありません。</p>';
+    openDlg(`<h2>${ms('delete_sweep')}取り込んだ予定</h2><p class="muted" style="margin:-6px 0 12px;line-height:1.7">「カレンダーから」読み込んだ予定です。先生から届いた予定と、自分で入れた予定は消えません。</p>${list}${all.length ? `<div class="dact" style="flex-wrap:wrap;gap:10px;margin-top:10px"><button type="button" class="btn text" data-act="close">閉じる</button><span class="sp"></span><button type="button" class="btn" data-act="icsdelall">${ms('delete_sweep')}取り込んだ予定を、すべて消す（${all.length}件）</button></div>` : ''}`);
+    dlg.dataset.k = 'icsmanage';
+  },
+  icsdel(bid) {
+    const n = icsCount(bid); if (!n) return toast('消す予定は、もうありません');
+    closeDlg();
+    undoable(`${n}件の予定を消しました`, () => { S.events = evAll().filter(e => !(e.src === 'ics' && (e.ib || '') === (bid || ''))); S.icsB = (Array.isArray(S.icsB) ? S.icsB : []).filter(b => b.id !== bid); });
+  },
+  icsdelall() {
+    const n = evAll().filter(e => e.src === 'ics').length; if (!n) return toast('消す予定は、もうありません');
+    closeDlg();
+    undoable(`取り込んだ予定を${n}件消しました`, () => { S.events = evAll().filter(e => e.src !== 'ics'); S.icsB = []; });
   }
 });
 // 通知は、起動したとき・30分ごとに見直す
@@ -12200,6 +12340,7 @@ function asgSubject(name) {
   S.subjects.push(s); return s;
 }
 function asgInsert(a) {
+  if (a.kind === 'event') return !!evAdd({ t: String(a.title || '').slice(0, 40), d: a.date, tm: a.tm, note: String(a.note || '').slice(0, 60), src: 'teacher' });
   if (a.kind === 'exam') { const s = asgSubject(a.sub); if (ASG_ISO.test(a.date || '')) s.exam = a.date; return true; }
   if (a.kind !== 'task' || !a.title) return false;
   if (S.tasks.some(t => t.aid === a.id)) return false;
@@ -12219,8 +12360,9 @@ function asgApply() {
 }
 function admFormBind() {
   const kd = () => {
-    const ex = (document.querySelector('input[name=admkind]:checked') || {}).value === 'exam', tk = (document.querySelector('input[name=admtk]:checked') || {}).value || 'pg';
-    document.getElementById('admTask').hidden = ex; document.getElementById('admExam').hidden = !ex;
+    const kv = (document.querySelector('input[name=admkind]:checked') || {}).value, tk = (document.querySelector('input[name=admtk]:checked') || {}).value || 'pg';
+    document.getElementById('admTask').hidden = kv !== 'task'; document.getElementById('admExam').hidden = kv !== 'exam';
+    document.getElementById('admEv').hidden = kv !== 'event'; document.getElementById('admSubF').hidden = kv === 'event';
     document.getElementById('admPg').hidden = tk !== 'pg'; document.getElementById('admUrlF').hidden = tk !== 'url';
   };
   document.querySelectorAll('input[name=admkind], input[name=admtk]').forEach(r => { r.onchange = kd; }); kd();
@@ -12240,11 +12382,15 @@ Object.assign(ACT, {
   admtglist() { admTgLoad(); },
   async admsend() {
     const v = id => ((document.getElementById(id) || {}).value || '').trim();
-    const kind = (document.querySelector('input[name=admkind]:checked') || {}).value === 'exam' ? 'exam' : 'task';
-    const sub = v('admSub').slice(0, 20);
-    if (!sub) return toast('教科の名前を入れてください');
+    const kv = (document.querySelector('input[name=admkind]:checked') || {}).value, kind = kv === 'exam' ? 'exam' : kv === 'event' ? 'event' : 'task';
+    const sub = kind === 'event' ? '' : v('admSub').slice(0, 20);
+    if (kind !== 'event' && !sub) return toast('教科の名前を入れてください');
     const a = { id: uid(), kind, sub, t: Date.now(), by: CLOUD.user ? CLOUD.user.uid : '' };
-    if (kind === 'exam') {
+    if (kind === 'event') {
+      const title = v('admEvTitle').slice(0, 40); if (!title) return toast('予定の名前を入れてください');
+      if (!ASG_ISO.test(v('admEvDate'))) return toast('日付を入れてください');
+      a.title = title; a.date = v('admEvDate'); a.tm = /^\d{2}:\d{2}$/.test(v('admEvTm')) ? v('admEvTm') : ''; a.note = v('admEvNote').slice(0, 60);
+    } else if (kind === 'exam') {
       if (!ASG_ISO.test(v('admDate'))) return toast('テスト日を入れてください');
       a.date = v('admDate');
     } else {
