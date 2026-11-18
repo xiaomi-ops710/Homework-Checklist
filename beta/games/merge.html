@@ -4335,12 +4335,30 @@
     window.addEventListener('pagehide', () => saveGame(true));
 
     // リセット＆リトライ
-    document.getElementById('resetBtn').addEventListener('click', async () => {
+    // 「やり直す」は、本当に最初からにするかを確かめてから行う
+    function askResetConfirm(onYes) {
+      const ov = document.createElement('div');
+      ov.id = 'resetOv';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(40,20,0,.55)';
+      ov.innerHTML = '<div style="background:#fff7e6;border-radius:20px;padding:22px 20px;max-width:340px;width:100%;text-align:center;font-family:sans-serif;color:#451a03;box-shadow:0 10px 30px rgba(0,0,0,.25)">'
+        + '<div style="font-weight:900;font-size:18px;margin-bottom:8px">本当に最初からにしますか？</div>'
+        + '<div style="font-size:14px;line-height:1.6;margin-bottom:6px">今のゲームは終わって、新しく始まります。</div>'
+        + '<button id="resetYes" type="button" style="margin-top:10px;width:100%;padding:12px;border-radius:14px;border:0;font-weight:900;font-size:16px;background:linear-gradient(#f87171,#dc2626);color:#fff">はい、最初から</button>'
+        + '<button id="resetNo" type="button" style="margin-top:10px;width:100%;padding:12px;border-radius:14px;font-weight:900;font-size:15px;background:#fff;color:#92400e;border:2px solid rgba(146,64,14,.3)">やめる</button></div>';
+      document.body.appendChild(ov);
+      const close = () => { ov.remove(); ensureGameFocus(); };
+      ov.querySelector('#resetNo').onclick = close;
+      ov.addEventListener('click', e => { if (e.target === ov) close(); });
+      ov.querySelector('#resetYes').onclick = () => { ov.remove(); onYes(); };
+    }
+    document.getElementById('resetBtn').addEventListener('click', () => {
       ensureGameFocus();
-      audio.init();
-      if (!scoreReported) { scoreReported = true; reportMerge(score, maxReachedLevel); try { await rankingService.recordGameScore(score, maxReachedLevel); } catch (err) { console.warn('score save failed', err); } }
-      clearSave();
-      initPhysicsGame();
+      askResetConfirm(async () => {
+        audio.init();
+        if (!scoreReported) { scoreReported = true; reportMerge(score, maxReachedLevel); try { await rankingService.recordGameScore(score, maxReachedLevel); } catch (err) { console.warn('score save failed', err); } }
+        clearSave();
+        initPhysicsGame();
+      });
     });
     document.getElementById('quitBtn').addEventListener('click', () => {
       try { window.parent.postMessage({ type: 'kosa-merge-quit' }, '*'); } catch (e) { }
