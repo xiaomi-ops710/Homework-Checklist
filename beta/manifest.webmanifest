@@ -1,6 +1,6 @@
 {
-  "name": "考査課題マネージャー",
-  "short_name": "課題管理",
+  "name": "考査課題マネージャー（ベータ）",
+  "short_name": "課題管理β",
   "description": "考査の課題の進み具合を一覧で確認",
   "lang": "ja",
   "start_url": "./",
@@ -28,5 +28,6 @@
       "type": "image/png",
       "purpose": "maskable"
     }
-  ]
+  ],
+  "id": "./"
 }

@@ -61,7 +61,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="課題管理">
+<meta name="apple-mobile-web-app-title" content="課題管理β">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="icon" href="icon-192.png">
@@ -2414,6 +2414,10 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 html.is-beta #nav .noti-b{position:relative}
 html.is-beta #nav .beta-tag{position:absolute;left:50%;top:-17px;transform:translateX(-50%);padding:2px 7px;border-radius:999px;background:#2f5fd6;color:#fff;font:800 10px/1.2 system-ui,-apple-system,sans-serif;letter-spacing:.08em;white-space:nowrap;cursor:pointer;border:0;box-shadow:0 4px 10px -4px #2f5fd6;z-index:2}
 html.is-beta #nav .beta-tag::after{content:'';position:absolute;left:-8px;right:-8px;top:-10px;bottom:-10px}
+html.is-beta #nav .beta-fb{position:absolute;left:50%;top:-52px;transform:translateX(-50%);width:32px;height:32px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(#fde68a,#f59e0b);color:#3b2a00;box-shadow:0 0 0 3px #fff9,0 6px 14px -4px #f59e0b;cursor:pointer;z-index:3;animation:bfPulse 2.4s ease-in-out infinite}
+html.is-beta #nav .beta-fb .material-symbols-rounded{font-size:18px}
+@keyframes bfPulse{0%,100%{box-shadow:0 0 0 3px #fff9,0 6px 14px -4px #f59e0b}50%{box-shadow:0 0 0 7px #fde68a88,0 8px 20px -4px #f59e0b}}
+@media (prefers-reduced-motion: reduce){html.is-beta #nav .beta-fb{animation:none}}
 .beta-list{list-style:none;padding:0;margin:0 0 12px;display:grid;gap:9px;font-weight:600;line-height:1.6}
 .beta-list li{display:flex;gap:10px;align-items:flex-start}
 .beta-list .material-symbols-rounded{flex:none;color:var(--p)}
@@ -2474,6 +2478,28 @@ html.is-beta #nav .beta-tag::after{content:'';position:absolute;left:-8px;right:
 @keyframes rkShake{0%,100%{transform:none}20%{transform:translate(-5px,3px)}40%{transform:translate(5px,-3px)}60%{transform:translate(-3px,-2px)}80%{transform:translate(2px,1px)}}
 @keyframes rkDot{from{opacity:0;transform:scale(.2)}40%{opacity:.95}to{opacity:.75;transform:scale(1)}}
 @keyframes rkSpark{0%,100%{opacity:0;transform:scale(.4) rotate(0)}50%{opacity:1;transform:scale(1.15) rotate(45deg)}}
+.ti-ptable{background:radial-gradient(80% 70% at 50% 45%,#0f3443 0%,#07141f 60%,#03070d 100%);color:#e6fbff;font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif;animation:tiOut .55s ease 3.3s forwards}
+.ti-ptable::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(94,234,212,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(94,234,212,.08) 1px,transparent 1px);background-size:36px 36px;animation:lbDrift 8s linear infinite;-webkit-mask:radial-gradient(circle at 50% 45%,#000 0,transparent 70%);mask:radial-gradient(circle at 50% 45%,#000 0,transparent 70%)}
+.ti-ptable .lb-glow{position:absolute;left:50%;top:42%;width:90vmin;height:90vmin;margin:-45vmin 0 0 -45vmin;border-radius:50%;background:radial-gradient(circle,rgba(34,211,238,.35) 0,rgba(34,211,238,0) 65%);opacity:0;transform:scale(.4);animation:lbGlow 1.4s ease .05s forwards}
+.ti-ptable .lb-board{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);width:max-content;padding:6px;border-radius:18px;border:1px solid rgba(165,243,252,.25);background:rgba(8,30,44,.45);box-shadow:0 0 40px rgba(34,211,238,.18)}
+.ti-ptable .lb-grid{display:grid;grid-template-columns:repeat(6,auto);gap:6px}
+.ti-ptable .lb-tile{position:relative;width:min(11vw,52px);height:min(11vw,52px);display:grid;place-items:center;border-radius:10px;font-size:clamp(13px,3.4vw,17px);font-weight:900;font-style:normal;color:#e6fbff;background:linear-gradient(145deg,rgba(94,234,212,.28),rgba(59,130,246,.12));border:1px solid rgba(165,243,252,.5);box-shadow:0 0 16px rgba(34,211,238,.28),inset 0 0 12px rgba(255,255,255,.08);transform:scale(0) rotateY(90deg);opacity:0;animation:lbTile .5s cubic-bezier(.2,.9,.3,1.3) var(--d) forwards,lbPulse 1.1s ease calc(var(--d) + .6s) 1 both}
+.ti-ptable .lb-tile small{position:absolute;left:5px;top:3px;font-size:8px;font-weight:700;opacity:.8}
+.ti-ptable .lb-scan{position:absolute;left:-10px;right:-10px;top:0;height:3px;border-radius:3px;background:linear-gradient(90deg,transparent,#67e8f9,#fff,#67e8f9,transparent);box-shadow:0 0 18px #22d3ee,0 0 40px #22d3ee88;opacity:0;animation:lbScan 1.3s ease-in-out 1.2s forwards}
+.ti-ptable .lb-bub{position:absolute;bottom:-24px;left:var(--x);width:var(--s);height:var(--s);border-radius:50%;border:1.5px solid rgba(186,230,253,.7);background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.75),rgba(125,211,252,.12) 60%);opacity:0;animation:lbBub var(--t) ease-in var(--d) forwards}
+.ti-ptable .lb-flash{position:absolute;left:50%;top:42%;width:20px;height:20px;margin:-10px;border-radius:50%;background:#fff;box-shadow:0 0 90px 50px #fde68a88;opacity:0;animation:lbFlash .9s ease 2.05s forwards}
+.ti-ptable .lb-title{position:absolute;left:50%;bottom:17%;transform:translateX(-50%);white-space:nowrap;font-size:clamp(30px,9vw,54px);font-weight:900;letter-spacing:.22em;background:linear-gradient(90deg,#a5f3fc,#fde68a,#c4b5fd,#a5f3fc);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 14px rgba(103,232,249,.55));opacity:0;animation:lbTitle .9s cubic-bezier(.2,.8,.2,1) 2.2s forwards,lbShine 2.4s linear 2.2s infinite}
+.ti-ptable .lb-sub{position:absolute;left:50%;bottom:11%;transform:translateX(-50%);white-space:nowrap;font-size:clamp(12px,3.4vw,15px);font-weight:700;letter-spacing:.12em;color:#a5f3fc;opacity:0;animation:tiFade .7s ease 2.7s forwards}
+@keyframes lbDrift{to{background-position:36px 36px}}
+@keyframes lbGlow{to{opacity:1;transform:scale(1)}}
+@keyframes lbTile{to{transform:scale(1) rotateY(0);opacity:1}}
+@keyframes lbPulse{0%,100%{filter:brightness(1)}40%{filter:brightness(1.9);box-shadow:0 0 26px #fde68a,inset 0 0 14px #fff8}}
+@keyframes lbScan{0%{top:0;opacity:1}85%{opacity:1}100%{top:100%;opacity:0}}
+@keyframes lbBub{0%{transform:translateY(0);opacity:0}12%{opacity:.95}100%{transform:translateY(-115vh);opacity:0}}
+@keyframes lbFlash{0%{opacity:0;transform:scale(1)}35%{opacity:.6;transform:scale(8)}100%{opacity:0;transform:scale(12)}}
+@keyframes lbTitle{from{opacity:0;letter-spacing:.6em;filter:blur(10px) drop-shadow(0 0 14px rgba(103,232,249,.55))}to{opacity:1;letter-spacing:.22em;filter:drop-shadow(0 0 14px rgba(103,232,249,.55))}}
+@keyframes lbShine{to{background-position:200% 0}}
+.ti-ptable .lb-bubs{position:absolute;inset:0;pointer-events:none}
 .ti-merge{background:radial-gradient(80% 70% at 50% 50%,#1a2a4a 0%,#0b1020 75%);color:#e8f4ff;font-family:system-ui,-apple-system,"Noto Sans JP",sans-serif}
 .ti-merge .ti-atom{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;display:grid;place-items:center;border-radius:50%;font-weight:900;font-size:18px;color:#0b1020;background:radial-gradient(circle at 35% 35%,#fff,#7fd6ff);box-shadow:0 0 22px #7fd6ff99;transform:translate(var(--dx),var(--dy));animation:tiAtom .95s cubic-bezier(.6,0,.2,1) forwards}
 @keyframes tiAtom{0%{transform:translate(var(--dx),var(--dy)) scale(1);opacity:1}70%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(0,0) scale(.1);opacity:0}}
@@ -2484,6 +2510,33 @@ html.is-beta #nav .beta-tag::after{content:'';position:absolute;left:-8px;right:
 @keyframes tiFlash{0%{opacity:0;transform:scale(1)}40%{opacity:1;transform:scale(30)}100%{opacity:0;transform:scale(40)}}
 .ti-merge .ti-title{position:absolute;left:50%;top:62%;transform:translateX(-50%);font-size:clamp(24px,7vw,40px);font-weight:900;letter-spacing:.12em;opacity:0;text-shadow:0 0 18px #7fd6ff;animation:tiFade .6s ease 1.5s forwards}
 @media (prefers-reduced-motion: reduce){.ti,.ti *{animation-duration:.01s!important;animation-delay:0s!important}}
+</style>
+<style id="wc6-css">
+/* ベータ6：単語帳の操作（中央にそろえ、文字つき）・その他の操作（2列の楕円）・AIの答えの下からのシート・ベータ版の読み込み表示 */
+#wxbody .wc-tools,#wcf .wc-tools,.wc-tools{display:flex!important;justify-content:center!important;align-items:center;gap:10px!important;flex-wrap:nowrap;margin-top:12px}
+.wc-tb{display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex:1 1 0;min-width:0;max-width:112px;height:62px;padding:6px 4px;overflow:hidden;white-space:nowrap;border:0;border-radius:999px;background:var(--s3);color:var(--on);font:inherit;font-size:.78rem;font-weight:800;line-height:1;transition:transform .25s var(--spring),background .2s,opacity .2s}
+.wc-tb .material-symbols-rounded{font-size:22px}
+.wc-tb:active{transform:scale(.95)}
+.wc-tb.on{background:var(--pc);color:var(--on-pc)}
+.wc-tb:disabled{opacity:.4}
+#wcf{position:fixed;inset:0}
+#wcf .wc-sheet{position:absolute;left:0;right:0;bottom:0;z-index:6;max-height:55%;overflow:auto;padding:14px 18px calc(18px + env(safe-area-inset-bottom));background:var(--s2);border-radius:26px 26px 0 0;box-shadow:0 -12px 34px #0007;animation:sheetUp .38s var(--spring) both}
+.wc-sheet-h{display:flex;align-items:center;gap:8px;font-weight:800;margin-bottom:8px}
+.wc-sheet-h b{flex:1}
+.wc-sheet-b{font-size:1.02rem;line-height:1.7;overflow-wrap:anywhere}
+@keyframes sheetUp{from{transform:translateY(100%)}to{transform:none}}
+.wcm-g{display:grid!important;grid-template-columns:1fr 1fr;gap:8px!important}
+.wcm-h{grid-column:1/-1}
+.wcm-i{border-radius:999px!important;min-height:66px;padding:8px 16px 8px 8px!important;gap:10px!important;align-items:center}
+.wcm-i:active{border-radius:999px!important}
+.wcm-ic{width:44px;height:44px}
+.wcm-l{min-width:0}
+.wcm-l b{font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wcm-l small{font-size:.74rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wcm-i>.ms:last-child{font-size:24px!important}
+@media (max-width:420px){.wcm-g{grid-template-columns:1fr!important}}
+.bc-load .bc-ic .material-symbols-rounded{animation:bcSpin 1s linear infinite}
+@keyframes bcSpin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
@@ -2509,7 +2562,7 @@ html.is-beta #nav .beta-tag::after{content:'';position:absolute;left:-8px;right:
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
 const STABLE_VER = '17.99.13';
-const BETA_VER = '17.99.14-beta4';
+const BETA_VER = '17.99.14-beta6';
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -2900,16 +2953,18 @@ function medalHtml(i) { if (i > 2 || level().L < RW_LV.medal) return String(i + 
 function mgEpBonus() { return level().L >= RW_LV.mgep ? 100 : 0; }
 // 単語帳カードの模様（Lv.12から。文字のまわりだけに出し、文字は板の上に置く）
 const WC_PATS = [['none', 'なし', 0], ['dots', 'ドット', RW_LV.cardpat], ['stripes', 'ストライプ', RW_LV.cardpat], ['grid', '方眼', RW_LV.cardpat], ['wave', '波', RW_LV.cardpat], ['sparkle', 'きらめき', RW_LV.cardpat]];
-function cardPatCls() { const p = S.set && S.set.cardPat; return p && p !== 'none' && level().L >= RW_LV.cardpat ? `wc-pat wc-pat-${p}` : ''; }
+function patNow() { const g = growGet(); const p = g.pat !== undefined ? g.pat : (S.set && S.set.cardPat); return p || 'none'; }
+function patLabel() { const id = patNow(), p = WC_PATS.find(x => x[0] === id); return p ? p[1] : 'なし'; }
+function cardPatCls() { const p = patNow(); return p !== 'none' && shopHas('pat', p) ? `wc-pat wc-pat-${p}` : ''; }
 function wcPatOpen() {
-  const cur = (S.set && S.set.cardPat) || 'none', L = level().L;
-  openDlg(`<h2>${ms('texture')}カードの模様</h2><p class="muted" style="font-weight:500;margin:0 0 10px">文字の部分には模様を重ねないので、読みやすいままです。</p><div class="pat-list">${WC_PATS.map(([id, nm, lv]) => { const lk = lv && L < lv; return `<button type="button" class="pat-b ${cur === id ? 'on' : ''}" data-act="wcpatset" data-id="${id}" ${lk ? 'disabled' : ''}><span class="pat-s pat-${id}"></span><b>${nm}</b>${lk ? `<small>Lv.${lv}で解放</small>` : ''}</button>`; }).join('')}</div>`);
+  const cur = patNow();
+  openDlg(`<h2>${ms('texture')}カードの模様</h2><p class="muted" style="font-weight:500;margin:0 0 10px">文字の部分には模様を重ねないので、読みやすいままです。買った模様は、XPショップからも選べます。</p><div class="pat-list">${WC_PATS.map(([id, nm]) => { const it = PAT_SHOP[id], ok = id === 'none' || shopHas('pat', id); return `<button type="button" class="pat-b ${cur === id ? 'on' : ''}" data-act="wcpatset" data-id="${id}" ${ok ? '' : 'disabled'}><span class="pat-s pat-${id}"></span><b>${nm}</b>${ok ? '' : `<small>${it ? `${it.c} XP（ショップ）` : ''}</small>`}</button>`; }).join('')}</div>`);
   dlg.dataset.k = 'wcpat';
 }
 function wcPatSet(id) {
-  const p = WC_PATS.find(x => x[0] === id); if (!p) return;
-  if (p[2] && level().L < p[2]) return toast(`Lv.${p[2]}で解放されます`);
-  S.set.cardPat = id; save(); closeDlg(); render();
+  if (!WC_PATS.some(x => x[0] === id)) return;
+  if (id !== 'none' && !shopHas('pat', id)) return toast('ショップで買うと、使えます');
+  const g = growGet(); g.pat = id; growPut(g); save(); closeDlg(); render();
 }
 // 先生の画面（設定の中。先生だけに出ます）
 function admCardHtml() { return `<div class="h-sec"><h2>${ms('admin_panel_settings')}管理者メニュー</h2></div><div class="card"><button type="button" class="btn tonal" data-act="admopen">${ms('open_in_new')}開く</button></div>`; }
@@ -3391,6 +3446,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '17.99.14-beta6', d: '__BUILD__', beta: true, t: '単語帳の操作・しりとりの参加・ベータ版の起動・ツールバーの安定（ベータ6）', n: ['しりとりの対戦リクエストから参加できない問題を直しました（招待を送った部屋は、相手が参加するまで残るようにしました）', '単語帳の「表・裏・ヒント・例文」のボタンをやめました', '単語帳の「戻る・お気に入り・読み上げ・AIに質問」を、中央にそろえて文字つきにしました', 'AIに質問の答えは、全画面でも下から出るようにしました', 'カードの模様は「その他の操作」と、XPショップで選べるようにしました', 'その他の操作を、2列のボタンで見やすくしました', 'ベータ版の登録があるアカウントは、起動したときに自動でベータ版を開くようにしました（読み込み中の表示です）'] },
+  { v: '17.99.14-beta5', d: '__BUILD__', beta: true, t: 'ベータ版のフィードバック・元素ラボの演出・更新の不具合（ベータ5）', n: ['ベータ版では、タブバーの「Beta」のすぐ上に、フィードバックのボタンを出しました', '元素ラボを開くときに、元素の表が光でそろい、レーザーが走って題名が出る演出をつけました', 'ベータ版へ行ったとき・正式版に戻ったときに、更新内容が出てしまう問題を直しました（版ごとに、見た版を覚えるようにしました）', '「更新しています」の画面で止まってしまう問題を直しました（止まったときは、エラーを出して、もう一度試せるようにしました）', 'ベータ版は、ホーム画面に「ベータ版」として追加すると、そのアイコンから開けるようにしました'] },
   { v: '17.99.14-beta4', d: '__BUILD__', beta: true, t: '元素マージの確認・ベータ版の説明・歴打の演出（ベータ4）', n: ['元素マージの「やり直す」を押すと、「本当に最初からにしますか？」と確認するようにしました（「やめる」で、続きから遊べます）', 'タブバーの「Beta」を押すと、ベータ版とは何かの説明を出すようにしました', '歴打を開くときの演出を、大幅に豪華にしました（墨の輪・金の光・巻物の軸・印の押印・桜の花びら）'] },
   { v: '17.99.14-beta3', d: '__BUILD__', beta: true, t: 'しりとり・元素マージ・歴打の改善（ベータ3）', n: ['しりとりのAI対戦で、自分で入力したお題に合う言葉を答えるようにしました（お題の一覧にない言葉は、AIが考えます）', 'ベータ版に招待されると、開いている画面にも通知が出るようにしました', '元素マージのBGMを強化し、楽器を増やしました。新しい曲を2曲追加（5.ネオン・サブベース、6.メルトダウン・ドライブ）', '元素マージの画面の下にあったランキングの表示を削除しました（ゲーム内のランキングはそのままです）', '歴打と元素マージを開くときに、演出を出すようにしました（歴打は巻物と判子、元素マージは元素がくっつく演出）'] },
   { v: '17.99.14-beta2', d: '__BUILD__', beta: true, t: 'ベータ版に入れない問題の確認を改善', n: ['ベータ版に登録されているのに、ベータ版へ移れないことがあるのを直しました（更新の画面を開くたびに登録を確かめ直します）', '管理者には、ベータ版に移れない理由（未登録・確認の失敗など）を設定と更新の画面に表示します'] },
@@ -4840,7 +4897,7 @@ const ACT = {
     const c = wcCur(); if (!c) return;
     toast('ヒントを考えています…');
     const r = await aiRun({ system: AI_MINI, prompt: `暗記カードです。\n表：${c.f}\n裏：${c.b}\n\n覚えやすくするコツを、語呂合わせ・イメージしやすいたとえ・短い例文のうち、いちばん役に立つものを1つ選んで、80字以内で書いてください。ヒントの本文だけを書いてください。` });
-    if (r) { c.hint = r.replace(/\s+/g, ' ').slice(0, 200); save(); wcPaint(false); }
+    if (r) { c.hint = r.replace(/\s+/g, ' ').slice(0, 200); if (WC.focus) WC.sheet = 'hint'; save(); wcPaint(false); }
   },
   tview(id) { ui.tview = id === 'due' ? 'due' : 'subj'; try { localStorage.setItem('kosa-tview', ui.tview); } catch (e) { } render(); },
   duelist() { ui.tview = 'due'; ui.filter = 'all'; ui.sid = ''; ui.q = ''; ACT.tab('tasks'); },
@@ -4867,6 +4924,7 @@ const ACT = {
   reload() { startUpdate(); },
   hardrefresh() { okDlg('最新版を読み込み直しますか？', 'アプリの保存済みファイルを消して、最新版を読み込み直します。課題や成績などのデータは消えません。ネットにつながっている状態で行ってください。', '読み込み直す', hardRefresh); }, ai() { ACT.tab('ai'); },
   simn(id) { SM.n = +id; toolsRefresh(); }, qzset(id) { quizStart(id); }, qzpick(id) { if (QZ.pick >= 0) return; QZ.pick = +id; const q = QZ.q[QZ.i]; if (q.o[QZ.pick] === q.b) QZ.ok++; else QZ.wrong.push(q); toolsRefresh(); }, qzfav() { const q = QZ.q[QZ.i]; if (!q || QZ.pick < 0) return; qzFavAdd(q); toast('お気に入りに入れました'); toolsRefresh(); }, qznext() { QZ.i++; QZ.pick = -1; if (QZ.i >= QZ.q.length) { QZ.phase = 'done'; if (QZ.ok === QZ.q.length) { try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } } toolsRefresh(); }, qzreset() { QZ.phase = 'setup'; toolsRefresh(); }, nat(id) { if (NS.kind === id) natStop(); else natStart(id); renderMini(); renderFocus(); }, natoff() { natStop(); renderMini(); if (TM.open) renderFocus(); }, ftanim() { S.set.timerAnim = S.set.timerAnim === false; save(); renderFocus(); },
+  wcsheet() { WC.sheet = null; wcPaint(false); },
   wcflip() { const c = $('#wcc'); if (!c || WC.busy) return; WC.flip = !WC.flip; c.classList.toggle('flip', WC.flip); },
   wcok() { wcMark(1); }, wcng() { wcMark(0); },
   wcfilt(id) { WC.filt = id; WC.i = 0; WC.flip = false; WC.tab = 'study'; wcSave(); toolsRefresh(); },
@@ -5505,6 +5563,11 @@ function syncChoiceDlg() {
 }
 // ベータ版の確認：/beta/ を開けるのは、ベータ版に登録された人だけです（それ以外は正式版へ戻します）
 let BETA_ERR = ''; // 登録されていないときの理由（'login' ログイン前 / 'none' 未登録 / それ以外は確認に失敗した内容）
+// ベータ版の登録を、この端末に覚えておく（正式版のアイコンで開いたとき、ベータ版へ自動で切り替えるため）
+const BETA_AUTO_KEY = 'kosa-beta-auto';
+function betaAutoSet(u, ok, err) {
+  try { if (ok && u) localStorage.setItem(BETA_AUTO_KEY, u.uid); else if (!err) localStorage.removeItem(BETA_AUTO_KEY); } catch (e) { }
+}
 async function betaCheck(u, quiet) {
   let ok = false, err = '';
   if (u) {
@@ -5513,6 +5576,7 @@ async function betaCheck(u, quiet) {
   }
   const was = BETA_OK; BETA_OK = ok;
   BETA_ERR = ok ? '' : (!u ? 'login' : (err || 'none'));
+  betaAutoSet(u, ok, err);
   if (IS_BETA && !ok) { toast('ベータ版は、登録された方だけが使えます。正式版を開きます'); setTimeout(() => location.replace(new URL('../', location.href).href), 1400); return; }
   if (IS_BETA) document.title = '【ベータ】考査課題マネージャー';
   if (was !== ok && !quiet) render();
@@ -5528,7 +5592,7 @@ function betaWatch(u) {
   try {
     BETA_UNSUB = fs.onSnapshot(fs.doc(db, 'betaTesters', u.uid), sn => {
       const ok = sn.exists(), was = BETA_OK;
-      BETA_OK = ok; BETA_ERR = ok ? '' : 'none';
+      BETA_OK = ok; BETA_ERR = ok ? '' : 'none'; betaAutoSet(u, ok, '');
       if (!first && !was && ok) betaInvited();
       first = false;
       if (was !== ok) render();
@@ -5541,7 +5605,7 @@ function betaInvited() {
 }
 // ツールを開くときの演出：歴打は和風の巻物と判子、元素マージは元素がくっついて分子になる
 function toolIntro(id) {
-  if (!['rekida', 'merge'].includes(id) || (typeof reduced === 'function' && reduced())) return;
+  if (!['rekida', 'merge', 'ptable'].includes(id) || (typeof reduced === 'function' && reduced())) return;
   document.querySelectorAll('.ti').forEach(e => e.remove());
   const el = document.createElement('div'); el.className = 'ti ti-' + id; el.setAttribute('aria-hidden', 'true');
   if (id === 'rekida') {
@@ -5554,6 +5618,22 @@ function toolIntro(id) {
     el.innerHTML = '<div class="rk-stage"><div class="rk-rays"></div><div class="rk-ring"></div>'
       + '<div class="ti-paper"><div class="rk-brush"></div><div class="rk-kanji"><span>歴</span><span>打</span></div><div class="rk-seal">歴打</div>' + dots + '</div>'
       + '<div class="ti-rod t"></div><div class="ti-rod b"></div>' + pet.join('') + spk.join('') + '</div>';
+  } else if (id === 'ptable') {
+    // 元素ラボ：元素の表が、中心から波のように光って現れ、レーザーが走り、泡が上がって、題名が出る
+    const syms = [[1, 'H'], [2, 'He'], [6, 'C'], [7, 'N'], [8, 'O'], [10, 'Ne'], [11, 'Na'], [12, 'Mg'], [13, 'Al'], [14, 'Si'], [17, 'Cl'], [18, 'Ar'], [20, 'Ca'], [26, 'Fe'], [29, 'Cu'], [30, 'Zn'], [47, 'Ag'], [79, 'Au']];
+    let tiles = '';
+    syms.forEach(([n, s], i) => {
+      const r = Math.floor(i / 6), c = i % 6, d = Math.hypot(c - 2.5, r - 1);
+      tiles += `<b class="lb-tile" style="--d:${(0.15 + d * 0.14).toFixed(2)}s"><small>${n}</small>${s}</b>`;
+    });
+    let bub = '';
+    for (let i = 0; i < 12; i++) bub += `<i class="lb-bub" style="--x:${(4 + i * 8) % 94}%;--s:${8 + (i % 4) * 5}px;--d:${(1.5 + (i % 5) * 0.2).toFixed(2)}s;--t:${(1.8 + (i % 3) * 0.45).toFixed(2)}s"></i>`;
+    el.innerHTML = '<div class="lb-glow"></div>'
+      + '<div class="lb-board"><div class="lb-grid">' + tiles + '</div><div class="lb-scan"></div></div>'
+      + '<div class="lb-bubs">' + bub + '</div>'
+      + '<div class="lb-flash"></div>'
+      + '<div class="lb-title">元素ラボ</div>'
+      + '<div class="lb-sub">118元素・くっつけて反応を見る</div>';
   } else {
     const atoms = ['H', 'C', 'N', 'O', 'Na', 'Cl', 'Fe', 'Cu'];
     let h = '<div class="ti-flash"></div><svg class="ti-bonds" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M50 50L24 26M50 50L76 26M50 50L50 80M50 50L22 66M50 50L80 62"/></svg>';
@@ -5563,7 +5643,7 @@ function toolIntro(id) {
   }
   el.addEventListener('click', () => el.remove());
   document.body.appendChild(el);
-  setTimeout(() => el.remove(), id === 'rekida' ? 3900 : 2800);
+  setTimeout(() => el.remove(), ['rekida', 'ptable'].includes(id) ? 3900 : 2800);
 }
 // 管理者に出す、ベータ版の状態の説明
 function betaStatusTxt() {
@@ -5596,7 +5676,7 @@ function betaGoDlg() {
 function betaInfoDlg() {
   openDlg(`<h2>${ms('science')}ベータ版とは</h2>
   <p class="muted" style="font-weight:600;line-height:1.7;margin:0 0 10px">正式版より先に、新しい機能を試してもらうための版です。</p>
-  <ul class="beta-list"><li>${ms('bug_report')}<span>まだ不具合があることがあります。おかしいところは、フィードバックで教えてください</span></li><li>${ms('database')}<span>データは正式版と同じものを使います。ベータ版に行っても、データは消えません</span></li><li>${ms('verified')}<span>正式版が出ると、ベータ版の方も、その正式版に更新されます</span></li><li>${ms('undo')}<span>いつでも「正式版に戻る」で、もとの正式版に戻れます</span></li></ul>
+  <ul class="beta-list"><li>${ms('bug_report')}<span>まだ不具合があることがあります。おかしいところは、フィードバックで教えてください</span></li><li>${ms('database')}<span>データは正式版と同じものを使います。ベータ版に行っても、データは消えません</span></li><li>${ms('verified')}<span>正式版が出ると、ベータ版の方も、その正式版に更新されます</span></li><li>${ms('add_to_home_screen')}<span>ホーム画面に追加するときは、ベータ版のページを開いて追加してください。そのアイコンから、ベータ版が開きます（正式版のアイコンからは、正式版が開きます）</span></li><li>${ms('undo')}<span>いつでも「正式版に戻る」で、もとの正式版に戻れます</span></li></ul>
   <div class="dact"><button type="button" class="btn text" data-act="close">閉じる</button>${IS_BETA ? `<button type="button" class="btn tonal" data-act="betaback">${ms('undo')}正式版に戻る</button>` : ''}</div>`);
   dlg.dataset.k = 'beta';
 }
@@ -5620,6 +5700,7 @@ async function betaSwitch(to) {
   if (betaBusy) return; betaBusy = true;
   if (dlg.open) closeDlg();
   const toBeta = to === 'beta';
+  try { if (toBeta && CLOUD.user) localStorage.setItem(BETA_AUTO_KEY, CLOUD.user.uid); else if (!toBeta) localStorage.removeItem(BETA_AUTO_KEY); } catch (e) { }
   betaCurtain({ icon: toBeta ? 'rocket_launch' : 'undo', title: toBeta ? 'ベータ版へ更新しています' : '正式版に戻しています', sub: 'データは、そのまま引きつぎます', bar: true,
     steps: ['データを保存しています', toBeta ? '新しいベータ版を準備しています' : '正式版を準備しています', toBeta ? 'ベータ版を開きます' : '正式版を開きます'] });
   try { save(); } catch (e) { }
@@ -5633,6 +5714,7 @@ function betaArrive() {
   const from = new URLSearchParams(location.search).get('from');
   if (!from) return;
   try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) { }
+  if (IS_BETA && from === 'auto') { const el = betaCurtain({ icon: 'progress_activity', title: 'ベータ版を読み込んでいます', sub: '', steps: [] }); el.classList.add('bc-load'); setTimeout(() => el.remove(), 1800); return; }
   if (IS_BETA && from === 'stable') {
     betaCurtain({ icon: 'rocket_launch', title: 'ベータ版へようこそ', sub: '新しい機能を、先に試せます', button: 'はじめる',
       steps: ['データは、そのまま使えます', '不具合は、フィードバックで教えてください', 'いつでも「正式版に戻る」で戻れます'] });
@@ -6506,8 +6588,20 @@ function wcStageHtml() {
       <span class="wc-in"><span class="wc-face wc-front"><small>${c.s ? '★ ' : ''}${WC.rev ? '裏' : '表'}　No.${c.n}　${n + 1}/${list.length}</small><span class="wc-t">${WC.hid && WC.hid.f ? '？？？' : wcNl(f)}</span><em>タップでめくる ／ 左右にスワイプ</em></span><span class="wc-face wc-back"><small>${c.s ? '★ ' : ''}${WC.rev ? '表' : '裏'}</small><span class="wc-t">${WC.hid && WC.hid.b ? '？？？' : wcNl(b)}</span></span></span>
     </button></div>
     <div class="wc-btns"><button class="btn tonal" data-act="wcng">${ms('close')}まだ</button><button class="btn" data-act="wcok">${ms('check')}覚えた</button></div>
-    <div class="wc-tools" role="toolbar" aria-label="カードの操作"><button type="button" class="wc-ib" data-act="wcpat" aria-label="カードの模様" title="カードの模様">${ms('texture')}</button><button class="wc-ib" data-act="wcundo" ${WC.undo.length ? '' : 'disabled'} aria-label="ひとつ前にもどる" title="ひとつ前にもどる">${ms('undo')}</button><button class="wc-ib ${c.s ? 'on' : ''}" data-act="wcstar" aria-label="${c.s ? '★をはずす' : '★をつける'}" aria-pressed="${!!c.s}" title="${c.s ? '★をはずす' : '★をつける'}">${ms('star', c.s ? 'f' : '')}</button><button class="wc-ib" data-act="wcspeak" aria-label="読み上げ" title="読み上げ">${ms('volume_up')}</button><button class="wc-ib ${c.hint ? 'on' : ''}" data-act="aihint" aria-label="${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}" title="${c.hint ? 'ヒントを作り直す' : 'AIの覚え方ヒント'}">${gem(20)}</button>${WC.focus ? '' : `<button class="wc-ib ${c.ex ? 'on' : ''}" data-act="aiex" aria-label="${c.ex ? '例文を作り直す' : 'AIで例文'}" title="${c.ex ? '例文を作り直す' : 'AIで例文'}">${ms('format_quote')}</button>`}</div>${WC.focus ? `<div class="wc-hide" role="group" aria-label="けし（かくす）">${[['f', '表'], ['b', '裏'], ['h', 'ヒント'], ['e', '例文']].map(([k, t]) => `<button type="button" class="wc-hb ${WC.hid && WC.hid[k] ? 'on' : ''}" data-act="wchide" data-id="${k}" aria-pressed="${!!(WC.hid && WC.hid[k])}">${ms(WC.hid && WC.hid[k] ? 'visibility_off' : 'visibility')}${t}</button>`).join('')}</div>` : ''}
-    ${c.hint ? `<div class="notice" style="margin:14px 0 0">${gem(20)}<span class="t">${WC.hid && WC.hid.h ? '？？？（ヒントを隠しています）' : esc(c.hint)}</span></div>` : ''}${c.ex ? `<div class="notice" style="margin:10px 0 0">${ms('format_quote')}<span class="t">${WC.hid && WC.hid.e ? '？？？（例文を隠しています）' : wcNl(c.ex)}</span></div>` : ''}</div>`;
+    <div class="wc-tools" role="toolbar" aria-label="カードの操作">
+      <button type="button" class="wc-tb" data-act="wcundo" ${WC.undo.length ? '' : 'disabled'} aria-label="ひとつ前にもどる">${ms('undo')}<span>戻る</span></button>
+      <button type="button" class="wc-tb ${c.s ? 'on' : ''}" data-act="wcstar" aria-pressed="${!!c.s}" aria-label="${c.s ? 'お気に入りをはずす' : 'お気に入りにする'}">${ms('star', c.s ? 'f' : '')}<span>お気に入り</span></button>
+      <button type="button" class="wc-tb" data-act="wcspeak" aria-label="読み上げ">${ms('volume_up')}<span>読み上げ</span></button>
+      <button type="button" class="wc-tb ${c.hint ? 'on' : ''}" data-act="aihint" aria-label="AIに質問">${gem(18)}<span>AIに質問</span></button>
+    </div>
+    ${WC.focus ? wcSheetHtml(c) : `${c.hint ? `<div class="notice" style="margin:14px 0 0">${gem(20)}<span class="t">${WC.hid && WC.hid.h ? '？？？（ヒントを隠しています）' : esc(c.hint)}</span></div>` : ''}${c.ex ? `<div class="notice" style="margin:10px 0 0">${ms('format_quote')}<span class="t">${WC.hid && WC.hid.e ? '？？？（例文を隠しています）' : wcNl(c.ex)}</span></div>` : ''}`}</div>`;
+}
+// 全画面（集中モード）のAIの答え：画面の下から出す（カードの下に置くと、全画面では見えないため）
+function wcSheetHtml(c) {
+  const k = WC.sheet, body = k === 'hint' ? c.hint : (k === 'ex' ? c.ex : '');
+  if (!k || !body) return '';
+  const t = k === 'hint' ? 'AIの答え' : 'AIの例文';
+  return `<div class="wc-sheet" role="dialog" aria-label="${t}"><div class="wc-sheet-h">${ms(k === 'hint' ? 'auto_awesome' : 'format_quote')}<b>${t}</b><button type="button" class="ibtn" data-act="wcsheet" aria-label="とじる">${ms('close')}</button></div><div class="wc-sheet-b">${wcNl(body)}</div></div>`;
 }
 function wcHeadPaint() {
   const all = wcAll(), k = all.filter(c => c.k).length, st = $('#wcf #wcstat') || $('#wcstat'), pr = $('#wcf #wcprog') || $('#wcprog'), cn = wcCounts();
@@ -6527,7 +6621,7 @@ function wcMark(k) {
     WC.undo.push({ id: c.id, k: c.k || 0, m: c.m || 0 }); if (WC.undo.length > 30) WC.undo.shift();
     c.k = k; c.m = k ? 0 : (c.m || 0) + 1; if (k) c.kt = Date.now(); wcDayAdd(1);
     if (wcList().includes(c)) WC.i++;
-    WC.flip = false; checkBadges(false); save(); WC.busy = false; wcPaint(true);
+    WC.flip = false; WC.sheet = null; checkBadges(false); save(); WC.busy = false; wcPaint(true);
     if (k && WC.filt === 'new' && !wcList().length) { const st = $('#wcstage'); if (st) { const r = st.getBoundingClientRect(); confetti(r.left + r.width / 2, r.top + 90, 60); } }
   };
   if (el && !reduced()) { el.classList.remove('drag'); el.classList.add('fly'); el.style.transform = `translateX(${k ? 130 : -130}%) rotate(${k ? 16 : -16}deg)`; el.style.opacity = '0'; setTimeout(fin, 300); } else fin();
@@ -8499,7 +8593,7 @@ Object.assign(ACT, {
   async aiex() {
     const c = wcCur(); if (!c) return; toast('例文を考えています…');
     const r = await aiRun({ system: AI_MINI, prompt: `暗記カードです。\n表：${c.f}\n裏：${c.b}\n\nこの内容を使った短い例文を1つ作ってください。英語など外国語の単語なら、その言語の例文と、日本語訳を2行で。そうでなければ、日本語の例文を1文。例文の本文だけを書いてください（前置きや説明は不要）。` });
-    if (r) { c.ex = r.replace(/\n{2,}/g, '\n').trim().slice(0, 240); save(); wcPaint(false); }
+    if (r) { c.ex = r.replace(/\n{2,}/g, '\n').trim().slice(0, 240); if (WC.focus) WC.sheet = 'ex'; save(); wcPaint(false); }
   }
 });
 /* ---- 学習カレンダー（記録タブ） ---- */
@@ -9757,9 +9851,11 @@ function wcMoreHtml() {
   ${row('wcsel', WC.sel === 'star' ? 'all' : 'star', 'star', '★だけ', `★のついたカード（${c.star}枚）`, WC.sel === 'star')}
   ${row('wcsel', WC.sel === 'weak' ? 'all' : 'weak', 'priority_high', '苦手だけ', `よくまちがえるカード（${c.weak}枚）`, WC.sel === 'weak')}
   ${row('wcrev', '', 'swap_horiz', '裏から出す', '表と裏を入れかえて出します', WC.rev)}
+  ${row('wcpat', '', 'texture', 'カードの模様', `いま：${patLabel()}`)}
   </div>
   <div class="wcm-g"><div class="wcm-h">カードと単語帳</div>
   ${row('wcaiadd', '', 'auto_awesome', 'AIでカードを追加', '文字や写真から、カードを作ります')}
+  ${row('aiex', '', 'format_quote', 'AIで例文を作る', 'いまのカードに、例文を1つ足します')}
   ${row('wcbulk', '', 'playlist_add', 'まとめて入力', '1行に1枚の形で、たくさん追加します')}
   ${row('wcdeckedit', '', 'edit', 'この単語帳を編集', '名前・色・番号の付けかた')}
   ${row('wcbackup', '', 'share', '共有・バックアップ', 'コードで共有、ファイルに書き出し')}
@@ -10537,7 +10633,7 @@ document.addEventListener('input', e => { if (e.target && e.target.id === 'skq')
 function motionSync() { document.documentElement.classList.toggle('noanim', (S.set && S.set.anim === false) || matchMedia('(prefers-reduced-motion: reduce)').matches); }
 motionSync();
 document.addEventListener('pointerdown', e => {
-  if (e.target && e.target.closest && e.target.closest('.beta-tag')) return;   // ベータ版の印は、押したときに切られないように波紋を出さない
+  if (e.target && e.target.closest && e.target.closest('.beta-tag,.beta-fb')) return;   // ベータ版の印は、押したときに切られないように波紋を出さない
   const t = e.target && e.target.closest && e.target.closest('button,.tcard,.hqi,.btn,.tchip,.sn-sc,.ibtn,.wx-sg,.rchip span,.ni');
   if (!t || t.disabled || document.documentElement.classList.contains('noanim')) return;
   const r = t.getBoundingClientRect(), d = Math.max(r.width, r.height) * 1.25, w = document.createElement('span');
@@ -10868,7 +10964,13 @@ function startUpdate() {
   waiting.addEventListener('statechange', () => { if (waiting.state === 'activated') doReload(); });
   waiting.postMessage('skip');
   // 有効化がどうしても終わらないときだけ、エラーを出す（進みが途中のまま読み込み直すことはしない）
-  setTimeout(() => { if (!reloadOnce && UPD.state === 'installing') { updating = false; UPD.state = 'error'; updRefresh(); } }, 25000);
+  setTimeout(() => {
+    if (reloadOnce || UPD.state !== 'installing') return;
+    if (waiting && waiting.state === 'activated') return doReload();
+    updating = false; UPD.state = 'error'; updRefresh();
+    if (dlg.open && dlg.dataset.k === 'updload') { closeDlg(); updDlg(); }
+    toast('更新を完了できませんでした。もう一度お試しください');
+  }, 25000);
 }
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
@@ -10918,7 +11020,7 @@ function notiAdd(o) {
 }
 function notiNavBtn() {
   const n = notiUnread();
-  return `<button class="ni noti-b" data-act="notiopen" title="通知" aria-label="通知${n ? `（未読${n}件）` : ''}"><span class="pw"><span class="pill">${ms('notifications')}</span>${n ? `<b class="nbadge">${n > 99 ? '99+' : n}</b>` : ''}</span>${IS_BETA ? '<span class="beta-tag" data-act="betainfo" title="ベータ版について" aria-label="ベータ版について">Beta</span>' : ''}</button>`;
+  return `<button class="ni noti-b" data-act="notiopen" title="通知" aria-label="通知${n ? `（未読${n}件）` : ''}"><span class="pw"><span class="pill">${ms('notifications')}</span>${n ? `<b class="nbadge">${n > 99 ? '99+' : n}</b>` : ''}</span>${IS_BETA ? `<span class="beta-fb" data-act="fbopen" title="フィードバックを送る" aria-label="フィードバックを送る">${ms('rate_review')}</span><span class="beta-tag" data-act="betainfo" title="ベータ版について" aria-label="ベータ版について">Beta</span>` : ''}</button>`;
 }
 function notiBadge() { const b = document.querySelector('#nav .noti-b'); if (b) b.outerHTML = notiNavBtn(); }
 // 期限・テスト・予定・フィードバックの返信を見て、通知を作る（同じものは、日ごとに1回だけ）
@@ -11230,9 +11332,11 @@ function aiModelBarHtml() {
   }).join('');
   return `<div class="ai-model">使用中：<b>${esc(aiLabel(cur))}</b></div><div class="ai-chips" role="group" aria-label="AIモデルを選ぶ">${chips}</div>`;
 }
-const SHOP_MAP = { bg: HOME_BG, sfx: SFX_T, theme: THEME_SHOP, font: FONT_SHOP, ai: AI_SHOP };
+// 単語帳カードの模様（ショップで買える。レベル12で、XPなしでも使える）
+const PAT_SHOP = { dots: { n: 'ドット', c: 60, lv: RW_LV.cardpat, free: true, d: '文字のまわりに、小さな点' }, stripes: { n: 'ストライプ', c: 60, lv: RW_LV.cardpat, free: true, d: '斜めのしま模様' }, grid: { n: '方眼', c: 80, lv: RW_LV.cardpat, free: true, d: 'ノートのような方眼' }, wave: { n: '波', c: 100, lv: RW_LV.cardpat, free: true, d: 'やわらかい波の模様' }, sparkle: { n: 'きらめき', c: 150, lv: RW_LV.cardpat, free: true, d: 'きらきら光る模様' } };
+const SHOP_MAP = { bg: HOME_BG, sfx: SFX_T, theme: THEME_SHOP, font: FONT_SHOP, ai: AI_SHOP, pat: PAT_SHOP };
 // 買っている、または、レベルで使える（lv があって c が 0のもの）
-function shopHas(kind, id) { const map = SHOP_MAP[kind], it = map && map[id]; if (!it) return false; if (growGet().owned[kind].includes(id)) return true; if (it.free) return level().L >= it.lv; return !it.c && (!it.lv || level().L >= it.lv); }
+function shopHas(kind, id) { const map = SHOP_MAP[kind], it = map && map[id]; if (!it) return false; if ((growGet().owned[kind] || []).includes(id)) return true; if (it.free) return level().L >= it.lv; return !it.c && (!it.lv || level().L >= it.lv); }
 // 集中・休憩の時間の選択肢（レベルで増える）
 const TIMER_EXTRA = { focus: [[50, 4], [90, 8], [120, 23]], brk: [[30, 12], [45, 25]] };
 function durList() { const base = (TM.mode === 'focus') ? [15, 25, 45, 60] : [3, 5, 10, 15, 20]; const ex = (TM.mode === 'focus' ? TIMER_EXTRA.focus : TIMER_EXTRA.brk).filter(([, lv]) => level().L >= lv).map(([m]) => m); return [...base, ...ex].sort((a, b) => a - b); }
@@ -11240,11 +11344,11 @@ const LV_REWARD = { 2: 'XPショップが使えるようになりました', 4: 
 function growGet() {
   // 友達・プロフィールは、アカウントの状態（S.soc）に入れて、どの端末でも同じにする（以前の端末ごとの保存も引き継ぐ）
   const g = lsj(GROW_KEY, null) || {}, so = (S.soc && typeof S.soc === 'object') ? S.soc : g;
-  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [], theme: (g.owned && g.owned.theme) || [], font: (g.owned && g.owned.font) || ['def'], ai: (g.owned && g.owned.ai) || ['gemini-3.5-flash-lite'] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', lvSeen: g.lvSeen, code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
+  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [], theme: (g.owned && g.owned.theme) || [], font: (g.owned && g.owned.font) || ['def'], ai: (g.owned && g.owned.ai) || ['gemini-3.5-flash-lite'], pat: (g.owned && g.owned.pat) || [] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', pat: g.pat, lvSeen: g.lvSeen, code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
 }
 function growPut(g) {
   const soc = { code: g.code || '', nick: g.nick || '', av: g.av || '', shared: !!g.shared, friends: g.friends || [], at: g.at || {}, rm: g.rm || {} };
-  lss(GROW_KEY, { spent: g.spent || 0, owned: g.owned, bg: g.bg, sfx: g.sfx, theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', lvSeen: g.lvSeen });
+  lss(GROW_KEY, { spent: g.spent || 0, owned: g.owned, bg: g.bg, sfx: g.sfx, theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', pat: g.pat, lvSeen: g.lvSeen });
   const before = JSON.stringify(S.soc || null); S.soc = soc;
   if (JSON.stringify(soc) !== before) save();
 }
@@ -11396,15 +11500,15 @@ function growEntryHtml(L) {
 function shopHtml() {
   const g = growGet(), sp = spendXp();
   const card = (kind, id, it) => {
-    const has = shopHas(kind, id), eq = kind === 'ai' ? aiModel() === id : g[kind] === id, locked = !!it.lv && !it.free && level().L < it.lv;
-    const sw = kind === 'bg' ? (it.css ? `background:${it.css}` : 'background:linear-gradient(135deg,var(--pc),var(--s3))') : kind === 'theme' ? 'background:linear-gradient(135deg,#ff7a3d,#8a1f0c 60%,#1a0a06)' : kind === 'font' ? 'background:var(--pc)' : kind === 'ai' ? 'background:linear-gradient(135deg,#4285f4,#9b72cb 55%,#e0637a)' : '';
-    const ic = kind === 'sfx' ? ms('music_note') : kind === 'theme' ? ms('local_fire_department') : kind === 'font' ? `<span class="fnt-s" style='font-family:${it.stack}'>あ</span>` : kind === 'ai' ? gem(22) : '';
+    const has = shopHas(kind, id), eq = kind === 'ai' ? aiModel() === id : kind === 'pat' ? patNow() === id : g[kind] === id, locked = !!it.lv && !it.free && level().L < it.lv;
+    const sw = kind === 'bg' ? (it.css ? `background:${it.css}` : 'background:linear-gradient(135deg,var(--pc),var(--s3))') : kind === 'theme' ? 'background:linear-gradient(135deg,#ff7a3d,#8a1f0c 60%,#1a0a06)' : kind === 'font' ? 'background:var(--pc)' : kind === 'ai' ? 'background:linear-gradient(135deg,#4285f4,#9b72cb 55%,#e0637a)' : kind === 'pat' ? 'background:var(--s3)' : '';
+    const ic = kind === 'sfx' ? ms('music_note') : kind === 'theme' ? ms('local_fire_department') : kind === 'font' ? `<span class="fnt-s" style='font-family:${it.stack}'>あ</span>` : kind === 'ai' ? gem(22) : kind === 'pat' ? ms('texture') : '';
     const prev = kind === 'theme' ? `<button type="button" class="btn text xs" data-act="themeprev" data-id="${id}">${ms('visibility')}見る</button>` : kind === 'bg' ? `<button class="btn text xs" data-act="bgprev" data-id="${id}">${ms('visibility')}見る</button>` : kind === 'sfx' ? `<button class="btn text xs" data-act="shoptry" data-id="${id}">${ms('play_arrow')}試す</button>` : kind === 'font' ? `<button class="btn text xs" data-act="fontprev" data-id="${id}">${ms('visibility')}見る</button>` : '';
     const act = locked ? `<button class="btn xs" disabled>${ms('lock')}Lv.${it.lv}で解放</button>`
       : eq ? (kind === 'theme' ? `<button class="btn tonal xs" data-act="shopeq" data-id="theme:none">${ms('undo')}標準にもどす</button>` : `<button class="btn xs" disabled>${ms('check')}使用中</button>`)
       : has ? `<button class="btn tonal xs" data-act="shopeq" data-id="${kind}:${id}">${ms('done')}使う</button>`
       : `<button class="btn xs" data-act="shopbuy" data-id="${kind}:${id}" ${sp < it.c ? 'disabled' : ''}>${ms('shopping_cart')}${it.c} XP</button>`;
-    const state = eq ? '使用中' : locked ? `Lv.${it.lv}で解放` : has ? (kind === 'ai' && it.c === 0 ? '最初から使えます' : g.owned[kind].includes(id) ? '購入済み' : 'レベルで解放ずみ') : `${it.c} XP`;
+    const state = eq ? '使用中' : locked ? `Lv.${it.lv}で解放` : has ? (kind === 'ai' && it.c === 0 ? '最初から使えます' : (g.owned[kind] || []).includes(id) ? '購入済み' : 'レベルで解放ずみ') : `${it.c} XP`;
     return `<div class="shop-i ${eq ? 'eq' : ''}"><div class="shop-sw" style="${sw}">${ic}</div><div class="shop-t"><b>${esc(it.n)}</b><small>${state}</small>${it.d ? `<small>${esc(it.d)}</small>` : ''}</div><div class="shop-a">${prev}${act}</div></div>`;
   };
   return `<h2 class="noti-h">${ms('storefront')}<span>XPショップ</span><em class="noti-cnt">使えるXP ${sp}</em></h2><p class="muted" style="font-weight:500;margin:0 0 6px">XPを使っても、レベルは下がりません。レベルで使えるようになるものもあります（レベルの特典で確認できます）。</p>` +
@@ -11412,6 +11516,7 @@ function shopHtml() {
     `<h3 class="shop-h">ホームの背景</h3><div class="shop-l">${Object.entries(HOME_BG).map(([id, it]) => card('bg', id, it)).join('')}</div>` +
     `<h3 class="shop-h">効果音</h3><div class="shop-l">${Object.entries(SFX_T).map(([id, it]) => card('sfx', id, it)).join('')}</div>` + `<h3 class="shop-h">フォント（アプリ全体）</h3><div class="shop-l">${Object.entries(FONT_SHOP).map(([id, it]) => card('font', id, it)).join('')}</div>` +
     `<h3 class="shop-h">AIのモデル</h3><p class="muted" style="font-weight:500;margin:0 0 8px">いま使っているのは「${esc(aiLabel(aiModel()))}」です。モデルを変えても、1日に使える回数は同じです。</p><div class="ai-guide">${aiGuideHtml()}</div><div class="shop-l">${Object.entries(AI_SHOP).map(([id, it]) => card('ai', id, it)).join('')}</div>` +
+    `<h3 class="shop-h">カードの模様（単語帳）</h3><div class="shop-l">${Object.entries(PAT_SHOP).map(([id, it]) => card('pat', id, it)).join('')}</div>` +
     `<h3 class="shop-h">ツール</h3><div class="shop-l">${Object.entries(TOOL_SHOP).map(([id, it]) => toolShopCard(id, it)).join('')}</div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
 }
 // 背景のプレビュー（買う前に、ホームの見た目を試せる）
@@ -11860,9 +11965,11 @@ function showWhenFree(fn, delay) { setTimeout(function go() { if (dlg.open) retu
 try { if (!localStorage.getItem('kosa-guide-seen')) showWhenFree(() => guideDlg(), 900); } catch (e) { }
 // アップデートのあと最初に開いたとき、新しくなった点を表示する（初めて使うときは表示しない）
 try {
-  const seen = localStorage.getItem('kosa-seen-ver'), gs = localStorage.getItem('kosa-guide-seen'), last = seen || (gs && /^\d+(\.\d+)*$/.test(gs) ? gs : null);
+  // 版ごとに、見た版を覚える（ベータ版と正式版で別々）。ベータ版へ行く・戻るときは、更新内容を出さない
+  const KEY = IS_BETA ? 'kosa-seen-ver-beta' : 'kosa-seen-ver', switching = new URLSearchParams(location.search).has('from');
+  const seen = localStorage.getItem(KEY), gs = localStorage.getItem('kosa-guide-seen'), last = seen || (!IS_BETA && gs && /^\d+(\.\d+)*$/.test(gs) ? gs : null);
   pushSetupAuto();
-  if (seen !== APP_VERSION) { localStorage.setItem('kosa-seen-ver', APP_VERSION); if (last && verCmp(APP_VERSION, last) > 0 && !(S.set && S.set.noWhatsNew)) showWhenFree(() => whatsNewDlg(last), 1100); }
+  if (seen !== APP_VERSION) { localStorage.setItem(KEY, APP_VERSION); if (!switching && last && verCmp(APP_VERSION, last) > 0 && !(S.set && S.set.noWhatsNew)) showWhenFree(() => whatsNewDlg(last), 1100); }
 } catch (e) { }
 
 /* 画面を引っぱったときのバウンスで、下のバーが動かないようにする（スマホ） */
@@ -13441,6 +13548,7 @@ async function srCreateRoom(friend) {
   srWatch(code);
   toast(friend ? `${friend.name || '友達'}さんに、対戦リクエストを送りました` : '部屋をつくりました。コードを友達に伝えてください');
 }
+const SR_ROOM_MS = 60 * 60 * 1000;   // 招待・コードの部屋は、1時間たつと閉じる
 // 参加できたら true。失敗したら、必ず理由を出す
 async function srJoin(code) {
   if (srNeedLogin()) return false;
@@ -13454,6 +13562,7 @@ async function srJoin(code) {
       const d = (await tx.get(ref)).data();
       if (!d) { why = 'その部屋は、ありません。コードをかくにんしてください'; return; }
       if (d.host === me) { why = '自分でつくった部屋です'; return; }
+      if (d.status === 'waiting' && d.t && Date.now() - d.t > SR_ROOM_MS) { why = 'この部屋は、時間がたって閉じました。相手に、もう一度送ってもらってください'; return; }
       if (d.status !== 'waiting' || d.guest) { why = 'もう、ほかの人と対戦しています'; return; }
       ok = true;
       tx.update(ref, { guest: me, guestName: srName(), status: 'playing', turn: d.host, deadline: Date.now() + d.lim * 1000 });
@@ -13525,7 +13634,7 @@ async function srLeave() {
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shiriRooms', code);
   try {
     // 相手が来ていない部屋は消す。対戦が終わった部屋は、相手が結果を見られるように残す
-    if (r.host === me && r.status === 'waiting') { await fs.deleteDoc(ref); return; }
+    if (r.host === me && r.status === 'waiting') return;   // 招待した部屋は、通知から参加できるように残す（時間がたつと閉じる）
     if (r.status === 'playing') await fs.runTransaction(db, async tx => { const d = (await tx.get(ref)).data(); if (!d || d.status !== 'playing') return; tx.update(ref, { status: 'done', winner: d.host === me ? d.guest : d.host, reason: `${srNameOf(d, me)}さんが、とちゅうでやめました` }); });
   } catch (e) { }
 }
