@@ -3977,37 +3977,64 @@
       showCelebrationBanner('続きから遊びます');
     }
 
-    // ===== タイトル画面（開いたときに最初に出す）：難易度・ランキング・はじめる =====
+    // ===== タイトル画面（開いたときに最初に出す）：ゲームスタート・難易度・ランキング =====
     const tEsc = (x) => String(x).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    function titleCss() {
+      if (document.getElementById('title19-css')) return;
+      const st = document.createElement('style');
+      st.id = 'title19-css';
+      st.textContent = `
+#titleOv.tt-ov{position:fixed;inset:0;z-index:9500;overflow-y:auto;display:flex;align-items:center;justify-content:center;padding:28px 16px;font-family:"Hiragino Maru Gothic ProN","Hiragino Sans","Noto Sans JP",sans-serif;
+  background:repeating-linear-gradient(90deg,rgba(150,95,40,.10) 0 2px,transparent 2px 64px),linear-gradient(180deg,#b9824a 0%,#c99159 33%,#7a4822 35.5%,#e7c985 36.5%,#f5e5ad 100%)}
+.tt-wrap{width:100%;max-width:340px;display:grid;justify-items:center;gap:12px;text-align:center;color:#fff}
+.tt-logo{position:relative;margin-top:6px}
+.tt-title{display:block;font-size:clamp(46px,12vw,62px);font-weight:900;color:#ffd33d;letter-spacing:.03em;line-height:1.05;-webkit-text-stroke:2px #7a3a0c;paint-order:stroke fill;text-shadow:0 5px 0 #7a3a0c,0 9px 16px rgba(60,20,0,.35)}
+.tt-ball{position:absolute;right:-34px;top:-30px;width:60px;height:60px;border-radius:50%;border:3px solid;display:grid;place-items:center;font-weight:900;font-size:24px;box-shadow:inset -6px -8px 0 rgba(0,0,0,.12),0 4px 10px rgba(0,0,0,.25)}
+.tt-sub{font-size:13px;font-weight:700;text-shadow:0 1px 2px rgba(60,20,0,.6)}
+.tt-go{width:100%;height:68px;border-radius:999px;border:3px solid #fff;font:inherit;font-size:24px;font-weight:900;color:#fff;background:linear-gradient(#ffe44d,#f6b400);box-shadow:0 7px 0 #c17e00,0 10px 18px rgba(0,0,0,.25);text-shadow:0 2px 0 #9a5d00}
+.tt-go:active{transform:translateY(4px);box-shadow:0 3px 0 #c17e00}
+.tt-sec{width:100%;height:56px;border-radius:999px;border:3px solid #fff;font:inherit;font-size:18px;font-weight:900;color:#6b5a4a;background:linear-gradient(#f7f7f7,#cfcfcf);box-shadow:0 6px 0 #9f9f9f,0 8px 14px rgba(0,0,0,.2)}
+.tt-lbl{font-size:13px;font-weight:900;margin-top:4px;text-shadow:0 1px 2px rgba(60,20,0,.7)}
+.tt-difs{display:flex;gap:8px;width:100%}
+.tt-dif{flex:1;height:50px;border-radius:999px;border:3px solid #fff;font:inherit;font-size:16px;font-weight:900;color:#6b5a4a;background:linear-gradient(#f7f7f7,#d4d4d4);box-shadow:0 5px 0 #a3a3a3}
+.tt-dif.on{background:linear-gradient(#ffe44d,#f6b400);color:#fff;text-shadow:0 2px 0 #9a5d00;box-shadow:0 5px 0 #c17e00}
+.tt-dif:disabled{opacity:.5}
+.tt-desc{font-size:12px;min-height:18px;text-shadow:0 1px 2px rgba(60,20,0,.7)}
+.tt-card{width:100%;box-sizing:border-box;background:linear-gradient(#f7f7f7,#dadada);border-radius:24px;border:3px solid #fff;padding:12px;box-shadow:0 6px 0 #a3a3a3;color:#5b4a3a}
+.tt-cap{font-size:14px;font-weight:900;margin-bottom:8px}
+.tt-list{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.tt-list li{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:8px 12px;border-radius:14px;background:#fff;font-weight:700;text-align:left}
+.tt-list li:nth-child(1){background:#fde68a}.tt-list li:nth-child(2){background:#dbeafe}.tt-list li:nth-child(3){background:#fed7aa}
+.tt-list li.tt-empty{display:block;text-align:center;background:transparent}
+.tt-n{font-weight:900}.tt-nm{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.tt-sc{font-weight:900;font-variant-numeric:tabular-nums}
+`;
+      document.head.appendChild(st);
+    }
     function titleHtml(sv) {
       const d = gameDifficulty, cfg = DIFFICULTY_TABLE[d] || DIFFICULTY_TABLE[DEFAULT_DIFFICULTY];
-      const diffs = DIFFICULTY_ORDER.map((k) => {
-        const c = DIFFICULTY_TABLE[k], on = k === d;
-        return `<button type="button" data-td="${k}" ${sv ? 'disabled' : ''} style="flex:1;min-width:0;padding:10px 4px;border-radius:14px;font-weight:900;font-size:15px;border:2px solid ${on ? '#92400e' : 'rgba(146,64,14,.28)'};background:${on ? '#fde68a' : '#fff'};color:#451a03;opacity:${sv && !on ? 0.45 : 1}">${c.label}</button>`;
-      }).join('');
+      const mel = ELEMENTS[3] || ELEMENTS[0];
+      const diffs = DIFFICULTY_ORDER.map((k) => `<button type="button" class="tt-dif${k === d ? ' on' : ''}" data-td="${k}" ${sv ? 'disabled' : ''}>${DIFFICULTY_TABLE[k].label}</button>`).join('');
       const list = (rankingService.getActiveEntries() || []).slice(0, 5);
-      const medal = ['#F7E39C', '#CBE3EE', '#F2CBA5', 'rgba(255,255,255,.7)', 'rgba(255,255,255,.7)'];
-      const rows = list.length ? list.map((e, i) => `<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:${medal[i]}"><span style="font-weight:900;width:24px;text-align:left">${i + 1}</span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700;text-align:left">${tEsc(e.playerName || '-')}</span><span style="font-weight:900;font-variant-numeric:tabular-nums">${Math.floor(Number(e.score) || 0)}</span></div>`).join('')
-        : '<div style="padding:12px;font-weight:700;color:#78350f">まだ記録がありません。最初の1点を目指そう！</div>';
+      const rows = list.length ? list.map((e, i) => `<li><span class="tt-n">${i + 1}</span><span class="tt-nm">${tEsc(e.playerName || '-')}</span><span class="tt-sc">${Math.floor(Number(e.score) || 0)}</span></li>`).join('')
+        : '<li class="tt-empty">まだ記録がありません。最初の1点を目指そう！</li>';
       const scope = rankingService.activeScope === 'online' ? '友達' : 'マイルーム';
-      const btn = 'width:100%;padding:14px;border-radius:16px;font-weight:900;font-size:17px;border:0;';
-      return `<div style="width:100%;max-width:440px;background:#fff7e6;border-radius:24px;padding:22px 20px;box-shadow:0 14px 40px rgba(0,0,0,.28);font-family:sans-serif;color:#451a03;text-align:center">
-        <div style="font-size:30px;font-weight:900;letter-spacing:.02em">元素マージ</div>
-        <div style="font-size:13px;margin-top:4px">同じ元素を合わせて、もっと重い元素を作ろう</div>
-        <div style="font-size:12px;font-weight:800;margin:16px 0 6px;text-align:left">難易度${sv ? '（途中のゲームの難易度で続きます）' : ''}</div>
-        <div style="display:flex;gap:8px">${diffs}</div>
-        <div style="font-size:12px;margin-top:8px;min-height:30px;line-height:1.5">${tEsc(cfg.desc)}</div>
-        <div style="font-size:12px;font-weight:800;margin:10px 0 6px;text-align:left">ランキング（${cfg.label}・${scope}）</div>
-        <div style="display:grid;gap:6px">${rows}</div>
-        <button type="button" data-start="1" style="${btn}margin-top:18px;background:linear-gradient(#a3e635,#16a34a);color:#fff">${sv ? '続きから' : 'はじめる'}</button>
-        ${sv ? `<button type="button" data-new="1" style="${btn}margin-top:10px;background:#fff;color:#92400e;border:2px solid rgba(146,64,14,.3)">新しく始める</button>` : ''}
+      return `<div class="tt-wrap">
+        <div class="tt-logo"><span class="tt-title">元素マージ</span><span class="tt-ball" style="background:radial-gradient(circle at 35% 30%,${mel.gradTop},${mel.gradBot});color:${mel.textColor};border-color:${mel.borderColor}">${tEsc(mel.symbol)}</span></div>
+        <div class="tt-sub">同じ元素を合わせて、もっと重い元素を作ろう</div>
+        <button type="button" class="tt-go" data-start="1">${sv ? '続きから' : 'ゲームスタート'}</button>
+        ${sv ? '<button type="button" class="tt-sec" data-new="1">新しく始める</button>' : ''}
+        <div class="tt-lbl">難易度${sv ? '（途中のゲームの難易度で続きます）' : ''}</div>
+        <div class="tt-difs">${diffs}</div>
+        <div class="tt-desc">${tEsc(cfg.desc)}</div>
+        <div class="tt-card"><div class="tt-cap">ランキング（${cfg.label}・${scope}）</div><ol class="tt-list">${rows}</ol></div>
       </div>`;
     }
     function showTitle(sv) {
       if (sv && sv.diff) { gameDifficulty = normalizeDifficulty(sv.diff); rankingService.viewDifficulty = gameDifficulty; setDiffUI(); }
+      titleCss();
       const ov = document.createElement('div');
       ov.id = 'titleOv';
-      ov.style.cssText = 'position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;padding:18px;overflow-y:auto;background:radial-gradient(120% 70% at 50% 0%,#fde68a 0%,#fbbf24 40%,#b45309 100%)';
+      ov.className = 'tt-ov';
       const paint = () => { ov.innerHTML = titleHtml(sv); };
       paint();
       document.body.appendChild(ov);

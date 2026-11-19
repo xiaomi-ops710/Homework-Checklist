@@ -2766,6 +2766,23 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 #axw .gm-scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:44;opacity:0;pointer-events:none;transition:opacity .34s}
 #axw.open .gm-scrim{display:block;opacity:1;pointer-events:auto}
 </style>
+<style id="ai22-css">
+/* ライトモード：白い画面の下に、水色の光 */
+#axw{--g-bg:#f8fafd;--g-in:#ffffff;--g-in-sh:0 6px 22px rgba(40,90,170,.14);--g-glow:rgba(120,180,255,.9)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #axw{--g-in:#1e1f22;--g-in-sh:none;--g-glow:rgba(40,80,230,.75)}}
+:root[data-theme="dark"] #axw{--g-in:#1e1f22;--g-in-sh:none;--g-glow:rgba(40,80,230,.75)}
+#axw .gm-main{background:radial-gradient(120% 74% at 50% 122%,var(--g-glow) 0%,transparent 74%),var(--g-bg)}
+/* 入力欄：Geminiの実寸（幅660px・高さ72px・角は完全な丸）に合わせる */
+#axw .gm-in{width:min(660px,calc(100% - 32px));min-height:72px;box-sizing:border-box;margin:0 auto 6px;padding:0 14px 0 10px;border-radius:36px;background:var(--g-in);box-shadow:var(--g-in-sh);align-items:center}
+@media(min-width:900px){#axw .gm-in{width:min(660px,calc(100% - 48px))}}
+#axw .gm-in .gm-send{width:52px;height:52px;border-radius:50%}
+#axw .gm-in .gm-mic{width:44px;height:44px}
+/* PWA（iPadのホーム画面から開く）：上にメニューバーが出るので、上部の操作を下げる */
+@media (display-mode: standalone){
+  body.ai-full #main{top:calc(env(safe-area-inset-top,0px) + 60px)}
+  #axw .gm-side{top:calc(env(safe-area-inset-top,0px) + 60px);height:auto;bottom:0}
+}
+</style>
 </head>
 <body>
 <div id="app">
@@ -2789,9 +2806,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.1';
-const BETA_VER = '18.2.1';
-const RELEASE_VER = '18.2.1'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.2';
+const BETA_VER = '18.2.2';
+const RELEASE_VER = '18.2.2'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3447,9 +3464,11 @@ function render() {
 }
 let _gem = 0;
 function gem(px = 22, grad = true) {
-  // Geminiのロゴ（4つの角が、黄・赤・青・緑）。単色にしたいときだけ grad を false にする
-  const id = 'gg' + (++_gem), id2 = id + 'v';
-  return `<svg class="gem" width="${px}" height="${px}" viewBox="0 0 24 24" aria-hidden="true">${grad ? `<defs><linearGradient id="${id}" x1="0" y1="12" x2="24" y2="12" gradientUnits="userSpaceOnUse"><stop stop-color="#fbbc04"/><stop offset=".5" stop-color="#3a9e8a"/><stop offset="1" stop-color="#1a73e8"/></linearGradient><linearGradient id="${id2}" x1="12" y1="0" x2="12" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#ea4335"/><stop offset=".42" stop-color="#ea4335" stop-opacity="0"/><stop offset=".58" stop-color="#34a853" stop-opacity="0"/><stop offset="1" stop-color="#34a853"/></linearGradient></defs>` : ''}<path fill="${grad ? `url(#${id})` : 'currentColor'}" d="M12 0C12.6 6.9 17.1 11.4 24 12C17.1 12.6 12.6 17.1 12 24C11.4 17.1 6.9 12.6 0 12C6.9 11.4 11.4 6.9 12 0Z"/>${grad ? `<path fill="url(#${id2})" d="M12 0C12.6 6.9 17.1 11.4 24 12C17.1 12.6 12.6 17.1 12 24C11.4 17.1 6.9 12.6 0 12C6.9 11.4 11.4 6.9 12 0Z"/>` : ''}</svg>`;
+  // Geminiのロゴ。grad=true は4色（赤・黄・青・緑）のカラー版、false は単色（今の文字色）
+  const P = 'M12 0C12.6 6.9 17.1 11.4 24 12C17.1 12.6 12.6 17.1 12 24C11.4 17.1 6.9 12.6 0 12C6.9 11.4 11.4 6.9 12 0Z';
+  if (!grad) return `<svg class="gem" width="${px}" height="${px}" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="${P}"/></svg>`;
+  const id = 'gg' + (++_gem), h = id + 'h', v = id + 'v';
+  return `<svg class="gem" width="${px}" height="${px}" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="${h}" x1="0" y1="0" x2="24" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f7c948"/><stop offset=".3" stop-color="#ea5a5f"/><stop offset=".6" stop-color="#8d86e0"/><stop offset=".86" stop-color="#3d86f7"/><stop offset="1" stop-color="#6aa8ff"/></linearGradient><linearGradient id="${v}" x1="0" y1="0" x2="0" y2="24" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ef4f63" stop-opacity=".95"/><stop offset=".42" stop-color="#ef4f63" stop-opacity="0"/><stop offset=".6" stop-color="#2fbf78" stop-opacity="0"/><stop offset="1" stop-color="#36c27c"/></linearGradient></defs><path fill="url(#${h})" stroke="url(#${h})" stroke-width="1.1" stroke-linejoin="round" d="${P}"/><path fill="url(#${v})" stroke="url(#${v})" stroke-width="1.1" stroke-linejoin="round" d="${P}"/></svg>`;
 }
 const aiOpened = () => { try { return !!localStorage.getItem('kosa-ai-opened'); } catch (e) { return true; } };
 const DEF_NAV = ['home', 'tasks', 'cal', 'stats', 'ai', 'tools', 'settings'];
@@ -3484,7 +3503,7 @@ function renderNav() {
   const cur = navCur();
   const nav = $('#nav'); if (nav.parentElement !== document.body) document.body.appendChild(nav); nav.classList.toggle('many', items.length > 8);
   const navFresh = NAVL.last !== cur; NAVL.last = cur;
-  nav.innerHTML = items.map(id => { const [l, i] = navInfo(id); const on = cur === id, b = id === 'home' && bt; return `<button class="ni ${on ? 'on' : ''} ${on && navFresh ? 'fresh' : ''}" data-act="tab" data-id="${id}" title="${l}" aria-label="${l}${b ? `（${bt}）` : ''}" ${on ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24) : ms(i)}</span>${b ? `<b class="nbadge ${bhot ? 'hot' : ''}">${bt}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span><span class="nl">${l}</span></button>`; }).join('') + (isPhoneUI() ? '' : notiNavBtn());
+  nav.innerHTML = items.map(id => { const [l, i] = navInfo(id); const on = cur === id, b = id === 'home' && bt; return `<button class="ni ${on ? 'on' : ''} ${on && navFresh ? 'fresh' : ''}" data-act="tab" data-id="${id}" title="${l}" aria-label="${l}${b ? `（${bt}）` : ''}" ${on ? 'aria-current="page"' : ''}><span class="pw"><span class="pill">${i === 'auto_awesome' ? gem(24, false) : ms(i)}</span>${b ? `<b class="nbadge ${bhot ? 'hot' : ''}">${bt}</b>` : ''}${id === 'ai' && !aiOpened() ? '<b class=\"nbadge new\">New</b>' : ''}</span><span class="nl">${l}</span></button>`; }).join('') + (isPhoneUI() ? '' : notiNavBtn());
   kbSync(); navFit();
 }
 // 下のバーの文字の出し分けは、文字の幅と項目数から計算して決めます（描き直しのたびに、高さが変わって位置が動かないように）
@@ -3678,6 +3697,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.2', d: '__BUILD__', t: 'AIとタイトル画面を本家のGeminiやゲームの見た目に近づける', n: ['タブバーのGeminiアイコンは、ほかのアイコンと同じ単色にしました。AIタブの中のアイコンは、カラーのままです', 'Geminiのロゴの角を丸くし、色もGeminiに近い4色のなめらかな色にしました', 'AIの回答の左上にあったロゴをやめました', 'iPadのホーム画面から開いたとき、上のメニューバーに隠れないように、AIタブの上の操作を少し下げました', 'ライトモードは、下に水色の光が出るようにしました。入力欄は、Geminiと同じ大きさ（幅660・高さ72）にしました', '元素マージのタイトル画面を、スイカゲームのような見た目に近づけました（ゲームスタート・難易度・ランキング）'] },
   { v: '18.2.1', d: '__BUILD__', t: 'AIタブを全画面に・Geminiの見た目に近づけ・元素マージにタイトル画面', n: ['AIタブの左右の余白をなくし、画面の端まで広げました', 'AIタブの上と下は固定し、チャットの部分だけがスクロールするようにしました', 'AIのメニューの開け閉めを、なめらかにしました（左端が見えてしまう動きを直しました）', '「こんにちは」は最初の画面だけ、中央に大きく出すようにしました。下に青い光を入れて、Geminiの画面に近づけました', 'AIのロゴを、Geminiの4色の星に変えました', '元素マージを開くと、最初にタイトル画面（難易度・ランキング・はじめる）を出すようにしました。途中のゲームがあるときは「続きから」を選べます'] },
   { v: '18.2.0', d: '__BUILD__', t: '元素マージに難易度と上級の元素・AIのモデル選び', n: ['元素マージに、上級の元素を6種類追加しました（触媒で進化させると見つかります）', '元素マージの「溢れそう」のときにアイテムを使うと、残り時間が2倍に伸びます（1回の溢れそうにつき1回）', '元素マージで、アイテムを使うと「溢れそう」が消えてしまう不具合を直しました', '元素マージの「加熱」を「噴火」に名前を変えました', '元素マージに難易度（簡単・普通・難しい）を追加しました。難しいほど、スキルの消費EPが高く、EPが貯まりにくく、出てくる元素も難しくなります', '元素マージのランキングは、難易度ごとに3つのタブに分かれました（友達のランキングも同じです）', 'AIタブを開いているときは、右上のアカウント・フィードバックを隠し、全画面で表示するようにしました（左のタブバーは残ります）', 'AIのモデルは「自動・高速・思考・バランス」から選べるようになりました。モデル名も表示します', 'ショップのAIモデルの名前が途切れて見えなかった不具合を直しました'] },
   { v: '18.1.0', d: '__BUILD__', t: '答えに写真が出るAIに質問・元素マージの実績を追加', n: ['AIに質問で、答えに関係する写真をネットから探して表示するようにしました（無料で使える公開の写真・出典つき）', 'AIに質問で、答えを作っている間に、いま何をしているか（質問を読む・答えを作る・写真を探す）と、3つの点が動く表示を出すようにしました', 'AIに質問の画面を広く使えるようにしました。左上のメニューから、履歴のサイドバーを開けます', 'AIに質問のモデルの選び方を、ポップアップにまとめました。思考レベル（ヒントと手順・答えも解説）も、ここで選べます', 'AIに質問の履歴は、ピン留めと、並び替え（新しい順・古い順・名前順）ができるようにしました', 'AIに質問の「画像」から、答えに出た写真を一覧で見られるようにしました', 'AIに質問の画面の色を、明るい配色と暗い配色に合わせて見やすくしました', '元素マージの実績を17個増やし、全部で22個になりました'] },
@@ -6265,7 +6285,7 @@ function renderAiLog() {
     const body = m.t ? mdLite(m.t.replace(/\[\[画像[:：][^\]]*\]?\]?/g, '').trim()) : '';
     const pics = m.pics && m.pics.length ? `<div class="ax-pics">${m.pics.map(p => `<a class="ax-pic" href="${esc(p.page)}" target="_blank" rel="noopener noreferrer"><img src="${esc(p.url)}" alt="${esc(p.title)}" loading="lazy"><span><b>${esc(p.title)}</b><small>出典：Wikimedia Commons${p.by ? '・' + esc(p.by) : ''}${p.lic ? '・' + esc(p.lic) : ''}</small></span></a>`).join('')}</div>` : '';
     const cp = m.t && !live ? `<div class="ax-act"><button type="button" class="ax-cp" data-act="aicopy" data-id="${i}" aria-label="コピー" title="コピー">${ms('content_copy')}</button></div>` : '';
-    return `<div class="ax-m m${nw}">${av}<div class="ax-bb">${body}${live ? aiStepsHtml() : ''}${pics}${cp}</div></div>`;
+    return `<div class="ax-m m${nw}"><div class="ax-bb">${body}${live ? aiStepsHtml() : ''}${pics}${cp}</div></div>`;
   }).join('');
   AI._n = AI.msgs.length; log.scrollTop = log.scrollHeight;
   const sg = $('#aisug'), c = $('#aicnt'), b = $('#aisend'), q = $('#aiq');
