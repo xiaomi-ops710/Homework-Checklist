@@ -2788,16 +2788,17 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 /* 考え中：画面の上から、色が流れるグラデーション（Geminiの思考中と同じ） */
 #axw .gm-main{position:relative;isolation:isolate}
 #axw .gm-main::before{content:"";position:absolute;left:-90px;right:-90px;top:-60px;height:70%;pointer-events:none;z-index:-1;opacity:0;transition:opacity .9s ease;background:linear-gradient(180deg,#3b6cf0 0%,#17a2a0 24%,#2fb35a 46%,rgba(0,0,0,0) 100%);filter:blur(42px)}
-#axw.busy .gm-main::before{opacity:.62;animation:axhue 11s linear infinite}
+#axw.ai-busy .gm-main::before{opacity:.62;animation:axhue 11s linear infinite}
 @keyframes axhue{from{filter:blur(42px) hue-rotate(0deg)}to{filter:blur(42px) hue-rotate(360deg)}}
 /* 考え中の表示：3つの点がまわり、今の段階の文字がふわっと入れ替わる */
 #axw .ax-think{display:flex;align-items:center;gap:14px;padding:8px 0 4px;background:none;border:0;max-width:none;color:var(--g-mut);font-size:1.02rem}
-#axw .ax-dots{position:relative;display:inline-block;width:28px;height:22px;flex:none}
-#axw .ax-dots i{position:absolute;left:50%;top:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:currentColor;opacity:.9;transition:none}
-#axw .ax-dots i:nth-child(1){animation:axo 1.7s ease-in-out infinite}
-#axw .ax-dots i:nth-child(2){animation:axo 1.7s ease-in-out -.57s infinite}
-#axw .ax-dots i:nth-child(3){animation:axo 1.7s ease-in-out -1.13s infinite}
-@keyframes axo{0%{transform:translate(-9px,3px) scale(.8)}25%{transform:translate(0,-7px) scale(1.15)}50%{transform:translate(9px,3px) scale(.85)}75%{transform:translate(0,7px) scale(1.05)}100%{transform:translate(-9px,3px) scale(.8)}}
+#axw .ax-dots{position:relative;display:inline-block;width:24px;height:24px;flex:none;animation:axrot 2.2s linear infinite}
+#axw .ax-dots i{position:absolute;width:5px;height:5px;margin:-2.5px 0 0 -2.5px;border-radius:50%;background:currentColor;animation:axpulse 1.1s ease-in-out infinite}
+#axw .ax-dots i:nth-child(1){left:50%;top:calc(50% - 8px)}
+#axw .ax-dots i:nth-child(2){left:calc(50% + 7px);top:calc(50% + 4px);animation-delay:-.37s}
+#axw .ax-dots i:nth-child(3){left:calc(50% - 7px);top:calc(50% + 4px);animation-delay:-.73s}
+@keyframes axrot{to{transform:rotate(360deg)}}
+@keyframes axpulse{0%,100%{transform:scale(.7);opacity:.55}50%{transform:scale(1.15);opacity:1}}
 #axw .ax-tline{animation:axt .55s ease both}
 @keyframes axt{from{opacity:0;transform:translateY(6px);filter:blur(2px)}to{opacity:1;transform:none;filter:none}}
 /* 回答：新しく届いた部分が、ふわっと現れる */
@@ -2811,6 +2812,15 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
   #axw .gm-side .gm-shead{padding-top:calc(env(safe-area-inset-top,0px) + 40px)}
 }
 </style>
+<style id="gb23-css">
+.gb-list{display:grid;gap:8px}
+.gb-row{display:flex;align-items:center;gap:12px;width:100%;padding:13px 16px;border:0;border-radius:18px;background:var(--s1);color:var(--on);font:inherit;text-align:left;cursor:pointer}
+.gb-row.on{background:var(--s3)}
+.gb-n{display:inline-flex;justify-content:center;align-items:center;width:26px;font-weight:800;opacity:.75;flex:none}
+.gb-t{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gb-ctl{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+</style>
+<style id="ai26-css">.ax-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.ax-acts .btn{max-width:100%}</style>
 </head>
 <body>
 <div id="app">
@@ -2834,9 +2844,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.3';
-const BETA_VER = '18.2.3';
-const RELEASE_VER = '18.2.3'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.7';
+const BETA_VER = '18.2.7';
+const RELEASE_VER = '18.2.7'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3245,14 +3255,12 @@ function admCardHtml() { return `<div class="h-sec"><h2>${ms('admin_panel_settin
 function admOpen() { openDlg(admHtml()); dlg.dataset.k = 'adm'; admFormBind(); }
 function admHtml() {
   return `<h2>${ms('admin_panel_settings')}管理者メニュー</h2>
-    <div class="fld"><div class="lbl">自分のレベル（いまは Lv.${level().L}）</div><div class="admrow"><input id="admLvIn" type="number" min="1" max="99" inputmode="numeric" value="${S.adminLv || totals().lv}" style="width:110px"><button type="button" class="btn sm" data-act="admlv">適用</button><button type="button" class="btn text sm" data-act="admlvreset">自動に戻す</button></div><p class="muted" style="font-weight:500;margin:6px 0 0">変えたレベルは、自分の画面と解放だけに使われます。友達の記録には、本当のレベルが出ます。</p></div>
+    <div class="h-sec"><h2>生徒</h2></div>
     <div class="fld"><div class="lbl">生徒の記録</div><button type="button" class="btn tonal sm" data-act="admlist">${ms('refresh')}一覧を読む</button><div id="admList" class="adm-list"></div></div>
-    <div class="fld"><div class="lbl">課題・考査日を届ける</div><p class="muted" style="font-weight:500;margin:6px 0 0">届けた内容は、生徒が次にアプリを開いたとき、その生徒の教科と課題に入ります。同じ内容は一度だけ入ります。</p></div>
-    <div class="fld"><div class="lbl">送り先</div><div class="seg"><input type="radio" id="atg0" name="admtg" value="all" checked><label for="atg0">全員</label><input type="radio" id="atg1" name="admtg" value="some"><label for="atg1">選んだ生徒</label></div>
-      <button type="button" class="btn tonal sm" data-act="admtglist" style="margin-top:10px">${ms('refresh')}生徒の一覧を読む</button><div id="admTg" class="adm-list"></div></div>
-    <div class="fld"><div class="lbl">内容</div><div class="seg"><input type="radio" id="ak0" name="admkind" value="task" checked><label for="ak0">課題</label><input type="radio" id="ak1" name="admkind" value="exam"><label for="ak1">考査日</label><input type="radio" id="ak2" name="admkind" value="event"><label for="ak2">予定</label></div></div>
+    <div class="h-sec"><h2>届ける</h2></div>
+    <p class="muted" style="font-weight:500;margin:0 0 10px">課題・考査日・予定を、生徒に届けます。届いた生徒は、次にアプリを開いたときに自分の教科や予定に入ります。同じものは一度だけ入ります。</p>
+    <div class="fld"><div class="lbl">1. 内容</div><div class="seg"><input type="radio" id="ak0" name="admkind" value="task" checked><label for="ak0">課題</label><input type="radio" id="ak1" name="admkind" value="exam"><label for="ak1">考査日</label><input type="radio" id="ak2" name="admkind" value="event"><label for="ak2">予定</label></div></div>
     <div class="fld" id="admSubF"><label for="admSub">教科の名前（生徒の教科と同じ名前）</label><input id="admSub" type="text" maxlength="20" placeholder="例：数学"></div>
-    <div id="admEv" hidden><div class="fld"><label for="admEvTitle">予定の名前</label><input id="admEvTitle" type="text" maxlength="40" placeholder="例：球技大会"></div><div class="fld"><label for="admEvDate">日付</label><input id="admEvDate" type="date"></div><div class="fld"><label for="admEvTm">時刻（任意）</label><input id="admEvTm" type="time"></div><div class="fld"><label for="admEvNote">メモ（任意）</label><input id="admEvNote" type="text" maxlength="60" placeholder="持ち物など"></div></div>
     <div id="admTask">
       <div class="fld"><label for="admTitle">課題の名前</label><input id="admTitle" type="text" maxlength="60" placeholder="例：ワーク p.1〜20"></div>
       <div class="fld"><div class="lbl">種類</div><div class="seg"><input type="radio" id="at0" name="admtk" value="pg" checked><label for="at0">ページ</label><input type="radio" id="at1" name="admtk" value="chk"><label for="at1">完了のみ</label><input type="radio" id="at2" name="admtk" value="url"><label for="at2">リンク</label></div></div>
@@ -3263,7 +3271,17 @@ function admHtml() {
       <div class="fld"><label for="admNote">メモ</label><textarea id="admNote" maxlength="300" rows="2" placeholder="範囲・指示など"></textarea></div>
     </div>
     <div id="admExam" hidden><div class="fld"><label for="admDate">テスト日（考査日）</label><input id="admDate" type="date"></div></div>
+    <div id="admEv" hidden>
+      <div class="fld"><label for="admEvTitle">予定の名前</label><input id="admEvTitle" type="text" maxlength="40" placeholder="例：球技大会"></div>
+      <div class="fld"><label for="admEvDate">日付</label><input id="admEvDate" type="date"></div>
+      <div class="fld"><label for="admEvTm">時刻（任意）</label><input id="admEvTm" type="time"></div>
+      <div class="fld"><label for="admEvNote">メモ（任意）</label><input id="admEvNote" type="text" maxlength="60" placeholder="持ち物など"></div>
+    </div>
+    <div class="fld"><div class="lbl">2. 送り先</div><div class="seg"><input type="radio" id="atg0" name="admtg" value="all" checked><label for="atg0">全員</label><input type="radio" id="atg1" name="admtg" value="some"><label for="atg1">選んだ生徒</label></div>
+      <button type="button" class="btn tonal sm" data-act="admtglist" style="margin-top:10px">${ms('refresh')}生徒の一覧を読む</button><div id="admTg" class="adm-list"></div></div>
     <div class="admrow"><button type="button" class="btn" data-act="admsend">${ms('send')}届ける</button></div>
+    <div class="h-sec"><h2>自分の設定</h2></div>
+    <div class="fld"><div class="lbl">自分のレベル（いまは Lv.${level().L}）</div><div class="admrow"><input id="admLvIn" type="number" min="1" max="99" inputmode="numeric" value="${S.adminLv || totals().lv}" style="width:110px"><button type="button" class="btn sm" data-act="admlv">適用</button><button type="button" class="btn text sm" data-act="admlvreset">自動に戻す</button></div><p class="muted" style="font-weight:500;margin:6px 0 0">テスト用です。ふだんは変えなくて大丈夫です。</p></div>
     <div class="dact"><button type="button" class="btn text" data-act="close">閉じる</button></div>`;
 }
 function admLvSet() {
@@ -3467,7 +3485,7 @@ function render() {
   if (gameOv()) return;   // 全画面のゲーム中は、画面を描き直さない（ゲームの枠を守る）
   setTimeout(kbSync, 0);
   applyHomeBg();
-  document.body.classList.toggle('ai-full', ui.tab === 'ai');   // AIタブは全画面（右上のアカウント等を隠す）
+  document.body.classList.toggle('ai-full', ui.tab === 'ai' && !ui.sub);   // AIタブは全画面（右上のアカウント等を隠す）。ショップなどの下のページを開いたときは、通常の画面に戻す
   navTrack();
   if (ui.tab === 'tools' && ui.tool) tuNote(ui.tool);
   if (ui.tab === 'ai' && !aiOpened()) { try { localStorage.setItem('kosa-ai-opened', '1'); } catch (e) { } }
@@ -3724,7 +3742,11 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '18.2.3', d: '__BUILD__', t: 'AIのロゴと思考・回答の表示をGeminiに近づける', n: ['AIタブのアイコンを、作成したGeminiロゴに変更', '思考中は3つの点が動き、今の段階の文字だけを1行で表示', '思考中は画面の上に色が流れるグラデーションを表示', '回答は新しく届いた部分がふわっと現れるように変更', 'iPadのホーム画面から開いたとき、上のボタンの位置を少し上げて押しやすく調整'] },
+  { v: '18.2.7', d: '__BUILD__', t: '考査の編集と、先生からの予定の受け取りを使いやすくする', n: ['ホームの考査ボタンを長押しすると、すぐ編集（名前・考査の初日など）を開けるようにしました','先生から予定が届いたとき、通知が出て、予定表に入るようにしました','歴打の結果画面の「今回の合戦評価称号」が、背景と同化せず読めるようにしました','歴打の征夷大将軍コース（ミックス・全時代）の出題順を、毎回完全にランダムにしました'] },
+  { v: '18.2.6', d: '__BUILD__', t: 'AIとアプリの機能をつなぎ、AIモデルの解放を変更する', n: ['AIが、このアプリの機能を把握して答えるようになりました。回答の下に機能を開くボタンと、「今日のプランに追加」ボタンが出ます', 'ホームのおすすめは、ゲーム・ツール・実績・ショップなど、アプリ全体の機能から提案します', 'AIモデルの解放をレベルだけに変更しました（3.8 Flash：レベル12、Hydrogen：レベル17。XPでは買えません）', 'Hydrogenが混み合って使えないときは、3.8 Flashで自動的に答えます（回答の下に知らせます）', 'AIからショップを開いたとき、下にスクロールできるように直しました', 'ゲームのBGMを流している間も、上に音楽のチップを表示します', '歴打のBGMを整理し、3曲のまとまりを良くしました（音量も他のゲームと揃えました）'] },
+    { v: '18.2.5', d: '__BUILD__', t: 'ゲームのBGMを音楽で聴けるようにし、歴打の音を豪華にする', n: ['AIの思考中に、左右に余白が出てスマホのような幅になる不具合を直しました', 'ツールの音楽に「ゲームBGM」を追加。歴打（3曲）・元素インベーダー（3曲）・元素マージ（6曲）を聴けます', '歴打のBGMに、尺八・琴・三味線・太鼓などの和楽器を加え、より豪華にしました', '元素マージで5曲目・6曲目が流れているとき、上の雲のキャラがビートに合わせて揺れます'] },
+    { v: '18.2.4', d: '__BUILD__', t: 'AIの思考中の表示と、写真の回答を直す', n: ['思考中の3つの点が、横や縦ではなく、1つの中心のまわりを回るように直しました', 'AIに「画像」「写真」「見せて」と頼んだとき、写真を探して回答に出すように直しました', '写真が見つからなかったときは、そのことを回答の下に出します'] },
+    { v: '18.2.3', d: '__BUILD__', t: 'AIのロゴと思考・回答の表示をGeminiに近づける', n: ['AIタブのアイコンを、作成したGeminiロゴに変更', '思考中は3つの点が動き、今の段階の文字だけを1行で表示', '思考中は画面の上に色が流れるグラデーションを表示', '回答は新しく届いた部分がふわっと現れるように変更', 'iPadのホーム画面から開いたとき、上のボタンの位置を少し上げて押しやすく調整'] },
     { v: '18.2.2', d: '__BUILD__', t: 'AIとタイトル画面を本家のGeminiやゲームの見た目に近づける', n: ['タブバーのGeminiアイコンは、ほかのアイコンと同じ単色にしました。AIタブの中のアイコンは、カラーのままです', 'Geminiのロゴの角を丸くし、色もGeminiに近い4色のなめらかな色にしました', 'AIの回答の左上にあったロゴをやめました', 'iPadのホーム画面から開いたとき、上のメニューバーに隠れないように、AIタブの上の操作を少し下げました', 'ライトモードは、下に水色の光が出るようにしました。入力欄は、Geminiと同じ大きさ（幅660・高さ72）にしました', '元素マージのタイトル画面を、スイカゲームのような見た目に近づけました（ゲームスタート・難易度・ランキング）'] },
   { v: '18.2.1', d: '__BUILD__', t: 'AIタブを全画面に・Geminiの見た目に近づけ・元素マージにタイトル画面', n: ['AIタブの左右の余白をなくし、画面の端まで広げました', 'AIタブの上と下は固定し、チャットの部分だけがスクロールするようにしました', 'AIのメニューの開け閉めを、なめらかにしました（左端が見えてしまう動きを直しました）', '「こんにちは」は最初の画面だけ、中央に大きく出すようにしました。下に青い光を入れて、Geminiの画面に近づけました', 'AIのロゴを、Geminiの4色の星に変えました', '元素マージを開くと、最初にタイトル画面（難易度・ランキング・はじめる）を出すようにしました。途中のゲームがあるときは「続きから」を選べます'] },
   { v: '18.2.0', d: '__BUILD__', t: '元素マージに難易度と上級の元素・AIのモデル選び', n: ['元素マージに、上級の元素を6種類追加しました（触媒で進化させると見つかります）', '元素マージの「溢れそう」のときにアイテムを使うと、残り時間が2倍に伸びます（1回の溢れそうにつき1回）', '元素マージで、アイテムを使うと「溢れそう」が消えてしまう不具合を直しました', '元素マージの「加熱」を「噴火」に名前を変えました', '元素マージに難易度（簡単・普通・難しい）を追加しました。難しいほど、スキルの消費EPが高く、EPが貯まりにくく、出てくる元素も難しくなります', '元素マージのランキングは、難易度ごとに3つのタブに分かれました（友達のランキングも同じです）', 'AIタブを開いているときは、右上のアカウント・フィードバックを隠し、全画面で表示するようにしました（左のタブバーは残ります）', 'AIのモデルは「自動・高速・思考・バランス」から選べるようになりました。モデル名も表示します', 'ショップのAIモデルの名前が途切れて見えなかった不具合を直しました'] },
@@ -6225,7 +6247,10 @@ const AI_SYS = `あなたは日本の中学生の勉強を手伝うAIの先生�
 - 写真が添付されたときは、写っている問題や内容を読み取って答えます。顔や個人情報が写っていても触れません。
 - 数式には LaTeX（$ や \ の記号）を使わず、ふつうの文字で書きます（例：∠ABC、△ABC、x²、1/2、×、÷、°）。空欄は「＿＿」で表します。
 - 個人情報を聞き出しません。分からないときは、分からないと正直に言います。
-- 説明に写真や図が役立つとき（生き物・道具・地図・実験器具・建物など）は、回答の最後の行に [[画像:探す言葉]] と1つだけ書きます。探す言葉は英語の名前が望ましいです（例：[[画像:ammonite fossil]]）。写真がいらないときは書きません。
+- 説明に写真や図が役立つとき（生き物・道具・地図・実験器具・建物など）は、回答の最後の行に [[画像:探す言葉]] と1つだけ書きます。探す言葉は英語の名前が望ましいです（例：[[画像:ammonite fossil]]）。写真がいらないときは書きません。ただし、生徒が「画像」「写真」「見せて」などと頼んだときは、必ず [[画像:探す言葉]] を書きます。
+- このアプリの機能を知っていて、答えを機能につなげます。機能を開くボタンを出したいときは、回答の最後に [[操作:キー|ボタンの名前]] と書きます。キーは「このアプリの機能」の一覧にあるものだけを使い、多くても3つまでにします。例：[[操作:timer|集中タイマーを開く]]
+- 今日の勉強の計画を頼まれたら、短い計画を箇条書きで示し、それぞれの行の最後に [[計画:やること|分数]] を書きます（分数は省略できます）。生徒は「今日のプランに追加」ボタンで、自分のやることに入れられます。
+- 勉強と関係のない操作や、アプリにない機能は勧めません。
 - 以下は生徒の現在の課題の状況です。必要なときだけ参考にしてください。`;
 const AIM = { mode: (() => { try { return localStorage.getItem('kosa-ai-mode') === 'explain' ? 'explain' : 'hint'; } catch (e) { return 'hint'; } })() };
 const AIM_TXT = {
@@ -6236,11 +6261,63 @@ const aiLimit = () => Number(window.AI_DAILY_LIMIT) || 0;   // 0 は回数の制
 const aiFull = () => { const L = aiLimit(); return L > 0 && aiUsed() >= L; };
 const aiUsed = () => { try { const o = JSON.parse(localStorage.getItem('kosa-ai-use') || '{}'); return o.d === today() ? o.n : 0; } catch (e) { return 0; } };
 const aiCount = () => { try { localStorage.setItem('kosa-ai-use', JSON.stringify({ d: today(), n: aiUsed() + 1 })); } catch (e) { } };
-function aiContext() {
+/* ---- このアプリの機能の一覧：AIの案内・操作ボタン、ホームのおすすめで使う ---- */
+function appFeats() {
+  const base = [
+    { key: 'timer', t: '集中タイマー', ic: 'timer', d: '集中と休憩の時間を決めて、勉強する', run: () => ACT.focus() },
+    { key: 'plan', t: '今日のプラン', ic: 'today', d: '今日やることを決める。AIに計画を立ててもらえる', run: () => ACT.tab('home') },
+    { key: 'tasks', t: '課題', ic: 'checklist', d: 'ワーク・問題集・提出物を管理する', run: () => ACT.tab('tasks') },
+    { key: 'cal', t: '予定', ic: 'calendar_month', d: 'テスト・行事・予定を見る', run: () => ACT.tab('cal') },
+    { key: 'stats', t: '記録', ic: 'insights', d: '勉強時間と成績の推移を見る', run: () => ACT.tab('stats') },
+    { key: 'ach', t: '実績・レベル', ic: 'emoji_events', d: '実績とレベル、XPを確認する', run: () => ACT.achopen() },
+    { key: 'shop', t: 'XPショップ', ic: 'storefront', d: 'XPで背景・テーマ・効果音を買う（AIモデルはレベルで解放）', run: () => ACT.shopopen() },
+    { key: 'ai', t: 'AI', ic: 'auto_awesome', d: 'AIに質問する。説明・プラン・写真つきの回答', run: () => ACT.tab('ai') },
+    { key: 'settings', t: '設定', ic: 'settings', d: '通知・見た目・データの管理', run: () => ACT.tab('settings') },
+    { key: 'invader', t: '元素インベーダー', ic: 'rocket_launch', d: '元素を撃つシューティングゲーム', run: () => { ACT.tab('tool:ptable'); setTimeout(() => ACT.ptmode('game'), 0); } }
+  ];
+  const tools = TOOLS.filter(x => x[0] !== 'focus').map(x => ({ key: 'tool:' + x[0], t: x[1], ic: x[2], d: x[3] || x[1], run: () => ACT.tab('tool:' + x[0]) }));
+  return base.concat(tools);
+}
+const appFeat = key => appFeats().find(f => f.key === key);
+// AIの回答の中の [[操作:キー|名前]] と [[計画:やること|分]] を、ボタンにする（文字からは取り除く）
+function aiActsParse(m) {
+  const acts = [];
+  m.t = String(m.t || '').replace(/\s*\[\[操作[:：]\s*([^|\]]+?)\s*(?:\|\s*([^\]]+?)\s*)?\]\]/g, (_, k, l) => {
+    const key = k.trim(), f = appFeat(key); if (f && acts.length < 4) acts.push({ k: 'op', key, label: String(l || f.t).trim().slice(0, 16) }); return '';
+  });
+  m.t = m.t.replace(/\s*\[\[計画[:：]\s*([^|\]]+?)\s*(?:\|\s*(\d{1,3})\s*)?\]\]/g, (_, t, n) => {
+    if (acts.length < 8) acts.push({ k: 'plan', t: t.trim().slice(0, 40), min: n ? Math.min(180, +n) : 0 }); return '';
+  }).trim();
+  return acts;
+}
+function aiActsHtml(m, i) {
+  if (!m.acts || !m.acts.length || m.err) return '';
+  return `<div class="ax-acts">${m.acts.map((a, k) => {
+    if (a.k === 'op') { const f = appFeat(a.key); return f ? `<button type="button" class="btn tonal xs" data-act="aiact" data-id="${i}:${k}">${ms(f.ic)}${esc(a.label)}</button>` : ''; }
+    return `<button type="button" class="btn ${a.done ? 'text' : 'tonal'} xs" data-act="aiact" data-id="${i}:${k}" ${a.done ? 'disabled' : ''}>${ms(a.done ? 'check' : 'add_task')}${a.done ? '今日のプランに入れました' : '今日のプランに追加：' + esc(a.t)}</button>`;
+  }).join('')}</div>`;
+}
+function aiContextBase() {
   const ex = curExam(), dl = ex && ex.date ? daysLeft(ex) : null;
   const lines = examTasks().filter(k => !isDone(k)).slice(0, 15).map(k => { const s = SUB(k.sid); return `- ${s ? s.name : ''}：${k.title}（${pct(progOf(k))}%完了${k.due ? '、期限' + k.due : ''}）`; });
   return (ex ? (ex.date ? `考査：${ex.name}${dl !== null && dl >= 0 ? `（あと${dl}日）` : ''}\n` : `考査はありません（ふだんの課題・提出日の管理）\n`) : '') + (lines.length ? `未完了の課題：\n${lines.join('\n')}` : '未完了の課題はありません。');
 }
+function aiContext() {
+  const fl = appFeats().map(f => `${f.key}＝${f.t}（${f.d}）`).join('\n');
+  const pl = tdToday().map(x => `・${x.t}${x.min ? `（約${x.min}分）` : ''}${x.done ? '［完了］' : ''}`).join('\n');
+  return aiContextBase() + `\n\nこのアプリの機能（[[操作:キー|名前]] のキー）：\n${fl}\n\n今日のプラン（生徒が自分で入れたこと）：\n${pl || '（まだ何も入っていません）'}`;
+}
+Object.assign(ACT, {
+  aiact(v) {
+    const [i, k] = String(v).split(':').map(Number), m = AI.msgs[i], a = m && m.acts && m.acts[k];
+    if (!a || AI.busy) return;
+    if (a.k === 'op') { const f = appFeat(a.key); if (f) f.run(); return; }
+    if (a.done) return;
+    const it = tdAdd({ t: a.t, min: a.min, src: 'ai' });
+    if (!it) return toast('入れられませんでした');
+    a.done = true; save(); toast('今日のプランに入れました'); renderAiLog();
+  }
+});
 async function aiStart(text) {
   if (!CLOUD.fb) throw new Error('nofb');
   if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
@@ -6306,7 +6383,7 @@ function renderAiLog() {
   const log = $('#ailog'); if (!log) return; const prev = AI._n || 0, av = `<span class="ax-av sm">${gem(20)}</span>`;
   const greet = `<div class="ai-hi">${gem(64)}<h3>こんにちは</h3><p>勉強で分からないことを、何でも聞いてください。問題の写真も送れます。答えに合う写真も、ネットから探して見せます。</p></div>`;
   log.classList.toggle('ai-empty', !AI.msgs.length);   // 最初の画面は、中央に大きく出す
-  { const ax = document.getElementById('axw'); if (ax) ax.classList.toggle('busy', !!AI.busy); }
+  { const ax = document.getElementById('axw'); if (ax) ax.classList.toggle('ai-busy', !!AI.busy); }
   log.innerHTML = (AI.msgs.length ? '' : greet) + AI.msgs.map((m, i) => {
     const nw = i >= prev ? ' new' : '';
     if (m.r === 'u') return `<div class="ax-m u${nw}"><div class="ax-bb">${m.imgs && m.imgs.length ? `<div class="ai-imgs">${m.imgs.map(u => `<img src="${u}" alt="">`).join('')}</div>` : ''}${m.pn && !(m.imgs && m.imgs.length) ? `<div class="ai-pn">${ms('photo_camera', '', 'font-size:16px')} 写真 ${m.pn}枚</div>` : ''}${esc(m.t).replace(/\n/g, '<br>')}</div></div>`;
@@ -6314,7 +6391,7 @@ function renderAiLog() {
     const body = m.t ? mdLite(m.t.replace(/\[\[画像[:：][^\]]*\]?\]?/g, '').trim()) : '';
     const pics = m.pics && m.pics.length ? `<div class="ax-pics">${m.pics.map(p => `<a class="ax-pic" href="${esc(p.page)}" target="_blank" rel="noopener noreferrer"><img src="${esc(p.url)}" alt="${esc(p.title)}" loading="lazy"><span><b>${esc(p.title)}</b><small>出典：Wikimedia Commons${p.by ? '・' + esc(p.by) : ''}${p.lic ? '・' + esc(p.lic) : ''}</small></span></a>`).join('')}</div>` : '';
     const cp = m.t && !live ? `<div class="ax-act"><button type="button" class="ax-cp" data-act="aicopy" data-id="${i}" aria-label="コピー" title="コピー">${ms('content_copy')}</button></div>` : '';
-    return `<div class="ax-m m${nw}${live ? ' live' : ''}"><div class="ax-bb">${body}${live && (!m.t || AI_ST.on === 3) ? aiStepsHtml() : ''}${pics}${cp}</div></div>`;
+    return `<div class="ax-m m${nw}${live ? ' live' : ''}"><div class="ax-bb">${body}${live && (!m.t || AI_ST.on === 3) ? aiStepsHtml() : ''}${pics}${aiActsHtml(m, i)}${cp}</div></div>`;
   }).join('');
   AI._n = AI.msgs.length; log.scrollTop = log.scrollHeight;
   const sg = $('#aisug'), c = $('#aicnt'), b = $('#aisend'), q = $('#aiq');
@@ -6381,7 +6458,7 @@ async function aiPics(q) {
 function aiShort() { const p = AI_PICK.get(), m = AI_MODES.find(x => x.id === p); return m ? m.short : aiLabel(aiModel()).replace(/^Gemini\s*/, ''); }
 function aiPopHtml() {
   const cur = AI_PICK.get();
-  const items = AI_MODES.map(x => { const on = x.id === cur, ok = x.id === 'auto' || shopHas('ai', x.id); return `<button type="button" class="gm-pi" role="menuitemradio" aria-checked="${on}" data-act="${ok ? 'aimpick' : 'shopopen'}" data-id="${x.id}"><span class="gm-pt"><b>${esc(x.ttl)}</b><small>${ok ? esc(x.sub) : esc(AI_SHOP[x.id] ? AI_SHOP[x.id].n : x.sub) + '（ショップで買うと使えます）'}</small></span>${on ? ms('check') : ok ? '' : ms('lock')}</button>`; }).join('');
+  const items = AI_MODES.map(x => { const on = x.id === cur, ok = x.id === 'auto' || shopHas('ai', x.id); return `<button type="button" class="gm-pi" role="menuitemradio" aria-checked="${on}" data-act="${ok ? 'aimpick' : 'shopopen'}" data-id="${x.id}"><span class="gm-pt"><b>${esc(x.ttl)}</b><small>${ok ? esc(x.sub) : esc(AI_SHOP[x.id] ? AI_SHOP[x.id].n : x.sub) + (AI_SHOP[x.id] && AI_SHOP[x.id].lv ? `（レベル${AI_SHOP[x.id].lv}で使えます）` : '（ショップで買うと使えます）')}</small></span>${on ? ms('check') : ok ? '' : ms('lock')}</button>`; }).join('');
   const lv = [['hint', 'ヒントと手順', '答えは書かず、解き方を案内します'], ['explain', '答えも解説', '答えと、そうなる理由を説明します']].map(([k, t, d]) => `<button type="button" class="gm-pi" role="menuitemradio" aria-checked="${AIM.mode === k}" data-act="aimode" data-id="${k}"><span class="gm-pt"><b>${t}</b><small>${d}</small></span>${AIM.mode === k ? ms('check') : ''}</button>`).join('');
   return `<div class="gm-pop" id="gmpop" role="menu" hidden><div class="gm-ph">モデル</div>${items}<div class="gm-ph">思考レベル</div>${lv}</div>`;
 }
@@ -6429,6 +6506,13 @@ function viewAi() {
     </section>
   </div>`;
 }
+// 写真の依頼（「猫の画像を見せて」など）の判定と、探す言葉のもと
+const AI_PIC_REQ = /画像|写真|イラスト|見せて|見たい|見せてください/;
+function aiPicKey(t) {
+  let s = String(t || '');
+  ['見せてください', '見せて下さい', '見せて', '見たい', '画像', '写真', 'イラスト', '表示して', '出して', 'ください', '下さい', 'って', 'を', 'の', 'は', 'が', '。', '！', '？', '!', '?', '、', '.'].forEach(w => { s = s.split(w).join(' '); });
+  return s.replace(/\s+/g, ' ').trim().slice(0, 40);
+}
 async function aiSend(text) {
   const q = $('#aiq'); text = (text || (q && q.value) || '').trim();
   const atts = AI.att.slice();
@@ -6439,18 +6523,33 @@ async function aiSend(text) {
   AI.busy = true; if (q) q.value = ''; AI.att = []; renderAtt();
   AI.msgs.push({ r: 'u', t: text, imgs: atts.map(a => a.url) }, { r: 'm', t: '' }); const m = AI.msgs[AI.msgs.length - 1];
   aiSteps(1); renderAiLog();
-  try {
-    if (AI.chat && AI.chatModel !== aiModel(text)) AI.chat = null;   // 自動のとき、質問で別のモデルになったら作り直す（履歴は残る）
-    if (!AI.chat) await aiStart(text);
-    aiCount();
-    const res = await AI.chat.sendMessageStream([text, ...atts.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))]);
-    for await (const c of res.stream) { if (AI_ST.on < 2) aiSteps(2); m.t += c.text(); renderAiLog(); }
-    if (!m.t) m.t = '回答を作れませんでした。言い方を変えて、もう一度質問してください。';
-    // 写真のしるし [[画像:…]] を取り出して、ネットの写真を探す
-    const mk = m.t.match(/\[\[画像[:：]\s*([^\]]+?)\s*\]\]/);
-    m.t = m.t.replace(/\s*\[\[画像[:：][^\]]*\]\]\s*/g, '\n').trim();
-    if (mk) { aiSteps(3); renderAiLog(); m.pics = await aiPics(mk[1]); }
-  } catch (e) { m.t = aiErr(e); m.err = true; AI.chat = null; }
+  let aiNote = '';
+  for (let tryN = 0; tryN < 2; tryN++) {
+    try {
+      if (AI.chat && AI.chatModel !== aiModel(text)) AI.chat = null;   // 自動のとき、質問で別のモデルになったら作り直す（履歴は残る）
+      if (!AI.chat) await aiStart(text);
+      if (tryN === 0) aiCount();
+      const res = await AI.chat.sendMessageStream([text, ...atts.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))]);
+      for await (const c of res.stream) { if (AI_ST.on < 2) aiSteps(2); m.t += c.text(); renderAiLog(); }
+      if (!m.t) m.t = '回答を作れませんでした。言い方を変えて、もう一度質問してください。';
+      // 写真のしるし [[画像:…]] を取り出して、ネットの写真を探す
+      const mk = m.t.match(/\[\[画像[:：]\s*([^\]]+?)\s*\]\]/);
+      m.t = m.t.replace(/\s*\[\[画像[:：][^\]]*\]\]\s*/g, '\n').trim();
+      m.acts = aiActsParse(m);
+      const want = mk ? mk[1] : (AI_PIC_REQ.test(text) ? aiPicKey(text) : '');
+      if (want) { aiSteps(3); renderAiLog(); m.pics = await aiPics(want); if (!m.pics.length) m.t += '\n\n（写真が見つかりませんでした。英語の名前で聞くと見つかりやすくなります）'; }
+      break;
+    } catch (e) {
+      const used = AI.chatModel || '', fb = (tryN === 0 && aiBusyErr(e)) ? aiFallback(used) : '';
+      AI.chat = null;
+      if (!fb) { m.t = aiErr(e); m.err = true; break; }
+      AI_COOL.from = used; AI_COOL.to = fb; AI_COOL.until = Date.now() + 120000;
+      aiNote = `\n\n（${aiLabel(used)}が混み合っているため、${aiLabel(fb)}で答えました）`;
+      m.t = ''; m.pics = null; aiSteps(1); renderAiLog();
+      await new Promise(r => setTimeout(r, 700));
+    }
+  }
+  if (aiNote && !m.err) m.t += aiNote;
   AI.busy = false; aiSteps(0); renderAiLog(); histSave(AIH, AI.msgs); aiArchive(); aiHistRepaint();
 }
 Object.assign(ACT, {
@@ -9404,7 +9503,7 @@ document.addEventListener('change', e => { const t = e.target; if (t && t.id ===
 const SUG_MAX = 6;
 const sugState = () => { const td = today(); if (!S.sug || S.sug.d !== td) S.sug = { d: td, done: {} }; return S.sug; };
 const sugCut = (t, n) => { t = String(t || ''); return t.length > n ? t.slice(0, n) + '…' : t; };
-function sugList() {
+function sugListAll() {
   const h = new Date().getHours(), out = [], cards = S.cards || [], decks = S.decks || [], push = o => out.push(o);
   const ex = curExam(), lg = dayLog(), mins = (lg && lg.m) || 0;
   // 今日のノルマ（課題）
@@ -9433,9 +9532,11 @@ function sugList() {
   if (CLOUD.user) push({ id: 'aiq', ic: 'bolt', hue: 285, t: 'AI小テストで力だめし', sub: '教科とテーマを選ぶ', score: 30, run: () => ACT.tab('tool:aiquiz') });
   if (/【[^】]+】/.test(S.sheet || '')) push({ id: 'sheet', ic: 'visibility_off', hue: 10, t: '暗記シートで確認する', sub: '隠して思い出す', score: 32, run: () => ACT.tab('tool:sheet') });
   { const mn = +localStorage.getItem('kosa-music-n') || 0; if (mn && !MU.playing) push({ id: 'music', ic: 'music_note', hue: 300, t: '音楽をかけて勉強する', sub: `${mn}曲`, score: 28, run: () => muResume() }); }
+  appFeats().forEach(f => push({ id: 'feat:' + f.key, ic: f.ic, hue: 260, t: f.t, sub: f.d, score: 30, run: f.run }));   // このアプリの機能も候補に入れる（AIが選ぶ）
   const st = sugState();
-  return sugApplyAi(out).sort((a, b) => (st.done[a.id] ? 1 : 0) - (st.done[b.id] ? 1 : 0) || a.rank - b.rank || b.score - a.score).slice(0, SUG_MAX);   // AIの順番があれば、それを使う
+  return sugApplyAi(out).sort((a, b) => (st.done[a.id] ? 1 : 0) - (st.done[b.id] ? 1 : 0) || a.rank - b.rank || b.score - a.score);   // AIの順番があれば、それを使う（全部の候補）
 }
+function sugList() { return sugListAll().slice(0, SUG_MAX); }   // 画面に出すのは、上から SUG_MAX 件
 function wcStudyGo(id) { WC.deck = id; WC.filt = 'new'; WC.tab = 'study'; WC.i = 0; WC.flip = false; WC.undo = []; WC.sel = 'all'; try { wcSave(); } catch (e) { } ACT.tab('tool:card'); }   // 単語帳の「覚えていないカード」を、勉強しはじめる
 function homeSugCard() {
   const l = sugList(); if (!l.length) return '';
@@ -9569,6 +9670,7 @@ function muAudio() {
 }
 function muOrder() { if (!MU.shuffle) return MU.list.map(t => t.id); const ids = MU.list.map(t => t.id); if (MU.order.length !== ids.length || ids.some(i => !MU.order.includes(i))) { MU.order = ids.slice().sort(() => Math.random() - .5); } return MU.order; }
 async function muPlay(id, pos) {
+  if (GB.on) gbStop();   // ゲームBGMを流しているときは、止めてから流す
   if (yx.playing) { try { yxAct.pp(); } catch (e) { } }   // YouTubeの曲を流しているときは、止めてから流す
   const a = muAudio(); if (!MU.unlocked) { MU.unlocked = true; try { a.src = MU_SILENT; const p = a.play(); if (p && p.catch) p.catch(() => { }); } catch (e) { } }   // iPad / iPhone：最初のタップで、音を出せる状態にしておく
   await muLoad(); const m = MU.list.find(t => t.id === id); if (!m) return;
@@ -9614,7 +9716,13 @@ function yxChipPaint() {
   c2.innerHTML = `<button type="button" class="mc-b" data-yx="page" aria-label="動画を開く：${esc(inf.song || c.title || '')}"><span class="mc-cv" ${cv ? `style="background-image:url('${cv}')"` : ''}></span><span class="mc-t"><b>${esc(inf.song || c.title || '読み込み中…')}</b><small>${esc(inf.artist || c.author || (yx.playing ? '再生中' : '一時停止中'))}</small></span></button><button type="button" class="mc-p" data-yx="pp" aria-label="${yx.playing ? '一時停止' : '再生'}" style="--p:0">${ms(yx.playing ? 'pause' : 'play_arrow', '', 'font-size:26px')}</button><button type="button" class="mc-x" data-yx="stop" aria-label="停止して閉じる">${ms('close', '', 'font-size:20px')}</button>`;
   c2.classList.add('show'); c2.classList.toggle('on', !!yx.playing);
 }
+function gbChipPaint() {
+  const g = GB_GAMES.find(x => x.key === GB.key); const c = muChip(); if (!g || GB.idx < 0) return;
+  c.innerHTML = `<button type="button" class="mc-b" data-act="mutool" aria-label="ゲームのBGMを開く：${esc(g.tracks[GB.idx])}"><span class="mc-cv no">${ms('graphic_eq', '', 'font-size:22px')}</span><span class="mc-t"><b>${esc(g.tracks[GB.idx])}</b><small>${esc(g.title)}のBGM</small></span></button>`;
+  c.classList.add('show'); c.classList.add('on');
+}
 function muChipPaint() {
+  if (GB.on) return gbChipPaint();   // ゲームのBGMを流しているときも、上に小さなプレーヤーを出す
   if (yx.mode === 'bg' && yx.cur) return yxChipPaint();
   const m = muCur(), c = muChip(); if (!m) { c.classList.remove('show'); c.innerHTML = ''; return; }
   const cv = muCovUrl(m);
@@ -10125,13 +10233,61 @@ function muLocalHtml(n, cur) {
   const clear = n ? `<div class="dact" style="margin-top:12px"><span class="sp"></span><button type="button" class="btn text danger" data-act="muclear">${ms('delete_sweep')}すべて消す</button></div>` : '';
   return `<section class="mz-sec">${head}${add}${now}${n ? `<div class="mz-list stg">${MU.list.map(muRowHtml).join('')}</div>` : ''}${help}${clear}</section>`;
 }
+/* ---- ゲームのBGM：歴打・元素インベーダー・元素マージの合成音を、音楽アプリで聴く（assets/bgm/*.js） ---- */
+const GB_GAMES = [
+  { key: 'rekida', title: '歴打', tracks: ['雅（平安の大合奏）', '陣（合戦絵巻）', '暁（維新疾走）'] },
+  { key: 'invader', title: '元素インベーダー', tracks: ['COSMIC AURORA（立体美旋律）', 'STELLAR SYMPHONY（幻想交響）', 'QUANTUM HORIZON（疾走重低音）'] },
+  { key: 'merge', title: '元素マージ', tracks: ['1.陽だまりラグタイム', '2.わくわく実験マーチ', '3.トロピカル分子ボサ', '4.星空オルゴール', '5.ネオン・サブベース', '6.メルトダウン・ドライブ'] }
+];
+const GB = { ctx: null, out: null, player: null, key: '', idx: -1, on: false, busy: false };
+function gbLoad(key) {
+  if (window.KOSA_BGM && window.KOSA_BGM[key]) return Promise.resolve(window.KOSA_BGM[key]);
+  return new Promise((ok, no) => {
+    const s = document.createElement('script'); s.src = `assets/bgm/${key}.js`;
+    s.onload = () => (window.KOSA_BGM && window.KOSA_BGM[key]) ? ok(window.KOSA_BGM[key]) : no(new Error('bgm'));
+    s.onerror = () => no(new Error('load')); document.head.appendChild(s);
+  });
+}
+async function gbStart(key, idx) {
+  if (GB.busy) return; GB.busy = true;
+  try {
+    if (MU.audio && !MU.audio.paused) MU.audio.pause();
+    if (yx.playing) { try { yxAct.pp(); } catch (e) { } }
+    const AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC) { toast('この端末では、音を合成できません'); return; }
+    if (!GB.ctx) { GB.ctx = new AC(); GB.out = GB.ctx.createGain(); GB.out.connect(GB.ctx.destination); }
+    if (GB.ctx.state === 'suspended') { try { await GB.ctx.resume(); } catch (e) { } }
+    const lib = await gbLoad(key);
+    if (GB.player) { try { GB.player.stop(); } catch (e) { } GB.player = null; }
+    GB.player = lib.create(GB.ctx, GB.out); GB.player.play(idx);
+    GB.key = key; GB.idx = idx; GB.on = true;
+  } catch (e) { GB.on = false; toast('ゲームのBGMを読み込めませんでした'); }
+  finally { GB.busy = false; muChipPaint(); muRefresh(); }
+}
+function gbStop() { if (GB.player) { try { GB.player.stop(); } catch (e) { } } GB.player = null; GB.on = false; GB.idx = -1; muChipPaint(); muRefresh(); }
+function gbNext(step) { const g = GB_GAMES.find(x => x.key === GB.key); if (!g) return; const n = g.tracks.length; gbStart(GB.key, (GB.idx + step + n) % n); }
+function gbHtml() {
+  let now = '<p class="mz-empty">曲を押すと、ゲームと同じ合成音で流れます。</p>';
+  if (GB.on) {
+    const g = GB_GAMES.find(x => x.key === GB.key);
+    now = `<div class="card mu-np"><div class="mu-ncv no">${ms('graphic_eq', '', 'font-size:44px')}</div><div class="mu-nt"><b>${esc(g.tracks[GB.idx])}</b><small>${esc(g.title)}</small><div class="gb-ctl"><button type="button" class="btn tonal" data-act="gbprev">${ms('skip_previous')}前の曲</button><button type="button" class="btn" data-act="gbstop">${ms('stop')}止める</button><button type="button" class="btn tonal" data-act="gbnext">${ms('skip_next')}次の曲</button></div></div></div>`;
+  }
+  const secs = GB_GAMES.map(g => `<section class="mz-sec"><div class="mz-sh"><h3>${esc(g.title)}（${g.tracks.length}曲）</h3></div><div class="gb-list">${g.tracks.map((t, i) => { const on = GB.on && GB.key === g.key && GB.idx === i; return `<button type="button" class="gb-row ${on ? 'on' : ''}" data-act="gbplay" data-id="${g.key}:${i}" aria-pressed="${on}"><span class="gb-n">${on ? ms('graphic_eq') : (i + 1)}</span><span class="gb-t">${esc(t)}</span></button>`; }).join('')}</div></section>`).join('');
+  return `<section class="mz-sec">${now}</section>${secs}`;
+}
+Object.assign(ACT, {
+  gbplay(id) { const [k, i] = String(id).split(':'); const t = Number(i); if (GB.on && GB.key === k && GB.idx === t) return gbStop(); gbStart(k, t); },
+  gbstop() { gbStop(); },
+  gbnext() { gbNext(1); },
+  gbprev() { gbNext(-1); }
+});
 function muHtml() {
   if (!MU.loaded) { muLoad().then(() => muRefresh()); return `<div class="card aq-load">${gspin(40)}<b>読み込んでいます…</b></div>`; }
   const v = MY.view || 'home', n = MU.list.length, cur = muCur();
   if (v === 'home' && !MY.home.length && !MY.hFail && !MY.hBusy) setTimeout(muYtHome, 0);
-  const chips = [['home', 'ホーム', 'home'], ['search', '検索', 'search'], ['fav', 'ライブラリ', 'library_music'], ['local', '端末の曲', 'folder_open']]
+  const chips = [['home', 'ホーム', 'home'], ['search', '検索', 'search'], ['fav', 'ライブラリ', 'library_music'], ['local', '端末の曲', 'folder_open'], ['bgm', 'ゲームBGM', 'sports_esports']]
     .map(([id, t, ic]) => `<button type="button" class="mz-chip ${v === id ? 'on' : ''}" data-act="muview" data-id="${id}" aria-pressed="${v === id}">${ms(ic)}${t}</button>`).join('');
-  const body = v === 'home' ? muHomeHtml(n) : v === 'search' ? muSearchHtml() : v === 'fav' ? muFavHtml() : muLocalHtml(n, cur);
+  const body = v === 'home' ? muHomeHtml(n) : v === 'search' ? muSearchHtml() : v === 'fav' ? muFavHtml() : v === 'bgm' ? gbHtml() : muLocalHtml(n, cur);
   return `<div class="mz"><div class="mz-chips" role="tablist">${chips}</div>${body}</div>`;
 }
 Object.assign(ACT, {
@@ -10195,10 +10351,10 @@ function sugApplyAi(list) {
 async function sugAiRun(force) {
   if (SUGAI.busy || !CLOUD.user) return;
   const a = S.sugAi; if (!force && a && a.d === today()) return;
-  const cands = sugList(); if (!cands.length) return;
+  const cands = sugListAll(); if (!cands.length) return;   // AIには、このアプリの機能を全部見せて選んでもらう
   SUGAI.busy = true;
   const res = await aiRun({
-    system: AI_MINI + 'ホームの「きょうのおすすめ」の順番と理由を、生徒の取り組みに合わせて決めます。',
+    system: AI_MINI + 'ホームの「きょうのおすすめ」の順番と理由を、生徒の取り組みに合わせて決めます。候補には、このアプリの機能（集中タイマー・各ツール・実績・ショップ・AIなど）も入っています。生徒の今の状況に役立つ機能は、積極的に選んでください。',
     prompt: `次は、生徒の今日の状況です（JSON）。\n${JSON.stringify(sugAiCtx(cands))}\n\n「候補」の中から、今日いちばん役に立つ順に並べてください。次のJSONだけを返してください。\n{"order":["候補のid"（順番どおり）],"why":{"候補のid":"その候補を選んだ理由（20字以内。数字は上の情報のものだけ使う）"}}\nルール：\n- order には、候補のidだけを使う。全部を入れる必要はない。\n- 期限が3日以内の課題、必須の課題、考査が近いことを優先する。\n- 直近7日で勉強時間が少ない教科を、少し優先する。\n- 時刻が夕方なら、持ち物など、夜にできることを優先する。朝なら、勉強の時間を優先する。\n- 上の情報にないことは書かない。`,
     json: true
   });
@@ -11745,8 +11901,8 @@ const FONT_SHOP = {
 const AI_STD = 'gemini-3.5-flash-lite';   // 標準（最初から使える。firebase-config.js の AI_MODEL と同じ）
 const AI_SHOP = {
   'gemini-3.5-flash-lite': { n: 'Gemini 3.5 Flash-Lite（標準）', c: 0, d: '返事が一番速い' },
-  'gemini-3.8-flash': { n: 'Gemini 3.8 Flash', c: 400, lv: 6, d: 'じっくり考えて、くわしく答える' },
-  'gemini-4-hydrogen': { n: 'Gemini 4 Hydrogen', c: 800, lv: 10, d: '速さと分かりやすさのバランス' }
+  'gemini-3.8-flash': { n: 'Gemini 3.8 Flash', c: 0, lv: 12, d: 'じっくり考えて、くわしく答える（レベル12で解放。XPでは買えません）' },
+  'gemini-4-hydrogen': { n: 'Gemini 4 Hydrogen', c: 0, lv: 17, d: '速さと分かりやすさのバランス（レベル17で解放。XPでは買えません）' }
 };
 // ショップの上に出す、モデルごとの違いの説明（長い説明は、カードに入れない）
 const AI_GUIDE = [
@@ -11756,7 +11912,12 @@ const AI_GUIDE = [
 ];
 const aiLabel = id => (AI_SHOP[id] ? AI_SHOP[id].n : id);
 // いま使うモデル。高速・思考・バランスを選んでいればそれ。自動なら、質問の中身で持っているものから選ぶ
-function aiModel(text) {
+// 混み合いで使えないモデルは、一定時間だけ別のモデルで答える（AI_COOL）
+const AI_COOL = { until: 0, from: '', to: '' };
+function aiModel(text) { const r = aiModelRaw(text); return (r === AI_COOL.from && Date.now() < AI_COOL.until) ? AI_COOL.to : r; }
+const aiBusyErr = e => /high demand|overload|unavailable|experiencing|\b50[03]\b/i.test(`${(e && e.code) || ''} ${(e && e.message) || ''} ${e || ''}`);
+const aiFallback = m => (m === 'gemini-4-hydrogen' && shopHas('ai', 'gemini-3.8-flash')) ? 'gemini-3.8-flash' : (m && m !== AI_STD ? AI_STD : '');
+function aiModelRaw(text) {
   const pick = AI_PICK.get();
   if (pick !== 'auto') return shopHas('ai', pick) ? pick : (window.AI_MODEL || AI_STD);
   const t = String(text || '');
@@ -11951,7 +12112,7 @@ function shopHtml() {
       : eq ? (kind === 'theme' ? `<button class="btn tonal xs" data-act="shopeq" data-id="theme:none">${ms('undo')}標準にもどす</button>` : `<button class="btn xs" disabled>${ms('check')}使用中</button>`)
       : has ? `<button class="btn tonal xs" data-act="shopeq" data-id="${kind}:${id}">${ms('done')}使う</button>`
       : `<button class="btn xs" data-act="shopbuy" data-id="${kind}:${id}" ${sp < it.c ? 'disabled' : ''}>${ms('shopping_cart')}${it.c} XP</button>`;
-    const state = eq ? '使用中' : locked ? `Lv.${it.lv}で解放` : has ? (kind === 'ai' && it.c === 0 ? '最初から使えます' : (g.owned[kind] || []).includes(id) ? '購入済み' : 'レベルで解放ずみ') : `${it.c} XP`;
+    const state = eq ? '使用中' : locked ? `Lv.${it.lv}で解放` : has ? (kind === 'ai' && it.c === 0 && !it.lv ? '最初から使えます' : (g.owned[kind] || []).includes(id) ? '購入済み' : 'レベルで解放ずみ') : `${it.c} XP`;
     return `<div class="shop-i ${eq ? 'eq' : ''}${kind === 'ai' ? ' ai-i' : ''}"><div class="shop-sw" style="${sw}">${ic}</div><div class="shop-t"><b>${esc(it.n)}</b><small>${state}</small>${it.d ? `<small>${esc(it.d)}</small>` : ''}</div><div class="shop-a">${prev}${act}</div></div>`;
   };
   return `<h2 class="noti-h">${ms('storefront')}<span>XPショップ</span><em class="noti-cnt">使えるXP ${sp}</em></h2><p class="muted" style="font-weight:500;margin:0 0 6px">XPを使っても、レベルは下がりません。レベルで使えるようになるものもあります（レベルの特典で確認できます）。</p>` +
@@ -12631,7 +12792,11 @@ function asgSubject(name) {
   S.subjects.push(s); return s;
 }
 function asgInsert(a) {
-  if (a.kind === 'event') return !!evAdd({ t: String(a.title || '').slice(0, 40), d: a.date, tm: a.tm, note: String(a.note || '').slice(0, 60), src: 'teacher' });
+  if (a.kind === 'event') {
+    const t = String(a.title || '').slice(0, 40), ok = !!evAdd({ t, d: a.date, tm: a.tm, note: String(a.note || '').slice(0, 60), src: 'teacher' });
+    if (ok) { try { notiAdd({ k: 'asgev:' + a.id, icon: 'event', text: '先生から予定が届きました', sub: t, body: `${t}（${a.date}${a.tm ? ' ' + a.tm : ''}）` }); } catch (e) { } }
+    return ok;
+  }
   if (a.kind === 'exam') { const s = asgSubject(a.sub); if (ASG_ISO.test(a.date || '')) s.exam = a.date; return true; }
   if (a.kind !== 'task' || !a.title) return false;
   if (S.tasks.some(t => t.aid === a.id)) return false;
@@ -12706,6 +12871,26 @@ Object.assign(ACT, {
     } catch (e) { toast('届けられませんでした'); }
   },
 });
+/* ホームの考査ボタンを長押し：すぐ編集（名前・考査の初日など）を開く */
+(() => {
+  const SEL = 'button.chip[data-act="exam"]';
+  let tm = 0, fired = false, sx = 0, sy = 0;
+  const clear = () => { if (tm) clearTimeout(tm); tm = 0; };
+  document.addEventListener('pointerdown', e => {
+    fired = false; clear();
+    const b = e.target.closest && e.target.closest(SEL); if (!b) return;
+    sx = e.clientX; sy = e.clientY;
+    tm = setTimeout(() => {
+      tm = 0; fired = true;
+      if (navigator.vibrate) { try { navigator.vibrate(12); } catch (x) { } }
+      if (b.dataset.id) examDlg(b.dataset.id);
+    }, 500);
+  }, true);
+  document.addEventListener('pointermove', e => { if (tm && (Math.abs(e.clientX - sx) > 8 || Math.abs(e.clientY - sy) > 8)) clear(); }, true);
+  ['pointerup', 'pointercancel'].forEach(t => document.addEventListener(t, clear, true));
+  document.addEventListener('contextmenu', e => { if (e.target.closest && e.target.closest(SEL)) e.preventDefault(); }, true);
+  document.addEventListener('click', e => { if (fired) { fired = false; e.stopPropagation(); e.preventDefault(); } }, true);
+})();
 const ANN = { unsub: null, uid: '', rows: [], wait: [] };
 function annWatchStop() { try { ANN.unsub && ANN.unsub(); } catch (e) { } ANN.unsub = null; ANN.uid = ''; ANN.rows = []; }
 function annWatchStart() {

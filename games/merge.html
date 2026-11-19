@@ -1519,6 +1519,7 @@
         this.bgmLimiter = null;
         this.sfxBus = null;
         this.analyser = null;
+        this.bgmAnalyser = null;   // BGMの出力だけを読むアナライザー（マスコットの拍取り用）
         this.noiseBuffer = null;
         this.voiceSlots = null;
 
@@ -1574,6 +1575,12 @@
 
           this.bgmBus.connect(this.bgmLimiter);
           this.bgmBus.connect(reverbSend);
+
+          // マスコットの拍取り用：BGMバスを読むだけ（出力先には繋がない＝音の経路は変わらない）
+          this.bgmAnalyser = this.ctx.createAnalyser();
+          this.bgmAnalyser.fftSize = 256;
+          this.bgmAnalyser.smoothingTimeConstant = 0;   // 拍の立ち上がりをなまらせない
+          this.bgmBus.connect(this.bgmAnalyser);
           this.bgmLimiter.connect(comp);
           this.sfxBus.connect(comp);
           this.sfxBus.connect(reverbSend);
@@ -2940,6 +2947,13 @@
     let mascotX = LOGICAL_WIDTH / 2;
     let mascotMoodTimer = 0;
     let mascotMood = 'normal';
+    // BGMの拍に合わせて雲マスコットが跳ねる（BGMが on で 4曲目・5曲目のときだけ）
+    let mascotBeatPulse = 0;     // 拍の強さ 0..1（拍の瞬間に1、毎フレーム 0.85 倍で減衰）
+    let mascotBeatLift = 0;      // 上への跳ね量（論理px、最大 6）
+    let mascotBeatScale = 1;     // 拡大率（最大 1.04）
+    let mascotBeatAvg = 0;       // 低音エネルギーの移動平均
+    let mascotBeatLastAt = 0;    // 直前の拍の時刻（ms）
+    let mascotBeatBuf = null;
 
     // 滑らかなキーボード移動用の状態管理
     const keysHeld = { left: false, right: false };
@@ -4071,6 +4085,34 @@
     let lastFrameTime = performance.now();
     let bgFrameCount = 0;
 
+    // BGMの低音（周波数ビンの小さい側8本）の立ち上がりを拍とみなし、マスコットの跳ねを更新する
+    function updateMascotBeat(now) {
+      const analyser = audio.bgmAnalyser;
+      const active = !!analyser && audio.bgmEnabled && (audio.trackIndex === 4 || audio.trackIndex === 5);
+      if (!active) {
+        mascotBeatPulse = 0; mascotBeatLift = 0; mascotBeatScale = 1; mascotBeatAvg = 0;
+        return;
+      }
+      if (!mascotBeatBuf || mascotBeatBuf.length !== analyser.frequencyBinCount) {
+        mascotBeatBuf = new Float32Array(analyser.frequencyBinCount);
+      }
+      // dB 値で読んで線形の電力に直す（byte 版は大音量で頭打ちになり、拍の立ち上がりが消えるため）
+      analyser.getFloatFrequencyData(mascotBeatBuf);
+      let sum = 0;
+      for (let i = 0; i < 8; i++) sum += Math.pow(10, mascotBeatBuf[i] / 10);
+      const energy = sum / 8;
+      const isBeat = energy > 1e-4 && energy > mascotBeatAvg * 1.3 && now - mascotBeatLastAt > 300;
+      mascotBeatAvg = mascotBeatAvg * 0.9 + energy * 0.1;
+      if (isBeat) {
+        mascotBeatPulse = 1;
+        mascotBeatLastAt = now;
+      } else {
+        mascotBeatPulse *= 0.85;
+      }
+      mascotBeatLift = mascotBeatPulse * 6;
+      mascotBeatScale = 1 + mascotBeatPulse * 0.04;
+    }
+
     function gameLoopFrame(now) {
       const dt = Math.min((now - lastFrameTime) / 1000, 0.05);
       lastFrameTime = now;
@@ -4093,6 +4135,7 @@
       // 雲マスコットのX座標を滑らかに補間
       const targetX = getClampedDropX(pointerX);
       mascotX += (targetX - mascotX) * 0.36;
+      updateMascotBeat(now);
 
       if (mascotMoodTimer > 0) {
         mascotMoodTimer -= dt;
@@ -4218,7 +4261,15 @@
           const desiredCloudX = dropX + Math.min(32, dropEl.radius * 0.5 + 20);
           const safeCloudX = Math.max(52, Math.min(LOGICAL_WIDTH - 52, desiredCloudX));
           const cloudY = DROP_SPAWN_Y - 14 + Math.sin(now * 0.005) * 2.5;
-          ctx.drawImage(mSprite, safeCloudX - 48, cloudY - 36, 96, 68);
+          if (mascotBeatLift === 0 && mascotBeatScale === 1) {
+            ctx.drawImage(mSprite, safeCloudX - 48, cloudY - 36, 96, 68);
+          } else {
+            // 拍に合わせて、雲の中心を基準に少し上へ跳ねて膨らむ
+            const cw = 96 * mascotBeatScale;
+            const ch = 68 * mascotBeatScale;
+            const cloudCY = cloudY - 2 - mascotBeatLift;
+            ctx.drawImage(mSprite, safeCloudX - cw / 2, cloudCY - ch / 2, cw, ch);
+          }
         }
 
         drawCachedSphere(ctx, dropX, DROP_SPAWN_Y, dropEl.radius, dropEl, 0, 1, 1);

@@ -811,7 +811,7 @@
                         <!-- 称号・ランク -->
                         <div class="text-center md:border-r border-stone-700 md:pr-4 space-y-1">
                             <div class="text-xs text-amber-400">今回の合戦評価称号</div>
-                            <div id="resultRankBadge" class="inline-block my-1 px-4 py-1 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-300 text-stone-950 font-brush text-3xl sm:text-4xl font-extrabold shadow-lg">
+                            <div id="resultRankBadge" class="inline-block my-1 px-4 py-1 rounded-lg font-brush text-3xl sm:text-4xl font-extrabold shadow-lg" style="background:linear-gradient(90deg,#f59e0b,#fde047);color:#1c1917;-webkit-text-fill-color:#1c1917;">
                                 征夷大将軍
                             </div>
                             <div id="resultDifficultyText" class="text-xs text-stone-400">難易度：侍大将コース</div>
@@ -953,6 +953,7 @@
         歴打 -REKIDA- | 中学歴史タイピング道場（平安時代〜昭和時代・全441問 / iPad・PC対応 / 立体音響和楽器シンセ搭載）
     </footer>
 
+    <script src="../assets/bgm/rekida.js"></script>
     <script>
         /* =========================================================================
          * 1. 中学歴史問題データベース（全441問：難易度ごとに収録！）
@@ -1586,10 +1587,8 @@
         let reverbBus = null;
         let soundEnabled = true;
 
-        // 和風BGMシーケンサー管理
+        // 和風BGMの曲選択（再生本体は assets/bgm/rekida.js のプレイヤー）
         let bgmMode = 'miyabi'; // 'miyabi' (雅・平安大合奏) | 'jin' (陣・合戦絵巻) | 'akatsuki' (暁・維新疾走) | 'off'
-        let bgmInterval = null;
-        let bgmStep = 0;
 
         /**
          * 立体音響マスターバス＆ホール残響インパルス応答の初期化
@@ -1696,112 +1695,6 @@
         }
 
         /**
-         * 2. 津軽三味線・琵琶（Shamisen / Biwa with Percussive Attack & Sawari）
-         */
-        function playShamisenPluck(freq, time, duration = 0.28, volume = 0.085, pan = 0.38) {
-            if (!audioCtx || !freq) return;
-            const osc = audioCtx.createOscillator();
-            const sub = audioCtx.createOscillator();
-            const filter = audioCtx.createBiquadFilter();
-            const gain = audioCtx.createGain();
-
-            osc.type = 'square';
-            sub.type = 'sawtooth';
-            osc.frequency.setValueAtTime(freq, time);
-            sub.frequency.setValueAtTime(freq * 1.5, time); // 五度倍音（サワリ感）
-
-            // 撥（バチ）が皮に当たる鋭いアタックフィルター
-            filter.type = 'bandpass';
-            filter.frequency.setValueAtTime(freq * 3.8, time);
-            filter.frequency.exponentialRampToValueAtTime(freq * 1.3, time + duration);
-            filter.Q.setValueAtTime(1.8, time);
-
-            gain.gain.setValueAtTime(0.001, time);
-            gain.gain.linearRampToValueAtTime(volume, time + 0.006);
-            gain.gain.exponentialRampToValueAtTime(0.0008, time + duration);
-
-            osc.connect(filter);
-            sub.connect(filter);
-            filter.connect(gain);
-            connectSpatialNode(gain, pan, 0.22);
-
-            osc.start(time);
-            sub.start(time);
-            osc.stop(time + duration + 0.02);
-            sub.stop(time + duration + 0.02);
-        }
-
-        /**
-         * 3. 篠笛・尺八（Shinobue / Shakuhachi with Pitch Grace & Vibrato）
-         */
-        function playFueNote(freq, time, duration = 0.55, volume = 0.06, pan = -0.25, isShakuhachi = false) {
-            if (!audioCtx || !freq) return;
-            const osc = audioCtx.createOscillator();
-            const harm = audioCtx.createOscillator();
-            const vibrato = audioCtx.createOscillator();
-            const vibGain = audioCtx.createGain();
-            const gain = audioCtx.createGain();
-
-            osc.type = isShakuhachi ? 'triangle' : 'sine';
-            harm.type = 'sine';
-
-            // 尺八特有の「しゃくり（下からすくい上げるピッチベンド）」
-            osc.frequency.setValueAtTime(freq * 0.96, time);
-            osc.frequency.exponentialRampToValueAtTime(freq, time + 0.055);
-            harm.frequency.setValueAtTime(freq * 2, time);
-
-            vibrato.frequency.setValueAtTime(5.6, time);
-            vibGain.gain.setValueAtTime(freq * 0.013, time);
-            vibrato.connect(vibGain);
-            vibGain.connect(osc.frequency);
-
-            const harmGain = audioCtx.createGain();
-            harmGain.gain.setValueAtTime(isShakuhachi ? 0.25 : 0.12, time);
-
-            gain.gain.setValueAtTime(0.001, time);
-            gain.gain.linearRampToValueAtTime(volume, time + 0.05);
-            gain.gain.setValueAtTime(volume * 0.88, time + duration * 0.72);
-            gain.gain.exponentialRampToValueAtTime(0.0008, time + duration);
-
-            osc.connect(gain);
-            harm.connect(harmGain);
-            harmGain.connect(gain);
-            connectSpatialNode(gain, pan, 0.48);
-
-            osc.start(time);
-            harm.start(time);
-            vibrato.start(time);
-            osc.stop(time + duration + 0.03);
-            harm.stop(time + duration + 0.03);
-            vibrato.stop(time + duration + 0.03);
-        }
-
-        /**
-         * 4. 笙（Sho - 雅楽の天上の和音パッド）
-         */
-        function playShoChord(freqs, time, duration = 1.35, volume = 0.022) {
-            if (!audioCtx || !freqs || !freqs.length) return;
-            freqs.forEach((f, idx) => {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(f, time);
-
-                gain.gain.setValueAtTime(0.0005, time);
-                gain.gain.linearRampToValueAtTime(volume, time + duration * 0.35);
-                gain.gain.setValueAtTime(volume * 0.9, time + duration * 0.7);
-                gain.gain.exponentialRampToValueAtTime(0.0005, time + duration);
-
-                osc.connect(gain);
-                const panPos = idx % 2 === 0 ? -0.65 : 0.65;
-                connectSpatialNode(gain, panPos, 0.6);
-
-                osc.start(time);
-                osc.stop(time + duration + 0.05);
-            });
-        }
-
-        /**
          * 5. 大太鼓・締太鼓・小鼓・摺鉦（Taiko / Kotsuzumi / Surigane）
          *    type: 'don' (大太鼓), 'ka' (縁打ち), 'pon' (小鼓), 'kane' (摺鉦/チャンチキ)
          */
@@ -1866,205 +1759,35 @@
             D5: 587.33, Eb5: 622.25, E5: 659.25, F5: 698.46, G5: 783.99, A5: 880.00, Bb5: 932.33, C6: 1046.50, D6: 1174.66
         };
 
-        // =========================================================================
-        // 曲1：『雅 -MIYABI-（平安絵巻・立体大合奏）』全64ステップ長尺構成（序→破→急→結）
-        // =========================================================================
-        const MIYABI_KOTO_64 = [
-            // [Aメロ: 序 (1-16)]
-            WAFUU_NOTES.D4, WAFUU_NOTES.A4, WAFUU_NOTES.Bb4, WAFUU_NOTES.A4, WAFUU_NOTES.G4, WAFUU_NOTES.Eb4, WAFUU_NOTES.D4, WAFUU_NOTES.A3,
-            WAFUU_NOTES.D4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.D5, WAFUU_NOTES.Bb4, WAFUU_NOTES.A4, WAFUU_NOTES.G4, WAFUU_NOTES.Eb4,
-            // [Bメロ: 破 (17-32)]
-            WAFUU_NOTES.G3, WAFUU_NOTES.D4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.Bb4, WAFUU_NOTES.D5, WAFUU_NOTES.A4, WAFUU_NOTES.G4,
-            WAFUU_NOTES.Eb4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.C5, WAFUU_NOTES.A4, WAFUU_NOTES.G4, WAFUU_NOTES.E4, WAFUU_NOTES.D4,
-            // [サビ: 急 (33-48)]
-            WAFUU_NOTES.D4, WAFUU_NOTES.A4, WAFUU_NOTES.D5, WAFUU_NOTES.Eb5, WAFUU_NOTES.D5, WAFUU_NOTES.Bb4, WAFUU_NOTES.A4, WAFUU_NOTES.G4,
-            WAFUU_NOTES.Eb4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.D5, WAFUU_NOTES.E5, WAFUU_NOTES.D5, WAFUU_NOTES.A4, WAFUU_NOTES.G4,
-            // [結: 終章 (49-64)]
-            WAFUU_NOTES.Bb4, WAFUU_NOTES.A4, WAFUU_NOTES.G4, WAFUU_NOTES.Eb4, WAFUU_NOTES.D4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.Bb4,
-            WAFUU_NOTES.A4, WAFUU_NOTES.G4, WAFUU_NOTES.Eb4, WAFUU_NOTES.D4, WAFUU_NOTES.A3, WAFUU_NOTES.D4, WAFUU_NOTES.D5, null
-        ];
-        const MIYABI_FUE_64 = [
-            WAFUU_NOTES.A5, null, null, WAFUU_NOTES.Bb5, WAFUU_NOTES.A5, null, WAFUU_NOTES.G5, null,
-            WAFUU_NOTES.D5, null, WAFUU_NOTES.Eb5, null, WAFUU_NOTES.G5, null, null, null,
-            WAFUU_NOTES.Bb5, null, WAFUU_NOTES.A5, null, WAFUU_NOTES.G5, null, WAFUU_NOTES.D5, WAFUU_NOTES.G5,
-            WAFUU_NOTES.A5, null, null, WAFUU_NOTES.C6, WAFUU_NOTES.A5, null, null, null,
-            WAFUU_NOTES.D6, null, WAFUU_NOTES.Eb6 || WAFUU_NOTES.Bb5, WAFUU_NOTES.D6, WAFUU_NOTES.Bb5, null, WAFUU_NOTES.A5, null,
-            WAFUU_NOTES.G5, WAFUU_NOTES.A5, WAFUU_NOTES.Bb5, null, WAFUU_NOTES.A5, null, WAFUU_NOTES.G5, null,
-            WAFUU_NOTES.D5, null, WAFUU_NOTES.Eb5, WAFUU_NOTES.G5, WAFUU_NOTES.A5, null, WAFUU_NOTES.G5, WAFUU_NOTES.Eb5,
-            WAFUU_NOTES.D5, null, null, null, WAFUU_NOTES.A4, null, WAFUU_NOTES.D5, null
-        ];
-        const MIYABI_BASS_64 = [
-            WAFUU_NOTES.D3, null, null, null, WAFUU_NOTES.G2, null, WAFUU_NOTES.A2, null,
-            WAFUU_NOTES.D3, null, null, null, WAFUU_NOTES.Bb2, null, WAFUU_NOTES.A2, null,
-            WAFUU_NOTES.G2, null, WAFUU_NOTES.D3, null, WAFUU_NOTES.G3, null, WAFUU_NOTES.F3, null,
-            WAFUU_NOTES.Eb3, null, WAFUU_NOTES.C3, null, WAFUU_NOTES.A2, null, WAFUU_NOTES.D3, null,
-            WAFUU_NOTES.D2, null, WAFUU_NOTES.D3, null, WAFUU_NOTES.Bb2, null, WAFUU_NOTES.G2, null,
-            WAFUU_NOTES.Eb3, null, WAFUU_NOTES.F3, null, WAFUU_NOTES.A2, null, WAFUU_NOTES.A3, null,
-            WAFUU_NOTES.G2, null, WAFUU_NOTES.Eb3, null, WAFUU_NOTES.D3, null, WAFUU_NOTES.Bb2, null,
-            WAFUU_NOTES.A2, null, WAFUU_NOTES.G2, null, WAFUU_NOTES.D2, null, WAFUU_NOTES.D3, null
-        ];
+        // 和風BGM：立体音響プレイヤー（assets/bgm/rekida.js）を使う。AudioContext は initAudio() で遅延生成
+        const BGM_TRACK_BY_MODE = { miyabi: 0, jin: 1, akatsuki: 2 }; // 雅・陣・暁 → プレイヤーのトラック番号
+        let bgmPlayer = null;
+        let bgmOut = null;
 
-        // =========================================================================
-        // 曲2：『陣 -JIN-（天下分け目の合戦絵巻）』全64ステップ（津軽三味線・尺八・琵琶・大太鼓）
-        // =========================================================================
-        const JIN_SHAMISEN_64 = [
-            // [陣立 (1-16)]
-            WAFUU_NOTES.D4, WAFUU_NOTES.D4, WAFUU_NOTES.Eb4, WAFUU_NOTES.D4, WAFUU_NOTES.G4, WAFUU_NOTES.Eb4, WAFUU_NOTES.D4, WAFUU_NOTES.A3,
-            WAFUU_NOTES.D4, WAFUU_NOTES.Eb4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.Bb4, WAFUU_NOTES.A4, WAFUU_NOTES.G4, WAFUU_NOTES.Eb4,
-            // [進軍 (17-32)]
-            WAFUU_NOTES.G4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.Bb4, WAFUU_NOTES.A4, WAFUU_NOTES.G4, WAFUU_NOTES.Eb4, WAFUU_NOTES.D4,
-            WAFUU_NOTES.Eb4, WAFUU_NOTES.D4, WAFUU_NOTES.C4, WAFUU_NOTES.D4, WAFUU_NOTES.Eb4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.A3,
-            // [激突サビ (33-48)]
-            WAFUU_NOTES.D5, WAFUU_NOTES.D5, WAFUU_NOTES.Eb5, WAFUU_NOTES.D5, WAFUU_NOTES.Bb4, WAFUU_NOTES.A4, WAFUU_NOTES.G4, WAFUU_NOTES.A4,
-            WAFUU_NOTES.Bb4, WAFUU_NOTES.D5, WAFUU_NOTES.C5, WAFUU_NOTES.Bb4, WAFUU_NOTES.A4, WAFUU_NOTES.G4, WAFUU_NOTES.Eb4, WAFUU_NOTES.D4,
-            // [勝鬨 (49-64)]
-            WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.Bb4, WAFUU_NOTES.D5, WAFUU_NOTES.Eb5, WAFUU_NOTES.D5, WAFUU_NOTES.Bb4, WAFUU_NOTES.A4,
-            WAFUU_NOTES.G4, WAFUU_NOTES.Eb4, WAFUU_NOTES.D4, WAFUU_NOTES.Eb4, WAFUU_NOTES.D4, WAFUU_NOTES.A3, WAFUU_NOTES.D4, WAFUU_NOTES.D5
-        ];
-        const JIN_SHAKUHACHI_64 = [
-            null, null, null, null, WAFUU_NOTES.A4, null, WAFUU_NOTES.Bb4, WAFUU_NOTES.A4,
-            WAFUU_NOTES.G4, null, null, null, WAFUU_NOTES.D5, null, WAFUU_NOTES.A4, null,
-            WAFUU_NOTES.Bb4, null, WAFUU_NOTES.D5, null, WAFUU_NOTES.Eb5, WAFUU_NOTES.D5, WAFUU_NOTES.Bb4, null,
-            WAFUU_NOTES.A4, null, WAFUU_NOTES.G4, null, WAFUU_NOTES.A4, null, null, null,
-            WAFUU_NOTES.D5, null, WAFUU_NOTES.F5, null, WAFUU_NOTES.Eb5, null, WAFUU_NOTES.D5, null,
-            WAFUU_NOTES.Bb4, null, WAFUU_NOTES.C5, null, WAFUU_NOTES.A4, null, null, null,
-            WAFUU_NOTES.G5, null, WAFUU_NOTES.F5, null, WAFUU_NOTES.Eb5, null, WAFUU_NOTES.D5, null,
-            WAFUU_NOTES.Bb4, WAFUU_NOTES.A4, WAFUU_NOTES.G4, null, WAFUU_NOTES.D5, null, null, null
-        ];
-
-        // =========================================================================
-        // 曲3：『暁 -AKATSUKI-（明治維新・桜花爛漫）』全64ステップ（華やかなヨナ抜き長調×和楽器）
-        // =========================================================================
-        const AKATSUKI_MELODY_64 = [
-            WAFUU_NOTES.D5, null, WAFUU_NOTES.E5, WAFUU_NOTES.G5, WAFUU_NOTES.A5, null, WAFUU_NOTES.G5, WAFUU_NOTES.E5,
-            WAFUU_NOTES.D5, null, WAFUU_NOTES.A4, WAFUU_NOTES.B4 || 493.88, WAFUU_NOTES.D5, null, null, null,
-            WAFUU_NOTES.E5, null, WAFUU_NOTES.G5, WAFUU_NOTES.A5, 987.77, null, WAFUU_NOTES.A5, WAFUU_NOTES.G5,
-            WAFUU_NOTES.E5, null, WAFUU_NOTES.D5, WAFUU_NOTES.E5, WAFUU_NOTES.G5, null, WAFUU_NOTES.A5, null,
-            WAFUU_NOTES.D6, null, 987.77, WAFUU_NOTES.A5, WAFUU_NOTES.G5, null, WAFUU_NOTES.E5, WAFUU_NOTES.G5,
-            WAFUU_NOTES.A5, null, WAFUU_NOTES.G5, WAFUU_NOTES.E5, WAFUU_NOTES.D5, null, WAFUU_NOTES.A4, null,
-            WAFUU_NOTES.E5, WAFUU_NOTES.G5, WAFUU_NOTES.A5, null, 987.77, WAFUU_NOTES.A5, WAFUU_NOTES.G5, WAFUU_NOTES.E5,
-            WAFUU_NOTES.D5, null, WAFUU_NOTES.E5, null, WAFUU_NOTES.D5, null, null, null
-        ];
-        const AKATSUKI_KOTO_64 = [
-            WAFUU_NOTES.D4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.D5, 493.88, WAFUU_NOTES.G4, WAFUU_NOTES.D4, WAFUU_NOTES.A3,
-            WAFUU_NOTES.E4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.E5, WAFUU_NOTES.D5, WAFUU_NOTES.A4, WAFUU_NOTES.G4, WAFUU_NOTES.E4,
-            WAFUU_NOTES.D4, WAFUU_NOTES.A4, WAFUU_NOTES.D5, WAFUU_NOTES.E5, WAFUU_NOTES.G4, 493.88, WAFUU_NOTES.D5, WAFUU_NOTES.G5,
-            WAFUU_NOTES.E4, WAFUU_NOTES.A4, WAFUU_NOTES.D5, WAFUU_NOTES.E5, WAFUU_NOTES.A4, WAFUU_NOTES.E5, WAFUU_NOTES.G5, WAFUU_NOTES.A5,
-            WAFUU_NOTES.G4, 493.88, WAFUU_NOTES.D5, WAFUU_NOTES.G5, WAFUU_NOTES.E4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.E5,
-            WAFUU_NOTES.D4, WAFUU_NOTES.F4, WAFUU_NOTES.A4, WAFUU_NOTES.D5, 493.88, WAFUU_NOTES.D5, WAFUU_NOTES.G4, WAFUU_NOTES.D4,
-            WAFUU_NOTES.E4, WAFUU_NOTES.G4, WAFUU_NOTES.A4, WAFUU_NOTES.D5, WAFUU_NOTES.G4, 493.88, WAFUU_NOTES.D5, WAFUU_NOTES.E5,
-            WAFUU_NOTES.D4, WAFUU_NOTES.A4, WAFUU_NOTES.D5, WAFUU_NOTES.A4, WAFUU_NOTES.D4, WAFUU_NOTES.A3, WAFUU_NOTES.D4, null
-        ];
+        function ensureWafuuBgmPlayer() {
+            if (bgmPlayer) return bgmPlayer;
+            const lib = window.KOSA_BGM && window.KOSA_BGM.rekida;
+            if (!lib || !audioCtx || !masterBus) return null;
+            bgmOut = audioCtx.createGain();
+            bgmOut.gain.setValueAtTime(1, audioCtx.currentTime);
+            bgmOut.connect(masterBus); // BGMは効果音と同じマスターバス（コンプレッサー）を通る
+            bgmPlayer = lib.create(audioCtx, bgmOut);
+            return bgmPlayer;
+        }
 
         function startWafuuBgm() {
-            stopWafuuBgm();
-            if (bgmMode === 'off') return;
+            if (!(bgmMode in BGM_TRACK_BY_MODE)) { // 'off'
+                stopWafuuBgm();
+                return;
+            }
             initAudio();
-            if (!audioCtx) return;
-
-            bgmStep = 0;
-            const stepScheduler = () => {
-                if (gameState.status !== 'playing' || bgmMode === 'off' || !audioCtx) return;
-
-                const now = audioCtx.currentTime;
-                const isClimax = gameState.timeLeft <= 25 || gameState.isFever;
-                const idx = bgmStep % 64;
-
-                if (bgmMode === 'miyabi') {
-                    // 1. 十三絃箏（左定位）
-                    const kotoFreq = MIYABI_KOTO_64[idx];
-                    if (kotoFreq) {
-                        playKotoPluck(kotoFreq, now, 0.45, 0.068, -0.45);
-                    }
-                    // 2. 十七絃バス箏（右定位）
-                    const bassFreq = MIYABI_BASS_64[idx];
-                    if (bassFreq) {
-                        playKotoPluck(bassFreq, now, 0.72, 0.08, 0.42);
-                    }
-                    // 3. 篠笛＆尺八の掛け合い（中央〜やや左/右）
-                    const fueFreq = MIYABI_FUE_64[idx];
-                    if (fueFreq) {
-                        const useShakuhachi = idx >= 16 && idx < 32;
-                        playFueNote(fueFreq, now, 0.48, 0.052, useShakuhachi ? 0.2 : -0.28, useShakuhachi);
-                    }
-                    // 4. 笙（しょう）の天上の和音クラスター（16ステップごと）
-                    if (idx % 16 === 0) {
-                        playShoChord([WAFUU_NOTES.D5, WAFUU_NOTES.G5, WAFUU_NOTES.A5, WAFUU_NOTES.D6], now, 1.8, 0.018);
-                    }
-                    // 5. 三味線の対位オブリガート（サビの急パートやクライマックスで参加）
-                    if ((idx >= 32 && idx < 48) || isClimax) {
-                        if (idx % 2 === 0 && kotoFreq) {
-                            playShamisenPluck(kotoFreq * 2, now, 0.22, 0.045, 0.35);
-                        }
-                    }
-                    // 6. 大太鼓・小鼓・締太鼓の立体リズム
-                    if (idx % 8 === 0) playWadaikoPercussion('don', now, 0.08);
-                    if (idx % 8 === 4) playWadaikoPercussion('pon', now, 0.065);
-                    if (idx % 4 === 2 && (idx >= 32 || isClimax)) playWadaikoPercussion('ka', now, 0.055);
-                } else if (bgmMode === 'jin') {
-                    // 『陣 -JIN-』：津軽三味線＋尺八＋十七絃バス＋合戦和太鼓＆摺鉦
-                    const shamiFreq = JIN_SHAMISEN_64[idx];
-                    if (shamiFreq) {
-                        playShamisenPluck(shamiFreq * (isClimax && idx % 4 === 0 ? 2 : 1), now, 0.24, 0.078, 0.35);
-                    }
-                    // 箏のユニゾンまたはハモリ（左定位）
-                    if (idx % 2 === 0 && shamiFreq) {
-                        playKotoPluck(shamiFreq * 1.5, now, 0.32, 0.05, -0.48);
-                    }
-                    // 尺八の力強い主旋律
-                    const shakuFreq = JIN_SHAKUHACHI_64[idx];
-                    if (shakuFreq) {
-                        playFueNote(shakuFreq, now, 0.42, 0.062, -0.15, true);
-                    }
-                    // 十七絃重低音ベース
-                    if (idx % 4 === 0) {
-                        const bassRoot = idx >= 32 && idx < 48 ? WAFUU_NOTES.G2 : WAFUU_NOTES.D2;
-                        playKotoPluck(bassRoot, now, 0.55, 0.09, 0.25);
-                    }
-                    // 合戦和太鼓・小鼓・摺鉦（チャンチキ）の疾走ビート
-                    if (idx % 4 === 0 || idx % 8 === 3) {
-                        playWadaikoPercussion('don', now, 0.105);
-                    } else if (idx % 4 === 2) {
-                        playWadaikoPercussion('pon', now, 0.075);
-                    } else if (idx % 2 === 1) {
-                        playWadaikoPercussion('ka', now, 0.065);
-                    }
-                    if (idx % 4 === 1 && (idx >= 16 || isClimax)) {
-                        playWadaikoPercussion('kane', now, 0.055);
-                    }
-                } else if (bgmMode === 'akatsuki') {
-                    // 『暁 -AKATSUKI-』：華やかなヨナ抜き長調アンサンブル
-                    const kotoFreq = AKATSUKI_KOTO_64[idx];
-                    if (kotoFreq) {
-                        playKotoPluck(kotoFreq, now, 0.42, 0.068, -0.42);
-                    }
-                    const melFreq = AKATSUKI_MELODY_64[idx];
-                    if (melFreq) {
-                        playFueNote(melFreq, now, 0.44, 0.056, 0.25, false);
-                    }
-                    if (idx % 4 === 0) {
-                        playKotoPluck(WAFUU_NOTES.D3, now, 0.6, 0.075, 0.4);
-                    }
-                    if (idx % 16 === 0) {
-                        playShoChord([WAFUU_NOTES.D5, WAFUU_NOTES.F5, WAFUU_NOTES.A5], now, 1.5, 0.016);
-                    }
-                    if (idx % 4 === 0) playWadaikoPercussion('don', now, 0.085);
-                    if (idx % 4 === 2) playWadaikoPercussion('ka', now, 0.06);
-                    if (isClimax && idx % 2 === 1) playWadaikoPercussion('pon', now, 0.05);
-                }
-
-                bgmStep++;
-            };
-
-            // 1ステップ 165ms (約180BPMの8分音符・64ステップ＝約10.6秒で1周する長尺構成)
-            bgmInterval = setInterval(stepScheduler, 165);
+            const player = ensureWafuuBgmPlayer();
+            if (!player) return;
+            player.play(BGM_TRACK_BY_MODE[bgmMode]); // 同じ曲なら何もしない・別の曲なら乗り換え
         }
 
         function stopWafuuBgm() {
-            if (bgmInterval) {
-                clearInterval(bgmInterval);
-                bgmInterval = null;
-            }
+            if (bgmPlayer) bgmPlayer.stop();
         }
 
         function cycleBgmMode() {
@@ -2533,7 +2256,7 @@
             return copy;
         }
 
-        // 征夷大将軍コース：長い単語を先に出す。「AとB」のような複合の答えは後にまわす（同じ長さは順番をばらす）
+        // （未使用）長い単語を先に出す並べ替え。征夷大将軍コースは完全ランダムにするため使っていない
         function longTermsFirst(list) {
             const isCompound = q => /[と・、や]/.test(q.kanji);
             const byLen = (a, b) => b.kanji.length - a.kanji.length;
@@ -2543,7 +2266,6 @@
         function buildNonRepeatingQuestionQueue(difficulty, eraFilter) {
             const primaryRaw = filterQuestionsByEra(HISTORY_QUESTIONS[difficulty], eraFilter);
             let primaryPool = eraFilter === 'weak' ? primaryRaw : shuffleArray(primaryRaw);
-            if (difficulty === 'hard' && eraFilter !== 'weak') primaryPool = longTermsFirst(primaryPool);
 
             const otherDiffs = ['easy', 'normal', 'hard'].filter(d => d !== difficulty);
             let backupPool = [];
@@ -2681,6 +2403,7 @@
                 gameState.pausedAt = 0;
             }
             gameState.status = 'playing';
+            startWafuuBgm(); // 中断から戻ったら選択中の曲を再開（同じ曲なら何もしない）
         }
 
         function updateTimerUI() {
@@ -3382,6 +3105,7 @@
             }
             gameState.status = 'paused';
             gameState.pausedAt = Date.now();
+            stopWafuuBgm(); // 中断中は無音（再開時に startWafuuBgm で再生）
             const modal = document.getElementById('customModal');
             const content = document.getElementById('modalContent');
             modal.classList.remove('hidden');
@@ -3545,6 +3269,7 @@
                 gameState.status = 'paused';
                 gameState.pausedAt = Date.now();
                 gameState.pausedByEncyclopedia = true;
+                stopWafuuBgm(); // 図鑑を開いている間は無音
             }
             const modal = document.getElementById('encyclopediaModal');
             modal.classList.remove('hidden');
