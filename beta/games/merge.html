@@ -3944,13 +3944,14 @@
       const bodies = Composite.allBodies(world).filter(b => b.label === 'element' && !b.isMerged)
         .map(b => ({ l: b.elementLevel, x: b.position.x, y: b.position.y, a: b.angle, vx: b.velocity.x, vy: b.velocity.y, av: b.angularVelocity }));
       if (!bodies.length && score <= 0) return false;
-      const sv = { v: SAVE_VER, t: Date.now(), score, ep, comboCount, maxCombo, currentDropLevel, nextDropLevel, maxReachedLevel, discovered: [...discoveredLevels], completed: [...completedMissions], merges: gameMergeCount, drops: gameDropCount, pyro: gamePyrolysisCount, playSec: gamePlaySec, bodies };
+      const sv = { v: SAVE_VER, t: Date.now(), diff: gameDifficulty, score, ep, comboCount, maxCombo, currentDropLevel, nextDropLevel, maxReachedLevel, discovered: [...discoveredLevels], completed: [...completedMissions], merges: gameMergeCount, drops: gameDropCount, pyro: gamePyrolysisCount, playSec: gamePlaySec, bodies };
       try { localStorage.setItem(SAVE_KEY, JSON.stringify(sv)); } catch (e) { return false; }
       if (!quiet) showCelebrationBanner('途中の状態を保存しました。あとから続きから遊べます');
       return true;
     }
     // 保存した状態から再開する（新しいゲームを作ってから、玉と点数などを入れなおす）
     function resumeGame(sv) {
+      if (sv && sv.diff) { gameDifficulty = normalizeDifficulty(sv.diff); try { localStorage.setItem('kosa-merge-diff', gameDifficulty); } catch (e) { } setDiffUI(); }
       initPhysicsGame();
       score = Number(sv.score) || 0;
       ep = Math.min(2000, Math.max(0, Number(sv.ep) || 0));
@@ -3974,6 +3975,54 @@
       });
       updateScoreBoardUI(); updateEpUI(); updateNextPreviewUI(); renderEvolutionRingUI(); checkAndRenderMissions();
       showCelebrationBanner('続きから遊びます');
+    }
+
+    // ===== タイトル画面（開いたときに最初に出す）：難易度・ランキング・はじめる =====
+    const tEsc = (x) => String(x).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    function titleHtml(sv) {
+      const d = gameDifficulty, cfg = DIFFICULTY_TABLE[d] || DIFFICULTY_TABLE[DEFAULT_DIFFICULTY];
+      const diffs = DIFFICULTY_ORDER.map((k) => {
+        const c = DIFFICULTY_TABLE[k], on = k === d;
+        return `<button type="button" data-td="${k}" ${sv ? 'disabled' : ''} style="flex:1;min-width:0;padding:10px 4px;border-radius:14px;font-weight:900;font-size:15px;border:2px solid ${on ? '#92400e' : 'rgba(146,64,14,.28)'};background:${on ? '#fde68a' : '#fff'};color:#451a03;opacity:${sv && !on ? 0.45 : 1}">${c.label}</button>`;
+      }).join('');
+      const list = (rankingService.getActiveEntries() || []).slice(0, 5);
+      const medal = ['#F7E39C', '#CBE3EE', '#F2CBA5', 'rgba(255,255,255,.7)', 'rgba(255,255,255,.7)'];
+      const rows = list.length ? list.map((e, i) => `<div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;background:${medal[i]}"><span style="font-weight:900;width:24px;text-align:left">${i + 1}</span><span style="flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700;text-align:left">${tEsc(e.playerName || '-')}</span><span style="font-weight:900;font-variant-numeric:tabular-nums">${Math.floor(Number(e.score) || 0)}</span></div>`).join('')
+        : '<div style="padding:12px;font-weight:700;color:#78350f">まだ記録がありません。最初の1点を目指そう！</div>';
+      const scope = rankingService.activeScope === 'online' ? '友達' : 'マイルーム';
+      const btn = 'width:100%;padding:14px;border-radius:16px;font-weight:900;font-size:17px;border:0;';
+      return `<div style="width:100%;max-width:440px;background:#fff7e6;border-radius:24px;padding:22px 20px;box-shadow:0 14px 40px rgba(0,0,0,.28);font-family:sans-serif;color:#451a03;text-align:center">
+        <div style="font-size:30px;font-weight:900;letter-spacing:.02em">元素マージ</div>
+        <div style="font-size:13px;margin-top:4px">同じ元素を合わせて、もっと重い元素を作ろう</div>
+        <div style="font-size:12px;font-weight:800;margin:16px 0 6px;text-align:left">難易度${sv ? '（途中のゲームの難易度で続きます）' : ''}</div>
+        <div style="display:flex;gap:8px">${diffs}</div>
+        <div style="font-size:12px;margin-top:8px;min-height:30px;line-height:1.5">${tEsc(cfg.desc)}</div>
+        <div style="font-size:12px;font-weight:800;margin:10px 0 6px;text-align:left">ランキング（${cfg.label}・${scope}）</div>
+        <div style="display:grid;gap:6px">${rows}</div>
+        <button type="button" data-start="1" style="${btn}margin-top:18px;background:linear-gradient(#a3e635,#16a34a);color:#fff">${sv ? '続きから' : 'はじめる'}</button>
+        ${sv ? `<button type="button" data-new="1" style="${btn}margin-top:10px;background:#fff;color:#92400e;border:2px solid rgba(146,64,14,.3)">新しく始める</button>` : ''}
+      </div>`;
+    }
+    function showTitle(sv) {
+      if (sv && sv.diff) { gameDifficulty = normalizeDifficulty(sv.diff); rankingService.viewDifficulty = gameDifficulty; setDiffUI(); }
+      const ov = document.createElement('div');
+      ov.id = 'titleOv';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:9500;display:flex;align-items:center;justify-content:center;padding:18px;overflow-y:auto;background:radial-gradient(120% 70% at 50% 0%,#fde68a 0%,#fbbf24 40%,#b45309 100%)';
+      const paint = () => { ov.innerHTML = titleHtml(sv); };
+      paint();
+      document.body.appendChild(ov);
+      ov.addEventListener('click', (e) => {
+        const td = e.target.closest('[data-td]');
+        if (td && !td.disabled) {
+          const d = normalizeDifficulty(td.dataset.td);
+          gameDifficulty = d; rankingService.viewDifficulty = d;
+          try { localStorage.setItem('kosa-merge-diff', d); } catch (x) { }
+          setDiffUI(); updateEpUI(); paint();
+          return;
+        }
+        if (e.target.closest('[data-new]')) { clearSave(); ov.remove(); ensureGameFocus(); return; }
+        if (e.target.closest('[data-start]')) { ov.remove(); if (sv) resumeGame(sv); ensureGameFocus(); }
+      });
     }
     // 途中のゲームがあるとき、続きから遊ぶか、新しく始めるかを選んでもらう
     function askResume(sv) {
@@ -4710,7 +4759,7 @@
       }
       setupCanvases();
       try { await rankingService.initialize(); } catch (err) { console.warn('ranking init failed', err); }
-      try { updateScoreBoardUI(); initPhysicsGame(); const sv = loadSave(); if (sv && (sv.bodies.length || sv.score > 0)) askResume(sv); } catch (err) { console.error('init failed', err); }
+      try { updateScoreBoardUI(); initPhysicsGame(); const sv = loadSave(); showTitle(sv && (sv.bodies.length || sv.score > 0) ? sv : null); } catch (err) { console.error('init failed', err); }
       ensureGameFocus();
       requestAnimationFrame(gameLoop);
     };

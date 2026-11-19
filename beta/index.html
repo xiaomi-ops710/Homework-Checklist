@@ -2728,6 +2728,44 @@ body.ai-full #view{transform:none!important;animation:none!important;filter:none
 .shop-i.ai-i .shop-t small{white-space:normal;line-height:1.5}
 .shop-i.ai-i .shop-a{grid-column:1/-1;justify-self:end;display:flex;gap:6px;flex-wrap:wrap}
 </style>
+<style id="ai21-css">
+/* AIタブ：画面の上下は固定し、中身（チャット）だけがスクロールする。左右は端まで */
+body.ai-full{overflow:hidden}
+body.ai-full #main{position:fixed;top:0;right:0;bottom:0;left:0;margin:0!important;padding:0!important;max-width:none!important;overflow:hidden;display:flex;flex-direction:column}
+@media(min-width:700px){body.ai-full #main{left:104px}}
+@media(max-width:699px){body.ai-full #main{bottom:calc(92px + env(safe-area-inset-bottom))}}
+body.ai-full #view{flex:1;min-height:0;height:100%;display:flex;flex-direction:column;max-width:none!important;width:100%!important;margin:0!important}
+html:has(body.ai-full){overflow:hidden;height:100%}
+body.ai-full #axw.gm{flex:1;min-height:0;height:100%;max-height:none;grid-template-rows:minmax(0,1fr)}
+body.ai-full #axw .gm-main{height:100%;min-height:0}
+/* 余白をなくして、端まで広げる */
+#axw .gm-log>.ax-m,#axw .gm-sug,#axw .gm-in,#axw .ai-att{width:calc(100% - 32px);max-width:none;margin-left:auto;margin-right:auto}
+#axw .gm-log>.ax-m{margin-bottom:18px}
+#axw .gm-sug{padding:6px 0 14px}
+#axw .gm-note{padding:6px 16px 10px}
+@media(min-width:900px){#axw .gm-log>.ax-m,#axw .gm-sug,#axw .gm-in,#axw .ai-att{width:calc(100% - 48px)}}
+/* 最初の画面：中央に、Geminiのように大きく出す */
+#axw .gm-log.ai-empty{display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px 16px}
+#axw .ai-hi{display:grid;justify-items:center;gap:10px;text-align:center;max-width:760px;margin:0 auto 22px}
+#axw .ai-hi h3{margin:6px 0 0;font-size:clamp(2.2rem,4.6vw,3.4rem);font-weight:500;line-height:1.15;background:linear-gradient(90deg,#4285f4,#9b72cb 45%,#d96570);-webkit-background-clip:text;background-clip:text;color:transparent}
+#axw .ai-hi p{margin:0;font-size:1.12rem;line-height:1.8;color:var(--g-mut)}
+/* 下の青いグラデーション（Geminiの画面のように、下から光が立ち上がる） */
+#axw{--g-glow:rgba(66,133,244,.12)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) #axw{--g-glow:rgba(40,80,230,.75)}}
+:root[data-theme="dark"] #axw{--g-glow:rgba(40,80,230,.75)}
+#axw .gm-main{background:radial-gradient(110% 72% at 50% 116%,var(--g-glow) 0%,transparent 76%),var(--g-bg)}
+#axw .gm-log,#axw .ax-log{background:transparent}
+#axw .gm-top .ibtn{background:var(--g-hov);border-radius:50%}
+#axw .gm-top .gm-mbtn{background:transparent}
+#axw .gm-send{background:var(--g-hov)}
+#axw .gm-send.ready{background:var(--g-blue);color:#fff}
+/* メニュー：ゆっくり出し入れする。左端が見えないよう、閉じたときは画面の外まで隠す */
+#axw .gm-side{transform:translateX(calc(-100% - 150px));transition:transform .34s cubic-bezier(.2,0,0,1),visibility .34s,box-shadow .34s;box-shadow:none}
+@media(min-width:700px){#axw .gm-side{left:104px;transform:translateX(calc(-100% - 150px - 104px))}}
+#axw.open .gm-side{transform:translateX(0);visibility:visible;box-shadow:0 20px 60px rgba(0,0,0,.35)}
+#axw .gm-scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:44;opacity:0;pointer-events:none;transition:opacity .34s}
+#axw.open .gm-scrim{display:block;opacity:1;pointer-events:auto}
+</style>
 </head>
 <body>
 <div id="app">
@@ -2751,9 +2789,9 @@ body.ai-full #view{transform:none!important;animation:none!important;filter:none
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.0';
-const BETA_VER = '18.2.0';
-const RELEASE_VER = '18.2.0'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.1';
+const BETA_VER = '18.2.1';
+const RELEASE_VER = '18.2.1'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3408,9 +3446,10 @@ function render() {
   requestAnimationFrame(() => { fitIcons(); fabApply(); });
 }
 let _gem = 0;
-function gem(px = 22, grad = false) {
-  const id = 'gg' + (++_gem);
-  return `<svg class="gem" width="${px}" height="${px}" viewBox="0 0 24 24" aria-hidden="true">${grad ? `<defs><linearGradient id="${id}" x1="3" y1="21" x2="21" y2="3" gradientUnits="userSpaceOnUse"><stop stop-color="#4285f4"/><stop offset=".55" stop-color="#9b72cb"/><stop offset="1" stop-color="#d96570"/></linearGradient></defs>` : ''}<path fill="${grad ? `url(#${id})` : 'currentColor'}" d="M12 0C12.6 6.9 17.1 11.4 24 12C17.1 12.6 12.6 17.1 12 24C11.4 17.1 6.9 12.6 0 12C6.9 11.4 11.4 6.9 12 0Z"/></svg>`;
+function gem(px = 22, grad = true) {
+  // Geminiのロゴ（4つの角が、黄・赤・青・緑）。単色にしたいときだけ grad を false にする
+  const id = 'gg' + (++_gem), id2 = id + 'v';
+  return `<svg class="gem" width="${px}" height="${px}" viewBox="0 0 24 24" aria-hidden="true">${grad ? `<defs><linearGradient id="${id}" x1="0" y1="12" x2="24" y2="12" gradientUnits="userSpaceOnUse"><stop stop-color="#fbbc04"/><stop offset=".5" stop-color="#3a9e8a"/><stop offset="1" stop-color="#1a73e8"/></linearGradient><linearGradient id="${id2}" x1="12" y1="0" x2="12" y2="24" gradientUnits="userSpaceOnUse"><stop stop-color="#ea4335"/><stop offset=".42" stop-color="#ea4335" stop-opacity="0"/><stop offset=".58" stop-color="#34a853" stop-opacity="0"/><stop offset="1" stop-color="#34a853"/></linearGradient></defs>` : ''}<path fill="${grad ? `url(#${id})` : 'currentColor'}" d="M12 0C12.6 6.9 17.1 11.4 24 12C17.1 12.6 12.6 17.1 12 24C11.4 17.1 6.9 12.6 0 12C6.9 11.4 11.4 6.9 12 0Z"/>${grad ? `<path fill="url(#${id2})" d="M12 0C12.6 6.9 17.1 11.4 24 12C17.1 12.6 12.6 17.1 12 24C11.4 17.1 6.9 12.6 0 12C6.9 11.4 11.4 6.9 12 0Z"/>` : ''}</svg>`;
 }
 const aiOpened = () => { try { return !!localStorage.getItem('kosa-ai-opened'); } catch (e) { return true; } };
 const DEF_NAV = ['home', 'tasks', 'cal', 'stats', 'ai', 'tools', 'settings'];
@@ -3639,6 +3678,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.1', d: '__BUILD__', t: 'AIタブを全画面に・Geminiの見た目に近づけ・元素マージにタイトル画面', n: ['AIタブの左右の余白をなくし、画面の端まで広げました', 'AIタブの上と下は固定し、チャットの部分だけがスクロールするようにしました', 'AIのメニューの開け閉めを、なめらかにしました（左端が見えてしまう動きを直しました）', '「こんにちは」は最初の画面だけ、中央に大きく出すようにしました。下に青い光を入れて、Geminiの画面に近づけました', 'AIのロゴを、Geminiの4色の星に変えました', '元素マージを開くと、最初にタイトル画面（難易度・ランキング・はじめる）を出すようにしました。途中のゲームがあるときは「続きから」を選べます'] },
   { v: '18.2.0', d: '__BUILD__', t: '元素マージに難易度と上級の元素・AIのモデル選び', n: ['元素マージに、上級の元素を6種類追加しました（触媒で進化させると見つかります）', '元素マージの「溢れそう」のときにアイテムを使うと、残り時間が2倍に伸びます（1回の溢れそうにつき1回）', '元素マージで、アイテムを使うと「溢れそう」が消えてしまう不具合を直しました', '元素マージの「加熱」を「噴火」に名前を変えました', '元素マージに難易度（簡単・普通・難しい）を追加しました。難しいほど、スキルの消費EPが高く、EPが貯まりにくく、出てくる元素も難しくなります', '元素マージのランキングは、難易度ごとに3つのタブに分かれました（友達のランキングも同じです）', 'AIタブを開いているときは、右上のアカウント・フィードバックを隠し、全画面で表示するようにしました（左のタブバーは残ります）', 'AIのモデルは「自動・高速・思考・バランス」から選べるようになりました。モデル名も表示します', 'ショップのAIモデルの名前が途切れて見えなかった不具合を直しました'] },
   { v: '18.1.0', d: '__BUILD__', t: '答えに写真が出るAIに質問・元素マージの実績を追加', n: ['AIに質問で、答えに関係する写真をネットから探して表示するようにしました（無料で使える公開の写真・出典つき）', 'AIに質問で、答えを作っている間に、いま何をしているか（質問を読む・答えを作る・写真を探す）と、3つの点が動く表示を出すようにしました', 'AIに質問の画面を広く使えるようにしました。左上のメニューから、履歴のサイドバーを開けます', 'AIに質問のモデルの選び方を、ポップアップにまとめました。思考レベル（ヒントと手順・答えも解説）も、ここで選べます', 'AIに質問の履歴は、ピン留めと、並び替え（新しい順・古い順・名前順）ができるようにしました', 'AIに質問の「画像」から、答えに出た写真を一覧で見られるようにしました', 'AIに質問の画面の色を、明るい配色と暗い配色に合わせて見やすくしました', '元素マージの実績を17個増やし、全部で22個になりました'] },
   { v: '18.0.1', d: '__BUILD__', t: '課題の画面を刷新・暗記クイズの改善・取り込んだ予定をまとめて消せるように・初めの使い方に通知と実績を追加', n: ['課題のカードを大きくし、「現在のページ」と「残りのページ」をわかりやすくしました', '現在のページの近くに「−」「＋」（+5・+10も）を置き、数字を直接入力して変えられるようにしました', '課題の下の操作を、「プランをたてる」「プランに追加」「完了にする」にまとめました。完了は、全ページが終わると押せます', '課題の「提出」ボタンと、鉛筆のボタンをなくしました（課題のカードを押すと、編集できます）', '暗記クイズで、ボタンを押すたびに上の進み具合のアニメーションが動いてしまうのを直しました', '暗記クイズの4択は、選択肢のボタンと文字を大きくしました', '暗記クイズで間違えたときは、「AIに質問」ですぐに、なぜ違うのかを解説できます', '取り込んだ予定（ICS）を、取り込みごとにまとめて消せるようにしました（「元に戻す」もできます）', '初めの使い方に、通知（プッシュ通知を含む）と実績の説明を追加しました'] },
@@ -6216,8 +6256,9 @@ const mdLite = s => {
 };
 function renderAiLog() {
   const log = $('#ailog'); if (!log) return; const prev = AI._n || 0, av = `<span class="ax-av sm">${gem(20)}</span>`;
-  const greet = `<div class="ax-m m">${av}<div class="ax-bb ax-hello"><h3>こんにちは</h3><p>勉強で分からないことを、何でも聞いてください。問題の写真も送れます。答えに合う写真も、ネットから探して見せます。</p></div></div>`;
-  log.innerHTML = greet + AI.msgs.map((m, i) => {
+  const greet = `<div class="ai-hi">${gem(64)}<h3>こんにちは</h3><p>勉強で分からないことを、何でも聞いてください。問題の写真も送れます。答えに合う写真も、ネットから探して見せます。</p></div>`;
+  log.classList.toggle('ai-empty', !AI.msgs.length);   // 最初の画面は、中央に大きく出す
+  log.innerHTML = (AI.msgs.length ? '' : greet) + AI.msgs.map((m, i) => {
     const nw = i >= prev ? ' new' : '';
     if (m.r === 'u') return `<div class="ax-m u${nw}"><div class="ax-bb">${m.imgs && m.imgs.length ? `<div class="ai-imgs">${m.imgs.map(u => `<img src="${u}" alt="">`).join('')}</div>` : ''}${m.pn && !(m.imgs && m.imgs.length) ? `<div class="ai-pn">${ms('photo_camera', '', 'font-size:16px')} 写真 ${m.pn}枚</div>` : ''}${esc(m.t).replace(/\n/g, '<br>')}</div></div>`;
     const last = i === AI.msgs.length - 1, live = AI.busy && last;
