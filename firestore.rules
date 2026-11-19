@@ -154,7 +154,7 @@ service cloud.firestore {
     match /assignAll/{id} {
       allow read: if request.auth != null;
       allow create: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
-        && request.resource.data.keys().hasOnly(['id','kind','sub','title','tk','start','end','url','req','due','note','date','t','by'])
+        && request.resource.data.keys().hasOnly(['id','kind','sub','title','tk','start','end','url','req','due','note','date','t','by','tm'])
         && request.resource.data.kind is string && request.resource.data.sub is string && request.resource.data.sub.size() <= 20
         && (!('title' in request.resource.data) || request.resource.data.title.size() <= 60)
         && (!('url' in request.resource.data) || request.resource.data.url.size() <= 500)
@@ -167,7 +167,7 @@ service cloud.firestore {
     match /assignUser/{uid}/items/{id} {
       allow read: if request.auth != null && request.auth.uid == uid;
       allow create: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
-        && request.resource.data.keys().hasOnly(['id','kind','sub','title','tk','start','end','url','req','due','note','date','t','by'])
+        && request.resource.data.keys().hasOnly(['id','kind','sub','title','tk','start','end','url','req','due','note','date','t','by','tm'])
         && request.resource.data.kind is string && request.resource.data.sub is string && request.resource.data.sub.size() <= 20
         && (!('title' in request.resource.data) || request.resource.data.title.size() <= 60)
         && (!('url' in request.resource.data) || request.resource.data.url.size() <= 500)
