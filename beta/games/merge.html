@@ -373,7 +373,7 @@
         <div id="missionTabPanel" class="hidden space-y-1.5">
           <div class="flex items-center justify-between text-[11px] font-bold text-amber-900 px-1">
             <span>達成ミッション</span>
-            <span id="missionCountBadge" class="font-mono font-black text-amber-700">0 / 5</span>
+            <span id="missionCountBadge" class="font-mono font-black text-amber-700">0 / 22</span>
           </div>
           <div id="missionListCompact" class="space-y-1 max-h-[168px] overflow-y-auto pr-0.5">
             <!-- JSで生成 -->
@@ -773,7 +773,24 @@
       { id: 'm_fe', title: '金属の鉄 (Fe) に到達', check: (st) => st.discovered.has(7), rewardEp: 40 },
       { id: 'm_h2o', title: '分子の水 (H₂O) を合成', check: (st) => st.discovered.has(9), rewardEp: 60 },
       { id: 'm_combo', title: '3連続コンボを達成', check: (st) => st.maxCombo >= 3, rewardEp: 35 },
-      { id: 'm_nahco3', title: 'NaHCO₃（重曹）を完成！', check: (st) => st.discovered.has(11), rewardEp: 120 }
+      { id: 'm_nahco3', title: 'NaHCO₃（重曹）を完成！', check: (st) => st.discovered.has(11), rewardEp: 120 },
+      { id: 'm_cl', title: '塩素 (Cl) を合成しよう', check: (st) => st.discovered.has(6), rewardEp: 30 },
+      { id: 'm_cu', title: '銅 (Cu) を合成しよう', check: (st) => st.discovered.has(8), rewardEp: 50 },
+      { id: 'm_co2', title: '二酸化炭素 (CO₂) を合成', check: (st) => st.discovered.has(10), rewardEp: 80 },
+      { id: 'm_dex6', title: '元素を6種類そろえる', check: (st) => st.discovered.size >= 6, rewardEp: 40 },
+      { id: 'm_dex_all', title: '元素図鑑を全種類コンプリート', check: (st) => st.discovered.size >= ELEMENTS.length, rewardEp: 200 },
+      { id: 'm_combo5', title: '5連続コンボを達成', check: (st) => st.maxCombo >= 5, rewardEp: 60 },
+      { id: 'm_combo8', title: '8連続コンボを達成', check: (st) => st.maxCombo >= 8, rewardEp: 100 },
+      { id: 'm_merge10', title: '1ゲームで10回合成', check: (st) => st.merges >= 10, rewardEp: 30 },
+      { id: 'm_merge30', title: '1ゲームで30回合成', check: (st) => st.merges >= 30, rewardEp: 60 },
+      { id: 'm_merge60', title: '1ゲームで60回合成', check: (st) => st.merges >= 60, rewardEp: 120 },
+      { id: 'm_drop20', title: '1ゲームで玉を20個落とす', check: (st) => st.drops >= 20, rewardEp: 30 },
+      { id: 'm_score1k', title: '1ゲームで1000点を達成', check: (st) => st.score >= 1000, rewardEp: 30 },
+      { id: 'm_score5k', title: '1ゲームで5000点を達成', check: (st) => st.score >= 5000, rewardEp: 60 },
+      { id: 'm_score10k', title: '1ゲームで10000点を達成', check: (st) => st.score >= 10000, rewardEp: 120 },
+      { id: 'm_pyro', title: '熱分解ボーナスを獲得！', check: (st) => st.pyrolysis >= 1, rewardEp: 150 },
+      { id: 'm_ep_max', title: 'EPを2000まで貯める', check: (st) => st.ep >= 2000, rewardEp: 80 },
+      { id: 'm_time3', title: '1ゲームで3分間遊ぶ', check: (st) => st.playSec >= 180, rewardEp: 40 }
     ];
 
     /**
@@ -2807,6 +2824,11 @@
     let scoreReported = false;   // このゲームの結果を、もう送ったか
     let discoveredLevels = new Set([1]);
     let completedMissions = new Set();
+    // ミッション判定用の、このゲームの記録（保存データには任意項目として追加。古い保存データでも動く）
+    let gameMergeCount = 0;      // 合成した回数
+    let gameDropCount = 0;       // 玉を落とした回数
+    let gamePyrolysisCount = 0;  // 熱分解ボーナスを獲得した回数
+    let gamePlaySec = 0;         // 遊んでいる秒数（ゲームオーバー後は増えない）
 
     let particles = [];
     let shockwaves = [];
@@ -3321,7 +3343,10 @@
     }
 
     function checkAndRenderMissions() {
-      const state = { discovered: discoveredLevels, maxCombo };
+      const state = {
+        discovered: discoveredLevels, maxCombo, score, ep,
+        merges: gameMergeCount, drops: gameDropCount, pyrolysis: gamePyrolysisCount, playSec: gamePlaySec
+      };
       MISSIONS.forEach((m) => {
         if (!completedMissions.has(m.id) && m.check(state)) {
           completedMissions.add(m.id);
@@ -3506,6 +3531,7 @@
       }
       lastMergeTime = now;
       if (comboCount > maxCombo) maxCombo = comboCount;
+      gameMergeCount++;
       showComboBadge(comboCount);
 
       mascotMood = 'happy';
@@ -3541,8 +3567,10 @@
         const bonus = 3000;
         score += bonus;
         ep = Math.min(2000, ep + 50);
+        gamePyrolysisCount++;
         updateScoreBoardUI();
         updateEpUI();
+        checkAndRenderMissions();
         audio.playFanfare();
         spawnMergeEffects(midX, midY, 11, bonus, '熱分解!');
         showCelebrationBanner('2NaHCO₃ → Na₂CO₃ + H₂O + CO₂ 熱分解ボーナス +3000pt!');
@@ -3568,6 +3596,8 @@
 
       createElementBody(dropX + jitter, DROP_SPAWN_Y, currentDropLevel, false);
       audio.playDrop(normPan);
+      gameDropCount++;
+      checkAndRenderMissions();
 
       canDrop = false;
       currentDropLevel = nextDropLevel;
@@ -3699,6 +3729,7 @@
       lastBeepSecond = -1;
       maxReachedLevel = 1;
       discoveredLevels = new Set([1]);
+      gameMergeCount = 0; gameDropCount = 0; gamePyrolysisCount = 0; gamePlaySec = 0;
       particles = [];
       shockwaves = [];
       floatingTexts = [];
@@ -3756,7 +3787,7 @@
       const bodies = Composite.allBodies(world).filter(b => b.label === 'element' && !b.isMerged)
         .map(b => ({ l: b.elementLevel, x: b.position.x, y: b.position.y, a: b.angle, vx: b.velocity.x, vy: b.velocity.y, av: b.angularVelocity }));
       if (!bodies.length && score <= 0) return false;
-      const sv = { v: SAVE_VER, t: Date.now(), score, ep, comboCount, maxCombo, currentDropLevel, nextDropLevel, maxReachedLevel, discovered: [...discoveredLevels], completed: [...completedMissions], bodies };
+      const sv = { v: SAVE_VER, t: Date.now(), score, ep, comboCount, maxCombo, currentDropLevel, nextDropLevel, maxReachedLevel, discovered: [...discoveredLevels], completed: [...completedMissions], merges: gameMergeCount, drops: gameDropCount, pyro: gamePyrolysisCount, playSec: gamePlaySec, bodies };
       try { localStorage.setItem(SAVE_KEY, JSON.stringify(sv)); } catch (e) { return false; }
       if (!quiet) showCelebrationBanner('途中の状態を保存しました。あとから続きから遊べます');
       return true;
@@ -3773,6 +3804,10 @@
       maxReachedLevel = clampLevel(sv.maxReachedLevel);
       discoveredLevels = new Set([1, ...(Array.isArray(sv.discovered) ? sv.discovered : []).map(v => clampLevel(v))]);
       completedMissions = new Set(Array.isArray(sv.completed) ? sv.completed : []);
+      gameMergeCount = Math.max(0, Math.floor(Number(sv.merges)) || 0);
+      gameDropCount = Math.max(0, Math.floor(Number(sv.drops)) || 0);
+      gamePyrolysisCount = Math.max(0, Math.floor(Number(sv.pyro)) || 0);
+      gamePlaySec = Math.max(0, Number(sv.playSec) || 0);
       sv.bodies.forEach(b => {
         const body = createElementBody(Number(b.x) || 0, Number(b.y) || 0, clampLevel(b.l));
         Body.setPosition(body, { x: Number(b.x) || 0, y: Number(b.y) || 0 });
@@ -3833,6 +3868,11 @@
 
       if (!isGameOver && engine) {
         Engine.update(engine, 1000 / 60);
+
+        // 遊んでいる時間を数え、1秒ごとにミッションを確認する（時間系のミッション用）
+        const prevPlaySec = Math.floor(gamePlaySec);
+        gamePlaySec += dt;
+        if (Math.floor(gamePlaySec) !== prevPlaySec) checkAndRenderMissions();
 
         const bodies = Composite.allBodies(world);
         let isDangerNow = false;
