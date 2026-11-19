@@ -2703,6 +2703,31 @@ html.is-beta #nav .beta-fb .material-symbols-rounded{font-size:18px}
 .ax-pic small{color:#5f6368;font-size:.78rem;line-height:1.4}
 @media (max-width:700px){#axw .gm-log>.ax-m,#axw .gm-sug,#axw .gm-in,#axw .ai-att{width:calc(100% - 24px)}#axw .ax-m.m .ax-bb{font-size:1.05rem}#axw .gm-in{min-height:58px}}
 </style>
+<style id="ai20-css">
+/* AIタブを開いているとき：右上のアカウント・フィードバックを隠し、左のタブバーだけ残して全画面に */
+body.ai-full #acct{display:none!important}
+body.ai-full #main{padding:0!important;max-width:none!important;margin:0!important}
+body.ai-full #axw.gm{height:100dvh;max-height:100dvh;min-height:0;border-radius:0}
+/* 表示の動きの変形（transform）が残ると、サイドバーの位置が、画面の左ではなく中身の左からになるので外す */
+body.ai-full #view{transform:none!important;animation:none!important;filter:none!important}
+@media(max-width:699px){
+  body.ai-full #main{padding-bottom:calc(92px + env(safe-area-inset-bottom))!important}
+  body.ai-full #axw.gm{height:calc(100dvh - 92px - env(safe-area-inset-bottom));max-height:none}
+}
+/* 開くメニュー（ハンバーガー）は、左のタブバーの右側から出す（タブバーの下に隠れないように） */
+@media(min-width:700px){
+  #axw .gm-side{left:104px;width:min(340px,calc(100vw - 104px))}
+}
+</style>
+<style id="shopai20-css">
+/* ショップのAIモデル：名前を省かずに出す（横に広いカード・名前は2行まで・ボタンは下の段） */
+.shop-l.ai-l{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.shop-i.ai-i{grid-template-columns:auto minmax(0,1fr);align-items:start;padding:12px}
+.shop-i.ai-i .shop-t{min-width:0}
+.shop-i.ai-i .shop-t b{white-space:normal;overflow:visible;text-overflow:clip;line-height:1.35;word-break:keep-all;overflow-wrap:anywhere}
+.shop-i.ai-i .shop-t small{white-space:normal;line-height:1.5}
+.shop-i.ai-i .shop-a{grid-column:1/-1;justify-self:end;display:flex;gap:6px;flex-wrap:wrap}
+</style>
 </head>
 <body>
 <div id="app">
@@ -2726,9 +2751,9 @@ html.is-beta #nav .beta-fb .material-symbols-rounded{font-size:18px}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.1.0';
-const BETA_VER = '18.1.0';
-const RELEASE_VER = '18.1.0'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.0';
+const BETA_VER = '18.2.0';
+const RELEASE_VER = '18.2.0'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3359,6 +3384,7 @@ function render() {
   if (gameOv()) return;   // 全画面のゲーム中は、画面を描き直さない（ゲームの枠を守る）
   setTimeout(kbSync, 0);
   applyHomeBg();
+  document.body.classList.toggle('ai-full', ui.tab === 'ai');   // AIタブは全画面（右上のアカウント等を隠す）
   navTrack();
   if (ui.tab === 'tools' && ui.tool) tuNote(ui.tool);
   if (ui.tab === 'ai' && !aiOpened()) { try { localStorage.setItem('kosa-ai-opened', '1'); } catch (e) { } }
@@ -3613,6 +3639,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.0', d: '__BUILD__', t: '元素マージに難易度と上級の元素・AIのモデル選び', n: ['元素マージに、上級の元素を6種類追加しました（触媒で進化させると見つかります）', '元素マージの「溢れそう」のときにアイテムを使うと、残り時間が2倍に伸びます（1回の溢れそうにつき1回）', '元素マージで、アイテムを使うと「溢れそう」が消えてしまう不具合を直しました', '元素マージの「加熱」を「噴火」に名前を変えました', '元素マージに難易度（簡単・普通・難しい）を追加しました。難しいほど、スキルの消費EPが高く、EPが貯まりにくく、出てくる元素も難しくなります', '元素マージのランキングは、難易度ごとに3つのタブに分かれました（友達のランキングも同じです）', 'AIタブを開いているときは、右上のアカウント・フィードバックを隠し、全画面で表示するようにしました（左のタブバーは残ります）', 'AIのモデルは「自動・高速・思考・バランス」から選べるようになりました。モデル名も表示します', 'ショップのAIモデルの名前が途切れて見えなかった不具合を直しました'] },
   { v: '18.1.0', d: '__BUILD__', t: '答えに写真が出るAIに質問・元素マージの実績を追加', n: ['AIに質問で、答えに関係する写真をネットから探して表示するようにしました（無料で使える公開の写真・出典つき）', 'AIに質問で、答えを作っている間に、いま何をしているか（質問を読む・答えを作る・写真を探す）と、3つの点が動く表示を出すようにしました', 'AIに質問の画面を広く使えるようにしました。左上のメニューから、履歴のサイドバーを開けます', 'AIに質問のモデルの選び方を、ポップアップにまとめました。思考レベル（ヒントと手順・答えも解説）も、ここで選べます', 'AIに質問の履歴は、ピン留めと、並び替え（新しい順・古い順・名前順）ができるようにしました', 'AIに質問の「画像」から、答えに出た写真を一覧で見られるようにしました', 'AIに質問の画面の色を、明るい配色と暗い配色に合わせて見やすくしました', '元素マージの実績を17個増やし、全部で22個になりました'] },
   { v: '18.0.1', d: '__BUILD__', t: '課題の画面を刷新・暗記クイズの改善・取り込んだ予定をまとめて消せるように・初めの使い方に通知と実績を追加', n: ['課題のカードを大きくし、「現在のページ」と「残りのページ」をわかりやすくしました', '現在のページの近くに「−」「＋」（+5・+10も）を置き、数字を直接入力して変えられるようにしました', '課題の下の操作を、「プランをたてる」「プランに追加」「完了にする」にまとめました。完了は、全ページが終わると押せます', '課題の「提出」ボタンと、鉛筆のボタンをなくしました（課題のカードを押すと、編集できます）', '暗記クイズで、ボタンを押すたびに上の進み具合のアニメーションが動いてしまうのを直しました', '暗記クイズの4択は、選択肢のボタンと文字を大きくしました', '暗記クイズで間違えたときは、「AIに質問」ですぐに、なぜ違うのかを解説できます', '取り込んだ予定（ICS）を、取り込みごとにまとめて消せるようにしました（「元に戻す」もできます）', '初めの使い方に、通知（プッシュ通知を含む）と実績の説明を追加しました'] },
   { v: '18.0.0', d: '__BUILD__', t: '元素ラボの題名・元素マージのBGM・単語帳の操作・しりとりの参加を改善', n: ['元素ラボを開くときの「元素ラボ」の題名が、ぼやけずに見えるようにしました', '元素マージの5曲目・6曲目は、重低音のベース・キック・ドラム・シンセを強くして、かっこいい曲にしました', '単語帳の下の「戻る・お気に入り・読み上げ・AIに質問」を、中央にそろえて文字つきにしました。AIに質問の答えは、全画面でも下から出ます', '単語帳の「その他の操作」を2列で見やすくし、カードの模様をショップでも選べるようにしました', 'しりとりの対戦リクエストから参加できない問題を直しました（招待を送った部屋は、相手が参加するまで残ります）', '単語帳の操作ボタンの大きさをそろえ、機能を足しても動かないようにしました'] },
@@ -6126,11 +6153,13 @@ function aiContext() {
   const lines = examTasks().filter(k => !isDone(k)).slice(0, 15).map(k => { const s = SUB(k.sid); return `- ${s ? s.name : ''}：${k.title}（${pct(progOf(k))}%完了${k.due ? '、期限' + k.due : ''}）`; });
   return (ex ? (ex.date ? `考査：${ex.name}${dl !== null && dl >= 0 ? `（あと${dl}日）` : ''}\n` : `考査はありません（ふだんの課題・提出日の管理）\n`) : '') + (lines.length ? `未完了の課題：\n${lines.join('\n')}` : '未完了の課題はありません。');
 }
-async function aiStart() {
+async function aiStart(text) {
   if (!CLOUD.fb) throw new Error('nofb');
   if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
   const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
-  const model = AI.mod.getGenerativeModel(ai, { model: aiModel(), systemInstruction: AI_SYS + '\n\n' + AIM_TXT[AIM.mode] + '\n\n' + aiContext() });
+  const mid = aiModel(text);
+  const model = AI.mod.getGenerativeModel(ai, { model: mid, systemInstruction: AI_SYS + '\n\n' + AIM_TXT[AIM.mode] + '\n\n' + aiContext() });
+  AI.chatModel = mid;
   { const h = aiHistory(); AI.chat = h.length ? model.startChat({ history: h }) : model.startChat(); }   // 前の会話があれば、続きから
 }
 function aiErr(e) {
@@ -6223,11 +6252,14 @@ async function aiAddFiles(files) {
   }
   renderAtt();
 }
+// 使うモデルの選び方（自動・高速・思考・バランス）。選んだものは、この端末に残す
 const AI_MODES = [
-  { id: 'gemini-3.5-flash-lite', ttl: '自動モード', sub: 'ユーザーのニーズに合わせて選びます', short: '自動' },
-  { id: 'gemini-4-hydrogen', ttl: '日々の暮らしをサポート', sub: 'Gemini 4 Hydrogen', short: 'Hydrogen' },
-  { id: 'gemini-3.8-flash', ttl: 'Deeper analysis', sub: 'Gemini 3.8 Flash', short: 'Deeper' }
+  { id: 'auto', ttl: '自動モード', sub: '質問に合わせて、いちばん合うモデルを選びます', short: '自動' },
+  { id: 'gemini-3.5-flash-lite', ttl: '高速モード', sub: 'Gemini 3.5 Flash-Lite', short: '高速' },
+  { id: 'gemini-3.8-flash', ttl: '思考モード', sub: 'Gemini 3.8 Flash', short: '思考' },
+  { id: 'gemini-4-hydrogen', ttl: 'バランスモード', sub: 'Gemini 4 Hydrogen', short: 'バランス' }
 ];
+const AI_PICK = { get() { try { return localStorage.getItem('kosa-ai-pick') || 'auto'; } catch (e) { return 'auto'; } }, set(v) { try { localStorage.setItem('kosa-ai-pick', v); } catch (e) { } } };
 const AI_THINK = [null, '質問を読んでいます', '答えを組み立てています', '写真を探しています'];   // 思考の段階（実際に行っている作業）
 const AI_ST = { on: 0 };   // 0 は待機中。1〜3 は、いまの段階
 const AIS = { sort: (() => { try { return localStorage.getItem('kosa-ai-sort') || 'new'; } catch (e) { return 'new'; } })() };
@@ -6255,10 +6287,10 @@ async function aiPics(q) {
   if (!key) return [];
   try { let r = await get(key + ' filetype:bitmap'); if (!r.length) r = await get(key); return r; } catch (e) { return []; }
 }
-function aiShort() { const c = aiModel(), m = AI_MODES.find(x => x.id === c); return m ? m.short : aiLabel(c).replace(/^Gemini\s*/, ''); }
+function aiShort() { const p = AI_PICK.get(), m = AI_MODES.find(x => x.id === p); return m ? m.short : aiLabel(aiModel()).replace(/^Gemini\s*/, ''); }
 function aiPopHtml() {
-  const cur = aiModel();
-  const items = AI_MODES.map(x => { const on = x.id === cur, ok = shopHas('ai', x.id); return `<button type="button" class="gm-pi" role="menuitemradio" aria-checked="${on}" data-act="${ok ? 'aimodel' : 'shopopen'}" data-id="${x.id}"><span class="gm-pt"><b>${esc(x.ttl)}</b><small>${ok ? esc(x.sub) : 'ショップで買うと使えます'}</small></span>${on ? ms('check') : ok ? '' : ms('lock')}</button>`; }).join('');
+  const cur = AI_PICK.get();
+  const items = AI_MODES.map(x => { const on = x.id === cur, ok = x.id === 'auto' || shopHas('ai', x.id); return `<button type="button" class="gm-pi" role="menuitemradio" aria-checked="${on}" data-act="${ok ? 'aimpick' : 'shopopen'}" data-id="${x.id}"><span class="gm-pt"><b>${esc(x.ttl)}</b><small>${ok ? esc(x.sub) : esc(AI_SHOP[x.id] ? AI_SHOP[x.id].n : x.sub) + '（ショップで買うと使えます）'}</small></span>${on ? ms('check') : ok ? '' : ms('lock')}</button>`; }).join('');
   const lv = [['hint', 'ヒントと手順', '答えは書かず、解き方を案内します'], ['explain', '答えも解説', '答えと、そうなる理由を説明します']].map(([k, t, d]) => `<button type="button" class="gm-pi" role="menuitemradio" aria-checked="${AIM.mode === k}" data-act="aimode" data-id="${k}"><span class="gm-pt"><b>${t}</b><small>${d}</small></span>${AIM.mode === k ? ms('check') : ''}</button>`).join('');
   return `<div class="gm-pop" id="gmpop" role="menu" hidden><div class="gm-ph">モデル</div>${items}<div class="gm-ph">思考レベル</div>${lv}</div>`;
 }
@@ -6317,7 +6349,8 @@ async function aiSend(text) {
   AI.msgs.push({ r: 'u', t: text, imgs: atts.map(a => a.url) }, { r: 'm', t: '' }); const m = AI.msgs[AI.msgs.length - 1];
   aiSteps(1); renderAiLog();
   try {
-    if (!AI.chat) await aiStart();
+    if (AI.chat && AI.chatModel !== aiModel(text)) AI.chat = null;   // 自動のとき、質問で別のモデルになったら作り直す（履歴は残る）
+    if (!AI.chat) await aiStart(text);
     aiCount();
     const res = await AI.chat.sendMessageStream([text, ...atts.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))]);
     for await (const c of res.stream) { if (AI_ST.on < 2) aiSteps(2); m.t += c.text(); renderAiLog(); }
@@ -11631,7 +11664,15 @@ const AI_GUIDE = [
   ['Gemini 4 Hydrogen', '速さと分かりやすさのバランスがよいモデルです。ふだんの勉強の質問や、解き方の説明に向いています。']
 ];
 const aiLabel = id => (AI_SHOP[id] ? AI_SHOP[id].n : id);
-function aiModel() { try { const g = growGet(); if (g.ai && shopHas('ai', g.ai)) return g.ai; } catch (e) { } return window.AI_MODEL || AI_STD; }   // いま使うモデル（ショップで選んだもの。なければ標準）
+// いま使うモデル。高速・思考・バランスを選んでいればそれ。自動なら、質問の中身で持っているものから選ぶ
+function aiModel(text) {
+  const pick = AI_PICK.get();
+  if (pick !== 'auto') return shopHas('ai', pick) ? pick : (window.AI_MODEL || AI_STD);
+  const t = String(text || '');
+  if (shopHas('ai', 'gemini-3.8-flash') && (t.length > 120 || /計算|証明|途中式|理由|なぜ|順番|比べ|整理|くわしく|説明/.test(t))) return 'gemini-3.8-flash';
+  if (shopHas('ai', 'gemini-4-hydrogen') && t.length > 30) return 'gemini-4-hydrogen';
+  return window.AI_MODEL || AI_STD;
+}
 function aiGuideHtml() { return AI_GUIDE.map(([n, t]) => `<p><b>${n}</b><br>${t}</p>`).join(''); }
 // AIタブの上の、いま使っているモデルとモデルの切り替え（持っているものは押すだけで変わる・持っていないものはショップへ）
 function aiModelBarHtml() {
@@ -11641,7 +11682,7 @@ function aiModelBarHtml() {
     if (shopHas('ai', id)) return `<button type="button" class="ai-chip${on ? ' on' : ''}" data-act="aimodel" data-id="${esc(id)}" aria-pressed="${on}">${on ? ms('check') : ''}<span>${n}</span></button>`;
     return `<button type="button" class="ai-chip lock" data-act="shopopen" aria-label="ショップで${n}を買う">${ms('lock')}<span>${n}（ショップ）</span></button>`;
   }).join('');
-  return `<div class="ai-model">使用中：<b>${esc(aiLabel(cur))}</b></div><div class="ai-chips" role="group" aria-label="AIモデルを選ぶ">${chips}</div>`;
+  return `<div class="ai-model">使用中：<b>${AI_PICK.get() === 'auto' ? '自動（質問に合わせて選びます）' : esc(aiLabel(cur))}</b></div><div class="ai-chips" role="group" aria-label="AIモデルを選ぶ">${chips}</div>`;
 }
 // 単語帳カードの模様（ショップで買える。レベル12で、XPなしでも使える）
 const PAT_SHOP = { dots: { n: 'ドット', c: 60, lv: RW_LV.cardpat, free: true, d: '文字のまわりに、小さな点' }, stripes: { n: 'ストライプ', c: 60, lv: RW_LV.cardpat, free: true, d: '斜めのしま模様' }, grid: { n: '方眼', c: 80, lv: RW_LV.cardpat, free: true, d: 'ノートのような方眼' }, wave: { n: '波', c: 100, lv: RW_LV.cardpat, free: true, d: 'やわらかい波の模様' }, sparkle: { n: 'きらめき', c: 150, lv: RW_LV.cardpat, free: true, d: 'きらきら光る模様' } };
@@ -11820,13 +11861,13 @@ function shopHtml() {
       : has ? `<button class="btn tonal xs" data-act="shopeq" data-id="${kind}:${id}">${ms('done')}使う</button>`
       : `<button class="btn xs" data-act="shopbuy" data-id="${kind}:${id}" ${sp < it.c ? 'disabled' : ''}>${ms('shopping_cart')}${it.c} XP</button>`;
     const state = eq ? '使用中' : locked ? `Lv.${it.lv}で解放` : has ? (kind === 'ai' && it.c === 0 ? '最初から使えます' : (g.owned[kind] || []).includes(id) ? '購入済み' : 'レベルで解放ずみ') : `${it.c} XP`;
-    return `<div class="shop-i ${eq ? 'eq' : ''}"><div class="shop-sw" style="${sw}">${ic}</div><div class="shop-t"><b>${esc(it.n)}</b><small>${state}</small>${it.d ? `<small>${esc(it.d)}</small>` : ''}</div><div class="shop-a">${prev}${act}</div></div>`;
+    return `<div class="shop-i ${eq ? 'eq' : ''}${kind === 'ai' ? ' ai-i' : ''}"><div class="shop-sw" style="${sw}">${ic}</div><div class="shop-t"><b>${esc(it.n)}</b><small>${state}</small>${it.d ? `<small>${esc(it.d)}</small>` : ''}</div><div class="shop-a">${prev}${act}</div></div>`;
   };
   return `<h2 class="noti-h">${ms('storefront')}<span>XPショップ</span><em class="noti-cnt">使えるXP ${sp}</em></h2><p class="muted" style="font-weight:500;margin:0 0 6px">XPを使っても、レベルは下がりません。レベルで使えるようになるものもあります（レベルの特典で確認できます）。</p>` +
     `<h3 class="shop-h">テーマ</h3><div class="shop-l">${Object.entries(THEME_SHOP).map(([id, it]) => card('theme', id, it)).join('')}</div>` +
     `<h3 class="shop-h">ホームの背景</h3><div class="shop-l">${Object.entries(HOME_BG).map(([id, it]) => card('bg', id, it)).join('')}</div>` +
     `<h3 class="shop-h">効果音</h3><div class="shop-l">${Object.entries(SFX_T).map(([id, it]) => card('sfx', id, it)).join('')}</div>` + `<h3 class="shop-h">フォント（アプリ全体）</h3><div class="shop-l">${Object.entries(FONT_SHOP).map(([id, it]) => card('font', id, it)).join('')}</div>` +
-    `<h3 class="shop-h">AIのモデル</h3><p class="muted" style="font-weight:500;margin:0 0 8px">いま使っているのは「${esc(aiLabel(aiModel()))}」です。モデルを変えても、1日に使える回数は同じです。</p><div class="ai-guide">${aiGuideHtml()}</div><div class="shop-l">${Object.entries(AI_SHOP).map(([id, it]) => card('ai', id, it)).join('')}</div>` +
+    `<h3 class="shop-h">AIのモデル</h3><p class="muted" style="font-weight:500;margin:0 0 8px">いまのモデルは「${AI_PICK.get() === 'auto' ? '自動（質問に合わせて選びます）' : esc(aiLabel(aiModel()))}」です。モデルを変えても、1日に使える回数は同じです。</p><div class="ai-guide">${aiGuideHtml()}</div><div class="shop-l ai-l">${Object.entries(AI_SHOP).map(([id, it]) => card('ai', id, it)).join('')}</div>` +
     `<h3 class="shop-h">カードの模様（単語帳）</h3><div class="shop-l">${Object.entries(PAT_SHOP).map(([id, it]) => card('pat', id, it)).join('')}</div>` +
     `<h3 class="shop-h">ツール</h3><div class="shop-l">${Object.entries(TOOL_SHOP).map(([id, it]) => toolShopCard(id, it)).join('')}</div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
 }
@@ -11901,7 +11942,7 @@ const FR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join(''); return g.code; }
 function growWeek() { const nb = parse(today()), from = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() - 6)), to = today(); let min = 0, pg = 0; for (const k in S.log) if (k >= from && k <= to) { min += S.log[k].m || 0; pg += S.log[k].a || 0; } return { min, pg }; }
 function growPct() { const tot = S.tasks.reduce((a, t) => a + (t.total || 0), 0), dn = S.tasks.reduce((a, t) => a + Math.min(t.done || 0, t.total || 0), 0); return tot ? Math.round(dn / tot * 100) : 0; }
-function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: totals().lv, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0, mg: mgStat().best || 0 }; }
+function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: totals().lv, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0, mg: mgStat().best || 0, mgBd: mgStat().bd || {} }; }
 async function growUnpublish() { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'friendStats', growGet().code)); }
 async function growAddFriend(code) {
   code = String(code || '').trim().toUpperCase(); if (!code) return;
@@ -11938,7 +11979,8 @@ function friendsHtml(me, rows) {
   }).join('') + '</div>';
 }
 Object.assign(ACT, {
-  aimodel(id) { if (!shopHas('ai', id)) return toast('このモデルはまだ使えません'); if (aiModel() === id) return; ACT.shopeq('ai:' + id); render(); },
+  aimpick(id) { const m = AI_MODES.find(x => x.id === id); if (!m) return; if (id !== 'auto' && !shopHas('ai', id)) return toast('このモデルはまだ使えません'); AI_PICK.set(id); aiRepaint(); toast(`${m.ttl}にしました`); },
+  aimodel(id) { if (!shopHas('ai', id)) return toast('このモデルはまだ使えません'); if (AI_PICK.get() === id) return; AI_PICK.set(id); ACT.shopeq('ai:' + id); render(); },
   shopopen() { if (level().L < SHOP_LV) return toast(`Lv.${SHOP_LV}で使えるようになります`); subGo('shop'); },
   shopbuy(v) {
     const [kind, id] = String(v).split(':'), it = (SHOP_MAP[kind] || {})[id]; if (!it) return;
@@ -12123,7 +12165,7 @@ Object.assign(ACT, {
 const FRR = { at: 0, html: '', seq: 0 };
 let PUB_AT = 0;
 let PUB_SIG = '';
-const growSig = m => JSON.stringify([m.lv, m.pct, m.wkMin, m.wkPg, m.tt, m.typed, m.iv, m.rk, m.mg]);
+const growSig = m => JSON.stringify([m.lv, m.pct, m.wkMin, m.wkPg, m.tt, m.typed, m.iv, m.rk, m.mg, m.mgBd]);
 let GPUB_T = 0;
 // 変わったら4秒後に送る（10分待たない）。上がっても下がっても、友達の画面に反映される
 function growPubSoon() { try { if (!CLOUD.user || !growGet().shared) return; clearTimeout(GPUB_T); GPUB_T = setTimeout(() => { const g = growGet(); if (CLOUD.user && g.shared && growSig(growMine(g)) !== PUB_SIG) growPublish().catch(() => { }); }, 4000); } catch (e) { } }   // 友達に見せる内容を、最後に送った時刻
@@ -12217,7 +12259,7 @@ async function growPublish() {
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'friendStats', m.code);
   const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() };
   const ext = { ...base, tt: m.tt, typed: m.typed, fr: g.friends.slice(0, 30).map(f => ({ o: String(f.uid || ''), c: String(f.code || ''), n: String(f.name || '').slice(0, 20) })) };
-  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0, mg: { v: MG_VER, b: m.mg || 0 } };
+  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0, mg: { v: MG_VER, b: m.mg || 0, bd: m.mgBd || {} } };
   // 新しい項目 → 点数を抜いた項目 → 名前とアイコン → 名前と進み具合だけ（ルールが古いときも、最低限は届く）
   const tries = m.av ? [{ ...full, av: m.av }, { ...ext, av: m.av }, full, ext, base] : [full, ext, base];
   let err = null;
@@ -14246,6 +14288,7 @@ window.addEventListener('message', e => {
   actLog('mg', `${score}点 Lv.${lv}`);
   const v = mgStat();
   v.plays = (v.plays || 0) + 1; v.best = Math.max(v.best || 0, score); v.maxLv = Math.max(v.maxLv || 0, lv);
+  const dk = ['easy', 'normal', 'hard'].includes(d.difficulty) ? d.difficulty : 'normal'; v.bd = Object.assign({}, v.bd || {}); v.bd[dk] = Math.max(v.bd[dk] || 0, score);
   try { localStorage.setItem('kosa-merge', JSON.stringify(v)); } catch (x) { }
   const el = document.getElementById('mgstat'); if (el) el.innerHTML = mgStatHtml();
   checkBadges(false); save(); frChanged(); mgRankLoad(true);
@@ -14257,9 +14300,11 @@ window.addEventListener('message', e => { const d = e.data; const fr = document.
 // ゲーム（元素マージ）からの連絡：準備できた・友達の最高点がほしい・やめる
 function mgPostFriends() {
   const fr = document.querySelector('#mgframe iframe'); if (!fr || !fr.contentWindow) return;
-  const me = { name: growMine(growGet()).name, score: mgStat().best || 0, me: true };
-  const rows = ((MG_RANK && MG_RANK.rows) || []).map(r => ({ name: r.name, score: r.mg, me: false }));
-  try { fr.contentWindow.postMessage({ type: 'kosa-merge-friends', rows: [me, ...rows] }, '*'); } catch (x) { }
+  // 難易度（簡単・普通・難しい）ごとの点数。古い版の点数は「普通」として扱う
+  const DK = ['easy', 'normal', 'hard'], st = mgStat(), bd = st.bd || {}, hasBd = Object.keys(bd).length > 0, nm = growMine(growGet()).name;
+  const me = DK.map(k => ({ name: nm, score: hasBd ? (bd[k] || 0) : (k === 'normal' ? (st.best || 0) : 0), difficulty: k, me: true }));
+  const rows = ((MG_RANK && MG_RANK.rows) || []).flatMap(r => DK.map(k => ({ name: r.name, score: r.bd ? (r.bd[k] || 0) : (k === 'normal' ? r.mg : 0), difficulty: k, me: false })));
+  try { fr.contentWindow.postMessage({ type: 'kosa-merge-friends', rows: [...me, ...rows].filter(x => x.score > 0) }, '*'); } catch (x) { }
   try { fr.contentWindow.postMessage({ type: 'kosa-merge-bonus', ep: mgEpBonus() }, '*'); } catch (x) { }
 }
 window.addEventListener('message', e => {
@@ -14542,7 +14587,7 @@ async function mgRankLoad(force) {
   try {
     const rows = await friendsLoad();
     const okRows = rows.filter(r => !r.fof && r.data && !r.err && r.data.mg && typeof r.data.mg === 'object' && r.data.mg.v === MG_VER);
-    MG_RANK.rows = okRows.map(r => ({ name: String(r.data.name || r.f.name || '名前なし'), mg: Number(r.data.mg.b) || 0 }));
+    MG_RANK.rows = okRows.map(r => ({ name: String(r.data.name || r.f.name || '名前なし'), mg: Number(r.data.mg.b) || 0, bd: (r.data.mg.bd && typeof r.data.mg.bd === 'object') ? r.data.mg.bd : null }));
     MG_RANK.unshared = rows.filter(r => !r.fof && !r.data && !r.err).length;   // 進み具合を見せていない友達
     MG_RANK.old = rows.filter(r => !r.fof && r.data && !r.err && !okRows.includes(r)).length;   // 新しい版でまだ点数を送っていない友達
     MG_RANK.at = Date.now();
