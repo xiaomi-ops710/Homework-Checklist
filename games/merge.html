@@ -3621,10 +3621,11 @@
 
       body.elementLevel = level;
       body.isMerged = false;
-      body.spawnTimestamp = isMergedSpawn ? -Infinity : performance.now();
-      body.isMergedSpawn = isMergedSpawn;
-      body.animScale = isMergedSpawn ? 0.35 : 1.0;
-      body.animVelocity = isMergedSpawn ? 0.14 : 0;
+      // 合体で出たボールも、落下直後のボールと同じ大きさで出す（見た目と当たり判定をずらさない）
+      body.spawnTimestamp = performance.now();
+      body.isMergedSpawn = false;
+      body.animScale = 1.0;
+      body.animVelocity = 0;
 
       World.add(world, body);
       return body;
@@ -3727,10 +3728,12 @@
       mascotMood = 'happy';
       mascotMoodTimer = 1.2;
 
-      if (currentLevel < ELEMENTS.length) {
+      // 熱分解の段階（Lv.11・NaHCO₃）以外は、ふつうに次の段階へ進化する。熱分解は、ボーナスの後に玉を消す
+      if (currentLevel !== PYRO_LEVEL) {
         const nextLevel = currentLevel + 1;
         const newBody = createElementBody(midX, midY, nextLevel, true);
-        Body.setVelocity(newBody, { x: 0, y: -1.3 });
+        // 合体で出たボールは、その場で落ちる（上へはじき出すと、まわりの玉と重なるため）
+        void newBody;
         // 連続コンボが続いたら、周りのボールが発熱膨張する
         if (comboCount >= 3) heatNearby(midX, midY, 130, '連続コンボ！発熱膨張');
 
@@ -3852,6 +3855,10 @@
           floatingTexts.push({ x: target.position.x, y: target.position.y - 30, text: 'これ以上進化できません', color: '#FEF3C7', stroke: '#78350F', alpha: 1.0, vy: -1.1, scale: 0.9 });
           return true;
         }
+        if (!levelFitsBox(Math.min(ELEMENTS.length, target.elementLevel + 1))) {
+          floatingTexts.push({ x: target.position.x, y: target.position.y - 30, text: 'この箱には大きすぎます', color: '#FEF3C7', stroke: '#78350F', alpha: 1.0, vy: -1.1, scale: 0.9 });
+          return true;
+        }
         ep -= skillCost(400);
         extendDangerForItem();
         updateEpUI();
@@ -3861,6 +3868,8 @@
         World.remove(world, target);
         createElementBody(tx, ty, nextLv, true);
         discoveredLevels.add(nextLv);
+        if (nextLv > maxReachedLevel) maxReachedLevel = nextLv;
+        checkAndRenderMissions();
         renderEvolutionRingUI(nextLv);
         spawnMergeEffects(tx, ty, nextLv, 0, '触媒進化');
         audio.playMerge(nextLv, 0, 2);
@@ -3876,18 +3885,17 @@
       { a: 'Na', b: 'Cl', pt: 150, ep: 12, text: '塩化ナトリウム（NaCl）生成！' },
       { a: 'Cu', b: 'O', pt: 200, ep: 16, text: '酸化銅（CuO）の化合！' }
     ];
-    const GAS_FLOAT_MS = 3000;      // 気体が落下後に浮力を受ける時間（ミリ秒）
-    const GAS_FLOAT_RATIO = 0.6;    // 浮力で打ち消す重力の割合
     const HEAT_MS = 5000;           // 発熱膨張の続く時間（ミリ秒）
-    const HEAT_SCALE = 1.12;        // 発熱膨張の倍率（見た目だけ大きくなる）
+    const HEAT_SCALE = 1.12;        // 発熱膨張の輪の大きさ（ボール本体の大きさは変えない）
     const HEAT_IMPACT_SPEED = 7;    // これ以上の相対速度なら「激しい衝突」
     const FLASK_TILT_X = 0.12;      // 傾いたときの横向きの重力
     const FLASK_TILT_ANGLE = Math.atan2(FLASK_TILT_X, 1.05); // 見た目の傾き（重力の向きに合わせる）
     let lastHeatAt = -Infinity;
 
-    function isGasLevel(level) {
-      const el = ELEMENTS[level - 1];
-      return !!el && el.category === '気体・非金属元素';
+    // その段階の元素が、箱の中（壁の内側）に収まるか（難しいは箱が狭いので、大きい元素は作れない）
+    function levelFitsBox(level) {
+      const el = ELEMENTS[Math.min(level, ELEMENTS.length) - 1];
+      return !!el && 2 * el.radius <= (BOX_RIGHT - BOX_LEFT) - 6;
     }
     function findSparkReaction(bodyA, bodyB) {
       const sa = ELEMENTS[bodyA.elementLevel - 1].symbol;
@@ -3927,18 +3935,11 @@
     // 逆転フラスコ：横向きの重力で箱が傾く、または3秒だけ無重力になる
     function startFlaskEvent() {
       const now = performance.now();
-      flask.type = Math.random() < 0.5 ? 'tilt' : 'zero';
-      if (flask.type === 'tilt') {
-        flask.dir = Math.random() < 0.5 ? -1 : 1;
-        flask.until = now + 2600;
-        engine.gravity.x = flask.dir * FLASK_TILT_X;
-        showCelebrationBanner('逆転フラスコ！実験台が揺れて、玉が傾きました');
-      } else {
-        flask.dir = 0;
-        flask.until = now + 3000;
-        engine.gravity.y = 0;
-        showCelebrationBanner('逆転フラスコ！3秒間の無重力');
-      }
+      flask.type = 'tilt';
+      flask.dir = Math.random() < 0.5 ? -1 : 1;
+      flask.until = now + 2600;
+      engine.gravity.x = flask.dir * FLASK_TILT_X;
+      showCelebrationBanner('逆転フラスコ！実験台が揺れて、玉が傾きました');
     }
     function endFlaskEvent() {
       if (engine) { engine.gravity.x = 0; engine.gravity.y = 1.05; }
@@ -3974,9 +3975,6 @@
           const { bodyA, bodyB } = event.pairs[i];
           const bothEl = bodyA.label === 'element' && bodyB.label === 'element' && !bodyA.isMerged && !bodyB.isMerged;
           if (isStart) {
-            // 気体は、落下して最初に何かに触れた時から「ふわふわ浮力」が効き始める
-            if (bodyA.label === 'element' && bodyA.landedAt === undefined && isGasLevel(bodyA.elementLevel)) bodyA.landedAt = now;
-            if (bodyB.label === 'element' && bodyB.landedAt === undefined && isGasLevel(bodyB.elementLevel)) bodyB.landedAt = now;
             if (bothEl) {
               // 化合スパーク：異種元素の特定の組み合わせが触れた瞬間（ボールは消えない）
               if (bodyA.elementLevel !== bodyB.elementLevel) {
@@ -3989,7 +3987,9 @@
             }
           }
           // 同じ元素同士は進化マージ（開始時・接触中の両方で判定）
-          if (bothEl && bodyA.elementLevel === bodyB.elementLevel) mergePair(bodyA, bodyB);
+          // 最上段（Lv.19）は合体しない。次の段階が箱に入らないときも合体しない（熱分解の段階は例外）
+          const lvl = bodyA.elementLevel;
+          if (bothEl && lvl === bodyB.elementLevel && lvl < ELEMENTS.length && (lvl === PYRO_LEVEL || levelFitsBox(lvl + 1))) mergePair(bodyA, bodyB);
         }
       };
 
@@ -4282,13 +4282,6 @@
         }
         if (flask.type && now >= flask.until) endFlaskEvent();
 
-        // ふわふわ浮力：気体は、落下して何かに触れてから数秒間、重力の一部を打ち消される
-        Composite.allBodies(world).forEach(b => {
-          if (b.label !== 'element' || b.isMerged || b.landedAt === undefined) return;
-          if (now - b.landedAt >= GAS_FLOAT_MS || !isGasLevel(b.elementLevel)) return;
-          Body.applyForce(b, b.position, { x: 0, y: -b.mass * engine.gravity.y * engine.gravity.scale * GAS_FLOAT_RATIO });
-        });
-
         Engine.update(engine, 1000 / 60);
 
         // 遊んでいる時間を数え、1秒ごとにミッションを確認する（時間系のミッション用）
@@ -4438,10 +4431,18 @@
           const el = ELEMENTS[b.elementLevel - 1];
           if (!el) continue;
 
-          // 発熱膨張の間は、見た目だけ1.12倍に膨らむ
-          const hot = b.heatUntil !== undefined && performance.now() < b.heatUntil;
-          const s = (b.animScale || 1.0) * (hot ? HEAT_SCALE : 1);
-          drawCachedSphere(ctx, b.position.x, b.position.y, el.radius, el, b.angle, s, s);
+          drawCachedSphere(ctx, b.position.x, b.position.y, el.radius, el, b.angle, 1, 1);
+          // 発熱膨張の間は、まわりに熱いオレンジの輪を出す（ボールの大きさや当たり判定は変えない）
+          if (b.heatUntil !== undefined && performance.now() < b.heatUntil) {
+            const pulse = 0.55 + 0.35 * Math.sin(performance.now() * 0.012);
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(b.position.x, b.position.y, el.radius * HEAT_SCALE, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(251, 146, 60, ${pulse})`;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.restore();
+          }
         }
       }
 
