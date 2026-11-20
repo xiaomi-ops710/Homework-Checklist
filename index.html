@@ -2132,38 +2132,8 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .a2o-name{font-weight:800;font-size:1.05rem}
 .a2o-url{font-size:.85rem;color:var(--on-v);overflow-wrap:anywhere;padding:10px 14px;border-radius:14px;background:var(--s2);width:100%;max-width:320px}
 .a2o-copy{min-height:48px;gap:8px}
-.a2sh{width:100%;max-width:340px;margin:0 auto;display:grid;gap:12px}
-.a2sh-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:16px;background:var(--s2)}
-.a2sh-side{color:var(--on-v);display:grid;place-items:center;width:32px}
-.a2sh-url{flex:1;min-width:0;text-align:center;font-weight:600;font-size:.85rem;padding:6px 10px;border-radius:10px;background:var(--s3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.a2sh-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--s3);color:var(--primary)}
-.a2s-sheet{border-radius:24px;padding:14px 14px 10px;background:var(--s1,#fff);box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.a2s-head{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid rgba(127,127,127,.25)}
-.a2s-app{width:52px;height:52px;border-radius:12px;overflow:hidden;flex:none;display:block}
-.a2s-app img{display:block;width:52px;height:52px}
-.a2s-head b{display:block;font-size:.95rem}
-.a2s-head small{display:block;color:var(--on-v);font-size:.76rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.a2s-opt{margin-left:auto;display:inline-flex;align-items:center;gap:2px;padding:6px 12px;border-radius:999px;background:var(--s3);font-size:.8rem;font-weight:700;white-space:nowrap}
-.a2s-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 0}
-.a2s-t{display:grid;justify-items:center;gap:6px;font-size:.72rem;text-align:center;font-weight:600;line-height:1.3}
-.a2s-t b{font-size:.72rem}
-.a2s-ti{display:grid;place-items:center;width:56px;height:56px;border-radius:14px;background:var(--s3);color:var(--on)}
-.a2s-on{background:var(--primary);color:#fff}
-.a2s-sep{height:1px;background:rgba(127,127,127,.25)}
-.a2a{border-radius:22px;background:var(--s1,#fff);overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.a2a-bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:12px 14px}
-.a2a-bar b{text-align:center;font-size:.98rem}
-.a2a-x{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--s3)}
-.a2a-add{padding:8px 16px;border-radius:999px;background:#0a84ff;color:#fff;font-weight:700;border-radius:999px}
-.a2a-f{display:flex;align-items:center;gap:14px;padding:14px;border-top:1px solid rgba(127,127,127,.2)}
-.a2a-ic{width:58px;height:58px;border-radius:14px;flex:none}
-.a2a-f small{display:block;color:var(--on-v);font-size:.78rem}
-.a2a-f b{font-size:1rem}
-.a2a-url{padding:14px;border-top:1px solid rgba(127,127,127,.2);color:var(--on-v);font-size:.9rem;overflow-wrap:anywhere}
-.a2a-tg{display:flex;align-items:center;justify-content:space-between;padding:14px;margin-top:10px;border-top:1px solid rgba(127,127,127,.2);border-bottom:1px solid rgba(127,127,127,.2)}
-.a2a-sw{width:52px;height:32px;border-radius:999px;background:#34c759;position:relative;flex:none}
-.a2a-sw::after{content:"";position:absolute;right:3px;top:3px;width:26px;height:26px;border-radius:50%;background:#fff}
-.a2a-p{font-size:.8rem;color:var(--on-v);padding:8px 14px 14px;line-height:1.6;margin:0}
+.a2m-wrap{container-type:inline-size;width:100%;max-width:440px;margin:0 auto}
+.a2m-s svg{overflow:visible}
 .a2h{width:100%;max-width:300px;margin:0 auto;padding:18px 16px 14px;border-radius:28px;background:linear-gradient(160deg,#5b7bd6,#2c3e8f 60%,#1b2350)}
 .a2h-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 10px;justify-items:center}
 .a2h-ap{display:grid;justify-items:center;gap:4px;font-size:.7rem;color:#fff;font-weight:700}
@@ -2909,9 +2879,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.9';
-const BETA_VER = '18.2.9';
-const RELEASE_VER = '18.2.9'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.9.1';
+const BETA_VER = '18.2.9.1';
+const RELEASE_VER = '18.2.9.1'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3807,6 +3777,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.9.1', d: '__BUILD__', t: 'バグ修正', n: ['ホーム画面に追加の案内の、共有メニューと追加の画面の見た目を、本家のSafariに近づけました'] },
   { v: '18.2.9', d: '__BUILD__', t: 'ホーム画面に追加の案内を、セットアップ画面にする', n: ['ブラウザで開いているiPad・iPhoneでは、「〜日連続」の左に「ホーム画面に追加」ボタンを出すようにしました','ボタンを押すと、Safariで開く手順から、共有ボタン・追加・ホーム画面で開く、までの4枚の案内が出ます','Safari以外のブラウザでは、リンクをコピーしてSafariに貼り付ける手順を出します'] },
   { v: '18.2.8', d: '__BUILD__', t: '元素マージの難しいを厳しくし、初めての案内と、プロフィール・同期を分かりやすく', n: ['元素マージの「難しい」は、箱を狭くし、大きな元素から始まり、スキルは2.4倍、EPは貯まりにくくなりました','iPadやiPhoneのブラウザで開いているときは、共有ボタンから「ホーム画面に追加」できる案内を出すようにしました','はじめての案内を、やさしい言葉に直しました。考査の作り方も説明に加えました','吹き出しの説明を、画面の中のボタン（考査・＋ボタン・ツールなど）にも増やしました','右上のアイコンから、ニックネーム・アイコンを変えられるようにしました。Googleのメールアドレスも表示します','同期ボタンを大きくして、今の状態と最終同期の時刻を見やすくしました'] },
   { v: '18.2.7', d: '__BUILD__', t: '考査の編集と、先生からの予定の受け取りを使いやすくする', n: ['ホームの考査ボタンを長押しすると、すぐ編集（名前・考査の初日など）を開けるようにしました','先生から予定が届いたとき、通知が出て、予定表に入るようにしました','歴打の結果画面の「今回の合戦評価称号」が、背景と同化せず読めるようにしました','歴打の征夷大将軍コース（ミックス・全時代）の出題順を、毎回完全にランダムにしました'] },
@@ -13225,18 +13196,72 @@ function a2hsCopy() {
   };
   try { navigator.clipboard.writeText(url).then(done, fallback); } catch (e) { fallback(); }
 }
+// 本家の画面の寸法（画像の幅：共有メニュー770・追加の画面1167）を、枠の幅に合わせて縮める
+const A2M = {
+  p: (x, y, w, h, ex = '') => `position:absolute;left:calc(${x} * var(--u));top:calc(${y} * var(--u));width:calc(${w} * var(--u));height:calc(${h} * var(--u));${ex}`,
+  f: (f, ex = '') => `font-size:calc(${f} * var(--u));line-height:calc(${f} * 1.25 * var(--u));${ex}`,
+  r: r => `border-radius:calc(${r} * var(--u))`,
+  svg: (name, size, sw = 1.5, color = '#fff') => {
+    const P = {
+      plus: '<rect x="3" y="3" width="18" height="18" rx="4.5"/><path d="M12 7.5v9M7.5 12h9"/>',
+      copy: '<rect x="8" y="8" width="12" height="12" rx="2.8"/><path d="M5 16V7.5C5 6.1 6.1 5 7.5 5H16"/>',
+      book: '<path d="M12 6.2C10.2 4.9 7.6 4.4 3.5 4.7v14.2c4.1-.3 6.7.2 8.5 1.5 1.8-1.3 4.4-1.8 8.5-1.5V4.7c-4.1-.3-6.7.2-8.5 1.5z"/><path d="M12 6.2v14.2"/>',
+      chev: '<path d="M5.5 9l6.5 6.5L18.5 9"/>',
+      right: '<path d="M9 5.5l6.5 6.5L9 18.5"/>',
+      x: '<path d="M6 6l12 12M18 6L6 18"/>'
+    };
+    return `<svg viewBox="0 0 24 24" style="width:calc(${size} * var(--u));height:calc(${size} * var(--u));display:block" fill="none" stroke="${color}" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[name]}</svg>`;
+  }
+};
+function a2mShare() {
+  const L = [54, 225.7, 397.4, 569.1, 740.8];   // アプリの並び（本家と同じ左端の位置）
+  const ic = {
+    AirDrop: '<svg viewBox="0 0 100 100" width="100%" height="100%"><g fill="none" stroke="#2f7cf6" stroke-width="7" stroke-linecap="round"><path d="M14 68a36 36 0 0 1 72 0"/><path d="M26 68a24 24 0 0 1 48 0"/><path d="M38 68a12 12 0 0 1 24 0"/></g><circle cx="50" cy="70" r="7" fill="#2f7cf6"/></svg>',
+    Gemini: '<svg viewBox="0 0 100 100" width="100%" height="100%"><defs><linearGradient id="a2mg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#4f8cf7"/><stop offset=".55" stop-color="#b58cf5"/><stop offset="1" stop-color="#f5a46b"/></linearGradient></defs><path d="M50 6C54 38 62 46 94 50 62 54 54 62 50 94 46 62 38 54 6 50 38 46 46 38 50 6Z" fill="url(#a2mg)"/></svg>',
+    Chrome: '<svg viewBox="0 0 100 100" width="100%" height="100%"><circle cx="50" cy="50" r="46" fill="#ea4335"/><circle cx="50" cy="50" r="30" fill="#fbbc04"/><circle cx="50" cy="50" r="19" fill="#fff"/><circle cx="50" cy="50" r="14" fill="#4285f4"/></svg>',
+    'ドライブ': '<svg viewBox="0 0 100 100" width="100%" height="100%"><polygon points="50,8 94,84 6,84" fill="#fbbc04"/><polygon points="50,8 6,84 34,84" fill="#34a853"/><polygon points="94,84 34,84 64,32" fill="#4285f4"/></svg>',
+    'メモ': '<svg viewBox="0 0 100 100" width="100%" height="100%"><rect x="12" y="12" width="76" height="76" rx="16" fill="#ffd60a"/><path d="M26 36h48M26 52h48M26 68h30" stroke="#8a6d00" stroke-width="6" stroke-linecap="round"/></svg>'
+  };
+  const apps = ['AirDrop', 'Gemini', 'Chrome', 'ドライブ', 'メモ'];
+  const acts = [['plus', 'ホーム画面に<br>追加'], ['copy', 'コピー'], ['book', 'ブックマークの<br>追加先…'], ['chev', '表示を増やす']];
+  const host = esc(location.host || '');
+  return `<div class="a2m-wrap"><div class="a2m-s a2m-share" style="aspect-ratio:770/800;--u:calc(100cqw / 770);position:relative;width:100%;overflow:hidden;background:#2c2c2e;border-radius:calc(64 * var(--u))">
+    <div style="${A2M.p(54, 243, 662, 2, 'background:#48484a')}"></div>
+    <div style="${A2M.p(54, 530, 662, 2, 'background:#48484a')}"></div>
+    <img src="icon-192.png" alt="" style="${A2M.p(54, 54, 126, 126, 'border-radius:calc(28 * var(--u));display:block')}">
+    <div style="${A2M.p(212, 58, 540, 32, 'color:#fff;font-weight:700;white-space:nowrap;overflow:hidden')}"><span style="${A2M.f(26)}">考査課題マネージャー</span></div>
+    <div style="${A2M.p(212, 100, 540, 30, 'color:#98989d;white-space:nowrap;overflow:hidden')}"><span style="${A2M.f(24)}">${host}</span></div>
+    <div style="${A2M.p(212, 140, 214, 70, 'border-radius:calc(35 * var(--u));background:#3a3a3c;display:flex;align-items:center;justify-content:center;gap:calc(8 * var(--u));color:#fff;font-weight:500')}"><span style="${A2M.f(28)}">オプション</span>${A2M.svg('right', 22, 2.2)}</div>
+    ${apps.map((n, i) => `<div style="${A2M.p(L[i], 276, 126, 126, `border-radius:calc(30 * var(--u));background:#161618;overflow:hidden`)}"><div style="${A2M.p(28, 28, 70, 70)}">${ic[n]}</div></div><div style="${A2M.p(L[i] - 20, 416, 166, 30, 'text-align:center;color:#e5e5ea;font-weight:500;white-space:nowrap')}"><span style="${A2M.f(24)}">${n}</span></div>`).join('')}
+    ${acts.map(([g, t], i) => `<div style="${A2M.p(L[i] - 2, 562, 130, 130, `border-radius:50%;background:#4a4a4e;display:flex;align-items:center;justify-content:center${i === 0 ? ';' : ''}`)}" class="${i === 0 ? 'a2-hl' : ''}">${A2M.svg(g, 50, 1.4)}</div><div style="${A2M.p(L[i] - 20, 710, 166, 64, 'text-align:center;color:#fff;font-weight:500;white-space:nowrap')}"><span style="${A2M.f(24)}">${t}</span></div>`).join('')}
+  </div></div>`;
+}
+function a2mAdd() {
+  const url = location.origin + location.pathname.replace(/[^/]*$/, '');
+  return `<div class="a2m-wrap"><div class="a2m-s a2m-add" style="aspect-ratio:1167/1322;--u:calc(100cqw / 1167);position:relative;width:100%;overflow:hidden;background:#1c1c1e;border-radius:calc(58 * var(--u))">
+    <div style="${A2M.p(0, 170, 1167, 185, 'background:#2a2a2c')}"></div>
+    <div style="${A2M.p(0, 426, 1167, 96, 'background:#2a2a2c')}"></div>
+    <div style="${A2M.p(0, 168, 1167, 2, 'background:#38383a')}"></div>
+    <div style="${A2M.p(0, 355, 1167, 2, 'background:#38383a')}"></div>
+    <div style="${A2M.p(0, 426, 1167, 2, 'background:#38383a')}"></div>
+    <div style="${A2M.p(0, 522, 1167, 2, 'background:#38383a')}"></div>
+    <div style="${A2M.p(24, 24, 88, 88, 'border-radius:50%;background:#3a3a3c;display:flex;align-items:center;justify-content:center')}">${A2M.svg('x', 40, 2.2)}</div>
+    <div style="${A2M.p(0, 46, 1167, 44, 'text-align:center;color:#fff;font-weight:700;white-space:nowrap')}"><span style="${A2M.f(36)}">ホーム画面に追加</span></div>
+    <div style="${A2M.p(1017, 24, 128, 88, 'border-radius:50%;background:#5aa2f7;color:#fff;font-weight:700;text-align:center')}"><span style="${A2M.f(36, 'display:block;line-height:calc(88 * var(--u))')}">追加</span></div>
+    <img src="icon-192.png" alt="" style="${A2M.p(35, 202, 120, 120, 'border-radius:calc(28 * var(--u));display:block')}">
+    <div style="${A2M.p(186, 186, 800, 52, 'color:#fff;white-space:nowrap;overflow:hidden')}"><span style="${A2M.f(36)}">課題管理</span><span style="display:inline-block;width:calc(3 * var(--u));height:calc(40 * var(--u));background:#0a84ff;vertical-align:middle;margin-left:calc(4 * var(--u))"></span></div>
+    <div style="${A2M.p(1100, 189, 46, 46, 'border-radius:50%;background:#58585c;display:flex;align-items:center;justify-content:center')}">${A2M.svg('x', 22, 2.6)}</div>
+    <div style="${A2M.p(186, 284, 960, 50, 'color:#7c7c80;white-space:nowrap;overflow:hidden')}"><span style="${A2M.f(32)}">${esc(url)}</span></div>
+    <div style="${A2M.p(38, 452, 900, 48, 'color:#fff;white-space:nowrap')}"><span style="${A2M.f(34)}">ウェブアプリとして開く</span></div>
+    <div style="${A2M.p(1007, 448, 126, 60, 'border-radius:calc(30 * var(--u));background:#34c759')}"><div style="${A2M.p(66, 3, 54, 54, 'border-radius:50%;background:#fff')}"></div></div>
+    <div style="${A2M.p(38, 540, 1120, 140, 'color:#8e8e93;white-space:nowrap')}"><span style="${A2M.f(26.5)}">このウェブサイトにすばやくアクセスできるように、ホーム画面にアイコンを追加します。</span></div>
+  </div></div>`;
+}
 function a2hsArt(k) {
   const host = esc(location.host || '');
   if (k === 'open') return `<div class="obm a2o"><div class="a2o-ic">${a2safari(84)}</div><div class="a2o-name">Safari</div><div class="a2o-url">${esc(location.href)}</div><button type="button" class="btn tonal a2o-copy" data-act="a2hscopy">${a2svg('copy', 20)}リンクをコピーする</button></div>`;
-  if (k === 'share') return `<div class="obm a2sh"><div class="a2sh-bar"><span class="a2sh-side">${a2svg('book', 20)}</span><span class="a2sh-url">${host}</span><span class="a2sh-btn a2-hl">${a2svg('share', 22)}</span></div>
-    <div class="a2s-sheet"><div class="a2s-head"><span class="a2s-app"><img src="icon-192.png" alt="" width="52" height="52"></span><div><b>考査課題マネージャー</b><small>${host}</small></div><span class="a2s-opt">オプション ${a2svg('chev', 14)}</span></div>
-      <div class="a2s-row"><div class="a2s-t"><span class="a2s-ti"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="10.5" opacity=".5"/></svg></span>AirDrop</div><div class="a2s-t"><span class="a2s-ti"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10z"/></svg></span>Gemini</div><div class="a2s-t"><span class="a2s-ti"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/></svg></span>Chrome</div><div class="a2s-t"><span class="a2s-ti"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M8.5 3h7l6.5 11-3.5 6h-10L2 14z" opacity=".85"/></svg></span>ドライブ</div></div>
-      <div class="a2s-sep"></div>
-      <div class="a2s-row a2s-act"><div class="a2s-t"><span class="a2s-ti a2-hl a2s-on">${a2svg('plus', 26)}</span><b>ホーム画面に追加</b></div><div class="a2s-t"><span class="a2s-ti">${a2svg('copy', 26)}</span>コピー</div><div class="a2s-t"><span class="a2s-ti">${a2svg('book', 26)}</span>ブックマークの追加先…</div><div class="a2s-t"><span class="a2s-ti">${a2svg('chev', 26)}</span>表示を増やす</div></div>
-    </div></div>`;
-  if (k === 'add') return `<div class="obm a2a"><div class="a2a-bar"><span class="a2a-x">${a2svg('x', 20)}</span><b>ホーム画面に追加</b><span class="a2a-add a2-hl">追加</span></div>
-    <div class="a2a-f"><img class="a2a-ic" src="icon-192.png" alt="" width="58" height="58"><div><small>名前</small><b>課題管理</b></div></div><div class="a2a-url">${host}/Homework-Checklist/</div>
-    <div class="a2a-tg"><span>ウェブアプリとして開く</span><i class="a2a-sw"></i></div><p class="a2a-p">このウェブサイトにすばやくアクセスできるように、ホーム画面にアイコンを追加します。</p></div>`;
+  if (k === 'share') return a2mShare();
+  if (k === 'add') return a2mAdd();
   return `<div class="obm a2h"><div class="a2h-grid">${[0, 1, 2, 3, 4, 5, 6].map(() => '<span class="a2h-tile"></span>').join('')}<div class="a2h-ap"><span class="a2h-app a2-hl"><img src="icon-192.png" alt="" width="58" height="58"></span>課題管理</div></div><div class="a2h-dock">${[0, 1, 2, 3].map(() => '<span class="a2h-tile"></span>').join('')}</div></div>`;
 }
 function a2hsHtmlStep(i) {
