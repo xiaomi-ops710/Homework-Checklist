@@ -710,12 +710,14 @@
      *   skillCostMul   : 噴火・交換・吸引・触媒（実験スキル）の消費EPの倍率（大きいほど使いにくい）
      *   dangerLimitMul : 溢れそうになってから負けるまでの時間の倍率（小さいほど早く溢れる）
      *   epGainMul      : 合成・熱分解で貯まるEPの倍率（小さいほどEPが貯まりにくい）
+     *   dropMin/Max    : 最初に出る元素の範囲（大きいほど、大きな元素から始まる）
+     *   boxInset       : ガラスケースの左右を、内側へ何px狭めるか（大きいほど狭い）
      *   「普通」は従来の遊び方と同じ。古い保存データ・既存のランキングは「普通」として扱います。
      */
     const DIFFICULTY_TABLE = {
-      easy:   { label: '簡単',   desc: 'スキルが安く、EPが貯まりやすい。溢れるまでも長め', skillCostMul: 0.8,  dangerLimitMul: 1.25, epGainMul: 1.2, dropMin: 1, dropMax: 4 },
-      normal: { label: '普通',   desc: 'いつもどおりの遊び方',                              skillCostMul: 1.0,  dangerLimitMul: 1.0,  epGainMul: 1.0, dropMin: 1, dropMax: 5 },
-      hard:   { label: '難しい', desc: 'スキルが高く、EPが貯まりにくい。溢れるのも早い',   skillCostMul: 1.3,  dangerLimitMul: 0.8,  epGainMul: 0.75, dropMin: 2, dropMax: 5 }
+      easy:   { label: '簡単',   desc: 'スキルが安く、EPが貯まりやすい。溢れるまでも長め', skillCostMul: 0.8,  dangerLimitMul: 1.25, epGainMul: 1.2, dropMin: 1, dropMax: 4, boxInset: 0 },
+      normal: { label: '普通',   desc: 'いつもどおりの遊び方',                              skillCostMul: 1.0,  dangerLimitMul: 1.0,  epGainMul: 1.0, dropMin: 1, dropMax: 5, boxInset: 0 },
+      hard:   { label: '難しい', desc: '箱が狭く、大きい元素から出る。スキルは2.4倍、EPが貯まりにくく、溢れるのも早い', skillCostMul: 2.4,  dangerLimitMul: 0.6,  epGainMul: 0.5, dropMin: 4, dropMax: 6, boxInset: 70 }
     };
     const DIFFICULTY_ORDER = ['easy', 'normal', 'hard'];
     const DEFAULT_DIFFICULTY = 'normal';
@@ -2867,8 +2869,16 @@
     const LOGICAL_WIDTH = 500;
     const LOGICAL_HEIGHT = 640;
 
-    const BOX_LEFT = 56;
-    const BOX_RIGHT = 444;
+    let BOX_LEFT = 56;
+    let BOX_RIGHT = 444;
+    // 難易度でガラスケースの幅を変える（難しいほど狭い）。幅が変わったときだけ、絵を作り直す
+    function applyBoxGeometry() {
+      const inset = diffCfg().boxInset || 0;
+      const L = 56 + inset, R = 444 - inset;
+      if (L === BOX_LEFT && R === BOX_RIGHT) return;
+      BOX_LEFT = L; BOX_RIGHT = R;
+      buildAllSprites();
+    }
     const BOX_TOP_FRONT = 136;
     const BOX_BOTTOM = 612;
     const BOX_DEPTH_DX = 22;
@@ -3846,6 +3856,7 @@
     }
 
     function initPhysicsGame() {
+      applyBoxGeometry();
       if (engine) {
         World.clear(engine.world);
         Engine.clear(engine);

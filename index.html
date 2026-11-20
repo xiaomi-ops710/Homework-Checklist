@@ -2121,6 +2121,71 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 @keyframes sr-beat{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
 @keyframes sr-shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
 @media (prefers-reduced-motion: reduce){.sr *,.sr *::before,.sr *::after{animation:none!important;transition:none!important}.sr-cf{display:none}}
+/* ===== 18.2.7：ホーム画面の案内・プロフィール・同期ボタン ===== */
+.a2hs-pill{display:inline-flex;align-items:center;gap:6px;height:48px;padding:0 16px 0 12px;border-radius:24px;background:var(--s3);color:var(--primary);font-weight:700;font-size:.88rem;white-space:nowrap;border:0}
+.a2hs-pill .ms,.a2hs-pill svg{flex:none}
+@keyframes a2pulse{0%,100%{box-shadow:0 0 0 0 rgba(10,132,255,.55)}60%{box-shadow:0 0 0 9px rgba(10,132,255,0)}}
+.a2-hl{animation:a2pulse 1.6s ease-out infinite}
+.a2o{display:grid;justify-items:center;gap:14px;text-align:center}
+.a2o-ic{width:84px;height:84px;border-radius:22px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.a2o-ic svg{display:block;width:100%;height:100%}
+.a2o-name{font-weight:800;font-size:1.05rem}
+.a2o-url{font-size:.85rem;color:var(--on-v);overflow-wrap:anywhere;padding:10px 14px;border-radius:14px;background:var(--s2);width:100%;max-width:320px}
+.a2o-copy{min-height:48px;gap:8px}
+.a2sh{width:100%;max-width:340px;margin:0 auto;display:grid;gap:12px}
+.a2sh-bar{display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:16px;background:var(--s2)}
+.a2sh-side{color:var(--on-v);display:grid;place-items:center;width:32px}
+.a2sh-url{flex:1;min-width:0;text-align:center;font-weight:600;font-size:.85rem;padding:6px 10px;border-radius:10px;background:var(--s3);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.a2sh-btn{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--s3);color:var(--primary)}
+.a2s-sheet{border-radius:24px;padding:14px 14px 10px;background:var(--s1,#fff);box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.a2s-head{display:flex;align-items:center;gap:12px;padding-bottom:12px;border-bottom:1px solid rgba(127,127,127,.25)}
+.a2s-app{width:52px;height:52px;border-radius:12px;overflow:hidden;flex:none;display:block}
+.a2s-app img{display:block;width:52px;height:52px}
+.a2s-head b{display:block;font-size:.95rem}
+.a2s-head small{display:block;color:var(--on-v);font-size:.76rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.a2s-opt{margin-left:auto;display:inline-flex;align-items:center;gap:2px;padding:6px 12px;border-radius:999px;background:var(--s3);font-size:.8rem;font-weight:700;white-space:nowrap}
+.a2s-row{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 0}
+.a2s-t{display:grid;justify-items:center;gap:6px;font-size:.72rem;text-align:center;font-weight:600;line-height:1.3}
+.a2s-t b{font-size:.72rem}
+.a2s-ti{display:grid;place-items:center;width:56px;height:56px;border-radius:14px;background:var(--s3);color:var(--on)}
+.a2s-on{background:var(--primary);color:#fff}
+.a2s-sep{height:1px;background:rgba(127,127,127,.25)}
+.a2a{border-radius:22px;background:var(--s1,#fff);overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+.a2a-bar{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:10px;padding:12px 14px}
+.a2a-bar b{text-align:center;font-size:.98rem}
+.a2a-x{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;background:var(--s3)}
+.a2a-add{padding:8px 16px;border-radius:999px;background:#0a84ff;color:#fff;font-weight:700;border-radius:999px}
+.a2a-f{display:flex;align-items:center;gap:14px;padding:14px;border-top:1px solid rgba(127,127,127,.2)}
+.a2a-ic{width:58px;height:58px;border-radius:14px;flex:none}
+.a2a-f small{display:block;color:var(--on-v);font-size:.78rem}
+.a2a-f b{font-size:1rem}
+.a2a-url{padding:14px;border-top:1px solid rgba(127,127,127,.2);color:var(--on-v);font-size:.9rem;overflow-wrap:anywhere}
+.a2a-tg{display:flex;align-items:center;justify-content:space-between;padding:14px;margin-top:10px;border-top:1px solid rgba(127,127,127,.2);border-bottom:1px solid rgba(127,127,127,.2)}
+.a2a-sw{width:52px;height:32px;border-radius:999px;background:#34c759;position:relative;flex:none}
+.a2a-sw::after{content:"";position:absolute;right:3px;top:3px;width:26px;height:26px;border-radius:50%;background:#fff}
+.a2a-p{font-size:.8rem;color:var(--on-v);padding:8px 14px 14px;line-height:1.6;margin:0}
+.a2h{width:100%;max-width:300px;margin:0 auto;padding:18px 16px 14px;border-radius:28px;background:linear-gradient(160deg,#5b7bd6,#2c3e8f 60%,#1b2350)}
+.a2h-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 10px;justify-items:center}
+.a2h-ap{display:grid;justify-items:center;gap:4px;font-size:.7rem;color:#fff;font-weight:700}
+.a2h-tile{width:52px;height:52px;border-radius:13px;background:rgba(255,255,255,.22)}
+.a2h-app{display:block;width:58px;height:58px;border-radius:14px;overflow:hidden;box-shadow:0 4px 10px rgba(0,0,0,.3)}
+.a2h-app img{display:block;width:58px;height:58px}
+.a2h-dock{margin-top:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:10px;border-radius:22px;background:rgba(255,255,255,.2)}
+.a2h-dock .a2h-tile{width:100%;height:52px}
+.acc-av{display:inline-grid;place-items:center;border-radius:50%;overflow:hidden;flex:none;vertical-align:middle;background:var(--s3);color:var(--primary);font-weight:800}
+.acc-av>*{width:100%!important;height:100%!important;border-radius:50%;object-fit:cover;display:grid;place-items:center}
+.ac-sync{display:grid;gap:10px;padding:16px;margin:0 0 14px;border-radius:20px;background:var(--s3)}
+.ac-sync-t{display:flex;align-items:center;gap:12px}
+.ac-sync-t b{font-size:1.02rem}
+.ac-sync-t small{display:block;color:var(--on-v);font-weight:500}
+.ac-sync-b{width:100%;min-height:52px;font-size:1.02rem;font-weight:800}
+.ac-sync-n{color:var(--on-v);font-weight:500;line-height:1.6}
+.obm-sb{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:14px;background:var(--s2)}
+.obm-sbi .ms{font-size:24px}
+.obm-sheet{margin-top:10px;border-radius:18px;background:var(--s1,#fff);box-shadow:0 6px 20px rgba(0,0,0,.12);overflow:hidden}
+.obm-sh-row{display:flex;align-items:center;gap:12px;padding:14px 16px;border-top:1px solid rgba(127,127,127,.2)}
+.obm-sh-row:first-child{border-top:0}
+.obm-sh-ic{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--s3)}
 </style>
 <style id="tools-subj">
   #totop{position:fixed;z-index:29;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 176px);width:52px;height:52px;border:0;border-radius:18px;background:var(--pc);color:var(--on-pc);box-shadow:0 10px 24px -8px rgba(0,0,0,.45);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(28px) scale(.6);pointer-events:none;transition:opacity .35s ease,transform .55s var(--spring),border-radius .45s var(--spring)}
@@ -2844,9 +2909,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.7';
-const BETA_VER = '18.2.7';
-const RELEASE_VER = '18.2.7'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.9';
+const BETA_VER = '18.2.9';
+const RELEASE_VER = '18.2.9'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3742,6 +3807,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.9', d: '__BUILD__', t: 'ホーム画面に追加の案内を、セットアップ画面にする', n: ['ブラウザで開いているiPad・iPhoneでは、「〜日連続」の左に「ホーム画面に追加」ボタンを出すようにしました','ボタンを押すと、Safariで開く手順から、共有ボタン・追加・ホーム画面で開く、までの4枚の案内が出ます','Safari以外のブラウザでは、リンクをコピーしてSafariに貼り付ける手順を出します'] },
+  { v: '18.2.8', d: '__BUILD__', t: '元素マージの難しいを厳しくし、初めての案内と、プロフィール・同期を分かりやすく', n: ['元素マージの「難しい」は、箱を狭くし、大きな元素から始まり、スキルは2.4倍、EPは貯まりにくくなりました','iPadやiPhoneのブラウザで開いているときは、共有ボタンから「ホーム画面に追加」できる案内を出すようにしました','はじめての案内を、やさしい言葉に直しました。考査の作り方も説明に加えました','吹き出しの説明を、画面の中のボタン（考査・＋ボタン・ツールなど）にも増やしました','右上のアイコンから、ニックネーム・アイコンを変えられるようにしました。Googleのメールアドレスも表示します','同期ボタンを大きくして、今の状態と最終同期の時刻を見やすくしました'] },
   { v: '18.2.7', d: '__BUILD__', t: '考査の編集と、先生からの予定の受け取りを使いやすくする', n: ['ホームの考査ボタンを長押しすると、すぐ編集（名前・考査の初日など）を開けるようにしました','先生から予定が届いたとき、通知が出て、予定表に入るようにしました','歴打の結果画面の「今回の合戦評価称号」が、背景と同化せず読めるようにしました','歴打の征夷大将軍コース（ミックス・全時代）の出題順を、毎回完全にランダムにしました'] },
   { v: '18.2.6', d: '__BUILD__', t: 'AIとアプリの機能をつなぎ、AIモデルの解放を変更する', n: ['AIが、このアプリの機能を把握して答えるようになりました。回答の下に機能を開くボタンと、「今日のプランに追加」ボタンが出ます', 'ホームのおすすめは、ゲーム・ツール・実績・ショップなど、アプリ全体の機能から提案します', 'AIモデルの解放をレベルだけに変更しました（3.8 Flash：レベル12、Hydrogen：レベル17。XPでは買えません）', 'Hydrogenが混み合って使えないときは、3.8 Flashで自動的に答えます（回答の下に知らせます）', 'AIからショップを開いたとき、下にスクロールできるように直しました', 'ゲームのBGMを流している間も、上に音楽のチップを表示します', '歴打のBGMを整理し、3曲のまとまりを良くしました（音量も他のゲームと揃えました）'] },
     { v: '18.2.5', d: '__BUILD__', t: 'ゲームのBGMを音楽で聴けるようにし、歴打の音を豪華にする', n: ['AIの思考中に、左右に余白が出てスマホのような幅になる不具合を直しました', 'ツールの音楽に「ゲームBGM」を追加。歴打（3曲）・元素インベーダー（3曲）・元素マージ（6曲）を聴けます', '歴打のBGMに、尺八・琴・三味線・太鼓などの和楽器を加え、より豪華にしました', '元素マージで5曲目・6曲目が流れているとき、上の雲のキャラがビートに合わせて揺れます'] },
@@ -5804,13 +5871,19 @@ const GLOGO = '<svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true
 const gBtn = () => `<button class="gbtn" data-act="cloudin">${GLOGO}<span>Google でログイン</span></button>`;
 CLOUD.last = +localStorage.getItem('kosa-last-sync') || 0;
 const setLast = () => { CLOUD.last = Date.now(); try { localStorage.setItem('kosa-last-sync', CLOUD.last); } catch (e) { } };
+// 右上のアイコン・アカウント画面に出す、アプリ内のプロフィール（ニックネームとアイコン）
+function myAv(sz) {
+  const g = growGet(), nm = g.nick || (CLOUD.user && CLOUD.user.displayName) || '';
+  if (!g.av && !nm) return ms('account_circle', '', `font-size:${sz - 4}px`);
+  return `<span class="acc-av" style="width:${sz}px;height:${sz}px;font-size:${Math.round(sz * .42)}px">${avHtml(g.av, nm || '自分')}</span>`;
+}
 function userAv(sz) {
   const u = CLOUD.user, ini = esc(((u.displayName || u.email || '?').trim()[0] || '?').toUpperCase());
   return u.photoURL ? `<img src="${esc(u.photoURL)}" width="${sz}" height="${sz}" alt="" referrerpolicy="no-referrer" style="width:${sz}px;height:${sz}px;border-radius:50%" onerror="this.outerHTML='<span class=&quot;ini&quot; style=&quot;width:${sz}px;height:${sz}px&quot;>${ini}</span>'">` : `<span class="ini" style="width:${sz}px;height:${sz}px">${ini}</span>`;
 }
 function renderAcct() {
   const u = CLOUD.user, bad = CLOUD.status === 'error' && u;
-  const st = stkHtml(); $('#acct').innerHTML = st + `<button type="button" class="fbtop" data-act="fbopen" aria-label="フィードバックを送る" title="フィードバックを送る">${ms('rate_review')}</button><button class="acctb" data-act="acct" aria-label="${u ? 'アカウントと同期' : 'ログイン'}">${u ? userAv(36) : ms('account_circle', '', 'font-size:32px')}${bad ? '<i class="dot"></i>' : ''}${fbBadgeN() ? `<i class="nbadge">${Math.min(fbBadgeN(), 9)}${fbBadgeN() > 9 ? '+' : ''}</i>` : ''}</button>`;
+  const st = (a2hsNeed() ? a2hsPill() : '') + stkHtml(); $('#acct').innerHTML = st + `<button type="button" class="fbtop" data-act="fbopen" aria-label="フィードバックを送る" title="フィードバックを送る">${ms('rate_review')}</button><button class="acctb" data-act="acct" aria-label="${u ? 'アカウントと同期' : 'ログイン'}">${myAv(36)}${bad ? '<i class="dot"></i>' : ''}${fbBadgeN() ? `<i class="nbadge">${Math.min(fbBadgeN(), 9)}${fbBadgeN() > 9 ? '+' : ''}</i>` : ''}</button>`;
   const ac = $('#acct'), ab = ac && ac.querySelector('.acctb'); document.documentElement.style.setProperty('--acct-w', ac && ab ? (ac.offsetWidth - ab.offsetWidth + 8) + 'px' : '0px');
 }
 function acctHtml() {
@@ -5818,17 +5891,17 @@ function acctHtml() {
   if (!u) {
     if (st === 'unconfigured') return `<h2>ログインできません</h2><p class="muted">Firebase の設定が未入力です。firebase-config.js を確認してください。</p>${close}`;
     if (!CLOUD.fb) return `<h2>ログインできません</h2><p class="muted">同期サービスに接続できません。接続を確認して、もう一度お試しください。</p>${close}`;
-    return `<h2>Google アカウントでログイン</h2><p class="muted" style="margin:-8px 0 22px">ログインすると、進捗・考査日・課題・設定が、同じアカウントでログインしたすべての端末で同期されます。ログインしなくても、この端末だけで使えます。</p><div class="dact"><button class="btn text" data-act="close">キャンセル</button><button class="btn text" data-act="fbopen">${ms('rate_review')}フィードバック</button><span class="sp"></span>${gBtn()}</div>`;
+    return `<h2>Google アカウントでログイン</h2><button type="button" class="btn tonal sm" data-act="profedit" style="margin:-6px 0 16px">${ms('edit')}プロフィールを変える</button><p class="muted" style="margin:-8px 0 22px">ログインすると、進捗・考査日・課題・設定が、同じアカウントでログインしたすべての端末で同期されます。ログインしなくても、この端末だけで使えます。</p><div class="dact"><button class="btn text" data-act="close">キャンセル</button><button class="btn text" data-act="fbopen">${ms('rate_review')}フィードバック</button><span class="sp"></span>${gBtn()}</div>`;
   }
   const label = { sync: '同期しています…', ok: '同期済み', error: '同期できません。接続を確認してください' }[st] || '—';
   const last = CLOUD.last ? new Date(CLOUD.last).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
   const pill = (act, icon, text, badge = '') => `<button class="ac-pill" data-act="${act}"><span class="ac-pi">${ms(icon)}${badge}</span><span class="ac-pl">${text}</span></button>`;
   const fbN = fbUnreadMine().length, admN = FBL.isAdmin ? fbUnreadAdm().length : 0;
   const showMine = FBL.mine.length || fbQ().length;
-  return `<div class="ac-top">${userAv(76)}<b class="ac-name">${esc(u.displayName || 'Google アカウント')}</b><span class="ac-mail">${esc(u.email || '')}</span><span class="ac-st st-${st}"><i></i>${label}</span></div>
+  return `<div class="ac-top">${myAv(84)}<b class="ac-name">${esc(growGet().nick || u.displayName || 'ニックネーム未設定')}</b><div class="ac-mail">${ms('mail')}<span>Googleアカウント：${esc(u.email || '（メールアドレスなし）')}</span></div><button type="button" class="btn tonal sm" data-act="profedit" style="margin-top:8px">${ms('edit')}プロフィールを変える</button><span class="ac-st st-${st}"><i></i>${label}</span></div>
   <div class="ac-tri">${pill('fbopen', 'rate_review', 'フィードバック')}${showMine ? pill('fbmine', 'forum', '送った内容', fbN ? `<i class="nbadge in">${fbN}</i>` : '') : ''}${FBL.isAdmin ? pill('fbinbox', 'inbox', '受信箱', admN ? `<i class="nbadge in">${admN}</i>` : '') : ''}${FBL.isAdmin ? pill('annsend', 'campaign', 'お知らせ') : ''}${pill('svlist', 'poll', 'アンケート', svUnanswered() ? `<i class="nbadge in">${svUnanswered()}</i>` : '')}</div>
   <div class="ac-list ac-app"><button class="ac-row" data-act="notiopen">${ms('notifications')}<span>通知</span>${ms('chevron_right')}</button><button class="ac-row" data-act="updcheck">${ms('system_update')}<span>アップデートを確認</span><b>v${verTxt(APP_VERSION)}</b></button><button class="ac-row" data-act="setopen">${ms('settings')}<span>設定</span>${ms('chevron_right')}</button></div>
-  <div class="ac-list"><div class="ac-row">${ms('schedule')}<span>最終同期</span><b>${last}</b></div><button class="ac-row" data-act="cloudnow">${ms('sync')}<span>今すぐ同期</span>${ms('chevron_right')}</button><button class="ac-row danger" data-act="cloudout">${ms('logout')}<span>ログアウト</span></button></div>
+  <div class="ac-sync"><div class="ac-sync-t">${st === 'sync' ? gspin(22) : ms('sync')}<div><b>データの同期</b><small>最終同期：${last}</small></div></div><button type="button" class="btn ac-sync-b" data-act="cloudnow" ${st === 'sync' ? 'disabled' : ''}>${st === 'sync' ? '同期しています…' : '今すぐ同期する'}</button><small class="ac-sync-n">${st === 'error' ? '同期できません。ネットの接続を確かめてから、もう一度押してください。' : '同じアカウントの別の端末とも、同じデータになります。'}</small></div><div class="ac-list"><button class="ac-row danger" data-act="cloudout">${ms('logout')}<span>ログアウト</span></button></div>
   <div class="dact"><span class="sp"></span><button class="btn tonal" data-act="close">閉じる</button></div>`;
 }
 function acctDlg() { openDlg(acctHtml()); dlg.dataset.k = 'acct'; }
@@ -6187,18 +6260,19 @@ const updInfo = () => ({
   idle: ['system_update', 'アプリのアップデート', '更新を確認できます。']
 }[UPD.state]);
 /* ====================== 初回の説明（18.4）：Androidのセットアップのような、ページごとのイラストつきの流れ ====================== */
-const GUIDE = [
-  { ic: 'school', ti: 'ようこそ', tx: '考査（テスト）までに終わらせる課題を、わかりやすく管理するアプリです。よく使う機能を、順番に見ていきましょう。', art: 'welcome' },
-  { ic: 'add_task', ti: '課題を追加する', tx: '＋ボタンから「課題を追加」を選び、ワーク名・ページの範囲・提出期限を入れます。途中のページを飛ばす課題や、チェックリストの課題も作れます。', art: 'task' },
-  { ic: 'edit_note', ti: '進みを記録する', tx: '課題の「現在のページ」に、ここまで終わったページ番号を入れると、達成率が自動で計算されます。＋1や＋5のボタンでも進められます。', art: 'progress' },
-  { ic: 'calendar_view_week', ti: '時間割', tx: '1〜6限は、決まった時間で動きます。7限は、曜日ごとに時間を設定できます。ホームで、今日の時間割と「いま」の教科がわかります。', art: 'timetable' },
-  { ic: 'timer', ti: '集中タイマー', tx: 'ツールの「集中タイマー」で、集中と休憩をくり返せます。時間は設定で変えられます。', art: 'timer' },
-  { ic: 'auto_awesome', ti: 'AIに質問する', tx: 'わからない問題は、写真を撮って「AI」タブから質問できます。使うにはGoogleログインが必要です。答えは間違うこともあるので、教科書でも確かめましょう。', art: 'chat' },
-  { ic: 'apps', ti: 'ツールと、よく使うもの', tx: 'ホームの「よく使うツール」に、12個まで置けます。ツールは、ツール一覧からいつでも開けます。', art: 'tools' },
-  { ic: 'notifications_active', ti: '通知とプッシュ通知', tx: 'ベル（通知）には、提出や予定、実績、フィードバックの返信が届きます。Googleログインして「プッシュ通知」をオンにすると、アプリを閉じていても、今日・明日の提出や予定をお知らせします。iPhoneでは、ホーム画面に追加したアプリから設定してください。', art: 'notify' },
-  { ic: 'emoji_events', ti: '実績とレベル', tx: '課題を終わらせたり、勉強を続けたりすると、実績が解除されてXPがもらえます。XPでレベルが上がると、ショップで背景や効果音、ツールを選べます。「記録」タブの「実績・レベル」から、いつでも見られます。', art: 'achieve' },
-  { ic: 'rate_review', ti: 'フィードバック', tx: '右上のフィードバックボタンから、いつでも意見や不具合を送れます。送った内容への返信も、アプリの中で届きます。', art: 'feedback' },
-  { ic: 'cloud_sync', ti: 'データの保存と同期', tx: 'データは、この端末の中に保存されます。Googleでログインすると、同じアカウントの別の端末とも同期されます。この説明は、設定の「使い方を見る」からいつでも見られます。', art: 'sync' }
+const GUIDE_ALL = [
+  { ic: 'school', ti: 'はじめに', tx: 'このアプリは、テスト（考査）までに終わらせる課題を、計画的に進めるためのものです。課題・時間割・考査を入れていくと、今日やることが自動でわかります。', art: 'welcome' },
+  { ic: 'event', ti: 'まずは考査（テスト）を作る', tx: 'ホームの「＋考査」を押して、テストの名前と初日を入れましょう。考査が決まると、あと何日かが画面に出ます。', art: 'exam' },
+  { ic: 'add_task', ti: '課題を追加する', tx: '下の「＋」を押して「課題を追加」を選びます。ワーク名と、やるページ（例：p.1〜20）を入れるだけで登録できます。提出日も入れると、近づくと知らせてくれます。', art: 'task' },
+  { ic: 'edit_note', ti: '終わったページを入れる', tx: '課題の「ここまで終わった」ページの数字を入れると、終わった割合が自動で出ます。＋1や＋5のボタンでも、すぐ進められます。', art: 'progress' },
+  { ic: 'calendar_view_week', ti: '時間割を入れる', tx: '1〜6限は、学校の時間どおりに動きます。ホームで、いまの授業と今日の時間割がわかります。', art: 'timetable' },
+  { ic: 'timer', ti: '集中タイマー', tx: '「ツール」の「集中タイマー」を押すと、集中と休みをくり返せます。時間は設定で変えられます。', art: 'timer' },
+  { ic: 'auto_awesome', ti: 'AIに質問する', tx: 'わからない問題は、写真を撮って「AI」タブで聞けます。使うには、Googleでログインします。AIの答えは間違うこともあるので、教科書でも確かめてください。', art: 'chat' },
+  { ic: 'apps', ti: 'ツールを使う', tx: '「ツール」タブには、電卓や単語帳など、勉強の道具がそろっています。よく使うものは、ホームに置くこともできます。', art: 'tools' },
+  { ic: 'notifications_active', ti: '通知を受け取る', tx: 'Googleでログインして「プッシュ通知」をオンにすると、アプリを閉じていても、提出日や予定を知らせてくれます。ベルのマークから、届いたお知らせを見られます。', art: 'notify' },
+  { ic: 'emoji_events', ti: '実績とレベル', tx: '課題を終わらせたり、毎日続けたりすると、実績がもらえてレベルが上がります。「記録」タブで、いつでも見られます。', art: 'achieve' },
+  { ic: 'rate_review', ti: 'フィードバック', tx: '困ったことや、ほしい機能は、右上のフィードバックボタンから送れます。返信も、アプリの中で届きます。', art: 'feedback' },
+  { ic: 'cloud_sync', ti: 'データの保存と同期', tx: 'データは、この端末に保存されます。Googleでログインすると、同じアカウントの別の端末とも同じになります。右上のアイコンから、いつでも同期できます。', art: 'sync' }
 ];
 /* 初回の説明のイラスト：アプリの実際の画面に近い、HTMLの部品（文字とアイコンは実物と同じ） */
 const OB_ART = {
@@ -6220,9 +6294,11 @@ const OB_ART = {
   notify: () => `<div class="obm obm-nf"><div class="ios27 ios-banner obm-banner" aria-hidden="true"><div class="ib-app"><img src="icon-192.png" alt=""></div><div class="ib-main"><div class="ib-top"><b>考査課題マネージャー</b><span class="ib-n">今</span></div><div class="ib-from">from 課題管理</div><div class="ib-text">明日提出：数学ワーク p.10-30</div></div></div><div class="card obm-nl"><div class="obm-mh">${ms('notifications')}<b>通知</b><em class="obm-unread">未読 2件</em></div><div class="obm-ni"><span class="obm-nic">${ms('schedule')}</span><div><b>明日提出：数学ワーク</b><small>ワーク p.10-30</small></div></div><div class="obm-ni"><span class="obm-nic">${ms('emoji_events')}</span><div><b>実績を解除：単語を50個覚えた</b><small>単語帳で「覚えた」を50個</small></div></div></div><div class="obm-pt2"><span>${ms('campaign')}プッシュ通知</span><span class="obm-sw on" aria-hidden="true"><i></i></span></div></div>`,
   achieve: () => `<div class="obm obm-ach"><div class="ach-big obm-ab" aria-hidden="true"><span class="ach-big-ic">${ms('emoji_events', 'f')}</span><span class="ach-big-t"><b>実績・レベル</b><small>Lv.5 ・ 次のレベルまで あと120XP</small></span></div><div class="card obm-al"><div class="obm-mh"><span class="obm-ai2">${ms('style')}</span><b>単語を50個覚えた</b><em>解除済み</em></div><div class="obm-bar"><i style="width:100%"></i></div><small>単語帳で「覚えた」を50個</small></div><div class="obm-row2"><span class="obm-xp">${ms('bolt')}+50 XP</span><span class="obm-xp on">${ms('storefront')}ショップで使う</span></div></div>`,
   feedback: () => `<div class="obm obm-fb"><div class="obm-bar-top"><span class="obm-st">${ms('event_repeat')}3日連続</span><span class="obm-fbb">${ms('rate_review')}</span><span class="obm-av">${ms('account_circle')}</span></div><div class="obm-pt">${ms('touch_app')}ここを押すと、すぐ送れます</div><div class="card obm-fbc"><small>フィードバック</small><div class="obm-fl"></div><div class="obm-fl short"></div><div class="obm-send2">${ms('send')}送信</div></div></div>`,
-  sync: () => `<div class="obm obm-sync"><div class="obm-devs"><div class="obm-phone"><div class="obm-scr"><i></i><i></i><i></i></div></div><div class="obm-link">${ms('sync')}</div><div class="obm-tab"><div class="obm-scr"><i></i><i></i></div></div></div><div class="obm-gbtn"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>Googleでログイン</span></div><div class="obm-ok">${ms('cloud_done')}同期済み</div></div>`
+  sync: () => `<div class="obm obm-sync"><div class="obm-devs"><div class="obm-phone"><div class="obm-scr"><i></i><i></i><i></i></div></div><div class="obm-link">${ms('sync')}</div><div class="obm-tab"><div class="obm-scr"><i></i><i></i></div></div></div><div class="obm-gbtn"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>Googleでログイン</span></div><div class="obm-ok">${ms('cloud_done')}同期済み</div></div>`,
+  exam: () => `<div class="obm"><div class="card obm-prog"><small>考査（テスト）</small><b class="obm-tt">期末考査</b><div class="obm-row2"><small>初日</small><small>12月10日</small></div><div class="obm-row2"><small>あと</small><small>20日</small></div></div><div class="obm-chip">${ms('add')}＋考査で追加</div></div>`,
 };
 
+const GUIDE = GUIDE_ALL;
 const G = { i: 0, dir: 'fwd' };
 function guideHtml(i) {
   const g = GUIDE[i], last = i === GUIDE.length - 1, pct = ((i + 1) / GUIDE.length) * 100;
@@ -12500,6 +12576,8 @@ function friendsRedraw() {
 Object.assign(ACT, {
   profedit() { profDlg(); },
   profsave() { profSave(); },
+  a2hsopen() { a2hsGo(0); }, a2hsn() { a2hsGo(A2.i + 1); }, a2hsp() { a2hsGo(A2.i - 1); },
+  a2hscopy() { a2hsCopy(); }, a2hsclose() { closeDlg(); },
   profnoav() { PF.av = ''; const pv = $('#pfpv'); if (pv) pv.innerHTML = avHtml('', (($('#pfn') || {}).value || '自分'), 'pf-img'); },
 });
 // --- 友達：ログイン状態の待ち・通知の受け取り・公開（ルールが古くても名前は届くように） ---
@@ -13078,23 +13156,102 @@ Object.assign(ACT, {
 });
 /* ---- はじめて開くタブ・ボタンの、吹き出し（楕円）の説明 ---- */
 const HINT_TXT = {
-  'tab:home': ['ホーム', 'ここで、今日の予定・やること・進み具合を、ひと目で見られます'],
-  'tab:tasks': ['課題', 'ワークや問題集を登録して、ページごとに進められます'],
-  'tab:cal': ['予定', '考査・提出日・行事を、カレンダーで確認できます'],
-  'tab:stats': ['記録', '勉強時間やレベル、友達との比較が見られます'],
-  'tab:ai': ['AI', '勉強の質問や、今日の計画の相談ができます'],
-  'tab:tools': ['ツール', '単語帳・集中タイマー・計算など、勉強の道具がそろっています'],
+  'tab:home': ['ホーム', '今日やることと、考査までの日数が、ここでひと目でわかります'],
+  'tab:tasks': ['課題', 'ワークや問題集を登録して、やったページを記録できます'],
+  'tab:cal': ['予定', '考査・提出日・行事を、カレンダーで見られます'],
+  'tab:stats': ['記録', '勉強した時間や、レベル・実績が見られます'],
+  'tab:ai': ['AI', 'わからないことを、AIに聞けます（Googleログインが必要）'],
+  'tab:tools': ['ツール', '電卓・単語帳・集中タイマーなど、勉強の道具がそろっています'],
   'tab:settings': ['設定', 'テーマ・通知・アップデートなどを変えられます'],
-  'gsearch': ['さがす', '課題・単語・予定などを、まとめて探せます'],
-  'fbopen': ['フィードバック', 'ここからフィードバックを送信できます'],
-  'acct': ['アカウント', 'Googleログインや、データの同期・友達の設定ができます'],
-  'notiopen': ['通知', 'お知らせ・アンケート・やることの通知を、ここで確認できます'],
-  'upd': ['バージョン', 'タップすると、アップデートの確認や更新履歴が見られます'],
-  'svlist': ['アンケート', '管理者からのアンケートに、ここから投票できます']
+  'exam': ['考査（テスト）', 'テストの期間ごとに分けられます。長押しすると、名前や日付をすぐ変えられます'],
+  'addexam': ['考査を追加', 'テストの名前と初日を入れると、あと何日かが出ます'],
+  'homeedit': ['ホームを編集', 'ホームに出す項目や、並び順を自分好みに変えられます'],
+  'fab': ['＋ボタン', '課題・予定・考査を、ここからすぐ追加できます'],
+  'tdadd': ['今日のやること', '今日やることを追加して、終わったらチェックできます'],
+  'tool': ['ツール', 'タップすると、その道具が開きます'],
+  'focus': ['集中タイマー', '押すと、集中と休みをくり返すタイマーが始まります'],
+  'shopopen': ['ショップ', 'XPで、背景や効果音を選べます'],
+  'gsearch': ['さがす', '課題・単語・予定を、まとめて探せます'],
+  'fbopen': ['フィードバック', '困ったことや、ほしい機能を送れます'],
+  'acct': ['アカウント', 'プロフィールの変更・Googleログイン・データの同期ができます'],
+  'notiopen': ['通知', 'お知らせや、提出日の知らせを、ここで確認できます'],
+  'upd': ['バージョン', 'タップすると、アップデートの確認や変更点が見られます'],
+  'svlist': ['アンケート', '先生からのアンケートに、ここから答えられます']
 };
 const HINT = { on: false, k: '', last: 0, shown: {} };
 const hintSeen = () => new Set(lsj('kosa-hint-seen', []));
 function hintMark(k) { if (!k) return; const s = hintSeen(); if (s.has(k)) return; s.add(k); lss('kosa-hint-seen', [...s].slice(-300)); }
+function a2hsNeed() {
+  try {
+    if (navigator.standalone === true || matchMedia('(display-mode: standalone)').matches) return false;
+    const ua = navigator.userAgent || '';
+    return /iPad|iPhone|iPod/.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  } catch (e) { return false; }
+}
+// ホーム画面に追加：ブラウザで開いているiPad/iPhoneだけ、「〜日連続」の左にボタンを出す
+const A2 = { i: 0, dir: 'fwd' };
+function a2hsPill() { return `<button type="button" class="a2hs-pill" data-act="a2hsopen" aria-label="ホーム画面に追加の案内を開く">${a2svg('share', 20)}<span>ホーム画面に追加</span></button>`; }
+function a2hsIsSafari() { const ua = navigator.userAgent || ''; return /Safari/.test(ua) && !/CriOS|FxiOS|EdgiOS|OPiOS|OPT\/|YaBrowser|DuckDuckGo|GSA\//.test(ua); }
+function a2hsSteps() { return a2hsIsSafari() ? ['share', 'add', 'done'] : ['open', 'share', 'add', 'done']; }
+const A2_TXT = {
+  open: ['まず、Safariで開きます', 'いまは、Safari以外のブラウザで開いています。ホーム画面に追加するには、Safariで開く必要があります。下のボタンでリンクをコピーし、Safariを開いて貼り付けてください。'],
+  share: ['右上の共有ボタンを押す', '画面の右上にある共有ボタン（四角から矢印が出ているマーク）を押します。共有メニューが開いたら、「ホーム画面に追加」を押してください。iPhoneでは、画面の下にあります。'],
+  add: ['右上の「追加」を押す', '「ホーム画面に追加」の画面が出ます。名前はそのままで大丈夫です。右上の青い「追加」を押してください。'],
+  done: ['ホーム画面から開けるようになります', 'ホーム画面に「課題管理」のアイコンができました。次からは、このアイコンを押すと、アプリのように開けます。']
+};
+// 見た目はSafari・共有メニューに近づけた、自前の絵（Appleの画像は使っていません）
+function a2svg(name, s = 24) {
+  const P = {
+    share: '<path d="M8 9H6.5A1.5 1.5 0 0 0 5 10.5v8A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-8A1.5 1.5 0 0 0 17.5 9H16"/><path d="M12 3v12"/><path d="M8.5 6.5 12 3l3.5 3.5"/>',
+    plus: '<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8v8M8 12h8"/>',
+    copy: '<rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M5.5 15.5V6a2 2 0 0 1 2-2h8.5"/>',
+    book: '<path d="M12 6.5C10 5 7.5 4.5 4 4.8v13.7c3.5-.3 6 .2 8 1.7 2-1.5 4.5-2 8-1.7V4.8c-3.5-.3-6 .2-8 1.7z"/><path d="M12 6.5v13.7"/>',
+    chev: '<path d="M6 9.5l6 6 6-6"/>',
+    x: '<path d="M6 6l12 12M18 6L6 18"/>'
+  };
+  return `<svg viewBox="0 0 24 24" width="${s}" height="${s}" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${P[name] || ''}</svg>`;
+}
+function a2safari(s) {
+  let t = ''; for (let k = 0; k < 60; k++) { const a = k * 6 * Math.PI / 180, r1 = 36, r2 = k % 5 ? 39 : 41; t += `<line x1="${(50 + r1 * Math.sin(a)).toFixed(1)}" y1="${(50 - r1 * Math.cos(a)).toFixed(1)}" x2="${(50 + r2 * Math.sin(a)).toFixed(1)}" y2="${(50 - r2 * Math.cos(a)).toFixed(1)}" stroke="#fff" stroke-width="${k % 5 ? 1 : 2}" stroke-linecap="round" opacity=".85"/>`; }
+  return `<svg viewBox="0 0 100 100" width="${s}" height="${s}" aria-hidden="true"><defs><linearGradient id="a2sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fd0ff"/><stop offset="1" stop-color="#0a5fd6"/></linearGradient></defs><rect width="100" height="100" rx="22" fill="#fff"/><circle cx="50" cy="50" r="42" fill="url(#a2sg)"/>${t}<polygon points="66,34 53,53 47,47" fill="#ff3b30"/><polygon points="34,66 47,47 53,53" fill="#fff"/></svg>`;
+}
+function a2hsCopy() {
+  const url = location.href, done = () => toast('リンクをコピーしました。Safariを開いて貼り付けてください');
+  const fallback = () => {
+    const t = document.createElement('textarea'); t.value = url; t.setAttribute('readonly', ''); t.style.cssText = 'position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(t); t.select(); t.setSelectionRange(0, 99999);
+    let ok = false; try { ok = document.execCommand('copy'); } catch (e) { } t.remove();
+    ok ? done() : toast('コピーできませんでした。アドレスバーのURLを長押ししてコピーしてください');
+  };
+  try { navigator.clipboard.writeText(url).then(done, fallback); } catch (e) { fallback(); }
+}
+function a2hsArt(k) {
+  const host = esc(location.host || '');
+  if (k === 'open') return `<div class="obm a2o"><div class="a2o-ic">${a2safari(84)}</div><div class="a2o-name">Safari</div><div class="a2o-url">${esc(location.href)}</div><button type="button" class="btn tonal a2o-copy" data-act="a2hscopy">${a2svg('copy', 20)}リンクをコピーする</button></div>`;
+  if (k === 'share') return `<div class="obm a2sh"><div class="a2sh-bar"><span class="a2sh-side">${a2svg('book', 20)}</span><span class="a2sh-url">${host}</span><span class="a2sh-btn a2-hl">${a2svg('share', 22)}</span></div>
+    <div class="a2s-sheet"><div class="a2s-head"><span class="a2s-app"><img src="icon-192.png" alt="" width="52" height="52"></span><div><b>考査課題マネージャー</b><small>${host}</small></div><span class="a2s-opt">オプション ${a2svg('chev', 14)}</span></div>
+      <div class="a2s-row"><div class="a2s-t"><span class="a2s-ti"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2.5"/><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="10.5" opacity=".5"/></svg></span>AirDrop</div><div class="a2s-t"><span class="a2s-ti"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10z"/></svg></span>Gemini</div><div class="a2s-t"><span class="a2s-ti"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/></svg></span>Chrome</div><div class="a2s-t"><span class="a2s-ti"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M8.5 3h7l6.5 11-3.5 6h-10L2 14z" opacity=".85"/></svg></span>ドライブ</div></div>
+      <div class="a2s-sep"></div>
+      <div class="a2s-row a2s-act"><div class="a2s-t"><span class="a2s-ti a2-hl a2s-on">${a2svg('plus', 26)}</span><b>ホーム画面に追加</b></div><div class="a2s-t"><span class="a2s-ti">${a2svg('copy', 26)}</span>コピー</div><div class="a2s-t"><span class="a2s-ti">${a2svg('book', 26)}</span>ブックマークの追加先…</div><div class="a2s-t"><span class="a2s-ti">${a2svg('chev', 26)}</span>表示を増やす</div></div>
+    </div></div>`;
+  if (k === 'add') return `<div class="obm a2a"><div class="a2a-bar"><span class="a2a-x">${a2svg('x', 20)}</span><b>ホーム画面に追加</b><span class="a2a-add a2-hl">追加</span></div>
+    <div class="a2a-f"><img class="a2a-ic" src="icon-192.png" alt="" width="58" height="58"><div><small>名前</small><b>課題管理</b></div></div><div class="a2a-url">${host}/Homework-Checklist/</div>
+    <div class="a2a-tg"><span>ウェブアプリとして開く</span><i class="a2a-sw"></i></div><p class="a2a-p">このウェブサイトにすばやくアクセスできるように、ホーム画面にアイコンを追加します。</p></div>`;
+  return `<div class="obm a2h"><div class="a2h-grid">${[0, 1, 2, 3, 4, 5, 6].map(() => '<span class="a2h-tile"></span>').join('')}<div class="a2h-ap"><span class="a2h-app a2-hl"><img src="icon-192.png" alt="" width="58" height="58"></span>課題管理</div></div><div class="a2h-dock">${[0, 1, 2, 3].map(() => '<span class="a2h-tile"></span>').join('')}</div></div>`;
+}
+function a2hsHtmlStep(i) {
+  const steps = a2hsSteps(), k = steps[i], last = i === steps.length - 1, T = A2_TXT[k];
+  return `<div class="ob a2hs-ob"><div class="ob-bar"><span class="ob-prog" role="progressbar" aria-valuemin="1" aria-valuemax="${steps.length}" aria-valuenow="${i + 1}"><i style="width:${((i + 1) / steps.length) * 100}%"></i></span></div>
+  <div class="ob-art ${A2.dir}" key="${i}"><div class="ob-blob"></div><div class="obm-wrap" role="img" aria-label="${T[0]}">${a2hsArt(k)}</div></div>
+  <div class="ob-txt ${A2.dir}"><small class="ob-step">${i + 1} / ${steps.length}</small><h2>${T[0]}</h2><p>${T[1]}</p></div>
+  <div class="ob-dots">${steps.map((_, j) => `<i class="${j === i ? 'on' : ''}"></i>`).join('')}</div>
+  <div class="ob-foot">${i ? '<button type="button" class="btn text" data-act="a2hsp">戻る</button>' : '<span></span>'}<span class="sp"></span><button type="button" class="btn ob-next" data-act="${last ? 'a2hsclose' : 'a2hsn'}">${last ? 'とじる' : '次へ'}</button></div></div>`;
+}
+function a2hsGo(n) {
+  const steps = a2hsSteps(), to = Math.max(0, Math.min(steps.length - 1, n));
+  if (!dlg.open) { A2.i = to; A2.dir = 'fwd'; openDlg(a2hsHtmlStep(to)); dlg.dataset.k = 'a2hs'; return; }
+  A2.dir = to >= A2.i ? 'fwd' : 'back'; A2.i = to; dlg.innerHTML = `<div class="dlg">${a2hsHtmlStep(to)}</div>`;
+}
 function hintHide() { const b = $('#hintb'); if (b) b.remove(); HINT.on = false; HINT.last = Date.now(); }
 function hintKeyOf(el) { const a = el && el.dataset && el.dataset.act; if (!a) return ''; return a === 'tab' ? 'tab:' + el.dataset.id : a; }
 function hintShow(k, r) {
@@ -13114,7 +13271,7 @@ function hintShow(k, r) {
 function hintTick() {
   if (HINT.on || dlg.open || TM.open || document.hidden || Date.now() - HINT.last < 4000) return;
   const seen = hintSeen();
-  for (const el of document.querySelectorAll('[data-act]')) {
+  for (const el of [...document.querySelectorAll('#main [data-act]'), ...document.querySelectorAll('[data-act]')]) {
     const k = hintKeyOf(el); if (!k || !HINT_TXT[k] || seen.has(k) || (HINT.shown[k] || 0) >= 2) continue;
     const r = el.getBoundingClientRect(); if (r.width < 8 || r.height < 8 || r.bottom < 0 || r.top > innerHeight || r.right < 0 || r.left > innerWidth) continue;
     hintShow(k, r); return;
