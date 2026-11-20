@@ -1772,6 +1772,26 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .achtip-t{display:grid;gap:2px;min-width:0;flex:1}
 .achtip-t small{font-size:.74rem;opacity:.85}
 .achtip-t b{font-size:.92rem;line-height:1.45;overflow-wrap:anywhere}
+.lvg{display:grid;gap:10px;margin:12px 0}
+.lvg-h{display:flex;gap:10px;align-items:center}
+.lvg-h>.ms{font-size:28px;color:var(--primary);flex:none}
+.lvg-h b{display:block;font-size:.98rem;line-height:1.5}
+.lvg-h small{display:block;font-size:.78rem;opacity:.8;line-height:1.5}
+.lvg-bar{height:10px;border-radius:99px;background:var(--scc);overflow:hidden}
+.lvg-bar i{display:block;height:100%;background:var(--primary);border-radius:99px}
+.lvg-ways{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.lvg-ways li{display:flex;gap:10px;align-items:flex-start}
+.lvg-ways li>.ms{font-size:22px;flex:none;margin-top:2px}
+.lvg-ways b{display:block;font-size:.9rem}
+.lvg-ways small{display:block;font-size:.78rem;opacity:.85;line-height:1.5}
+.lvg-ask{justify-self:start}
+.achn{display:grid;gap:8px;margin-bottom:12px}
+.achn-i{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:18px;background:var(--scc)}
+.achn-i>.ms{font-size:24px;color:var(--primary);flex:none}
+.achn-i b{display:block;font-size:.9rem}
+.achn-i small{display:block;font-size:.74rem;opacity:.85}
+.achn-bar{height:6px;border-radius:99px;background:rgba(127,127,127,.2);margin-top:5px;overflow:hidden}
+.achn-bar i{display:block;height:100%;background:var(--primary)}
 .fbm-sum{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:0 0 12px}
 .fbm-sum>div{display:grid;justify-items:center;padding:12px 6px;border-radius:24px;background:var(--s2)}
 .fbm-sum b{font-size:1.5rem;line-height:1.1}
@@ -2881,9 +2901,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.11';
-const BETA_VER = '18.2.11';
-const RELEASE_VER = '18.2.11'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.12';
+const BETA_VER = '18.2.12';
+const RELEASE_VER = '18.2.12'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3779,6 +3799,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.12', d: '__BUILD__', t: '実績でレベルの上げ方が分かる・ロックされた画面の案内・しりとりの対戦の失敗理由を表示', n: ['実績の画面の一番上に、次のレベルまであと何XPか、XPの稼ぎ方（課題・ページ・勉強時間）を出すようにしました', '「あと少しで取れる実績」を3つ出すようにしました', '元素マージ・しりとり・歴打など、レベルが足りなくて開けない画面にも、どうすればレベルが上がるかを出すようにしました', '「AIにどうやって上げるか聞く」ボタンを追加しました。AIが、いまのレベルとXPをふまえて答えます', 'しりとりの友達対戦で、部屋をつくれない・リクエストを送れない・参加できないときは、理由（エラーの番号）を出すようにしました。リクエストを送れなかった部屋は消します', '対戦リクエストの受け取りが止まったときは、理由を出すようにしました', 'サインアウト以外で、対戦の部屋の通信が切れる問題を直しました'] },
   { v: '18.2.11', d: '__BUILD__', t: '元素マージの当たり判定と、いろいろな不具合を修正', n: ['元素マージで、合体したボールが重なる・大きさが変わる問題を直しました。合体のボールは、落ちたときと同じ大きさで出ます','発熱膨張は、ボールを大きくせず、まわりにオレンジの輪を出して知らせるようにしました','ふわふわ浮力と無重力を削除しました。逆転フラスコは、箱が傾くものだけになりました','NaHCO₃（Lv.11）同士は熱分解のボーナスになるように直しました。最上段（HCl）同士が熱分解になる不具合も直しました','難しいでは、箱に入りきらない大きさの元素は作られないようにしました','触媒で進化した元素が、最高の元素に数えられない不具合を直しました','予定・考査日などの送信で、失敗の理由を表示するようにしました。一部だけ届かなかったときは、押し直しても二重に届かないようにしました','フィードバックを全て既読にしたあとも通知が出る不具合、書きかけの返信やお知らせが消える不具合を直しました','フィードバックを1件だけ送れなかったときに、残りが止まる不具合を直しました。端末に保存できなかったときは、その旨を表示します','文字とアイコンの高さがずれる箇所を揃えました','対戦の部屋から、ログアウトしたあとも通信が続く不具合を直しました','ゲーム中の通知が、まとめて出ても取りこぼさないようにしました'] },
   { v: '18.2.10', d: '__BUILD__', t: '元素マージに新しいギミック・タイトルへ戻るボタン', n: ['元素マージに「化合スパーク」を追加しました。Na＋Clで塩化ナトリウム（NaCl）生成！（+150pt）、Cu＋Oで酸化銅（CuO）の化合！（+200pt）。ボールは消えず、EPも入ります','気体（H・Nなど）は、落下したあとしばらく浮力がかかり、重い金属（FeやCu）の上に浮きやすくなりました','連続コンボや激しい衝突が起きると、近くのボールが5秒間ふくらむ「発熱膨張」を追加しました','「逆転フラスコ」を追加しました。スコア5,000点ごと、または120秒ごとに、箱が傾くか、3秒間の無重力になります','ゲーム中に「タイトルへ戻る」ボタンを追加しました。今の状態を保存してから、タイトル画面に戻れます','元素マージのランキングは、このバージョンから作り直しました。難しいの以前の記録は削除され、以前の記録は表示されません','難易度を変えたあとに、箱の幅が前の難易度のままになることがあるのを直しました','EPの上限を3000に上げました'] },
   { v: '18.2.9.1', d: '__BUILD__', t: 'バグ修正', n: ['ホーム画面に追加の案内の、共有メニューと追加の画面の見た目を、本家のSafariに近づけました'] },
@@ -4423,11 +4444,42 @@ function subView() {
   const t = SUB_T[ui.sub], f = SUB_V[ui.sub]; if (!t || !f) return '';
   return `<div class="subbar"><button type="button" class="ibtn" data-act="subback" aria-label="戻る">${ms('arrow_back')}</button><h2>${ms(t[1])}${t[0]}</h2></div>` + f();
 }
+// ===== レベルの上げ方（実績の画面と、ロックされた画面で、同じ案内を出す）=====
+// 目標のレベルまで、あと何XP必要か（レベルは、XPが 25×(L-1)² を超えると上がる）
+function lvNeedXp(target) { const lv = level(); return Math.max(0, Math.ceil(25 * (target - 1) ** 2 - lv.xp)); }
+// XPの稼ぎ方。XPの計算（課題20・ページ1・勉強1分0.5）に合わせて、あと何をすればいいかを出す
+function lvWays(need) {
+  const left = S.tasks.filter(t => !isDone(t)).length;
+  return [
+    { ic: 'task_alt', t: '課題を1つ終わらせる', s: `1つで 20 XP。あと約${Math.ceil(need / 20)}個で届きます${left ? `（未完了の課題は${left}個）` : '（課題を追加すると、ここから始められます）'}` },
+    { ic: 'menu_book', t: '勉強して、ページを進める', s: `ページは1枚で 1 XP、勉強は1分で 0.5 XP。勉強の時間だけなら、あと約${Math.ceil(need / 0.5)}分で届きます` },
+    { ic: 'bolt', t: '毎日、少しずつ続ける', s: '1日に稼げるXPには上限があります（勉強の分数で決まります）。毎日少しずつ進めるのが、一番確実です' }
+  ];
+}
+function lvNextHtml(target) {
+  const lv = level(), tg = target || lv.L + 1, need = lvNeedXp(tg);
+  const pct = Math.max(0, Math.min(100, Math.round(lv.xp / (25 * (tg - 1) ** 2) * 100)));
+  return `<div class="card lvg"><div class="lvg-h">${ms('trending_up')}<div><b>Lv.${tg} ${need ? `まで あと ${need.toLocaleString('ja-JP')} XP` : 'に届いています'}</b><small>いまは Lv.${lv.L}（${esc(titleOf(lv.L))}）・ ${lv.xp.toLocaleString('ja-JP')} XP</small></div></div>` +
+    `<div class="lvg-bar"><i style="width:${pct}%"></i></div>` +
+    (need ? `<ol class="lvg-ways">${lvWays(need).map(w => `<li>${ms(w.ic)}<div><b>${w.t}</b><small>${w.s}</small></div></li>`).join('')}</ol>` : '') +
+    `<button type="button" class="btn tonal sm lvg-ask" data-act="lvask" data-id="${tg}">${gem(18)}AIにどうやって上げるか聞く</button></div>`;
+}
+// あと少しで取れる実績（まだ取っていない実績のうち、進みが大きいもの3つ）
+function achNextHtml() {
+  const c = totals();
+  const list = BADGES.filter(b => !S.badges[b[0]] && typeof b[5] === 'function').map(b => {
+    const pr = b[5](c); if (!Array.isArray(pr)) return null;
+    const cur = Number(pr[0]) || 0, goal = Number(pr[1]) || 0;
+    return goal > 0 ? { ic: b[1], name: b[2], desc: b[3], cur, goal, r: Math.min(1, cur / goal) } : null;
+  }).filter(Boolean).sort((a, b) => b.r - a.r).slice(0, 3);
+  if (!list.length) return '';
+  return `<h3 class="shop-h">あと少しで取れる実績</h3><div class="achn">${list.map(x => `<div class="achn-i">${ms(x.ic)}<div><b>${esc(x.name)}</b><small>${esc(x.desc)}・${Math.min(x.cur, x.goal).toLocaleString('ja-JP')} / ${x.goal.toLocaleString('ja-JP')}</small><div class="achn-bar"><i style="width:${Math.round(x.r * 100)}%"></i></div></div></div>`).join('')}</div>`;
+}
 function achPage() {
   const lv = level();
   return `<div class="ach-hero"><div class="ach-lv"><small>レベル</small><b>${lv.L}</b></div><div class="ach-hi"><div class="ach-tt">${ms('military_tech')}${esc(titleOf(lv.L))}</div><div class="ach-xp"><b>${lv.xp.toLocaleString('ja-JP')}</b><small>XP</small></div><div class="ach-bar"><i style="width:${Math.max(0, Math.min(100, Math.round(lv.p * 100)))}%"></i></div><small class="muted">次のレベルまで あと ${lv.need.toLocaleString('ja-JP')} XP</small></div></div>` +
     `<div class="ach-btns"><button type="button" class="ach-btn" data-act="shopopen">${ms('shopping_bag')}<span><b>ショップ</b><small>XPで背景・効果音・ツール</small></span></button><button type="button" class="ach-btn" data-act="achall">${ms('workspace_premium')}<span><b>全実績</b><small>${achDoneN().done} / ${achDoneN().all} 達成</small></span></button></div>` +
-    `<h3 class="shop-h">レベルごとの特典</h3>${ladderHtml(lv.L)}`;
+    `${lvNextHtml()}${achNextHtml()}<h3 class="shop-h">レベルごとの特典</h3>${ladderHtml(lv.L)}`;
 }
 // 全実績：マイクラの実績画面のように、左に進み具合、右に一覧（デザインはM3の角丸と色）
 function mcRow(x) {
@@ -5900,7 +5952,7 @@ async function cloudInit() {
     if (window.APPCHECK_SITE_KEY) { try { const ac = await import(B + 'firebase-app-check.js'); CLOUD.ac = { mod: ac, inst: ac.initializeAppCheck(a, { provider: new ac.ReCaptchaEnterpriseProvider(window.APPCHECK_SITE_KEY), isTokenAutoRefreshEnabled: true }) }; } catch (e) { if (window.__kosaLog) window.__kosaLog('App Checkの初期化に失敗: ' + ((e && e.message) || e)); } }
     const authI = auth.getAuth(a), db = fs.getFirestore(a);
     CLOUD.fb = { auth, fs, authI, db, app: a }; CLOUD.status = 'out';
-    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; CLOUD.authed = true; betaCheck(u); if (u) inboxStart(); else { inboxStop(); svWatchStop(); } if (u) { cloudStart(); setTimeout(() => { fbWatchStart(); annWatchStart(); svWatchStart(); asgWatchStart(); }, 1500); } else { cloudStop(); fbWatchStop(); annWatchStop(); asgWatchStop(); } cloudRefresh(); frAuthRedraw(); });
+    auth.onAuthStateChanged(authI, u => { CLOUD.user = u; CLOUD.authed = true; betaCheck(u); if (u) inboxStart(); else { inboxStop(); srUnwatch(); svWatchStop(); } if (u) { cloudStart(); setTimeout(() => { fbWatchStart(); annWatchStart(); svWatchStart(); asgWatchStart(); }, 1500); } else { cloudStop(); fbWatchStop(); annWatchStop(); asgWatchStop(); } cloudRefresh(); frAuthRedraw(); });
     cloudResume();
   } catch (e) { CLOUD.status = 'error'; }
   cloudRefresh();
@@ -12284,6 +12336,12 @@ function friendsHtml(me, rows) {
 Object.assign(ACT, {
   aimpick(id) { const m = AI_MODES.find(x => x.id === id); if (!m) return; if (id !== 'auto' && !shopHas('ai', id)) return toast('このモデルはまだ使えません'); AI_PICK.set(id); aiRepaint(); toast(`${m.ttl}にしました`); },
   aimodel(id) { if (!shopHas('ai', id)) return toast('このモデルはまだ使えません'); if (AI_PICK.get() === id) return; AI_PICK.set(id); ACT.shopeq('ai:' + id); render(); },
+  lvask(id) {
+    if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return acctDlg(); }
+    const lv = level(), tg = Number(id) || lv.L + 1;
+    ACT.tab('ai');
+    setTimeout(() => aiSend(`このアプリで、レベル${tg}に上がるには、何をすればいいか教えてください。今は、レベル${lv.L}・${lv.xp} XPです。次のレベルまで、あと${lvNeedXp(tg)} XPです。XPのもらい方（課題・ページ・勉強時間）のうち、一番早く上がる順に、短く具体的に教えてください。`), 50);
+  },
   shopopen() { if (level().L < SHOP_LV) return toast(`Lv.${SHOP_LV}で使えるようになります`); subGo('shop'); },
   shopbuy(v) {
     const [kind, id] = String(v).split(':'), it = (SHOP_MAP[kind] || {})[id]; if (!it) return;
@@ -12599,7 +12657,7 @@ function inboxStart() {
     }, () => { });
   } catch (e) { }
 }
-function inboxStop() { srInboxStop(); srUnwatch();if (INBOX_UNSUB) { try { INBOX_UNSUB(); } catch (e) { } INBOX_UNSUB = null; } }
+function inboxStop() { srInboxStop(); if (INBOX_UNSUB) { try { INBOX_UNSUB(); } catch (e) { } INBOX_UNSUB = null; } }
 // ログインの確認が終わったら、友達の画面を描き直す
 function frAuthRedraw() { if (ui.tab === 'stats' || ui.tab === 'home') render(); }
 /* 最初の描画は、スクリプトの最後（すべての const / let の宣言が終わったあと）に行う。
@@ -14093,7 +14151,7 @@ Object.assign(ACT, { admopen() { admOpen(); }, admlist() { admList(); }, admview
 function rekidaHtml() {
   const lv = level().L;
   if (document.getElementById('rkov')) return `<div class="ps"><div class="card ps-st">${rkStatHtml()}</div><p class="muted ps-note" style="margin:10px 4px 0">全画面で遊んでいます。「戻す」で、ツールの画面に戻ります。</p></div>`;
-  if (lv < RK_LV) return `<div class="rk-lock card"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>歴打は、レベル${RK_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。課題を進めたり、アプリを使ってレベルを上げると、遊べるようになります。あと${RK_LV - lv}レベルです。</p></div>`;
+  if (lv < RK_LV) return `<div class="rk-lock card"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>歴打は、レベル${RK_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。課題を進めたり、アプリを使ってレベルを上げると、遊べるようになります。あと${RK_LV - lv}レベルです。</p>${lvNextHtml(RK_LV)}</div>`;
   return `<div class="ps"><div class="card ps-st" id="rkstat">${rkStatHtml()}</div><div class="card grk" id="grk-rk">${grkInner('rk')}</div><div class="ps-bar"><button type="button" class="btn tonal sm" id="rkfb" data-act="rkfull">${ms('fullscreen')}全画面</button></div><div class="ps-frame rk-frame" id="rkframe"><iframe src="games/rekida.html" title="歴打 -REKIDA-"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">1ゲームの石高や累計は、実績「石高1000」などに反映されます。</p></div>`;
 }
 
@@ -14140,6 +14198,8 @@ const SR_TURN_SYS = 'あなたは中学生のしりとりの審判であり、�
 const SR = { view: 'home', lang: 'ja', theme: '', diff: 1, lim: 15, codeIn: '', input: '', ai: null, code: '', room: null, unsub: null, reqs: [], busy: false, toBusy: false };
 
 // ---- 小さな道具 ----
+// 失敗の理由を短く出す（Firebaseのエラーコード。権限がない・ネットがない などが分かる）
+function srErr(e) { return String((e && e.code) || 'エラー').replace(/^firestore\//, '').slice(0, 40); }
 function srMe() { return CLOUD.user ? CLOUD.user.uid : ''; }
 function srName() { return String(growGet().nick || (CLOUD.user && CLOUD.user.displayName) || '自分').slice(0, 20); }
 function srNameOf(d, uid) { return uid === d.host ? d.hostName : d.guestName; }
@@ -14376,7 +14436,7 @@ function srWatch(code) {
     }
     SR.room = snap.data();
     srOnRoom();
-  }, () => toast('対戦の通信が切れました。もう一度開いてください'));
+  }, e => { if (window.__kosaLog) window.__kosaLog(e); toast(`対戦の通信が切れました（${srErr(e)}）。もう一度開いてください`); });
 }
 // 部屋の状態が変わったら、画面を合わせる。入力中の画面は、描き直さずに中身だけ直す（キーボードを閉じないため）
 function srOnRoom() {
@@ -14392,8 +14452,15 @@ async function srCreateRoom(friend) {
   const theme = SR.theme.trim().slice(0, 20), lim = SR.lim, name = srName();
   try {
     await fs.setDoc(fs.doc(db, 'shiriRooms', code), { host: me, hostName: name, guest: '', guestName: '', status: 'waiting', lang: SR.lang, theme, lim, turn: '', deadline: 0, words: [], winner: '', reason: '', t: Date.now() });
-    if (friend) await fs.setDoc(fs.doc(fs.collection(db, 'shiriInbox', friend.uid, 'items')), { from: me, name, room: code, lim, lang: SR.lang, theme, t: Date.now() });
-  } catch (e) { toast('部屋をつくれませんでした。通信をかくにんしてください'); return; }
+  } catch (e) { toast(`部屋をつくれませんでした（${srErr(e)}）`); return; }
+  if (friend) {
+    try { await fs.setDoc(fs.doc(fs.collection(db, 'shiriInbox', friend.uid, 'items')), { from: me, name, room: code, lim, lang: SR.lang, theme, t: Date.now() }); }
+    catch (e) {
+      // 相手に届かなかった部屋は消す（残すと、だれも入れない部屋がのこる）
+      try { await fs.deleteDoc(fs.doc(db, 'shiriRooms', code)); } catch (x) { }
+      toast(`${friend.name || '友達'}さんに、リクエストを送れませんでした（${srErr(e)}）`); return;
+    }
+  }
   srWatch(code);
   toast(friend ? `${friend.name || '友達'}さんに、対戦リクエストを送りました` : '部屋をつくりました。コードを友達に伝えてください');
 }
@@ -14506,15 +14573,22 @@ function srInboxStart() {
       });
       first = false;
       if (SR.view === 'home') srRender();
-    }, () => { });
+    }, e => {
+      // 受け取り箱が読めないとき（権限・通信）は、理由を出す。黙って止めない
+      if (window.__kosaLog) window.__kosaLog(e);
+      toast(`対戦リクエストを受け取れません（${srErr(e)}）`);
+    });
   } catch (e) { }
 }
 
 // 通知をタップしたとき：そのリクエストの「参加する／断る」を、一覧の位置に関係なく出す
 function srConfirmClose() { const el = document.getElementById('srConfirm'); if (el) el.remove(); }
-function srConfirmReq(aid) {
+async function srConfirmReq(aid) {
   const [code, rid] = String(aid || '').split('|');
-  const x = (SR.reqs || []).find(r => r.id === rid);
+  let x = (SR.reqs || []).find(r => r.id === rid);
+  if (!x && rid && CLOUD.fb && CLOUD.user) {   // 一覧がまだ届いていないときは、そのリクエストを1件だけ直接読む
+    try { const { fs, db } = CLOUD.fb; const s = await fs.getDoc(fs.doc(db, 'shiriInbox', CLOUD.user.uid, 'items', rid)); if (s.exists()) x = { id: rid, ...s.data() }; } catch (e) { }
+  }
   srConfirmClose();
   if (!x) { toast('このリクエストは、もうありません'); return; }
   const nm = String(x.name || '友達').slice(0, 20);
@@ -14574,7 +14648,7 @@ function srWaitHtml() {
   return `<div class="sr">${srTop('対戦の部屋')}<div class="sr-card sr-codecard"><div class="sr-lab" style="justify-content:center">${ms('vpn_key')}参加コード</div><div class="sr-code">${esc(SR.code)}</div><button class="sr-ghost wide" data-act="srcopy" data-id="${esc(SR.code)}">${ms('content_copy')}コードをコピー</button><p class="sr-msg">友達にコードを伝えるか、リクエストを送ってください。相手が参加すると、すぐ始まります。</p><div class="sr-wait"><i></i><i></i><i></i>相手を待っています</div><div><button class="btn tonal" data-act="srleave">${ms('close')}部屋をやめる</button></div></div></div>`;
 }
 function srLockedHtml() {
-  return `<div class="sr">${srTop('しりとり')}<div class="sr-card sr-lock"><div class="sr-lock-ic">${ms('lock')}</div><b>レベル${SHIRI_LV}で使えるようになります</b><p class="sr-msg">いまのレベル：${level().L}。友達と対戦するときは、お互いがレベル${SHIRI_LV}になっている必要があります。</p></div></div>`;
+  return `<div class="sr">${srTop('しりとり')}<div class="sr-card sr-lock"><div class="sr-lock-ic">${ms('lock')}</div><b>レベル${SHIRI_LV}で使えるようになります</b><p class="sr-msg">いまのレベル：${level().L}。友達と対戦するときは、お互いがレベル${SHIRI_LV}になっている必要があります。</p></div>${lvNextHtml(SHIRI_LV)}</div>`;
 }
 // 対戦の画面の見た目。入力欄と送信ボタンは、対戦中ずっと同じものを使う（キーボードを閉じないため）
 function srGameFrame(mode) {
@@ -15042,7 +15116,7 @@ function mergeHtml() {
   if (document.getElementById('mgov')) return `<div class="ps"><p class="muted ps-note" style="margin:10px 4px 0">全画面で遊んでいます。「戻す」で、ツールの画面に戻ります。</p></div>`;
   if (lv < MG_LV && !toolOwned('merge')) {
     const buy = `<div class="mg-buy"><button type="button" class="btn" data-act="toolbuy" data-id="merge" ${sp < TOOL_SHOP.merge.c ? 'disabled' : ''}>${ms('shopping_cart')}${TOOL_SHOP.merge.c} XPで使えるようにする</button><small class="muted">いまの使えるXP ${sp}</small></div>`;
-    return `<div class="rk-lock card mg-lux"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>元素マージは、レベル${MG_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。レベルを上げるか、XPを使うと、今すぐ遊べます。あと${MG_LV - lv}レベルです。</p>${buy}</div>`;
+    return `<div class="rk-lock card mg-lux"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>元素マージは、レベル${MG_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。レベルを上げるか、XPを使うと、今すぐ遊べます。あと${MG_LV - lv}レベルです。</p>${buy}${lvNextHtml(MG_LV)}</div>`;
   }
   return `<div class="ps"><div class="card ps-st mg-lux" id="mgstat">${mgStatHtml()}</div><div class="ps-bar"><button type="button" class="btn tonal sm" id="mgfb" data-act="mgfull">${ms('fullscreen')}全画面</button></div><div class="ps-frame rk-frame" id="mgframe"><iframe src="games/merge.html" title="中2理科 元素マージ"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">同じ元素をくっつけると、次の段階に進化します。画面をタップするか、← → とスペースで操作します。</p></div>`;
 }
