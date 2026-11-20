@@ -2879,9 +2879,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.9.1';
-const BETA_VER = '18.2.9.1';
-const RELEASE_VER = '18.2.9.1'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.10';
+const BETA_VER = '18.2.10';
+const RELEASE_VER = '18.2.10'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3777,6 +3777,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.10', d: '__BUILD__', t: '元素マージに新しいギミック・タイトルへ戻るボタン', n: ['元素マージに「化合スパーク」を追加しました。Na＋Clで塩化ナトリウム（NaCl）生成！（+150pt）、Cu＋Oで酸化銅（CuO）の化合！（+200pt）。ボールは消えず、EPも入ります','気体（H・Nなど）は、落下したあとしばらく浮力がかかり、重い金属（FeやCu）の上に浮きやすくなりました','連続コンボや激しい衝突が起きると、近くのボールが5秒間ふくらむ「発熱膨張」を追加しました','「逆転フラスコ」を追加しました。スコア5,000点ごと、または120秒ごとに、箱が傾くか、3秒間の無重力になります','ゲーム中に「タイトルへ戻る」ボタンを追加しました。今の状態を保存してから、タイトル画面に戻れます','元素マージのランキングは、このバージョンから作り直しました。難しいの以前の記録は削除され、以前の記録は表示されません','難易度を変えたあとに、箱の幅が前の難易度のままになることがあるのを直しました','EPの上限を3000に上げました'] },
   { v: '18.2.9.1', d: '__BUILD__', t: 'バグ修正', n: ['ホーム画面に追加の案内の、共有メニューと追加の画面の見た目を、本家のSafariに近づけました'] },
   { v: '18.2.9', d: '__BUILD__', t: 'ホーム画面に追加の案内を、セットアップ画面にする', n: ['ブラウザで開いているiPad・iPhoneでは、「〜日連続」の左に「ホーム画面に追加」ボタンを出すようにしました','ボタンを押すと、Safariで開く手順から、共有ボタン・追加・ホーム画面で開く、までの4枚の案内が出ます','Safari以外のブラウザでは、リンクをコピーしてSafariに貼り付ける手順を出します'] },
   { v: '18.2.8', d: '__BUILD__', t: '元素マージの難しいを厳しくし、初めての案内と、プロフィール・同期を分かりやすく', n: ['元素マージの「難しい」は、箱を狭くし、大きな元素から始まり、スキルは2.4倍、EPは貯まりにくくなりました','iPadやiPhoneのブラウザで開いているときは、共有ボタンから「ホーム画面に追加」できる案内を出すようにしました','はじめての案内を、やさしい言葉に直しました。考査の作り方も説明に加えました','吹き出しの説明を、画面の中のボタン（考査・＋ボタン・ツールなど）にも増やしました','右上のアイコンから、ニックネーム・アイコンを変えられるようにしました。Googleのメールアドレスも表示します','同期ボタンを大きくして、今の状態と最終同期の時刻を見やすくしました'] },
@@ -14731,7 +14732,7 @@ const SHIRI_LV = 7;
 const TOOL_LV = { merge: MG_LV, shiri: SHIRI_LV };
 function toolHas(id) { return toolOwned(id) || (!!TOOL_LV[id] && level().L >= TOOL_LV[id]); }
 // 難易度の版（MG_VER）が変わると、最高点・最高の元素・友達との最高点は数え直す（挑戦回数は残す）
-const MG_VER = 2;
+const MG_VER = 3;
 function mgStat() { let v = {}; try { v = JSON.parse(localStorage.getItem('kosa-merge') || '{}') || {}; } catch (e) { v = {}; } if (v.mgv !== MG_VER) v = { plays: v.plays || 0, mgv: MG_VER }; v.maxLv = Math.min(v.maxLv || 0, CHEAT.MG_LV); if (v.best) v.best = Math.min(v.best, 2200 * Math.pow(2, v.maxLv || CHEAT.MG_LV) + 3000); return v; }
 const mgOf = d => (d && d.mg && typeof d.mg === 'object' && d.mg.v === MG_VER) ? (Number(d.mg.b) || 0) : 0;
 function mgStatHtml() { const v = mgStat(); return `<span>最高点 <b>${v.best || 0}</b></span><span>最高の元素 <b>${v.maxLv ? 'Lv.' + v.maxLv : '-'}</b></span><span>挑戦 <b>${v.plays || 0}</b>回</span>`; }

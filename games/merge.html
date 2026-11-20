@@ -599,6 +599,13 @@
         <span class="hidden sm:inline">途中保存</span>
       </button>
 
+      <!-- タイトルへ戻る（今の状態を保存してから、タイトル画面へ） -->
+      <button id="titleBtn" type="button" title="今の状態を保存して、タイトルへ戻る"
+        class="jelly-btn px-2.5 py-1 rounded-full bg-sky-600 hover:bg-sky-500 text-white text-[11px] font-black shadow-sm flex items-center gap-0.5">
+        <span class="material-symbols-rounded text-sm">home</span>
+        <span>タイトルへ戻る</span>
+      </button>
+
       <!-- リセットボタン -->
       <button id="diffBtn" type="button" title="難易度を変える（簡単・普通・難しい）" class="jelly-btn px-2 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
         <span class="material-symbols-rounded text-sm">tune</span>
@@ -890,13 +897,15 @@
      * `TODO: Online API / Firebase / Supabase Integration` 部分に通信処理を入れるだけで、
      * UI側（ローディング表示、L/R切替、Yキー更新、ゲームオーバー時の送信）は変更不要でそのまま動作します。
      */
-    // 難易度ごとのローカル保存キー。「普通」は従来のキーをそのまま使う（既存の記録はそのまま普通として残る）
-    const STORAGE_KEY_SCORES = 'chem_suika_jhs2_scores_v3';
+    // 難易度ごとのローカル保存キー。v5 から記録を作り直し、このバージョン以上の記録だけをランキングに出す
+    const STORAGE_KEY_SCORES = 'chem_suika_jhs2_scores_v5_normal';
     const STORAGE_KEY_SCORES_BY_DIFF = {
-      easy: 'chem_suika_jhs2_scores_v4_easy',
+      easy: 'chem_suika_jhs2_scores_v5_easy',
       normal: STORAGE_KEY_SCORES,
-      hard: 'chem_suika_jhs2_scores_v4_hard'
+      hard: 'chem_suika_jhs2_scores_v5_hard'
     };
+    // 難しいの旧記録（v4）は削除する
+    try { localStorage.removeItem('chem_suika_jhs2_scores_v4_hard'); } catch (e) { }
 
     /**
      * @typedef {Object} RankingEntry
@@ -2949,6 +2958,11 @@
     let score = 0;
     let ep = 30;
     let epBonus = 0;   // 親のアプリから届く、開始EPのボーナス（レベルの特典）
+    // 逆転フラスコ（傾き・無重力イベント）の状態
+    let flask = { type: null, until: 0, dir: 0 };
+    let flaskAngle = 0;     // 箱の見た目の傾き（ラジアン）
+    let flaskNextScore = 5000;
+    let flaskNextTime = 120;
     // 噴火のとき、画面を揺らす（キャンバスに一時的に揺れを付ける）
     function gasShake() { const cv = document.getElementById('gameCanvas'); if (!cv) return; cv.classList.remove('gas-shake'); void cv.offsetWidth; cv.classList.add('gas-shake'); clearTimeout(gasShake.t); gasShake.t = setTimeout(() => cv.classList.remove('gas-shake'), 900); }
     let currentDropLevel = 1;
@@ -3526,7 +3540,7 @@
       MISSIONS.forEach((m) => {
         if (!completedMissions.has(m.id) && m.check(state)) {
           completedMissions.add(m.id);
-          ep += m.rewardEp;
+          ep = Math.min(3000, ep + m.rewardEp);
           updateEpUI();
           floatingTexts.push({
             x: LOGICAL_WIDTH / 2,
@@ -3717,11 +3731,13 @@
         const nextLevel = currentLevel + 1;
         const newBody = createElementBody(midX, midY, nextLevel, true);
         Body.setVelocity(newBody, { x: 0, y: -1.3 });
+        // 連続コンボが続いたら、周りのボールが発熱膨張する
+        if (comboCount >= 3) heatNearby(midX, midY, 130, '連続コンボ！発熱膨張');
 
         const comboMult = 1 + Math.min(comboCount - 1, 5) * 0.15;
         const earned = Math.round(nextLevel * nextLevel * 10 * comboMult);
         score += earned;
-        ep = Math.min(2000, ep + Math.round((4 + nextLevel + (comboCount > 1 ? 3 : 0)) * diffCfg().epGainMul));
+        ep = Math.min(3000, ep + Math.round((4 + nextLevel + (comboCount > 1 ? 3 : 0)) * diffCfg().epGainMul));
 
         updateScoreBoardUI();
         updateEpUI();
@@ -3742,7 +3758,7 @@
       } else {
         const bonus = 3000;
         score += bonus;
-        ep = Math.min(2000, ep + Math.round(50 * diffCfg().epGainMul));
+        ep = Math.min(3000, ep + Math.round(50 * diffCfg().epGainMul));
         gamePyrolysisCount++;
         updateScoreBoardUI();
         updateEpUI();
@@ -3855,6 +3871,81 @@
       return false;
     }
 
+    // ===== 化合スパーク・ふわふわ浮力・発熱膨張・逆転フラスコ =====
+    const SPARK_REACTIONS = [
+      { a: 'Na', b: 'Cl', pt: 150, ep: 12, text: '塩化ナトリウム（NaCl）生成！' },
+      { a: 'Cu', b: 'O', pt: 200, ep: 16, text: '酸化銅（CuO）の化合！' }
+    ];
+    const GAS_FLOAT_MS = 3000;      // 気体が落下後に浮力を受ける時間（ミリ秒）
+    const GAS_FLOAT_RATIO = 0.6;    // 浮力で打ち消す重力の割合
+    const HEAT_MS = 5000;           // 発熱膨張の続く時間（ミリ秒）
+    const HEAT_SCALE = 1.12;        // 発熱膨張の倍率（見た目だけ大きくなる）
+    const HEAT_IMPACT_SPEED = 7;    // これ以上の相対速度なら「激しい衝突」
+    const FLASK_TILT_X = 0.12;      // 傾いたときの横向きの重力
+    const FLASK_TILT_ANGLE = Math.atan2(FLASK_TILT_X, 1.05); // 見た目の傾き（重力の向きに合わせる）
+    let lastHeatAt = -Infinity;
+
+    function isGasLevel(level) {
+      const el = ELEMENTS[level - 1];
+      return !!el && el.category === '気体・非金属元素';
+    }
+    function findSparkReaction(bodyA, bodyB) {
+      const sa = ELEMENTS[bodyA.elementLevel - 1].symbol;
+      const sb = ELEMENTS[bodyB.elementLevel - 1].symbol;
+      return SPARK_REACTIONS.find(r => (r.a === sa && r.b === sb) || (r.a === sb && r.b === sa)) || null;
+    }
+    // 化合スパーク：ボールは消さず、点数とEPだけ入る
+    function triggerSpark(bodyA, bodyB, reaction, now) {
+      bodyA.sparkUntil = now + 1500;
+      bodyB.sparkUntil = now + 1500;
+      const midX = (bodyA.position.x + bodyB.position.x) / 2;
+      const midY = (bodyA.position.y + bodyB.position.y) / 2;
+      const normPan = ((midX - LOGICAL_WIDTH / 2) / (LOGICAL_WIDTH / 2)) * 0.85;
+      score += reaction.pt;
+      ep = Math.min(3000, ep + reaction.ep);
+      updateScoreBoardUI();
+      updateEpUI();
+      audio.playMerge(4, normPan, 1);
+      spawnMergeEffects(midX, midY, 4, reaction.pt, '化合スパーク');
+      showCelebrationBanner(`${reaction.text} +${reaction.pt}pt`);
+      checkAndRenderMissions();
+    }
+    // 発熱膨張：近くのボールを5秒間だけ1.12倍に見せる（当たり判定は変わらない）
+    function heatNearby(x, y, radius, label) {
+      const t = performance.now();
+      if (t - lastHeatAt < 1500) return;
+      lastHeatAt = t;
+      let n = 0;
+      Composite.allBodies(world).forEach(b => {
+        if (b.label !== 'element' || b.isMerged) return;
+        if (Math.hypot(b.position.x - x, b.position.y - y) > radius) return;
+        b.heatUntil = t + HEAT_MS;
+        n++;
+      });
+      if (n) floatingTexts.push({ x, y: y - 26, text: label, color: '#FFEDD5', stroke: '#9A3412', alpha: 1.0, vy: -1.2, scale: 1.0 });
+    }
+    // 逆転フラスコ：横向きの重力で箱が傾く、または3秒だけ無重力になる
+    function startFlaskEvent() {
+      const now = performance.now();
+      flask.type = Math.random() < 0.5 ? 'tilt' : 'zero';
+      if (flask.type === 'tilt') {
+        flask.dir = Math.random() < 0.5 ? -1 : 1;
+        flask.until = now + 2600;
+        engine.gravity.x = flask.dir * FLASK_TILT_X;
+        showCelebrationBanner('逆転フラスコ！実験台が揺れて、玉が傾きました');
+      } else {
+        flask.dir = 0;
+        flask.until = now + 3000;
+        engine.gravity.y = 0;
+        showCelebrationBanner('逆転フラスコ！3秒間の無重力');
+      }
+    }
+    function endFlaskEvent() {
+      if (engine) { engine.gravity.x = 0; engine.gravity.y = 1.05; }
+      flask.type = null;
+      flask.dir = 0;
+    }
+
     function initPhysicsGame() {
       applyBoxGeometry();
       if (engine) {
@@ -3876,24 +3967,34 @@
 
       World.add(world, [leftWall, rightWall, ground]);
 
-      const onCollision = (event) => {
+      const onCollision = (event, isStart) => {
         if (isGameOver) return;
+        const now = performance.now();
         for (let i = 0; i < event.pairs.length; i++) {
           const { bodyA, bodyB } = event.pairs[i];
-          if (
-            bodyA.label === 'element' &&
-            bodyB.label === 'element' &&
-            !bodyA.isMerged &&
-            !bodyB.isMerged &&
-            bodyA.elementLevel === bodyB.elementLevel
-          ) {
-            mergePair(bodyA, bodyB);
+          const bothEl = bodyA.label === 'element' && bodyB.label === 'element' && !bodyA.isMerged && !bodyB.isMerged;
+          if (isStart) {
+            // 気体は、落下して最初に何かに触れた時から「ふわふわ浮力」が効き始める
+            if (bodyA.label === 'element' && bodyA.landedAt === undefined && isGasLevel(bodyA.elementLevel)) bodyA.landedAt = now;
+            if (bodyB.label === 'element' && bodyB.landedAt === undefined && isGasLevel(bodyB.elementLevel)) bodyB.landedAt = now;
+            if (bothEl) {
+              // 化合スパーク：異種元素の特定の組み合わせが触れた瞬間（ボールは消えない）
+              if (bodyA.elementLevel !== bodyB.elementLevel) {
+                const reaction = findSparkReaction(bodyA, bodyB);
+                if (reaction && now >= (bodyA.sparkUntil || 0) && now >= (bodyB.sparkUntil || 0)) triggerSpark(bodyA, bodyB, reaction, now);
+              }
+              // 激しい衝突：周囲が発熱膨張する
+              const rel = Math.hypot(bodyA.velocity.x - bodyB.velocity.x, bodyA.velocity.y - bodyB.velocity.y);
+              if (rel > HEAT_IMPACT_SPEED) heatNearby((bodyA.position.x + bodyB.position.x) / 2, (bodyA.position.y + bodyB.position.y) / 2, 130, '激しい衝突！発熱膨張');
+            }
           }
+          // 同じ元素同士は進化マージ（開始時・接触中の両方で判定）
+          if (bothEl && bodyA.elementLevel === bodyB.elementLevel) mergePair(bodyA, bodyB);
         }
       };
 
-      Events.on(engine, 'collisionStart', onCollision);
-      Events.on(engine, 'collisionActive', onCollision);
+      Events.on(engine, 'collisionStart', (event) => onCollision(event, true));
+      Events.on(engine, 'collisionActive', (event) => onCollision(event, false));
 
       score = 0;
       scoreReported = false;
@@ -3915,6 +4016,10 @@
       particles = [];
       shockwaves = [];
       floatingTexts = [];
+      flask = { type: null, until: 0, dir: 0 };
+      flaskAngle = 0;
+      flaskNextScore = 5000;
+      flaskNextTime = 120;
 
       setSkillTargetMode(null);
       document.getElementById('dangerBanner').classList.add('opacity-0', 'scale-90');
@@ -3979,7 +4084,7 @@
       if (sv && sv.diff) { gameDifficulty = normalizeDifficulty(sv.diff); try { localStorage.setItem('kosa-merge-diff', gameDifficulty); } catch (e) { } setDiffUI(); }
       initPhysicsGame();
       score = Number(sv.score) || 0;
-      ep = Math.min(2000, Math.max(0, Number(sv.ep) || 0));
+      ep = Math.min(3000, Math.max(0, Number(sv.ep) || 0));
       comboCount = 0; lastMergeTime = 0;
       maxCombo = Math.max(1, Number(sv.maxCombo) || 1);
       currentDropLevel = clampLevel(sv.currentDropLevel);
@@ -3991,6 +4096,8 @@
       gameDropCount = Math.max(0, Math.floor(Number(sv.drops)) || 0);
       gamePyrolysisCount = Math.max(0, Math.floor(Number(sv.pyro)) || 0);
       gamePlaySec = Math.max(0, Number(sv.playSec) || 0);
+      flaskNextScore = (Math.floor(score / 5000) + 1) * 5000;
+      flaskNextTime = (Math.floor(gamePlaySec / 120) + 1) * 120;
       sv.bodies.forEach(b => {
         const body = createElementBody(Number(b.x) || 0, Number(b.y) || 0, clampLevel(b.l));
         Body.setPosition(body, { x: Number(b.x) || 0, y: Number(b.y) || 0 });
@@ -4054,8 +4161,17 @@
         <div class="tt-card"><div class="tt-cap">ランキング（${cfg.label}・${scope}）</div><ol class="tt-list">${rows}</ol></div>
       </div>`;
     }
+    // ゲーム中の「タイトルへ戻る」：今の状態を保存してから、タイトル画面を出す
+    function returnToTitle() {
+      if (document.getElementById('titleOv') || isGameOver) return;
+      saveGame(true);
+      const sv = loadSave();
+      showTitle(sv && (sv.bodies.length || sv.score > 0) ? sv : null);
+    }
     function showTitle(sv) {
       if (sv && sv.diff) { gameDifficulty = normalizeDifficulty(sv.diff); rankingService.viewDifficulty = gameDifficulty; setDiffUI(); }
+      // 難易度が決まったので、箱の幅と物理の壁を作りなおす（前の難易度の幅が残るのを防ぐ）
+      initPhysicsGame();
       titleCss();
       const ov = document.createElement('div');
       ov.id = 'titleOv';
@@ -4069,10 +4185,11 @@
           const d = normalizeDifficulty(td.dataset.td);
           gameDifficulty = d; rankingService.viewDifficulty = d;
           try { localStorage.setItem('kosa-merge-diff', d); } catch (x) { }
+          initPhysicsGame();
           setDiffUI(); updateEpUI(); paint();
           return;
         }
-        if (e.target.closest('[data-new]')) { clearSave(); ov.remove(); ensureGameFocus(); return; }
+        if (e.target.closest('[data-new]')) { clearSave(); initPhysicsGame(); ov.remove(); ensureGameFocus(); return; }
         if (e.target.closest('[data-start]')) { ov.remove(); if (sv) resumeGame(sv); ensureGameFocus(); }
       });
     }
@@ -4153,7 +4270,25 @@
         if (mascotMoodTimer <= 0) mascotMood = 'normal';
       }
 
+      // 逆転フラスコの傾きを、なめらかに追いかける（重力の向きと同じ向きに箱を傾ける）
+      const flaskTarget = flask.type === 'tilt' ? -flask.dir * FLASK_TILT_ANGLE : 0;
+      flaskAngle += (flaskTarget - flaskAngle) * 0.12;
+
       if (!isGameOver && engine) {
+        // 逆転フラスコの発生：スコアが5000点を超えたとき、または120秒ごと（タイトル画面の間は起こさない）
+        if (!document.getElementById('titleOv')) {
+          if (score >= flaskNextScore) { flaskNextScore = (Math.floor(score / 5000) + 1) * 5000; if (!flask.type) startFlaskEvent(); }
+          if (gamePlaySec >= flaskNextTime) { flaskNextTime = (Math.floor(gamePlaySec / 120) + 1) * 120; if (!flask.type) startFlaskEvent(); }
+        }
+        if (flask.type && now >= flask.until) endFlaskEvent();
+
+        // ふわふわ浮力：気体は、落下して何かに触れてから数秒間、重力の一部を打ち消される
+        Composite.allBodies(world).forEach(b => {
+          if (b.label !== 'element' || b.isMerged || b.landedAt === undefined) return;
+          if (now - b.landedAt >= GAS_FLOAT_MS || !isGasLevel(b.elementLevel)) return;
+          Body.applyForce(b, b.position, { x: 0, y: -b.mass * engine.gravity.y * engine.gravity.scale * GAS_FLOAT_RATIO });
+        });
+
         Engine.update(engine, 1000 / 60);
 
         // 遊んでいる時間を数え、1秒ごとにミッションを確認する（時間系のミッション用）
@@ -4234,6 +4369,14 @@
     function renderMainCanvas(now) {
       ctx.clearRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
+      // 逆転フラスコの傾き：箱（背面・ボール・前面）をまとめて少しだけ回す
+      ctx.save();
+      if (flaskAngle) {
+        ctx.translate(LOGICAL_WIDTH / 2, BOX_BOTTOM);
+        ctx.rotate(flaskAngle);
+        ctx.translate(-LOGICAL_WIDTH / 2, -BOX_BOTTOM);
+      }
+
       // 1. キャッシュ済み3Dガラスボックス背面を一発描画
       if (boxBackSprite) {
         ctx.drawImage(boxBackSprite, 0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
@@ -4295,7 +4438,9 @@
           const el = ELEMENTS[b.elementLevel - 1];
           if (!el) continue;
 
-          const s = b.animScale || 1.0;
+          // 発熱膨張の間は、見た目だけ1.12倍に膨らむ
+          const hot = b.heatUntil !== undefined && performance.now() < b.heatUntil;
+          const s = (b.animScale || 1.0) * (hot ? HEAT_SCALE : 1);
           drawCachedSphere(ctx, b.position.x, b.position.y, el.radius, el, b.angle, s, s);
         }
       }
@@ -4304,6 +4449,8 @@
       if (boxFrontSprite) {
         ctx.drawImage(boxFrontSprite, 0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
       }
+
+      ctx.restore();
 
       // 5. 衝撃波リング
       for (let i = shockwaves.length - 1; i >= 0; i--) {
@@ -4822,6 +4969,10 @@
     });
     document.getElementById('quitBtn').addEventListener('click', () => {
       try { window.parent.postMessage({ type: 'kosa-merge-quit' }, '*'); } catch (e) { }
+    });
+    document.getElementById('titleBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      returnToTitle();
     });
     document.getElementById('playAgainBtn').addEventListener('click', () => {
       ensureGameFocus();
