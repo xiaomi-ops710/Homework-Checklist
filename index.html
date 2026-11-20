@@ -2122,6 +2122,22 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .ln-hint[disabled],.ln-send[disabled]{opacity:.35;cursor:default;transform:none}
 .ln-give{display:flex;justify-content:flex-end;padding:0 12px 10px}
 .ln-give[hidden]{display:none}
+/* 友達との対戦（最大4人）・相手の写真・日付の印・参加者の一覧 */
+.sr-av{position:relative;overflow:hidden}
+.sr-av-img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;border-radius:50%}
+.ln-stack{display:flex;flex:none;align-items:center;padding-left:4px}
+.ln-stack .sr-av{margin-left:-10px;box-shadow:0 0 0 2px var(--card)}
+.ln-stack .sr-av:first-child{margin-left:0}
+.ln-cnt{font-weight:700;color:var(--mut)}
+.ln-date{align-self:center;margin:2px 0 6px}
+.ln-date span{display:inline-block;padding:4px 12px;border-radius:999px;background:var(--ln-sys);color:var(--ln-sysink);font-size:12px;font-weight:700}
+.ln-row.op .sr-av{margin-top:2px}
+.sr-pl{display:flex;align-items:center;gap:12px;padding:8px 0}
+.sr-pl-t{display:grid;min-width:0}
+.sr-pl-t b{font-size:15px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.sr-pl-t small{color:var(--mut);font-weight:700;font-size:12px}
+.sr-who{margin:0 0 4px;font-weight:800}
+.sr-go[disabled]{opacity:.45;cursor:default}
 .ln-ghost{border:0;background:none;color:var(--mut);font:inherit;font-weight:800;font-size:13px;padding:4px 8px;cursor:pointer}
 /* 対戦の画面の大きなボタンは、幅の中で文字を折り返す（はみ出さない） */
 .sr .sr-go{box-sizing:border-box;max-width:100%;white-space:normal;text-align:center;justify-content:center;line-height:1.35}
@@ -2901,9 +2917,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.12';
-const BETA_VER = '18.2.12';
-const RELEASE_VER = '18.2.12'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.13';
+const BETA_VER = '18.2.13';
+const RELEASE_VER = '18.2.13'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3799,6 +3815,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.13', d: '__BUILD__', t: '友達のしりとりが、同期ボタンなしでリアルタイムに出る・最大4人・LINE風の画面と相手の写真', n: ['友達との対戦は、相手がことばを送ったとき・リクエストで参加したときなどに、同期ボタンを押さなくても、すぐ画面に出るようにしました','通信が切れたときは自動でつなぎ直し、アプリに戻ったときも最新の状態を取り直すようにしました','友達との対戦は、最大4人まで参加できるようにしました。待合室で、参加している人を見られます','ホストは、2人以上そろったら「はじめる」を押せます。ルール違反・時間切れ・あきらめた人は脱落し、最後まで残った人の勝ちです','対戦の画面をLINEに近い見た目にしました。相手の写真が吹き出しの横に出ます。日付の印と、参加している人の数も出ます'] },
   { v: '18.2.12', d: '__BUILD__', t: '実績でレベルの上げ方が分かる・ロックされた画面の案内・しりとりの対戦の失敗理由を表示', n: ['実績の画面の一番上に、次のレベルまであと何XPか、XPの稼ぎ方（課題・ページ・勉強時間）を出すようにしました', '「あと少しで取れる実績」を3つ出すようにしました', '元素マージ・しりとり・歴打など、レベルが足りなくて開けない画面にも、どうすればレベルが上がるかを出すようにしました', '「AIにどうやって上げるか聞く」ボタンを追加しました。AIが、いまのレベルとXPをふまえて答えます', 'しりとりの友達対戦で、部屋をつくれない・リクエストを送れない・参加できないときは、理由（エラーの番号）を出すようにしました。リクエストを送れなかった部屋は消します', '対戦リクエストの受け取りが止まったときは、理由を出すようにしました', 'サインアウト以外で、対戦の部屋の通信が切れる問題を直しました'] },
   { v: '18.2.11', d: '__BUILD__', t: '元素マージの当たり判定と、いろいろな不具合を修正', n: ['元素マージで、合体したボールが重なる・大きさが変わる問題を直しました。合体のボールは、落ちたときと同じ大きさで出ます','発熱膨張は、ボールを大きくせず、まわりにオレンジの輪を出して知らせるようにしました','ふわふわ浮力と無重力を削除しました。逆転フラスコは、箱が傾くものだけになりました','NaHCO₃（Lv.11）同士は熱分解のボーナスになるように直しました。最上段（HCl）同士が熱分解になる不具合も直しました','難しいでは、箱に入りきらない大きさの元素は作られないようにしました','触媒で進化した元素が、最高の元素に数えられない不具合を直しました','予定・考査日などの送信で、失敗の理由を表示するようにしました。一部だけ届かなかったときは、押し直しても二重に届かないようにしました','フィードバックを全て既読にしたあとも通知が出る不具合、書きかけの返信やお知らせが消える不具合を直しました','フィードバックを1件だけ送れなかったときに、残りが止まる不具合を直しました。端末に保存できなかったときは、その旨を表示します','文字とアイコンの高さがずれる箇所を揃えました','対戦の部屋から、ログアウトしたあとも通信が続く不具合を直しました','ゲーム中の通知が、まとめて出ても取りこぼさないようにしました'] },
   { v: '18.2.10', d: '__BUILD__', t: '元素マージに新しいギミック・タイトルへ戻るボタン', n: ['元素マージに「化合スパーク」を追加しました。Na＋Clで塩化ナトリウム（NaCl）生成！（+150pt）、Cu＋Oで酸化銅（CuO）の化合！（+200pt）。ボールは消えず、EPも入ります','気体（H・Nなど）は、落下したあとしばらく浮力がかかり、重い金属（FeやCu）の上に浮きやすくなりました','連続コンボや激しい衝突が起きると、近くのボールが5秒間ふくらむ「発熱膨張」を追加しました','「逆転フラスコ」を追加しました。スコア5,000点ごと、または120秒ごとに、箱が傾くか、3秒間の無重力になります','ゲーム中に「タイトルへ戻る」ボタンを追加しました。今の状態を保存してから、タイトル画面に戻れます','元素マージのランキングは、このバージョンから作り直しました。難しいの以前の記録は削除され、以前の記録は表示されません','難易度を変えたあとに、箱の幅が前の難易度のままになることがあるのを直しました','EPの上限を3000に上げました'] },
@@ -14202,7 +14219,7 @@ const SR = { view: 'home', lang: 'ja', theme: '', diff: 1, lim: 15, codeIn: '', 
 function srErr(e) { return String((e && e.code) || 'エラー').replace(/^firestore\//, '').slice(0, 40); }
 function srMe() { return CLOUD.user ? CLOUD.user.uid : ''; }
 function srName() { return String(growGet().nick || (CLOUD.user && CLOUD.user.displayName) || '自分').slice(0, 20); }
-function srNameOf(d, uid) { return uid === d.host ? d.hostName : d.guestName; }
+function srNameOf(d, uid) { return String((d.names || {})[uid] || '友達').slice(0, 20); }
 function srInit(n) { return String(n || '?').trim().charAt(0) || '?'; }
 function srNeedLogin() { if (!CLOUD.user) { toast('対戦とAIは、Googleログインのあとに使えます'); return true; } return false; }
 function srNorm(c) { const s = SR_SMALL[c] || c; return SR_ALIAS[s] || s; }
@@ -14425,10 +14442,15 @@ function srAiGiveUp() {
 
 // ---- 友達とオンライン対戦（Firestore の部屋で、番と時間を共有する） ----
 function srUnwatch() { if (SR.unsub) { try { SR.unsub(); } catch (e) { } SR.unsub = null; } }
-function srWatch(code) {
-  srUnwatch(); SR.code = code;
+// 部屋の見張り。通信が切れたら、少し待ってからつなぎ直す（だまって止めない・同期ボタンを押さなくても戻る）
+function srWatch(code) { srUnwatch(); SR.code = code; SR.tries = 0; srAttach(code); }
+function srAttach(code) {
+  if (!CLOUD.fb || !CLOUD.user) return;
   const { fs, db } = CLOUD.fb;
+  srUnwatch();
   SR.unsub = fs.onSnapshot(fs.doc(db, 'shiriRooms', code), snap => {
+    if (SR.code !== code) return;
+    SR.tries = 0;
     if (!snap.exists()) {
       const was = SR.view; SR.room = null; srUnwatch();
       if (was === 'wait' || was === 'fgame') { SR.view = 'home'; SR.code = ''; toast('対戦の部屋がなくなりました'); srRender(); }
@@ -14436,14 +14458,45 @@ function srWatch(code) {
     }
     SR.room = snap.data();
     srOnRoom();
-  }, e => { if (window.__kosaLog) window.__kosaLog(e); toast(`対戦の通信が切れました（${srErr(e)}）。もう一度開いてください`); });
+  }, e => {
+    if (window.__kosaLog) window.__kosaLog(e);
+    srUnwatch();
+    if (SR.code !== code) return;
+    SR.tries = (SR.tries || 0) + 1;
+    if (SR.tries <= 4) { setTimeout(() => { if (SR.code === code && !SR.unsub) srAttach(code); }, 1000 * SR.tries); return; }
+    toast(`対戦の通信が切れました（${srErr(e)}）。もう一度開いてください`);
+  });
 }
+// 画面に戻ったとき・通信がつながったときに、部屋と受け取り箱をつなぎ直す（最新の状態が、すぐ届く）
+function srResume() {
+  if (!CLOUD.fb || !CLOUD.user) return;
+  srInboxStart();
+  if (SR.code) srAttach(SR.code);
+}
+document.addEventListener('visibilitychange', () => { if (!document.hidden) srResume(); });
+window.addEventListener('online', srResume);
+window.addEventListener('pageshow', e => { if (e.persisted) srResume(); });
 // 部屋の状態が変わったら、画面を合わせる。入力中の画面は、描き直さずに中身だけ直す（キーボードを閉じないため）
 function srOnRoom() {
   const r = SR.room; if (!r) return;
   const v = r.status === 'waiting' ? 'wait' : 'fgame';
-  if (v !== SR.view) { SR.view = v; srRender(); }
-  else if (v === 'fgame') srSync();
+  if (v !== SR.view) { SR.view = v; srRender(); return; }
+  if (v === 'wait') { srRender(); return; }   // 参加した人・抜けた人を、その場で映す
+  if (!document.getElementById('srGame')) srRender(); else srSync();
+}
+const SR_ROOM_MS = 60 * 60 * 1000;   // 招待・コードの部屋は、1時間たつと閉じる
+const SR_MAX = 4;                    // 友達との対戦は、最大4人
+function srPic() { return (CLOUD.user && CLOUD.user.photoURL) || ''; }
+function srPlayers(d) { const n = d.names || {}, p = d.pics || {}; return (d.uids || []).map(u => ({ uid: u, name: String(n[u] || '友達').slice(0, 20), pic: String(p[u] || '') })); }
+// 次の番：脱落していない人を、参加した順にまわす
+function srNextTurn(d, from) { const ids = d.uids || [], out = d.out || [], n = ids.length, i = ids.indexOf(from); for (let k = 1; k <= n; k++) { const u = ids[(i + k) % n]; if (!out.includes(u)) return u; } return ''; }
+// 負け（ルール違反・時間切れ・あきらめ・とちゅうで抜ける）。最後の1人になったら、その人の勝ち
+function srOutUpd(d, who, reason, words) {
+  const out = [...(d.out || []), who];
+  const base = words || [...(d.words || []), { by: who, sys: true, note: reason, t: Date.now() }];
+  const w2 = base.slice(-200), left = (d.uids || []).filter(u => !out.includes(u));
+  if (left.length <= 1) return { words: w2, out, status: 'done', turn: '', winner: left[0] || '', reason };
+  return { words: w2, out, turn: srNextTurn({ ...d, out }, who), deadline: Date.now() + d.lim * 1000, reason: '' };
 }
 async function srCreateRoom(friend) {
   if (srNeedLogin()) return;
@@ -14451,10 +14504,10 @@ async function srCreateRoom(friend) {
   const code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join('');
   const theme = SR.theme.trim().slice(0, 20), lim = SR.lim, name = srName();
   try {
-    await fs.setDoc(fs.doc(db, 'shiriRooms', code), { host: me, hostName: name, guest: '', guestName: '', status: 'waiting', lang: SR.lang, theme, lim, turn: '', deadline: 0, words: [], winner: '', reason: '', t: Date.now() });
+    await fs.setDoc(fs.doc(db, 'shiriRooms', code), { host: me, uids: [me], names: { [me]: name }, pics: { [me]: srPic() }, out: [], status: 'waiting', lang: SR.lang, theme, lim, turn: '', deadline: 0, words: [], winner: '', reason: '', t: Date.now() });
   } catch (e) { toast(`部屋をつくれませんでした（${srErr(e)}）`); return; }
   if (friend) {
-    try { await fs.setDoc(fs.doc(fs.collection(db, 'shiriInbox', friend.uid, 'items')), { from: me, name, room: code, lim, lang: SR.lang, theme, t: Date.now() }); }
+    try { await srInvite(friend, code, lim, theme); }
     catch (e) {
       // 相手に届かなかった部屋は消す（残すと、だれも入れない部屋がのこる）
       try { await fs.deleteDoc(fs.doc(db, 'shiriRooms', code)); } catch (x) { }
@@ -14464,26 +14517,40 @@ async function srCreateRoom(friend) {
   srWatch(code);
   toast(friend ? `${friend.name || '友達'}さんに、対戦リクエストを送りました` : '部屋をつくりました。コードを友達に伝えてください');
 }
-const SR_ROOM_MS = 60 * 60 * 1000;   // 招待・コードの部屋は、1時間たつと閉じる
-// 参加できたら true。失敗したら、必ず理由を出す
+async function srInvite(friend, code, lim, theme) {
+  const { fs, db } = CLOUD.fb;
+  await fs.setDoc(fs.doc(fs.collection(db, 'shiriInbox', friend.uid, 'items')), { from: srMe(), name: srName(), room: code, lim, lang: SR.lang, theme: theme || '', t: Date.now() });
+}
+// 待っている部屋に、友達をあとから招待する
+async function srInviteNow(uid) {
+  const r = SR.room, f = (growGet().friends || []).find(x => x.uid === uid);
+  if (!r || !f) { toast('その友達が見つかりません'); return; }
+  if ((r.uids || []).includes(f.uid)) { toast('その人は、もう部屋に入っています'); return; }
+  if ((r.uids || []).length >= SR_MAX) { toast(`部屋がいっぱいです（${SR_MAX}人まで）`); return; }
+  try { await srInvite(f, SR.code, r.lim, r.theme); toast(`${f.name || '友達'}さんに、リクエストを送りました`); }
+  catch (e) { toast(`${f.name || '友達'}さんに、リクエストを送れませんでした（${srErr(e)}）`); }
+}
+// 参加できたら true。失敗したら、必ず理由を出す（もう入っている部屋は、そのまま開く）
 async function srJoin(code) {
   if (srNeedLogin()) return false;
   code = String(code || '').trim().toUpperCase();
   if (!/^[A-Z0-9]{6}$/.test(code)) { toast('参加コードは、6文字で入れてください'); return false; }
-  const { fs, db } = CLOUD.fb, me = srMe(), ref = fs.doc(db, 'shiriRooms', code);
+  const { fs, db } = CLOUD.fb, me = srMe(), ref = fs.doc(db, 'shiriRooms', code), name = srName(), pic = srPic();
   let ok = false, why = '';
   try {
     await fs.runTransaction(db, async tx => {
       ok = false; why = '';
       const d = (await tx.get(ref)).data();
       if (!d) { why = 'その部屋は、ありません。コードをかくにんしてください'; return; }
-      if (d.host === me) { why = '自分でつくった部屋です'; return; }
-      if (d.status === 'waiting' && d.t && Date.now() - d.t > SR_ROOM_MS) { why = 'この部屋は、時間がたって閉じました。相手に、もう一度送ってもらってください'; return; }
-      if (d.status !== 'waiting' || d.guest) { why = 'もう、ほかの人と対戦しています'; return; }
+      const ids = d.uids || [];
+      if (ids.includes(me)) { ok = true; return; }
+      if (d.status !== 'waiting') { why = 'もう、対戦が始まっています'; return; }
+      if (d.t && Date.now() - d.t > SR_ROOM_MS) { why = 'この部屋は、時間がたって閉じました。相手に、もう一度送ってもらってください'; return; }
+      if (ids.length >= SR_MAX) { why = `部屋がいっぱいです（${SR_MAX}人まで）`; return; }
       ok = true;
-      tx.update(ref, { guest: me, guestName: srName(), status: 'playing', turn: d.host, deadline: Date.now() + d.lim * 1000 });
+      tx.update(ref, { uids: [...ids, me], [`names.${me}`]: name, [`pics.${me}`]: pic });
     });
-  } catch (e) { toast('参加できませんでした。通信をかくにんして、もう一度お試しください'); return false; }
+  } catch (e) { toast(`参加できませんでした（${srErr(e)}）`); return false; }
   if (!ok) { toast(`参加できませんでした（${why || 'もう一度お試しください'}）`); return false; }
   srWatch(code);
   toast('対戦に参加しました！');
@@ -14491,14 +14558,29 @@ async function srJoin(code) {
 }
 async function srDeleteReq(rid) { try { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'shiriInbox', srMe(), 'items', rid)); } catch (e) { } }
 async function srAcceptReq(rid, code) { const ok = await srJoin(code); if (ok) srDeleteReq(rid); else srRender(); }
-// 番の人が答える。判定（AI）のあと、部屋の最新の状態でルールを確かめ直してから、番を渡す
+// ホストが、2人以上そろったら、はじめる
+async function srStart() {
+  const code = SR.code, me = srMe(); if (!code || !SR.room || SR.room.host !== me) return;
+  const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shiriRooms', code);
+  let started = false;
+  try {
+    await fs.runTransaction(db, async tx => {
+      started = false;
+      const d = (await tx.get(ref)).data();
+      if (!d || d.host !== me || d.status !== 'waiting' || (d.uids || []).length < 2) return;
+      started = true;
+      tx.update(ref, { status: 'playing', turn: d.uids[0], deadline: Date.now() + d.lim * 1000, out: [] });
+    });
+  } catch (e) { toast(`はじめられませんでした（${srErr(e)}）`); return; }
+  if (!started) toast('2人以上そろうと、はじめられます');
+}
 async function srFriendSend(raw) {
   const r = SR.room, me = srMe();
   if (!r || r.status !== 'playing' || SR.busy) return;
   if (r.turn !== me) { toast('いまは、相手の番です'); return; }
   if (Date.now() > r.deadline) { srTimeout(); return; }
   SR.busy = true; srSync();
-  const v = await srVerify(raw, r.words || [], r.theme, 2, r.lang || 'ja');
+  const v = await srVerify(raw, (r.words || []).filter(w => !w.sys), r.theme, 2, r.lang || 'ja');
   SR.busy = false;
   if (v.input) { toast(v.reason); srSync(); return; }
   if (v.unverified) toast('AIの返事がないので、ルールだけで判定しました');
@@ -14511,13 +14593,12 @@ async function srFriendSend(raw) {
       if (!d || d.status !== 'playing' || d.turn !== me) return;
       if (Date.now() > d.deadline + 4000) { late = true; return; }
       let ok = v.ok, why = v.reason || '';
-      if (ok) { const msg = srRuleMsg(v.r, d.words || [], v.w); if (msg) { ok = false; why = msg; } }
+      if (ok) { const msg = srRuleMsg(v.r, (d.words || []).filter(w => !w.sys), v.w); if (msg) { ok = false; why = msg; } }
       const word = { by: me, w: v.w, r: v.r, ok, note: ok ? '' : why, t: Date.now() };
-      const words = [...(d.words || []), word].slice(-200);
-      const other = d.host === me ? d.guest : d.host;
       sent = true;
-      if (ok) tx.update(ref, { words, turn: other, deadline: Date.now() + d.lim * 1000 });
-      else tx.update(ref, { words, status: 'done', winner: other, reason: `${srNameOf(d, me)}さんの「${v.w}」は、負けです。${why}` });
+      const words = [...(d.words || []), word].slice(-200);
+      if (ok) tx.update(ref, { words, turn: srNextTurn(d, me), deadline: Date.now() + d.lim * 1000 });
+      else tx.update(ref, srOutUpd(d, me, `${srNameOf(d, me)}さんは、負けです。${why}`, words));
     });
   } catch (e) { toast('送れませんでした。もう一度お試しください'); }
   if (late) toast('制限時間を過ぎました');
@@ -14527,9 +14608,9 @@ async function srFriendSend(raw) {
 async function srFriendGiveUp() {
   const r = SR.room, me = srMe(); if (!r || r.status !== 'playing' || r.turn !== me) return;
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shiriRooms', SR.code);
-  try { await fs.runTransaction(db, async tx => { const d = (await tx.get(ref)).data(); if (!d || d.status !== 'playing' || d.turn !== me) return; tx.update(ref, { status: 'done', winner: d.host === me ? d.guest : d.host, reason: `${srNameOf(d, me)}さんは、あきらめました` }); }); } catch (e) { }
+  try { await fs.runTransaction(db, async tx => { const d = (await tx.get(ref)).data(); if (!d || d.status !== 'playing' || d.turn !== me) return; tx.update(ref, srOutUpd(d, me, `${srNameOf(d, me)}さんは、あきらめました`)); }); } catch (e) { }
 }
-// 制限時間を過ぎたら、その番の人が負け（どちらの画面からでも確かめられる）
+// 制限時間を過ぎたら、その番の人が負け（どの画面からでも確かめられる）
 async function srTimeout() {
   if (SR.toBusy || !SR.code) return; SR.toBusy = true;
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shiriRooms', SR.code);
@@ -14537,8 +14618,7 @@ async function srTimeout() {
     await fs.runTransaction(db, async tx => {
       const d = (await tx.get(ref)).data();
       if (!d || d.status !== 'playing' || !d.deadline || Date.now() < d.deadline + 1000) return;
-      const loser = d.turn;
-      tx.update(ref, { status: 'done', winner: loser === d.host ? d.guest : d.host, reason: `${srNameOf(d, loser)}さんは、制限時間（${d.lim}秒）を過ぎたので、負けです` });
+      tx.update(ref, srOutUpd(d, d.turn, `${srNameOf(d, d.turn)}さんは、制限時間（${d.lim}秒）を過ぎたので、負けです`));
     });
   } catch (e) { }
   SR.toBusy = false;
@@ -14549,9 +14629,21 @@ async function srLeave() {
   if (!code || !r || !CLOUD.fb || !CLOUD.user) return;
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'shiriRooms', code);
   try {
-    // 相手が来ていない部屋は消す。対戦が終わった部屋は、相手が結果を見られるように残す
-    if (r.host === me && r.status === 'waiting') return;   // 招待した部屋は、通知から参加できるように残す（時間がたつと閉じる）
-    if (r.status === 'playing') await fs.runTransaction(db, async tx => { const d = (await tx.get(ref)).data(); if (!d || d.status !== 'playing') return; tx.update(ref, { status: 'done', winner: d.host === me ? d.guest : d.host, reason: `${srNameOf(d, me)}さんが、とちゅうでやめました` }); });
+    // 待っている部屋：ホストは残す（招待のリクエストから、あとで参加できるように）。ほかの人は、抜ける
+    if (r.status === 'waiting') {
+      if (r.host === me) return;
+      await fs.runTransaction(db, async tx => {
+        const d = (await tx.get(ref)).data(); if (!d || d.status !== 'waiting' || !(d.uids || []).includes(me)) return;
+        tx.update(ref, { uids: d.uids.filter(u => u !== me) });
+      });
+      return;
+    }
+    // 対戦中：とちゅうで抜けたら、負け（相手が結果を見られるように、部屋は残す）
+    if (r.status === 'playing') await fs.runTransaction(db, async tx => {
+      const d = (await tx.get(ref)).data();
+      if (!d || d.status !== 'playing' || !(d.uids || []).includes(me) || (d.out || []).includes(me)) return;
+      tx.update(ref, srOutUpd(d, me, `${srNameOf(d, me)}さんが、とちゅうでやめました`));
+    });
   } catch (e) { }
 }
 // 届いた対戦リクエストを見張る（ログイン中、いつでも）
@@ -14644,8 +14736,23 @@ function srFSetupHtml() {
   <div class="sr-card"><div class="sr-lab">${ms('vpn_key')}コードで対戦</div><button class="sr-go big" data-act="srcode">${ms('add_circle')}部屋をつくってコードを出す</button><div class="sr-row2"><input id="srCode" class="sr-in" placeholder="コード（6文字）" maxlength="6" autocomplete="off" autocapitalize="characters" spellcheck="false" style="text-transform:uppercase;letter-spacing:.2em;font-weight:900;text-align:center"><button class="sr-go" data-act="srjoin">${ms('login')}参加</button></div></div>
   ${srLoginNote()}</div>`;
 }
+// 写真（相手のプロフィール）。写真がないときや読めないときは、頭文字を出す
+function srAv(name, pic, cls, sm) {
+  return `<span class="sr-av ${sm ? 'sr-sm' : ''} ${cls || ''}">${esc(srInit(name))}${pic ? `<img class="sr-av-img" src="${esc(pic)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">` : ''}</span>`;
+}
 function srWaitHtml() {
-  return `<div class="sr">${srTop('対戦の部屋')}<div class="sr-card sr-codecard"><div class="sr-lab" style="justify-content:center">${ms('vpn_key')}参加コード</div><div class="sr-code">${esc(SR.code)}</div><button class="sr-ghost wide" data-act="srcopy" data-id="${esc(SR.code)}">${ms('content_copy')}コードをコピー</button><p class="sr-msg">友達にコードを伝えるか、リクエストを送ってください。相手が参加すると、すぐ始まります。</p><div class="sr-wait"><i></i><i></i><i></i>相手を待っています</div><div><button class="btn tonal" data-act="srleave">${ms('close')}部屋をやめる</button></div></div></div>`;
+  const r = SR.room || {}, me = srMe(), host = r.host === me, pl = srPlayers(r), n = pl.length;
+  const list = pl.map(p => `<div class="sr-pl">${srAv(p.name, p.pic, 'sr-op')}<div class="sr-pl-t"><b>${esc(p.name)}${p.uid === me ? '（あなた）' : ''}</b><small>${p.uid === r.host ? 'ホスト' : '参加'}</small></div></div>`).join('');
+  const friends = host && n < SR_MAX ? (growGet().friends || []).filter(f => !(r.uids || []).includes(f.uid)) : [];
+  const inv = friends.length ? `<div class="sr-card"><div class="sr-lab">${ms('group_add')}友達を招待</div>${friends.map(f => `<div class="sr-friend"><span class="sr-av">${esc(srInit(f.name))}</span><div><b>${esc(f.name || '名前なし')}</b><small>友達</small></div><button class="sr-go sm" data-act="srinvite" data-id="${esc(f.uid)}">${ms('send')}招待</button></div>`).join('')}</div>` : '';
+  const go = host
+    ? `<button class="sr-go big" data-act="srstart" ${n < 2 ? 'disabled' : ''}>${ms('play_arrow')}${n < 2 ? '相手が入ると、はじめられます' : `はじめる（${n}人）`}</button>`
+    : `<p class="sr-msg" style="text-align:center">ホストがはじめるまで、待っています</p>`;
+  return `<div class="sr">${srTop('対戦の部屋')}<div class="sr-card sr-codecard"><div class="sr-lab" style="justify-content:center">${ms('vpn_key')}参加コード</div><div class="sr-code">${esc(SR.code)}</div><button class="sr-ghost wide" data-act="srcopy" data-id="${esc(SR.code)}">${ms('content_copy')}コードをコピー</button><p class="sr-msg">友達にコードを伝えるか、リクエストを送ってください（最大${SR_MAX}人）。</p></div>
+  <div class="sr-card"><div class="sr-lab">${ms('group')}参加している人（${n}/${SR_MAX}人）</div>${list}</div>
+  ${inv}
+  <div class="sr-card">${go}</div>
+  <div><button class="btn tonal" data-act="srleave">${ms('close')}部屋をやめる</button></div></div>`;
 }
 function srLockedHtml() {
   return `<div class="sr">${srTop('しりとり')}<div class="sr-card sr-lock"><div class="sr-lock-ic">${ms('lock')}</div><b>レベル${SHIRI_LV}で使えるようになります</b><p class="sr-msg">いまのレベル：${level().L}。友達と対戦するときは、お互いがレベル${SHIRI_LV}になっている必要があります。</p></div>${lvNextHtml(SHIRI_LV)}</div>`;
@@ -14672,23 +14779,50 @@ function srModel() {
     return { mode: 'ai', words: a.words.map(w => ({ ...w, who: w.by === 'me' ? 'me' : 'op' })), status: a.status, winner: a.winner === 'me' ? 'me' : (a.winner ? 'op' : ''), reason: a.reason, myName: srName(), opName: 'AI', turnMe: a.status === 'playing' && !a.busy, busy: a.busy, theme: a.theme, diff: a.diff, lang: a.lang, lim: 0, deadline: 0 };
   }
   if (SR.view === 'fgame' && SR.room) {
-    const r = SR.room, host = r.host === me;
-    return { mode: 'friend', words: (r.words || []).map(w => ({ ...w, who: w.by === me ? 'me' : 'op' })), status: r.status, winner: r.winner === me ? 'me' : (r.winner ? 'op' : ''), reason: r.reason, myName: host ? r.hostName : r.guestName, opName: host ? r.guestName : r.hostName, turnMe: r.status === 'playing' && r.turn === me, busy: SR.busy, lang: r.lang || 'ja', theme: r.theme, diff: 2, lim: r.lim, deadline: r.deadline };
+    const r = SR.room, pl = srPlayers(r), byUid = {};
+    pl.forEach(p => { byUid[p.uid] = p; });
+    const out = r.out || [], mine = out.includes(me);
+    // log：ことばと、脱落などの知らせ。words：判定に使うことば（知らせは入れない）
+    const log = (r.words || []).map(w => {
+      if (w.sys) return { ...w, who: 'sys' };
+      const p = byUid[w.by] || {};
+      return { ...w, who: w.by === me ? 'me' : 'op', pn: p.name || '友達', pp: p.pic || '' };
+    });
+    const winP = r.winner ? byUid[r.winner] : null;
+    return {
+      mode: 'friend', players: pl, byUid, host: r.host, out, eliminated: mine && r.status === 'playing',
+      words: log.filter(w => !w.sys), log, status: r.status,
+      winner: r.winner === me ? 'me' : (r.winner ? 'op' : ''), winnerName: winP ? winP.name : '',
+      reason: r.reason, myName: srName(), opName: pl.filter(p => p.uid !== me).map(p => p.name).join('、') || '相手',
+      turnMe: r.status === 'playing' && r.turn === me && !mine,
+      turnName: (byUid[r.turn] || {}).name || '', busy: SR.busy,
+      lang: r.lang || 'ja', theme: r.theme, diff: 2, lim: r.lim, deadline: r.deadline
+    };
   }
   return null;
 }
 function srArenaHtml(m) {
   const playing = m.status === 'playing';
+  if (m.mode === 'friend') {
+    const pl = m.players || [], title = m.theme || 'しりとり';
+    let sub;
+    if (m.status === 'waiting') sub = '参加を待っています';
+    else if (!playing) sub = '対戦おわり';
+    else if (m.eliminated) sub = '脱落しました（見ています）';
+    else if (m.busy) sub = '<span class="ln-live">判定しています…</span>';
+    else sub = m.turnMe ? '<span class="ln-live">あなたの番です</span>' : `${esc(m.turnName)}さんの番`;
+    let ring = '';
+    if (playing) {
+      const left = Math.max(0, Math.ceil((m.deadline - Date.now()) / 1000)), off = (276.46 * (1 - Math.min(1, left / m.lim))).toFixed(1);
+      ring = `<div class="sr-ring ${left <= 4 ? 'sr-low' : ''}" id="srRing"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="bg" cx="50" cy="50" r="44"/><circle class="fg" id="srFg" cx="50" cy="50" r="44" style="stroke-dashoffset:${off}"/></svg><b id="srT">${left}</b></div>`;
+    }
+    const stack = pl.slice(0, SR_MAX).map(p => srAv(p.name, p.pic, 'sr-op', true)).join('');
+    return `<div class="ln-stack">${stack}</div><div class="ln-name"><b>${esc(title)} <span class="ln-cnt">(${pl.length})</span></b><small>${sub}</small></div>${ring}`;
+  }
   let sub;
   if (!playing) sub = '対戦おわり';
-  else if (m.mode === 'ai') sub = m.busy ? '<span class="ln-live">入力中…</span>' : `むずかしさ：${esc(SR_DIFF[m.diff].n)}`;
-  else sub = m.busy ? '<span class="ln-live">判定しています…</span>' : (m.turnMe ? '<span class="ln-live">あなたの番です</span>' : 'オンライン');
-  let ring = '';
-  if (m.mode === 'friend' && playing) {
-    const left = Math.max(0, Math.ceil((m.deadline - Date.now()) / 1000)), off = (276.46 * (1 - Math.min(1, left / m.lim))).toFixed(1);
-    ring = `<div class="sr-ring ${left <= 4 ? 'sr-low' : ''}" id="srRing"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="bg" cx="50" cy="50" r="44"/><circle class="fg" id="srFg" cx="50" cy="50" r="44" style="stroke-dashoffset:${off}"/></svg><b id="srT">${left}</b></div>`;
-  }
-  return `<span class="sr-av sr-sm ${m.mode === 'ai' ? 'sr-ai' : 'sr-op'}">${esc(srInit(m.opName))}</span><div class="ln-name"><b>${esc(m.opName || '相手')}</b><small>${sub}</small></div>${ring}`;
+  else sub = m.busy ? '<span class="ln-live">入力中…</span>' : `むずかしさ：${esc(SR_DIFF[m.diff].n)}`;
+  return `${srAv('AI', '', 'sr-ai', true)}<div class="ln-name"><b>AI</b><small>${sub}</small></div>`;
 }
 function srHeroHtml(m) {
   if (m.status !== 'playing') return '';
@@ -14696,33 +14830,43 @@ function srHeroHtml(m) {
   return `<div class="ln-next ${can ? '' : 'ln-idle'}">${need ? `次は<b>「${esc(need)}」</b>から` : '<b>どの文字からでも</b>OK'}</div>`;
 }
 function srTimeStr(t) { if (!t) return ''; const d = new Date(t); return isNaN(d) ? '' : `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; }
+// 日付の印（今日なら「今日」）
+function srDayStr(t) {
+  const d = t ? new Date(t) : new Date(); if (isNaN(d)) return '今日';
+  const now = new Date();
+  return d.toDateString() === now.toDateString() ? '今日' : `${d.getMonth() + 1}月${d.getDate()}日`;
+}
 function srLogHtml(m) {
   const sys = txt => `<div class="ln-sys"><span>${txt}</span></div>`;
-  const ws = m.words;
-  let out = sys(`${m.mode === 'ai' ? 'AIとの対戦' : '友達との対戦'}がはじまりました<br>${m.theme ? 'お題：' + esc(m.theme) : 'お題なし（自由）'}`);
-  if (!ws.length) out += sys('最初の言葉をどうぞ！');
-  const lastOp = ws.reduce((acc, w, i) => (w.who === 'op' ? i : acc), -1), lastMe = ws.reduce((acc, w, i) => (w.who === 'me' ? i : acc), -1);
-  const opName = m.opName || '相手', opCls = m.mode === 'ai' ? 'sr-ai' : 'sr-op';
-  ws.forEach((w, i) => {
+  const log = m.log || m.words;
+  const first = log.find(w => w.t);
+  let out = `<div class="ln-date"><span>${srDayStr(first && first.t)}</span></div>`;
+  out += sys(`${m.mode === 'ai' ? 'AIとの対戦' : '友達との対戦'}がはじまりました<br>${m.theme ? 'お題：' + esc(m.theme) : 'お題なし（自由）'}`);
+  if (!log.length) out += sys('最初の言葉をどうぞ！');
+  const lastOp = log.reduce((acc, w, i) => (w.who === 'op' ? i : acc), -1), lastMe = log.reduce((acc, w, i) => (w.who === 'me' ? i : acc), -1);
+  log.forEach((w, i) => {
+    if (w.who === 'sys') { out += sys(esc(w.note || '')); return; }
     const bad = w.ok === false, time = srTimeStr(w.t), rd = w.r && w.r !== w.w ? `<em>${esc(w.r)}</em>` : '';
     const note = bad && w.note ? `<div class="ln-note">${esc(w.note)}</div>` : '';
     if (w.who === 'me') {
       const read = i === lastMe && lastOp > i ? '<i class="ln-read">既読</i>' : '';
       out += `<div class="ln-row me${bad ? ' bad' : ''}"><div class="ln-meta">${read}<span>${time}</span></div><div class="ln-col"><div class="ln-bub">${esc(w.w)}${rd}</div>${note}</div></div>`;
     } else {
-      const first = i === 0 || ws[i - 1].who !== 'op';
-      out += `<div class="ln-row op${bad ? ' bad' : ''}">${first ? `<span class="sr-av sr-sm ${opCls}">${esc(srInit(opName))}</span>` : '<span class="ln-ph"></span>'}<div class="ln-col">${first ? `<i class="ln-who-n">${esc(opName)}</i>` : ''}<div class="ln-bub">${esc(w.w)}${rd}</div>${note}</div><div class="ln-meta"><span>${time}</span></div></div>`;
+      const prev = log[i - 1], head = !prev || prev.who !== 'op' || prev.by !== w.by;
+      const nm = m.mode === 'ai' ? 'AI' : (w.pn || '相手'), pic = m.mode === 'ai' ? '' : (w.pp || ''), cls = m.mode === 'ai' ? 'sr-ai' : 'sr-op';
+      out += `<div class="ln-row op${bad ? ' bad' : ''}">${head ? srAv(nm, pic, cls, true) : '<span class="ln-ph"></span>'}<div class="ln-col">${head ? `<i class="ln-who-n">${esc(nm)}</i>` : ''}<div class="ln-bub">${esc(w.w)}${rd}</div>${note}</div><div class="ln-meta"><span>${time}</span></div></div>`;
     }
   });
-  if (m.mode === 'ai' && m.status === 'playing' && m.busy) out += `<div class="ln-row op"><span class="sr-av sr-sm ${opCls}">${esc(srInit(opName))}</span><div class="ln-col"><div class="ln-bub ln-typing"><i></i><i></i><i></i></div></div></div>`;
+  if (m.mode === 'ai' && m.status === 'playing' && m.busy) out += `<div class="ln-row op">${srAv('AI', '', 'sr-ai', true)}<div class="ln-col"><div class="ln-bub ln-typing"><i></i><i></i><i></i></div></div></div>`;
   return out;
 }
 function srInfoHtml(m) {
   if (m.status !== 'playing') return '';
   const think = `<span class="sr-think"><i></i><i></i><i></i></span>`;
   if (m.mode === 'ai') return m.busy ? `${think}AIが考えています` : `<span class="sr-dot sr-me"></span>あなたの番です`;
-  if (m.busy) return `${think}AIが判定しています`;
-  return m.turnMe ? `<span class="sr-dot sr-me"></span>あなたの番です（${m.lim}秒以内）` : `<span class="sr-dot"></span>${esc(m.opName)}さんの番です`;
+  if (m.eliminated) return `<span class="sr-dot"></span>脱落しました。このまま見ていられます`;
+  if (m.busy) return `${think}判定しています`;
+  return m.turnMe ? `<span class="sr-dot sr-me"></span>あなたの番です（${m.lim}秒以内）` : `<span class="sr-dot"></span>${esc(m.turnName)}さんの番です`;
 }
 function srResultHtml(m) {
   const win = m.winner === 'me';
@@ -14730,7 +14874,8 @@ function srResultHtml(m) {
   const btns = m.mode === 'ai'
     ? `<button class="sr-go" data-act="sraistart">${ms('replay')}もう一度</button><button class="sr-ghost" data-act="srhome">${ms('home')}ホームへ</button>`
     : `<button class="sr-go" data-act="srleave">${ms('home')}ホームへ</button>`;
-  return `<div class="sr-res ${win ? '' : 'sr-lose'}">${cf}<div class="sr-trophy">${ms(win ? 'emoji_events' : 'sentiment_dissatisfied')}</div><h3>${win ? '勝ち！' : 'まけ…'}</h3><p>${esc(m.reason || '')}</p><div class="sr-btns">${btns}</div></div>`;
+  const who = m.mode === 'friend' && m.winnerName && !win ? `<p class="sr-who">${esc(m.winnerName)}さんの勝ち</p>` : '';
+  return `<div class="sr-res ${win ? '' : 'sr-lose'}">${cf}<div class="sr-trophy">${ms(win ? 'emoji_events' : 'sentiment_dissatisfied')}</div><h3>${win ? '勝ち！' : 'まけ…'}</h3>${who}<p>${esc(m.reason || '')}</p><div class="sr-btns">${btns}</div></div>`;
 }
 // 対戦画面の中身だけを描き直す（入力欄は残す）
 function srSync() {
@@ -14740,15 +14885,16 @@ function srSync() {
   set('srHero', srHeroHtml(m));
   const log = document.getElementById('srLog');
   if (log) {
-    const grew = log.dataset.n !== String(m.words.length), near = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
-    log.innerHTML = srLogHtml(m); log.dataset.n = String(m.words.length);
+    const n = String((m.log || m.words).length);
+    const grew = log.dataset.n !== n, near = log.scrollHeight - log.scrollTop - log.clientHeight < 80;
+    log.innerHTML = srLogHtml(m); log.dataset.n = n;
     if (grew || near) log.scrollTop = log.scrollHeight;
   }
   set('srInfo', srInfoHtml(m));
   const can = m.status === 'playing' && m.turnMe && !m.busy;
   const inp = document.getElementById('srIn');
   if (inp) inp.readOnly = !can;
-  if (inp) inp.placeholder = can ? 'ことばを入れる' : (m.status !== 'playing' ? '' : (m.mode === 'ai' ? 'AIの番です…' : (m.busy ? '判定しています…' : `${m.opName}さんの番です…`)));
+  if (inp) inp.placeholder = can ? 'ことばを入れる' : (m.status !== 'playing' ? '' : (m.eliminated ? '脱落しました' : (m.mode === 'ai' ? 'AIの番です…' : (m.busy ? '判定しています…' : `${m.turnName || m.opName}さんの番です…`))));
   const sb = document.getElementById('srSend'); if (sb) sb.disabled = !can;
   const hb = document.getElementById('srHint'); if (hb) hb.disabled = !can;
   const gw = document.getElementById('srGiveW'); if (gw) gw.hidden = !(m.status === 'playing' && (m.mode === 'ai' || m.turnMe));
@@ -14802,6 +14948,8 @@ Object.assign(ACT, {
   srcode() { srCreateRoom(null); },
   srjoin() { srJoin(SR.codeIn || ''); },
   srjoinreq(id) { const [code, rid] = String(id).split('|'); srAcceptReq(rid, code); },
+  srstart() { srStart(); },
+  srinvite(id) { srInviteNow(id); },
   srdecline(id) { srDeleteReq(id); },
   srhint() {
     const m = srModel(); if (!m || m.status !== 'playing' || !m.turnMe || m.busy) return;

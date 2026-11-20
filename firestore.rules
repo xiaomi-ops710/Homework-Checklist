@@ -75,21 +75,22 @@ service cloud.firestore {
     match /shiriRooms/{code} {
       allow get: if request.auth != null;
       allow list: if false;
+      // 部屋をつくる：自分が1人目（ホスト）。待ち状態で、ことばはまだない
       allow create: if request.auth != null
         && request.resource.data.host == request.auth.uid
-        && request.resource.data.guest == ''
+        && request.resource.data.uids == [request.auth.uid]
         && request.resource.data.status == 'waiting'
         && request.resource.data.words.size() == 0
-        && request.resource.data.keys().hasOnly(['host','hostName','guest','guestName','status','lang','theme','lim','turn','deadline','words','winner','reason','t'])
-        && request.resource.data.hostName is string && request.resource.data.hostName.size() <= 40
+        && request.resource.data.keys().hasOnly(['host','uids','names','pics','out','status','lang','theme','lim','turn','deadline','words','winner','reason','t'])
         && request.resource.data.theme is string && request.resource.data.theme.size() <= 30;
+      // 更新：参加している人は、いつでも（ことば・番・脱落・開始）。待ち状態の部屋には、空きがあれば、1人だけ参加できる
       allow update: if request.auth != null
-        && (resource.data.host == request.auth.uid
-            || resource.data.guest == request.auth.uid
-            || (resource.data.guest == '' && resource.data.status == 'waiting' && request.resource.data.guest == request.auth.uid))
+        && ((request.auth.uid in resource.data.uids)
+            || (resource.data.status == 'waiting' && resource.data.uids.size() < 4
+                && request.resource.data.uids == resource.data.uids.concat([request.auth.uid])))
+        && request.resource.data.uids.size() <= 4
         && request.resource.data.words.size() <= 200;
-      allow delete: if request.auth != null
-        && (resource.data.host == request.auth.uid || resource.data.guest == request.auth.uid);
+      allow delete: if request.auth != null && request.auth.uid in resource.data.uids;
     }
     // しりとりの対戦リクエスト（送る人が、相手の受け取り箱に入れる）
     match /shiriInbox/{uid}/items/{id} {
