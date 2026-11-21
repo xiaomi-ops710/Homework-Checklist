@@ -291,13 +291,13 @@
     }
 
     /* 左上：ホーム・設定 */
-    #gameTopLeft { position: fixed; top: 34px; left: 10px; z-index: 60; display: flex; gap: 8px; }
-    #gameTopRight { position: fixed; top: 34px; right: 10px; z-index: 60; display: flex; gap: 8px; }
-    .gt-title { width: auto; padding: 0 16px; gap: 8px; font-size: 15px; font-weight: 900; color: #fff; background: #0284c7; border-color: #075985; box-shadow: 0 3px 0 #075985; }
+    #gameTopLeft { position: fixed; top: 64px; left: 10px; z-index: 60; display: flex; gap: 8px; }
+    #gameTopRight { position: fixed; top: 64px; right: 10px; z-index: 60; display: flex; gap: 8px; }
+    .gt-btn.gt-title { width: auto; flex: none; white-space: nowrap; padding: 0 22px; gap: 8px; font-size: 16px; font-weight: 900; color: #fff; background: #0284c7; border-color: #075985; box-shadow: 0 3px 0 #075985; }
     .gt-title .material-symbols-rounded { color: #fff; }
     .gt-btn { width: 44px; height: 44px; border-radius: 999px; border: 2px solid rgba(92, 55, 17, 0.3); background: rgba(255, 255, 255, 0.94); color: #5c3d1e; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 3px 0 rgba(92, 55, 17, 0.22); cursor: pointer; }
     .gt-btn .material-symbols-rounded { font-size: 24px; }
-    #settingsPanel { position: fixed; top: 86px; right: 10px; z-index: 70; width: 270px; padding: 12px; border-radius: 18px; background: #fffaf0; border: 2px solid rgba(92, 55, 17, 0.25); box-shadow: 0 12px 28px rgba(92, 55, 17, 0.25); display: flex; flex-direction: column; gap: 8px; }
+    #settingsPanel { position: fixed; top: 116px; right: 10px; z-index: 70; width: 270px; padding: 12px; border-radius: 18px; background: #fffaf0; border: 2px solid rgba(92, 55, 17, 0.25); box-shadow: 0 12px 28px rgba(92, 55, 17, 0.25); display: flex; flex-direction: column; gap: 8px; }
     #settingsPanel[hidden] { display: none; }
     #settingsPanel .sp-title { font-weight: 900; color: #5c3d1e; font-size: 15px; padding: 0 2px; }
     #settingsPanel .sp-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; padding: 0 4px; font-weight: 900; color: #3b2108; font-size: 15px; background: none; border: 0; cursor: pointer; }
@@ -556,7 +556,7 @@
   <footer id="mergeFooter" class="mf-foot fixed bottom-0 inset-x-0 z-30 bg-gradient-to-r from-[#E5C190] via-[#F2D8B2] to-[#E5C190] border-t-2 border-white/80 shadow-[0_-4px_14px_rgba(92,55,17,0.12)]" style="max-width:100vw;">
     <div class="mf-row">
       <div class="mf-group">
-        <button id="bgmTrackBtn" type="button" title="BGM：押すたびに曲が変わり、6曲目のあとでオフ" class="jelly-btn mf-btn mf-dark">
+        <button id="bgmTrackBtn" type="button" title="BGM：押すたびに曲が変わり、7曲目（ゆかいな自習室）のあとでオフ" class="jelly-btn mf-btn mf-dark">
           <span class="material-symbols-rounded" style="color:#fcd34d">queue_music</span>
           <span id="bgmTrackName" class="mf-sub">1.陽だまりラグタイム</span>
           <canvas id="audioVisualizerCanvas" width="22" height="11" class="mf-viz"></canvas>
@@ -898,7 +898,7 @@
       hard: 'chem_suika_jhs2_scores_v6_hard'
     };
     // このゲームの版（記録に入れる）。難しいのランキングは、この版以上で記録された点だけを出す
-    const MERGE_VER = '18.2.20';
+    const MERGE_VER = '18.2.21';
     const RANK_MIN_VER_BY_DIFF = { hard: '18.2.16' };
     // 版の番号どうしを比べる（例：18.2.16 は 18.2.15 より新しい）
     const verAtLeast = (v, min) => {
@@ -1517,6 +1517,12 @@
           [73, null, 76, 79, 81, null, 79, 76],
           [74, null, 77, 81, 84, null, 81, 77]
         ]
+      },
+      {
+        // Track 7: 音源ファイルの曲（mp3）。合成ではなく、assets/bgm の音をループ再生してBGMの経路に入れる
+        name: 'ゆかいな自習室',
+        file: '../assets/bgm/yukai-jishushitsu.mp3',
+        vol: 1
       }
     ];
 
@@ -1687,6 +1693,24 @@
         if (!this.bgmBus || !this.ctx) return;
         const vol = BGM_TRACKS[this.trackIndex].vol || 1;
         this.bgmBus.gain.setTargetAtTime(this.bgmEnabled ? BGM_BASE_GAIN * vol : 0.0, this.ctx.currentTime, 0.08);
+        this.syncFileTrack();
+      }
+
+      // 音源ファイルの曲（mp3）は <audio> をループ再生し、BGMの経路（bgmBus）につなぐ。今の曲のときだけ鳴らす
+      syncFileTrack() {
+        if (!this.ctx || !this.bgmBus) return;
+        BGM_TRACKS.forEach((t, i) => {
+          if (!t.file) return;
+          if (!t.el) {
+            t.el = new Audio(t.file);
+            t.el.loop = true;
+            t.el.preload = 'auto';
+            try { this.ctx.createMediaElementSource(t.el).connect(this.bgmBus); } catch (e) { }
+          }
+          const want = i === this.trackIndex && this.bgmEnabled;
+          if (want && t.el.paused) t.el.play().catch(() => { });
+          else if (!want && !t.el.paused) t.el.pause();
+        });
       }
 
       nextTrack() {
@@ -2730,6 +2754,7 @@
         const lookahead = () => {
           if (!this.isPlayingBgm) return;
           const track = BGM_TRACKS[this.trackIndex];
+          if (track.file) { this.nextStepTime = this.ctx.currentTime + 0.05; this.schedulerTimer = setTimeout(lookahead, 200); return; }
           const stepDur = 60 / track.tempo / 4;
           const totalSteps = track.chords.length * 16;
           while (this.nextStepTime < this.ctx.currentTime + 0.12) {
@@ -5056,14 +5081,15 @@
 
     // BGM 6曲切替
     // BGM：押すたびに曲が1→6と変わり、6曲目のあとに押すとオフ（もう一度押すと1曲目から）
-    let bgmStep = 0; // 0〜5 が曲1〜6、6 がオフ
+    // 0 から曲の数まで（最後の一つ先がオフ）。曲を増やしたら、ここは自動で合わせる
+    let bgmStep = 0; // 0〜(曲の数-1) が各曲、曲の数 がオフ
     document.getElementById('bgmTrackBtn').addEventListener('click', () => {
       ensureGameFocus();
       audio.init();
-      bgmStep = (bgmStep + 1) % 7;
+      bgmStep = (bgmStep + 1) % (BGM_TRACKS.length + 1);
       const btn = document.getElementById('bgmTrackBtn');
       const nameEl = document.getElementById('bgmTrackName');
-      if (bgmStep === 6) {
+      if (bgmStep === BGM_TRACKS.length) {
         audio.setBgm(false);
         nameEl.textContent = 'BGMオフ';
         btn.classList.add('bgm-off');

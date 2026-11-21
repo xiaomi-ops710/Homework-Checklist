@@ -1,6 +1,6 @@
 // バージョン番号：index.html の STABLE_VER / BETA_VER と同じ値にする（ベータ版は /beta/ の中で、BETA_VER を使う）
-const STABLE_VER = '18.2.20';
-const BETA_VER = '18.2.20';
+const STABLE_VER = '18.2.21';
+const BETA_VER = '18.2.21';
 const APP_VERSION = self.location.pathname.includes('/beta/') ? BETA_VER : STABLE_VER;
 // ベータ版（beta/ の中）と正式版（いちばん上）は、別々のキャッシュを使う（互いに消し合わないように）
 const BETA = self.location.pathname.includes('/beta/');
@@ -54,6 +54,8 @@ self.addEventListener('message', e => { if (e.data === 'skip') self.skipWaiting(
 self.addEventListener('fetch', e => {
   const r = e.request, u = new URL(r.url);
   if (r.method !== 'GET') return;
+  // 音（<audio>）の範囲取得（Range）は、キャッシュを使わず通信で返す（Safariで音が出なくなるのを防ぐ）
+  if (r.headers.has('range')) return;
   // 正式版は beta/ の中を、ベータ版は beta/ の中だけを扱う（同じ場所を両方が取り合わないように）
   if (u.origin === location.origin && u.pathname.includes('/beta/') !== BETA) return;
   if (FONT.includes(u.hostname)) {
