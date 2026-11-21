@@ -719,7 +719,7 @@
      */
     const DIFFICULTY_TABLE = {
       easy:   { label: '簡単',   desc: 'スキルが安く、EPが貯まりやすい。箱が広く、溢れるまでも長め', skillCostMul: 0.8,  dangerLimitMul: 1.25, epGainMul: 1.2,  dropMin: 1, dropMax: 4, boxInset: -16, fillStep: 14, spawnCap: 6, mergeReach: 1.02 },
-      normal: { label: '普通',   desc: 'いつもどおりの遊び方',                              skillCostMul: 1.0,  dangerLimitMul: 1.0,  epGainMul: 1.0,  dropMin: 1, dropMax: 5, boxInset: 0,   fillStep: 10, spawnCap: 8, mergeReach: 1.02 },
+      normal: { label: '普通',   desc: '標準の難しさ。箱が増えると大きい元素が出る',          skillCostMul: 1.0,  dangerLimitMul: 0.9,  epGainMul: 0.85, dropMin: 1, dropMax: 5, boxInset: 0,   fillStep: 9,  spawnCap: 8, mergeReach: 0.99 },
       hard:   { label: '難しい', desc: '箱が狭く、玉が増えるほど大きい元素が出る。スキルは2.4倍、EPが貯まりにくく、溢れるのも早い', skillCostMul: 2.4,  dangerLimitMul: 0.6,  epGainMul: 0.35, dropMin: 4, dropMax: 6, boxInset: 70,  fillStep: 5,  spawnCap: 9, mergeReach: 0.95 }
     };
     const DIFFICULTY_ORDER = ['easy', 'normal', 'hard'];
@@ -901,7 +901,7 @@
       hard: 'chem_suika_jhs2_scores_v6_hard'
     };
     // このゲームの版（記録に入れる）。難しいのランキングは、この版以上で記録された点だけを出す
-    const MERGE_VER = '18.2.22';
+    const MERGE_VER = '18.2.23';
     const RANK_MIN_VER_BY_DIFF = { hard: '18.2.16' };
     // 版の番号どうしを比べる（例：18.2.16 は 18.2.15 より新しい）
     const verAtLeast = (v, min) => {
@@ -3704,7 +3704,7 @@
       const el = ELEMENTS[level - 1];
       const body = Bodies.circle(x, y, el.radius, {
         restitution: 0.25,
-        friction: 0.14,
+        friction: 0.35,
         frictionAir: 0.004,
         density: 0.0012 * (1 + level * 0.12),
         label: 'element'
@@ -4058,7 +4058,7 @@
       world = engine.world;
 
       const wallThick = 80;
-      const wallOpts = { isStatic: true, restitution: 0.2, friction: 0.1, label: 'wall' };
+      const wallOpts = { isStatic: true, restitution: 0.2, friction: 0.25, label: 'wall' };
 
       const leftWall = Bodies.rectangle(BOX_LEFT - wallThick / 2 + 3, LOGICAL_HEIGHT / 2, wallThick, LOGICAL_HEIGHT * 2, wallOpts);
       const rightWall = Bodies.rectangle(BOX_RIGHT + wallThick / 2 - 3, LOGICAL_HEIGHT / 2, wallThick, LOGICAL_HEIGHT * 2, wallOpts);
