@@ -181,8 +181,7 @@
       will-change: opacity, transform;
     }
 
-    body.ui-mode-subtle .side-ui-panel,
-    body.aiming-active .side-ui-panel {
+    body.ui-mode-subtle .side-ui-panel {
       opacity: 0.38;
       transform: scale(0.97);
     }
@@ -262,46 +261,52 @@
     }
     #gameCanvas.gas-shake{animation:gasShakeKf .85s ease-out}
     @keyframes gasShakeKf{0%{transform:translate(0,0) rotate(0)}10%{transform:translate(-8px,3px) rotate(-.7deg)}20%{transform:translate(9px,-4px) rotate(.8deg)}30%{transform:translate(-10px,-2px) rotate(-.6deg)}40%{transform:translate(8px,4px) rotate(.6deg)}55%{transform:translate(-6px,2px)}70%{transform:translate(4px,-2px)}85%{transform:translate(-2px,1px)}100%{transform:translate(0,0)}}
-    /* 元素マージの下部バー：操作方法を消し、ボタンを大きく・押しやすく */
-    .mf-foot { padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); }
-    .mf-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 22px; }
-    .mf-group { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
-    .mf-btn { min-height: 52px; padding: 0 16px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border-radius: 999px; font-size: 17px; font-weight: 900; line-height: 1; white-space: nowrap; color: #2b1607; background: #ffffff; border: 2px solid rgba(92, 55, 17, 0.28); box-shadow: 0 4px 0 rgba(92, 55, 17, 0.22); cursor: pointer; }
-    .mf-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(92, 55, 17, 0.22); }
+    /* 元素マージの下部バー（小さめ・押しやすく） */
+    .mf-foot { padding: 6px 10px calc(6px + env(safe-area-inset-bottom)); }
+    .mf-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 16px; }
+    .mf-group { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px; }
+    .mf-btn { min-height: 40px; padding: 0 12px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border-radius: 999px; font-size: 15px; font-weight: 900; line-height: 1; white-space: nowrap; color: #2b1607; background: #ffffff; border: 2px solid rgba(92, 55, 17, 0.28); box-shadow: 0 3px 0 rgba(92, 55, 17, 0.22); cursor: pointer; }
+    .mf-btn:active { transform: translateY(2px); box-shadow: 0 1px 0 rgba(92, 55, 17, 0.22); }
     .mf-btn:disabled { opacity: 0.45; cursor: not-allowed; }
-    .mf-btn .material-symbols-rounded { font-size: 26px; line-height: 1; }
-    .mf-skill .mf-cost { font-size: 14px; padding: 3px 8px; border-radius: 999px; background: rgba(92, 55, 17, 0.12); color: #7c2d12; }
-    .mf-ep { display: inline-flex; align-items: center; gap: 6px; min-height: 52px; padding: 0 16px; border-radius: 999px; background: #3b2108; color: #fde68a; font-size: 17px; font-weight: 900; border: 2px solid rgba(251, 191, 36, 0.6); }
-    .mf-ep .material-symbols-rounded { font-size: 26px; color: #fcd34d; }
-    .mf-ep #epValueText { font-family: ui-monospace, Menlo, monospace; font-size: 20px; color: #ffffff; }
-    .mf-dark { background: #3b2108; color: #fff7ed; border-color: rgba(251, 191, 36, 0.4); box-shadow: 0 4px 0 #1c0f04; }
-    .mf-dot { width: 10px; height: 10px; border-radius: 999px; background: #34d399; flex: none; }
-    .mf-viz { width: 24px; height: 12px; }
-    .mf-round { width: 52px; padding: 0; }
-    .mf-save { background: #059669; color: #ffffff; border-color: #065f46; box-shadow: 0 4px 0 #064e3b; }
-    .mf-title { background: #0284c7; color: #ffffff; border-color: #075985; box-shadow: 0 4px 0 #075985; }
-    .mf-reset { background: #e11d48; color: #ffffff; border-color: #9f1239; box-shadow: 0 4px 0 #9f1239; }
+    .mf-btn .material-symbols-rounded { font-size: 21px; line-height: 1; }
+    .mf-skill .mf-cost { font-size: 12px; padding: 2px 6px; border-radius: 999px; background: rgba(92, 55, 17, 0.12); color: #7c2d12; }
+    .mf-ep { display: inline-flex; align-items: center; gap: 5px; min-height: 40px; padding: 0 12px; border-radius: 999px; background: #3b2108; color: #fde68a; font-size: 15px; font-weight: 900; border: 2px solid rgba(251, 191, 36, 0.6); }
+    .mf-ep .material-symbols-rounded { font-size: 21px; color: #fcd34d; }
+    .mf-ep #epValueText { font-family: ui-monospace, Menlo, monospace; font-size: 17px; color: #fff; }
+    .mf-dark { background: #3b2108; color: #fff7ed; border-color: rgba(251, 191, 36, 0.4); box-shadow: 0 3px 0 #1c0f04; }
+    .mf-dark.bgm-off { opacity: 0.7; }
+    .mf-save { background: #059669; color: #ffffff; border-color: #065f46; box-shadow: 0 3px 0 #064e3b; }
+    .mf-reset { background: #e11d48; color: #ffffff; border-color: #9f1239; box-shadow: 0 3px 0 #9f1239; }
     .mf-dif { background: #fffbeb; }
-    @media (min-width: 1280px) {
-      .mf-btn { min-height: 56px; padding: 0 20px; font-size: 18px; }
-      .mf-btn .material-symbols-rounded { font-size: 28px; }
-      .mf-ep { min-height: 56px; font-size: 18px; }
-    }
-    @media (max-width: 767px) {
-      .mf-btn { min-height: 46px; padding: 0 8px; font-size: 14px; gap: 3px; }
-      .mf-skill .mf-cost { font-size: 12px; padding: 2px 6px; }
-      .mf-viz { display: none; }
-      .mf-long { display: none; }
-      .mf-short { display: inline; }
-      .mf-btn .material-symbols-rounded { font-size: 22px; }
-      .mf-ep { min-height: 46px; padding: 0 10px; font-size: 14px; }
-      .mf-ep .material-symbols-rounded { font-size: 22px; }
-      .mf-lbl, .mf-sub { display: none; }
-      .mf-row { gap: 8px 12px; }
-    }
+    .mf-viz { width: 22px; height: 11px; }
     .mf-sub { display: none; }
-    .mf-short { display: none; }
     @media (min-width: 1280px) { .mf-sub { display: inline; } }
+    @media (max-width: 767px) {
+      .mf-btn { min-height: 38px; padding: 0 8px; font-size: 13px; gap: 4px; }
+      .mf-btn .material-symbols-rounded { font-size: 19px; }
+      .mf-ep { min-height: 38px; padding: 0 8px; font-size: 13px; }
+      .mf-ep .material-symbols-rounded { font-size: 19px; }
+      .mf-skill .mf-cost { font-size: 11px; }
+      .mf-lbl, .mf-viz { display: none; }
+    }
+
+    /* 左上：ホーム・設定 */
+    #gameTopLeft { position: fixed; top: 10px; left: 10px; z-index: 60; display: flex; gap: 8px; }
+    .gt-btn { width: 44px; height: 44px; border-radius: 999px; border: 2px solid rgba(92, 55, 17, 0.3); background: rgba(255, 255, 255, 0.94); color: #5c3d1e; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 3px 0 rgba(92, 55, 17, 0.22); cursor: pointer; }
+    .gt-btn .material-symbols-rounded { font-size: 24px; }
+    #settingsPanel { position: fixed; top: 64px; left: 10px; z-index: 70; width: 270px; padding: 12px; border-radius: 18px; background: #fffaf0; border: 2px solid rgba(92, 55, 17, 0.25); box-shadow: 0 12px 28px rgba(92, 55, 17, 0.25); display: flex; flex-direction: column; gap: 8px; }
+    #settingsPanel[hidden] { display: none; }
+    #settingsPanel .sp-title { font-weight: 900; color: #5c3d1e; font-size: 15px; padding: 0 2px; }
+    #settingsPanel .sp-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; padding: 0 4px; font-weight: 900; color: #3b2108; font-size: 15px; background: none; border: 0; cursor: pointer; }
+    #settingsPanel .sp-val { min-width: 96px; height: 36px; padding: 0 12px; border-radius: 999px; border: 2px solid rgba(92, 55, 17, 0.28); background: #fff; font-weight: 900; font-size: 14px; color: #3b2108; display: inline-flex; align-items: center; justify-content: center; }
+    #settingsPanel .sp-wide { margin-top: 4px; height: 44px; border-radius: 14px; border: 0; background: #0284c7; color: #fff; font-weight: 900; font-size: 15px; box-shadow: 0 3px 0 #075985; cursor: pointer; }
+    #gameToast { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 55; pointer-events: none; padding: 6px 14px; border-radius: 999px; background: rgba(59, 33, 8, 0.8); color: #fff7ed; font-weight: 900; font-size: 14px; white-space: nowrap; opacity: 0; transition: opacity 0.25s ease; }
+    #gameToast.show { opacity: 1; }
+
+    /* 溢れそう：赤い縁の点滅・文字の明滅 */
+    #dangerVignette { position: absolute; inset: 0; pointer-events: none; z-index: 24; opacity: 0; background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0) 42%, rgba(220, 38, 38, 0.62) 100%); box-shadow: inset 0 0 70px 14px rgba(239, 68, 68, 0.55); transition: opacity 0.12s linear; }
+    #dangerBanner.dng-hot { animation: dngHot 0.45s ease-in-out infinite; }
+    @keyframes dngHot { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.35) saturate(1.3); } }
   </style>
 </head>
 <body class="select-none" tabindex="0">
@@ -440,6 +445,7 @@
       <div class="stage-center-wrap">
         
         <!-- 危険ライン警告バッジ -->
+        <div id="dangerVignette" aria-hidden="true"></div>
         <div id="dangerBanner" class="pointer-events-none absolute top-14 left-1/2 -translate-x-1/2 z-30 opacity-0 scale-90 transition-all duration-200 bg-rose-600 text-white px-4 py-1 rounded-full shadow-lg border-2 border-white flex items-center gap-1.5">
           <span class="material-symbols-rounded text-yellow-300 text-base animate-bounce">warning</span>
           <span class="text-xs font-black tracking-wider">あふれそう！</span>
@@ -458,15 +464,6 @@
           <span id="skillTargetText">ピペット吸引：消したい元素をクリック！</span>
         </div>
 
-        <!-- NaHCO3（炭酸水素ナトリウム）合成祝賀トースト -->
-        <div id="celebrationBanner" class="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 z-40 opacity-0 scale-90 transition-all duration-300 w-[90%] bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400 text-amber-950 p-3 rounded-2xl shadow-2xl border-4 border-white text-center">
-          <div class="text-[10px] font-black uppercase tracking-widest text-amber-800 flex items-center justify-center gap-1">
-            <span class="material-symbols-rounded text-sm">auto_awesome</span>
-            <span>MAXIMUM SYNTHESIS</span>
-            <span class="material-symbols-rounded text-sm">auto_awesome</span>
-          </div>
-          <div id="celebrationText" class="text-sm sm:text-base font-black mt-0.5">NaHCO₃（炭酸水素ナトリウム）合成成功！</div>
-        </div>
 
         <!-- メイン物理＆3Dガラスボックス描画Canvas（左右に雲マスコット用の余白を確保） -->
         <canvas id="gameCanvas" width="500" height="640" tabindex="0"></canvas>
@@ -537,11 +534,29 @@
   </div>
 
   <!-- ================= 3. 下部コンソール操作バー＆実験スキルバー ================= -->
+  <!-- 左上：ホーム（ツールの画面へ戻る）と設定（UI・顔・効果音・タイトル） -->
+  <div id="gameTopLeft">
+    <button id="gtHome" type="button" class="gt-btn jelly-btn" title="ホームに戻る" aria-label="ホームに戻る"><span class="material-symbols-rounded">home</span></button>
+    <button id="gtSettings" type="button" class="gt-btn jelly-btn" title="設定" aria-label="設定"><span class="material-symbols-rounded">settings</span></button>
+  </div>
+  <div id="settingsPanel" hidden>
+    <div class="sp-title">設定</div>
+    <button id="spUi" type="button" class="sp-row"><span>UIの表示</span><span class="sp-val" id="spUiVal">通常</span></button>
+    <button id="spFace" type="button" class="sp-row"><span>キャラの顔</span><span class="sp-val" id="spFaceVal">ON</span></button>
+    <button id="spSfx" type="button" class="sp-row"><span>効果音</span><span class="sp-val" id="spSfxVal">ON</span></button>
+    <button id="titleBtn" type="button" class="sp-wide">タイトルへ戻る</button>
+  </div>
+  <div id="gameToast" aria-live="polite"></div>
+
   <footer id="mergeFooter" class="mf-foot fixed bottom-0 inset-x-0 z-30 bg-gradient-to-r from-[#E5C190] via-[#F2D8B2] to-[#E5C190] border-t-2 border-white/80 shadow-[0_-4px_14px_rgba(92,55,17,0.12)]" style="max-width:100vw;">
     <div class="mf-row">
-
-      <!-- 実験スキル：EP と 4 つのスキル（費用は使うたびに変わるものもある） -->
       <div class="mf-group">
+        <button id="bgmTrackBtn" type="button" title="BGM：押すたびに曲が変わり、6曲目のあとでオフ" class="jelly-btn mf-btn mf-dark">
+          <span class="material-symbols-rounded" style="color:#fcd34d">queue_music</span>
+          <span id="bgmTrackName" class="mf-sub">1.陽だまりラグタイム</span>
+          <canvas id="audioVisualizerCanvas" width="22" height="11" class="mf-viz"></canvas>
+        </button>
+
         <div class="mf-ep">
           <span class="material-symbols-rounded">bolt</span>
           <span class="mf-lbl">EP</span>
@@ -573,31 +588,10 @@
         </button>
       </div>
 
-      <!-- 設定・操作：表示・音・保存・タイトル・難易度・やり直し -->
       <div class="mf-group">
-        <button id="uiFocusToggleBtn" type="button" title="左右の表示を控えめにして中央に集中します" class="jelly-btn mf-btn mf-util">
-          <span class="material-symbols-rounded">visibility</span>
-          <span id="uiFocusLabel" class="mf-sub">UI:通常</span>
-        </button>
-
-        <button id="faceStyleToggleBtn" type="button" title="元素ボールのキャラ顔表示を切り替えます" class="jelly-btn mf-btn mf-util">
-          <span id="faceStyleIcon" class="material-symbols-rounded">sentiment_very_satisfied</span>
-          <span id="faceStyleLabel" class="mf-sub">顔ON</span>
-        </button>
-
-        <button id="bgmTrackBtn" type="button" title="BGMの楽曲を切り替え（全6曲）" class="jelly-btn mf-btn mf-dark">
-          <span class="material-symbols-rounded" style="color:#fcd34d">queue_music</span>
-          <span id="bgmTrackName" class="mf-sub">1.陽だまりラグタイム</span>
-        </button>
-
-        <button id="bgmToggleBtn" type="button" title="BGM ON/OFF" class="jelly-btn mf-btn mf-dark">
-          <span id="bgmStatusDot" class="mf-dot"></span>
-          <span class="material-symbols-rounded">music_note</span>
-          <canvas id="audioVisualizerCanvas" width="24" height="12" class="mf-viz"></canvas>
-        </button>
-
-        <button id="sfxToggleBtn" type="button" title="効果音 ON/OFF" class="jelly-btn mf-btn mf-round">
-          <span id="sfxToggleIcon" class="material-symbols-rounded">volume_up</span>
+        <button id="diffBtn" type="button" title="難易度を変える（簡単・普通・難しい）" class="jelly-btn mf-btn mf-dif">
+          <span class="material-symbols-rounded">tune</span>
+          <span id="diffBtnText">普通</span>
         </button>
 
         <button id="saveBtn" type="button" title="途中で保存（あとから続きから遊べます）" class="jelly-btn mf-btn mf-save">
@@ -605,22 +599,11 @@
           <span class="mf-lbl">途中保存</span>
         </button>
 
-        <button id="titleBtn" type="button" title="今の状態を保存して、タイトル画面へ" class="jelly-btn mf-btn mf-title">
-          <span class="material-symbols-rounded">home</span>
-          <span class="mf-long">タイトルへ戻る</span><span class="mf-short">タイトル</span>
-        </button>
-
-        <button id="diffBtn" type="button" title="難易度を変える（簡単・普通・難しい）" class="jelly-btn mf-btn mf-util mf-dif">
-          <span class="material-symbols-rounded">tune</span>
-          <span id="diffBtnText">普通</span>
-        </button>
-
         <button id="resetBtn" type="button" title="最初からやり直す" class="jelly-btn mf-btn mf-reset">
           <span class="material-symbols-rounded">restart_alt</span>
           <span class="mf-lbl">やり直す</span>
         </button>
       </div>
-
     </div>
   </footer>
 
@@ -910,7 +893,7 @@
       hard: 'chem_suika_jhs2_scores_v6_hard'
     };
     // このゲームの版（記録に入れる）。難しいのランキングは、この版以上で記録された点だけを出す
-    const MERGE_VER = '18.2.18';
+    const MERGE_VER = '18.2.19';
     const RANK_MIN_VER_BY_DIFF = { hard: '18.2.16' };
     // 版の番号どうしを比べる（例：18.2.16 は 18.2.15 より新しい）
     const verAtLeast = (v, min) => {
@@ -2850,6 +2833,66 @@
         });
       }
 
+      setBgm(on) {
+        this.init();
+        this.bgmEnabled = !!on;
+        this.applyBgmLevel();
+        if (this.bgmEnabled && !this.isPlayingBgm) this.startBgmLoop();
+        return this.bgmEnabled;
+      }
+
+      setTrack(i) {
+        this.init();
+        const n = BGM_TRACKS.length;
+        this.trackIndex = ((i % n) + n) % n;
+        this.currentStep = 0;
+        this.applyBgmLevel();
+        return BGM_TRACKS[this.trackIndex].name;
+      }
+
+      /** 溢れそうになった瞬間：上がるサイレン＋ドンッ */
+      playDangerAlarm() {
+        if (!this.sfxEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        const osc = this.ctx.createOscillator();
+        const amp = this.ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(520, now);
+        osc.frequency.exponentialRampToValueAtTime(980, now + 0.18);
+        osc.frequency.exponentialRampToValueAtTime(520, now + 0.36);
+        amp.gain.setValueAtTime(0.0001, now);
+        amp.gain.exponentialRampToValueAtTime(0.09, now + 0.03);
+        amp.gain.exponentialRampToValueAtTime(0.0001, now + 0.42);
+        osc.connect(amp);
+        amp.connect(this.sfxBus);
+        osc.start(now);
+        osc.stop(now + 0.44);
+      }
+
+      /** 溢れそうの鼓動：ドッ・ドッ */
+      playDangerHeart() {
+        if (!this.sfxEnabled) return;
+        this.init();
+        if (!this.ctx) return;
+        const now = this.ctx.currentTime;
+        [0, 0.17].forEach((t, i) => {
+          const osc = this.ctx.createOscillator();
+          const amp = this.ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(92 - i * 8, now + t);
+          osc.frequency.exponentialRampToValueAtTime(42, now + t + 0.14);
+          amp.gain.setValueAtTime(0.0001, now + t);
+          amp.gain.exponentialRampToValueAtTime(0.5 - i * 0.15, now + t + 0.01);
+          amp.gain.exponentialRampToValueAtTime(0.0001, now + t + 0.16);
+          osc.connect(amp);
+          amp.connect(this.sfxBus);
+          osc.start(now + t);
+          osc.stop(now + t + 0.18);
+        });
+      }
+
       playDangerBeep() {
         if (!this.sfxEnabled) return;
         this.init();
@@ -3693,15 +3736,37 @@
 
     let celebrationTimeout = null;
     function showCelebrationBanner(msg) {
-      const banner = document.getElementById('celebrationBanner');
-      document.getElementById('celebrationText').textContent = msg;
-      banner.classList.remove('opacity-0', 'scale-90');
-      banner.classList.add('opacity-100', 'scale-100');
+      // 黄色い吹き出しはやめ、画面の上に小さく一行だけ出す（盤面と次の元素を隠さない）
+      const t = document.getElementById('gameToast');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
       if (celebrationTimeout) clearTimeout(celebrationTimeout);
-      celebrationTimeout = setTimeout(() => {
-        banner.classList.remove('opacity-100', 'scale-100');
-        banner.classList.add('opacity-0', 'scale-90');
-      }, 3600);
+      celebrationTimeout = setTimeout(() => t.classList.remove('show'), 1800);
+    }
+
+    // 溢れそう：赤い縁の点滅・画面の揺れ・心臓の音（残り時間が少ないほど強く、速く）
+    let dangerFxOn = false;
+    let lastHeartAt = 0;
+    function setDangerFx(on, prog) {
+      const p = Math.max(0, Math.min(1, prog || 0));
+      const vig = document.getElementById('dangerVignette');
+      const bn = document.getElementById('dangerBanner');
+      const t = performance.now();
+      if (on) {
+        const pulse = 0.8 + 0.2 * Math.sin(t / (280 - 180 * p));
+        if (vig) vig.style.opacity = String(Math.min(1, (0.3 + 0.7 * p) * pulse));
+        const amp = 1 + 5 * p;
+        gameCanvas.style.transform = `translate(${((Math.random() * 2 - 1) * amp).toFixed(2)}px, ${((Math.random() * 2 - 1) * amp * 0.6).toFixed(2)}px)`;
+        if (bn) bn.classList.toggle('dng-hot', p > 0.5);
+        if (p > 0.6 && t - lastHeartAt > 700 - 350 * p) { lastHeartAt = t; audio.playDangerHeart(); }
+        dangerFxOn = true;
+      } else if (dangerFxOn) {
+        if (vig) vig.style.opacity = '0';
+        gameCanvas.style.transform = '';
+        if (bn) bn.classList.remove('dng-hot');
+        dangerFxOn = false;
+      }
     }
 
     let comboTimeout = null;
@@ -4426,6 +4491,7 @@
 
         const dangerBanner = document.getElementById('dangerBanner');
         if (isDangerNow) {
+          if (!dangerActive) audio.playDangerAlarm();
           dangerActive = true;
           dangerTimer += dt;
           mascotMood = 'panic';
@@ -4456,6 +4522,7 @@
         }
       }
 
+      setDangerFx(dangerActive && dangerTimer > 0, dangerTimer / dangerLimitSec());
       renderMainCanvas(now);
 
       // 背景分子とオーディオビジュアライザーは2フレームに1回更新してCPU負荷を半減
@@ -4485,8 +4552,11 @@
       // デンジャーライン点滅
       if (dangerTimer !== 0) {
         ctx.save();
-        ctx.strokeStyle = `rgba(239, 68, 68, ${0.45 + Math.sin(now * 0.02) * 0.35})`;
-        ctx.lineWidth = 3;
+        const dgP = Math.max(0, Math.min(1, dangerTimer / dangerLimitSec()));
+        ctx.strokeStyle = `rgba(239, 68, 68, ${0.45 + Math.sin(now * (0.02 + 0.04 * dgP)) * 0.35})`;
+        ctx.lineWidth = 3 + 3 * dgP;
+        ctx.shadowColor = 'rgba(239, 68, 68, 0.9)';
+        ctx.shadowBlur = 8 + 14 * dgP;
         ctx.setLineDash([8, 6]);
         ctx.beginPath();
         ctx.moveTo(BOX_LEFT + 6, DANGER_LINE_Y);
@@ -4953,51 +5023,53 @@
     });
 
     // UI集中モード切替
-    document.getElementById('uiFocusToggleBtn').addEventListener('click', () => {
-      ensureGameFocus();
-      uiFocusMode = (uiFocusMode + 1) % 3;
+    // 左上：ホーム（ツールの画面へ戻る）と設定（UI・顔・効果音）
+    const spPanel = document.getElementById('settingsPanel');
+    const UI_NAMES = ['通常', '控えめ', '集中'];
+    function applyUiMode() {
       document.body.classList.remove('ui-mode-subtle', 'ui-mode-minimal');
-      const label = document.getElementById('uiFocusLabel');
-      if (uiFocusMode === 0) {
-        label.textContent = 'UI:通常';
-      } else if (uiFocusMode === 1) {
-        document.body.classList.add('ui-mode-subtle');
-        label.textContent = 'UI:控えめ';
+      if (uiFocusMode === 1) document.body.classList.add('ui-mode-subtle');
+      if (uiFocusMode === 2) document.body.classList.add('ui-mode-minimal');
+    }
+    function spSync() {
+      document.getElementById('spUiVal').textContent = UI_NAMES[uiFocusMode] || '通常';
+      document.getElementById('spFaceVal').textContent = showKawaiiFaces ? 'ON' : '記号のみ';
+      document.getElementById('spSfxVal').textContent = audio.sfxEnabled ? 'ON' : 'OFF';
+    }
+    document.getElementById('gtHome').addEventListener('click', () => {
+      ensureGameFocus();
+      spPanel.hidden = true;
+      if (window.parent !== window) { try { window.parent.postMessage({ type: 'kosa-merge-quit' }, '*'); } catch (e) { } }
+      else askTitleConfirm();
+    });
+    document.getElementById('gtSettings').addEventListener('click', () => { ensureGameFocus(); spPanel.hidden = !spPanel.hidden; spSync(); });
+    document.getElementById('spUi').addEventListener('click', () => { ensureGameFocus(); uiFocusMode = (uiFocusMode + 1) % 3; applyUiMode(); spSync(); });
+    document.getElementById('spFace').addEventListener('click', () => { ensureGameFocus(); showKawaiiFaces = !showKawaiiFaces; updateNextPreviewUI(); spSync(); });
+    document.getElementById('spSfx').addEventListener('click', () => { ensureGameFocus(); audio.toggleSfx(); spSync(); });
+    document.addEventListener('pointerdown', e => { if (!spPanel.hidden && !e.target.closest('#settingsPanel, #gtSettings')) spPanel.hidden = true; });
+
+
+    // BGM 6曲切替
+    // BGM：押すたびに曲が1→6と変わり、6曲目のあとに押すとオフ（もう一度押すと1曲目から）
+    let bgmStep = 0; // 0〜5 が曲1〜6、6 がオフ
+    document.getElementById('bgmTrackBtn').addEventListener('click', () => {
+      ensureGameFocus();
+      audio.init();
+      bgmStep = (bgmStep + 1) % 7;
+      const btn = document.getElementById('bgmTrackBtn');
+      const nameEl = document.getElementById('bgmTrackName');
+      if (bgmStep === 6) {
+        audio.setBgm(false);
+        nameEl.textContent = 'BGMオフ';
+        btn.classList.add('bgm-off');
       } else {
-        document.body.classList.add('ui-mode-minimal');
-        label.textContent = 'UI:集中';
+        audio.setBgm(true);
+        nameEl.textContent = audio.setTrack(bgmStep);
+        btn.classList.remove('bgm-off');
       }
     });
 
-    // ボールのキャラ顔ON/OFF切替
-    document.getElementById('faceStyleToggleBtn').addEventListener('click', () => {
-      ensureGameFocus();
-      showKawaiiFaces = !showKawaiiFaces;
-      document.getElementById('faceStyleIcon').textContent = showKawaiiFaces ? 'sentiment_very_satisfied' : 'science';
-      document.getElementById('faceStyleLabel').textContent = showKawaiiFaces ? '顔ON' : '記号のみ';
-      updateNextPreviewUI();
-    });
 
-    // BGM 6曲切替
-    document.getElementById('bgmTrackBtn').addEventListener('click', () => {
-      ensureGameFocus();
-      const name = audio.nextTrack();
-      document.getElementById('bgmTrackName').textContent = name;
-    });
-
-    // BGM / SE ON/OFF
-    document.getElementById('bgmToggleBtn').addEventListener('click', () => {
-      ensureGameFocus();
-      const on = audio.toggleBgm();
-      const dot = document.getElementById('bgmStatusDot');
-      dot.className = on ? 'mf-dot bg-emerald-400' : 'mf-dot bg-rose-400';
-    });
-
-    document.getElementById('sfxToggleBtn').addEventListener('click', () => {
-      ensureGameFocus();
-      const on = audio.toggleSfx();
-      document.getElementById('sfxToggleIcon').textContent = on ? 'volume_up' : 'volume_off';
-    });
 
     // 図鑑モーダル開閉
     document.getElementById('openEncyclopediaBtn').addEventListener('click', () => openEncyclopediaModal(maxReachedLevel));

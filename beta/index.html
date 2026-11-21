@@ -2924,9 +2924,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.18';
-const BETA_VER = '18.2.18';
-const RELEASE_VER = '18.2.18'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.19';
+const BETA_VER = '18.2.19';
+const RELEASE_VER = '18.2.19'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3826,6 +3826,14 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.19', d: '__BUILD__', t: '元素ラボの数の修正・元素マージの操作の並べ替え・溢れそうの演出を豪華に', n: [
+'元素ラボの「くっつけてみよう」で、見つけた反応の数と全部の組み合わせ（128）を正しく数えるようにしました。',
+'元素マージの下部バーを小さくし、左から BGM・EP・アイテム4つ・難易度・途中保存・やり直す の順にしました。',
+'ホームに戻るボタンを左上に移し、その隣の設定（UI・顔・効果音）から切り替えられるようにしました。',
+'BGMは、押すたびに曲が変わり、6曲目のあとに押すとオフになります。',
+'元素マージの画面をタップしても、ランキングやスコアが暗くならないようにしました。',
+'黄色い吹き出し（プラス点数など）は、見にくいので出さないようにしました。',
+'溢れそうのとき、赤い縁の点滅・画面の揺れ・警報と心臓の音で、もっと分かりやすくしました。'] },
   { v: '18.2.18', d: '__BUILD__', t: '元素マージの実験オーダーを削除・傾きの不具合を直す・下部バーを大きく・iPadのタイトルを2段に', n: [
 '元素マージの「実験オーダー」モードを削除しました。',
 '逆転フラスコで箱が傾いて一部が隠れる不具合を直しました。傾いた方向へ玉が転がります（箱の見た目は回りません）。',
@@ -8036,6 +8044,9 @@ const LAB_IDS = new Set([...RXL.map(rxId), ...DXL.map(dxId)]);
 // 「くっつけてみよう」で見つけた物質。実績と進み具合は、できた物質の種類で数える（同じ物質は1つ）
 const LAB_OUT = {}; RXL.forEach(r => { LAB_OUT[rxId(r)] = r.o.map(p => p[0]); }); DXL.forEach(d => { LAB_OUT[dxId(d)] = d.o.map(p => p[0]); });
 const LAB_SUB_ALL = new Set(Object.values(LAB_OUT).flat());
+// 「くっつけてみよう」の図鑑のマス（反応）の数：RXL＋DXL のすべての組み合わせ
+const LAB_REACT_TOT = LAB_IDS.size;
+function labReactCount() { let n = 0; LAB.found.forEach(id => { if (LAB_IDS.has(id)) n++; }); return n; }
 function labSubs() { const s = new Set(); LAB.found.forEach(id => (LAB_OUT[id] || []).forEach(f => s.add(f))); return s; }
 const LAB = { blobs: [], sel: 0, busy: false, last: null, n: 0, found: new Set(), heat: false };
 try { JSON.parse(localStorage.getItem('kosa-lab-found') || '[]').forEach(x => LAB.found.add(x)); } catch (e) { }
@@ -8162,8 +8173,8 @@ function labBook() {
   return `<div class="lab-bk">${RXL.map(r => chip(rxId(r), `${esc(labItem(r.a)[1])}＋${esc(labItem(r.b)[1])}`)).join('')}${DXL.map(d => chip(dxId(d), `${esc(labItem(d.k)[1])}を${d.btn}`)).join('')}</div>`;
 }
 function labCount() {
-  const tot = LAB_SUB_ALL.size, n = labSubs().size;
-  const c = $('#labcnt'), p = $('#labprog'); if (c) c.textContent = `見つけた物質　${n} / ${tot}`; if (p) p.style.width = n / tot * 100 + '%';
+  const tot = LAB_REACT_TOT, n = labReactCount();
+  const c = $('#labcnt'), p = $('#labprog'); if (c) c.textContent = `見つけた反応　${n} / ${tot}`; if (p) p.style.width = n / tot * 100 + '%';
 }
 function labPaint() {
   const bl = $('#labb'); if (!bl) return;
@@ -8193,9 +8204,9 @@ function labSpawn(outs, mx, my) {
   outs.forEach(([f, nm], i) => { LAB.blobs.push({ id: ++LAB.n, k: labKeyFor(f, nm), x: Math.min(86, Math.max(14, mx + (i - (n - 1) / 2) * 22)), y: my, pop: true }); });
 }
 function labDone(r, id) {
-  const fresh = !LAB.found.has(id), before = labSubs().size; LAB.found.add(id); labSaveFound(); LAB.last = { r, fresh }; LAB.sel = 0;
-  const n = labSubs().size;
-  if (n > before) toast(`新しい物質を見つけました！（${n} / ${LAB_SUB_ALL.size}）`);
+  const fresh = !LAB.found.has(id), before = labReactCount(); LAB.found.add(id); labSaveFound(); LAB.last = { r, fresh }; LAB.sel = 0;
+  const n = labReactCount();
+  if (fresh && n > before) toast(`新しい反応を見つけました！（${n} / ${LAB_REACT_TOT}）`);
 }
 async function labReact(b1, b2) {
   if (LAB.busy) return; const f = $('#labf'); if (!f) return; LAB.busy = true;
@@ -14267,7 +14278,8 @@ function gameFull(k, on) {
     const bt = document.createElement('button');
     bt.type = 'button'; bt.className = 'ps-exit ps-exit-ov'; bt.innerHTML = `${ms('fullscreen_exit')}戻す`;
     bt.addEventListener('click', ev => { ev.preventDefault(); ev.stopPropagation(); gameFull(k, false); });
-    ov.appendChild(bt); document.body.appendChild(ov);
+    if (k !== 'mg') ov.appendChild(bt); // 元素マージは、左上のホームボタンで戻る
+    document.body.appendChild(ov);
     f.classList.add('ps-pin', 'ps-full');
     GF_STATE[k] = { ph, ov, saved };
     psFocusFrame(f.querySelector('iframe'));
@@ -15381,7 +15393,7 @@ Object.assign(ACT, {
 });
 function mergeHtml() {
   const lv = level().L, sp = spendXp();
-  if (document.getElementById('mgov')) return `<div class="ps"><p class="muted ps-note" style="margin:10px 4px 0">全画面で遊んでいます。「戻す」で、ツールの画面に戻ります。</p></div>`;
+  if (document.getElementById('mgov')) return `<div class="ps"><p class="muted ps-note" style="margin:10px 4px 0">全画面で遊んでいます。左上のホームボタンで、ツールの画面に戻ります。</p></div>`;
   if (lv < MG_LV && !toolOwned('merge')) {
     const buy = `<div class="mg-buy"><button type="button" class="btn" data-act="toolbuy" data-id="merge" ${sp < TOOL_SHOP.merge.c ? 'disabled' : ''}>${ms('shopping_cart')}${TOOL_SHOP.merge.c} XPで使えるようにする</button><small class="muted">いまの使えるXP ${sp}</small></div>`;
     return `<div class="rk-lock card mg-lux"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>元素マージは、レベル${MG_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。レベルを上げるか、XPを使うと、今すぐ遊べます。あと${MG_LV - lv}レベルです。</p>${buy}${lvNextHtml(MG_LV)}</div>`;
