@@ -811,7 +811,7 @@
                         <!-- 称号・ランク -->
                         <div class="text-center md:border-r border-stone-700 md:pr-4 space-y-1">
                             <div class="text-xs text-amber-400">今回の合戦評価称号</div>
-                            <div id="resultRankBadge" class="inline-block my-1 px-4 py-1 rounded-lg bg-gradient-to-r from-amber-500 to-yellow-300 text-stone-950 font-brush text-3xl sm:text-4xl font-extrabold shadow-lg">
+                            <div id="resultRankBadge" class="inline-block my-1 px-4 py-1 rounded-lg font-brush text-3xl sm:text-4xl font-extrabold shadow-lg" style="background:linear-gradient(90deg,#f59e0b,#fde047);color:#1c1917;-webkit-text-fill-color:#1c1917;">
                                 征夷大将軍
                             </div>
                             <div id="resultDifficultyText" class="text-xs text-stone-400">難易度：侍大将コース</div>
@@ -2256,7 +2256,7 @@
             return copy;
         }
 
-        // 征夷大将軍コース：長い単語を先に出す。「AとB」のような複合の答えは後にまわす（同じ長さは順番をばらす）
+        // （未使用）長い単語を先に出す並べ替え。征夷大将軍コースは完全ランダムにするため使っていない
         function longTermsFirst(list) {
             const isCompound = q => /[と・、や]/.test(q.kanji);
             const byLen = (a, b) => b.kanji.length - a.kanji.length;
@@ -2266,7 +2266,6 @@
         function buildNonRepeatingQuestionQueue(difficulty, eraFilter) {
             const primaryRaw = filterQuestionsByEra(HISTORY_QUESTIONS[difficulty], eraFilter);
             let primaryPool = eraFilter === 'weak' ? primaryRaw : shuffleArray(primaryRaw);
-            if (difficulty === 'hard' && eraFilter !== 'weak') primaryPool = longTermsFirst(primaryPool);
 
             const otherDiffs = ['easy', 'normal', 'hard'].filter(d => d !== difficulty);
             let backupPool = [];

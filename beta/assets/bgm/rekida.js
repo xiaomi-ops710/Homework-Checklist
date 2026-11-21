@@ -506,96 +506,60 @@
      * 序（0-15）→破（16-31）→急（32-47）→結（48-63）の4節で層を増やす
      * ------------------------------------------------------------------- */
 
-    // 雅：平安の大合奏。静かな持続音（笙・低音の箏）の上に、箏・尺八・三味線・鼓が重なる
+    // 雅：平安の大合奏。箏の主旋律と低音を軸に、篠笛が節ごとに重なる。太鼓は拍を一定に刻む
     function stepMiyabi(v, idx, t) {
         var sec = idx >> 4;
         var k = T_MIYABI_KOTO[idx];
         var f = T_MIYABI_FUE[idx];
         var b = T_MIYABI_BASS[idx];
-
-        if (k !== null) {
-            v.koto(k, t, 0.45, 0.068, -0.45, 0.35, 2);
-            if (sec === 3) v.koto(k + 12, t, 0.4, 0.024, -0.1, 0.5, 1);        // 結：オクターブの煌めき
-        }
-        if (b !== null) v.koto(b, t, 0.72, 0.08, 0.42, 0.25, 2);
-        if (f !== null) {
-            var shaku = sec === 1;                                              // 破では尺八、他は篠笛
-            v.fue(f, t, 0.48, 0.052, shaku ? 0.2 : -0.28, 0.45, 2, shaku);
-            if (sec === 2) v.fue(f - 3, t, 0.48, 0.03, 0.5, 0.5, 1, false);     // 急：三度下の重ね
-        }
-        if (k !== null && sec >= 2 && (idx & 1) === 0) {                        // 急・結：三味線のオクターブ
-            v.shamisen(k + 12, t, 0.22, sec === 2 ? 0.045 : 0.03, 0.35, 0.22, 1);
-        }
-        if ((idx & 15) === 0) {                                                 // 笙の天上の和音＋低音の持続
-            v.sho([74, 79, 81, 86], t, 1.8, 0.02, 0.7, 0);
-            v.sho([50, 57], t, 2.6, 0.012, 0.3, 0);
-        }
-        if (idx === 60) v.roll(t, 0.15, 5, 0.03, 0.2, 1);                       // 結の締めの乱打
-
+        if (k !== null) v.koto(k, t, 0.45, 0.058, -0.4, 0.25, 2);                 // 主旋律（箏・左）
+        if (b !== null) v.koto(b, t, 0.72, 0.07, 0.4, 0.2, 2);                    // 低音（箏・右）
+        if (f !== null && sec >= 1) v.fue(f, t, 0.48, 0.042, sec === 1 ? 0.15 : -0.2, 0.35, 1, sec === 1);
+        if (k !== null && sec === 2 && (idx & 1) === 0) v.shamisen(k + 12, t, 0.2, 0.035, 0.3, 0.2, 1);   // 急：三味線が1本だけ重なる
+        if ((idx & 15) === 0) v.sho([74, 79, 81, 86], t, 1.8, 0.014, 0.6, 0);     // 節の頭に笙の和音
         var big = idx === 0 || idx === 32;
-        if ((idx & 7) === 0) v.taiko(big ? 'odon' : 'don', t, big ? 0.13 : 0.08, 0, 2);
-        if ((idx & 7) === 4) v.taiko('pon', t, 0.065, -0.5, 2);
-        if (sec >= 2 && (idx & 3) === 2) v.taiko('ka', t, 0.05, 0.45, 1);
-        if (big) v.taiko('suzu', t, 0.05, 0.6, 0);                              // 鈴のアクセント
+        if ((idx & 7) === 0) v.taiko(big ? 'odon' : 'don', t, big ? 0.12 : 0.075, 0, 2);
+        if ((idx & 7) === 4) v.taiko('pon', t, 0.055, -0.4, 2);
+        if (sec >= 2 && (idx & 3) === 2) v.taiko('ka', t, 0.04, 0.4, 1);
+        if (idx === 60) v.roll(t, 0.15, 5, 0.025, 0.2, 1);                         // 結の締め
     }
 
-    // 陣：合戦絵巻。三味線・尺八が前に出て、大太鼓と摺鉦・拍子木が疾走感を作る
+    // 陣：合戦絵巻。三味線が主役、尺八が破から旋律を重ね、大太鼓が疾走感を作る
     function stepJin(v, idx, t) {
         var sec = idx >> 4;
         var s = T_JIN_SHAMISEN[idx];
         var sk = T_JIN_SHAKU[idx];
-        var root = sec === 2 ? 43 : 38;                                         // 急は G2、他は D2
-
-        if (s !== null) {
-            v.shamisen(s + (sec === 3 && (idx & 3) === 0 ? 12 : 0), t, 0.24, 0.078, 0.35, 0.2, 2);
-            if ((idx & 1) === 0) v.koto(s + 7, t, 0.32, 0.05, -0.48, 0.3, 1);   // 箏の五度上のハモリ
-        }
-        if (sk !== null) v.fue(sk, t, 0.42, 0.062, -0.15, 0.4, 2, true);        // 尺八の主旋律
-        if ((idx & 3) === 0) v.koto(root, t, 0.55, 0.09, 0.25, 0.2, 2);        // 十七絃の重低音
-        if ((idx & 3) === 2) v.koto(root + 12, t, 0.3, 0.032, 0.25, 0.1, 1);   // 裏拍のポンプ
-
+        var root = sec === 2 ? 43 : 38;                                            // 急は G2、他は D2
+        if (s !== null) v.shamisen(s, t, 0.24, 0.07, 0.35, 0.18, 2);             // 三味線（主役）
+        if (sk !== null && sec >= 1) v.fue(sk, t, 0.42, 0.05, -0.15, 0.3, 2, true);   // 尺八（破から）
+        if ((idx & 3) === 0) v.koto(root, t, 0.55, 0.075, 0.25, 0.15, 2);          // 十七絃の重低音
         var big = idx === 0 || idx === 32;
-        if ((idx & 3) === 0 || (idx & 7) === 3) {
-            v.taiko(big ? 'odon' : 'don', t, big ? 0.15 : 0.105, 0, 2);
-        } else if ((idx & 3) === 2) {
-            v.taiko('pon', t, 0.075, -0.5, 2);
-        } else if ((idx & 1) === 1) {
-            v.taiko('ka', t, 0.065, 0.45, 2);
-        }
-        if ((idx & 3) === 1 && idx >= 16) v.taiko('kane', t, 0.055, 0.65, 1);   // 摺鉦（チャンチキ）
-        if ((idx & 7) === 6 && idx >= 16) v.taiko('hyoshi', t, 0.05, -0.6, 1);  // 拍子木
-        if (idx === 30 || idx === 62) v.roll(t, 0.15, 6, 0.04, 0, 1);           // 陣太鼓の乱打
+        if ((idx & 3) === 0) v.taiko(big ? 'odon' : 'don', t, big ? 0.14 : 0.09, 0, 2);
+        else if ((idx & 3) === 2) v.taiko('pon', t, 0.06, -0.4, 2);
+        else if ((idx & 1) === 1) v.taiko('ka', t, 0.045, 0.4, 1);
+        if ((idx & 3) === 1 && idx >= 16) v.taiko('kane', t, 0.04, 0.6, 1);       // 摺鉦（破から）
+        if (idx === 30 || idx === 62) v.roll(t, 0.15, 6, 0.03, 0, 1);              // 陣太鼓の乱打
     }
 
-    // 暁：明治維新の疾走。ヨナ抜きの箏と篠笛が明るく跳ね、鈴と拍子木が弾ませる
+    // 暁：明治維新の疾走。ヨナ抜きの箏と篠笛が明るく跳ね、太鼓と拍子木が弾ませる
     function stepAkatsuki(v, idx, t) {
         var sec = idx >> 4;
         var k = T_AK_KOTO[idx];
         var m = T_AK_MELODY[idx];
-
-        if (k !== null) {
-            v.koto(k, t, 0.42, 0.068, -0.42, 0.3, 2);
-            if ((idx & 1) === 1) v.koto(k + 12, t, 0.3, 0.024, 0.15, 0.4, 1);  // 煌めきのオクターブ
-        }
-        if (m !== null) v.fue(m, t, 0.44, 0.056, 0.25, 0.3, 2, false);          // 篠笛
-        if ((idx & 3) === 0) v.koto(50, t, 0.6, 0.075, 0.4, 0.25, 2);          // D3 の低音
-        else if ((idx & 3) === 2) v.koto(62, t, 0.25, 0.028, -0.2, 0.1, 1);    // D4 の弾み
-        if ((idx & 15) === 0) v.sho([74, 77, 81], t, 1.5, 0.016, 0.6, 0);      // D5 F5 A5
-        else if ((idx & 15) === 8) v.sho([69, 74, 76], t, 1.2, 0.012, 0.6, 0); // A4 D5 E5
-
-        if ((idx & 3) === 0) v.taiko('don', t, 0.085, 0, 2);
-        if ((idx & 3) === 2) v.taiko('ka', t, 0.06, 0.45, 2);
-        if (sec === 3 && (idx & 1) === 1) v.taiko('pon', t, 0.05, -0.5, 2);
-        if ((idx & 7) === 6) v.taiko('hyoshi', t, 0.05, -0.6, 1);
-        if ((idx & 7) === 5) v.taiko('kane', t, 0.035, 0.7, 1);
-        if ((idx & 7) === 4) v.taiko('suzu', t, 0.04, 0.55, 0);
-        if (idx === 60) v.roll(t, 0.12, 4, 0.03, -0.2, 1);
+        if (k !== null) v.koto(k, t, 0.42, 0.058, -0.4, 0.25, 2);                  // 箏の主旋律（左）
+        if (m !== null && sec >= 1) v.fue(m, t, 0.44, 0.045, 0.25, 0.25, 2, false); // 篠笛（破から）
+        if ((idx & 3) === 0) v.koto(50, t, 0.6, 0.065, 0.4, 0.2, 2);              // D3 の低音
+        if ((idx & 15) === 0) v.sho([74, 77, 81], t, 1.5, 0.012, 0.5, 0);         // 節の頭の和音
+        if ((idx & 3) === 0) v.taiko('don', t, 0.075, 0, 2);
+        if ((idx & 3) === 2) v.taiko('ka', t, 0.05, 0.4, 2);
+        if ((idx & 7) === 6) v.taiko('hyoshi', t, 0.04, -0.5, 1);                 // 拍子木で弾ませる
+        if (idx === 60) v.roll(t, 0.12, 4, 0.025, -0.2, 1);
     }
 
     var TRACKS = [
-        { id: 'miyabi', name: '雅（平安の大合奏）', level: 0.95, step: stepMiyabi },
-        { id: 'jin', name: '陣（合戦絵巻）', level: 1.0, step: stepJin },
-        { id: 'akatsuki', name: '暁（維新疾走）', level: 0.9, step: stepAkatsuki }
+        { id: 'miyabi', name: '雅（平安の大合奏）', level: 1.8, step: stepMiyabi },
+        { id: 'jin', name: '陣（合戦絵巻）', level: 1.9, step: stepJin },
+        { id: 'akatsuki', name: '暁（維新疾走）', level: 1.75, step: stepAkatsuki }
     ];
 
     /* ---------------------------------------------------------------------
