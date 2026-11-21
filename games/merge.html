@@ -904,6 +904,16 @@
       normal: STORAGE_KEY_SCORES,
       hard: 'chem_suika_jhs2_scores_v6_hard'
     };
+    // このゲームの版（記録に入れる）。難しいのランキングは、この版以上で記録された点だけを出す
+    const MERGE_VER = '18.2.16';
+    const RANK_MIN_VER_BY_DIFF = { hard: '18.2.16' };
+    // 版の番号どうしを比べる（例：18.2.16 は 18.2.15 より新しい）
+    const verAtLeast = (v, min) => {
+      if (!v) return false;
+      const a = String(v).split(/[^0-9]+/).filter(Boolean).map(Number), b = String(min).split(/[^0-9]+/).filter(Boolean).map(Number);
+      for (let i = 0; i < Math.max(a.length, b.length); i++) { const x = a[i] || 0, y = b[i] || 0; if (x !== y) return x > y; }
+      return true;
+    };
     // 難しいの記録は v6 で作り直した（旧の v4・v5 の難しいの記録は削除する）
     try { localStorage.removeItem('chem_suika_jhs2_scores_v4_hard'); localStorage.removeItem('chem_suika_jhs2_scores_v5_hard'); } catch (e) { }
 
@@ -919,8 +929,9 @@
 
     // 端末内（ローカル）ランキングアダプター
     class LocalRankingAdapter {
-      constructor(storageKey) {
+      constructor(storageKey, minVer = '') {
         this.storageKey = storageKey;
+        this.minVer = minVer; // ここより古い版で記録された点は、出さない（空なら全部出す）
         this.defaultEntries = []; // 初回は空。架空の記録は表示・保存しない
       }
 
@@ -931,7 +942,7 @@
           const parsed = JSON.parse(raw);
 
           // 旧フォーマット（数値配列 [1908, 1648, 876]）との後方互換性を保持
-          if (Array.isArray(parsed) && typeof parsed[0] === 'number') {
+          if (Array.isArray(parsed) && typeof parsed[0] === 'number' && !this.minVer) {
             return parsed.slice(0, 3).map((sc, i) => ({
               rank: i + 1,
               score: sc,
@@ -943,12 +954,15 @@
           }
 
           if (Array.isArray(parsed) && parsed.length > 0) {
-            return parsed.slice(0, 3).map((item, i) => ({
+            // 最低の版が決まっている難易度は、その版以上で記録された点だけを出す（古い版の記録は出さない）
+            const list = this.minVer ? parsed.filter(item => item && verAtLeast(item.ver, this.minVer)) : parsed;
+            return list.slice(0, 3).map((item, i) => ({
               rank: i + 1,
               score: Number(item.score) || 0,
               playerName: item.playerName || 'あなた',
               maxLevel: Number(item.maxLevel) || 1,
               updatedAt: item.updatedAt || new Date().toISOString(),
+              ver: item.ver || '',
               isSelf: true
             }));
           }
@@ -966,6 +980,7 @@
           playerName,
           maxLevel,
           difficulty: normalizeDifficulty(difficulty),
+          ver: MERGE_VER,
           updatedAt: new Date().toISOString(),
           isSelf: true
         });
@@ -1027,7 +1042,7 @@
         this.localAdapters = {};
         this.localByDiff = {};
         DIFFICULTY_ORDER.forEach((d) => {
-          this.localAdapters[d] = new LocalRankingAdapter(STORAGE_KEY_SCORES_BY_DIFF[d]);
+          this.localAdapters[d] = new LocalRankingAdapter(STORAGE_KEY_SCORES_BY_DIFF[d], RANK_MIN_VER_BY_DIFF[d] || '');
           this.localByDiff[d] = [];
         });
         this.onlineAdapter = new OnlineRankingAdapter();
@@ -4105,12 +4120,18 @@
       dangerActive = sv.da === true && dangerTimer !== 0;
       sv.bodies.forEach(b => {
         const body = createElementBody(Number(b.x) || 0, Number(b.y) || 0, clampLevel(b.l));
+        body.spawnTimestamp = -1e9; // 保存した玉は、もう落ちついているので、すぐに溢れそうに数える
         Body.setPosition(body, { x: Number(b.x) || 0, y: Number(b.y) || 0 });
         Body.setAngle(body, Number(b.a) || 0);
         Body.setVelocity(body, { x: Number(b.vx) || 0, y: Number(b.vy) || 0 });
         Body.setAngularVelocity(body, Number(b.av) || 0);
       });
       updateScoreBoardUI(); updateEpUI(); updateNextPreviewUI(); renderEvolutionRingUI(); checkAndRenderMissions();
+      if (dangerActive) {
+        const bn = document.getElementById('dangerBanner');
+        document.getElementById('dangerCountdownText').textContent = `${Math.max(0, dangerLimitSec() - dangerTimer).toFixed(1)}s`;
+        bn.classList.remove('opacity-0', 'scale-90'); bn.classList.add('opacity-100', 'scale-100');
+      }
       showCelebrationBanner('続きから遊びます');
     }
 
@@ -4147,10 +4168,10 @@
 `;
       document.head.appendChild(st);
     }
-    function titleHtml(sv) {
+    function titleHtml() {
       const d = gameDifficulty, cfg = DIFFICULTY_TABLE[d] || DIFFICULTY_TABLE[DEFAULT_DIFFICULTY];
       const mel = ELEMENTS[3] || ELEMENTS[0];
-      const diffs = DIFFICULTY_ORDER.map((k) => `<button type="button" class="tt-dif${k === d ? ' on' : ''}" data-td="${k}" ${sv ? 'disabled' : ''}>${DIFFICULTY_TABLE[k].label}</button>`).join('');
+      const diffs = DIFFICULTY_ORDER.map((k) => `<button type="button" class="tt-dif${k === d ? ' on' : ''}" data-td="${k}">${DIFFICULTY_TABLE[k].label}</button>`).join('');
       const list = (rankingService.getActiveEntries() || []).slice(0, 5);
       const rows = list.length ? list.map((e, i) => `<li><span class="tt-n">${i + 1}</span><span class="tt-nm">${tEsc(e.playerName || '-')}</span><span class="tt-sc">${Math.floor(Number(e.score) || 0)}</span></li>`).join('')
         : '<li class="tt-empty">まだ記録がありません。最初の1点を目指そう！</li>';
@@ -4158,35 +4179,53 @@
       return `<div class="tt-wrap">
         <div class="tt-logo"><span class="tt-title">元素マージ</span><span class="tt-ball" style="background:radial-gradient(circle at 35% 30%,${mel.gradTop},${mel.gradBot});color:${mel.textColor};border-color:${mel.borderColor}">${tEsc(mel.symbol)}</span></div>
         <div class="tt-sub">同じ元素を合わせて、もっと重い元素を作ろう</div>
-        <button type="button" class="tt-go" data-start="1">${sv ? '続きから' : 'ゲームスタート'}</button>
-        ${sv ? '<button type="button" class="tt-sec" data-new="1">新しく始める</button>' : ''}
-        <div class="tt-lbl">難易度${sv ? '（途中のゲームの難易度で続きます）' : ''}</div>
+        <button type="button" class="tt-go" data-start="1">始める</button>
+        <div class="tt-lbl">難易度</div>
         <div class="tt-difs">${diffs}</div>
         <div class="tt-desc">${tEsc(cfg.desc)}</div>
         <div class="tt-card"><div class="tt-cap">ランキング（${cfg.label}・${scope}）</div><ol class="tt-list">${rows}</ol></div>
       </div>`;
     }
-    // ゲーム中の「タイトルへ戻る」：今の状態を保存してから、タイトル画面を出す
-    function returnToTitle() {
-      if (document.getElementById('titleOv') || isGameOver) return;
-      saveGame(true);
-      const sv = loadSave();
-      showTitle(sv && (sv.bodies.length || sv.score > 0) ? sv : null);
+    // ゲーム中の「タイトルへ戻る」：「戻りますか？」を出す。「戻る」では今のゲームを消してタイトルへ、「キャンセル」では続けてそのまま遊ぶ
+    function askTitleConfirm() {
+      if (document.getElementById('titleOv') || document.getElementById('titleConfirmOv')) return;
+      // 終わったゲームは、もう続けられないので、確認せずにタイトルへ
+      if (isGameOver) { showTitle(); return; }
+      const ov = document.createElement('div');
+      ov.id = 'titleConfirmOv';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:9000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(40,20,0,.55)';
+      ov.innerHTML = '<div style="background:#fff7e6;border-radius:20px;padding:22px 20px;max-width:340px;width:100%;text-align:center;font-family:sans-serif;color:#451a03;box-shadow:0 10px 30px rgba(0,0,0,.25)">'
+        + '<div style="font-weight:900;font-size:18px;margin-bottom:8px">戻りますか？</div>'
+        + '<div style="font-size:14px;line-height:1.6;margin-bottom:6px">今のゲームは消えます。タイトルから、始め直すことになります。</div>'
+        + '<button id="titleBackYes" type="button" style="margin-top:10px;width:100%;padding:12px;border-radius:14px;border:0;font-weight:900;font-size:16px;background:linear-gradient(#f87171,#dc2626);color:#fff">戻る</button>'
+        + '<button id="titleBackNo" type="button" style="margin-top:10px;width:100%;padding:12px;border-radius:14px;font-weight:900;font-size:15px;background:#fff;color:#92400e;border:2px solid rgba(146,64,14,.3)">キャンセル</button></div>';
+      document.body.appendChild(ov);
+      ov.querySelector('#titleBackNo').onclick = () => { ov.remove(); ensureGameFocus(); };
+      ov.querySelector('#titleBackYes').onclick = async () => {
+        ov.querySelector('#titleBackYes').disabled = true;
+        // 先に記録をとめてから消す（戻るボタンを押したあとに、途中の状態が保存し直されないように）
+        const record = !scoreReported && score > 0;
+        scoreReported = true;
+        clearSave();
+        if (record) { reportMerge(score, maxReachedLevel, gameDifficulty); try { await rankingService.recordGameScore(score, maxReachedLevel, gameDifficulty); } catch (err) { console.warn('score save failed', err); } }
+        ov.remove();
+        showTitle();
+        ensureGameFocus();
+      };
     }
-    function showTitle(sv) {
-      if (sv && sv.diff) { gameDifficulty = normalizeDifficulty(sv.diff); rankingService.viewDifficulty = gameDifficulty; setDiffUI(); }
-      // 難易度が決まったので、箱の幅と物理の壁を作りなおす（前の難易度の幅が残るのを防ぐ）
+    function showTitle() {
+      // 箱の幅と物理の壁を作りなおす（前の難易度の幅が残るのを防ぐ）
       initPhysicsGame();
       titleCss();
       const ov = document.createElement('div');
       ov.id = 'titleOv';
       ov.className = 'tt-ov';
-      const paint = () => { ov.innerHTML = titleHtml(sv); };
+      const paint = () => { ov.innerHTML = titleHtml(); };
       paint();
       document.body.appendChild(ov);
       ov.addEventListener('click', (e) => {
         const td = e.target.closest('[data-td]');
-        if (td && !td.disabled) {
+        if (td) {
           const d = normalizeDifficulty(td.dataset.td);
           gameDifficulty = d; rankingService.viewDifficulty = d;
           try { localStorage.setItem('kosa-merge-diff', d); } catch (x) { }
@@ -4194,8 +4233,7 @@
           setDiffUI(); updateEpUI(); paint();
           return;
         }
-        if (e.target.closest('[data-new]')) { clearSave(); initPhysicsGame(); ov.remove(); ensureGameFocus(); return; }
-        if (e.target.closest('[data-start]')) { ov.remove(); if (sv) resumeGame(sv); ensureGameFocus(); }
+        if (e.target.closest('[data-start]')) { ov.remove(); ensureGameFocus(); }
       });
     }
     // 途中のゲームがあるとき、続きから遊ぶか、新しく始めるかを選んでもらう
@@ -4250,7 +4288,7 @@
       const dt = Math.min((now - lastFrameTime) / 1000, 0.05);
       lastFrameTime = now;
       // タイトル画面・続きから確認の間は、ゲームを止める（時間・溢れそう・ミッションが、裏で進まないように）
-      if (document.getElementById('titleOv') || document.getElementById('resumeOv')) return;
+      if (document.getElementById('titleOv') || document.getElementById('resumeOv') || document.getElementById('titleConfirmOv')) return;
 
       // 1. キーボード左右キー押しっぱなしによる滑らかな慣性移動
       const moveDir = (keysHeld.right ? 1 : 0) - (keysHeld.left ? 1 : 0);
@@ -4297,7 +4335,8 @@
         if (Math.floor(gamePlaySec) !== prevPlaySec) checkAndRenderMissions();
 
         const bodies = Composite.allBodies(world);
-        let isDangerNow = false;
+        let isDangerNow = false;   // 溢れそうに数える玉がある（出てから1秒以上たち、ラインの中にいる）
+        let inDangerZone = false;  // ラインの中に玉がある（出たばかりの玉も含む）
 
         for (let i = 0; i < bodies.length; i++) {
           const b = bodies[i];
@@ -4314,10 +4353,10 @@
             }
           }
 
-          if (now - b.spawnTimestamp > 1100) {
-            if (b.position.y - el.radius * 0.72 < DANGER_LINE_Y) {
-              isDangerNow = true;
-            }
+          if (b.position.y - el.radius * 0.72 < DANGER_LINE_Y) {
+            inDangerZone = true;
+            // 出てから1秒以上たった玉だけ、溢れそうに数える（落とした直後の玉で、すぐ負けないように）
+            if (now - b.spawnTimestamp > 1100) isDangerNow = true;
           }
         }
 
@@ -4339,6 +4378,8 @@
           if (dangerTimer >= dangerLimitSec()) {
             triggerGameOver();
           }
+        } else if (inDangerZone) {
+          // ラインの中に玉があるあいだは、残り時間を減らさない（玉が出た直後・合成した直後に、時間がリセットされないように）
         } else {
           dangerTimer = Math.max(0, dangerTimer - dt * 2.2);
           if (dangerTimer === 0) {
@@ -4980,7 +5021,7 @@
     });
     document.getElementById('titleBtn').addEventListener('click', () => {
       ensureGameFocus();
-      returnToTitle();
+      askTitleConfirm();
     });
     document.getElementById('playAgainBtn').addEventListener('click', () => {
       ensureGameFocus();
@@ -5007,7 +5048,12 @@
       }
       setupCanvases();
       try { await rankingService.initialize(); } catch (err) { console.warn('ranking init failed', err); }
-      try { updateScoreBoardUI(); initPhysicsGame(); const sv = loadSave(); showTitle(sv && (sv.bodies.length || sv.score > 0) ? sv : null); } catch (err) { console.error('init failed', err); }
+      try {
+        updateScoreBoardUI(); initPhysicsGame();
+        // 途中のゲームがあるときは、続きから遊ぶかを聞く。なければタイトル（始める）
+        const sv = loadSave();
+        if (sv && (sv.bodies.length || sv.score > 0)) askResume(sv); else showTitle();
+      } catch (err) { console.error('init failed', err); }
       ensureGameFocus();
       requestAnimationFrame(gameLoop);
     };
