@@ -711,13 +711,16 @@
      *   dangerLimitMul : 溢れそうになってから負けるまでの時間の倍率（小さいほど早く溢れる）
      *   epGainMul      : 合成・熱分解で貯まるEPの倍率（小さいほどEPが貯まりにくい）
      *   dropMin/Max    : 最初に出る元素の範囲（大きいほど、大きな元素から始まる）
-     *   boxInset       : ガラスケースの左右を、内側へ何px狭めるか（大きいほど狭い）
+     *   boxInset       : ガラスケースの左右を、内側へ何px狭めるか（大きいほど狭い。負の数は広くなる）
+     *   fillStep       : 箱の中の玉が、この数だけ増えるごとに、出る元素が1段階大きくなる（小さいほど早く大きくなる）
+     *   spawnCap       : 玉が増えても、出る元素はこの段階までにとどまる
+     *   mergeReach     : 同じ元素の合体の当たり判定（1より小さいほど、強くぶつけないと合体しない）
      *   「普通」は従来の遊び方と同じ。古い保存データ・既存のランキングは「普通」として扱います。
      */
     const DIFFICULTY_TABLE = {
-      easy:   { label: '簡単',   desc: 'スキルが安く、EPが貯まりやすい。溢れるまでも長め', skillCostMul: 0.8,  dangerLimitMul: 1.25, epGainMul: 1.2, dropMin: 1, dropMax: 4, boxInset: 0 },
-      normal: { label: '普通',   desc: 'いつもどおりの遊び方',                              skillCostMul: 1.0,  dangerLimitMul: 1.0,  epGainMul: 1.0, dropMin: 1, dropMax: 5, boxInset: 0 },
-      hard:   { label: '難しい', desc: '箱が狭く、大きい元素から出る。スキルは2.4倍、EPが貯まりにくく、溢れるのも早い', skillCostMul: 2.4,  dangerLimitMul: 0.6,  epGainMul: 0.5, dropMin: 4, dropMax: 6, boxInset: 70 }
+      easy:   { label: '簡単',   desc: 'スキルが安く、EPが貯まりやすい。箱が広く、溢れるまでも長め', skillCostMul: 0.8,  dangerLimitMul: 1.25, epGainMul: 1.2,  dropMin: 1, dropMax: 4, boxInset: -16, fillStep: 14, spawnCap: 6, mergeReach: 1.02 },
+      normal: { label: '普通',   desc: 'いつもどおりの遊び方',                              skillCostMul: 1.0,  dangerLimitMul: 1.0,  epGainMul: 1.0,  dropMin: 1, dropMax: 5, boxInset: 0,   fillStep: 10, spawnCap: 8, mergeReach: 1.02 },
+      hard:   { label: '難しい', desc: '箱が狭く、玉が増えるほど大きい元素が出る。スキルは2.4倍、EPが貯まりにくく、溢れるのも早い', skillCostMul: 2.4,  dangerLimitMul: 0.6,  epGainMul: 0.35, dropMin: 4, dropMax: 6, boxInset: 70,  fillStep: 5,  spawnCap: 9, mergeReach: 0.95 }
     };
     const DIFFICULTY_ORDER = ['easy', 'normal', 'hard'];
     const DEFAULT_DIFFICULTY = 'normal';
@@ -898,7 +901,7 @@
       hard: 'chem_suika_jhs2_scores_v6_hard'
     };
     // このゲームの版（記録に入れる）。難しいのランキングは、この版以上で記録された点だけを出す
-    const MERGE_VER = '18.2.21';
+    const MERGE_VER = '18.2.22';
     const RANK_MIN_VER_BY_DIFF = { hard: '18.2.16' };
     // 版の番号どうしを比べる（例：18.2.16 は 18.2.15 より新しい）
     const verAtLeast = (v, min) => {
@@ -3051,11 +3054,6 @@
     let score = 0;
     let ep = 30;
     let epBonus = 0;   // 親のアプリから届く、開始EPのボーナス（レベルの特典）
-    // 逆転フラスコ（傾き・無重力イベント）の状態
-    let flask = { type: null, until: 0, dir: 0 };
-    let flaskAngle = 0;     // 箱の見た目の傾き（ラジアン）
-    let flaskNextScore = 5000;
-    let flaskNextTime = 120;
     // 噴火のとき、画面を揺らす（キャンバスに一時的に揺れを付ける）
     function gasShake() { const cv = document.getElementById('gameCanvas'); if (!cv) return; cv.classList.remove('gas-shake'); void cv.offsetWidth; cv.classList.add('gas-shake'); clearTimeout(gasShake.t); gasShake.t = setTimeout(() => cv.classList.remove('gas-shake'), 900); }
     let currentDropLevel = 1;
@@ -3849,9 +3847,6 @@
         const newBody = createElementBody(midX, midY, nextLevel, true);
         // 合体で出たボールは、その場で落ちる（上へはじき出すと、まわりの玉と重なるため）
         void newBody;
-        // 連続コンボが続いたら、周りのボールが発熱膨張する
-        if (comboCount >= 3) heatNearby(midX, midY, 130, '連続コンボ！発熱膨張');
-
         const comboMult = 1 + Math.min(comboCount - 1, 5) * 0.15;
         const earned = Math.round(nextLevel * nextLevel * 10 * comboMult);
         score += earned;
@@ -3887,9 +3882,26 @@
       }
     }
 
+    // 箱の中の玉の数（合体で消えた玉は数えない）
+    function boxElementCount() {
+      if (!world) return 0;
+      let n = 0;
+      Composite.allBodies(world).forEach(b => { if (b.label === 'element' && !b.isMerged) n++; });
+      return n;
+    }
+    // 次に出る元素：箱の中の玉が増えるほど大きい元素が出る（難しいほど早く大きくなる）
     function getRandomInitialLevel() {
       const c = diffCfg();
-      return c.dropMin + Math.floor(Math.random() * (c.dropMax - c.dropMin + 1));
+      let lv = c.dropMin + Math.floor(Math.random() * (c.dropMax - c.dropMin + 1));
+      lv = Math.min(lv + Math.floor(boxElementCount() / c.fillStep), c.spawnCap);
+      while (lv > 1 && !levelFitsBox(lv)) lv--;
+      return lv;
+    }
+    // 同じ元素の合体：中心どうしの距離が、難易度の当たり判定の内側に入ったときだけ合体する
+    function mergeHitOk(a, b) {
+      const r = ELEMENTS[a.elementLevel - 1].radius;
+      const d = Math.hypot(a.position.x - b.position.x, a.position.y - b.position.y);
+      return d <= 2 * r * diffCfg().mergeReach;
     }
 
     function getClampedDropX(rawX) {
@@ -3996,17 +4008,11 @@
       return false;
     }
 
-    // ===== 化合スパーク・ふわふわ浮力・発熱膨張・逆転フラスコ =====
+    // ===== 化合スパーク・ふわふわ浮力 =====
     const SPARK_REACTIONS = [
       { a: 'Na', b: 'Cl', pt: 150, ep: 12, text: '塩化ナトリウム（NaCl）生成！' },
       { a: 'Cu', b: 'O', pt: 200, ep: 16, text: '酸化銅（CuO）の化合！' }
     ];
-    const HEAT_MS = 5000;           // 発熱膨張の続く時間（ミリ秒）
-    const HEAT_SCALE = 1.12;        // 発熱膨張の輪の大きさ（ボール本体の大きさは変えない）
-    const HEAT_IMPACT_SPEED = 7;    // これ以上の相対速度なら「激しい衝突」
-    const FLASK_TILT_X = 0.5;       // 傾いたときの横向きの重力（玉が傾いた方向へ、はっきり転がるように）
-    let lastHeatAt = -Infinity;
-
     // その段階の元素が、箱の中（壁の内側）に収まるか（難しいは箱が狭いので、大きい元素は作れない）
     function levelFitsBox(level) {
       const el = ELEMENTS[Math.min(level, ELEMENTS.length) - 1];
@@ -4025,7 +4031,7 @@
       const midY = (bodyA.position.y + bodyB.position.y) / 2;
       const normPan = ((midX - LOGICAL_WIDTH / 2) / (LOGICAL_WIDTH / 2)) * 0.85;
       score += reaction.pt;
-      ep = Math.min(3000, ep + reaction.ep);
+      ep = Math.min(3000, ep + Math.round(reaction.ep * diffCfg().epGainMul));
       updateScoreBoardUI();
       updateEpUI();
       audio.playMerge(4, normPan, 1);
@@ -4033,40 +4039,11 @@
       showCelebrationBanner(`${reaction.text} +${reaction.pt}pt`);
       checkAndRenderMissions();
     }
-    // 発熱膨張：近くのボールを5秒間だけ1.12倍に見せる（当たり判定は変わらない）
-    function heatNearby(x, y, radius, label) {
-      const t = performance.now();
-      if (t - lastHeatAt < 1500) return;
-      lastHeatAt = t;
-      let n = 0;
-      Composite.allBodies(world).forEach(b => {
-        if (b.label !== 'element' || b.isMerged) return;
-        if (Math.hypot(b.position.x - x, b.position.y - y) > radius) return;
-        b.heatUntil = t + HEAT_MS;
-        n++;
-      });
-      if (n) floatingTexts.push({ x, y: y - 26, text: label, color: '#FFEDD5', stroke: '#9A3412', alpha: 1.0, vy: -1.2, scale: 1.0 });
-    }
     // ===== 吸引の値段：使うたびに高くなる（ゲームごとに数える） =====
     let pipetteUses = 0;            // 吸引を使った回数（使うたびに高くなる）
     const PIPETTE_BASE = 800, PIPETTE_STEP = 400;
     const CATALYST_BASE = 600;
     const pipetteBase = () => PIPETTE_BASE + PIPETTE_STEP * pipetteUses;
-
-    // 逆転フラスコ：横向きの重力で箱が傾く、または3秒だけ無重力になる
-    function startFlaskEvent() {
-      const now = performance.now();
-      flask.type = 'tilt';
-      flask.dir = Math.random() < 0.5 ? -1 : 1;
-      flask.until = now + 2600;
-      engine.gravity.x = flask.dir * FLASK_TILT_X;
-      showCelebrationBanner(`逆転フラスコ！実験台が${flask.dir < 0 ? '左' : '右'}へ傾いた！玉が転がります`);
-    }
-    function endFlaskEvent() {
-      if (engine) { engine.gravity.x = 0; engine.gravity.y = 1.05; }
-      flask.type = null;
-      flask.dir = 0;
-    }
 
     function initPhysicsGame() {
       applyBoxGeometry();
@@ -4102,15 +4079,12 @@
                 const reaction = findSparkReaction(bodyA, bodyB);
                 if (reaction && now >= (bodyA.sparkUntil || 0) && now >= (bodyB.sparkUntil || 0)) triggerSpark(bodyA, bodyB, reaction, now);
               }
-              // 激しい衝突：周囲が発熱膨張する
-              const rel = Math.hypot(bodyA.velocity.x - bodyB.velocity.x, bodyA.velocity.y - bodyB.velocity.y);
-              if (rel > HEAT_IMPACT_SPEED) heatNearby((bodyA.position.x + bodyB.position.x) / 2, (bodyA.position.y + bodyB.position.y) / 2, 130, '激しい衝突！発熱膨張');
             }
           }
           // 同じ元素同士は進化マージ（開始時・接触中の両方で判定）
           // 最上段（Lv.19）は合体しない。次の段階が箱に入らないときも合体しない（熱分解の段階は例外）
           const lvl = bodyA.elementLevel;
-          if (bothEl && lvl === bodyB.elementLevel && lvl < ELEMENTS.length && (lvl === PYRO_LEVEL || levelFitsBox(lvl + 1))) mergePair(bodyA, bodyB);
+          if (bothEl && lvl === bodyB.elementLevel && lvl < ELEMENTS.length && (lvl === PYRO_LEVEL || levelFitsBox(lvl + 1)) && mergeHitOk(bodyA, bodyB)) mergePair(bodyA, bodyB);
         }
       };
 
@@ -4137,10 +4111,6 @@
       particles = [];
       shockwaves = [];
       floatingTexts = [];
-      flask = { type: null, until: 0, dir: 0 };
-      flaskAngle = 0;
-      flaskNextScore = 5000;
-      flaskNextTime = 120;
 
       setSkillTargetMode(null);
       pipetteUses = 0;
@@ -4219,8 +4189,6 @@
       gameDropCount = Math.max(0, Math.floor(Number(sv.drops)) || 0);
       gamePyrolysisCount = Math.max(0, Math.floor(Number(sv.pyro)) || 0);
       gamePlaySec = Math.max(0, Number(sv.playSec) || 0);
-      flaskNextScore = (Math.floor(score / 5000) + 1) * 5000;
-      flaskNextTime = (Math.floor(gamePlaySec / 120) + 1) * 120;
       // 溢れそうの残り時間と、アイテムによる延長の使用済みを、保存したとおりに戻す
       // （戻さないと、タイトルへ戻る→続きからのたびに残り時間がリセットされ、延長も何度でも使えてしまう）
       dangerTimer = Math.max(-dangerLimitSec(), Math.min(dangerLimitSec(), Number(sv.dg) || 0));
@@ -4476,16 +4444,7 @@
         if (mascotMoodTimer <= 0) mascotMood = 'normal';
       }
 
-      flaskAngle = 0; // 箱は回さない（傾きは重力の向きだけで表す）
-
       if (!isGameOver && engine) {
-        // 逆転フラスコの発生：スコアが5000点を超えたとき、または120秒ごと（タイトル画面の間は起こさない）
-        if (!document.getElementById('titleOv')) {
-          if (score >= flaskNextScore) { flaskNextScore = (Math.floor(score / 5000) + 1) * 5000; if (!flask.type) startFlaskEvent(); }
-          if (gamePlaySec >= flaskNextTime) { flaskNextTime = (Math.floor(gamePlaySec / 120) + 1) * 120; if (!flask.type) startFlaskEvent(); }
-        }
-        if (flask.type && now >= flask.until) endFlaskEvent();
-
         Engine.update(engine, 1000 / 60);
 
         // 遊んでいる時間を数え、1秒ごとにミッションを確認する（時間系のミッション用）
@@ -4639,17 +4598,6 @@
           if (!el) continue;
 
           drawCachedSphere(ctx, b.position.x, b.position.y, el.radius, el, b.angle, 1, 1);
-          // 発熱膨張の間は、まわりに熱いオレンジの輪を出す（ボールの大きさや当たり判定は変えない）
-          if (b.heatUntil !== undefined && performance.now() < b.heatUntil) {
-            const pulse = 0.55 + 0.35 * Math.sin(performance.now() * 0.012);
-            ctx.save();
-            ctx.beginPath();
-            ctx.arc(b.position.x, b.position.y, el.radius * HEAT_SCALE, 0, Math.PI * 2);
-            ctx.strokeStyle = `rgba(251, 146, 60, ${pulse})`;
-            ctx.lineWidth = 3;
-            ctx.stroke();
-            ctx.restore();
-          }
         }
       }
 
