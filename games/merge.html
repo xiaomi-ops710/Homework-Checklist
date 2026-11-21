@@ -262,6 +262,46 @@
     }
     #gameCanvas.gas-shake{animation:gasShakeKf .85s ease-out}
     @keyframes gasShakeKf{0%{transform:translate(0,0) rotate(0)}10%{transform:translate(-8px,3px) rotate(-.7deg)}20%{transform:translate(9px,-4px) rotate(.8deg)}30%{transform:translate(-10px,-2px) rotate(-.6deg)}40%{transform:translate(8px,4px) rotate(.6deg)}55%{transform:translate(-6px,2px)}70%{transform:translate(4px,-2px)}85%{transform:translate(-2px,1px)}100%{transform:translate(0,0)}}
+    /* 元素マージの下部バー：操作方法を消し、ボタンを大きく・押しやすく */
+    .mf-foot { padding: 10px 14px calc(10px + env(safe-area-inset-bottom)); }
+    .mf-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 22px; }
+    .mf-group { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; }
+    .mf-btn { min-height: 52px; padding: 0 16px; display: inline-flex; align-items: center; justify-content: center; gap: 7px; border-radius: 999px; font-size: 17px; font-weight: 900; line-height: 1; white-space: nowrap; color: #2b1607; background: #ffffff; border: 2px solid rgba(92, 55, 17, 0.28); box-shadow: 0 4px 0 rgba(92, 55, 17, 0.22); cursor: pointer; }
+    .mf-btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(92, 55, 17, 0.22); }
+    .mf-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+    .mf-btn .material-symbols-rounded { font-size: 26px; line-height: 1; }
+    .mf-skill .mf-cost { font-size: 14px; padding: 3px 8px; border-radius: 999px; background: rgba(92, 55, 17, 0.12); color: #7c2d12; }
+    .mf-ep { display: inline-flex; align-items: center; gap: 6px; min-height: 52px; padding: 0 16px; border-radius: 999px; background: #3b2108; color: #fde68a; font-size: 17px; font-weight: 900; border: 2px solid rgba(251, 191, 36, 0.6); }
+    .mf-ep .material-symbols-rounded { font-size: 26px; color: #fcd34d; }
+    .mf-ep #epValueText { font-family: ui-monospace, Menlo, monospace; font-size: 20px; color: #ffffff; }
+    .mf-dark { background: #3b2108; color: #fff7ed; border-color: rgba(251, 191, 36, 0.4); box-shadow: 0 4px 0 #1c0f04; }
+    .mf-dot { width: 10px; height: 10px; border-radius: 999px; background: #34d399; flex: none; }
+    .mf-viz { width: 24px; height: 12px; }
+    .mf-round { width: 52px; padding: 0; }
+    .mf-save { background: #059669; color: #ffffff; border-color: #065f46; box-shadow: 0 4px 0 #064e3b; }
+    .mf-title { background: #0284c7; color: #ffffff; border-color: #075985; box-shadow: 0 4px 0 #075985; }
+    .mf-reset { background: #e11d48; color: #ffffff; border-color: #9f1239; box-shadow: 0 4px 0 #9f1239; }
+    .mf-dif { background: #fffbeb; }
+    @media (min-width: 1280px) {
+      .mf-btn { min-height: 56px; padding: 0 20px; font-size: 18px; }
+      .mf-btn .material-symbols-rounded { font-size: 28px; }
+      .mf-ep { min-height: 56px; font-size: 18px; }
+    }
+    @media (max-width: 767px) {
+      .mf-btn { min-height: 46px; padding: 0 8px; font-size: 14px; gap: 3px; }
+      .mf-skill .mf-cost { font-size: 12px; padding: 2px 6px; }
+      .mf-viz { display: none; }
+      .mf-long { display: none; }
+      .mf-short { display: inline; }
+      .mf-btn .material-symbols-rounded { font-size: 22px; }
+      .mf-ep { min-height: 46px; padding: 0 10px; font-size: 14px; }
+      .mf-ep .material-symbols-rounded { font-size: 22px; }
+      .mf-lbl, .mf-sub { display: none; }
+      .mf-row { gap: 8px 12px; }
+    }
+    .mf-sub { display: none; }
+    .mf-short { display: none; }
+    @media (min-width: 1280px) { .mf-sub { display: inline; } }
   </style>
 </head>
 <body class="select-none" tabindex="0">
@@ -275,7 +315,8 @@
   <canvas id="bgParticlesCanvas" class="fixed inset-0 pointer-events-none z-[1] opacity-50"></canvas>
 
   <!-- ================= 2. メインゲームステージ（左・中央・右 3カラム構成） ================= -->
-  <div class="relative z-10 w-full h-[calc(100vh-44px)] max-w-[1360px] mx-auto px-2 sm:px-6 pt-1 pb-1 flex flex-col lg:flex-row items-center justify-between gap-1 lg:gap-4">
+  <!-- 下部バーの高さ分だけ、盤面を短くする（下の玉が隠れないように） -->
+  <div class="relative z-10 w-full max-w-[1360px] mx-auto px-2 sm:px-6 pt-1 pb-1 flex flex-col lg:flex-row items-center justify-between gap-1 lg:gap-4" style="height:calc(100vh - var(--foot-h, 44px))">
 
     <!-- ======== モバイル・iPad縦画面用 コンパクト上部バー (lg未満で表示) ======== -->
     <div class="w-full flex lg:hidden items-center justify-between px-2 py-1 gap-2 shrink-0">
@@ -405,16 +446,6 @@
           <span id="dangerCountdownText" class="font-mono text-xs font-black bg-black/25 px-1.5 py-0.5 rounded">2.5s</span>
         </div>
 
-        <!-- 実験オーダー（ノルマ制）のお題 -->
-        <div id="orderBanner" class="hidden pointer-events-none absolute z-30 bg-white/95 text-amber-950 rounded-2xl px-3 py-2 shadow-lg border-2 border-amber-300" style="top:96px;left:50%;transform:translateX(-50%);width:min(92vw,520px);box-sizing:border-box">
-          <div class="flex items-center gap-2">
-            <span class="material-symbols-rounded text-emerald-600 text-base">science</span>
-            <span id="orderText" class="text-sm font-black leading-snug flex-1"></span>
-            <span id="orderTime" class="font-mono text-xs font-black bg-amber-100 px-2 py-0.5 rounded-full whitespace-nowrap"></span>
-          </div>
-          <div id="orderMeta" class="text-[10px] font-bold text-amber-800/80 mt-0.5"></div>
-        </div>
-
         <!-- コンボバッジ -->
         <div id="comboFloatingBadge" class="pointer-events-none absolute top-20 right-6 z-30 opacity-0 scale-75 transition-all duration-200 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-3 py-1 rounded-full shadow-md border-2 border-white font-black text-xs flex items-center gap-1">
           <span class="material-symbols-rounded text-sm">local_fire_department</span>
@@ -428,7 +459,7 @@
         </div>
 
         <!-- NaHCO3（炭酸水素ナトリウム）合成祝賀トースト -->
-        <div id="celebrationBanner" class="pointer-events-none absolute top-24 left-1/2 -translate-x-1/2 z-40 opacity-0 scale-90 transition-all duration-300 w-[90%] bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400 text-amber-950 p-3 rounded-2xl shadow-2xl border-4 border-white text-center">
+        <div id="celebrationBanner" class="pointer-events-none absolute top-2 left-1/2 -translate-x-1/2 z-40 opacity-0 scale-90 transition-all duration-300 w-[90%] bg-gradient-to-r from-yellow-400 via-amber-300 to-yellow-400 text-amber-950 p-3 rounded-2xl shadow-2xl border-4 border-white text-center">
           <div class="text-[10px] font-black uppercase tracking-widest text-amber-800 flex items-center justify-center gap-1">
             <span class="material-symbols-rounded text-sm">auto_awesome</span>
             <span>MAXIMUM SYNTHESIS</span>
@@ -506,133 +537,90 @@
   </div>
 
   <!-- ================= 3. 下部コンソール操作バー＆実験スキルバー ================= -->
-  <footer class="fixed bottom-0 inset-x-0 z-30 bg-gradient-to-r from-[#E5C190] via-[#F2D8B2] to-[#E5C190] border-t-2 border-white/80 px-2 sm:px-5 flex flex-wrap items-center justify-center md:justify-between gap-x-1.5 gap-y-1 py-1 shadow-[0_-4px_14px_rgba(92,55,17,0.12)]" style="min-height:44px;height:auto;max-width:100vw;">
-    
-    <!-- 左側：操作ガイド（スイカゲーム下部バー風・Material Symbols統一） -->
-    <div class="hidden md:flex flex-wrap items-center gap-x-2.5 gap-y-1 text-xs font-black text-[#633E1B] text-xs font-black text-[#633E1B]">
-      <span class="inline-flex items-center gap-1">
-        <span class="px-1.5 py-0.5 rounded bg-[#633E1B] text-[#FFF8EB] text-[10px] inline-flex items-center">
-          <span class="material-symbols-rounded text-xs">sync_alt</span>
-        </span>
-        <span>移動</span>
-      </span>
-      <span class="inline-flex items-center gap-1">
-        <span class="px-1.5 py-0.5 rounded-full bg-[#633E1B] text-[#FFF8EB] text-[10px] font-mono">Space</span>
-        <span>落とす</span>
-      </span>
-      <button id="openLabModalBottomBtn" type="button" class="jelly-btn inline-flex items-center gap-1 hover:text-amber-700">
-        <span class="w-4 h-4 rounded-full bg-[#633E1B] text-[#FFF8EB] text-[10px] inline-flex items-center justify-center font-mono">X</span>
-        <span>図鑑</span>
-      </button>
-      <button id="bottomSwitchRankingBtn" type="button" class="jelly-btn hidden xl:inline-flex items-center gap-1 hover:text-amber-700">
-        <span class="px-1 py-0.2 rounded bg-[#633E1B] text-[#FFF8EB] text-[10px] font-mono">L/R</span>
-        <span>ランキング切替</span>
-      </button>
-    </div>
+  <footer id="mergeFooter" class="mf-foot fixed bottom-0 inset-x-0 z-30 bg-gradient-to-r from-[#E5C190] via-[#F2D8B2] to-[#E5C190] border-t-2 border-white/80 shadow-[0_-4px_14px_rgba(92,55,17,0.12)]" style="max-width:100vw;">
+    <div class="mf-row">
 
-    <!-- 中央：中2理科の実験スキルピルボタン -->
-    <div class="flex items-center gap-1 sm:gap-1.5 mx-auto md:mx-0">
-      <div class="flex items-center gap-0.5 bg-amber-950/85 text-amber-200 px-2.5 py-1 rounded-full text-[11px] font-black border border-amber-400/40 mr-0.5">
-        <span class="material-symbols-rounded text-amber-300 text-sm">bolt</span>
-        <span>EP</span>
-        <span id="epValueText" class="font-mono text-white text-xs ml-0.5">30</span>
+      <!-- 実験スキル：EP と 4 つのスキル（費用は使うたびに変わるものもある） -->
+      <div class="mf-group">
+        <div class="mf-ep">
+          <span class="material-symbols-rounded">bolt</span>
+          <span class="mf-lbl">EP</span>
+          <span id="epValueText">30</span>
+        </div>
+
+        <button id="skillSwapBtn" type="button" title="今の元素とNEXTを入れ替え" class="jelly-btn mf-btn mf-skill">
+          <span class="material-symbols-rounded" style="color:#b45309">swap_horiz</span>
+          <span class="mf-lbl">交換</span>
+          <span class="mf-cost font-mono">500</span>
+        </button>
+
+        <button id="skillBurnerBtn" type="button" title="ガスバーナー対流で容器を大きく揺らして合体を促す" class="jelly-btn mf-btn mf-skill">
+          <span class="material-symbols-rounded" style="color:#ea580c">local_fire_department</span>
+          <span class="mf-lbl">噴火</span>
+          <span class="mf-cost font-mono">200</span>
+        </button>
+
+        <button id="skillPipetteBtn" type="button" title="ピペットで選んだ元素1個を吸い取って消去" class="jelly-btn mf-btn mf-skill">
+          <span class="material-symbols-rounded" style="color:#0284c7">colorize</span>
+          <span class="mf-lbl">吸引</span>
+          <span class="mf-cost font-mono">800</span>
+        </button>
+
+        <button id="skillCatalystBtn" type="button" title="触媒で選んだ元素を1段階上位へ進化" class="jelly-btn mf-btn mf-skill">
+          <span class="material-symbols-rounded" style="color:#9333ea">auto_awesome</span>
+          <span class="mf-lbl">触媒</span>
+          <span class="mf-cost font-mono">600</span>
+        </button>
       </div>
 
-      <button id="skillSwapBtn" type="button" title="今の元素とNEXTを入れ替え"
-        class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
-        <span class="material-symbols-rounded text-amber-600 text-sm">swap_horiz</span>
-        <span class="hidden sm:inline">交換</span>
-        <span class="font-mono text-[10px] text-amber-700">500</span>
-      </button>
+      <!-- 設定・操作：表示・音・保存・タイトル・難易度・やり直し -->
+      <div class="mf-group">
+        <button id="uiFocusToggleBtn" type="button" title="左右の表示を控えめにして中央に集中します" class="jelly-btn mf-btn mf-util">
+          <span class="material-symbols-rounded">visibility</span>
+          <span id="uiFocusLabel" class="mf-sub">UI:通常</span>
+        </button>
 
-      <button id="skillBurnerBtn" type="button" title="ガスバーナー対流で容器を大きく揺らして合体を促す"
-        class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
-        <span class="material-symbols-rounded text-orange-500 text-sm">local_fire_department</span>
-        <span class="hidden sm:inline">噴火</span>
-        <span class="font-mono text-[10px] text-orange-600">200</span>
-      </button>
+        <button id="faceStyleToggleBtn" type="button" title="元素ボールのキャラ顔表示を切り替えます" class="jelly-btn mf-btn mf-util">
+          <span id="faceStyleIcon" class="material-symbols-rounded">sentiment_very_satisfied</span>
+          <span id="faceStyleLabel" class="mf-sub">顔ON</span>
+        </button>
 
-      <button id="skillPipetteBtn" type="button" title="ピペットで選んだ元素1個を吸い取って消去"
-        class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
-        <span class="material-symbols-rounded text-sky-500 text-sm">colorize</span>
-        <span class="hidden sm:inline">吸引</span>
-        <span class="font-mono text-[10px] text-sky-600">800</span>
-      </button>
+        <button id="bgmTrackBtn" type="button" title="BGMの楽曲を切り替え（全6曲）" class="jelly-btn mf-btn mf-dark">
+          <span class="material-symbols-rounded" style="color:#fcd34d">queue_music</span>
+          <span id="bgmTrackName" class="mf-sub">1.陽だまりラグタイム</span>
+        </button>
 
-      <button id="skillCatalystBtn" type="button" title="触媒で選んだ元素を1段階上位へ進化"
-        class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
-        <span class="material-symbols-rounded text-purple-600 text-sm">auto_awesome</span>
-        <span class="hidden sm:inline">触媒</span>
-        <span class="font-mono text-[10px] text-purple-600">600</span>
-      </button>
+        <button id="bgmToggleBtn" type="button" title="BGM ON/OFF" class="jelly-btn mf-btn mf-dark">
+          <span id="bgmStatusDot" class="mf-dot"></span>
+          <span class="material-symbols-rounded">music_note</span>
+          <canvas id="audioVisualizerCanvas" width="24" height="12" class="mf-viz"></canvas>
+        </button>
 
-      <button id="skillPinBtn" type="button" title="実験オーダー：進化をとめて、盤面に残す玉を1個選ぶ（もう一度押すと解除）"
-        class="jelly-btn px-2 sm:px-2.5 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 items-center gap-1 shadow-sm" style="display:none">
-        <span class="material-symbols-rounded text-emerald-600 text-sm">push_pin</span>
-        <span class="hidden sm:inline">止める</span>
-        <span class="font-mono text-[10px] text-emerald-700">0/3</span>
-      </button>
-    </div>
+        <button id="sfxToggleBtn" type="button" title="効果音 ON/OFF" class="jelly-btn mf-btn mf-round">
+          <span id="sfxToggleIcon" class="material-symbols-rounded">volume_up</span>
+        </button>
 
-    <!-- 右側：UI集中切替・顔/学習切替・BGM曲選択・BGM ON/OFF・SE・リセット -->
-    <div class="flex items-center gap-1">
-      <button id="uiFocusToggleBtn" type="button" title="左右の表示を控えめにして中央に集中します"
-        class="jelly-btn px-2 py-1 rounded-full bg-amber-900/15 hover:bg-amber-900/25 border border-amber-900/20 text-[11px] font-black text-[#5C3D1E] flex items-center gap-1">
-        <span class="material-symbols-rounded text-sm">visibility</span>
-        <span id="uiFocusLabel" class="hidden xl:inline">UI:通常</span>
-      </button>
+        <button id="saveBtn" type="button" title="途中で保存（あとから続きから遊べます）" class="jelly-btn mf-btn mf-save">
+          <span class="material-symbols-rounded">save</span>
+          <span class="mf-lbl">途中保存</span>
+        </button>
 
-      <button id="faceStyleToggleBtn" type="button" title="元素ボールのキャラ顔表示を切り替えます"
-        class="jelly-btn px-2 py-1 rounded-full bg-amber-900/15 hover:bg-amber-900/25 border border-amber-900/20 text-[11px] font-black text-[#5C3D1E] flex items-center gap-1">
-        <span id="faceStyleIcon" class="material-symbols-rounded text-sm">sentiment_very_satisfied</span>
-        <span id="faceStyleLabel" class="hidden xl:inline">顔ON</span>
-      </button>
+        <button id="titleBtn" type="button" title="今の状態を保存して、タイトル画面へ" class="jelly-btn mf-btn mf-title">
+          <span class="material-symbols-rounded">home</span>
+          <span class="mf-long">タイトルへ戻る</span><span class="mf-short">タイトル</span>
+        </button>
 
-      <!-- BGM 6曲切替ボタン -->
-      <button id="bgmTrackBtn" type="button" title="BGMの楽曲を切り替え（全6曲）"
-        class="jelly-btn px-2.5 py-1 rounded-full bg-amber-950/80 hover:bg-amber-950 text-amber-100 text-[11px] font-black flex items-center gap-1 shadow-sm">
-        <span class="material-symbols-rounded text-amber-300 text-sm">queue_music</span>
-        <span id="bgmTrackName" class="hidden sm:inline">1.陽だまりラグタイム</span>
-      </button>
+        <button id="diffBtn" type="button" title="難易度を変える（簡単・普通・難しい）" class="jelly-btn mf-btn mf-util mf-dif">
+          <span class="material-symbols-rounded">tune</span>
+          <span id="diffBtnText">普通</span>
+        </button>
 
-      <!-- BGM ON/OFF トグル -->
-      <button id="bgmToggleBtn" type="button" title="BGM ON/OFF"
-        class="jelly-btn px-2 py-1 rounded-full bg-amber-900/85 hover:bg-amber-900 text-amber-100 text-[11px] font-black flex items-center gap-1 shadow-sm">
-        <span id="bgmStatusDot" class="w-2 h-2 rounded-full bg-emerald-400"></span>
-        <span class="material-symbols-rounded text-sm">music_note</span>
-        <canvas id="audioVisualizerCanvas" width="24" height="12" class="w-5 h-3 hidden sm:block"></canvas>
-      </button>
+        <button id="resetBtn" type="button" title="最初からやり直す" class="jelly-btn mf-btn mf-reset">
+          <span class="material-symbols-rounded">restart_alt</span>
+          <span class="mf-lbl">やり直す</span>
+        </button>
+      </div>
 
-      <!-- 効果音(SE) トグル -->
-      <button id="sfxToggleBtn" type="button" title="効果音 ON/OFF"
-        class="jelly-btn w-7 h-7 rounded-full bg-white/85 hover:bg-white border border-amber-900/20 text-amber-950 flex items-center justify-center">
-        <span id="sfxToggleIcon" class="material-symbols-rounded text-base">volume_up</span>
-      </button>
-
-      <!-- 途中保存（あとから続きから遊べる） -->
-      <button id="saveBtn" type="button" title="途中で保存（あとから続きから遊べます）"
-        class="jelly-btn px-2.5 py-1 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-black shadow-sm flex items-center gap-0.5">
-        <span class="material-symbols-rounded text-sm">save</span>
-        <span class="hidden sm:inline">途中保存</span>
-      </button>
-
-      <!-- タイトルへ戻る（今の状態を保存してから、タイトル画面へ） -->
-      <button id="titleBtn" type="button" title="今の状態を保存して、タイトルへ戻る"
-        class="jelly-btn px-2.5 py-1 rounded-full bg-sky-600 hover:bg-sky-500 text-white text-[11px] font-black shadow-sm flex items-center gap-0.5">
-        <span class="material-symbols-rounded text-sm">home</span>
-        <span>タイトルへ戻る</span>
-      </button>
-
-      <!-- リセットボタン -->
-      <button id="diffBtn" type="button" title="難易度を変える（簡単・普通・難しい）" class="jelly-btn px-2 py-1 rounded-full bg-white/90 hover:bg-white border border-amber-800/25 text-[11px] font-black text-amber-950 flex items-center gap-1 shadow-sm">
-        <span class="material-symbols-rounded text-sm">tune</span>
-        <span id="diffBtnText">普通</span>
-      </button>
-      <button id="resetBtn" type="button" title="最初からやり直す"
-        class="jelly-btn px-2.5 py-1 rounded-full bg-rose-600 hover:bg-rose-500 text-white text-[11px] font-black shadow-sm flex items-center gap-0.5">
-        <span class="material-symbols-rounded text-sm">restart_alt</span>
-        <span class="hidden sm:inline">やり直す</span>
-      </button>
     </div>
   </footer>
 
@@ -922,7 +910,7 @@
       hard: 'chem_suika_jhs2_scores_v6_hard'
     };
     // このゲームの版（記録に入れる）。難しいのランキングは、この版以上で記録された点だけを出す
-    const MERGE_VER = '18.2.17';
+    const MERGE_VER = '18.2.18';
     const RANK_MIN_VER_BY_DIFF = { hard: '18.2.16' };
     // 版の番号どうしを比べる（例：18.2.16 は 18.2.15 より新しい）
     const verAtLeast = (v, min) => {
@@ -1117,7 +1105,7 @@
       }
 
       async recordGameScore(scoreVal, maxLevelVal, diff = gameDifficulty) {
-        if (scoreVal <= 0 || gameMode === 'order') return;
+        if (scoreVal <= 0) return;
         const d = normalizeDifficulty(diff);
         this.localByDiff[d] = await this.localAdapters[d].submitScore({
           score: scoreVal,
@@ -3734,7 +3722,7 @@
     }
 
     function mergePair(bodyA, bodyB) {
-      if (bodyA.isMerged || bodyB.isMerged || bodyA.pinned || bodyB.pinned || isGameOver) return;
+      if (bodyA.isMerged || bodyB.isMerged || isGameOver) return;
       bodyA.isMerged = true;
       bodyB.isMerged = true;
 
@@ -3764,7 +3752,6 @@
       if (currentLevel !== PYRO_LEVEL) {
         const nextLevel = currentLevel + 1;
         const newBody = createElementBody(midX, midY, nextLevel, true);
-        ordNoteMade(nextLevel);
         // 合体で出たボールは、その場で落ちる（上へはじき出すと、まわりの玉と重なるため）
         void newBody;
         // 連続コンボが続いたら、周りのボールが発熱膨張する
@@ -3851,9 +3838,7 @@
         text.textContent =
           mode === 'pipette'
             ? 'ピペット吸引：消去したい元素ボールをクリック！（再押下で解除）'
-            : mode === 'pin'
-              ? '止める玉をクリック！進化をとめて盤面に残します（もう一度押すと解除）'
-              : '触媒リアクター：1段階進化させたい元素ボールをクリック！';
+            : '触媒リアクター：1段階進化させたい元素ボールをクリック！';
       }
     }
 
@@ -3873,16 +3858,6 @@
       }
 
       if (!target) return false;
-
-      if (activeSkillMode === 'pin') {
-        const pinTxt = (t, c) => floatingTexts.push({ x: target.position.x, y: target.position.y - 30, text: t, color: c || '#FEF3C7', stroke: '#78350F', alpha: 1.0, vy: -1.1, scale: 0.9 });
-        if (target.pinned) { target.pinned = false; pinTxt('止めを解除'); }
-        else if (pinnedCount() >= PIN_MAX) { pinTxt(`止められるのは${PIN_MAX}個まで`); return true; }
-        else { target.pinned = true; pinTxt('進化を止めた'); }
-        setSkillTargetMode(null);
-        orderUiUpdate();
-        return true;
-      }
 
       if (activeSkillMode === 'pipette' && ep >= skillCost(pipetteBase())) {
         ep -= skillCost(pipetteBase());
@@ -3913,7 +3888,6 @@
         const nextLv = Math.min(ELEMENTS.length, target.elementLevel + 1);
         World.remove(world, target);
         createElementBody(tx, ty, nextLv, true);
-        ordNoteMade(nextLv);
         discoveredLevels.add(nextLv);
         if (nextLv > maxReachedLevel) maxReachedLevel = nextLv;
         checkAndRenderMissions();
@@ -3936,7 +3910,6 @@
     const HEAT_SCALE = 1.12;        // 発熱膨張の輪の大きさ（ボール本体の大きさは変えない）
     const HEAT_IMPACT_SPEED = 7;    // これ以上の相対速度なら「激しい衝突」
     const FLASK_TILT_X = 0.5;       // 傾いたときの横向きの重力（玉が傾いた方向へ、はっきり転がるように）
-    const FLASK_TILT_ANGLE = Math.atan2(FLASK_TILT_X, 1.05); // 見た目の傾き（重力の向きに合わせる）
     let lastHeatAt = -Infinity;
 
     // その段階の元素が、箱の中（壁の内側）に収まるか（難しいは箱が狭いので、大きい元素は作れない）
@@ -3979,151 +3952,11 @@
       });
       if (n) floatingTexts.push({ x, y: y - 26, text: label, color: '#FFEDD5', stroke: '#9A3412', alpha: 1.0, vy: -1.2, scale: 1.0 });
     }
-    // ===== 実験オーダー（ノルマ制）：お題を時間内に達成する。失敗すると不純物が1個降ってくる =====
-    let gameMode = 'free';          // 'free'（ふつうに遊ぶ）／'order'（実験オーダー）
-    let orderState = null;          // いまのお題
+    // ===== 吸引の値段：使うたびに高くなる（ゲームごとに数える） =====
     let pipetteUses = 0;            // 吸引を使った回数（使うたびに高くなる）
     const PIPETTE_BASE = 800, PIPETTE_STEP = 400;
     const CATALYST_BASE = 600;
     const pipetteBase = () => PIPETTE_BASE + PIPETTE_STEP * pipetteUses;
-    const PIN_MAX = 3;              // 進化を止める玉は、同時に3個まで
-    const IMPURITY_R = 22;          // 不純物の大きさ（ほかの玉と合体しない）
-    const ORD_RESULT_SEC = 1.6;     // 達成・失敗の表示の長さ（秒）
-    const ORD_POOL = {
-      early: { make: [2, 3, 4], pair: [[1, 4], [2, 4], [1, 2]], sec: 60 },
-      mid: { make: [4, 5, 6], pair: [[4, 5], [5, 6], [1, 5]], sec: 75 },
-      late: { make: [6, 7, 8], pair: [[5, 6], [4, 7], [2, 6]], sec: 90 }
-    };
-    const pinnedCount = () => (world ? Composite.allBodies(world) : []).filter(b => b.pinned && !b.isMerged).length;
-    // 新しいお題（達成した数に合わせて、だんだん難しくなる。同じお題が続かないように）
-    function newOrder(prev) {
-      const done = prev ? prev.done : 0;
-      const P = ORD_POOL[done < 3 ? 'early' : done < 7 ? 'mid' : 'late'];
-      let o = null;
-      for (let t = 0; t < 8; t++) {
-        if (Math.random() < 0.6) {
-          const lv = P.make[Math.floor(Math.random() * P.make.length)];
-          o = { kind: 'make', lv, a: 0, b: 0, sec: P.sec, text: `${P.sec}秒以内に、進化で ${ELEMENTS[lv - 1].symbol}（${ELEMENTS[lv - 1].name}）を1個作れ！` };
-        } else {
-          const [a, b] = P.pair[Math.floor(Math.random() * P.pair.length)];
-          o = { kind: 'pair', lv: 0, a, b, sec: P.sec, text: `${P.sec}秒以内に、盤面に ${ELEMENTS[a - 1].symbol} と ${ELEMENTS[b - 1].symbol} を同時に揃えろ！` };
-        }
-        if (!prev || o.text !== prev.text) break;
-      }
-      return Object.assign(o, { left: o.sec, state: 'run', wait: 0, made: false, done, fails: prev ? prev.fails : 0 });
-    }
-    // 続きから：保存したお題を戻す（壊れた値は安全な値にする）
-    function restoreOrder(o) {
-      if (!o || typeof o.text !== 'string') return newOrder(null);
-      return {
-        kind: o.kind === 'pair' ? 'pair' : 'make', lv: clampLevel(o.lv), a: clampLevel(o.a), b: clampLevel(o.b),
-        sec: Math.max(1, Number(o.sec) || 60), text: o.text, left: Math.max(0, Number(o.left) || 0),
-        state: o.state === 'clear' || o.state === 'fail' ? o.state : 'run', wait: Math.max(0, Number(o.wait) || 0),
-        made: o.made === true, done: Math.max(0, Math.floor(Number(o.done)) || 0), fails: Math.max(0, Math.floor(Number(o.fails)) || 0)
-      };
-    }
-    // 進化で、お題の元素が作られたことを覚える（玉を落としただけでは数えない）
-    function ordNoteMade(lv) {
-      const o = orderState;
-      if (o && o.state === 'run' && o.kind === 'make' && lv === o.lv) o.made = true;
-    }
-    function orderNext() { orderState = newOrder(orderState); orderUiUpdate(); }
-    function orderClear() {
-      const o = orderState;
-      o.state = 'clear'; o.wait = ORD_RESULT_SEC; o.done++;
-      const pt = 150 + o.sec * 2 + (o.kind === 'make' ? o.lv * 30 : 60);
-      score += pt;
-      ep = Math.min(3000, ep + 60);
-      updateScoreBoardUI(); updateEpUI(); checkAndRenderMissions();
-      audio.playMerge(4, 0, 1);
-      showCelebrationBanner(`オーダー達成！ +${pt}点・EP+60`);
-      orderUiUpdate();
-    }
-    function orderFail() {
-      const o = orderState;
-      o.state = 'fail'; o.wait = ORD_RESULT_SEC; o.fails++;
-      const x = BOX_LEFT + IMPURITY_R + 6 + Math.random() * (BOX_RIGHT - BOX_LEFT - IMPURITY_R * 2 - 12);
-      createImpurityBody(x, DROP_SPAWN_Y);
-      showCelebrationBanner('時間切れ…不純物が降ってきた！');
-      orderUiUpdate();
-    }
-    // お題の判定と時間（ゲームが止まっている間は進まない）
-    function orderTick(dt) {
-      const o = orderState;
-      if (!o || isGameOver) return;
-      if (o.state !== 'run') {
-        o.wait -= dt;
-        if (o.wait <= 0) orderNext();
-        orderUiUpdate();
-        return;
-      }
-      let ok = false;
-      if (o.kind === 'make') ok = o.made;
-      else {
-        const list = world ? Composite.allBodies(world) : [];
-        const has = lv => list.some(b => b.label === 'element' && !b.isMerged && b.elementLevel === lv);
-        ok = has(o.a) && has(o.b);
-      }
-      if (ok) { orderClear(); return; }
-      o.left -= dt;
-      if (o.left <= 0) { orderFail(); return; }
-      orderUiUpdate();
-    }
-    // 不純物：ほかの玉と合体しない。溢れそうの判定には入る
-    function createImpurityBody(x, y) {
-      const body = Bodies.circle(x, y, IMPURITY_R, { restitution: 0.2, friction: 0.2, frictionAir: 0.004, density: 0.0016, label: 'impurity' });
-      body.elementLevel = 0;
-      body.isMerged = false;
-      body.spawnTimestamp = performance.now();
-      World.add(world, body);
-      return body;
-    }
-    function drawImpurityBall(b) {
-      const x = b.position.x, y = b.position.y;
-      ctx.save();
-      ctx.beginPath(); ctx.arc(x, y, IMPURITY_R, 0, Math.PI * 2);
-      ctx.fillStyle = '#3f3f46'; ctx.fill();
-      ctx.lineWidth = 3; ctx.strokeStyle = '#a1a1aa'; ctx.stroke();
-      ctx.fillStyle = '#fafafa'; ctx.font = '900 18px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('不', x, y + 1);
-      ctx.restore();
-    }
-    // 止めている玉の印（黄色い丸に「止」）
-    function drawPinBadge(b, r) {
-      const x = b.position.x, y = b.position.y - r - 2;
-      ctx.save();
-      ctx.beginPath(); ctx.arc(x, y, 9, 0, Math.PI * 2);
-      ctx.fillStyle = '#facc15'; ctx.fill();
-      ctx.lineWidth = 2; ctx.strokeStyle = '#7c2d12'; ctx.stroke();
-      ctx.fillStyle = '#7c2d12'; ctx.font = '900 11px sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      ctx.fillText('止', x, y + 0.5);
-      ctx.restore();
-    }
-    let ordUiLast = '';
-    function orderUiUpdate() {
-      const bn = document.getElementById('orderBanner');
-      if (!bn) return;
-      const o = orderState;
-      if (gameMode !== 'order' || !o) { bn.classList.add('hidden'); return; }
-      bn.classList.remove('hidden');
-      const pins = pinnedCount();
-      const timeText = o.state === 'clear' ? 'クリア！' : o.state === 'fail' ? '失敗…' : `残り ${Math.max(0, Math.ceil(o.left))}秒`;
-      const key = [o.text, timeText, o.done, o.fails, pins].join('|');
-      if (key === ordUiLast) return;
-      ordUiLast = key;
-      document.getElementById('orderText').textContent = o.text;
-      document.getElementById('orderTime').textContent = timeText;
-      document.getElementById('orderMeta').textContent = `達成 ${o.done} ・ 失敗 ${o.fails} ・ 止めている玉 ${pins}/${PIN_MAX}`;
-      const pb = document.getElementById('skillPinBtn');
-      const f = pb && pb.querySelector('.font-mono');
-      if (f) f.textContent = `${pins}/${PIN_MAX}`;
-    }
-    function orderUiSync() {
-      const pb = document.getElementById('skillPinBtn');
-      if (pb) pb.style.display = gameMode === 'order' ? '' : 'none';
-      ordUiLast = '';
-      orderUiUpdate();
-    }
 
     // 逆転フラスコ：横向きの重力で箱が傾く、または3秒だけ無重力になる
     function startFlaskEvent() {
@@ -4132,7 +3965,7 @@
       flask.dir = Math.random() < 0.5 ? -1 : 1;
       flask.until = now + 2600;
       engine.gravity.x = flask.dir * FLASK_TILT_X;
-      showCelebrationBanner('逆転フラスコ！実験台が揺れて、玉が傾きました');
+      showCelebrationBanner(`逆転フラスコ！実験台が${flask.dir < 0 ? '左' : '右'}へ傾いた！玉が転がります`);
     }
     function endFlaskEvent() {
       if (engine) { engine.gravity.x = 0; engine.gravity.y = 1.05; }
@@ -4216,8 +4049,6 @@
 
       setSkillTargetMode(null);
       pipetteUses = 0;
-      orderState = gameMode === 'order' ? newOrder(null) : null;
-      orderUiSync();
       document.getElementById('dangerBanner').classList.add('opacity-0', 'scale-90');
       document.getElementById('gameOverModal').classList.add('hidden');
       document.getElementById('gameOverModal').classList.remove('flex');
@@ -4267,10 +4098,10 @@
     // 途中の状態を保存する。終わったゲーム・まだ何もないときは保存しない
     function saveGame(quiet) {
       if (!engine || isGameOver || scoreReported) return false;
-      const bodies = Composite.allBodies(world).filter(b => (b.label === 'element' || b.label === 'impurity') && !b.isMerged)
-        .map(b => ({ l: b.elementLevel || 0, imp: b.label === 'impurity' ? 1 : 0, p: b.pinned ? 1 : 0, x: b.position.x, y: b.position.y, a: b.angle, vx: b.velocity.x, vy: b.velocity.y, av: b.angularVelocity }));
+      const bodies = Composite.allBodies(world).filter(b => b.label === 'element' && !b.isMerged)
+        .map(b => ({ l: b.elementLevel || 0, x: b.position.x, y: b.position.y, a: b.angle, vx: b.velocity.x, vy: b.velocity.y, av: b.angularVelocity }));
       if (!bodies.length && score <= 0) return false;
-      const sv = { v: SAVE_VER, t: Date.now(), mode: gameMode, pu: pipetteUses, ord: orderState ? { kind: orderState.kind, lv: orderState.lv, a: orderState.a, b: orderState.b, sec: orderState.sec, text: orderState.text, left: orderState.left, state: orderState.state, wait: orderState.wait, made: !!orderState.made, done: orderState.done, fails: orderState.fails } : null, diff: gameDifficulty, dg: dangerTimer, da: dangerActive, de: dangerExtended, score, ep, comboCount, maxCombo, currentDropLevel, nextDropLevel, maxReachedLevel, discovered: [...discoveredLevels], completed: [...completedMissions], merges: gameMergeCount, drops: gameDropCount, pyro: gamePyrolysisCount, playSec: gamePlaySec, bodies };
+      const sv = { v: SAVE_VER, t: Date.now(), pu: pipetteUses, diff: gameDifficulty, dg: dangerTimer, da: dangerActive, de: dangerExtended, score, ep, comboCount, maxCombo, currentDropLevel, nextDropLevel, maxReachedLevel, discovered: [...discoveredLevels], completed: [...completedMissions], merges: gameMergeCount, drops: gameDropCount, pyro: gamePyrolysisCount, playSec: gamePlaySec, bodies };
       try { localStorage.setItem(SAVE_KEY, JSON.stringify(sv)); } catch (e) { return false; }
       if (!quiet) showCelebrationBanner('途中の状態を保存しました。あとから続きから遊べます');
       return true;
@@ -4278,11 +4109,8 @@
     // 保存した状態から再開する（新しいゲームを作ってから、玉と点数などを入れなおす）
     function resumeGame(sv) {
       if (sv && sv.diff) { gameDifficulty = normalizeDifficulty(sv.diff); try { localStorage.setItem('kosa-merge-diff', gameDifficulty); } catch (e) { } setDiffUI(); }
-      gameMode = sv.mode === 'order' ? 'order' : 'free';
       initPhysicsGame();
       pipetteUses = Math.max(0, Math.floor(Number(sv.pu)) || 0);
-      orderState = gameMode === 'order' ? restoreOrder(sv.ord) : null;
-      orderUiSync();
       score = Number(sv.score) || 0;
       ep = Math.min(3000, Math.max(0, Number(sv.ep) || 0));
       comboCount = 0; lastMergeTime = 0;
@@ -4305,9 +4133,8 @@
       dangerActive = sv.da === true && dangerTimer !== 0;
       sv.bodies.forEach(b => {
         const bx = Number(b.x) || 0, by = Number(b.y) || 0;
-        const body = b.imp ? createImpurityBody(bx, by) : createElementBody(bx, by, clampLevel(b.l));
+        const body = createElementBody(bx, by, clampLevel(b.l));
         body.spawnTimestamp = -1e9; // 保存した玉は、もう落ちついているので、すぐに溢れそうに数える
-        if (b.p && !b.imp) body.pinned = true;
         Body.setPosition(body, { x: bx, y: by });
         Body.setAngle(body, Number(b.a) || 0);
         Body.setVelocity(body, { x: Number(b.vx) || 0, y: Number(b.vy) || 0 });
@@ -4379,6 +4206,23 @@
 .tt2-wrap,.tt2-modes>*,.tt2-card,.tt2-start{min-width:0;max-width:100%;box-sizing:border-box}
 .tt2-mode{overflow:hidden;overflow-wrap:anywhere}
 .tt2-t{overflow-wrap:anywhere}
+.tt2-l,.tt2-r{display:grid;justify-items:center;gap:12px;width:100%;min-width:0}
+@media (min-width:768px){
+  #titleOv.tt-ov{padding:40px 32px}
+  .tt2-wrap{max-width:min(980px,100%);grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:28px 56px;align-items:center}
+  .tt2-l{gap:20px}
+  .tt2-r{gap:14px}
+  .tt2-t{font-size:clamp(48px,6.4vw,84px);white-space:nowrap}
+  .tt2-ball{width:72px;height:72px;font-size:29px;right:-70px;top:-34px}
+  .tt2-start{height:88px;font-size:34px}
+  .tt2-r .tt-dif{height:60px;font-size:19px}
+  .tt2-r .tt-card{padding:16px}
+  .tt2-r .tt-list li{padding:10px 14px;font-size:16px}
+  .tt2-r .tt-cap{font-size:17px}
+}
+@media (min-width:1100px){
+  .tt2-wrap{max-width:min(1040px,100%)}
+}
 `;
       document.head.appendChild(st);
     }
@@ -4394,17 +4238,18 @@
         const el = ELEMENTS[(i * 3) % ELEMENTS.length];
         return `<span class="tt2-deco" style="left:${(i * 37) % 92}%;animation-duration:${9 + (i % 4) * 2.5}s;animation-delay:${-(i * 1.7)}s;background:radial-gradient(circle at 35% 30%,${el.gradTop},${el.gradBot});color:${el.textColor}">${tEsc(el.symbol)}</span>`;
       }).join('');
-      const modes = [['free', 'ふつうに遊ぶ', 'local_fire_department', '元素を合わせて、大きな元素を作ろう'], ['order', '実験オーダー', 'science', 'お題を時間内に達成しよう。失敗すると不純物が降る']]
-        .map(([k, t, ic, ds]) => `<button type="button" class="tt2-mode${gameMode === k ? ' on' : ''}" data-mode="${k}"><span class="material-symbols-rounded">${ic}</span><b>${t}</b><small>${ds}</small></button>`).join('');
       return `${decos}<div class="tt-wrap tt2-wrap">
-        <div class="tt-logo"><span class="tt2-t">元素マージ</span><span class="tt-ball tt2-ball" style="background:radial-gradient(circle at 35% 30%,${mel.gradTop},${mel.gradBot});color:${mel.textColor};border-color:${mel.borderColor}">${tEsc(mel.symbol)}</span></div>
-        <div class="tt-sub">同じ元素を合わせて、もっと重い元素を作ろう</div>
-        <div class="tt2-modes">${modes}</div>
-        <button type="button" class="tt2-start" data-start="1">始める</button>
-        <div class="tt-lbl">難易度</div>
-        <div class="tt-difs">${diffs}</div>
-        <div class="tt-desc">${tEsc(cfg.desc)}</div>
-        <div class="tt-card tt2-card"><div class="tt-cap">ランキング（${cfg.label}・${scope}）</div><ol class="tt-list">${rows}</ol>${gameMode === 'order' ? '<div class="tt2-note">実験オーダーの点数は、ランキングには入りません</div>' : ''}</div>
+        <div class="tt2-l">
+          <div class="tt-logo"><span class="tt2-t">元素マージ</span><span class="tt-ball tt2-ball" style="background:radial-gradient(circle at 35% 30%,${mel.gradTop},${mel.gradBot});color:${mel.textColor};border-color:${mel.borderColor}">${tEsc(mel.symbol)}</span></div>
+          <div class="tt-sub">同じ元素を合わせて、もっと重い元素を作ろう</div>
+          <button type="button" class="tt2-start" data-start="1">始める</button>
+        </div>
+        <div class="tt2-r">
+          <div class="tt-lbl">難易度</div>
+          <div class="tt-difs">${diffs}</div>
+          <div class="tt-desc">${tEsc(cfg.desc)}</div>
+          <div class="tt-card tt2-card"><div class="tt-cap">ランキング（${cfg.label}・${scope}）</div><ol class="tt-list">${rows}</ol></div>
+        </div>
       </div>`;
     }
     // ゲーム中の「タイトルへ戻る」：「戻りますか？」を出す。「戻る」では今のゲームを消してタイトルへ、「キャンセル」では続けてそのまま遊ぶ
@@ -4454,8 +4299,6 @@
           setDiffUI(); updateEpUI(); paint();
           return;
         }
-        const md = e.target.closest('[data-mode]');
-        if (md) { gameMode = md.dataset.mode === 'order' ? 'order' : 'free'; initPhysicsGame(); paint(); return; }
         if (e.target.closest('[data-start]')) { ov.remove(); ensureGameFocus(); }
       });
     }
@@ -4538,9 +4381,7 @@
         if (mascotMoodTimer <= 0) mascotMood = 'normal';
       }
 
-      // 逆転フラスコの傾きを、なめらかに追いかける（重力の向きと同じ向きに箱を傾ける）
-      const flaskTarget = flask.type === 'tilt' ? -flask.dir * FLASK_TILT_ANGLE : 0;
-      flaskAngle += (flaskTarget - flaskAngle) * 0.12;
+      flaskAngle = 0; // 箱は回さない（傾きは重力の向きだけで表す）
 
       if (!isGameOver && engine) {
         // 逆転フラスコの発生：スコアが5000点を超えたとき、または120秒ごと（タイトル画面の間は起こさない）
@@ -4563,8 +4404,8 @@
 
         for (let i = 0; i < bodies.length; i++) {
           const b = bodies[i];
-          if ((b.label !== 'element' && b.label !== 'impurity') || b.isMerged) continue;
-          const el = b.label === 'impurity' ? { radius: IMPURITY_R } : ELEMENTS[b.elementLevel - 1];
+          if (b.label !== 'element' || b.isMerged) continue;
+          const el = ELEMENTS[b.elementLevel - 1];
 
           if (b.isMergedSpawn) {
             const diff = 1.0 - b.animScale;
@@ -4613,7 +4454,6 @@
             dangerBanner.classList.add('opacity-0', 'scale-90');
           }
         }
-        if (orderState) orderTick(dt);
       }
 
       renderMainCanvas(now);
@@ -4634,13 +4474,8 @@
     function renderMainCanvas(now) {
       ctx.clearRect(0, 0, LOGICAL_WIDTH, LOGICAL_HEIGHT);
 
-      // 逆転フラスコの傾き：箱（背面・ボール・前面）をまとめて少しだけ回す
+      // 箱は回さない（物理の壁とずれて、箱の一部が隠れていたため）。傾きは重力の向きだけで表す
       ctx.save();
-      if (flaskAngle) {
-        ctx.translate(LOGICAL_WIDTH / 2, BOX_BOTTOM);
-        ctx.rotate(flaskAngle);
-        ctx.translate(-LOGICAL_WIDTH / 2, -BOX_BOTTOM);
-      }
 
       // 1. キャッシュ済み3Dガラスボックス背面を一発描画
       if (boxBackSprite) {
@@ -4699,13 +4534,11 @@
         const bodies = Composite.allBodies(world);
         for (let i = 0; i < bodies.length; i++) {
           const b = bodies[i];
-          if (b.label === 'impurity' && !b.isMerged) { drawImpurityBall(b); continue; }
           if (b.label !== 'element') continue;
           const el = ELEMENTS[b.elementLevel - 1];
           if (!el) continue;
 
           drawCachedSphere(ctx, b.position.x, b.position.y, el.radius, el, b.angle, 1, 1);
-          if (b.pinned) drawPinBadge(b, el.radius);
           // 発熱膨張の間は、まわりに熱いオレンジの輪を出す（ボールの大きさや当たり判定は変えない）
           if (b.heatUntil !== undefined && performance.now() < b.heatUntil) {
             const pulse = 0.55 + 0.35 * Math.sin(performance.now() * 0.012);
@@ -5060,7 +4893,6 @@
     switchLeftCardTab(1); // 最初は友達ランキングを出す（0 → 1）
     document.getElementById('leftTabPrevBtn').addEventListener('click', () => switchLeftCardTab(-1));
     document.getElementById('leftTabNextBtn').addEventListener('click', () => switchLeftCardTab(1));
-    document.getElementById('bottomSwitchRankingBtn').addEventListener('click', () => switchLeftCardTab(1));
     document.getElementById('refreshRankingBtn').addEventListener('click', triggerRankingRefresh);
 
     // 4種の実験スキルボタン
@@ -5158,7 +4990,7 @@
       ensureGameFocus();
       const on = audio.toggleBgm();
       const dot = document.getElementById('bgmStatusDot');
-      dot.className = on ? 'w-2 h-2 rounded-full bg-emerald-400' : 'w-2 h-2 rounded-full bg-rose-400';
+      dot.className = on ? 'mf-dot bg-emerald-400' : 'mf-dot bg-rose-400';
     });
 
     document.getElementById('sfxToggleBtn').addEventListener('click', () => {
@@ -5169,7 +5001,6 @@
 
     // 図鑑モーダル開閉
     document.getElementById('openEncyclopediaBtn').addEventListener('click', () => openEncyclopediaModal(maxReachedLevel));
-    document.getElementById('openLabModalBottomBtn').addEventListener('click', () => openEncyclopediaModal(maxReachedLevel));
     document.getElementById('mobileEncyclopediaBtn').addEventListener('click', () => openEncyclopediaModal(maxReachedLevel));
     document.getElementById('closeEncyclopediaBtn').addEventListener('click', () => {
       const modal = document.getElementById('encyclopediaModal');
@@ -5179,11 +5010,6 @@
     });
 
     // 途中保存のボタン
-    document.getElementById('skillPinBtn').addEventListener('click', () => {
-      ensureGameFocus();
-      if (gameMode !== 'order' || isGameOver) return;
-      setSkillTargetMode(activeSkillMode === 'pin' ? null : 'pin');
-    });
     document.getElementById('saveBtn').addEventListener('click', () => { ensureGameFocus(); if (!saveGame(false)) showCelebrationBanner('今は保存できません'); });
     // 画面を離れたとき（タブを切り替えた・アプリを閉じた）は、自動で途中保存
     document.addEventListener('visibilitychange', () => { if (document.hidden) saveGame(true); });
@@ -5261,7 +5087,15 @@
       initPhysicsGame();
     });
 
+    // 下部バーの高さを測り、盤面の高さに反映する（下部バーの下に玉が隠れないように）
+    function syncFooterHeight() {
+      const f = document.getElementById('mergeFooter');
+      if (f) document.documentElement.style.setProperty('--foot-h', Math.ceil(f.getBoundingClientRect().height) + 'px');
+    }
+    syncFooterHeight();
+    if (window.ResizeObserver) { const fe = document.getElementById('mergeFooter'); if (fe) new ResizeObserver(syncFooterHeight).observe(fe); }
     window.addEventListener('resize', () => {
+      syncFooterHeight();
       setupCanvases();
       updateNextPreviewUI();
     });
