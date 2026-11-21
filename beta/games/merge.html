@@ -291,10 +291,13 @@
     }
 
     /* 左上：ホーム・設定 */
-    #gameTopLeft { position: fixed; top: 10px; left: 10px; z-index: 60; display: flex; gap: 8px; }
+    #gameTopLeft { position: fixed; top: 34px; left: 10px; z-index: 60; display: flex; gap: 8px; }
+    #gameTopRight { position: fixed; top: 34px; right: 10px; z-index: 60; display: flex; gap: 8px; }
+    .gt-title { width: auto; padding: 0 16px; gap: 8px; font-size: 15px; font-weight: 900; color: #fff; background: #0284c7; border-color: #075985; box-shadow: 0 3px 0 #075985; }
+    .gt-title .material-symbols-rounded { color: #fff; }
     .gt-btn { width: 44px; height: 44px; border-radius: 999px; border: 2px solid rgba(92, 55, 17, 0.3); background: rgba(255, 255, 255, 0.94); color: #5c3d1e; display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 3px 0 rgba(92, 55, 17, 0.22); cursor: pointer; }
     .gt-btn .material-symbols-rounded { font-size: 24px; }
-    #settingsPanel { position: fixed; top: 64px; left: 10px; z-index: 70; width: 270px; padding: 12px; border-radius: 18px; background: #fffaf0; border: 2px solid rgba(92, 55, 17, 0.25); box-shadow: 0 12px 28px rgba(92, 55, 17, 0.25); display: flex; flex-direction: column; gap: 8px; }
+    #settingsPanel { position: fixed; top: 86px; right: 10px; z-index: 70; width: 270px; padding: 12px; border-radius: 18px; background: #fffaf0; border: 2px solid rgba(92, 55, 17, 0.25); box-shadow: 0 12px 28px rgba(92, 55, 17, 0.25); display: flex; flex-direction: column; gap: 8px; }
     #settingsPanel[hidden] { display: none; }
     #settingsPanel .sp-title { font-weight: 900; color: #5c3d1e; font-size: 15px; padding: 0 2px; }
     #settingsPanel .sp-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; padding: 0 4px; font-weight: 900; color: #3b2108; font-size: 15px; background: none; border: 0; cursor: pointer; }
@@ -534,9 +537,12 @@
   </div>
 
   <!-- ================= 3. 下部コンソール操作バー＆実験スキルバー ================= -->
-  <!-- 左上：ホーム（ツールの画面へ戻る）と設定（UI・顔・効果音・タイトル） -->
+  <!-- 左上：戻る（前の画面へ）とタイトルに戻る。右上：設定 -->
   <div id="gameTopLeft">
-    <button id="gtHome" type="button" class="gt-btn jelly-btn" title="ホームに戻る" aria-label="ホームに戻る"><span class="material-symbols-rounded">home</span></button>
+    <button id="gtBack" type="button" class="gt-btn jelly-btn" title="前の画面に戻る" aria-label="戻る"><span class="material-symbols-rounded">arrow_back</span></button>
+    <button id="titleBtn" type="button" class="gt-btn gt-title jelly-btn" title="タイトルに戻る"><span class="material-symbols-rounded">home</span><span>タイトルに戻る</span></button>
+  </div>
+  <div id="gameTopRight">
     <button id="gtSettings" type="button" class="gt-btn jelly-btn" title="設定" aria-label="設定"><span class="material-symbols-rounded">settings</span></button>
   </div>
   <div id="settingsPanel" hidden>
@@ -544,7 +550,6 @@
     <button id="spUi" type="button" class="sp-row"><span>UIの表示</span><span class="sp-val" id="spUiVal">通常</span></button>
     <button id="spFace" type="button" class="sp-row"><span>キャラの顔</span><span class="sp-val" id="spFaceVal">ON</span></button>
     <button id="spSfx" type="button" class="sp-row"><span>効果音</span><span class="sp-val" id="spSfxVal">ON</span></button>
-    <button id="titleBtn" type="button" class="sp-wide">タイトルへ戻る</button>
   </div>
   <div id="gameToast" aria-live="polite"></div>
 
@@ -893,7 +898,7 @@
       hard: 'chem_suika_jhs2_scores_v6_hard'
     };
     // このゲームの版（記録に入れる）。難しいのランキングは、この版以上で記録された点だけを出す
-    const MERGE_VER = '18.2.19';
+    const MERGE_VER = '18.2.20';
     const RANK_MIN_VER_BY_DIFF = { hard: '18.2.16' };
     // 版の番号どうしを比べる（例：18.2.16 は 18.2.15 より新しい）
     const verAtLeast = (v, min) => {
@@ -5036,7 +5041,7 @@
       document.getElementById('spFaceVal').textContent = showKawaiiFaces ? 'ON' : '記号のみ';
       document.getElementById('spSfxVal').textContent = audio.sfxEnabled ? 'ON' : 'OFF';
     }
-    document.getElementById('gtHome').addEventListener('click', () => {
+    document.getElementById('gtBack').addEventListener('click', () => {
       ensureGameFocus();
       spPanel.hidden = true;
       if (window.parent !== window) { try { window.parent.postMessage({ type: 'kosa-merge-quit' }, '*'); } catch (e) { } }

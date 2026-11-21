@@ -2201,6 +2201,9 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .tsub{flex:none;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:999px;border:1.5px solid rgba(29,27,42,.16);background:#fff;color:#1d1b2a;font-weight:800;font-size:15px;line-height:1;cursor:pointer}
 .tsub .material-symbols-rounded{font-size:20px}
 .tsub.on{background:#d3f1e6;border-color:transparent}
+html[data-theme=dark] .tsub{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#f1edff}
+html[data-theme=dark] .tsub.on{background:rgba(110,220,180,.3);border-color:transparent;color:#eafff6}
+#mgframe.ps-pin iframe{top:0;left:0;width:100%;height:100%}
 </style>
 <style id="tools-subj">
   #totop{position:fixed;z-index:29;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 176px);width:52px;height:52px;border:0;border-radius:18px;background:var(--pc);color:var(--on-pc);box-shadow:0 10px 24px -8px rgba(0,0,0,.45);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(28px) scale(.6);pointer-events:none;transition:opacity .35s ease,transform .55s var(--spring),border-radius .45s var(--spring)}
@@ -2924,9 +2927,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.19';
-const BETA_VER = '18.2.19';
-const RELEASE_VER = '18.2.19'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.20';
+const BETA_VER = '18.2.20';
+const RELEASE_VER = '18.2.20'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3826,6 +3829,11 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.20', d: '__BUILD__', t: '元素マージを全画面で開く・左上のボタンを整理・ダークモードのツールの絞り込みを直す', n: [
+'元素マージを開くと、最初から全画面で遊べるようにしました（最高点の欄と「全画面」ボタンは消しました）。',
+'左上に「戻る」と「タイトルに戻る」、右上に設定を置きました。ホームのボタンは、iPadの上部の表示に隠れないよう少し下げました。',
+'元素マージの下に出ていた黒い余白をなくしました。',
+'ダークモードのツールの上の教科のボタンが、暗い色になるよう直しました。'] },
   { v: '18.2.19', d: '__BUILD__', t: '元素ラボの数の修正・元素マージの操作の並べ替え・溢れそうの演出を豪華に', n: [
 '元素ラボの「くっつけてみよう」で、見つけた反応の数と全部の組み合わせ（128）を正しく数えるようにしました。',
 '元素マージの下部バーを小さくし、左から BGM・EP・アイテム4つ・難易度・途中保存・やり直す の順にしました。',
@@ -15133,8 +15141,10 @@ window.addEventListener('message', e => {
 });
 // 全画面：枠を画面いっぱいに広げる。ゲームの中で Escape を押しても戻せる（ゲームから届く）
 function mgFullOn(on) { gameFull('mg', on); }
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('mgov')) mgFullOn(false); });
-window.addEventListener('message', e => { const d = e.data; const fr = document.querySelector('#mgframe iframe'); if (d && d.type === 'kosa-merge-exit' && fr && e.source === fr.contentWindow && document.getElementById('mgov')) mgFullOn(false); });
+// 元素マージを閉じて、ツールの一覧へ戻る（全画面なら先に閉じる）
+function mgQuit() { if (document.getElementById('mgov')) mgFullOn(false); ACT.toolback(); }
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('mgov')) mgQuit(); });
+window.addEventListener('message', e => { const d = e.data; const fr = document.querySelector('#mgframe iframe'); if (d && d.type === 'kosa-merge-exit' && fr && e.source === fr.contentWindow && document.getElementById('mgov')) mgQuit(); });
 // ゲーム（元素マージ）からの連絡：準備できた・友達の最高点がほしい・やめる
 function mgPostFriends() {
   const fr = document.querySelector('#mgframe iframe'); if (!fr || !fr.contentWindow) return;
@@ -15150,7 +15160,7 @@ window.addEventListener('message', e => {
   if (!d || !fr || e.source !== fr.contentWindow) return;
   if (d.type === 'kosa-merge-ready') mgPostFriends();
   else if (d.type === 'kosa-merge-want-friends') mgRankLoad(true);
-  else if (d.type === 'kosa-merge-quit') { if (document.getElementById('mgov')) mgFullOn(false); else ACT.toolback(); }
+  else if (d.type === 'kosa-merge-quit') mgQuit();
 });
 // XPで買う（ショップと、ロック画面のどちらからでも）
 function toolShopCard(id, it) {
@@ -15398,7 +15408,9 @@ function mergeHtml() {
     const buy = `<div class="mg-buy"><button type="button" class="btn" data-act="toolbuy" data-id="merge" ${sp < TOOL_SHOP.merge.c ? 'disabled' : ''}>${ms('shopping_cart')}${TOOL_SHOP.merge.c} XPで使えるようにする</button><small class="muted">いまの使えるXP ${sp}</small></div>`;
     return `<div class="rk-lock card mg-lux"><span class="rk-lk">${ms('lock', '', 'font-size:56px')}</span><h3>元素マージは、レベル${MG_LV}で解放されます</h3><p class="muted">いまはレベル${lv}です。レベルを上げるか、XPを使うと、今すぐ遊べます。あと${MG_LV - lv}レベルです。</p>${buy}${lvNextHtml(MG_LV)}</div>`;
   }
-  return `<div class="ps"><div class="card ps-st mg-lux" id="mgstat">${mgStatHtml()}</div><div class="ps-bar"><button type="button" class="btn tonal sm" id="mgfb" data-act="mgfull">${ms('fullscreen')}全画面</button></div><div class="ps-frame rk-frame" id="mgframe"><iframe src="games/merge.html" title="中2理科 元素マージ"></iframe></div><p class="muted ps-note" style="margin:10px 4px 0">同じ元素をくっつけると、次の段階に進化します。画面をタップするか、← → とスペースで操作します。</p></div>`;
+  // 開いたら、そのまま全画面で遊べるようにする（画面の上の最高点・全画面ボタンは出さない）
+  setTimeout(() => { if (!GF_STATE.mg && document.getElementById('mgframe')) mgFullOn(true); }, 0);
+  return `<div class="ps"><div class="ps-frame rk-frame" id="mgframe"><iframe src="games/merge.html" title="中2理科 元素マージ"></iframe></div></div>`;
 }
 // 友達との最高点ランキング（直接の友達だけ。自分と並べて表示）
 const MG_RANK = { rows: null, err: false, busy: false, at: 0 };
