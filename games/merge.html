@@ -902,10 +902,10 @@
     const STORAGE_KEY_SCORES_BY_DIFF = {
       easy: 'chem_suika_jhs2_scores_v5_easy',
       normal: STORAGE_KEY_SCORES,
-      hard: 'chem_suika_jhs2_scores_v5_hard'
+      hard: 'chem_suika_jhs2_scores_v6_hard'
     };
-    // 難しいの旧記録（v4）は削除する
-    try { localStorage.removeItem('chem_suika_jhs2_scores_v4_hard'); } catch (e) { }
+    // 難しいの記録は v6 で作り直した（旧の v4・v5 の難しいの記録は削除する）
+    try { localStorage.removeItem('chem_suika_jhs2_scores_v4_hard'); localStorage.removeItem('chem_suika_jhs2_scores_v5_hard'); } catch (e) { }
 
     /**
      * @typedef {Object} RankingEntry
@@ -4074,7 +4074,7 @@
       const bodies = Composite.allBodies(world).filter(b => b.label === 'element' && !b.isMerged)
         .map(b => ({ l: b.elementLevel, x: b.position.x, y: b.position.y, a: b.angle, vx: b.velocity.x, vy: b.velocity.y, av: b.angularVelocity }));
       if (!bodies.length && score <= 0) return false;
-      const sv = { v: SAVE_VER, t: Date.now(), diff: gameDifficulty, score, ep, comboCount, maxCombo, currentDropLevel, nextDropLevel, maxReachedLevel, discovered: [...discoveredLevels], completed: [...completedMissions], merges: gameMergeCount, drops: gameDropCount, pyro: gamePyrolysisCount, playSec: gamePlaySec, bodies };
+      const sv = { v: SAVE_VER, t: Date.now(), diff: gameDifficulty, dg: dangerTimer, da: dangerActive, de: dangerExtended, score, ep, comboCount, maxCombo, currentDropLevel, nextDropLevel, maxReachedLevel, discovered: [...discoveredLevels], completed: [...completedMissions], merges: gameMergeCount, drops: gameDropCount, pyro: gamePyrolysisCount, playSec: gamePlaySec, bodies };
       try { localStorage.setItem(SAVE_KEY, JSON.stringify(sv)); } catch (e) { return false; }
       if (!quiet) showCelebrationBanner('途中の状態を保存しました。あとから続きから遊べます');
       return true;
@@ -4098,6 +4098,11 @@
       gamePlaySec = Math.max(0, Number(sv.playSec) || 0);
       flaskNextScore = (Math.floor(score / 5000) + 1) * 5000;
       flaskNextTime = (Math.floor(gamePlaySec / 120) + 1) * 120;
+      // 溢れそうの残り時間と、アイテムによる延長の使用済みを、保存したとおりに戻す
+      // （戻さないと、タイトルへ戻る→続きからのたびに残り時間がリセットされ、延長も何度でも使えてしまう）
+      dangerTimer = Math.max(-dangerLimitSec(), Math.min(dangerLimitSec(), Number(sv.dg) || 0));
+      dangerExtended = sv.de === true;
+      dangerActive = sv.da === true && dangerTimer !== 0;
       sv.bodies.forEach(b => {
         const body = createElementBody(Number(b.x) || 0, Number(b.y) || 0, clampLevel(b.l));
         Body.setPosition(body, { x: Number(b.x) || 0, y: Number(b.y) || 0 });
@@ -4244,6 +4249,8 @@
     function gameLoopFrame(now) {
       const dt = Math.min((now - lastFrameTime) / 1000, 0.05);
       lastFrameTime = now;
+      // タイトル画面・続きから確認の間は、ゲームを止める（時間・溢れそう・ミッションが、裏で進まないように）
+      if (document.getElementById('titleOv') || document.getElementById('resumeOv')) return;
 
       // 1. キーボード左右キー押しっぱなしによる滑らかな慣性移動
       const moveDir = (keysHeld.right ? 1 : 0) - (keysHeld.left ? 1 : 0);
