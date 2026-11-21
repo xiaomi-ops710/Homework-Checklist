@@ -48,14 +48,20 @@ jobs:
 
             # 1つのフォルダに包まれていたら、その中身を使う
             src="$work"
+            dest="."
             mapfile -t top < <(find "$work" -mindepth 1 -maxdepth 1)
             if [ ${#top[@]} -eq 1 ] && [ -d "${top[0]}" ]; then
               src="${top[0]}"
+              # 包んでいたフォルダが beta なら、必ず beta/ の中へ入れる（ルートの正式版を上書きしない）
+              if [ "$(basename "$src")" = "beta" ]; then
+                dest="beta"
+              fi
             fi
             # ワークフローや git の設定は上書きしない
             rm -rf "$src/.github" "$src/.git"
 
-            cp -a "$src/." .
+            mkdir -p "$dest"
+            cp -a "$src/." "$dest/"
             git rm -q -f -- "$z"
           done
 
