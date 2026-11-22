@@ -303,13 +303,34 @@
     #settingsPanel .sp-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 44px; padding: 0 4px; font-weight: 900; color: #3b2108; font-size: 15px; background: none; border: 0; cursor: pointer; }
     #settingsPanel .sp-val { min-width: 96px; height: 36px; padding: 0 12px; border-radius: 999px; border: 2px solid rgba(92, 55, 17, 0.28); background: #fff; font-weight: 900; font-size: 14px; color: #3b2108; display: inline-flex; align-items: center; justify-content: center; }
     #settingsPanel .sp-wide { margin-top: 4px; height: 44px; border-radius: 14px; border: 0; background: #0284c7; color: #fff; font-weight: 900; font-size: 15px; box-shadow: 0 3px 0 #075985; cursor: pointer; }
-    #gameToast { position: fixed; top: 14px; left: 50%; transform: translateX(-50%); z-index: 55; pointer-events: none; padding: 6px 14px; border-radius: 999px; background: rgba(59, 33, 8, 0.8); color: #fff7ed; font-weight: 900; font-size: 14px; white-space: nowrap; opacity: 0; transition: opacity 0.25s ease; }
+    #gameToast { position: fixed; top: 64px; height: 44px; box-sizing: border-box; display: flex; align-items: center; left: 50%; transform: translateX(-50%); z-index: 55; pointer-events: none; padding: 0 18px; border-radius: 999px; background: rgba(59, 33, 8, 0.8); color: #fff7ed; font-weight: 900; font-size: 14px; white-space: nowrap; opacity: 0; transition: opacity 0.25s ease; }
     #gameToast.show { opacity: 1; }
+    /* タイトル画面の左上の戻るボタン（ゲーム画面の左上と同じ位置） */
+    .tt-back { position: fixed; top: 64px; left: 10px; z-index: 5; }
+    /* 遊び方のヘルプ（イラストつき） */
+    #helpOv { position: fixed; inset: 0; z-index: 9600; display: flex; align-items: center; justify-content: center; padding: 16px; background: rgba(40, 20, 0, 0.55); }
+    .hp-card { width: 100%; max-width: 560px; max-height: 88vh; display: flex; flex-direction: column; border-radius: 22px; background: #fff7e6; color: #451a03; box-shadow: 0 14px 40px rgba(0, 0, 0, 0.3); font-family: sans-serif; overflow: hidden; }
+    .hp-top { display: flex; align-items: center; justify-content: space-between; padding: 12px 12px 8px 20px; font-size: 19px; font-weight: 900; }
+    .hp-body { overflow-y: auto; padding: 0 18px 22px; display: grid; gap: 16px; }
+    .hp-sec h3 { margin: 0 0 6px; font-size: 16px; font-weight: 900; color: #92400e; }
+    .hp-sec p { margin: 0 0 8px; font-size: 14px; line-height: 1.7; }
+    .hp-ill { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; padding: 12px; border-radius: 16px; background: #fff; border: 2px solid rgba(146, 64, 14, 0.12); }
+    .hp-ball { display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: 900; box-shadow: inset -4px -6px 10px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.2); }
+    .hp-i { font-size: 26px; color: #92400e; }
+    .hp-steps { display: flex; align-items: center; gap: 6px; }
+    .hp-steps > div { display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: 13px; font-weight: 800; }
+    .hp-skills { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; width: 100%; }
+    .hp-skill { display: flex; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px; background: #fef3c7; font-weight: 800; font-size: 13px; }
+    .hp-cost { margin-left: auto; font-family: monospace; color: #b45309; }
+    .hp-box { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; }
+    .hp-redline { display: block; width: 100%; height: 0; border-top: 3px dashed #dc2626; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
+    .hp-note { font-size: 13px; color: #78350f; }
 
     /* 溢れそう：赤い縁の点滅・文字の明滅 */
-    #dangerVignette { position: absolute; inset: 0; pointer-events: none; z-index: 24; opacity: 0; background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0) 42%, rgba(220, 38, 38, 0.62) 100%); box-shadow: inset 0 0 70px 14px rgba(239, 68, 68, 0.55); transition: opacity 0.12s linear; }
-    #dangerBanner.dng-hot { animation: dngHot 0.45s ease-in-out infinite; }
-    @keyframes dngHot { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.35) saturate(1.3); } }
+    #dangerVignette { position: absolute; inset: 0; pointer-events: none; z-index: 24; opacity: 0; background: radial-gradient(ellipse at center, rgba(239, 68, 68, 0) 38%, rgba(220, 38, 38, 0.85) 100%); box-shadow: inset 0 0 90px 24px rgba(239, 68, 68, 0.8); transition: opacity 0.12s linear; }
+    #dangerBanner { background: #dc2626 !important; box-shadow: 0 0 0 4px #ffffff, 0 0 26px 8px rgba(239, 68, 68, 0.95) !important; }
+    #dangerBanner.dng-hot { animation: dngHot 0.35s ease-in-out infinite; }
+    @keyframes dngHot { 0%, 100% { filter: brightness(1); transform: translateX(-50%) scale(1); } 50% { filter: brightness(1.5) saturate(1.4); transform: translateX(-50%) scale(1.12); } }
   </style>
 </head>
 <body class="select-none" tabindex="0">
@@ -543,6 +564,7 @@
     <button id="titleBtn" type="button" class="gt-btn gt-title jelly-btn" title="タイトルに戻る"><span class="material-symbols-rounded">home</span><span>タイトルに戻る</span></button>
   </div>
   <div id="gameTopRight">
+    <button id="gtHelp" type="button" class="gt-btn jelly-btn" title="遊び方" aria-label="遊び方"><span class="material-symbols-rounded">help</span></button>
     <button id="gtSettings" type="button" class="gt-btn jelly-btn" title="設定" aria-label="設定"><span class="material-symbols-rounded">settings</span></button>
   </div>
   <div id="settingsPanel" hidden>
@@ -718,9 +740,9 @@
      *   「普通」は従来の遊び方と同じ。古い保存データ・既存のランキングは「普通」として扱います。
      */
     const DIFFICULTY_TABLE = {
-      easy:   { label: '簡単',   desc: 'スキルが安く、EPが貯まりやすい。箱が広く、溢れるまでも長め', skillCostMul: 0.8,  dangerLimitMul: 1.25, epGainMul: 1.2,  dropMin: 1, dropMax: 4, boxInset: -16, fillStep: 14, spawnCap: 6, mergeReach: 1.02 },
-      normal: { label: '普通',   desc: '標準の難しさ。箱が増えると大きい元素が出る',          skillCostMul: 1.0,  dangerLimitMul: 0.9,  epGainMul: 0.85, dropMin: 1, dropMax: 5, boxInset: 0,   fillStep: 9,  spawnCap: 8, mergeReach: 0.99 },
-      hard:   { label: '難しい', desc: '箱が狭く、玉が増えるほど大きい元素が出る。スキルは2.4倍、EPが貯まりにくく、溢れるのも早い', skillCostMul: 2.4,  dangerLimitMul: 0.6,  epGainMul: 0.35, dropMin: 4, dropMax: 6, boxInset: 70,  fillStep: 5,  spawnCap: 9, mergeReach: 0.95 }
+      easy:   { label: '簡単',   desc: 'スキルが安く、EPが貯まりやすい。箱が広く、溢れるまでも長め', skillCostMul: 0.8,  dangerLimitMul: 1.25, epGainMul: 1.2,  dropMin: 1, dropMax: 4, boxInset: -16, fillStep: 14, spawnCap: 5, mergeReach: 1.02 },
+      normal: { label: '普通',   desc: '標準の難しさ。箱が増えると大きい元素が出る',          skillCostMul: 1.0,  dangerLimitMul: 0.9,  epGainMul: 0.85, dropMin: 1, dropMax: 5, boxInset: 0,   fillStep: 9,  spawnCap: 5, mergeReach: 1.01 },
+      hard:   { label: '難しい', desc: '箱が狭く、玉が増えるほど大きい元素が出る。スキルは2.4倍、EPが貯まりにくく、溢れるのも早い', skillCostMul: 2.4,  dangerLimitMul: 0.6,  epGainMul: 0.35, dropMin: 4, dropMax: 6, boxInset: 70,  fillStep: 5,  spawnCap: 5, mergeReach: 0.95 }
     };
     const DIFFICULTY_ORDER = ['easy', 'normal', 'hard'];
     const DEFAULT_DIFFICULTY = 'normal';
@@ -901,7 +923,7 @@
       hard: 'chem_suika_jhs2_scores_v6_hard'
     };
     // このゲームの版（記録に入れる）。難しいのランキングは、この版以上で記録された点だけを出す
-    const MERGE_VER = '18.2.23';
+    const MERGE_VER = '18.2.24';
     const RANK_MIN_VER_BY_DIFF = { hard: '18.2.16' };
     // 版の番号どうしを比べる（例：18.2.16 は 18.2.15 より新しい）
     const verAtLeast = (v, min) => {
@@ -3773,6 +3795,50 @@
       celebrationTimeout = setTimeout(() => t.classList.remove('show'), 1800);
     }
 
+    // ===== 遊び方のヘルプ（イラストつき）=====
+    function hpBall(lv, px) {
+      const e = ELEMENTS[lv - 1];
+      return `<span class="hp-ball" style="width:${px}px;height:${px}px;font-size:${Math.round(px * 0.3)}px;background:radial-gradient(circle at 35% 30%, ${e.gradTop}, ${e.gradBot});color:${e.textColor}">${e.symbol}</span>`;
+    }
+    const hpI = (n) => `<span class="material-symbols-rounded hp-i">${n}</span>`;
+    function helpHtml() {
+      const arr = `<span class="material-symbols-rounded hp-i">arrow_forward</span>`;
+      const skill = (ic, t, c) => `<div class="hp-skill">${hpI(ic)}<span>${t}</span><span class="hp-cost">${c}</span></div>`;
+      return `
+        <section class="hp-sec"><h3>${hpI('stars')}遊び方のめあて</h3>
+          <p>同じ元素を2つくっつけると、ひとつ上の元素に変わります。大きい元素を作るほど、点数が高くなります。</p>
+          <div class="hp-ill">${hpBall(1, 44)}${hpBall(1, 44)}${arr}${hpBall(2, 56)}</div>
+        </section>
+        <section class="hp-sec"><h3>${hpI('touch_app')}落とし方</h3>
+          <p>画面を押したままずらすと、落とす場所が決まります。指を離すと、玉が落ちます。</p>
+          <div class="hp-ill hp-steps"><div>${hpI('touch_app')}<span>押す</span></div>${arr}<div>${hpI('swap_horiz')}<span>ずらす</span></div>${arr}<div>${hpI('arrow_downward')}<span>指を離す</span></div></div>
+        </section>
+        <section class="hp-sec"><h3>${hpI('warning')}あふれそうになったら</h3>
+          <p>箱の上の赤い線を、玉が越えたままになると、残り時間が減ります。0になると、ゲームが終わります。大きい玉を下に置いて、線の下に戻しましょう。残り時間は、難易度で変わります。</p>
+          <div class="hp-ill"><div class="hp-box">${hpBall(4, 40)}<span class="hp-redline"></span></div></div>
+        </section>
+        <section class="hp-sec"><h3>${hpI('bolt')}EPとスキル</h3>
+          <p>同じ元素をくっつけたり、化合が起きたりすると、EPがたまります。EPを使って、下のスキルを使えます（数字は、普通の難易度のときのEPです）。</p>
+          <div class="hp-skills">${skill('swap_horiz', '交換', '500')}${skill('local_fire_department', '噴火', '200')}${skill('colorize', '吸引', String(pipetteBase()))}${skill('auto_awesome', '触媒', '600')}</div>
+          <p class="hp-note" style="margin-top:8px">交換：今の元素と、次の元素を入れ替えます。噴火：箱を揺らして、玉どうしの合体をうながします。吸引：選んだ元素を1個消します。触媒：選んだ元素を、1段階上の元素にします。</p>
+        </section>
+        <section class="hp-sec"><h3>${hpI('science')}化合</h3>
+          <p>決まった組み合わせの元素が出会うと、化合が起きて、点数とEPが増えます。右のシンカの輪で、見つけた元素と化合を確認できます。</p>
+        </section>
+        <section class="hp-sec"><h3>${hpI('tune')}難易度・保存・BGM</h3>
+          <p>下のボタンで、簡単・普通・難しいを選べます（難しいほど、箱が狭く、大きい元素が早く出ます）。「途中保存」で、続きから遊べます。「やり直す」で、最初からになります。BGMは下のボタンで変えられます。</p>
+        </section>`;
+    }
+    function openHelp() {
+      if (document.getElementById('helpOv')) return;
+      const ov = document.createElement('div');
+      ov.id = 'helpOv';
+      ov.innerHTML = `<div class="hp-card" role="dialog" aria-label="遊び方"><div class="hp-top"><span>遊び方</span><button id="hpClose" type="button" class="gt-btn jelly-btn" aria-label="閉じる"><span class="material-symbols-rounded">close</span></button></div><div class="hp-body">${helpHtml()}</div></div>`;
+      document.body.appendChild(ov);
+      ov.addEventListener('click', (e) => { if (e.target === ov || e.target.closest('#hpClose')) closeHelp(); });
+    }
+    function closeHelp() { const ov = document.getElementById('helpOv'); if (ov) ov.remove(); ensureGameFocus(); }
+
     // 溢れそう：赤い縁の点滅・画面の揺れ・心臓の音（残り時間が少ないほど強く、速く）
     let dangerFxOn = false;
     let lastHeartAt = 0;
@@ -3783,7 +3849,7 @@
       const t = performance.now();
       if (on) {
         const pulse = 0.8 + 0.2 * Math.sin(t / (280 - 180 * p));
-        if (vig) vig.style.opacity = String(Math.min(1, (0.3 + 0.7 * p) * pulse));
+        if (vig) vig.style.opacity = String(Math.min(1, (0.5 + 0.5 * p) * pulse));
         const amp = 1 + 5 * p;
         gameCanvas.style.transform = `translate(${((Math.random() * 2 - 1) * amp).toFixed(2)}px, ${((Math.random() * 2 - 1) * amp * 0.6).toFixed(2)}px)`;
         if (bn) bn.classList.toggle('dng-hot', p > 0.5);
@@ -4349,10 +4415,16 @@
       const ov = document.createElement('div');
       ov.id = 'titleOv';
       ov.className = 'tt-ov tt2';
-      const paint = () => { ov.innerHTML = titleHtml(); };
+      const paint = () => { ov.innerHTML = `<button id="ttBack" type="button" class="gt-btn jelly-btn tt-back" title="戻る" aria-label="戻る"><span class="material-symbols-rounded">arrow_back</span></button>` + titleHtml(); };
       paint();
       document.body.appendChild(ov);
       ov.addEventListener('click', (e) => {
+        if (e.target.closest('#ttBack')) {
+          // 遊びの画面の中では、ツールの一覧へ戻る。ひとりで開いたときは、前の画面へ戻る
+          if (window.parent !== window) { try { window.parent.postMessage({ type: 'kosa-merge-quit' }, '*'); } catch (x) { } }
+          else if (window.history.length > 1) window.history.back();
+          return;
+        }
         const td = e.target.closest('[data-td]');
         if (td) {
           const d = normalizeDifficulty(td.dataset.td);
@@ -4543,9 +4615,9 @@
         ctx.save();
         const dgP = Math.max(0, Math.min(1, dangerTimer / dangerLimitSec()));
         ctx.strokeStyle = `rgba(239, 68, 68, ${0.45 + Math.sin(now * (0.02 + 0.04 * dgP)) * 0.35})`;
-        ctx.lineWidth = 3 + 3 * dgP;
+        ctx.lineWidth = 4 + 5 * dgP;
         ctx.shadowColor = 'rgba(239, 68, 68, 0.9)';
-        ctx.shadowBlur = 8 + 14 * dgP;
+        ctx.shadowBlur = 12 + 22 * dgP;
         ctx.setLineDash([8, 6]);
         ctx.beginPath();
         ctx.moveTo(BOX_LEFT + 6, DANGER_LINE_Y);
@@ -5021,6 +5093,7 @@
       else askTitleConfirm();
     });
     document.getElementById('gtSettings').addEventListener('click', () => { ensureGameFocus(); spPanel.hidden = !spPanel.hidden; spSync(); });
+    document.getElementById('gtHelp').addEventListener('click', () => { ensureGameFocus(); spPanel.hidden = true; openHelp(); });
     document.getElementById('spUi').addEventListener('click', () => { ensureGameFocus(); uiFocusMode = (uiFocusMode + 1) % 3; applyUiMode(); spSync(); });
     document.getElementById('spFace').addEventListener('click', () => { ensureGameFocus(); showKawaiiFaces = !showKawaiiFaces; updateNextPreviewUI(); spSync(); });
     document.getElementById('spSfx').addEventListener('click', () => { ensureGameFocus(); audio.toggleSfx(); spSync(); });

@@ -1391,6 +1391,21 @@ html.noanim .fr-sk-r i{animation:none}
 .fr-top{display:flex;justify-content:flex-end;margin:0 0 12px}
 .subbar{display:flex;align-items:center;gap:10px;margin:0 0 14px}
 .subbar h2{display:flex;align-items:center;gap:8px;margin:0;font-size:1.4rem}
+.subbar .subhelp{margin-left:auto}
+.ahp{display:grid;gap:16px}
+.ahp-sec h3{display:flex;align-items:center;gap:6px;margin:0 0 6px;font-size:1rem;font-weight:800}
+.ahp-sec p{margin:0 0 8px;line-height:1.7;font-size:.95rem}
+.ahp-row{display:flex;gap:10px;align-items:center;padding:10px 12px;border-radius:14px;background:var(--s2,#f1f5f9);margin-bottom:8px}
+.ahp-row.on{background:color-mix(in srgb,#fbbf24 24%,var(--s2,#f1f5f9))}
+.ahp-row b{display:block}
+.ahp-row small{opacity:.8}
+.ahp-chips{display:flex;flex-wrap:wrap;gap:8px}
+.ahp-chips span{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:var(--s2,#f1f5f9);font-size:.9rem}
+.ahp-note{display:block;margin-top:8px;opacity:.75;line-height:1.6}
+.ahp-stairs{display:flex;align-items:flex-end;gap:8px;margin:6px 0 2px}
+.ahp-st{flex:1;min-width:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding:6px 2px;border-radius:12px 12px 4px 4px;background:linear-gradient(#a78bfa,#6d28d9);color:#fff}
+.ahp-st b{font-size:.95rem}
+.ahp-st small{font-size:.72rem;opacity:.92}
 .subbar h2>.ms{color:var(--primary)}
 .fr-list{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 2px 12px;-webkit-overflow-scrolling:touch}
 .fr-list>*{flex:0 0 min(100%,520px);min-width:0;scroll-snap-align:start;margin:0!important}
@@ -2927,9 +2942,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.23';
-const BETA_VER = '18.2.23';
-const RELEASE_VER = '18.2.23'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.24';
+const BETA_VER = '18.2.24';
+const RELEASE_VER = '18.2.24'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3829,6 +3844,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.24', d: '2026/11/22 09:52', t: '元素マージに遊び方のヘルプ・実績とレベルのヘルプを追加・溢れそうの警告を強調', n: ['元素マージの遊び方と、実績・レベルの説明を、イラストつきで見られるようにしました', '溢れそうの赤い警告を見やすくしました'] },
   { v: '18.2.23', d: '2026/11/21 21:44', t: 'ゲームバランスの一部を調整', n: ['ゲームバランスの一部を調整しました'] },
   { v: '18.2.22', d: '2026/11/21 21:37', t: 'ゲームバランスの一部を調整', n: ['ゲームバランスの一部を調整しました'] },
   { v: '18.2.21', d: '2026/11/21 20:14', t: '元素マージのランキングを、ゲームオーバーのときすぐ反映・上部のボタンを下げて広げる・BGMに「ゆかいな自習室」を追加・更新履歴の日時を表示', n: ['元素マージで、ゲームオーバーになったとき、ゲームの中の友達ランキングにすぐ点数が反映されるようにしました','元素マージの上部のボタンを少し下げ、「タイトルに戻る」の横幅を広げて文字がはみ出ないようにしました','元素マージのBGMに「ゆかいな自習室」を追加しました。曲1〜6のあとにこの曲が流れ、そのあとオフになります','ツールの教科ボタンの「期末考査」を「勉強」に変えました','更新履歴の日付に「__BUILD__」と出ていたところを、リリースした日時に直しました'] },
@@ -4499,7 +4515,7 @@ const SUB_T = { ach: ['実績・レベル', 'emoji_events'], achall: ['実績', 
 const SUB_V = { ach: () => achPage(), achall: () => achAllPage(), shop: () => shopPage(), friends: () => friendsPage(), bgprev: () => bgPrevPage() };
 function subView() {
   const t = SUB_T[ui.sub], f = SUB_V[ui.sub]; if (!t || !f) return '';
-  return `<div class="subbar"><button type="button" class="ibtn" data-act="subback" aria-label="戻る">${ms('arrow_back')}</button><h2>${ms(t[1])}${t[0]}</h2></div>` + f();
+  return `<div class="subbar"><button type="button" class="ibtn" data-act="subback" aria-label="戻る">${ms('arrow_back')}</button><h2>${ms(t[1])}${t[0]}</h2>${ui.sub === 'ach' || ui.sub === 'achall' ? `<button type="button" class="ibtn subhelp" data-act="achhelp" aria-label="ヘルプ" title="ヘルプ">${ms('help')}</button>` : ''}</div>` + f();
 }
 // ===== レベルの上げ方（実績の画面と、ロックされた画面で、同じ案内を出す）=====
 // 目標のレベルまで、あと何XP必要か（レベルは、XPが 25×(L-1)² を超えると上がる）
@@ -4531,6 +4547,36 @@ function achNextHtml() {
   }).filter(Boolean).sort((a, b) => b.r - a.r).slice(0, 3);
   if (!list.length) return '';
   return `<h3 class="shop-h">あと少しで取れる実績</h3><div class="achn">${list.map(x => `<div class="achn-i">${ms(x.ic)}<div><b>${esc(x.name)}</b><small>${esc(x.desc)}・${Math.min(x.cur, x.goal).toLocaleString('ja-JP')} / ${x.goal.toLocaleString('ja-JP')}</small><div class="achn-bar"><i style="width:${Math.round(x.r * 100)}%"></i></div></div></div>`).join('')}</div>`;
+}
+// 実績とレベルの説明（イラストつき）
+function achHelpHtml() {
+  const row = (ic, tt, s2, on) => `<div class="ahp-row${on ? ' on' : ''}">${ms(ic, on ? 'f' : '')}<div><b>${tt}</b><small>${s2}</small></div></div>`;
+  const st = [[1, 0], [2, 25], [3, 100], [5, 400], [10, 2025]].map(([l, x]) => `<div class="ahp-st" style="height:${56 + l * 6}px"><b>Lv.${l}</b><small>${x.toLocaleString('ja-JP')} XP</small></div>`).join('');
+  return `<h2>${ms('help')}実績とレベルの説明</h2>
+  <div class="ahp">
+    <section class="ahp-sec"><h3>${ms('emoji_events')}実績（バッジ）</h3>
+      <p>課題を終わらせたり、毎日続けたりすると、実績が取れます。一度取った実績は消えません。</p>
+      ${row('local_fire_department', '3日連続で勉強', '取れた！', true)}${row('lock', 'レベル10到達', 'Lv.4 / 10 ・ あと少し', false)}
+    </section>
+    <section class="ahp-sec"><h3>${ms('bolt')}経験値（XP）</h3>
+      <p>やった分だけ、XPがたまります。</p>
+      <div class="ahp-chips"><span>${ms('task_alt')}課題を1つ終える <b>+20 XP</b></span><span>${ms('menu_book')}ページを1枚進める <b>+1 XP</b></span><span>${ms('timer')}勉強を1分する <b>+0.5 XP</b></span></div>
+      <small class="ahp-note">1日にもらえるXPには上限があります。毎日少しずつ続けるのが、いちばん確実です。</small>
+    </section>
+    <section class="ahp-sec"><h3>${ms('trending_up')}レベル</h3>
+      <p>XPがたまると、レベルが上がります。レベルが上がるほど、次に必要なXPは多くなります。</p>
+      <div class="ahp-stairs">${st}</div>
+      <small class="ahp-note">数字は、そのレベルになるまでに必要な、XPの合計です。</small>
+    </section>
+    <section class="ahp-sec"><h3>${ms('workspace_premium')}レベルの特典</h3>
+      <p>レベルが上がると、称号や色が増えて、ツールも使えるようになります。</p>
+      <div class="ahp-chips"><span>${ms('trending_up')}歴打（Lv5）</span><span>${ms('sports_esports')}元素マージ・しりとり（Lv7）</span><span>${ms('shopping_bag')}XPショップ</span></div>
+    </section>
+    <section class="ahp-sec"><h3>${ms('flag')}次のレベルまで</h3>
+      <p>「実績・レベル」の画面では、次のレベルまであと何XPか、どうやって稼ぐかを確認できます。</p>
+    </section>
+  </div>
+  <div class="dact"><button type="button" class="btn" data-act="close">閉じる</button></div>`;
 }
 function achPage() {
   const lv = level();
@@ -6742,6 +6788,7 @@ function evDlg(id, date) {
 }
 Object.assign(ACT, {
   achopen() { subGo('ach'); },
+  achhelp() { openDlg(achHelpHtml()); },
   achall() { subGo('achall'); },
   achf(id) { ACHF.f = id; render(); },
   frsub() { subGo('friends'); },
