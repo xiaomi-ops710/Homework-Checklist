@@ -2224,13 +2224,13 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .obm-sh-ic{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--s3)}
 
 /* ツール画面の教科ボタン（全教科・国語・数学・英語・社会・理科・期末考査） */
-.tsub-row{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tsub-row{position:sticky;top:calc(6px + env(safe-area-inset-top));z-index:5;background:var(--bg);display:flex;gap:10px;overflow-x:auto;padding:6px 2px 12px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 .tsub-row::-webkit-scrollbar{display:none}
 .tsub{flex:none;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:999px;border:1.5px solid rgba(29,27,42,.16);background:#fff;color:#1d1b2a;font-weight:800;font-size:15px;line-height:1;cursor:pointer}
 .tsub .material-symbols-rounded{font-size:20px}
-.tsub.on{background:#d3f1e6;border-color:transparent}
+.tsub.on{background:var(--tc,var(--primary));border-color:transparent;color:#fff}
 html[data-theme=dark] .tsub{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#f1edff}
-html[data-theme=dark] .tsub.on{background:rgba(110,220,180,.3);border-color:transparent;color:#eafff6}
+html[data-theme=dark] .tsub.on{background:var(--tc,var(--primary));border-color:transparent;color:#fff}
 #mgframe.ps-pin iframe{top:0;left:0;width:100%;height:100%}
 </style>
 <style id="tools-subj">
@@ -2520,6 +2520,10 @@ html[data-theme=dark] .tsub.on{background:rgba(110,220,180,.3);border-color:tran
   .gr-it-t small{color:var(--on-v);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
   .gr-head,.gr-row{display:grid;grid-template-columns:1.4fr 1fr auto 1fr 1fr auto;gap:6px;align-items:center}
   .gr-head{font-size:.78rem;font-weight:700;color:var(--on-v);margin:6px 0 4px}
+.gr-row input,#grk{font:inherit;font-weight:500;font-size:1rem;color:var(--on);background:var(--s3);border:0;border-radius:14px;height:50px;padding:0 12px;width:100%;min-width:0;outline:0;-webkit-appearance:none;appearance:none}
+.gr-row input:focus,#grk:focus{box-shadow:inset 0 0 0 2.5px var(--primary)}
+.gr-row input::placeholder,#grk::placeholder{color:var(--on-v);opacity:.7}
+.subedit-row{display:flex;justify-content:flex-end;margin:-4px 2px 10px}
   .gr-row{margin-bottom:6px}
   .gr-row input{min-width:0;width:100%}
   .gr-sl{text-align:center}
@@ -2959,9 +2963,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.25';
-const BETA_VER = '18.2.25';
-const RELEASE_VER = '18.2.25'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.26';
+const BETA_VER = '18.2.26';
+const RELEASE_VER = '18.2.26'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3022,7 +3026,7 @@ const BADGES = [
   ['wc200', 'psychology', '単語を200個覚えた', '単語帳で「覚えた」を200個', c => c.known >= 200, c => [c.known, 200]],
   ['tu5', 'build', 'ツールを5種類使った', '違うツールを5種類開く', c => c.tools >= 5, c => [c.tools, 5]],
   ['tu15', 'apps', 'ツール好き', '違うツールを15種類開く', c => c.tools >= 15, c => [c.tools, 15]],
-  ['lab10', 'experiment', '元素ハンター', '元素ラボの「くっつけてみよう」で10種類の物質を見つける', c => c.lab >= 10, c => [c.lab, 10]],
+  ['lab10', 'experiment', '物質ハンター', '元素ラボの「くっつけてみよう」で10種類の物質を見つける', c => c.lab >= 10, c => [c.lab, 10]],
   ['ps100', 'rocket_launch', 'シューティング100点', '元素シューティングで100点', c => c.ps >= 100, c => [c.ps, 100]],
   ['ps1000', 'military_tech', 'シューティング1000点', '元素シューティングで1000点', c => c.ps >= 1000, c => [c.ps, 1000]],
   ['inv1', 'sports_esports', '元素インベーダーに挑戦', '元素インベーダーを1回遊ぶ', c => c.invPlays >= 1, c => [c.invPlays, 1]],
@@ -3074,9 +3078,9 @@ const BADGES = [
   ['ivs50000', 'rocket_launch', 'インベーダー5万点', '元素インベーダーで1ゲーム5万点以上', c => c.ivb >= 50000, c => [c.ivb, 50000]],
   ['ivs100000', 'rocket_launch', 'インベーダー10万点', '元素インベーダーで1ゲーム10万点以上', c => c.ivb >= 100000, c => [c.ivb, 100000]],
   ['ps5000', 'military_tech', 'シューティング5000点', '元素シューティングで5000点', c => c.ps >= 5000, c => [c.ps, 5000]],
-  ['lab30', 'experiment', '元素ハンター上級', '元素ラボの「くっつけてみよう」で30種類の物質を見つける', c => c.lab >= 30, c => [c.lab, 30]],
-  ['lab60', 'experiment', '元素ハンター達人', '元素ラボの「くっつけてみよう」で60種類の物質を見つける', c => c.lab >= 60, c => [c.lab, 60]],
-  ['lab118', 'biotech', '全元素コンプリート', '元素ラボの「くっつけてみよう」で118種類すべての物質を見つける', c => c.lab >= 118, c => [c.lab, 118]],
+  ['lab30', 'experiment', '物質ハンター上級', '元素ラボの「くっつけてみよう」で30種類の物質を見つける', c => c.lab >= 30, c => [c.lab, 30]],
+  ['lab60', 'experiment', '物質ハンター達人', '元素ラボの「くっつけてみよう」で60種類の物質を見つける', c => c.lab >= 60, c => [c.lab, 60]],
+  ['lab118', 'biotech', '全物質コンプリート', '元素ラボの「くっつけてみよう」で、128種類すべての反応を見つける', c => c.labR >= 128, c => [c.labR, 128]],
   ['t200', 'task_alt', '課題200個', '課題を200個完了', c => c.done >= 200, c => [c.done, 200]],
   ['p3000', 'menu_book', '3000ページ', '累計3000ページ', c => c.pages >= 3000, c => [c.pages, 3000]],
   ['p10000', 'auto_stories', '10000ページ', '累計10000ページ', c => c.pages >= 10000, c => [c.pages, 10000]],
@@ -3473,7 +3477,7 @@ function totals() {
   const subDone = S.subjects.filter(s => { const ts = tasksOfSub(s.id); return ts.length && ts.every(isDone); }).length;
   return { pages, min, best, done: S.tasks.filter(isDone).length, streak: streak(), bestStreak: bestStreak(),
     subClear: subDone > 0, subDone, reqClear: rq.length > 0 && rq.every(isDone), xp, lv: Math.floor(Math.sqrt(xp / 25)) + 1,
-    known: (S.cards || []).filter(c => c.k).length, tools: tuList().length, lab: safeN(() => labSubs().size), ps: safeN(() => PS.best), invPlays: invStat().plays || 0, invHits: invStat().hits || 0, rk: rkStat().best || 0, rkt: rkStat().total || 0, rkp: rkStat().plays || 0, rkh: rkStat().hard || 0, mgp: mgStat().plays || 0, mgb: mgStat().best || 0, mgl: mgStat().maxLv || 0, ivb: invStat().best || 0 };
+    known: (S.cards || []).filter(c => c.k).length, tools: tuList().length, lab: safeN(() => labSubs().size), labR: safeN(() => labReactCount()), ps: safeN(() => PS.best), invPlays: invStat().plays || 0, invHits: invStat().hits || 0, rk: rkStat().best || 0, rkt: rkStat().total || 0, rkp: rkStat().plays || 0, rkh: rkStat().hard || 0, mgp: mgStat().plays || 0, mgb: mgStat().best || 0, mgl: mgStat().maxLv || 0, ivb: invStat().best || 0 };
 }
 function level() {
   const c = totals(), xp = c.xp; let L = c.lv;
@@ -3866,6 +3870,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.26', d: '2026/11/22 13:45', t: '実績の名前を物質に・全物質コンプリートを反応128で数える・元素マージの難しいをくっつきやすく・課題タブで教科を編集・ツールの教科ボタンを固定・テストの入力画面をそろえる', n: ['実績「全物質コンプリート」は、見つけた反応の数（128）で数えるようにしました', '実績の名前を「元素」から「物質」に直しました（物質ハンター・物質ハンター上級・物質ハンター達人・全物質コンプリート）', '元素マージの「難しい」は、同じ元素がくっつきやすくなりました（普通よりは少しくっつきにくいままです）', '課題タブから、教科の名前や色などを編集できるようになりました', 'ツールタブの教科のボタンは、下にスクロールしても上に残り、選んだ教科の色になります', 'テストの点数を記録する画面の入力欄を、ほかの画面と同じデザインにしました'] },
   { v: '18.2.25', d: '2026/11/22 10:32', t: 'AIにアプリの使い方を聞けるように・AIのおすすめを行動に合わせて・初めての人は主要教科を追加済みに・特典の一覧を完全に・見た目の調整', n: ['AIに、このアプリの使い方（課題の追加など）を聞けるようにしました', 'AIのおすすめの質問を、課題や期限、考査の状況に合わせて4つまで出すようにしました', '初めて使う人は、国語・数学・英語・理科・社会が最初から入っています', '課題がないときの「課題を追加」ボタンを分かりやすくしました', '課題のリンク欄の見た目を、ほかの入力欄にそろえました', 'レベルごとの特典に、AIのモデルなどを書き足しました', '更新中の画面は、アイコンが回らず、まわりの図形だけが動くようにし、いまの作業を表示しました', 'アップデートの表示・壁紙などのプレビューで、アイコンを中央にそろえました', '下のバーが、一部の画面で動かないように直しました'] },
   { v: '18.2.24', d: '2026/11/22 09:52', t: '元素マージに遊び方のヘルプ・実績とレベルのヘルプを追加・溢れそうの警告を強調', n: ['元素マージの遊び方と、実績・レベルの説明を、イラストつきで見られるようにしました', '溢れそうの赤い警告を見やすくしました'] },
   { v: '18.2.23', d: '2026/11/21 21:44', t: 'ゲームバランスの一部を調整', n: ['ゲームバランスの一部を調整しました'] },
@@ -4252,6 +4257,7 @@ function viewTasks() {
     <div class="search">${ms('search')}<input id="q" type="search" placeholder="課題名・メモで検索" value="${esc(ui.q)}" enterkeyhint="search"></div>
     <div class="chips scroll">${F.map(([id, l]) => `<button class="chip ${ui.filter === id ? 'on' : ''}" data-act="filter" data-id="${id}">${id === 'pin' ? ms('star', 'f') : ''}${l}</button>`).join('')}</div>
     <div class="chips scroll"><button class="chip ${!ui.sid ? 'on' : ''}" data-act="sid" data-id="">全教科</button>${subs.map(s => `<button class="chip sc ${ui.sid === s.id ? 'on' : ''}" style="--sh:${s.hue}" data-act="sid" data-id="${s.id}">${ms(s.icon)}${esc(s.name)}</button>`).join('')}</div>
+    ${ui.sid ? `<div class="subedit-row"><button class="btn tonal xs" data-act="editsubj" data-id="${ui.sid}">${ms('edit')}この教科を編集</button></div>` : ''}
     <div class="tbar" ${tv === 'due' ? 'hidden' : ''}><label class="muted" for="sort" style="font-weight:600;font-size:.8rem">並び順</label><select id="sort">${[['due', '期限が近い順'], ['rem', '残りが多い順'], ['req', '必須を先に'], ['new', '登録順']].map(([v, l]) => `<option value="${v}" ${ui.sort === v ? 'selected' : ''}>${l}</option>`).join('')}</select></div>
   </div><div id="tl">${taskList()}</div>`;
 }
@@ -4283,7 +4289,7 @@ function taskList() {
     if (!ts.length && filtering) continue;
     any = true;
     const a = agg(scoped(base)), col = ui.collapsed[s.id];
-    html += `<section class="grp sc ${col ? 'col' : ''}" style="--sh:${s.hue}"><div class="ghead"><button class="gt rp" data-act="collapse" data-id="${s.id}" aria-expanded="${!col}">${avatar(s, 48)}<div style="min-width:0"><h2>${esc(s.name)}</h2><div class="gs"><span>残り ${a.rem}p ・ ${a.nd}/${a.n}冊完了</span>${examTag(s)}</div></div><span class="pc">${a.total ? pct(a.p) + '%' : ''}</span><span class="chev">${ms('expand_more')}</span></button><button class="btn tonal xs" data-act="addtask" data-id="${s.id}">${ms('add')}課題</button></div>`;
+    html += `<section class="grp sc ${col ? 'col' : ''}" style="--sh:${s.hue}"><div class="ghead"><button class="gt rp" data-act="collapse" data-id="${s.id}" aria-expanded="${!col}">${avatar(s, 48)}<div style="min-width:0"><h2>${esc(s.name)}</h2><div class="gs"><span>残り ${a.rem}p ・ ${a.nd}/${a.n}冊完了</span>${examTag(s)}</div></div><span class="pc">${a.total ? pct(a.p) + '%' : ''}</span><span class="chev">${ms('expand_more')}</span></button><button class="ibtn" data-act="editsubj" data-id="${s.id}" aria-label="教科を編集">${ms('edit')}</button><button class="btn tonal xs" data-act="addtask" data-id="${s.id}">${ms('add')}課題</button></div>`;
     if (!col) html += ts.length ? `<div class="tgrid stg">${ts.map(t => taskCard(t, s)).join('')}</div>` : `<div class="card" style="text-align:center;display:grid;justify-items:center;gap:10px;padding:18px 16px"><p class="muted" style="margin:0;font-weight:500">課題が登録されていません</p><button class="btn" data-act="addtask" data-id="${s.id}">${ms('add_task')}課題を追加</button></div>`;
     html += `</section>`;
   }
@@ -7264,7 +7270,7 @@ function viewTools() {
   const tl = ui.tool || '';
   const card = ([id, l, i, d, h]) => `<button class="tcard sc${id === 'rekida' ? ' rk-tcard' : ''}${['rekida', 'ptable', 'card', 'merge'].includes(id) ? ' pop' : ''}${id === 'ptable' || id === 'card' ? ' lux lux-' + id : ''}${id === 'merge' ? ' lux lux-merge' : ''}" style="--sh:${h}" data-act="tool" data-id="${id}">${['rekida', 'ptable', 'card', 'merge'].includes(id) ? '<span class="tc-pop">人気</span>' : ''}<span class="tc-i${id === 'merge' ? ' mgt' : ''}">${id === 'merge' ? mgTileIcon() : ms(i, '', 'font-size:32px')}</span><b>${l}</b><span>${d}</span></button>`;
   if (!tl) {
-    const SUBJ_ORDER = [['数学', 'calculate', '#2563eb'], ['英語', 'translate', '#db2777'], ['理科', 'science', '#059669'], ['社会', 'public', '#b45309'], ['国語', 'menu_book', '#7c3aed'], ['勉強', 'library_books', '#475569']];
+    const SUBJ_ORDER = [['数学', 'calculate', '#2563eb'], ['英語', 'translate', '#db2777'], ['理科', 'science', '#059669'], ['社会', 'public', '#b45309'], ['国語', 'menu_book', '#dc2626'], ['勉強', 'library_books', '#475569']];
     const subjOf = t => TOOL_SUBJ[t[0]] || '勉強';
     const POP = ['rekida', 'ptable', 'card', 'merge'];
     const byPop = list => list.slice().sort((a, b) => (POP.includes(b[0]) ? 1 : 0) - (POP.includes(a[0]) ? 1 : 0));
@@ -7273,7 +7279,8 @@ function viewTools() {
     const SUB_CHIPS = [['all', '全教科', ''], ['国語', '国語', 'menu_book'], ['数学', '数学', 'calculate'], ['英語', '英語', 'translate'], ['社会', '社会', 'public'], ['理科', '理科', 'science'], ['期末考査', '勉強', 'menu_book']];
     const SUB_OF = { '国語': '国語', '数学': '数学', '英語': '英語', '社会': '社会', '理科': '理科', '期末考査': '勉強' };
     const subNow = ui.tsub || 'all';
-    const chips = `<div class="tsub-row" role="group" aria-label="教科で絞る">${SUB_CHIPS.map(([k, l, ic]) => `<button type="button" class="tsub${subNow === k ? ' on' : ''}" data-act="tsub" data-id="${k}">${ic ? ms(ic) : ''}${l}</button>`).join('')}</div>`;
+    const colOfSub = k => k === 'all' ? 'var(--primary)' : ((SUBJ_ORDER.find(x => x[0] === SUB_OF[k]) || [])[2] || 'var(--primary)');
+    const chips = `<div class="tsub-row" role="group" aria-label="教科で絞る">${SUB_CHIPS.map(([k, l, ic]) => `<button type="button" class="tsub${subNow === k ? ' on' : ''}" style="--tc:${colOfSub(k)}" data-act="tsub" data-id="${k}">${ic ? ms(ic) : ''}${l}</button>`).join('')}</div>`;
     return chips
       + (subNow === 'all' ? sec('人気', 'local_fire_department', '#e11d48', ['card', 'merge', 'rekida', 'ptable'].map(id => TOOLS.find(x => x[0] === id))) : '')
       + SUBJ_ORDER.filter(([name]) => subNow === 'all' || name === SUB_OF[subNow]).map(([name, icon, col]) => { const list = TOOLS.filter(t => subjOf(t) === name); return list.length ? sec(name, icon, col, byPop(list)) : ''; }).join('');
