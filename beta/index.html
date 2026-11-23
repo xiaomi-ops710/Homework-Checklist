@@ -228,7 +228,7 @@ body.tmo #mchip.show{z-index:70;right:auto;left:0;right:0;margin:0 auto;width:ma
 body.set-full #acct{display:none!important}
 body.set-full #main{padding:0!important;max-width:none!important;margin:0!important}
 body.set-full #view{max-width:none!important;margin:0!important}
-body.set-full #nav{border-radius:0!important}
+html:not([data-nav=bottom]) body.set-full #nav{border-radius:0!important}
 @media (max-width:699px){body.set-full #main{padding-bottom:calc(92px + env(safe-area-inset-bottom))!important}}
 .set2{min-height:100dvh}
 .set2 .set-page{max-width:none!important;margin:0!important}
@@ -253,10 +253,10 @@ body.set-full #nav{border-radius:0!important}
 .set-subback{display:inline-grid}
 .set-page.set-det{padding:0 32px 64px;min-width:0;background:var(--bg)}
 .set-page.set-det .set-dbody{display:grid;gap:0}
-.set-page.set-det .h-sec{margin:20px 24px 6px}
+.set-page.set-det .h-sec{margin:8px 24px 4px}
 .set-page.set-det .h-sec h2{font-size:.875rem;font-weight:500;letter-spacing:.01em;color:var(--primary)}
 .set-page.set-det .h-sec h2 .ms{display:none}
-.set-page.set-det .card{display:grid;gap:2px;padding:0;margin:0 0 4px;border-radius:28px;overflow:hidden;background:transparent}
+.set-page.set-det .card{display:grid;gap:2px;padding:0;margin:0;border-radius:28px;overflow:hidden;background:transparent}
 .set-page.set-det .card>*{background:var(--s1);margin:0}
 .set-page.set-det .card>*:not(.setrow){padding:18px 24px;font-size:1rem;line-height:1.5}
 .set-page.set-det .setrow{display:flex;align-items:center;gap:20px;width:100%;min-height:78px;padding:16px 24px!important;border:0;border-radius:0;background:var(--s1);color:var(--on);font:inherit;text-align:left}
@@ -313,6 +313,42 @@ body.set-full #nav .ni.on .pill,body.set-full #nav .nbadge{animation:none!import
 .set-page.set-det .fld .lbl{font-size:.9rem;color:var(--on-v);margin:0 0 10px}
 .set-page.set-det .fld small{display:block;margin-top:10px;font-size:.875rem;line-height:1.5}
 @media (max-width:719px){.pick-grid{padding:16px}}
+.set-page.set-det .card+.card{margin-top:6px}
+/* 項目が「オン」のとき：ボタンの色と同じにならないように、白い線と濃い丸にする */
+.set-master .sw2 input:checked+.tr{background:var(--on-primary)}
+.set-master .sw2 input:checked+.tr .th{background:var(--primary);color:var(--on-primary)}
+/* データなどのボタン：楕円だけで囲まず、項目の行と同じ幅・高さ・揃え方にする */
+.set-page.set-det .card .chips{display:grid;gap:2px;padding:0;margin:0}
+.set-page.set-det .card .chips>.btn{display:flex;align-items:center;justify-content:flex-start;gap:16px;width:100%;min-height:76px;padding:0 24px;border:0;border-radius:0;background:var(--s1);color:var(--on);font-size:1rem;font-weight:500;text-align:left}
+.set-page.set-det .card .chips>.btn .ms{color:var(--on-v);font-size:24px;flex:none}
+.set-page.set-det .setrow.on{background:var(--pc);color:var(--on-pc)}
+.set-page.set-det .setrow.on .t small{color:var(--on-pc)}
+/* 大きなイラスト（項目の先頭） */
+.set-ill{display:grid;place-items:center;height:150px;margin:8px 24px 12px;border-radius:36px;background:color-mix(in srgb,var(--cc,var(--primary)) 38%,var(--s1))}
+.set-page.set-det .set-ill .ms{font-size:76px;color:#2b1d12;font-variation-settings:'FILL' 1}
+/* 本家のようなアップデート画面 */
+.upd-hero{display:grid;place-items:center;padding:12px 24px 0;color:var(--primary)}
+.upd-hero svg{width:120px;height:120px}
+.upd-h{margin:8px 24px 4px;font-size:1.5rem;font-weight:500;line-height:1.3}
+.upd-p{margin:0 24px 18px;font-size:.95rem;color:var(--on-v);line-height:1.5}
+/* 左の上のGoogleアカウント */
+.set-acct{display:flex;align-items:center;gap:14px;width:100%;margin:0 0 14px;padding:12px 16px;border:0;border-radius:28px;background:var(--s1);color:var(--on);font:inherit;text-align:left;cursor:pointer}
+.set-av{width:48px;height:48px;border-radius:50%;background:var(--pc);color:var(--on-pc);display:grid;place-items:center;font-weight:600;font-size:1.1rem;overflow:hidden;flex:none}
+.set-av img{width:100%;height:100%;object-fit:cover}
+.set-acct .set-ct b{font-size:1rem;font-weight:500}
+/* 折りたたみ（ツール一覧の整理） */
+.set-more{margin:14px 4px 0}
+.set-more>summary{list-style:none;cursor:pointer;padding:12px 4px;font-weight:500;color:var(--primary)}
+.set-more>summary::-webkit-details-marker{display:none}
+.set-more[open]>summary{color:var(--on)}
+/* イラスト付きの選択肢（バーの位置） */
+.pick-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.pick .ph.ill-auto{background:linear-gradient(90deg,#f6f7fb 30%,#e5e9f2 30%)}
+.pick .ph.ill-bottom{background:#f6f7fb}
+.pick .ph.ill-auto i{position:absolute;left:0;top:0;bottom:0;right:auto;width:26px;height:auto;border-radius:0 14px 14px 0;background:#9aa6bd}
+.pick .ph.ill-bottom i{position:absolute;left:12px;right:12px;top:auto;bottom:14px;height:26px;border-radius:14px;background:#9aa6bd}
+.pick.dark .ph.ill-auto{background:linear-gradient(90deg,#15181f 30%,#2a3040 30%)}
+.pick.dark .ph.ill-bottom{background:#15181f}
 [hidden].setrow,[hidden].srow,[hidden].card{display:none!important}
 
 /* ===== 17.10：連続日数の位置・挨拶と豆知識・ヘッダーの高さ・設定の余白 ===== */
@@ -3035,8 +3071,8 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
 const STABLE_VER = '18.2.30';
-const BETA_VER = '18.2.30';
-const RELEASE_VER = '18.2.30'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.2.31';
+const RELEASE_VER = '18.2.31'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3942,6 +3978,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.31', d: '2026/11/23 16:00', t: '（ベータ版）設定の追加と整理：ホーム・AI先生の設定、アップデート画面を本家のように、データのボタンを行に、タブバーの角・隙間・オン時の色を修正', n: ['ホームの設定：挨拶と豆知識の切り替え・挨拶が変わる速さ・よく使うツール', 'AI・先生の設定：先生の性格・教え方・学年（イラスト付きの一覧）', '左の一覧の上に、Googleアカウントの行', 'ナビゲーションバーの位置を一つにまとめ、イラストで選べるように', 'バーに置くツールは折りたたみにして、一覧を整理', 'タブバーを下にしたとき、横も四角くなる問題を修正', 'データなどの楕円ボタンを、行の形に揃えた', '項目が「オン」のとき、ボタンの色と同化する問題を修正', 'アップデート画面を、本家Androidの「システム アップデート」の形に'] },
   { v: '18.2.30', d: '2026/11/23 15:40', t: '設定の操作で画面が出るアニメーションを止め、設定を見直し（ダークモード・文字のサイズはイラスト付きに・ツールと集計の設定を追加・項目が少ないものは一覧を使わない）', n: ['設定でボタンを押すたびに出ていたアニメーション（タブバーの丸い印・項目の出現）を止めた', 'ダークモード・文字のサイズを、イラスト付きの大きな選択肢にした', '考査と教科・ナビゲーションバー・データ・ツールと集計は、一覧を使わず中身をそのまま表示', '「ツールと集計」を追加：クイズの問題数・選択肢の数・出しかた、集計の対象、タイピングの次の問題へ進みかた', 'ナビゲーションバーに、表示する場所（自動・下に固定）を追加', '左の一覧の幅を狭くした・余白を詰めた・データの項目の隙間を縮めた'] },
   { v: '18.2.29', d: '2026/11/23 15:00', t: '設定を本家Androidのように作り直し（項目を開くと、その項目だけの設定ページ・左の項目の形と塗り・検索バーとスイッチを大きく・iPadの左のタブが丸くならない・文字の位置の修正）', n: ['右の中身：項目の一覧から、タップするとその項目だけの設定ページ（例：カスタマイズ→ダークモード・色・文字のサイズ・アニメーションなど）', '項目のページの上に、Androidのような大きな切り替えバー（アニメーションなど）', '左の一覧：アイコンは塗りつぶし、開いている項目は丸い形・開いていない項目は角の丸い形', '左の文字（項目名・説明）の大きさを調整、検索バーは高さ64px、スイッチは少し大きく', 'データ・情報の文字が左に寄って隠れる問題を直した', 'iPadの左のタブバーの角が丸くならず、隙間ができないようにした'] },
   { v: '18.2.28', d: '2026/11/23 14:10', t: '設定画面をAndroidのタブレット設定に近づけて作り直し（左右の余白を消す・左は検索と項目の丸い枠・右は項目ごとのグループ・境界線をなくし背景の色で分ける・情報は、バージョン・アップデート・動作と診断に分ける）', n: ['設定の左右の余白を消し、画面いっぱいに表示', '左の一覧：検索バーを高さ56pxの丸い形に、各項目は角丸の枠・円は52px・アイコンは塗りつぶさない線の形に、矢印（＞）は外す', '右の中身：Androidのように項目ごとにグループ化、見出しは小さな青字（アイコンなし）、項目の間は2pxの隙間', '左と右を分ける線をなくし、背景の色で分ける', '情報の画面：バージョン・使い方・更新履歴／アップデート／動作と診断に分けた'] },
@@ -4770,8 +4807,8 @@ const numRow = (key, title, sub, min, max, unit, def) => `<div class="setrow"><s
 function navSettings() {
   const l = navList(), pin = navPinned(), rest = TOOLS.filter(t => !pin.includes(t[0]));
   const rows = l.map((id, i) => { const [lb, ic] = navInfo(id), tl = id.startsWith('tool:'); return `<div class="srow nvr"><span class="nvi">${ic === 'auto_awesome' ? gem(24) : ms(ic)}</span><div class="t">${esc(lb)}<small>${tl ? 'ツール' : '基本の画面'}</small></div><button class="ibtn" data-act="navup" data-id="${id}" ${i === 0 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を上（左）へ">${ms('keyboard_arrow_up')}</button><button class="ibtn" data-act="navdown" data-id="${id}" ${i === l.length - 1 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を下（右）へ">${ms('keyboard_arrow_down')}</button>${tl ? `<button class="ibtn" data-act="navdel" data-id="${id}" aria-label="${esc(lb)}をバーから外す">${ms('close')}</button>` : '<span style="width:48px;flex:none"></span>'}</div>`; }).join('');
-  const add = isPhoneUI() ? '<p class="muted" style="margin:14px 4px 0;font-weight:500">スマホでは、下のバーは決まった画面だけです。ツールは、ホームの「よく使うツール」か、ツール一覧から開けます。</p>' : pin.length >= NAV_MAXTOOLS ? `<p class="muted" style="margin:14px 4px 0;font-weight:500">ツールは${NAV_MAXTOOLS}つまで置けます。入れ替えるときは、先に × で外してください。</p>` : `<div class="lbl" style="margin:16px 4px 8px">バーに置くツールを選ぶ（あと${NAV_MAXTOOLS - pin.length}つ）</div><div class="tchips" style="margin:0">${rest.map(t => `<button class="tchip" data-act="navadd" data-id="${t[0]}">${ms(t[2])}${esc(t[1])}</button>`).join('')}</div>`;
-  return `<div class="card"><div class="fld"><div class="lbl">バーの位置</div><div class="seg">${[['auto', '自動', 'devices'], ['bottom', '下に固定', 'dock_to_bottom']].map(([v, l, i]) => `<button class="${(S.set.navPos || 'auto') === v ? 'on' : ''}" data-act="navpos" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div><p class="muted" style="margin:6px 4px 0;font-weight:500;font-size:.88rem">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div><p class="muted" style="margin:14px 4px 12px;font-weight:500">上から順に、バーに並びます。</p><div class="slist">${rows}</div>${add}<div class="dact" style="margin:18px 0 0;justify-content:flex-start"><button class="btn tonal" data-act="hometools">${ms('apps')}ホームによく使うツールを選ぶ</button><button class="btn tonal" data-act="homeedit">${ms('dashboard_customize')}ホームの配置を編集</button><button class="btn tonal" data-act="recmgr">${ms('event_repeat')}くり返しの課題</button></div></div>`;
+  const add = isPhoneUI() ? '<p class="muted" style="margin:14px 4px 0;font-weight:500">スマホでは、下のバーは決まった画面だけです。ツールは、ホームの「よく使うツール」か、ツール一覧から開けます。</p>' : pin.length >= NAV_MAXTOOLS ? `<p class="muted" style="margin:14px 4px 0;font-weight:500">ツールは${NAV_MAXTOOLS}つまで置けます。入れ替えるときは、先に × で外してください。</p>` : `<details class="set-more"><summary>バーに置くツールを選ぶ（あと${NAV_MAXTOOLS - pin.length}つ）</summary><div class="tchips" style="margin:12px 0 0">${rest.map(t => `<button class="tchip" data-act="navadd" data-id="${t[0]}">${ms(t[2])}${esc(t[1])}</button>`).join('')}</div></details>`;
+  return `<p class="muted" style="margin:14px 4px 12px;font-weight:500">上から順に、バーに並びます。</p><div class="slist">${rows}</div>${add}<div class="dact" style="margin:18px 0 0;justify-content:flex-start"><button class="btn tonal" data-act="hometools">${ms('apps')}ホームによく使うツールを選ぶ</button><button class="btn tonal" data-act="homeedit">${ms('dashboard_customize')}ホームの配置を編集</button><button class="btn tonal" data-act="recmgr">${ms('event_repeat')}くり返しの課題</button></div></div>`;
 }
 // 設定：左に一覧（検索つき）、右に選んだ項目の中身。iPadは2画面、スマホは一覧→項目の順に開く
 const SET_CATS = [
@@ -4779,6 +4816,8 @@ const SET_CATS = [
   { id: 'timer', t: '集中タイマー', s: '集中・休憩の長さと、1日の目標', ic: 'timer', c: '#fdba74' },
   { id: 'look', t: 'カスタマイズ', s: '今の見た目と演出', ic: 'palette', c: '#fed7aa' },
   { id: 'tools', t: 'ツールと集計', s: 'クイズ・集計・タイピング', ic: 'quiz', c: '#c7d2fe' },
+  { id: 'home', t: 'ホーム', s: '挨拶・豆知識・よく使うツール', ic: 'home', c: '#fecaca' },
+  { id: 'ai', t: 'AI・先生', s: '先生の性格・教え方・学年', ic: 'auto_awesome', c: '#ddd6fe' },
   { id: 'nav', t: 'ナビゲーションバー', s: 'タブの並びと表示', ic: 'dock_to_right', c: '#86efac' },
   { id: 'data', t: 'データ', s: 'アカウントと同期・バックアップと復元', ic: 'database', c: '#fde68a' },
   { id: 'info', t: '情報', s: 'バージョン・アップデート・動作と診断・使い方', ic: 'info', c: '#bfdbfe' },
@@ -4786,7 +4825,7 @@ const SET_CATS = [
 function viewSettings() {
   const wide = window.matchMedia('(min-width: 720px)').matches;
   const cat = ui.setCat || (wide ? 'exam' : '');
-  return `<div class="set2${cat ? ' has-cat' : ''}"><aside class="set-nav"><label class="set-q">${ms('search')}<input id="setq" type="search" placeholder="設定を検索" autocomplete="off" aria-label="設定を検索"></label><div class="set-cats">${SET_CATS.map((c, i) => `<button type="button" class="set-cat${c.id === cat ? ' on' : ''}${[0, 2].includes(i) ? ' grp' : ''}" data-act="setcat" data-id="${c.id}" style="--cc:${c.c}"><span class="set-ci">${ms(c.ic)}</span><span class="set-ct"><b>${c.t}</b><small>${c.s}</small></span></button>`).join('')}</div></aside><section class="set-det set-page">${cat ? setDetHtml(cat) : ''}</section></div>`;
+  return `<div class="set2${cat ? ' has-cat' : ''}"><aside class="set-nav"><label class="set-q">${ms('search')}<input id="setq" type="search" placeholder="設定を検索" autocomplete="off" aria-label="設定を検索"></label>${setAcctHtml()}<div class="set-cats">${SET_CATS.map((c, i) => `<button type="button" class="set-cat${c.id === cat ? ' on' : ''}${[0, 2].includes(i) ? ' grp' : ''}" data-act="setcat" data-id="${c.id}" style="--cc:${c.c}"><span class="set-ci">${ms(c.ic)}</span><span class="set-ct"><b>${c.t}</b><small>${c.s}</small></span></button>`).join('')}</div></aside><section class="set-det set-page">${cat ? setDetHtml(cat) : ''}</section></div>`;
 }
 const setLnk = (act, ic, t, sub) => `<button type="button" class="setrow setlnk" data-act="${act}"><span class="ric">${ms(ic)}</span><span class="t">${t}<small>${sub}</small></span>${ms('chevron_right')}</button>`;
 const setItemLnk = it => it.act ? setLnk(it.act, it.ic, it.t, it.s) : `<button type="button" class="setrow setlnk" data-act="setsub" data-id="${it.id}"><span class="ric">${ms(it.ic)}</span><span class="t">${it.t}<small>${it.s}</small></span>${ms('chevron_right')}</button>`;
@@ -4819,6 +4858,15 @@ const SET_ITEMS = {
     { id: 'wx', t: '今日の天気をホームに出す', s: '位置情報を使います', ic: 'wb_sunny', master: 'wx', note: '位置情報を使います（一度だけ確認します）', body: () => '' },
     { id: 'conf', t: '完了時の演出', s: '課題を終えたとき紙吹雪', ic: 'celebration', master: 'confetti', note: '課題を終えたとき紙吹雪を表示します', body: () => '' },
   ],
+  home: [
+    { id: 'greet', t: '挨拶と豆知識', h: true, ic: 'waving_hand', body: () => { const c = rotCfg(); const rows = [['greet', '挨拶を出す', '時間帯にあわせた挨拶を、ホームの一番上に出します'], ['tip', '豆知識を出す', '勉強に役立つ小さな話を出します'], ['personal', '自分の記録にあわせた文', '課題や勉強の記録から、ひとことを出します'], ['card', '単語帳のカードから出す', '単語帳の言葉を、挨拶の代わりに出します'], ['own', '自分で書いた文を出す', '下の「挨拶の文」で書いた文を出します']]; return `<div class="card">${rows.map(([k, t, d]) => `<button type="button" class="setrow${c.on[k] ? ' on' : ''}" data-act="greettog" data-id="${k}"><span class="t">${t}<small>${d}</small></span><span class="sw2" style="pointer-events:none"><input type="checkbox" tabindex="-1" ${c.on[k] ? 'checked' : ''}><span class="tr"><span class="th">${ms('close')}${ms('check')}</span></span></span></button>`).join('')}</div><div class="card"><div class="fld"><div class="lbl">挨拶が変わる速さ</div><div class="seg">${[[5, '5秒'], [15, '15秒'], [60, '1分'], [0, '固定']].map(([v, t]) => `<button type="button" class="${c.speed === v ? 'on' : ''}" data-act="greetspd" data-id="${v}">${t}</button>`).join('')}</div></div></div>`; } },
+    { id: 'ht', t: 'よく使うツール', h: true, ic: 'apps', body: () => `<div class="card">${setLnk('hometools', 'apps', 'ホームによく使うツールを選ぶ', 'ホームに出すツールを選びます')}${setLnk('homeedit', 'dashboard_customize', 'ホームの配置を編集', '並び順と、表示するまとまりを変えます')}</div>` },
+  ],
+  ai: [
+    { id: 'tone', t: '先生の性格', s: '話し方・やさしさ', ic: 'favorite', body: () => snPickList('tone', SN_TONES.map(x => [x[0], x[1], x[2], x[3]])) },
+    { id: 'style', t: '教え方', s: 'ヒントから・手順つき など', ic: 'lightbulb', body: () => snPickList('style', SN_STYLES.map(x => [x[0], x[1], x[2], x[3]])) },
+    { id: 'grade', t: '学年', s: '問題の難しさのめやす', ic: 'school', body: () => snPickList('grade', SN_GRADES.map(x => [x[0], x[1], 'school', x[2]])) },
+  ],
   tools: [
     { id: 'qz', t: 'クイズ', s: '問題数・選択肢・出しかた', ic: 'quiz', body: () => { const st = S.set; const dirs = [['f', '表 → 裏', 'east'], ['b', '裏 → 表', 'west'], ['r', 'ミックス', 'shuffle']]; const d = ['f', 'b', 'r'].includes(st.qzdir) ? st.qzdir : 'f'; return `<div class="card">${numRow('qzq', '問題数', '1回のクイズで出す問題数（1〜100）', 1, 100, '問', 10)}${numRow('qzn', '選択肢の数', '2〜100（単語帳のカード枚数まで）', 2, 100, '個', 4)}<div class="fld"><div class="lbl">出しかた</div><div class="seg">${dirs.map(([v, l, i]) => `<button class="${d === v ? 'on' : ''}" data-act="setv" data-id="qzdir|${v}">${ms(i)}${l}</button>`).join('')}</div><small class="muted">${QZ_NOTE[d]}</small></div></div>`; } },
     { id: 'sc', t: '集計', s: 'すべての課題か、必須の課題だけか', ic: 'query_stats', body: () => { const st = S.set; return `<div class="card"><div class="fld"><div class="lbl">集計の対象</div><div class="seg">${[['all', 'すべて'], ['req', '必須のみ']].map(([v, l]) => `<button class="${(st.scope === 'req') === (v === 'req') ? 'on' : ''}" data-act="setv" data-id="scope|${v}">${l}</button>`).join('')}</div></div></div>`; } },
@@ -4833,19 +4881,23 @@ const SET_ITEMS = {
   ],
   info: [
     { id: 'ver', t: 'バージョン', s: '使い方・更新履歴', ic: 'info', body: () => `<div class="card"><div class="setrow"><span class="ric">${ms('info')}</span><span class="t">アプリのバージョン<small data-ytk style="display:block;width:fit-content;padding:8px 24px 8px 0;margin:-8px 0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation">v${verTxt(APP_VERSION)}</small></span></div>${setLnk('guide', 'help', '使い方', '機能と操作のしかた')}${setLnk('chlog', 'history', '更新履歴', 'これまでの変更内容')}</div>` },
-    { id: 'upd', t: 'アップデート', s: '更新の確認・自動更新・ベータ版', ic: 'system_update', body: () => `${updCard()}<div class="card">${swRow('autoUpd', 'アップデートを自動で行う', '新しい版が見つかると、確認なしで自動的に更新します（タイマーの途中なら、終わってから）')}${swRow('noWhatsNew', 'アップデート後の更新内容を出さない', 'オンにすると、アップデートしたあとに「何が変わったか」の案内を出しません（更新の確認の画面からも変えられます）')}</div>${betaRowHtml()}` },
+    { id: 'upd', t: 'システム アップデート', s: '更新の確認・自動更新・ベータ版', ic: 'system_update', noIll: true, body: () => { const [, ti, su] = updInfo(), av = UPD.state === 'available'; return `${updHero(av)}<h2 class="upd-h">${ti}</h2><p class="upd-p">${su}</p><div class="card"><button type="button" class="setrow setlnk" data-act="upd"><span class="t">${av ? 'アップデートをダウンロード' : 'アップデートを確認'}<small>${av ? '新しい版があります' : '最新かどうかを確かめます'}</small></span>${ms(av ? 'download' : 'refresh')}</button><div class="setrow"><span class="t">アプリのバージョン<small>v${verTxt(APP_VERSION)}</small></span></div></div><div class="card">${swRow('autoUpd', 'アップデートを自動で行う', '新しい版が見つかると、確認なしで自動的に更新します（タイマーの途中なら、終わってから）')}${swRow('noWhatsNew', 'アップデート後の更新内容を出さない', 'オンにすると、アップデートしたあとに「何が変わったか」の案内を出しません（更新の確認の画面からも変えられます）')}</div>${betaRowHtml()}`; } },
     { id: 'diag', t: '動作と診断', s: '動作の状態を確かめます', ic: 'troubleshoot', act: 'diag' },
   ],
 };
 // 項目が少ない考査と教科・ナビゲーション・データ・ツールと集計は、一覧を使わず中身をそのまま出す
-const SET_DIRECT = ['exam', 'nav', 'data', 'tools'];
-function navPosCard() { const v = S.set.navPos || 'auto'; return `<div class="card"><div class="fld"><div class="lbl">表示する場所</div><div class="seg">${[['auto', '自動', 'devices'], ['bottom', '下に固定', 'dock_to_bottom']].map(([k, l, i]) => `<button class="${v === k ? 'on' : ''}" data-act="setv" data-id="navPos|${k}">${ms(i)}${l}</button>`).join('')}</div><small class="muted">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</small></div></div>`; }
+const SET_DIRECT = ['exam', 'nav', 'data', 'tools', 'home'];
+function navPosCard() { const v = S.set.navPos || 'auto'; const o = [['auto', '自動', 'ill-auto'], ['bottom', '下に固定', 'ill-bottom']]; return `<div class="card"><div class="pick-grid pick-2">${o.map(([k, l, c]) => `<button type="button" class="pick ${c} ${v === k ? 'on' : ''}" data-act="setv" data-id="navPos|${k}" aria-pressed="${v === k}"><span class="ph ${c}"><i></i></span>${l}</button>`).join('')}</div><p class="set-note">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div>`; }
+// 先生の設定（AI）の選ぶ一覧：項目ごとに、説明つきの行
+function snPickList(key, list) { const cur = snCfg()[key]; return `<div class="card">${list.map(([v, t, ic, d]) => `<button type="button" class="setrow${cur === v ? ' on' : ''}" data-act="setsn" data-id="${key}|${v}"><span class="ric">${ms(ic)}</span><span class="t">${t}<small>${d}</small></span>${cur === v ? ms('check_circle') : ''}</button>`).join('')}</div>`; }
+function setAcctHtml() { const u = CLOUD.user; const name = u ? (u.displayName || u.email || 'Googleアカウント') : 'ログインしていません'; const sub = u ? 'Googleサービスと同期' : 'タップして、同期を設定'; const ini = String(name).trim().charAt(0).toUpperCase() || '?'; const av = u && u.photoURL ? `<img src="${esc(u.photoURL)}" alt="" referrerpolicy="no-referrer">` : u ? `<span>${esc(ini)}</span>` : ms('account_circle'); return `<button type="button" class="set-acct" data-act="setcat" data-id="data"><span class="set-av">${av}</span><span class="set-ct"><b>${esc(name)}</b><small>${sub}</small></span></button>`; }
+function updHero(av) { const d = av ? '<path d="M60 40v28M48 58l12 12 12-12" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>' : '<path d="M46 62l10 10 20-22" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'; return `<div class="upd-hero"><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="30" y="10" width="60" height="100" rx="14" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="60" cy="96" r="3.5" fill="currentColor"/>${d}</svg></div>`; }
 function setDetHtml(cat) {
   const c = SET_CATS.find(x => x.id === cat) || SET_CATS[0], items = SET_ITEMS[c.id] || [];
   const back = `<button type="button" class="ibtn set-back" data-act="setcat" data-id="" aria-label="設定の一覧にもどる">${ms('arrow_back')}</button>`;
-  if (SET_DIRECT.includes(c.id)) return `<div class="set-dh">${back}<h1>${c.t}</h1></div><div class="set-dbody">${items.map(it => it.body()).join('')}</div>`;
+  if (SET_DIRECT.includes(c.id)) return `<div class="set-dh">${back}<h1>${c.t}</h1></div><div class="set-dbody">${items.map(it => (it.h ? `<div class="h-sec"><h2>${it.t}</h2></div>` : '') + (it.body ? it.body() : `<div class="card">${setItemLnk(it)}</div>`)).join('')}</div>`;
   const it = ui.setSub && items.find(x => x.id === ui.setSub);
-  if (it) return `<div class="set-dh"><button type="button" class="ibtn set-subback" data-act="setsub" data-id="" aria-label="${c.t}の一覧にもどる">${ms('arrow_back')}</button><h1>${it.t}</h1></div><div class="set-dbody">${it.master ? masterRow(it.master, it.t) : ''}${it.note ? `<p class="set-note">${it.note}</p>` : ''}${it.body()}</div>`;
+  if (it) return `<div class="set-dh"><button type="button" class="ibtn set-subback" data-act="setsub" data-id="" aria-label="${c.t}の一覧にもどる">${ms('arrow_back')}</button><h1>${it.t}</h1></div><div class="set-dbody">${it.noIll ? '' : `<div class="set-ill" style="--cc:${c.c}">${ms(it.ic)}</div>`}${it.master ? masterRow(it.master, it.t) : ''}${it.note ? `<p class="set-note">${it.note}</p>` : ''}${it.body()}</div>`;
   return `<div class="set-dh">${back}<h1>${c.t}</h1></div><div class="set-dbody"><div class="card">${items.map(setItemLnk).join('')}</div></div>`;
 }
 function backupPage(embed) {
@@ -5432,6 +5484,7 @@ const ACT = {
   bkopen() { ui.setCat = 'data'; ui.setSub = 'bk'; ui.anim = true; render(); window.scrollTo(0, 0); },
   bkclose() { ui.setCat = ''; ui.setSub = ''; ui.anim = true; render(); window.scrollTo(0, 0); },
   setsub(id) { ui.setSub = id || ''; ui.anim = true; render(); window.scrollTo(0, 0); },
+  setsn(v) { const str = String(v), i = str.indexOf('|'), k = str.slice(0, i), raw = str.slice(i + 1); if (!['tone', 'style', 'grade'].includes(k)) return; S.set.sn = Object.assign({}, snCfg(), { [k]: raw }); commit(); },
   setv(v) { const str = String(v), i = str.indexOf('|'), k = str.slice(0, i), raw = str.slice(i + 1); if (!['qzdir', 'scope', 'tyAuto', 'navPos'].includes(k)) return; S.set[k] = raw === 'true' ? true : raw === 'false' ? false : raw; applyTheme(); commit(); },
   setcat(id) { ui.setCat = id || ''; ui.setSub = ''; ui.anim = true; render(); window.scrollTo(0, 0); },
   navup(id) { moveNav(id, -1); }, navdown(id) { moveNav(id, 1); },
