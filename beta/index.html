@@ -3130,172 +3130,232 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 </style>
 <style id="ai26-css">.ax-acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}.ax-acts .btn{max-width:100%}</style>
 
-<style id="p37">
-/* 1) スイッチのつまみは transform だけで動かす（位置やサイズを変えないので、カクつかない） */
-.sw2 .tr,.psw .tr{width:52px!important;height:32px!important;border-radius:16px!important;box-sizing:border-box}
-.psw{width:52px!important;height:32px!important;border-radius:16px!important}
-.sw2 .th,.psw .th{position:absolute!important;left:4px!important;top:4px!important;width:24px!important;height:24px!important;margin:0;transform:translate3d(0,0,0) scale(.667)!important;transition:transform .5s var(--spring),background-color .3s,color .3s!important;will-change:transform}
-.sw2 .th .ms,.psw .th .ms{font-size:18px!important;width:18px!important;height:18px!important;line-height:18px!important}
-.sw2 input:active+.tr .th,.psw:active .th{transform:translate3d(0,0,0) scale(.833)!important}
-.sw2 input:checked+.tr .th,.psw[aria-checked="true"] .th{transform:translate3d(20px,0,0) scale(1)!important}
-.sw2 input:checked:active+.tr .th,.psw[aria-checked="true"]:active .th{transform:translate3d(18px,0,0) scale(1.167)!important}
-
-/* 2) タブごとの挿絵（アイコン＋アプリ自作の部品を、タブごとに違う配置で） */
-.set-page.set-det .set-ill.sx{position:relative;display:block;height:212px;margin:8px 0 14px;overflow:hidden;padding:0;border-radius:44px 58px 40px 62px/50px 40px 58px 46px;background:color-mix(in srgb,var(--cc,var(--primary)) 30%,var(--s1))}
-.set-page.set-det .set-ill.sx .ms{font-variation-settings:'FILL' 1;color:var(--on-v);font-size:22px}
-.set-page.set-det .set-ill.sx .sx-a,.set-page.set-det .set-ill.sx .sx-b,.set-page.set-det .set-ill.sx .sx-main,.set-page.set-det .set-ill.sx .sx-s{position:absolute}
-.set-page.set-det .set-ill.sx .sx-main{z-index:4;display:grid;place-items:center;width:92px;height:92px;border-radius:40px 50px 36px 54px/46px 38px 56px 42px;background:var(--pc);color:var(--on-pc)}
-.set-page.set-det .set-ill.sx .sx-main .ms{font-size:46px;color:var(--on-pc)}
-.set-page.set-det .set-ill.sx .sx-s{z-index:4;display:grid;place-items:center;width:40px;height:40px;border-radius:50%;background:var(--s2);color:var(--on-v)}
-.set-page.set-det .set-ill.sx .sx-s .ms{font-size:20px;color:var(--on-v)}
-.set-page.set-det .set-ill.sx .sx-chips .sc{font-size:13px;padding:6px 12px;border-radius:12px}
-/* 考査：カードが左、教科のチップが右下、アイコンは右上 */
-.ss-exam .sx-card{left:20px;top:20px;width:44%;height:132px;box-sizing:border-box;padding:14px;border-radius:28px;background:var(--s1);color:var(--on);display:flex;flex-direction:column;justify-content:center}
-.ss-exam .sx-card small{color:var(--on-v)}
-.ss-exam .sx-card b{font-size:30px;line-height:1.1}
-.ss-exam .sx-card i{display:block;height:8px;border-radius:4px;background:var(--s4);margin-top:8px;transform-origin:left}
-.ss-exam .sx-card i.s{width:60%;background:var(--primary)}
-.ss-exam .sx-chips{right:20px;bottom:20px;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
-.ss-exam .sx-main{right:20px;top:20px}
-.ss-exam .sx-s1{left:50%;top:26px}
-.ss-exam .sx-s2{left:50%;bottom:24px}
-/* タイマー：大きな円が回り、ボタンは左下、アイコンは左上 */
-.ss-timer .sx-ring{left:50%;top:50%;width:140px;height:140px;margin:-70px 0 0 -70px;box-sizing:border-box;border-radius:50%;background:var(--s1);color:var(--on);display:grid;place-content:center;text-align:center}
-.ss-timer .sx-ring::before{content:"";position:absolute;inset:-10px;border-radius:50%;border:10px solid transparent;border-top-color:var(--primary);border-right-color:var(--primary)}
-.ss-timer .sx-ring b{font-size:30px;line-height:1}
-.ss-timer .sx-ring small{color:var(--on-v)}
-.ss-timer .sx-btns{left:20px;bottom:20px;display:flex;gap:8px}
-.ss-timer .sx-btns span{width:44px;height:44px;border-radius:16px;background:var(--s2);color:var(--on-v);display:grid;place-items:center}
-.ss-timer .sx-btns .on{background:var(--primary);color:var(--on-primary)}
-.ss-timer .sx-main{left:20px;top:20px}
-.ss-timer .sx-s1{right:24px;top:24px}
-.ss-timer .sx-s2{right:26px;bottom:26px}
-/* 見た目：明暗に割れる端末の絵、色の見本は右上、アイコンは右下 */
-.ss-look .sx-split{left:22px;top:18px;width:112px;height:156px;box-sizing:border-box;border-radius:28px;overflow:hidden;background:#f5efe6;box-shadow:inset 0 0 0 2px var(--out)}
-.ss-look .sx-split i{position:absolute;inset:0;background:#1d1b22}
-.ss-look .sx-sw{right:22px;top:22px;display:grid;grid-template-columns:repeat(2,28px);gap:10px}
-.ss-look .sx-sw i{display:block;width:28px;height:28px;border-radius:50%;background:var(--sw)}
-.ss-look .sx-main{right:22px;bottom:20px}
-.ss-look .sx-s1{left:150px;bottom:30px}
-.ss-look .sx-s2{left:150px;top:26px}
-/* ツール：ツール一覧の小さなタイルが並び、アイコンは左下に重なる */
-.ss-tools .sx-grid{left:20px;top:18px;display:grid;grid-template-columns:repeat(3,52px);gap:10px}
-.ss-tools .sx-grid span{width:52px;height:52px;border-radius:20px;background:var(--s1);color:var(--primary);display:grid;place-items:center}
-.ss-tools .sx-main{left:22px;bottom:18px}
-.ss-tools .sx-s1{right:24px;top:24px}
-.ss-tools .sx-s2{right:24px;bottom:30px}
-/* ホーム：あいさつの吹き出しが左上、ミニカードが左下、アイコンは右上 */
-.ss-home .sx-bub{left:18px;top:18px;max-width:58%;box-sizing:border-box;padding:12px 16px;border-radius:24px 24px 24px 8px;background:var(--primary);color:var(--on-primary);font-weight:700;font-size:14px;line-height:1.45}
-.ss-home .sx-mini{left:18px;bottom:18px;width:150px;box-sizing:border-box;padding:12px;border-radius:24px;background:var(--s1);color:var(--on)}
-.ss-home .sx-mini b{display:block;font-size:13px}
-.ss-home .sx-mini i{display:block;height:7px;width:60%;border-radius:4px;background:var(--primary);margin-top:8px}
-.ss-home .sx-main{right:22px;top:22px}
-.ss-home .sx-s1{right:30px;bottom:26px}
-.ss-home .sx-s2{left:58%;bottom:22px}
-/* AI：左上に先生の返事、右下に入力中の点々、アイコンは左下 */
-.ss-ai .sx-m{left:18px;top:18px;max-width:62%;box-sizing:border-box;padding:12px 14px;border-radius:22px 22px 22px 6px;background:var(--s1);color:var(--on);font-size:14px;line-height:1.45}
-.ss-ai .sx-r{right:18px;bottom:20px;display:flex;gap:6px;padding:14px 16px;border-radius:22px 22px 6px 22px;background:var(--primary)}
-.ss-ai .sx-r span{width:8px;height:8px;border-radius:50%;background:var(--on-primary)}
-.ss-ai .sx-main{left:18px;bottom:18px}
-.ss-ai .sx-s1{right:22px;top:22px}
-.ss-ai .sx-s2{left:130px;bottom:30px}
-/* タブバー：下の帯の上を選択が左右に移動する */
-.ss-nav .sx-bar{left:14px;right:14px;bottom:16px;height:62px;box-sizing:border-box;border-radius:32px;background:var(--s1);display:grid;grid-template-columns:repeat(5,1fr);align-items:center;justify-items:center;overflow:hidden}
-.ss-nav .sx-bar span{position:relative;z-index:1;color:var(--on-v);display:grid;place-items:center}
-.ss-nav .sx-pill{position:absolute;z-index:0;left:0;top:6px;bottom:6px;width:20%;border-radius:26px;background:var(--primary);opacity:.9;margin:0}
-.ss-nav .sx-main{left:50%;top:14px;margin-left:-46px}
-.ss-nav .sx-s1{left:16px;top:20px}
-.ss-nav .sx-s2{right:16px;top:20px}
-/* データ：積み重なった箱と、回る同期の印 */
-.ss-data .sx-cyl{left:22px;top:20px;width:112px;display:grid;gap:8px}
-.ss-data .sx-cyl i{position:relative;display:block;height:34px;border-radius:14px;background:var(--s1);overflow:hidden}
-.ss-data .sx-cyl i::after{content:"";position:absolute;left:0;top:0;bottom:0;right:0;background:var(--primary);opacity:.45;transform-origin:left}
-.ss-data .sx-arr{right:22px;top:22px;width:58px;height:58px;border-radius:50%;background:var(--s2);color:var(--on-v);display:grid;place-items:center}
-.ss-data .sx-main{right:22px;bottom:20px}
-.ss-data .sx-s1{left:150px;bottom:24px}
-.ss-data .sx-s2{left:150px;top:26px}
-/* 成長：レベルのカードが左下、大きなメダルが右上 */
-.ss-grow .sx-xp{left:20px;bottom:20px;width:62%;box-sizing:border-box;padding:14px 16px;border-radius:26px;background:var(--s1);color:var(--on);display:grid;gap:6px}
-.ss-grow .sx-xp b{font-size:22px;line-height:1}
-.ss-grow .sx-xp small{color:var(--on-v)}
-.ss-grow .sx-track{height:10px;border-radius:5px;background:var(--s4);overflow:hidden}
-.ss-grow .sx-track i{display:block;height:100%;width:60%;background:var(--primary);transform-origin:left}
-.ss-grow .sx-star{right:22px;top:20px;width:96px;height:96px;border-radius:50%;background:var(--primary);color:var(--on-primary);display:grid;place-items:center}
-.ss-grow .sx-star .ms{font-size:44px;color:var(--on-primary)}
-.ss-grow .sx-main{left:22px;top:20px}
-.ss-grow .sx-s1{left:50%;top:26px}
-.ss-grow .sx-s2{right:150px;top:30px}
-/* 通知：上から降りてくるバナーと、ベルのアイコン */
-.ss-notif .sx-ban{left:16px;right:16px;top:18px;box-sizing:border-box;display:flex;gap:12px;align-items:center;padding:12px 14px;border-radius:26px;background:var(--s1);color:var(--on)}
-.ss-notif .sx-ban img{width:40px;height:40px;border-radius:12px;flex:none}
-.ss-notif .sx-ban b{display:block;font-size:14px}
-.ss-notif .sx-ban small{display:block;color:var(--on-v);font-size:12px}
-.ss-notif .sx-main{left:22px;bottom:22px}
-.ss-notif .sx-s1{right:24px;bottom:28px}
-.ss-notif .sx-s2{left:132px;bottom:30px}
-/* 情報：アプリのアイコンが中央で、点線の輪が回る */
-.ss-info .sx-app{left:50%;top:50%;width:104px;height:104px;margin:-52px 0 0 -52px;border-radius:30px;overflow:visible}
-.ss-info .sx-app img{width:100%;height:100%;display:block;border-radius:30px}
-.ss-info .sx-app::before{content:"";position:absolute;inset:-16px;border-radius:44px;border:2px dashed var(--primary);opacity:.6}
-.ss-info .sx-ver{right:20px;bottom:20px;padding:6px 12px;border-radius:14px;background:var(--s1);color:var(--on);font-size:13px;font-weight:700}
-.ss-info .sx-main{left:20px;top:20px}
-.ss-info .sx-s1{right:24px;top:24px}
-.ss-info .sx-s2{left:24px;bottom:70px}
-
-/* 3) 動き（設定画面では全体の停止指定より強い指定で、タブごとに違う動きに） */
-@keyframes sxUp{from{opacity:0;transform:translateY(18px) scale(.96)}to{opacity:1;transform:none}}
-@keyframes sxPop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
-@keyframes sxGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
-@keyframes sxFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes sxSpin{to{transform:rotate(360deg)}}
-@keyframes sxSwing{0%,100%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}}
-@keyframes sxBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
-@keyframes sxCut{from{clip-path:inset(0 0 0 50%)}to{clip-path:inset(0 0 0 0)}}
-@keyframes sxDrop{0%{opacity:0;transform:translateY(-26px)}14%,78%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-26px)}}
-@keyframes sxNav{0%,15%{transform:translateX(0)}25%,40%{transform:translateX(100%)}50%,65%{transform:translateX(200%)}75%,90%{transform:translateX(300%)}100%{transform:translateX(0)}}
-.set2 .set-ill.sx .sx-main{animation:sxPop .6s var(--spring) .1s both!important}
-.set2 .set-ill.sx .sx-s{animation:sxPop .6s var(--spring) .35s both!important}
-.set2 .set-ill.sx .sx-card,.set2 .set-ill.sx .sx-bub,.set2 .set-ill.sx .sx-m,.set2 .set-ill.sx .sx-mini,.set2 .set-ill.sx .sx-xp,.set2 .set-ill.sx .sx-app{animation:sxUp .9s var(--spring) both!important}
-.set2 .ss-exam .sx-card i.s{animation:sxGrow 1.4s var(--smooth) .5s both!important}
-.set2 .ss-exam .sx-chips .sc{animation:sxPop .6s var(--spring) both!important}
-.set2 .ss-exam .sx-chips .sc:nth-child(2){animation-delay:.12s!important}
-.set2 .ss-exam .sx-chips .sc:nth-child(3){animation-delay:.24s!important}
-.set2 .ss-exam .sx-main{animation:sxFloat 3.2s ease-in-out infinite!important}
-.set2 .ss-timer .sx-ring::before{animation:sxSpin 3.6s linear infinite}
-.set2 .ss-timer .sx-btns span{animation:sxPop .5s var(--spring) both!important}
-.set2 .ss-timer .sx-btns span:nth-child(2){animation-delay:.15s!important}
-.set2 .ss-timer .sx-main{animation:sxBob 2.4s ease-in-out infinite!important}
-.set2 .ss-look .sx-split i{animation:sxCut 2.8s var(--smooth) infinite alternate!important}
-.set2 .ss-look .sx-sw i{animation:sxPop .5s var(--spring) both!important}
-.set2 .ss-look .sx-sw i:nth-child(2){animation-delay:.1s!important}
-.set2 .ss-look .sx-sw i:nth-child(3){animation-delay:.2s!important}
-.set2 .ss-look .sx-sw i:nth-child(4){animation-delay:.3s!important}
-.set2 .ss-tools .sx-grid span{animation:sxPop .5s var(--spring) both!important;animation-delay:calc(var(--k) * .08s)!important}
-.set2 .ss-home .sx-bub{transform-origin:left bottom;animation:sxPop .6s var(--spring) both!important}
-.set2 .ss-home .sx-mini{animation:sxUp .8s var(--spring) .3s both!important}
-.set2 .ss-ai .sx-r span{animation:sxBob 1.2s ease-in-out infinite!important}
-.set2 .ss-ai .sx-r span:nth-child(2){animation-delay:.15s!important}
-.set2 .ss-ai .sx-r span:nth-child(3){animation-delay:.3s!important}
-.set2 .ss-nav .sx-pill{animation:sxNav 4.8s var(--smooth) infinite!important}
-.set2 .ss-nav .sx-bar span{animation:sxUp .6s var(--spring) both!important}
-.set2 .ss-data .sx-cyl i::after{animation:sxGrow 2.4s var(--smooth) infinite alternate!important}
-.set2 .ss-data .sx-cyl i:nth-child(2)::after{animation-delay:.4s!important}
-.set2 .ss-data .sx-cyl i:nth-child(3)::after{animation-delay:.8s!important}
-.set2 .ss-data .sx-arr .ms{animation:sxSpin 3s linear infinite!important}
-.set2 .ss-grow .sx-track i{animation:sxGrow 1.6s var(--smooth) .4s both!important}
-.set2 .ss-grow .sx-star{animation:sxPop .7s var(--spring) both!important}
-.set2 .ss-grow .sx-star .ms{animation:sxSwing 2.4s ease-in-out infinite!important}
-.set2 .ss-notif .sx-ban{animation:sxDrop 4.2s var(--spring) infinite!important}
-.set2 .ss-notif .sx-main{animation:sxSwing 1.6s ease-in-out infinite!important;transform-origin:50% 10%}
-.set2 .ss-info .sx-app{animation:sxFloat 3.4s ease-in-out infinite!important}
-.set2 .ss-info .sx-app::before{animation:sxSpin 10s linear infinite}
-</style>
 
 <style id="p38">
 .set-page.set-det .slist{border-radius:28px;overflow:hidden;padding:0}
 .set-page.set-det .set-note{border-radius:24px}
 .set-page.set-det .pick-grid{border-radius:28px}
 .set-page.set-det .set-ill{border-radius:44px 58px 40px 62px/50px 40px 58px 46px}
+</style>
+
+<style id="p40">
+/* スイッチ：52×32、つまみ24（オフは左4、オンは左24）、アイコン16。動きは、はねない滑らかな動き */
+.sw2 .tr,.psw .tr{width:52px!important;height:32px!important;border-radius:16px!important;box-sizing:border-box;box-shadow:inset 0 0 0 2px var(--out),0 0 0 1px color-mix(in srgb,var(--on) 26%,transparent)!important}
+.sw2 input:checked+.tr,.psw[aria-checked="true"] .tr{box-shadow:0 0 0 1px color-mix(in srgb,var(--on) 26%,transparent)!important}
+.psw{width:52px!important;height:32px!important;border-radius:16px!important}
+.sw2 .th,.psw .th{position:absolute!important;left:4px!important;top:4px!important;width:24px!important;height:24px!important;margin:0;transform:translate3d(0,0,0)!important;transition:transform .34s var(--smooth),background-color .24s,color .24s!important;will-change:transform}
+.sw2 input:active+.tr .th,.psw:active .th{transform:translate3d(0,0,0) scale(1.12)!important}
+.sw2 input:checked+.tr .th,.psw[aria-checked="true"] .th{transform:translate3d(20px,0,0)!important}
+.sw2 input:checked:active+.tr .th,.psw[aria-checked="true"]:active .th{transform:translate3d(20px,0,0) scale(1.12)!important}
+.sw2 .th .ms,.psw .th .ms{font-size:16px!important;width:16px!important;height:16px!important;line-height:16px!important;scale:1!important;rotate:0deg!important;transition:opacity .2s linear!important}
+.sw2 .th .ms:nth-child(2){opacity:0}
+.sw2 input:checked+.tr .th .ms:nth-child(1){opacity:0}
+.sw2 input:checked+.tr .th .ms:nth-child(2){opacity:1}
+.setrow.locked{opacity:.62}
+.setrow.locked:disabled{cursor:default}
+
+/* 挿絵：項目の実際の画面を、枠の中央に小さく置く（左右の端に寄せない） */
+.set-page.set-det .set-ill.sx{position:relative;display:block;height:212px;margin:8px 0 14px;overflow:hidden;padding:0;border-radius:44px 58px 40px 62px/50px 40px 58px 46px;background:color-mix(in srgb,var(--cc,var(--primary)) 30%,var(--s1))}
+.set-page.set-det .set-ill.sx .sx-blob{position:absolute;right:-34px;top:-40px;width:170px;height:170px;border-radius:46% 54% 40% 60%/55% 40% 60% 45%;background:color-mix(in srgb,var(--cc,var(--primary)) 70%,transparent)}
+.set-page.set-det .set-ill.sx .sx-blob.b2{left:-44px;right:auto;top:auto;bottom:-56px;width:130px;height:130px;background:color-mix(in srgb,var(--primary) 16%,transparent)}
+.set-page.set-det .set-ill.sx .sx-scr{position:absolute;left:50%;top:18px;bottom:16px;width:min(70%,300px);transform:translateX(-50%);box-sizing:border-box;padding:12px;border-radius:26px;background:var(--s1);color:var(--on);display:flex;flex-direction:column;gap:8px;overflow:hidden;box-shadow:0 8px 20px rgba(0,0,0,.10)}
+.set-page.set-det .set-ill.sx .ms{font-size:20px;color:var(--on-v);font-variation-settings:'FILL' 1}
+.set-page.set-det .set-ill.sx small{color:var(--on-v);font-size:12px;line-height:1.35}
+.set-page.set-det .set-ill.sx .sc{font-size:13px;padding:4px 10px;border-radius:12px}
+.sx-hd{display:flex;align-items:center;gap:8px}
+.sx-ic{width:30px;height:30px;border-radius:12px 14px 12px 14px;display:grid;place-items:center;background:var(--pc);flex:none}
+.sx-ic .ms{font-size:18px;color:var(--on-pc)}
+.sx-hd b{font-size:14px}
+.sx-bar{display:block;height:7px;border-radius:4px;background:var(--s4);overflow:hidden}
+.sx-bar u{display:block;height:100%;width:100%;background:var(--primary);border-radius:4px;transform-origin:left;transform:scaleX(var(--p,.6))}
+.sx-bar u.full{--p:1}
+.sx-bar.big{height:14px;border-radius:7px}
+.sx-bar.big u{border-radius:7px}
+.sx-t{display:grid;gap:5px;padding:9px 10px;border-radius:16px;background:var(--s2)}
+.sx-t b{font-size:13px}
+.sx-cnt{display:grid;gap:4px;align-content:center;flex:1;padding:4px}
+.sx-cnt b{font-size:44px;line-height:1}
+.sx-cnt b span{font-size:18px}
+.sx-chips{display:flex;flex-wrap:wrap;gap:8px;align-content:center;justify-content:center;flex:1}
+.sx-rw{flex:1;display:grid;place-items:center}
+.sx-ring{position:relative;width:112px;height:112px;border-radius:50%;background:var(--s2);display:grid;place-content:center;text-align:center}
+.sx-ring::before{content:"";position:absolute;inset:-7px;border-radius:50%;border:7px solid transparent;border-top-color:var(--primary);border-right-color:var(--primary)}
+.sx-ring b{font-size:22px;line-height:1}
+.sx-btns{display:flex;justify-content:center}
+.sx-btns span{width:40px;height:40px;border-radius:14px;background:var(--primary);color:var(--on-primary);display:grid;place-items:center}
+.sx-btns .ms{color:var(--on-primary)}
+.sx-goal{display:grid;gap:8px;align-content:center;flex:1}
+.sx-goal b{font-size:14px}
+.sx-eq{display:flex;align-items:flex-end;justify-content:center;gap:7px;flex:1;padding-bottom:4px}
+.sx-eq i{width:12px;height:var(--h);border-radius:6px;background:var(--primary);transform-origin:bottom}
+.sx-flip{flex:1;display:grid;place-items:center}
+.sx-flip>div{width:86%;height:100%;max-height:120px;box-sizing:border-box;display:grid;place-content:center;text-align:center;border-radius:18px;background-color:var(--s2);background-image:radial-gradient(var(--s4) 1.5px,transparent 1.7px);background-size:12px 12px}
+.sx-flip b{font-size:20px}
+.sx-rain{position:relative;flex:1;border-radius:16px;background:var(--s2);overflow:hidden}
+.sx-rain i{position:absolute;top:-16px;left:var(--l);width:6px;height:16px;border-radius:3px;background:var(--primary);opacity:.7}
+.sx-split{position:relative;flex:1;width:70%;margin:0 auto;border-radius:20px;overflow:hidden;background:#f5efe6;box-shadow:inset 0 0 0 2px var(--out)}
+.sx-split i{position:absolute;inset:0;background:#1d1b22}
+.sx-sw{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:10px;flex:1}
+.sx-sw i{width:34px;height:34px;border-radius:50%;background:var(--sw)}
+.sx-sw i.on{box-shadow:0 0 0 3px var(--s1),0 0 0 5px var(--sw)}
+.sx-aa{display:grid;place-items:center;align-content:center;flex:1;text-align:center}
+.sx-aa b{font-size:56px;line-height:1;color:var(--primary)}
+.sx-mo{position:relative;flex:1;border-radius:16px;background:var(--s2);overflow:hidden}
+.sx-mo i{position:absolute;left:50%;bottom:10px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:var(--primary)}
+.sx-mc{text-align:center}
+.sx-wx{position:relative;flex:1;display:grid;place-items:center}
+.sx-sun .ms{font-size:60px;color:#f5a524}
+.sx-cloud{position:absolute;right:6%;top:6%}
+.sx-cloud .ms{font-size:44px;color:var(--on-v)}
+.sx-cf{position:relative;flex:1}
+.sx-ok{position:absolute;left:50%;top:50%;width:50px;height:50px;margin:-25px 0 0 -25px;border-radius:50%;background:var(--primary);display:grid;place-items:center}
+.sx-ok .ms{font-size:28px;color:var(--on-primary)}
+.sx-cf i{position:absolute;left:50%;top:50%;width:8px;height:12px;margin:-6px 0 0 -4px;border-radius:2px;background:var(--c)}
+.sx-bgp{flex:1;border-radius:18px;display:flex;align-items:flex-end;padding:10px}
+.sx-bgp small{color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.sx-q{display:grid;gap:6px}
+.sx-q b{font-size:18px}
+.sx-q span{display:flex;align-items:center;gap:4px;padding:8px 10px;border-radius:14px;background:var(--s2);color:var(--on-v);font-size:14px}
+.sx-q .ok{background:var(--primary);color:var(--on-primary)}
+.sx-q .ok .ms{font-size:16px;color:var(--on-primary)}
+.sx-calc{display:grid;gap:6px}
+.sx-calc em{font-style:normal;text-align:right;font-size:22px;font-weight:700}
+.sx-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:5px}
+.sx-keys i,.sx-kb i{display:grid;place-items:center;height:30px;border-radius:11px;background:var(--s2);color:var(--on-v);font-style:normal;font-size:14px}
+.sx-keys i.p,.sx-kb i.p{background:var(--primary);color:var(--on-primary)}
+.sx-ch{display:flex;align-items:flex-end;gap:8px;flex:1;padding:6px 2px}
+.sx-ch i{flex:1;height:var(--h);border-radius:9px 9px 4px 4px;background:var(--primary);transform-origin:bottom}
+.sx-kb{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;align-content:center;flex:1}
+.sx-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-content:center;flex:1}
+.sx-tiles span{height:44px;border-radius:16px;background:var(--s2);color:var(--primary);display:grid;place-items:center}
+.sx-hi{padding:10px 12px;border-radius:18px 18px 18px 6px;background:var(--primary);color:var(--on-primary);font-weight:700;font-size:14px;line-height:1.4}
+.sx-tip{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:14px;background:var(--s2);color:var(--on-v);font-size:12px}
+.sx-tip .ms{font-size:18px;color:var(--primary)}
+.sx-lay{display:grid;gap:6px}
+.sx-lay>div{display:flex;align-items:center;gap:6px;padding:8px 10px;border-radius:14px;background:var(--s2);font-size:13px}
+.sx-lay .ms{font-size:18px;color:var(--on-v)}
+.sx-msg{max-width:80%;padding:8px 10px;border-radius:16px;font-size:13px;line-height:1.4;align-self:flex-start;box-sizing:border-box}
+.sx-msg.me{align-self:flex-end;background:var(--primary);color:var(--on-primary);border-radius:16px 16px 4px 16px}
+.sx-msg.ai{background:var(--s2);color:var(--on-v)}
+.sx-typ{display:flex;gap:4px;width:max-content;padding:7px 10px;border-radius:12px;background:var(--s2)}
+.sx-typ i{width:6px;height:6px;border-radius:50%;background:var(--on-v)}
+.sx-ch2{display:flex;flex-wrap:wrap;gap:8px}
+.sx-ch2 span{padding:8px 12px;border-radius:999px;background:var(--s2);color:var(--on-v);font-size:13px}
+.sx-ch2 .on{background:var(--primary);color:var(--on-primary)}
+.sx-nav{position:relative;margin-top:auto;height:52px;border-radius:26px;background:var(--s2);display:grid;grid-template-columns:repeat(5,1fr);align-items:center;justify-items:center;overflow:hidden}
+.sx-nav span{position:relative;z-index:1;color:var(--on-v);display:grid;place-items:center}
+.sx-nav .pill{position:absolute;z-index:0;left:0;top:5px;bottom:5px;width:20%;border-radius:20px;background:var(--primary)}
+.sx-dev{display:flex;align-items:center;justify-content:space-around;flex:1}
+.sx-dev>.ms{font-size:44px;color:var(--primary)}
+.sx-lk .ms{font-size:26px;color:var(--on-v)}
+.sx-cyl{display:grid;gap:6px;justify-items:center}
+.sx-cyl i{position:relative;display:block;width:100%;height:24px;border-radius:12px;background:var(--s2);overflow:hidden}
+.sx-cyl i::after{content:"";position:absolute;inset:0;background:var(--primary);opacity:.45;transform-origin:left}
+.sx-up{display:flex;align-items:center;gap:6px;color:var(--primary);font-size:13px}
+.sx-up .ms{font-size:22px;color:var(--primary)}
+.sx-ban{display:flex;gap:10px;align-items:center;padding:10px;border-radius:18px;background:var(--s2)}
+.sx-ban img{width:36px;height:36px;border-radius:11px;flex:none}
+.sx-ban b{display:block;font-size:13px}
+.sx-bell{display:flex;justify-content:center}
+.sx-bell .ms{font-size:34px;color:var(--primary)}
+.sx-app{position:relative;display:grid;place-items:center;flex:1}
+.sx-app img{width:88px;height:88px;border-radius:26px}
+.sx-app::before{content:"";position:absolute;width:112px;height:112px;border-radius:40px;border:2px dashed var(--primary);opacity:.55}
+.sx-v{text-align:center;font-weight:700}
+.sx-ck{display:grid;gap:9px;align-content:center;flex:1}
+.sx-ck span{display:flex;align-items:center;gap:8px;font-size:13px}
+.sx-ck .ms{font-size:20px;color:var(--primary)}
+
+@keyframes sxUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes sxPop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+@keyframes sxGrowP{from{transform:scaleX(0)}to{transform:scaleX(var(--p,.6))}}
+@keyframes sxBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes sxSpin{to{transform:rotate(360deg)}}
+@keyframes sxEq{from{transform:scaleY(.25)}to{transform:scaleY(1)}}
+@keyframes sxDrop{0%{transform:translateY(0);opacity:0}15%{opacity:.8}100%{transform:translateY(190px);opacity:0}}
+@keyframes sxFlip{0%,30%{transform:rotateY(0)}60%,100%{transform:rotateY(180deg)}}
+@keyframes sxCut{from{clip-path:inset(0 0 0 50%)}to{clip-path:inset(0 0 0 0)}}
+@keyframes sxBall{0%,100%{transform:translateY(0) scaleX(1.1)}48%{transform:translateY(-78px) scaleX(1)}}
+@keyframes sxSway{0%,100%{transform:translateX(0)}50%{transform:translateX(-10px)}}
+@keyframes sxBurst{0%{transform:translate(0,0) scale(.3);opacity:1}85%{opacity:1}100%{transform:translate(var(--x),var(--y)) rotate(220deg) scale(1);opacity:0}}
+@keyframes sxPress{0%,60%,100%{transform:none}70%{transform:scale(.88)}}
+@keyframes sxNav{0%,15%{transform:translateX(0)}25%,40%{transform:translateX(100%)}50%,65%{transform:translateX(200%)}75%,90%{transform:translateX(300%)}100%{transform:translateX(0)}}
+@keyframes sxBreath{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes sxDrift{0%,100%{transform:translate(0,0)}50%{transform:translate(-8px,4px)}}
+@keyframes sxHue{0%,100%{filter:hue-rotate(0)}50%{filter:hue-rotate(60deg)}}
+@keyframes sxSwing{0%,100%{transform:rotate(-12deg)}50%{transform:rotate(12deg)}}
+@keyframes sxRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes sxTyp{0%,100%{opacity:.25}50%{opacity:1}}
+.set2 .set-ill.sx .sx-scr>*{animation:sxUp .6s var(--smooth) both!important}
+.set2 .set-ill.sx .sx-scr>.sx-hd{animation:none!important}
+.set2 .ss-tasks .sx-t{animation:sxUp .6s var(--smooth) both!important}
+.set2 .ss-tasks .sx-t.t2{animation-delay:.14s!important}
+.set2 .ss-tasks .sx-bar u{animation:sxGrowP 1.6s var(--smooth) .3s both!important}
+.set2 .ss-exam .sx-cnt b{animation:sxPop .6s var(--spring) both!important}
+.set2 .ss-exam .sx-bar u{animation:sxGrowP 1.4s var(--smooth) .3s both!important}
+.set2 .ss-subj .sc{animation:sxPop .5s var(--spring) both!important}
+.set2 .ss-subj .sc:nth-child(2){animation-delay:.08s!important}
+.set2 .ss-subj .sc:nth-child(3){animation-delay:.16s!important}
+.set2 .ss-subj .sc:nth-child(4){animation-delay:.24s!important}
+.set2 .ss-subj .sc:nth-child(5){animation-delay:.32s!important}
+.set2 .ss-ring .sx-ring::before{animation:sxSpin 3.6s linear infinite!important}
+.set2 .ss-ring .sx-btns span{animation:sxPress 2.4s ease-in-out infinite!important}
+.set2 .ss-goal .sx-bar u{animation:sxGrowP 1.6s var(--smooth) .3s both!important}
+.set2 .ss-sound .sx-eq i{animation:sxEq .6s ease-in-out infinite alternate!important}
+.set2 .ss-sound .sx-eq i:nth-child(2n){animation-duration:.85s!important;animation-delay:.1s!important}
+.set2 .ss-sound .sx-eq i:nth-child(3n){animation-duration:.5s!important;animation-delay:.2s!important}
+.set2 .ss-card .sx-flip>div{animation:sxFlip 3.4s ease-in-out infinite!important;backface-visibility:hidden}
+.set2 .ss-nature .sx-rain i{animation:sxDrop 1.6s linear infinite!important}
+.set2 .ss-phone .sx-split i{animation:sxCut 2.8s var(--smooth) infinite alternate!important}
+.set2 .ss-palette .sx-sw i{animation:sxPop .5s var(--spring) both!important}
+.set2 .ss-palette .sx-sw i:nth-child(2){animation-delay:.08s!important}
+.set2 .ss-palette .sx-sw i:nth-child(3){animation-delay:.16s!important}
+.set2 .ss-palette .sx-sw i:nth-child(4){animation-delay:.24s!important}
+.set2 .ss-palette .sx-sw i:nth-child(5){animation-delay:.32s!important}
+.set2 .ss-aa b{animation:sxBreath 2.6s ease-in-out infinite!important}
+.set2 .ss-motion .sx-mo i{animation:sxBall 1.6s var(--smooth) infinite!important}
+.set2 .ss-weather .sx-sun .ms{animation:sxSpin 14s linear infinite!important}
+.set2 .ss-weather .sx-cloud{animation:sxSway 4s ease-in-out infinite!important}
+.set2 .ss-confetti .sx-cf i{animation:sxBurst 2.4s ease-out infinite!important}
+.set2 .ss-confetti .sx-ok{animation:sxPop .6s var(--spring) both!important}
+.set2 .ss-bg .sx-bgp{animation:sxHue 6s ease-in-out infinite!important}
+.set2 .ss-quiz .sx-q span:not(.ok){animation:sxRise .5s var(--smooth) both!important}
+.set2 .ss-quiz .sx-q .ok{animation:sxPop .6s var(--spring) .2s both!important}
+.set2 .ss-calc .sx-keys i.p{animation:sxPress 1.8s ease-in-out infinite!important}
+.set2 .ss-chart .sx-ch i{animation:sxGrowP 1.2s var(--smooth) both!important;transform:scaleY(0)!important;animation-name:sxBarY!important}
+@keyframes sxBarY{from{transform:scaleY(0)}to{transform:scaleY(1)}}
+.set2 .ss-chart .sx-ch i:nth-child(2){animation-delay:.1s!important}
+.set2 .ss-chart .sx-ch i:nth-child(3){animation-delay:.2s!important}
+.set2 .ss-chart .sx-ch i:nth-child(4){animation-delay:.3s!important}
+.set2 .ss-keys .sx-kb i.p{animation:sxPress 1.4s ease-in-out infinite!important}
+.set2 .ss-tiles .sx-tiles span{animation:sxPop .5s var(--spring) both!important}
+.set2 .ss-greet .sx-hi{animation:sxPop .6s var(--spring) both!important;transform-origin:left bottom}
+.set2 .ss-greet .sx-tip{animation:sxUp .7s var(--smooth) .3s both!important}
+.set2 .ss-layout .sx-lay .mv{animation:sxDrift 3s ease-in-out infinite!important}
+.set2 .ss-chat .sx-msg.me{animation:sxPop .5s var(--spring) both!important;transform-origin:right bottom}
+.set2 .ss-chat .sx-msg.ai{animation:sxUp .6s var(--smooth) .3s both!important}
+.set2 .ss-chat .sx-typ i{animation:sxTyp 1.2s ease-in-out infinite!important}
+.set2 .ss-chat .sx-typ i:nth-child(2){animation-delay:.2s!important}
+.set2 .ss-chat .sx-typ i:nth-child(3){animation-delay:.4s!important}
+.set2 .ss-chips .sx-ch2 span{animation:sxPop .5s var(--spring) both!important}
+.set2 .ss-chips .sx-ch2 span:nth-child(2){animation-delay:.1s!important}
+.set2 .ss-chips .sx-ch2 span:nth-child(3){animation-delay:.2s!important}
+.set2 .ss-navbar .sx-nav .pill{animation:sxNav 4.8s var(--smooth) infinite!important}
+.set2 .ss-navbar .sx-nav span{animation:sxUp .6s var(--spring) both!important}
+.set2 .ss-sync .sx-lk .ms{animation:sxSpin 3s linear infinite!important}
+.set2 .ss-backup .sx-cyl i::after{animation:sxGrowP 2.4s var(--smooth) infinite alternate!important;--p:1}
+.set2 .ss-backup .sx-up{animation:sxBob 1.8s ease-in-out infinite!important}
+.set2 .ss-notif .sx-ban{animation:sxDrop2 4.2s var(--spring) infinite!important}
+.set2 .ss-notif .sx-bell .ms{animation:sxSwing 1.6s ease-in-out infinite!important;transform-origin:50% 10%}
+@keyframes sxDrop2{0%{opacity:0;transform:translateY(-22px)}14%,78%{opacity:1;transform:none}100%{opacity:0;transform:translateY(-22px)}}
+.set2 .ss-info .sx-app{animation:sxBob 3.4s ease-in-out infinite!important}
+.set2 .ss-info .sx-app::before{animation:sxSpin 10s linear infinite}
+.set2 .ss-checklist .sx-ck span{animation:sxUp .5s var(--smooth) both!important}
+.set2 .ss-checklist .sx-ck span:nth-child(2){animation-delay:.15s!important}
+.set2 .ss-checklist .sx-ck span:nth-child(3){animation-delay:.3s!important}
+
+/* 挿絵の中の各要素の、背景の補助 */
+.set2 .set-ill.sx .sx-blob{animation:sxDrift 6s ease-in-out infinite!important}
 </style>
 </head>
 <body>
@@ -3321,8 +3381,8 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
 const STABLE_VER = '18.2.30';
-const BETA_VER = '18.2.34';
-const RELEASE_VER = '18.2.34'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.2.35';
+const RELEASE_VER = '18.2.35'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3983,10 +4043,12 @@ function render() {
   try { html = ui.sub ? subView() : (['tasks', 'cal', 'stats'].includes(ui.tab) && curExam().arc ? pastBar() : '') + VIEWS[ui.tab](); }
   catch (e) { errLog('画面 ' + ui.tab + '：' + ((e && e.message) || e)); html = viewBroken(); }
   const sdOld = document.querySelector('.set2 .set-det'), sdY = sdOld ? sdOld.scrollTop : 0;
+  const catsOld = document.querySelector('.set2 .set-cats'), catsY = catsOld ? catsOld.scrollTop : 0;
   const setKey = ui.tab === 'settings' ? ui.setCat + '|' + ui.setSub : '', sameSet = setKey === setKeyLast;
   setKeyLast = setKey;
   v.innerHTML = html; ui.setGo = 0;
   if (sameSet && sdY) { const sdNew = document.querySelector('.set2 .set-det'); if (sdNew) sdNew.scrollTop = sdY; }
+  if (catsY) { const catsNew = document.querySelector('.set2 .set-cats'); if (catsNew) catsNew.scrollTop = catsY; }
   { const pNow = {}; v.querySelectorAll('.psw').forEach(b => { const k = b.dataset.act + '|' + b.dataset.id, was = pswPrevState[k], now = b.getAttribute('aria-checked'); pNow[k] = now; if (was !== undefined && was !== now) { b.setAttribute('aria-checked', was); void b.offsetWidth; b.setAttribute('aria-checked', now); } }); pswPrevState = pNow; }
   try { achTipPaint(); } catch (e) { }
   ui.anim = false;
@@ -4251,6 +4313,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.35', d: '2026/11/23 21:00', t: '（ベータ版）設定の挿絵を、項目の画面に合わせ、切り替えスイッチを仕様どおりに整えました', n: ['イラストを、項目の実際の画面（ホームならホーム、AIならAIの会話、完了時の演出なら紙吹雪など）に合わせ、中央に配置', 'カスタマイズに、背景・効果音・テーマの色・フォント・AIの見た目を追加（買っていないものも並び、理由と買い方を添えました）', '切り替えスイッチを、52×32・つまみ24・アイコン16の仕様に合わせ、ガクつかない滑らかな動きに', '切り替えの背景と同じ色になる項目に、縁の線を入れて、オンオフが見えるように', '左の一覧で、下の項目（情報など）を押しても、一覧が上へ戻らないように修正'] },
   { v: '18.2.34', d: '2026/11/23 20:00', t: '（ベータ版）設定の不具合を整理：左の一覧を押しても上へ戻らない、切り替えスイッチの動きを滑らかに、角の丸み、タブごとのイラスト', n: ['左の一覧（情報など下の項目を含む）を押しても、画面が上へ戻らないように修正（広い画面では右側だけがスクロールします）', '切り替えスイッチのつまみを、位置ではなく動き（変形）で動かすようにし、カクつきを解消', '切り替えを押したときに、つまみが前の位置から滑らかに動くように修正（画面を描き直しても）', '課題・考査と教科の一覧や注意書き、ツールの選択の角を丸く揃えた', 'イラストの文字（アイコン）が、ダークモードで暗く見えないように修正', 'イラストを、タブごとに違う配置と動きにした（考査はカードとチップ、タイマーは回る円、見た目は明暗の端末、ツールはタイル、ホームは吹き出し、AI先生は会話、タブバーは選択が移動、データは箱と同期、成長はメダル、通知はバナー、情報はアプリのアイコン）'] },
   { v: '18.2.33', d: '2026/11/23 19:00', t: '（ベータ版）設定の見た目と動きを整理：切り替えスイッチ、画面の移動、イラスト、課題と教科の揃え、上の余白', n: ['切り替えスイッチを、参考の形（オフは縁取りと×、オンは塗りと✓）に合わせた', '戻る・項目を開く・大項目を開くとき、右の画面が横からふわっと動くように', '通知は、項目の一覧を開かずそのまま出すように', 'イラストに、関係するアイコンを2つ添えて、音・波・回転などの動きを付けた', '課題と教科の見出しと行を、同じ左右の幅にそろえた', 'iPadで上がぼけて見えるので、タイトル・戻るボタン・検索バーを下げ、戻るボタンは円で囲んだ'] },
   { v: '18.2.32', d: '2026/11/23 18:40', t: '（ベータ版）設定の大幅な整理：挨拶のスイッチ・データの隙間・左パネルの固定、ホームの並び、通知、成長、単語帳、元素ラボ、電卓などを設定へ', n: ['挨拶のスイッチが、押したときにすぐ切り替わるように修正（オンの行を紺色にしない）', 'データ画面の行の隙間をなくし、ボタンの高さをそろえた', '左の検索バーは、下にスクロールしても固定。左の幅を広げ、角丸の面にした', 'ホームの並びと表示（表示・半分・上下の移動）、天気の場所のとり直しを設定へ追加', 'カードの模様・自然の音・課題の並び・AIの答え方と履歴の並び順を設定へ追加', '成長で買った背景・効果音・テーマ・フォント・AIの見た目から選べるように', '通知の内容と時刻を設定から変えられるように', '単語帳（出すカード・並び順・表と裏）と元素ラボ（火・記録）を設定へ', '電卓（角度の単位・関数電卓・履歴）を設定へ', 'ボタンを押したときに画面全体の動きが再生されないように修正'] },
@@ -5124,10 +5187,16 @@ const DEF_GROW = { bg: 'aurora', sfx: 'classic', font: 'def' };
 function growPickBody(kind) {
   const g = growGet(), map = SHOP_MAP[kind] || {};
   const cur = kind === 'theme' ? (g.theme || 'none') : kind === 'ai' ? (g.ai || AI_STD) : (g[kind] || DEF_GROW[kind]);
-  const rows = Object.keys(map).filter(id => shopHas(kind, id)).map(id => ({ id, n: map[id].n || id }));
-  if (kind === 'theme') rows.unshift({ id: 'none', n: '標準の色' });
-  if (!rows.length) return `<div class="card"><p class="muted" style="font-weight:500;margin:0">まだ買ったものがありません。XPショップで買うと、ここから選べます。</p></div>`;
-  return `<div class="card">${rows.map(r => { const on = cur === r.id; return `<button type="button" class="setrow${on ? ' on' : ''}" data-act="shopeq" data-id="${kind}:${r.id}"><span class="t">${esc(r.n)}<small>${on ? '使用中' : 'タップして使う'}</small></span>${on ? ms('check') : ''}</button>`; }).join('')}</div>`;
+  const rows = Object.keys(map).map(id => ({ id, it: map[id], ok: shopHas(kind, id), on: cur === id }));
+  let html = '';
+  if (kind === 'theme') html += `<button type="button" class="setrow${cur === 'none' ? ' on' : ''}" data-act="shopeq" data-id="theme:none"><span class="t">標準の色<small>${cur === 'none' ? '使用中' : 'タップして使う'}</small></span>${cur === 'none' ? ms('check') : ''}</button>`;
+  html += rows.map(({ id, it, ok, on }) => {
+    const name = esc(it.n || id);
+    if (ok) return `<button type="button" class="setrow${on ? ' on' : ''}" data-act="shopeq" data-id="${kind}:${id}"><span class="t">${name}<small>${on ? '使用中' : 'タップして使う'}</small></span>${on ? ms('check') : ''}</button>`;
+    if (it.lv && level().L < it.lv) return `<button type="button" class="setrow locked" disabled><span class="t">${name}<small>レベル${it.lv}で解放されます</small></span>${ms('lock')}</button>`;
+    return `<button type="button" class="setrow locked" data-act="shopopen"><span class="t">${name}<small>${it.c ? `${it.c} XPで、XPショップから買えます` : 'XPショップで買うと使えます'}</small></span>${ms('storefront')}</button>`;
+  }).join('');
+  return `<div class="card">${html}</div>`;
 }
 const SET_ITEMS = {
   exam: [
@@ -5142,6 +5211,11 @@ const SET_ITEMS = {
   ],
   look: [
     { id: 'pat', t: 'カードの模様', s: '単語帳のカードに出す模様', ic: 'texture', body: () => `<div class="card">${WC_PATS.map(([id, nm]) => { const ok = id === 'none' || shopHas('pat', id), cur = patNow() === id; return `<button type="button" class="setrow${cur ? ' on' : ''}" data-act="wcpatset" data-id="${id}" ${ok ? '' : 'disabled'}><span class="t">${nm}<small>${cur ? '使用中' : ok ? 'タップして使う' : 'ショップで買うと使えます'}</small></span></button>`; }).join('')}</div>` },
+    { id: 'g-bg', t: '背景', s: 'ホームの背景（買ったものも、まだのものも並びます）', ic: 'wallpaper', body: () => growPickBody('bg') },
+    { id: 'g-sfx', t: '効果音', s: '完了などの音（買ったものも、まだのものも並びます）', ic: 'music_note', body: () => growPickBody('sfx') },
+    { id: 'g-theme', t: 'テーマの色', s: '背景・ボタン・色のテーマ', ic: 'local_fire_department', body: () => growPickBody('theme') },
+    { id: 'g-font', t: 'フォント', s: 'アプリ全体の字（買ったものも、まだのものも並びます）', ic: 'font_download', body: () => growPickBody('font') },
+    { id: 'g-ai', t: 'AIの見た目', s: '先生の見た目（買ったものも、まだのものも並びます）', ic: 'auto_awesome', body: () => growPickBody('ai') },
     { id: 'nat', t: '自然の音の大きさ', s: '雨・波などの音量', ic: 'nature', body: () => `<div class="card"><div class="fld" style="padding:18px 24px 20px"><div class="seg">${[[0.25, '小'], [0.5, '中'], [1, '大']].map(([v, t]) => `<button type="button" class="${Math.abs(NS.vol - v) < 0.01 ? 'on' : ''}" data-act="setnatvol" data-id="${v}">${t}</button>`).join('')}</div></div></div>` },
     { id: 'dark', t: 'ダークモード', s: '自動・ライト・ダーク', ic: 'dark_mode', body: () => { const st = S.set; const o = [['auto', '自動', 'auto'], ['light', 'ライト', 'light'], ['dark', 'ダーク', 'dark']]; return `<div class="card"><div class="pick-grid">${o.map(([v, l, k]) => `<button type="button" class="pick ${k} ${st.theme === v ? 'on' : ''}" data-act="theme" data-id="${v}" aria-pressed="${st.theme === v}"><span class="ph"><i></i><i></i><i></i></span>${l}</button>`).join('')}</div></div><p class="set-note">「自動」は、この端末の明るさの設定に合わせて切り替えます。</p>`; } },
     { id: 'color', t: '色', s: 'アプリの色（レベルで増えます）', ic: 'palette', body: () => { const st = S.set; return `<div class="card"><div class="fld"><div class="lbl">アプリの色</div><div class="swatches">${[...SEEDS.map(([h, n]) => [h, n, 0]), ...LV_HUES].map(([h, n, need]) => { const ok = level().L >= need; return `<label class="sw ${ok ? '' : 'lk'}"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} ${ok ? `data-act="hue" data-id="${h}"` : 'disabled'} aria-label="${n}${ok ? '' : `（Lv.${need}で使えます）`}"><span style="background:hsl(${h} 66% 48%)">${ok ? '' : ms('lock', '', 'font-size:16px;color:#fff')}</span></label>`; }).join('')}</div><p class="muted" style="font-size:.8rem;margin:8px 4px 0">レベルが上がると、色が増えます（${LV_HUES.map(([, n, l]) => `Lv.${l}：${n}`).join('、')}）</p></div></div>`; } },
@@ -5227,23 +5301,46 @@ const SET_ILL = {
   ver: ['info', 'new_releases', 'verified', 'pulse'], upd: ['system_update', 'download', 'new_releases', 'bounce'],
   diag: ['troubleshoot', 'bug_report', 'health_and_safety', 'pulse'],
 };
-const SX = {
-  exam: () => `<div class="sx-a sx-card"><small>あと</small><b>12日</b><i></i><i class="s"></i></div><div class="sx-b sx-chips"><span class="sc" style="--sh:222">数学</span><span class="sc" style="--sh:150">英語</span><span class="sc" style="--sh:190">理科</span></div>`,
-  timer: () => `<div class="sx-a sx-ring"><b>25:00</b><small>集中</small></div><div class="sx-b sx-btns"><span>${ms('stop')}</span><span class="on">${ms('play_arrow')}</span></div>`,
-  look: () => `<div class="sx-a sx-split"><i></i></div><div class="sx-b sx-sw"><i style="--sw:#3f6fd8"></i><i style="--sw:#d86f3f"></i><i style="--sw:#3fa36a"></i><i style="--sw:#8a4fd8"></i></div>`,
-  tools: () => `<div class="sx-a sx-grid">${['calculate', 'function', 'science', 'translate', 'timeline', 'numbers'].map((i, k) => `<span style="--k:${k}">${ms(i)}</span>`).join('')}</div>`,
-  home: () => `<div class="sx-a sx-bub">おはよう！今日も頑張ろう</div><div class="sx-b sx-mini"><b>ワーク p.10-30</b><i></i></div>`,
-  ai: () => `<div class="sx-a sx-m">この問題、どう解く？</div><div class="sx-b sx-r"><span></span><span></span><span></span></div>`,
-  nav: () => `<div class="sx-a sx-bar"><i class="sx-pill"></i>${['home', 'task_alt', 'style', 'timer', 'settings'].map(i => `<span>${ms(i)}</span>`).join('')}</div>`,
-  data: () => `<div class="sx-a sx-cyl"><i></i><i></i><i></i></div><div class="sx-b sx-arr">${ms('sync')}</div>`,
-  grow: () => `<div class="sx-a sx-xp"><b>Lv.5</b><div class="sx-track"><i></i></div><small>あと120XP</small></div><div class="sx-b sx-star">${ms('emoji_events')}</div>`,
-  notif: () => `<div class="sx-a sx-ban"><img src="icon-192.png" alt=""><div><b>明日提出：数学</b><small>考査課題マネージャー</small></div></div>`,
-  info: () => `<div class="sx-a sx-app"><img src="icon-192.png" alt=""></div><div class="sx-b sx-ver">v${BETA_VER}</div>`,
+const SX_LABELS = { tone: ['やさしい', 'ふつう', 'きびしい'], style: ['ヒント', '段階的', '解説'], grade: ['1年', '2年', '3年'] };
+// 項目ごとに、近い画面の絵を使う（ホームならホーム、AIならAIの会話、完了時の演出なら紙吹雪）
+const SCENE_OF = { tv: 'tasks', ex: 'exam', sj: 'subj', tm: 'ring', gl: 'goal', ta: 'sound', 'g-sfx': 'sound', pat: 'card', wc: 'card', nat: 'nature', dark: 'phone', color: 'palette', 'g-theme': 'palette', fs: 'aa', 'g-font': 'aa', anim: 'motion', wx: 'weather', wxl: 'weather', conf: 'confetti', 'g-bg': 'bg', qz: 'quiz', calc: 'calc', sc: 'chart', ty: 'keys', ht: 'tiles', lab: 'tiles', 'g-shop': 'tiles', greet: 'greet', lay: 'layout', hist: 'layout', mode: 'chat', 'g-ai': 'chat', tone: 'chips', style: 'chips', grade: 'chips', bar: 'navbar', nav: 'navbar', cloud: 'sync', bk: 'backup', push: 'notif', ver: 'info', upd: 'checklist', diag: 'checklist' };
+const CAT_SCENE = { exam: 'tasks', timer: 'ring', look: 'palette', tools: 'quiz', home: 'greet', ai: 'chat', nav: 'navbar', data: 'backup', grow: 'tiles', notif: 'notif', info: 'info' };
+const SX_BODY = {
+  tasks: () => `<div class="sx-t"><span class="sc" style="--sh:222">数学</span><b>ワーク p.10-30</b><i class="sx-bar"><u></u></i></div><div class="sx-t t2"><span class="sc" style="--sh:150">英語</span><b>単語 Unit 3</b><i class="sx-bar"><u class="full"></u></i></div>`,
+  exam: () => `<div class="sx-cnt"><small>定期考査まで</small><b>12<span>日</span></b><i class="sx-bar"><u></u></i><small>初日 12月10日</small></div>`,
+  subj: () => `<div class="sx-chips"><span class="sc" style="--sh:222">数学</span><span class="sc" style="--sh:150">英語</span><span class="sc" style="--sh:190">理科</span><span class="sc" style="--sh:30">国語</span><span class="sc" style="--sh:280">社会</span></div>`,
+  ring: () => `<div class="sx-rw"><div class="sx-ring"><b>25:00</b><small>集中</small></div></div><div class="sx-btns"><span>${ms('play_arrow')}</span></div>`,
+  goal: () => `<div class="sx-goal"><b>今日の目標</b><i class="sx-bar big"><u style="--p:.6"></u></i><small>60% ・ あと8ページ</small></div>`,
+  sound: () => `<div class="sx-eq"><i style="--h:40%"></i><i style="--h:80%"></i><i style="--h:55%"></i><i style="--h:95%"></i><i style="--h:65%"></i><i style="--h:75%"></i><i style="--h:45%"></i></div>`,
+  card: () => `<div class="sx-flip"><div><b>apple</b><small>りんご</small></div></div>`,
+  nature: () => `<div class="sx-rain"><i style="--l:8%;--d:0s"></i><i style="--l:30%;--d:.5s"></i><i style="--l:52%;--d:.2s"></i><i style="--l:72%;--d:.8s"></i><i style="--l:90%;--d:.35s"></i></div>`,
+  phone: () => `<div class="sx-split"><i></i></div>`,
+  palette: () => `<div class="sx-sw">${['#3f6fd8', '#d86f3f', '#3fa36a', '#8a4fd8', '#d8437b'].map((c, k) => `<i style="--sw:${c}" class="${k === 1 ? 'on' : ''}"></i>`).join('')}</div>`,
+  aa: () => `<div class="sx-aa"><b>Aa</b><small>小 ・ 標準 ・ 大</small></div>`,
+  motion: () => `<div class="sx-mo"><i></i></div><small class="sx-mc">動きを減らせます</small>`,
+  weather: () => `<div class="sx-wx"><span class="sx-sun">${ms('wb_sunny')}</span><span class="sx-cloud">${ms('cloud')}</span></div>`,
+  confetti: () => `<div class="sx-cf"><span class="sx-ok">${ms('check')}</span>${[[-70, -40, '#f472b6'], [60, -50, '#60a5fa'], [-40, 50, '#34d399'], [70, 30, '#fbbf24'], [-80, 10, '#a78bfa'], [30, 60, '#f87171']].map(([x, y, c], k) => `<i style="--x:${x}px;--y:${y}px;--c:${c};animation-delay:${k * .12}s"></i>`).join('')}</div>`,
+  bg: () => `<div class="sx-bgp" style="background:${HOME_BG.sunset.css}"><small>夕焼け</small></div>`,
+  quiz: () => `<div class="sx-q"><b>3 × 4 = ?</b><span>10</span><span class="ok">${ms('check')}12</span><span>14</span></div>`,
+  calc: () => `<div class="sx-calc"><em>1,024</em><div class="sx-keys">${['7', '8', '9', '4', '5', '6', '1', '2', '3', '0', '.', '＝'].map(k => `<i class="${k === '5' ? 'p' : ''}">${k}</i>`).join('')}</div></div>`,
+  chart: () => `<div class="sx-ch"><i style="--h:40%"></i><i style="--h:72%"></i><i style="--h:55%"></i><i style="--h:90%"></i><i style="--h:64%"></i></div>`,
+  keys: () => `<div class="sx-kb">${['あ', 'か', 'さ', 'た', 'な', 'は', 'ま', 'や', 'ら', 'わ', '、', '。'].map((k, n) => `<i class="${n === 3 ? 'p' : ''}">${k}</i>`).join('')}</div>`,
+  tiles: () => `<div class="sx-tiles">${['calculate', 'function', 'science', 'translate', 'timeline', 'numbers'].map((i, k) => `<span style="animation-delay:${k * .08}s">${ms(i)}</span>`).join('')}</div>`,
+  greet: () => `<div class="sx-hi">おはよう！今日も頑張ろう</div><div class="sx-tip">${ms('lightbulb')}<span>豆知識：1日10分の復習が効きます</span></div>`,
+  layout: () => `<div class="sx-lay"><div>${ms('drag_indicator')}今日の予定</div><div class="mv">${ms('drag_indicator')}目標</div><div>${ms('drag_indicator')}統計</div></div>`,
+  chat: () => `<div class="sx-msg me">この問題、どう解く？</div><div class="sx-msg ai">まず式を整理します</div><div class="sx-typ"><i></i><i></i><i></i></div>`,
+  chips: (id) => { const L = SX_LABELS[id] || ['A', 'B', 'C']; return `<div class="sx-ch2">${L.map((l, k) => `<span class="${k === 1 ? 'on' : ''}">${l}</span>`).join('')}</div><small>選ぶと、先生の話し方や学年が変わります</small>`; },
+  navbar: () => `<div class="sx-nav"><i class="pill"></i>${['home', 'task_alt', 'style', 'timer', 'settings'].map(i => `<span>${ms(i)}</span>`).join('')}</div>`,
+  sync: () => `<div class="sx-dev">${ms('smartphone')}<span class="sx-lk">${ms('sync')}</span>${ms('tablet_mac')}</div>`,
+  backup: () => `<div class="sx-cyl"><i></i><i></i><i></i></div><div class="sx-up">${ms('backup')}<b>保存</b></div>`,
+  notif: () => `<div class="sx-ban"><img src="icon-192.png" alt=""><div><b>明日提出：数学</b><small>考査課題マネージャー</small></div></div><div class="sx-bell">${ms('notifications')}</div>`,
+  info: () => `<div class="sx-app"><img src="icon-192.png" alt=""></div><small class="sx-v">v${BETA_VER}</small>`,
+  checklist: () => `<div class="sx-ck"><span>${ms('check_circle')}最新の版を確認</span><span>${ms('check_circle')}変更点を読む</span><span>${ms('check_circle')}完了</span></div>`,
 };
 function setIll(it, c) {
-  const d = SET_ILL[it.id] || [it.ic, 'auto_awesome', 'star', 'float'];
-  const body = (SX[c.id] || SX.info)();
-  return `<div class="set-ill sx ss-${c.id}" style="--cc:${c.c}" aria-hidden="true">${body}<span class="sx-main">${ms(d[0])}</span><span class="sx-s sx-s1">${ms(d[1])}</span><span class="sx-s sx-s2">${ms(d[2])}</span></div>`;
+  const key = SCENE_OF[it.id] || CAT_SCENE[c.id] || 'info';
+  const body = (SX_BODY[key] || SX_BODY.info)(it.id);
+  return `<div class="set-ill sx ss-${key}" style="--cc:${c.c}" aria-hidden="true"><span class="sx-blob"></span><span class="sx-blob b2"></span><div class="sx-scr"><div class="sx-hd"><span class="sx-ic">${ms(it.ic || c.ic)}</span><b>${it.t || c.t}</b></div>${body}</div></div>`;
 }
 function setDetHtml(cat) {
   const c = SET_CATS.find(x => x.id === cat) || SET_CATS[0], items = SET_ITEMS[c.id] || [];
