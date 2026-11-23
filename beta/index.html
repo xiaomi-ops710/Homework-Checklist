@@ -291,8 +291,10 @@ html:not([data-nav=bottom]) body.set-full #nav{border-radius:0!important}
   .set-page.set-det .h-sec{margin:20px 8px 8px}
 }
 @media (min-width:720px){
-  .set2{display:grid;grid-template-columns:minmax(300px,320px) minmax(0,1fr);align-items:start}
-  .set-nav{position:sticky;top:0;height:100dvh;overflow:auto;padding:20px 16px 28px;background:var(--s2)}
+  .set2{display:grid;grid-template-columns:minmax(340px,380px) minmax(0,1fr);align-items:start}
+  .set-nav{position:sticky;top:12px;height:calc(100dvh - 24px);margin:12px 0 12px 12px;border-radius:36px;overflow:hidden;display:flex;flex-direction:column;padding:20px 16px 0;background:var(--s2)}
+  .set-nav>*{flex:none}
+  .set-nav .set-cats{flex:1 1 auto;min-height:0;overflow:auto;padding-bottom:28px;align-content:start;overscroll-behavior:contain}
 }
 /* 設定の中では、操作のたびに項目が出てくるアニメーションを重ねない */
 .set2 *{animation:none!important}
@@ -349,6 +351,20 @@ body.set-full #nav .ni.on .pill,body.set-full #nav .nbadge{animation:none!import
 .pick .ph.ill-bottom i{position:absolute;left:12px;right:12px;top:auto;bottom:14px;height:26px;border-radius:14px;background:#9aa6bd}
 .pick.dark .ph.ill-auto{background:linear-gradient(90deg,#15181f 30%,#2a3040 30%)}
 .pick.dark .ph.ill-bottom{background:#15181f}
+/* 設定の最終調整（後ろに書いたものが優先）：行の隙間・オンの行の色 */
+.set-page.set-det .setrow.on{background:var(--s1);color:var(--on)}
+.set-page.set-det .setrow.on .t small{color:var(--on-v)}
+.set-page.set-det .card>.chips{display:grid;gap:2px;padding:0!important;margin:0!important;background:transparent!important}
+.set-page.set-det .card>.chips>.btn{min-height:78px;border-radius:0;justify-content:flex-start;padding:0 24px}
+.set-page.set-det .card>p:has(+.chips){margin-bottom:0!important;padding-bottom:14px!important}
+/* Material 3 Expressive の考え方：大きめの角丸・ばねの動き（押すと少し縮む）・強めの見出し */
+.set-page.set-det .card{border-radius:32px}
+.set-page.set-det .setrow,.set-page.set-det .card>.chips>.btn,.set-page .pick{transition:transform .35s var(--spring),background-color .25s var(--smooth)}
+.set-page.set-det .setrow:active,.set-page.set-det .card>.chips>.btn:active,.set-page .pick:active{transform:scale(.975)}
+.set-cat{transition:border-radius .35s var(--spring),transform .35s var(--spring),background-color .25s var(--smooth)}
+.set-cat:active{transform:scale(.98)}
+.set-page.set-det .h-sec h2{font-weight:600;letter-spacing:.02em}
+.set-master{min-height:84px;font-weight:600}
 [hidden].setrow,[hidden].srow,[hidden].card{display:none!important}
 
 /* ===== 17.10：連続日数の位置・挨拶と豆知識・ヘッダーの高さ・設定の余白 ===== */
@@ -3071,8 +3087,8 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
 const STABLE_VER = '18.2.30';
-const BETA_VER = '18.2.31';
-const RELEASE_VER = '18.2.31'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.2.32';
+const RELEASE_VER = '18.2.32'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3721,6 +3737,7 @@ function render() {
   if (ui.tab === 'tools' && ui.tool) tuNote(ui.tool);
   if (ui.tab === 'ai' && !aiOpened()) { try { localStorage.setItem('kosa-ai-opened', '1'); } catch (e) { } }
   const y = window.scrollY, v = $('#view');
+  const quiet = !ui.anim && !ui.vin;   // 画面を切り替えず、中身だけ描き直すとき
   if (ui.anim) ui._cu = true;
   const go = (ui.anim || ui.vin) && !reduced(), fade = ui.tab === 'tools' && ui.tool === 'graph';
   v.className = ''; if (go) void v.offsetWidth;
@@ -3737,7 +3754,23 @@ function render() {
   if (ui.tab === 'ai') { renderAiLog(); renderAtt(); }
   if (ui.tab === 'tools') toolsPost();
   window.scrollTo(0, y);
+  if (quiet) quietAnims();
   requestAnimationFrame(() => { fitIcons(); fabApply(); });
+}
+// 出る動き（ふわっと出る・ポップ）は、描き直しのたびに最初から再生されてしまうので、
+// 同じ画面の描き直しのときは、その動きを最後の状態まで一気に進めておく（見た目は変わらず、動きだけ止まる）
+const QUIET_KF = new Set(['rise', 'riseIn', 'popIn', 'pop', 'badgein', 'fadeIn', 'vin', 'vinf']);
+function quietAnims() {
+  try {
+    document.getAnimations().forEach(a => {
+      const t = a.effect && a.effect.target;
+      if (!t || !t.closest || !t.closest('#view,#nav')) return;
+      if (!(a instanceof CSSAnimation) || !QUIET_KF.has(a.animationName)) return;
+      const it = a.effect.getComputedTiming().iterations;
+      if (it === Infinity || it > 1) return;
+      a.finish();
+    });
+  } catch (e) { }
 }
 let _gem = 0;
 function gem(px = 22, grad = true) {
@@ -3978,6 +4011,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.32', d: '2026/11/23 18:40', t: '（ベータ版）設定の大幅な整理：挨拶のスイッチ・データの隙間・左パネルの固定、ホームの並び、通知、成長、単語帳、元素ラボ、電卓などを設定へ', n: ['挨拶のスイッチが、押したときにすぐ切り替わるように修正（オンの行を紺色にしない）', 'データ画面の行の隙間をなくし、ボタンの高さをそろえた', '左の検索バーは、下にスクロールしても固定。左の幅を広げ、角丸の面にした', 'ホームの並びと表示（表示・半分・上下の移動）、天気の場所のとり直しを設定へ追加', 'カードの模様・自然の音・課題の並び・AIの答え方と履歴の並び順を設定へ追加', '成長で買った背景・効果音・テーマ・フォント・AIの見た目から選べるように', '通知の内容と時刻を設定から変えられるように', '単語帳（出すカード・並び順・表と裏）と元素ラボ（火・記録）を設定へ', '電卓（角度の単位・関数電卓・履歴）を設定へ', 'ボタンを押したときに画面全体の動きが再生されないように修正'] },
   { v: '18.2.31', d: '2026/11/23 16:00', t: '（ベータ版）設定の追加と整理：ホーム・AI先生の設定、アップデート画面を本家のように、データのボタンを行に、タブバーの角・隙間・オン時の色を修正', n: ['ホームの設定：挨拶と豆知識の切り替え・挨拶が変わる速さ・よく使うツール', 'AI・先生の設定：先生の性格・教え方・学年（イラスト付きの一覧）', '左の一覧の上に、Googleアカウントの行', 'ナビゲーションバーの位置を一つにまとめ、イラストで選べるように', 'バーに置くツールは折りたたみにして、一覧を整理', 'タブバーを下にしたとき、横も四角くなる問題を修正', 'データなどの楕円ボタンを、行の形に揃えた', '項目が「オン」のとき、ボタンの色と同化する問題を修正', 'アップデート画面を、本家Androidの「システム アップデート」の形に'] },
   { v: '18.2.30', d: '2026/11/23 15:40', t: '設定の操作で画面が出るアニメーションを止め、設定を見直し（ダークモード・文字のサイズはイラスト付きに・ツールと集計の設定を追加・項目が少ないものは一覧を使わない）', n: ['設定でボタンを押すたびに出ていたアニメーション（タブバーの丸い印・項目の出現）を止めた', 'ダークモード・文字のサイズを、イラスト付きの大きな選択肢にした', '考査と教科・ナビゲーションバー・データ・ツールと集計は、一覧を使わず中身をそのまま表示', '「ツールと集計」を追加：クイズの問題数・選択肢の数・出しかた、集計の対象、タイピングの次の問題へ進みかた', 'ナビゲーションバーに、表示する場所（自動・下に固定）を追加', '左の一覧の幅を狭くした・余白を詰めた・データの項目の隙間を縮めた'] },
   { v: '18.2.29', d: '2026/11/23 15:00', t: '設定を本家Androidのように作り直し（項目を開くと、その項目だけの設定ページ・左の項目の形と塗り・検索バーとスイッチを大きく・iPadの左のタブが丸くならない・文字の位置の修正）', n: ['右の中身：項目の一覧から、タップするとその項目だけの設定ページ（例：カスタマイズ→ダークモード・色・文字のサイズ・アニメーションなど）', '項目のページの上に、Androidのような大きな切り替えバー（アニメーションなど）', '左の一覧：アイコンは塗りつぶし、開いている項目は丸い形・開いていない項目は角の丸い形', '左の文字（項目名・説明）の大きさを調整、検索バーは高さ64px、スイッチは少し大きく', 'データ・情報の文字が左に寄って隠れる問題を直した', 'iPadの左のタブバーの角が丸くならず、隙間ができないようにした'] },
@@ -4820,6 +4854,8 @@ const SET_CATS = [
   { id: 'ai', t: 'AI・先生', s: '先生の性格・教え方・学年', ic: 'auto_awesome', c: '#ddd6fe' },
   { id: 'nav', t: 'ナビゲーションバー', s: 'タブの並びと表示', ic: 'dock_to_right', c: '#86efac' },
   { id: 'data', t: 'データ', s: 'アカウントと同期・バックアップと復元', ic: 'database', c: '#fde68a' },
+  { id: 'grow', t: '成長・ショップ', s: '買ったものの使い分け', ic: 'trending_up', c: '#bbf7d0' },
+  { id: 'notif', t: '通知', s: '届く内容と時刻', ic: 'notifications', c: '#fbcfe8' },
   { id: 'info', t: '情報', s: 'バージョン・アップデート・動作と診断・使い方', ic: 'info', c: '#bfdbfe' },
 ];
 function viewSettings() {
@@ -4840,8 +4876,19 @@ function subjBodyHtml() {
   <div class="slist stg">${subjects().map((s, i, a) => `<div class="srow sc" style="--sh:${s.hue}">${avatar(s, 48)}<div class="t">${esc(s.name)}<small>課題 ${tasksOfSub(s.id).length}件${s.exam ? ' ・ テスト ' + fmtDate(s.exam) : ''}</small></div><button class="ibtn" data-act="subjup" data-id="${s.id}" ${i === 0 ? 'disabled style="opacity:.3"' : ''} aria-label="上へ">${ms('keyboard_arrow_up')}</button><button class="ibtn" data-act="subjdown" data-id="${s.id}" ${i === a.length - 1 ? 'disabled style="opacity:.3"' : ''} aria-label="下へ">${ms('keyboard_arrow_down')}</button><button class="ibtn" data-act="editsubj" data-id="${s.id}" aria-label="編集">${ms('edit')}</button></div>`).join('') || '<div class="card muted" style="font-weight:500">この考査にはまだ教科がありません</div>'}</div>`;
 }
 // 設定の項目：左の一覧から「考査と教科」などを開くと、右に項目の一覧。項目をタップすると、その項目だけの設定ページ
+const DEF_GROW = { bg: 'aurora', sfx: 'classic', font: 'def' };
+// 成長で買ったものの中から、使うものを選ぶ一覧（電卓のように、買ったものだけ出す）
+function growPickBody(kind) {
+  const g = growGet(), map = SHOP_MAP[kind] || {};
+  const cur = kind === 'theme' ? (g.theme || 'none') : kind === 'ai' ? (g.ai || AI_STD) : (g[kind] || DEF_GROW[kind]);
+  const rows = Object.keys(map).filter(id => shopHas(kind, id)).map(id => ({ id, n: map[id].n || id }));
+  if (kind === 'theme') rows.unshift({ id: 'none', n: '標準の色' });
+  if (!rows.length) return `<div class="card"><p class="muted" style="font-weight:500;margin:0">まだ買ったものがありません。XPショップで買うと、ここから選べます。</p></div>`;
+  return `<div class="card">${rows.map(r => { const on = cur === r.id; return `<button type="button" class="setrow${on ? ' on' : ''}" data-act="shopeq" data-id="${kind}:${r.id}"><span class="t">${esc(r.n)}<small>${on ? '使用中' : 'タップして使う'}</small></span>${on ? ms('check') : ''}</button>`; }).join('')}</div>`;
+}
 const SET_ITEMS = {
   exam: [
+    { id: 'tv', t: '課題の並び', h: true, ic: 'sort', body: () => `<div class="card">${[['subj', '教科ごとにまとめる'], ['due', '提出期限の順に並べる']].map(([v, t]) => `<button type="button" class="setrow${tview() === v ? ' on' : ''}" data-act="tview" data-id="${v}"><span class="t">${t}</span>${tview() === v ? ms('check') : ''}</button>`).join('')}</div>` },
     { id: 'ex', t: '考査', s: '考査の一覧・追加・保存した考査', ic: 'school', body: () => `<div class="card">${examBodyHtml()}</div>` },
     { id: 'sj', t: '教科', s: '教科の追加・順番・編集', ic: 'menu_book', body: () => `<div class="card">${subjBodyHtml()}</div>` },
   ],
@@ -4851,6 +4898,8 @@ const SET_ITEMS = {
     { id: 'ta', t: '音とアニメーション', s: 'チャイム・タイマーの動き・自然の音', ic: 'volume_up', body: () => `<div class="card">${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}${swRow('timerAnim', 'タイマー画面のアニメーション', 'オフにすると、円の動きなどを止めます')}${swRow('natStop', 'タイマー終了で自然の音を止める', '時間が終わると、自然の音を自動で止めます')}</div>` },
   ],
   look: [
+    { id: 'pat', t: 'カードの模様', s: '単語帳のカードに出す模様', ic: 'texture', body: () => `<div class="card">${WC_PATS.map(([id, nm]) => { const ok = id === 'none' || shopHas('pat', id), cur = patNow() === id; return `<button type="button" class="setrow${cur ? ' on' : ''}" data-act="wcpatset" data-id="${id}" ${ok ? '' : 'disabled'}><span class="t">${nm}<small>${cur ? '使用中' : ok ? 'タップして使う' : 'ショップで買うと使えます'}</small></span></button>`; }).join('')}</div>` },
+    { id: 'nat', t: '自然の音の大きさ', s: '雨・波などの音量', ic: 'nature', body: () => `<div class="card"><div class="fld" style="padding:18px 24px 20px"><div class="seg">${[[0.25, '小'], [0.5, '中'], [1, '大']].map(([v, t]) => `<button type="button" class="${Math.abs(NS.vol - v) < 0.01 ? 'on' : ''}" data-act="setnatvol" data-id="${v}">${t}</button>`).join('')}</div></div></div>` },
     { id: 'dark', t: 'ダークモード', s: '自動・ライト・ダーク', ic: 'dark_mode', body: () => { const st = S.set; const o = [['auto', '自動', 'auto'], ['light', 'ライト', 'light'], ['dark', 'ダーク', 'dark']]; return `<div class="card"><div class="pick-grid">${o.map(([v, l, k]) => `<button type="button" class="pick ${k} ${st.theme === v ? 'on' : ''}" data-act="theme" data-id="${v}" aria-pressed="${st.theme === v}"><span class="ph"><i></i><i></i><i></i></span>${l}</button>`).join('')}</div></div><p class="set-note">「自動」は、この端末の明るさの設定に合わせて切り替えます。</p>`; } },
     { id: 'color', t: '色', s: 'アプリの色（レベルで増えます）', ic: 'palette', body: () => { const st = S.set; return `<div class="card"><div class="fld"><div class="lbl">アプリの色</div><div class="swatches">${[...SEEDS.map(([h, n]) => [h, n, 0]), ...LV_HUES].map(([h, n, need]) => { const ok = level().L >= need; return `<label class="sw ${ok ? '' : 'lk'}"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} ${ok ? `data-act="hue" data-id="${h}"` : 'disabled'} aria-label="${n}${ok ? '' : `（Lv.${need}で使えます）`}"><span style="background:hsl(${h} 66% 48%)">${ok ? '' : ms('lock', '', 'font-size:16px;color:#fff')}</span></label>`; }).join('')}</div><p class="muted" style="font-size:.8rem;margin:8px 4px 0">レベルが上がると、色が増えます（${LV_HUES.map(([, n, l]) => `Lv.${l}：${n}`).join('、')}）</p></div></div>`; } },
     { id: 'fs', t: '文字のサイズ', s: '小・標準・大', ic: 'format_size', body: () => { const st = S.set; const o = [['s', '小', '1.1rem'], ['m', '標準', '1.45rem'], ['l', '大', '1.9rem']]; return `<div class="card"><div class="pick-grid">${o.map(([v, l, z]) => `<button type="button" class="pick ${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}" aria-pressed="${st.fs === v}"><span class="ph aa" style="font-size:${z}">Aa</span>${l}</button>`).join('')}</div></div><p class="set-note">アプリ全体の文字の大きさが変わります。</p>`; } },
@@ -4859,15 +4908,22 @@ const SET_ITEMS = {
     { id: 'conf', t: '完了時の演出', s: '課題を終えたとき紙吹雪', ic: 'celebration', master: 'confetti', note: '課題を終えたとき紙吹雪を表示します', body: () => '' },
   ],
   home: [
+    { id: 'lay', t: 'ホームの並びと表示', h: true, ic: 'dashboard_customize', body: () => { const L = homeLay(); return `<div class="card">${L.order.map(id => { const m = HOME_SECS.find(x => x[0] === id) || [id, id, 'home'], shown = !L.hide[id], half = !!L.half[id]; return `<div class="setrow"><span class="ric">${ms(m[2])}</span><span class="t">${m[1]}<small>${shown ? (half ? '表示する・幅は半分' : '表示する・幅は全部') : '隠しています'}</small></span><button type="button" class="ibtn" data-act="homeup" data-id="${id}" aria-label="上へ">${ms('arrow_upward')}</button><button type="button" class="ibtn" data-act="homedown" data-id="${id}" aria-label="下へ">${ms('arrow_downward')}</button><button type="button" class="btn tonal sm" data-act="sethhalf" data-id="${id}" ${shown ? '' : 'disabled'}>${half ? '半分' : '全部'}</button>${pswHtml(id, shown, 'sethsec', m[1])}</div>`; }).join('')}</div>`; } },
+    { id: 'wxl', t: '天気の場所', h: true, ic: 'my_location', body: () => `<div class="card"><div class="setrow"><span class="t">${S.set.wxloc ? '位置：取得済み' : '位置：まだ取得していません'}<small>天気の予報は、この位置の近くの値を使います。位置はこの端末にだけ保存されます。</small></span></div><div class="fld" style="padding:16px 24px 20px"><button type="button" class="btn tonal" data-act="setwxreloc">${ms('my_location')}今いる場所をとり直す</button></div></div>` },
     { id: 'greet', t: '挨拶と豆知識', h: true, ic: 'waving_hand', body: () => { const c = rotCfg(); const rows = [['greet', '挨拶を出す', '時間帯にあわせた挨拶を、ホームの一番上に出します'], ['tip', '豆知識を出す', '勉強に役立つ小さな話を出します'], ['personal', '自分の記録にあわせた文', '課題や勉強の記録から、ひとことを出します'], ['card', '単語帳のカードから出す', '単語帳の言葉を、挨拶の代わりに出します'], ['own', '自分で書いた文を出す', '下の「挨拶の文」で書いた文を出します']]; return `<div class="card">${rows.map(([k, t, d]) => `<button type="button" class="setrow${c.on[k] ? ' on' : ''}" data-act="greettog" data-id="${k}"><span class="t">${t}<small>${d}</small></span><span class="sw2" style="pointer-events:none"><input type="checkbox" tabindex="-1" ${c.on[k] ? 'checked' : ''}><span class="tr"><span class="th">${ms('close')}${ms('check')}</span></span></span></button>`).join('')}</div><div class="card"><div class="fld"><div class="lbl">挨拶が変わる速さ</div><div class="seg">${[[5, '5秒'], [15, '15秒'], [60, '1分'], [0, '固定']].map(([v, t]) => `<button type="button" class="${c.speed === v ? 'on' : ''}" data-act="greetspd" data-id="${v}">${t}</button>`).join('')}</div></div></div>`; } },
     { id: 'ht', t: 'よく使うツール', h: true, ic: 'apps', body: () => `<div class="card">${setLnk('hometools', 'apps', 'ホームによく使うツールを選ぶ', 'ホームに出すツールを選びます')}${setLnk('homeedit', 'dashboard_customize', 'ホームの配置を編集', '並び順と、表示するまとまりを変えます')}</div>` },
   ],
   ai: [
+    { id: 'mode', t: '答え方', s: 'ヒントから、または解き方まで', ic: 'tips_and_updates', body: () => `<div class="card">${[['hint', 'ヒントから出す', '答えを見る前に、考えるための手がかりを出します'], ['explain', '解き方まで説明する', '途中の考え方も、順番に説明します']].map(([v, t, d]) => `<button type="button" class="setrow${AIM.mode === v ? ' on' : ''}" data-act="aimode" data-id="${v}"><span class="t">${t}<small>${d}</small></span>${AIM.mode === v ? ms('check') : ''}</button>`).join('')}</div>` },
+    { id: 'hist', t: '履歴の並び順', s: '新しい順・古い順・名前順', ic: 'swap_vert', body: () => `<div class="card"><button type="button" class="setrow" data-act="aisort"><span class="t">${AIS_TXT[AIS.sort]}<small>タップすると、次の並び順に変わります</small></span></button></div>` },
     { id: 'tone', t: '先生の性格', s: '話し方・やさしさ', ic: 'favorite', body: () => snPickList('tone', SN_TONES.map(x => [x[0], x[1], x[2], x[3]])) },
     { id: 'style', t: '教え方', s: 'ヒントから・手順つき など', ic: 'lightbulb', body: () => snPickList('style', SN_STYLES.map(x => [x[0], x[1], x[2], x[3]])) },
     { id: 'grade', t: '学年', s: '問題の難しさのめやす', ic: 'school', body: () => snPickList('grade', SN_GRADES.map(x => [x[0], x[1], 'school', x[2]])) },
   ],
   tools: [
+    { id: 'wc', t: '単語帳', h: true, ic: 'style', body: () => `<div class="card"><div class="fld" style="padding:18px 24px 14px"><div class="lbl">出すカード</div><div class="seg">${[['new', '覚えていない'], ['all', 'すべて'], ['known', '覚えた'], ['rev', '見直し']].map(([v, t]) => `<button type="button" class="${WC.filt === v ? 'on' : ''}" data-act="setwcfilt" data-id="${v}">${t}</button>`).join('')}</div></div><div class="fld" style="padding:0 24px 18px"><div class="lbl">並び順</div><div class="seg">${[['n', '番号順'], ['new', '覚えていない順'], ['star', '★が先'], ['weak', '苦手が先']].map(([v, t]) => `<button type="button" class="${WC.sort === v ? 'on' : ''}" data-act="setwcsort" data-id="${v}">${t}</button>`).join('')}</div></div><div class="setrow"><span class="t">表と裏を入れ替える<small>裏の答えを先に出します</small></span>${pswHtml('rev', !!WC.rev, 'setwcrev', '表と裏を入れ替える')}</div></div>` },
+    { id: 'lab', t: '元素ラボ', h: true, ic: 'experiment', body: () => `<div class="card"><div class="setrow"><span class="t">加熱する装置の火<small>火をつけると、加熱が必要な反応ができます</small></span>${pswHtml('heat', !!LAB.heat, 'setlabheat', '加熱する装置の火')}</div><button type="button" class="setrow" data-act="setlabreset"><span class="t" style="color:var(--err)">発見した物質の記録を消す<small>いま ${LAB.found.size} 種類を発見しています</small></span></button></div>` },
+    { id: 'calc', t: '電卓', h: true, ic: 'calculate', body: () => `<div class="card"><button type="button" class="setrow" data-act="setcalcdeg"><span class="t">角度の単位<small>sin・cos・tan で使う単位</small></span><b style="font-weight:500">${CALC.deg ? '度（°）' : 'ラジアン'}</b></button><div class="setrow"><span class="t">関数電卓を出す<small>sin・cos・log などのボタンを出します</small></span>${pswHtml('sci', CALC.sci, 'setcalcsci', '関数電卓を出す')}</div><button type="button" class="setrow" data-act="setcalchist"><span class="t" style="color:var(--err)">計算の履歴を消す</span></button></div>` },
     { id: 'qz', t: 'クイズ', s: '問題数・選択肢・出しかた', ic: 'quiz', body: () => { const st = S.set; const dirs = [['f', '表 → 裏', 'east'], ['b', '裏 → 表', 'west'], ['r', 'ミックス', 'shuffle']]; const d = ['f', 'b', 'r'].includes(st.qzdir) ? st.qzdir : 'f'; return `<div class="card">${numRow('qzq', '問題数', '1回のクイズで出す問題数（1〜100）', 1, 100, '問', 10)}${numRow('qzn', '選択肢の数', '2〜100（単語帳のカード枚数まで）', 2, 100, '個', 4)}<div class="fld"><div class="lbl">出しかた</div><div class="seg">${dirs.map(([v, l, i]) => `<button class="${d === v ? 'on' : ''}" data-act="setv" data-id="qzdir|${v}">${ms(i)}${l}</button>`).join('')}</div><small class="muted">${QZ_NOTE[d]}</small></div></div>`; } },
     { id: 'sc', t: '集計', s: 'すべての課題か、必須の課題だけか', ic: 'query_stats', body: () => { const st = S.set; return `<div class="card"><div class="fld"><div class="lbl">集計の対象</div><div class="seg">${[['all', 'すべて'], ['req', '必須のみ']].map(([v, l]) => `<button class="${(st.scope === 'req') === (v === 'req') ? 'on' : ''}" data-act="setv" data-id="scope|${v}">${l}</button>`).join('')}</div></div></div>`; } },
     { id: 'ty', t: 'タイピング', s: '次の問題へ進みかた', ic: 'keyboard', body: () => { const on = S.set.tyAuto !== false; return `<div class="card"><div class="fld"><div class="lbl">次の問題へ</div><div class="seg">${[['true', '自動で次の問題へ'], ['false', 'ボタンで次へ']].map(([v, l]) => `<button class="${(v === 'true') === on ? 'on' : ''}" data-act="setv" data-id="tyAuto|${v}">${l}</button>`).join('')}</div></div></div>`; } },
@@ -4878,6 +4934,17 @@ const SET_ITEMS = {
   data: [
     { id: 'cloud', t: 'アカウントと同期', s: 'Googleアカウントと同期の状態', ic: 'cloud_sync', body: () => cloudCard() },
     { id: 'bk', t: 'データとバックアップ', s: '保存・復元・自動バックアップ', ic: 'database', body: () => `<div class="h-sec"><h2 data-fbk style="-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent">${ms('database')}データ</h2></div><div class="card"><p class="muted" style="font-weight:500;margin-bottom:14px">データはこのiPad内にのみ保存されます。機種変更や万一に備えて、定期的にバックアップしてください。${S.set.lastBackup ? `<br>最後のバックアップ：${new Date(S.set.lastBackup).toLocaleDateString('ja-JP')}` : ''}</p></div>${backupPage(true)}` },
+  ],
+  grow: [
+    { id: 'g-bg', t: '背景', s: '買った背景から選ぶ', ic: 'wallpaper', body: () => growPickBody('bg') },
+    { id: 'g-sfx', t: '効果音', s: '買った効果音から選ぶ', ic: 'music_note', body: () => growPickBody('sfx') },
+    { id: 'g-theme', t: 'テーマの色', s: '買ったテーマから選ぶ', ic: 'local_fire_department', body: () => growPickBody('theme') },
+    { id: 'g-font', t: 'フォント', s: '買ったフォントから選ぶ', ic: 'font_download', body: () => growPickBody('font') },
+    { id: 'g-ai', t: 'AIの見た目', s: '買ったAIの見た目から選ぶ', ic: 'auto_awesome', body: () => growPickBody('ai') },
+    { id: 'g-shop', t: 'XPショップ', s: 'レベルとXPで、新しいものを買う', ic: 'storefront', body: () => `<div class="card"><button type="button" class="setrow" data-act="shopopen"><span class="t">XPショップを開く<small>買うと、ここで選べるようになります</small></span></button></div>` },
+  ],
+  notif: [
+    { id: 'push', t: '届ける内容と時刻', s: 'この端末に届く通知', ic: 'notifications', body: () => { const p = pushPrefs(); return `<div class="card">${PUSH_CATS.map(([k, t, sub, ic, def]) => `<div class="setrow"><span class="ric">${ms(ic)}</span><span class="t">${t}<small>${sub}</small>${def ? `<label class="pp-time" style="display:block;margin-top:6px">時刻 <input type="time" value="${p.time[k]}" data-pref-time="${k}"></label>` : ''}</span>${pswHtml(k, !!p.on[k], 'setpushtog', t)}</div>`).join('')}</div><div class="card"><button type="button" class="setrow" data-act="pushsetup"><span class="t">通知の許可をとる<small>最初に一度、許可が必要です</small></span></button></div>`; } },
   ],
   info: [
     { id: 'ver', t: 'バージョン', s: '使い方・更新履歴', ic: 'info', body: () => `<div class="card"><div class="setrow"><span class="ric">${ms('info')}</span><span class="t">アプリのバージョン<small data-ytk style="display:block;width:fit-content;padding:8px 24px 8px 0;margin:-8px 0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation">v${verTxt(APP_VERSION)}</small></span></div>${setLnk('guide', 'help', '使い方', '機能と操作のしかた')}${setLnk('chlog', 'history', '更新履歴', 'これまでの変更内容')}</div>` },
@@ -5481,12 +5548,12 @@ const ACT = {
     const e = abkList().find(x => x.id === id); if (!e) return;
     confirmDlg('このバックアップに戻しますか？', `${new Date(e.t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}（${e.why}）の、教科 ${e.n[0]}・課題 ${e.n[1]}・カード ${e.n[2]} に戻します。いまのデータは、いったん自動バックアップに残ります。`, '戻す', () => { autoBackup('復元する前'); undoable('バックアップから戻しました', () => { S = migrate(JSON.parse(e.json)); delete S.cleared; applyTheme(); ui.sid = ''; }); });
   },
-  bkopen() { ui.setCat = 'data'; ui.setSub = 'bk'; ui.anim = true; render(); window.scrollTo(0, 0); },
-  bkclose() { ui.setCat = ''; ui.setSub = ''; ui.anim = true; render(); window.scrollTo(0, 0); },
-  setsub(id) { ui.setSub = id || ''; ui.anim = true; render(); window.scrollTo(0, 0); },
+  bkopen() { ui.setCat = 'data'; ui.setSub = 'bk'; render(); window.scrollTo(0, 0); },
+  bkclose() { ui.setCat = ''; ui.setSub = ''; render(); window.scrollTo(0, 0); },
+  setsub(id) { ui.setSub = id || ''; render(); window.scrollTo(0, 0); },
   setsn(v) { const str = String(v), i = str.indexOf('|'), k = str.slice(0, i), raw = str.slice(i + 1); if (!['tone', 'style', 'grade'].includes(k)) return; S.set.sn = Object.assign({}, snCfg(), { [k]: raw }); commit(); },
   setv(v) { const str = String(v), i = str.indexOf('|'), k = str.slice(0, i), raw = str.slice(i + 1); if (!['qzdir', 'scope', 'tyAuto', 'navPos'].includes(k)) return; S.set[k] = raw === 'true' ? true : raw === 'false' ? false : raw; applyTheme(); commit(); },
-  setcat(id) { ui.setCat = id || ''; ui.setSub = ''; ui.anim = true; render(); window.scrollTo(0, 0); },
+  setcat(id) { ui.setCat = id || ''; ui.setSub = ''; render(); window.scrollTo(0, 0); },
   navup(id) { moveNav(id, -1); }, navdown(id) { moveNav(id, 1); },
   navadd(id) { const l = navList(); if (navPinned().length >= NAV_MAXTOOLS || l.includes('tool:' + id)) return; l.push('tool:' + id); S.set.nav = l; commit(); },
   navdel(id) { S.set.nav = navList().filter(x => x !== id); commit(); },
@@ -5514,12 +5581,12 @@ const ACT = {
   delrg(id, el) { const rs = $('#rgs'); if (rs.children.length > 1) el.closest('.rgrow').remove(); else el.closest('.rgrow').querySelectorAll('input').forEach(i => i.value = ''); $('#pgf').dispatchEvent(new Event('input')); },
   qset(id) { $('#qn').value = id; $('#qr').value = id; $('#qr').oninput(); },
   padd(id) { const n = $('#qn'); n.value = Math.min(+n.max, (+n.value || 0) + +id); },
-  exam(id) { S.cur = id; ui.sid = ''; ui.anim = true; commit(); },
+  exam(id) { S.cur = id; ui.sid = ''; commit(); },
   scope(id) { S.set.scope = id; commit(); },
   filter(id) { ui.filter = id; render(); },
   sid(id) { ui.sid = id; render(); },
-  period(id) { ui.period = +id; ui.anim = true; render(); },
-  metric(id) { ui.metric = id; ui.anim = true; render(); },
+  period(id) { ui.period = +id; render(); },
+  metric(id) { ui.metric = id; render(); },
   collapse(id) { ui.collapsed[id] = !ui.collapsed[id]; $('#tl').innerHTML = taskList(); postRender(); },
   inc(id, b) {
     const t = T(id), n = +b.dataset.n, was = isDone(t), rect = b.getBoundingClientRect();
@@ -5566,7 +5633,7 @@ const ACT = {
       if (nid) examDlg(nid, true);
     });
   },
-  backnow() { S.cur = S.exams.find(x => !x.arc).id; ui.sid = ''; ui.anim = true; commit(); },
+  backnow() { S.cur = S.exams.find(x => !x.arc).id; ui.sid = ''; commit(); },
   pastlist() { pastDlg(); },
   scoredlg() { scoreDlg(); },
   pastopen(id) { closeDlg(); S.cur = id; ui.sid = ''; ACT.tab('tasks'); commit(); },
@@ -12970,8 +13037,8 @@ document.addEventListener('click', e => { if (LP.fired) { LP.fired = false; e.st
 document.addEventListener('contextmenu', e => { if (e.target.closest && e.target.closest('.wc-dk')) e.preventDefault(); });
 Object.assign(ACT, {
   greetset() { openDlg(greetHtml()); dlg.dataset.k = 'greet'; },
-  greettog(k) { const c = rotCfg(); c.on[k] = !c.on[k]; if (!Object.values(c.on).some(Boolean)) return toast('1つは選んでください'); greetPut({ on: c.on }); },
-  greetspd(v) { greetPut({ speed: +v }); },
+  greettog(k) { const c = rotCfg(); c.on[k] = !c.on[k]; if (!Object.values(c.on).some(Boolean)) return toast('1つは選んでください'); greetPut({ on: c.on }); render(); },
+  greetspd(v) { greetPut({ speed: +v }); render(); },
   greetfix() { const v = (($('#grfix') || {}).value || '').trim().slice(0, 60); greetPut({ fixed: v }); toast(rotCfg().speed === 0 ? '固定の文を変えました' : '保存しました（「固定」にすると出ます）'); },
   greetadd() { const v = (($('#gradd') || {}).value || '').trim().slice(0, 60); if (!v) return toast('文を入れてください'); const c = rotCfg(); if (c.own.length >= 40) return toast('追加できるのは40個までです'); greetPut({ own: [...c.own, v] }); },
   greetdel(i) { const c = rotCfg(); greetPut({ own: c.own.filter((_, j) => j !== +i) }); },
@@ -14604,6 +14671,21 @@ function gameFull(k, on) {
 function rkFullOn(on) { gameFull('rk', on); }
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && document.getElementById('rkov')) rkFullOn(false); });
 Object.assign(ACT, { rkfull() { rkFullOn(!document.getElementById('rkov')); } });
+Object.assign(ACT, {
+  sethsec(id) { const L = homeLay(); L.hide[id] = !L.hide[id]; if (!L.hide[id]) delete L.hide[id]; homeSave(L); },
+  sethhalf(id) { const L = homeLay(); L.half[id] = L.half[id] ? 0 : 1; homeSave(L); },
+  setwxreloc() { if (S.set) delete S.set.wxloc; save(); wxOnToggle(); render(); },
+  setpushtog(k) { const p = pushPrefs(); p.on[k] = !p.on[k]; pushPrefsSave(p); render(); },
+  setcalcdeg() { CALC.deg = !CALC.deg; calcSave(); render(); },
+  setcalcsci() { CALC.sci = !CALC.sci; calcSave(); render(); },
+  setcalchist() { CALC.hist = []; calcSave(); render(); },
+  setnatvol(v) { natVol(+v); render(); },
+  setwcfilt(id) { WC.filt = id; WC.i = 0; WC.flip = false; wcSave(); render(); },
+  setwcsort(id) { WC.sort = id; wcSave(); render(); },
+  setwcrev() { WC.rev = !WC.rev; WC.flip = false; wcSave(); render(); },
+  setlabheat() { ACT.labheat(); render(); },
+  setlabreset() { confirmDlg('発見した物質の記録を消しますか？', '元素ラボで見つけた物質の一覧が、すべて消えます。', '消す', () => { LAB.found.clear(); labSaveFound(); render(); toast('記録を消しました'); }); },
+});
 Object.assign(ACT, { admopen() { admOpen(); }, admlist() { admList(); }, admview(id) { admView(id); }, admlv() { admLvSet(); }, admlvreset() { admLvReset(); }, guarduse() { guardUse(); }, wcpat() { wcPatOpen(); }, wcpatset(id) { wcPatSet(id); } });
 // 押し間違いを防ぐため、お守りを使う前に確認する（お守りは1か月に1回だけ）
 Object.assign(ACT, { guardask() { confirmDlg('昨日をお守りで守りますか？', 'お守りは1か月に1回だけ使えます。使うと、今月はもう使えません。', '守る', () => guardUse()); } });
