@@ -365,6 +365,68 @@ body.set-full #nav .ni.on .pill,body.set-full #nav .nbadge{animation:none!import
 .set-cat:active{transform:scale(.98)}
 .set-page.set-det .h-sec h2{font-weight:600;letter-spacing:.02em}
 .set-master{min-height:84px;font-weight:600}
+/* 2 切り替え（参考画像に合わせる）：52×32・オフは縁取りに小さな×、オンは塗りと大きな✓ */
+.set-page .sw2 .tr,.set-master .sw2 .tr{width:52px;height:32px;border-radius:16px;box-sizing:border-box;background:var(--s4);box-shadow:inset 0 0 0 2px var(--out)}
+.set-page .sw2 .th,.set-master .sw2 .th{left:6px;top:6px;width:16px;height:16px;background:var(--out);color:var(--s4)}
+.set-page .sw2 .th .ms,.set-master .sw2 .th .ms{font-size:12px}
+.set-page .sw2 input:checked+.tr,.set-master .sw2 input:checked+.tr{background:var(--primary);box-shadow:none}
+.set-page .sw2 input:checked+.tr .th,.set-master .sw2 input:checked+.tr .th{left:24px;top:4px;width:24px;height:24px;background:var(--on-primary);color:var(--primary)}
+.set-page .sw2 input:checked:active+.tr .th,.set-master .sw2 input:checked:active+.tr .th{left:22px;top:2px;width:28px;height:28px}
+.psw{width:52px;height:32px;border-radius:16px}
+.psw .tr{border-radius:16px}
+.psw .th{left:6px;top:6px;width:16px;height:16px;background:var(--out);color:var(--s4)}
+.psw .th .ms{font-size:12px}
+.psw[aria-checked="true"] .th{left:24px;top:4px;width:24px;height:24px;background:var(--on-primary);color:var(--primary)}
+.psw[aria-checked="true"] .th .ms{font-size:16px}
+.psw[aria-checked="true"]:active .th{left:22px;top:2px;width:28px;height:28px}
+/* 画面の移動（戻る・項目を開く・大項目）：右の画面だけ、横からふわっと */
+@keyframes setIn{from{opacity:0;transform:translateX(var(--dx,24px))}to{opacity:1;transform:none}}
+@keyframes siRing{0%{transform:scale(.7);opacity:.7}100%{transform:scale(1.9);opacity:0}}
+@keyframes siBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes siPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.1)}}
+@keyframes siSpin{to{transform:rotate(360deg)}}
+@keyframes siWave{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.22)}}
+@keyframes siSwing{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes siSlide{0%,100%{transform:translateX(0)}50%{transform:translateX(10px)}}
+.set2 .set-det.go{animation:setIn .42s var(--smooth) both!important}
+/* イラスト：角丸の面に、主のアイコンと脇の2つ。動きは項目ごと */
+.set-page.set-det .set-ill{position:relative;display:grid;place-items:center;overflow:hidden;height:184px;margin:8px 24px 14px;border-radius:44px 58px 40px 62px/50px 40px 58px 46px;background:color-mix(in srgb,var(--cc,var(--primary)) 42%,var(--s1))}
+.set-page.set-det .set-ill .si-main{position:relative;z-index:2;display:grid;place-items:center;width:112px;height:112px;border-radius:40px 50px 36px 54px/46px 38px 56px 42px;background:var(--s1);color:var(--primary);box-shadow:0 12px 28px rgba(0,0,0,.14)}
+.set-page.set-det .set-ill .si-main .ms{font-size:58px;font-variation-settings:'FILL' 1}
+.set-page.set-det .set-ill .si-s{position:absolute;z-index:2;display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:var(--s2);color:var(--on-v)}
+.set-page.set-det .set-ill .si-s .ms{font-size:28px;font-variation-settings:'FILL' 1}
+.set-page.set-det .set-ill .si-s1{left:24%;top:20%}
+.set-page.set-det .set-ill .si-s2{right:22%;bottom:18%}
+.set-page.set-det .set-ill .si-ring{position:absolute;left:50%;top:50%;width:112px;height:112px;margin:-56px 0 0 -56px;border-radius:50%;border:2px solid color-mix(in srgb,var(--primary) 45%,transparent);opacity:0}
+.set-page.set-det .set-ill .si-ring.r2{animation-delay:1.2s}
+.set2 .fx-wave .si-ring,.set2 .fx-ring .si-ring{animation:siRing 2.4s ease-out infinite!important}
+.set2 .fx-wave .si-main .ms{animation:siWave 1.2s ease-in-out infinite!important}
+.set2 .fx-bounce .si-main,.set2 .fx-float .si-s1{animation:siBob 1.8s ease-in-out infinite!important}
+.set2 .fx-float .si-s2{animation:siBob 3.2s ease-in-out -1s infinite!important}
+.set2 .fx-spin .si-main .ms{animation:siSpin 6s linear infinite!important}
+.set2 .fx-pulse .si-main,.set2 .fx-grow .si-main .ms,.set2 .fx-pop .si-s{animation:siPulse 1.8s ease-in-out infinite!important}
+.set2 .fx-swing .si-main .ms,.set2 .fx-swap .si-main .ms{animation:siSwing 2.4s ease-in-out infinite!important}
+.set2 .fx-slide .si-s1,.set2 .fx-slide .si-s2{animation:siSlide 2.4s ease-in-out infinite!important}
+.set2 .fx-pop .si-main{animation:siPulse 2.2s ease-in-out infinite!important}
+/* 上の部分が白くぼける（iPadのPWA）ので、タイトル・戻るボタン・検索バーを下げる */
+.set-page.set-det .set-dh{padding:50px 32px 8px}
+.set-nav{padding-top:44px!important}
+.set-page .set-dh .ibtn,.set-page .set-back,.set-page .set-subback{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--out);background:transparent;color:var(--on)}
+/* 課題と教科：行の形・高さ・隙間をそろえる（教科の色は、丸い印だけに使う） */
+.set-page.set-det .slist{display:grid;gap:4px;margin:0;padding:0}
+.set-page.set-det .srow{min-height:76px;padding:12px 16px 12px 20px;border-radius:24px;background:var(--s1);color:var(--on);box-shadow:none}
+.set-page.set-det .srow.sc{background:var(--s1)}
+.set-page.set-det .srow>.t{padding-left:4px}
+.set-page.set-det .srow .ibtn{width:44px;height:44px;flex:none}
+.set-page.set-det .h-sec{align-items:center;min-height:48px;margin:8px 24px 4px}
+/* 段の揃え：見出しも、カードも、行も、同じ左右の幅にそろえる */
+.set-page.set-det .set-dbody{padding:0 32px}
+.set-page.set-det .set-dbody>*{margin-left:0;margin-right:0}
+.set-page.set-det .set-dbody>.card+.card,.set-page.set-det .set-dbody>.slist+.card{margin-top:6px}
+.set-page.set-det .h-sec{background:transparent;margin:8px 0 4px;padding:0}
+.set-page.set-det .set-ill{margin:8px 0 14px}
+.set-page.set-det .set-dh{padding-left:32px;padding-right:32px}
+.set-page.set-det .slist{margin:0}
 [hidden].setrow,[hidden].srow,[hidden].card{display:none!important}
 
 /* ===== 17.10：連続日数の位置・挨拶と豆知識・ヘッダーの高さ・設定の余白 ===== */
@@ -3087,8 +3149,8 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
 const STABLE_VER = '18.2.30';
-const BETA_VER = '18.2.32';
-const RELEASE_VER = '18.2.32'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.2.33';
+const RELEASE_VER = '18.2.33'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3747,7 +3809,7 @@ function render() {
   if (ui.sub && ui.subTab !== ui.tab) { ui.sub = ''; ui.stack = []; }
   try { html = ui.sub ? subView() : (['tasks', 'cal', 'stats'].includes(ui.tab) && curExam().arc ? pastBar() : '') + VIEWS[ui.tab](); }
   catch (e) { errLog('画面 ' + ui.tab + '：' + ((e && e.message) || e)); html = viewBroken(); }
-  v.innerHTML = html;
+  v.innerHTML = html; ui.setGo = 0;
   try { achTipPaint(); } catch (e) { }
   ui.anim = false;
   renderNav(); renderMini(); postRender();
@@ -4011,6 +4073,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.33', d: '2026/11/23 19:00', t: '（ベータ版）設定の見た目と動きを整理：切り替えスイッチ、画面の移動、イラスト、課題と教科の揃え、上の余白', n: ['切り替えスイッチを、参考の形（オフは縁取りと×、オンは塗りと✓）に合わせた', '戻る・項目を開く・大項目を開くとき、右の画面が横からふわっと動くように', '通知は、項目の一覧を開かずそのまま出すように', 'イラストに、関係するアイコンを2つ添えて、音・波・回転などの動きを付けた', '課題と教科の見出しと行を、同じ左右の幅にそろえた', 'iPadで上がぼけて見えるので、タイトル・戻るボタン・検索バーを下げ、戻るボタンは円で囲んだ'] },
   { v: '18.2.32', d: '2026/11/23 18:40', t: '（ベータ版）設定の大幅な整理：挨拶のスイッチ・データの隙間・左パネルの固定、ホームの並び、通知、成長、単語帳、元素ラボ、電卓などを設定へ', n: ['挨拶のスイッチが、押したときにすぐ切り替わるように修正（オンの行を紺色にしない）', 'データ画面の行の隙間をなくし、ボタンの高さをそろえた', '左の検索バーは、下にスクロールしても固定。左の幅を広げ、角丸の面にした', 'ホームの並びと表示（表示・半分・上下の移動）、天気の場所のとり直しを設定へ追加', 'カードの模様・自然の音・課題の並び・AIの答え方と履歴の並び順を設定へ追加', '成長で買った背景・効果音・テーマ・フォント・AIの見た目から選べるように', '通知の内容と時刻を設定から変えられるように', '単語帳（出すカード・並び順・表と裏）と元素ラボ（火・記録）を設定へ', '電卓（角度の単位・関数電卓・履歴）を設定へ', 'ボタンを押したときに画面全体の動きが再生されないように修正'] },
   { v: '18.2.31', d: '2026/11/23 16:00', t: '（ベータ版）設定の追加と整理：ホーム・AI先生の設定、アップデート画面を本家のように、データのボタンを行に、タブバーの角・隙間・オン時の色を修正', n: ['ホームの設定：挨拶と豆知識の切り替え・挨拶が変わる速さ・よく使うツール', 'AI・先生の設定：先生の性格・教え方・学年（イラスト付きの一覧）', '左の一覧の上に、Googleアカウントの行', 'ナビゲーションバーの位置を一つにまとめ、イラストで選べるように', 'バーに置くツールは折りたたみにして、一覧を整理', 'タブバーを下にしたとき、横も四角くなる問題を修正', 'データなどの楕円ボタンを、行の形に揃えた', '項目が「オン」のとき、ボタンの色と同化する問題を修正', 'アップデート画面を、本家Androidの「システム アップデート」の形に'] },
   { v: '18.2.30', d: '2026/11/23 15:40', t: '設定の操作で画面が出るアニメーションを止め、設定を見直し（ダークモード・文字のサイズはイラスト付きに・ツールと集計の設定を追加・項目が少ないものは一覧を使わない）', n: ['設定でボタンを押すたびに出ていたアニメーション（タブバーの丸い印・項目の出現）を止めた', 'ダークモード・文字のサイズを、イラスト付きの大きな選択肢にした', '考査と教科・ナビゲーションバー・データ・ツールと集計は、一覧を使わず中身をそのまま表示', '「ツールと集計」を追加：クイズの問題数・選択肢の数・出しかた、集計の対象、タイピングの次の問題へ進みかた', 'ナビゲーションバーに、表示する場所（自動・下に固定）を追加', '左の一覧の幅を狭くした・余白を詰めた・データの項目の隙間を縮めた'] },
@@ -4861,7 +4924,7 @@ const SET_CATS = [
 function viewSettings() {
   const wide = window.matchMedia('(min-width: 720px)').matches;
   const cat = ui.setCat || (wide ? 'exam' : '');
-  return `<div class="set2${cat ? ' has-cat' : ''}"><aside class="set-nav"><label class="set-q">${ms('search')}<input id="setq" type="search" placeholder="設定を検索" autocomplete="off" aria-label="設定を検索"></label>${setAcctHtml()}<div class="set-cats">${SET_CATS.map((c, i) => `<button type="button" class="set-cat${c.id === cat ? ' on' : ''}${[0, 2].includes(i) ? ' grp' : ''}" data-act="setcat" data-id="${c.id}" style="--cc:${c.c}"><span class="set-ci">${ms(c.ic)}</span><span class="set-ct"><b>${c.t}</b><small>${c.s}</small></span></button>`).join('')}</div></aside><section class="set-det set-page">${cat ? setDetHtml(cat) : ''}</section></div>`;
+  return `<div class="set2${cat ? ' has-cat' : ''}"><aside class="set-nav"><label class="set-q">${ms('search')}<input id="setq" type="search" placeholder="設定を検索" autocomplete="off" aria-label="設定を検索"></label>${setAcctHtml()}<div class="set-cats">${SET_CATS.map((c, i) => `<button type="button" class="set-cat${c.id === cat ? ' on' : ''}${[0, 2].includes(i) ? ' grp' : ''}" data-act="setcat" data-id="${c.id}" style="--cc:${c.c}"><span class="set-ci">${ms(c.ic)}</span><span class="set-ct"><b>${c.t}</b><small>${c.s}</small></span></button>`).join('')}</div></aside><section class="set-det set-page${ui.setGo ? ' go' : ''}" style="--dx:${(ui.setGo || 1) * 24}px">${cat ? setDetHtml(cat) : ''}</section></div>`;
 }
 const setLnk = (act, ic, t, sub) => `<button type="button" class="setrow setlnk" data-act="${act}"><span class="ric">${ms(ic)}</span><span class="t">${t}<small>${sub}</small></span>${ms('chevron_right')}</button>`;
 const setItemLnk = it => it.act ? setLnk(it.act, it.ic, it.t, it.s) : `<button type="button" class="setrow setlnk" data-act="setsub" data-id="${it.id}"><span class="ric">${ms(it.ic)}</span><span class="t">${it.t}<small>${it.s}</small></span>${ms('chevron_right')}</button>`;
@@ -4944,7 +5007,7 @@ const SET_ITEMS = {
     { id: 'g-shop', t: 'XPショップ', s: 'レベルとXPで、新しいものを買う', ic: 'storefront', body: () => `<div class="card"><button type="button" class="setrow" data-act="shopopen"><span class="t">XPショップを開く<small>買うと、ここで選べるようになります</small></span></button></div>` },
   ],
   notif: [
-    { id: 'push', t: '届ける内容と時刻', s: 'この端末に届く通知', ic: 'notifications', body: () => { const p = pushPrefs(); return `<div class="card">${PUSH_CATS.map(([k, t, sub, ic, def]) => `<div class="setrow"><span class="ric">${ms(ic)}</span><span class="t">${t}<small>${sub}</small>${def ? `<label class="pp-time" style="display:block;margin-top:6px">時刻 <input type="time" value="${p.time[k]}" data-pref-time="${k}"></label>` : ''}</span>${pswHtml(k, !!p.on[k], 'setpushtog', t)}</div>`).join('')}</div><div class="card"><button type="button" class="setrow" data-act="pushsetup"><span class="t">通知の許可をとる<small>最初に一度、許可が必要です</small></span></button></div>`; } },
+    { id: 'push', t: '届ける内容と時刻', h: true, s: 'この端末に届く通知', ic: 'notifications', body: () => { const p = pushPrefs(); return `<div class="card">${PUSH_CATS.map(([k, t, sub, ic, def]) => `<div class="setrow"><span class="ric">${ms(ic)}</span><span class="t">${t}<small>${sub}</small>${def ? `<label class="pp-time" style="display:block;margin-top:6px">時刻 <input type="time" value="${p.time[k]}" data-pref-time="${k}"></label>` : ''}</span>${pswHtml(k, !!p.on[k], 'setpushtog', t)}</div>`).join('')}</div><div class="card"><button type="button" class="setrow" data-act="pushsetup"><span class="t">通知の許可をとる<small>最初に一度、許可が必要です</small></span></button></div>`; } },
   ],
   info: [
     { id: 'ver', t: 'バージョン', s: '使い方・更新履歴', ic: 'info', body: () => `<div class="card"><div class="setrow"><span class="ric">${ms('info')}</span><span class="t">アプリのバージョン<small data-ytk style="display:block;width:fit-content;padding:8px 24px 8px 0;margin:-8px 0;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-webkit-tap-highlight-color:transparent;touch-action:manipulation">v${verTxt(APP_VERSION)}</small></span></div>${setLnk('guide', 'help', '使い方', '機能と操作のしかた')}${setLnk('chlog', 'history', '更新履歴', 'これまでの変更内容')}</div>` },
@@ -4953,18 +5016,47 @@ const SET_ITEMS = {
   ],
 };
 // 項目が少ない考査と教科・ナビゲーション・データ・ツールと集計は、一覧を使わず中身をそのまま出す
-const SET_DIRECT = ['exam', 'nav', 'data', 'tools', 'home'];
+const SET_DIRECT = ['exam', 'nav', 'data', 'tools', 'home', 'notif'];
 function navPosCard() { const v = S.set.navPos || 'auto'; const o = [['auto', '自動', 'ill-auto'], ['bottom', '下に固定', 'ill-bottom']]; return `<div class="card"><div class="pick-grid pick-2">${o.map(([k, l, c]) => `<button type="button" class="pick ${c} ${v === k ? 'on' : ''}" data-act="setv" data-id="navPos|${k}" aria-pressed="${v === k}"><span class="ph ${c}"><i></i></span>${l}</button>`).join('')}</div><p class="set-note">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div>`; }
 // 先生の設定（AI）の選ぶ一覧：項目ごとに、説明つきの行
 function snPickList(key, list) { const cur = snCfg()[key]; return `<div class="card">${list.map(([v, t, ic, d]) => `<button type="button" class="setrow${cur === v ? ' on' : ''}" data-act="setsn" data-id="${key}|${v}"><span class="ric">${ms(ic)}</span><span class="t">${t}<small>${d}</small></span>${cur === v ? ms('check_circle') : ''}</button>`).join('')}</div>`; }
 function setAcctHtml() { const u = CLOUD.user; const name = u ? (u.displayName || u.email || 'Googleアカウント') : 'ログインしていません'; const sub = u ? 'Googleサービスと同期' : 'タップして、同期を設定'; const ini = String(name).trim().charAt(0).toUpperCase() || '?'; const av = u && u.photoURL ? `<img src="${esc(u.photoURL)}" alt="" referrerpolicy="no-referrer">` : u ? `<span>${esc(ini)}</span>` : ms('account_circle'); return `<button type="button" class="set-acct" data-act="setcat" data-id="data"><span class="set-av">${av}</span><span class="set-ct"><b>${esc(name)}</b><small>${sub}</small></span></button>`; }
 function updHero(av) { const d = av ? '<path d="M60 40v28M48 58l12 12 12-12" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>' : '<path d="M46 62l10 10 20-22" fill="none" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>'; return `<div class="upd-hero"><svg viewBox="0 0 120 120" aria-hidden="true"><rect x="30" y="10" width="60" height="100" rx="14" fill="none" stroke="currentColor" stroke-width="5"/><circle cx="60" cy="96" r="3.5" fill="currentColor"/>${d}</svg></div>`; }
+// 項目ごとのイラスト：[主のアイコン, 脇のアイコン1, 脇のアイコン2, 動き]
+const SET_ILL = {
+  ta: ['volume_up', 'animation', 'music_note', 'wave'], anim: ['animation', 'auto_awesome', 'motion_photos_on', 'bounce'],
+  dark: ['dark_mode', 'light_mode', 'contrast', 'swing'], color: ['palette', 'format_paint', 'colorize', 'pulse'],
+  fs: ['format_size', 'text_fields', 'zoom_in', 'grow'], wx: ['wb_sunny', 'cloud', 'thunderstorm', 'float'],
+  conf: ['celebration', 'confetti', 'star', 'pop'], tm: ['timer', 'hourglass_top', 'coffee', 'pulse'],
+  gl: ['flag', 'trophy', 'track_changes', 'bounce'], ex: ['school', 'event', 'edit_calendar', 'float'],
+  sj: ['menu_book', 'science', 'calculate', 'swing'], tv: ['sort', 'view_list', 'calendar_month', 'slide'],
+  qz: ['quiz', 'help', 'check_circle', 'bounce'], sc: ['bar_chart', 'pie_chart', 'trending_up', 'grow'],
+  ty: ['keyboard', 'speed', 'sports_esports', 'pulse'], bar: ['dock_to_right', 'tab', 'view_week', 'slide'],
+  nav: ['dock_to_right', 'tab', 'view_week', 'slide'], greet: ['waving_hand', 'chat', 'lightbulb', 'swing'],
+  ht: ['apps', 'grid_view', 'star', 'pop'], lay: ['dashboard_customize', 'drag_indicator', 'visibility', 'float'],
+  wxl: ['my_location', 'location_on', 'pin_drop', 'pulse'], calc: ['calculate', 'functions', 'percent', 'pop'],
+  tone: ['favorite', 'sentiment_satisfied', 'mood', 'pulse'], style: ['lightbulb', 'school', 'edit', 'bounce'],
+  grade: ['school', 'looks_one', 'trending_up', 'float'], mode: ['tips_and_updates', 'psychology', 'menu_book', 'pulse'],
+  hist: ['swap_vert', 'history', 'sort', 'slide'], wc: ['style', 'translate', 'bookmark', 'swing'],
+  lab: ['experiment', 'science', 'bubble_chart', 'bounce'], pat: ['texture', 'style', 'palette', 'spin'],
+  nat: ['nature', 'water_drop', 'air', 'wave'], push: ['notifications', 'schedule', 'campaign', 'ring'],
+  'g-bg': ['wallpaper', 'image', 'gradient', 'float'], 'g-sfx': ['music_note', 'volume_up', 'queue_music', 'wave'],
+  'g-theme': ['local_fire_department', 'palette', 'brightness_6', 'pulse'], 'g-font': ['font_download', 'text_fields', 'translate', 'bounce'],
+  'g-ai': ['auto_awesome', 'smart_toy', 'psychology', 'spin'], 'g-shop': ['storefront', 'shopping_bag', 'redeem', 'bounce'],
+  cloud: ['cloud_sync', 'devices', 'sync', 'float'], bk: ['database', 'backup', 'restore', 'float'],
+  ver: ['info', 'new_releases', 'verified', 'pulse'], upd: ['system_update', 'download', 'new_releases', 'bounce'],
+  diag: ['troubleshoot', 'bug_report', 'health_and_safety', 'pulse'],
+};
+function setIll(it, c) {
+  const d = SET_ILL[it.id] || [it.ic, 'auto_awesome', 'star', 'float'];
+  return `<div class="set-ill fx-${d[3]}" style="--cc:${c.c}" aria-hidden="true"><span class="si-ring"></span><span class="si-ring r2"></span><span class="si-main">${ms(d[0])}</span><span class="si-s si-s1">${ms(d[1])}</span><span class="si-s si-s2">${ms(d[2])}</span></div>`;
+}
 function setDetHtml(cat) {
   const c = SET_CATS.find(x => x.id === cat) || SET_CATS[0], items = SET_ITEMS[c.id] || [];
   const back = `<button type="button" class="ibtn set-back" data-act="setcat" data-id="" aria-label="設定の一覧にもどる">${ms('arrow_back')}</button>`;
-  if (SET_DIRECT.includes(c.id)) return `<div class="set-dh">${back}<h1>${c.t}</h1></div><div class="set-dbody">${items.map(it => (it.h ? `<div class="h-sec"><h2>${it.t}</h2></div>` : '') + (it.body ? it.body() : `<div class="card">${setItemLnk(it)}</div>`)).join('')}</div>`;
+  if (SET_DIRECT.includes(c.id)) return `<div class="set-dh">${back}<h1>${c.t}</h1></div><div class="set-dbody">${setIll({ id: 'cat-' + c.id, ic: c.ic }, c)}${items.map(it => (it.h ? `<div class="h-sec"><h2>${it.t}</h2></div>` : '') + (it.body ? it.body() : `<div class="card">${setItemLnk(it)}</div>`)).join('')}</div>`;
   const it = ui.setSub && items.find(x => x.id === ui.setSub);
-  if (it) return `<div class="set-dh"><button type="button" class="ibtn set-subback" data-act="setsub" data-id="" aria-label="${c.t}の一覧にもどる">${ms('arrow_back')}</button><h1>${it.t}</h1></div><div class="set-dbody">${it.noIll ? '' : `<div class="set-ill" style="--cc:${c.c}">${ms(it.ic)}</div>`}${it.master ? masterRow(it.master, it.t) : ''}${it.note ? `<p class="set-note">${it.note}</p>` : ''}${it.body()}</div>`;
+  if (it) return `<div class="set-dh"><button type="button" class="ibtn set-subback" data-act="setsub" data-id="" aria-label="${c.t}の一覧にもどる">${ms('arrow_back')}</button><h1>${it.t}</h1></div><div class="set-dbody">${it.noIll ? '' : setIll(it, c)}${it.master ? masterRow(it.master, it.t) : ''}${it.note ? `<p class="set-note">${it.note}</p>` : ''}${it.body()}</div>`;
   return `<div class="set-dh">${back}<h1>${c.t}</h1></div><div class="set-dbody"><div class="card">${items.map(setItemLnk).join('')}</div></div>`;
 }
 function backupPage(embed) {
@@ -5548,12 +5640,12 @@ const ACT = {
     const e = abkList().find(x => x.id === id); if (!e) return;
     confirmDlg('このバックアップに戻しますか？', `${new Date(e.t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' })}（${e.why}）の、教科 ${e.n[0]}・課題 ${e.n[1]}・カード ${e.n[2]} に戻します。いまのデータは、いったん自動バックアップに残ります。`, '戻す', () => { autoBackup('復元する前'); undoable('バックアップから戻しました', () => { S = migrate(JSON.parse(e.json)); delete S.cleared; applyTheme(); ui.sid = ''; }); });
   },
-  bkopen() { ui.setCat = 'data'; ui.setSub = 'bk'; render(); window.scrollTo(0, 0); },
-  bkclose() { ui.setCat = ''; ui.setSub = ''; render(); window.scrollTo(0, 0); },
-  setsub(id) { ui.setSub = id || ''; render(); window.scrollTo(0, 0); },
+  bkopen() { ui.setCat = 'data'; ui.setSub = 'bk'; ui.setGo = 1; render(); window.scrollTo(0, 0); },
+  bkclose() { ui.setCat = ''; ui.setSub = ''; ui.setGo = -1; render(); window.scrollTo(0, 0); },
+  setsub(id) { ui.setSub = id || ''; ui.setGo = id ? 1 : -1; render(); window.scrollTo(0, 0); },
   setsn(v) { const str = String(v), i = str.indexOf('|'), k = str.slice(0, i), raw = str.slice(i + 1); if (!['tone', 'style', 'grade'].includes(k)) return; S.set.sn = Object.assign({}, snCfg(), { [k]: raw }); commit(); },
   setv(v) { const str = String(v), i = str.indexOf('|'), k = str.slice(0, i), raw = str.slice(i + 1); if (!['qzdir', 'scope', 'tyAuto', 'navPos'].includes(k)) return; S.set[k] = raw === 'true' ? true : raw === 'false' ? false : raw; applyTheme(); commit(); },
-  setcat(id) { ui.setCat = id || ''; ui.setSub = ''; render(); window.scrollTo(0, 0); },
+  setcat(id) { ui.setCat = id || ''; ui.setSub = ''; ui.setGo = id ? 1 : -1; render(); window.scrollTo(0, 0); },
   navup(id) { moveNav(id, -1); }, navdown(id) { moveNav(id, 1); },
   navadd(id) { const l = navList(); if (navPinned().length >= NAV_MAXTOOLS || l.includes('tool:' + id)) return; l.push('tool:' + id); S.set.nav = l; commit(); },
   navdel(id) { S.set.nav = navList().filter(x => x !== id); commit(); },
