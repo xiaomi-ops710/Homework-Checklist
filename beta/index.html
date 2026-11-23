@@ -247,19 +247,19 @@ body.set-full #nav{border-radius:0!important}
 .set-ct{flex:1;min-width:0;display:grid;gap:3px}
 .set-ct b{font-size:1.0625rem;font-weight:500;line-height:1.3}
 .set-ct small{font-size:.8125rem;line-height:1.4;color:var(--on-v);font-weight:400}
-.set-dh{display:flex;align-items:center;gap:14px;padding:24px 32px 8px}
+.set-dh{display:flex;align-items:center;gap:14px;padding:20px 32px 4px}
 .set-dh h1{margin:0;font-size:clamp(1.75rem,3vw,2.25rem);font-weight:500;letter-spacing:0;line-height:1.2}
 .set-back{display:none}
 .set-subback{display:inline-grid}
 .set-page.set-det{padding:0 32px 64px;min-width:0;background:var(--bg)}
 .set-page.set-det .set-dbody{display:grid;gap:0}
-.set-page.set-det .h-sec{margin:24px 24px 8px}
+.set-page.set-det .h-sec{margin:20px 24px 6px}
 .set-page.set-det .h-sec h2{font-size:.875rem;font-weight:500;letter-spacing:.01em;color:var(--primary)}
 .set-page.set-det .h-sec h2 .ms{display:none}
-.set-page.set-det .card{display:grid;gap:2px;padding:0;margin:0 0 8px;border-radius:28px;overflow:hidden;background:transparent}
+.set-page.set-det .card{display:grid;gap:2px;padding:0;margin:0 0 4px;border-radius:28px;overflow:hidden;background:transparent}
 .set-page.set-det .card>*{background:var(--s1);margin:0}
-.set-page.set-det .card>*:not(.setrow){padding:16px 24px;font-size:.95rem;line-height:1.5}
-.set-page.set-det .setrow{display:flex;align-items:center;gap:20px;width:100%;min-height:72px;padding:14px 24px!important;border:0;border-radius:0;background:var(--s1);color:var(--on);font:inherit;text-align:left}
+.set-page.set-det .card>*:not(.setrow){padding:18px 24px;font-size:1rem;line-height:1.5}
+.set-page.set-det .setrow{display:flex;align-items:center;gap:20px;width:100%;min-height:78px;padding:16px 24px!important;border:0;border-radius:0;background:var(--s1);color:var(--on);font:inherit;text-align:left}
 .set-page.set-det button.setrow{cursor:pointer}
 .set-page.set-det .setrow .t{flex:1;min-width:0;font-size:1rem;font-weight:400;line-height:1.35}
 .set-page.set-det .setrow .t small{display:block;margin-top:2px;font-size:.875rem;color:var(--on-v)}
@@ -291,9 +291,28 @@ body.set-full #nav{border-radius:0!important}
   .set-page.set-det .h-sec{margin:20px 8px 8px}
 }
 @media (min-width:720px){
-  .set2{display:grid;grid-template-columns:minmax(320px,36%) minmax(0,1fr);align-items:start}
+  .set2{display:grid;grid-template-columns:minmax(300px,320px) minmax(0,1fr);align-items:start}
   .set-nav{position:sticky;top:0;height:100dvh;overflow:auto;padding:20px 16px 28px;background:var(--s2)}
 }
+/* 設定の中では、操作のたびに項目が出てくるアニメーションを重ねない */
+.set2 *{animation:none!important}
+body.set-full #nav .ni.on .pill,body.set-full #nav .nbadge{animation:none!important}
+/* 選ぶ項目（テーマ・文字のサイズ）：イラスト付きの大きな選択肢 */
+.pick-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:20px 24px 22px}
+.pick{display:grid;justify-items:center;align-content:start;gap:12px;padding:16px 10px 18px;border:0;border-radius:28px;background:var(--s2);color:var(--on);font:inherit;font-size:1rem;font-weight:500;cursor:pointer;transition:background .25s,border-radius .35s var(--spring)}
+.pick.on{background:var(--pc);color:var(--on-pc);border-radius:36px}
+.pick .ph{position:relative;display:block;width:104px;height:164px;border-radius:22px;border:4px solid var(--s4);background:#f6f7fb;overflow:hidden}
+.pick .ph i{position:absolute;left:12px;right:12px;height:10px;border-radius:5px;background:#cfd6e4}
+.pick .ph i:nth-child(1){top:22px}.pick .ph i:nth-child(2){top:44px;right:34px}.pick .ph i:nth-child(3){top:66px}
+.pick.dark .ph{background:#15181f}.pick.dark .ph i{background:#3a4152}
+.pick.auto .ph{background:linear-gradient(90deg,#f6f7fb 50%,#15181f 50%)}
+.pick.auto .ph i{background:linear-gradient(90deg,#cfd6e4 50%,#3a4152 50%)}
+.pick .ph.aa{display:grid;place-items:center;width:auto;height:112px;min-width:104px;border:0;border-radius:22px;background:var(--s3);color:var(--on);font-weight:500;line-height:1}
+.pick.on .ph.aa{background:color-mix(in srgb,var(--on-pc) 10%,transparent)}
+.set-page.set-det .fld{padding:18px 24px}
+.set-page.set-det .fld .lbl{font-size:.9rem;color:var(--on-v);margin:0 0 10px}
+.set-page.set-det .fld small{display:block;margin-top:10px;font-size:.875rem;line-height:1.5}
+@media (max-width:719px){.pick-grid{padding:16px}}
 [hidden].setrow,[hidden].srow,[hidden].card{display:none!important}
 
 /* ===== 17.10：連続日数の位置・挨拶と豆知識・ヘッダーの高さ・設定の余白 ===== */
@@ -3015,9 +3034,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.29';
-const BETA_VER = '18.2.29';
-const RELEASE_VER = '18.2.29'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const STABLE_VER = '18.2.30';
+const BETA_VER = '18.2.30';
+const RELEASE_VER = '18.2.30'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -3923,6 +3942,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.2.30', d: '2026/11/23 15:40', t: '設定の操作で画面が出るアニメーションを止め、設定を見直し（ダークモード・文字のサイズはイラスト付きに・ツールと集計の設定を追加・項目が少ないものは一覧を使わない）', n: ['設定でボタンを押すたびに出ていたアニメーション（タブバーの丸い印・項目の出現）を止めた', 'ダークモード・文字のサイズを、イラスト付きの大きな選択肢にした', '考査と教科・ナビゲーションバー・データ・ツールと集計は、一覧を使わず中身をそのまま表示', '「ツールと集計」を追加：クイズの問題数・選択肢の数・出しかた、集計の対象、タイピングの次の問題へ進みかた', 'ナビゲーションバーに、表示する場所（自動・下に固定）を追加', '左の一覧の幅を狭くした・余白を詰めた・データの項目の隙間を縮めた'] },
   { v: '18.2.29', d: '2026/11/23 15:00', t: '設定を本家Androidのように作り直し（項目を開くと、その項目だけの設定ページ・左の項目の形と塗り・検索バーとスイッチを大きく・iPadの左のタブが丸くならない・文字の位置の修正）', n: ['右の中身：項目の一覧から、タップするとその項目だけの設定ページ（例：カスタマイズ→ダークモード・色・文字のサイズ・アニメーションなど）', '項目のページの上に、Androidのような大きな切り替えバー（アニメーションなど）', '左の一覧：アイコンは塗りつぶし、開いている項目は丸い形・開いていない項目は角の丸い形', '左の文字（項目名・説明）の大きさを調整、検索バーは高さ64px、スイッチは少し大きく', 'データ・情報の文字が左に寄って隠れる問題を直した', 'iPadの左のタブバーの角が丸くならず、隙間ができないようにした'] },
   { v: '18.2.28', d: '2026/11/23 14:10', t: '設定画面をAndroidのタブレット設定に近づけて作り直し（左右の余白を消す・左は検索と項目の丸い枠・右は項目ごとのグループ・境界線をなくし背景の色で分ける・情報は、バージョン・アップデート・動作と診断に分ける）', n: ['設定の左右の余白を消し、画面いっぱいに表示', '左の一覧：検索バーを高さ56pxの丸い形に、各項目は角丸の枠・円は52px・アイコンは塗りつぶさない線の形に、矢印（＞）は外す', '右の中身：Androidのように項目ごとにグループ化、見出しは小さな青字（アイコンなし）、項目の間は2pxの隙間', '左と右を分ける線をなくし、背景の色で分ける', '情報の画面：バージョン・使い方・更新履歴／アップデート／動作と診断に分けた'] },
   { v: '18.2.27', d: '2026/11/23 13:08', t: 'レベル画面の残りXPのずれを直し・設定をAndroidの設定画面のような2画面に（iPad）・設定タブを画面いっぱいに', n: ['レベル画面の上と下で、次のレベルまでの残りXPがずれていたのを直しました', '設定を、左に一覧（検索つき）、右に中身の2画面にしました（iPad）。スマホは一覧から項目を開きます', '設定の一覧は「考査と教科」「集中タイマー」「カスタマイズ」「ナビゲーションバー」「データ」「情報」に分けました', '設定タブも、AIタブのように左右の余白をなくして大きく表示します'] },
@@ -4746,7 +4766,7 @@ function ladderHtml(L) {
 
 /* ---------- 設定 ---------- */
 const swRow = (key, title, sub) => `<label class="setrow"><span class="ric">${ms(SET_IC[key] || 'tune')}</span><span class="t">${title}<small>${sub}</small></span><span class="sw2"><input type="checkbox" data-set="${key}" ${S.set[key] ? 'checked' : ''}><span class="tr"><span class="th">${ms('close')}${ms('check')}</span></span></span></label>`;
-const numRow = (key, title, sub, min, max, unit) => `<div class="setrow"><span class="ric">${ms(SET_IC[key] || 'tune')}</span><span class="t">${title}<small>${sub}</small></span><input type="number" inputmode="numeric" data-setn="${key}" min="${min}" max="${max}" value="${S.set[key]}" aria-label="${title}"><span class="muted" style="font-weight:600">${unit}</span></div>`;
+const numRow = (key, title, sub, min, max, unit, def) => `<div class="setrow"><span class="ric">${ms(SET_IC[key] || 'tune')}</span><span class="t">${title}<small>${sub}</small></span><input type="number" inputmode="numeric" data-setn="${key}" min="${min}" max="${max}" value="${S.set[key] ?? (def ?? min)}" aria-label="${title}"><span class="muted" style="font-weight:600">${unit}</span></div>`;
 function navSettings() {
   const l = navList(), pin = navPinned(), rest = TOOLS.filter(t => !pin.includes(t[0]));
   const rows = l.map((id, i) => { const [lb, ic] = navInfo(id), tl = id.startsWith('tool:'); return `<div class="srow nvr"><span class="nvi">${ic === 'auto_awesome' ? gem(24) : ms(ic)}</span><div class="t">${esc(lb)}<small>${tl ? 'ツール' : '基本の画面'}</small></div><button class="ibtn" data-act="navup" data-id="${id}" ${i === 0 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を上（左）へ">${ms('keyboard_arrow_up')}</button><button class="ibtn" data-act="navdown" data-id="${id}" ${i === l.length - 1 ? 'disabled style="opacity:.3"' : ''} aria-label="${esc(lb)}を下（右）へ">${ms('keyboard_arrow_down')}</button>${tl ? `<button class="ibtn" data-act="navdel" data-id="${id}" aria-label="${esc(lb)}をバーから外す">${ms('close')}</button>` : '<span style="width:48px;flex:none"></span>'}</div>`; }).join('');
@@ -4758,6 +4778,7 @@ const SET_CATS = [
   { id: 'exam', t: '考査と教科', s: '考査・教科の追加と編集', ic: 'school', c: '#f9a8d4' },
   { id: 'timer', t: '集中タイマー', s: '集中・休憩の長さと、1日の目標', ic: 'timer', c: '#fdba74' },
   { id: 'look', t: 'カスタマイズ', s: '今の見た目と演出', ic: 'palette', c: '#fed7aa' },
+  { id: 'tools', t: 'ツールと集計', s: 'クイズ・集計・タイピング', ic: 'quiz', c: '#c7d2fe' },
   { id: 'nav', t: 'ナビゲーションバー', s: 'タブの並びと表示', ic: 'dock_to_right', c: '#86efac' },
   { id: 'data', t: 'データ', s: 'アカウントと同期・バックアップと復元', ic: 'database', c: '#fde68a' },
   { id: 'info', t: '情報', s: 'バージョン・アップデート・動作と診断・使い方', ic: 'info', c: '#bfdbfe' },
@@ -4791,15 +4812,20 @@ const SET_ITEMS = {
     { id: 'ta', t: '音とアニメーション', s: 'チャイム・タイマーの動き・自然の音', ic: 'volume_up', body: () => `<div class="card">${swRow('sound', 'タイマーの音', '集中・休憩の終わりにチャイムを鳴らします')}${swRow('timerAnim', 'タイマー画面のアニメーション', 'オフにすると、円の動きなどを止めます')}${swRow('natStop', 'タイマー終了で自然の音を止める', '時間が終わると、自然の音を自動で止めます')}</div>` },
   ],
   look: [
-    { id: 'dark', t: 'ダークモード', s: '自動・ライト・ダーク', ic: 'dark_mode', body: () => { const st = S.set; return `<div class="card"><div class="fld"><div class="lbl">テーマ</div><div class="seg">${[['auto', '自動', 'brightness_auto'], ['light', 'ライト', 'light_mode'], ['dark', 'ダーク', 'dark_mode']].map(([v, l, i]) => `<button class="${st.theme === v ? 'on' : ''}" data-act="theme" data-id="${v}">${ms(i)}${l}</button>`).join('')}</div></div></div>`; } },
+    { id: 'dark', t: 'ダークモード', s: '自動・ライト・ダーク', ic: 'dark_mode', body: () => { const st = S.set; const o = [['auto', '自動', 'auto'], ['light', 'ライト', 'light'], ['dark', 'ダーク', 'dark']]; return `<div class="card"><div class="pick-grid">${o.map(([v, l, k]) => `<button type="button" class="pick ${k} ${st.theme === v ? 'on' : ''}" data-act="theme" data-id="${v}" aria-pressed="${st.theme === v}"><span class="ph"><i></i><i></i><i></i></span>${l}</button>`).join('')}</div></div><p class="set-note">「自動」は、この端末の明るさの設定に合わせて切り替えます。</p>`; } },
     { id: 'color', t: '色', s: 'アプリの色（レベルで増えます）', ic: 'palette', body: () => { const st = S.set; return `<div class="card"><div class="fld"><div class="lbl">アプリの色</div><div class="swatches">${[...SEEDS.map(([h, n]) => [h, n, 0]), ...LV_HUES].map(([h, n, need]) => { const ok = level().L >= need; return `<label class="sw ${ok ? '' : 'lk'}"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} ${ok ? `data-act="hue" data-id="${h}"` : 'disabled'} aria-label="${n}${ok ? '' : `（Lv.${need}で使えます）`}"><span style="background:hsl(${h} 66% 48%)">${ok ? '' : ms('lock', '', 'font-size:16px;color:#fff')}</span></label>`; }).join('')}</div><p class="muted" style="font-size:.8rem;margin:8px 4px 0">レベルが上がると、色が増えます（${LV_HUES.map(([, n, l]) => `Lv.${l}：${n}`).join('、')}）</p></div></div>`; } },
-    { id: 'fs', t: '文字のサイズ', s: '小・標準・大', ic: 'format_size', body: () => { const st = S.set; return `<div class="card"><div class="fld"><div class="lbl">文字の大きさ</div><div class="seg">${[['s', '小'], ['m', '標準'], ['l', '大']].map(([v, l]) => `<button class="${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}">${l}</button>`).join('')}</div></div></div>`; } },
+    { id: 'fs', t: '文字のサイズ', s: '小・標準・大', ic: 'format_size', body: () => { const st = S.set; const o = [['s', '小', '1.1rem'], ['m', '標準', '1.45rem'], ['l', '大', '1.9rem']]; return `<div class="card"><div class="pick-grid">${o.map(([v, l, z]) => `<button type="button" class="pick ${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}" aria-pressed="${st.fs === v}"><span class="ph aa" style="font-size:${z}">Aa</span>${l}</button>`).join('')}</div></div><p class="set-note">アプリ全体の文字の大きさが変わります。</p>`; } },
     { id: 'anim', t: 'アニメーション', s: 'オフで動きを最小限に', ic: 'animation', master: 'anim', note: 'オフにすると、動きを最小限にします', body: () => '' },
     { id: 'wx', t: '今日の天気をホームに出す', s: '位置情報を使います', ic: 'wb_sunny', master: 'wx', note: '位置情報を使います（一度だけ確認します）', body: () => '' },
     { id: 'conf', t: '完了時の演出', s: '課題を終えたとき紙吹雪', ic: 'celebration', master: 'confetti', note: '課題を終えたとき紙吹雪を表示します', body: () => '' },
   ],
+  tools: [
+    { id: 'qz', t: 'クイズ', s: '問題数・選択肢・出しかた', ic: 'quiz', body: () => { const st = S.set; const dirs = [['f', '表 → 裏', 'east'], ['b', '裏 → 表', 'west'], ['r', 'ミックス', 'shuffle']]; const d = ['f', 'b', 'r'].includes(st.qzdir) ? st.qzdir : 'f'; return `<div class="card">${numRow('qzq', '問題数', '1回のクイズで出す問題数（1〜100）', 1, 100, '問', 10)}${numRow('qzn', '選択肢の数', '2〜100（単語帳のカード枚数まで）', 2, 100, '個', 4)}<div class="fld"><div class="lbl">出しかた</div><div class="seg">${dirs.map(([v, l, i]) => `<button class="${d === v ? 'on' : ''}" data-act="setv" data-id="qzdir|${v}">${ms(i)}${l}</button>`).join('')}</div><small class="muted">${QZ_NOTE[d]}</small></div></div>`; } },
+    { id: 'sc', t: '集計', s: 'すべての課題か、必須の課題だけか', ic: 'query_stats', body: () => { const st = S.set; return `<div class="card"><div class="fld"><div class="lbl">集計の対象</div><div class="seg">${[['all', 'すべて'], ['req', '必須のみ']].map(([v, l]) => `<button class="${(st.scope === 'req') === (v === 'req') ? 'on' : ''}" data-act="setv" data-id="scope|${v}">${l}</button>`).join('')}</div></div></div>`; } },
+    { id: 'ty', t: 'タイピング', s: '次の問題へ進みかた', ic: 'keyboard', body: () => { const on = S.set.tyAuto !== false; return `<div class="card"><div class="fld"><div class="lbl">次の問題へ</div><div class="seg">${[['true', '自動で次の問題へ'], ['false', 'ボタンで次へ']].map(([v, l]) => `<button class="${(v === 'true') === on ? 'on' : ''}" data-act="setv" data-id="tyAuto|${v}">${l}</button>`).join('')}</div></div></div>`; } },
+  ],
   nav: [
-    { id: 'bar', t: 'タブの並びと表示', s: '下のタブの順番と、表示するタブ', ic: 'dock_to_right', body: () => `<div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>${navSettings()}` },
+    { id: 'bar', t: 'タブの並びと表示', s: '下のタブの順番と、表示するタブ', ic: 'dock_to_right', body: () => `${navPosCard()}<div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>${navSettings()}` },
   ],
   data: [
     { id: 'cloud', t: 'アカウントと同期', s: 'Googleアカウントと同期の状態', ic: 'cloud_sync', body: () => cloudCard() },
@@ -4811,11 +4837,16 @@ const SET_ITEMS = {
     { id: 'diag', t: '動作と診断', s: '動作の状態を確かめます', ic: 'troubleshoot', act: 'diag' },
   ],
 };
+// 項目が少ない考査と教科・ナビゲーション・データ・ツールと集計は、一覧を使わず中身をそのまま出す
+const SET_DIRECT = ['exam', 'nav', 'data', 'tools'];
+function navPosCard() { const v = S.set.navPos || 'auto'; return `<div class="card"><div class="fld"><div class="lbl">表示する場所</div><div class="seg">${[['auto', '自動', 'devices'], ['bottom', '下に固定', 'dock_to_bottom']].map(([k, l, i]) => `<button class="${v === k ? 'on' : ''}" data-act="setv" data-id="navPos|${k}">${ms(i)}${l}</button>`).join('')}</div><small class="muted">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</small></div></div>`; }
 function setDetHtml(cat) {
   const c = SET_CATS.find(x => x.id === cat) || SET_CATS[0], items = SET_ITEMS[c.id] || [];
+  const back = `<button type="button" class="ibtn set-back" data-act="setcat" data-id="" aria-label="設定の一覧にもどる">${ms('arrow_back')}</button>`;
+  if (SET_DIRECT.includes(c.id)) return `<div class="set-dh">${back}<h1>${c.t}</h1></div><div class="set-dbody">${items.map(it => it.body()).join('')}</div>`;
   const it = ui.setSub && items.find(x => x.id === ui.setSub);
   if (it) return `<div class="set-dh"><button type="button" class="ibtn set-subback" data-act="setsub" data-id="" aria-label="${c.t}の一覧にもどる">${ms('arrow_back')}</button><h1>${it.t}</h1></div><div class="set-dbody">${it.master ? masterRow(it.master, it.t) : ''}${it.note ? `<p class="set-note">${it.note}</p>` : ''}${it.body()}</div>`;
-  return `<div class="set-dh"><button type="button" class="ibtn set-back" data-act="setcat" data-id="" aria-label="設定の一覧にもどる">${ms('arrow_back')}</button><h1>${c.t}</h1></div><div class="set-dbody"><div class="card">${items.map(setItemLnk).join('')}</div></div>`;
+  return `<div class="set-dh">${back}<h1>${c.t}</h1></div><div class="set-dbody"><div class="card">${items.map(setItemLnk).join('')}</div></div>`;
 }
 function backupPage(embed) {
   const st = S.set;
@@ -5401,6 +5432,7 @@ const ACT = {
   bkopen() { ui.setCat = 'data'; ui.setSub = 'bk'; ui.anim = true; render(); window.scrollTo(0, 0); },
   bkclose() { ui.setCat = ''; ui.setSub = ''; ui.anim = true; render(); window.scrollTo(0, 0); },
   setsub(id) { ui.setSub = id || ''; ui.anim = true; render(); window.scrollTo(0, 0); },
+  setv(v) { const str = String(v), i = str.indexOf('|'), k = str.slice(0, i), raw = str.slice(i + 1); if (!['qzdir', 'scope', 'tyAuto', 'navPos'].includes(k)) return; S.set[k] = raw === 'true' ? true : raw === 'false' ? false : raw; applyTheme(); commit(); },
   setcat(id) { ui.setCat = id || ''; ui.setSub = ''; ui.anim = true; render(); window.scrollTo(0, 0); },
   navup(id) { moveNav(id, -1); }, navdown(id) { moveNav(id, 1); },
   navadd(id) { const l = navList(); if (navPinned().length >= NAV_MAXTOOLS || l.includes('tool:' + id)) return; l.push('tool:' + id); S.set.nav = l; commit(); },
