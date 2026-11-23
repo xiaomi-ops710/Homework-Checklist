@@ -3357,6 +3357,40 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 /* 挿絵の中の各要素の、背景の補助 */
 .set2 .set-ill.sx .sx-blob{animation:sxDrift 6s ease-in-out infinite!important}
 </style>
+<style id="p41">
+.ep-seg{margin:0 0 12px}
+.ep-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:6px 0 10px}
+.ep-h b{display:block}
+.ep-h small{color:var(--on-v)}
+.ep-day{margin:14px 0 4px}
+.ep-day h3{font-size:.95rem;margin:0 4px 8px}
+.ep-day.today h3{color:var(--primary)}
+.ep-day.late h3{color:#b3261e}
+.ep-r{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:20px;background:var(--s1);margin-bottom:8px}
+.ep-r.ok .ep-t b{text-decoration:line-through;opacity:.6}
+.ep-t{flex:1;min-width:0}
+.ep-t b{display:block;overflow-wrap:anywhere}
+.ep-t small{color:var(--on-v)}
+.ep-sub{color:var(--sh,var(--primary));font-weight:700}
+.ep-empty{display:grid;justify-items:center;gap:6px;padding:28px 12px;text-align:center;border-radius:24px;background:var(--s1);color:var(--on-v)}
+.ep-empty .ms{font-size:34px;color:var(--primary)}
+.ep-empty b{color:var(--on)}
+.ep-form{display:grid;gap:8px}
+.ep-pg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.ep-pick .ep-day{margin:12px 0 0}
+.ep-pk{display:flex;gap:10px;align-items:center;width:100%;text-align:left;padding:10px 12px;border-radius:18px;background:var(--s2);color:var(--on);border:0;margin-bottom:6px;font:inherit}
+.ep-pk.on{background:var(--pc);color:var(--on-pc)}
+.ep-pk .ms{font-size:22px}
+.ep-pk span{display:grid;min-width:0}
+.ep-pk small{opacity:.85}
+.cg{margin-top:12px}
+.cg-h{font-size:.8rem;font-weight:700;color:var(--on-v);margin:0 4px 6px}
+.cg-row{display:flex;flex-wrap:wrap;gap:6px 2px}
+.cg-row .sw{display:grid;justify-items:center;width:62px}
+.cg-row .sw small{display:block;font-size:10.5px;line-height:1.2;color:var(--on-v);margin-top:4px;text-align:center}
+.cg-row .sw small em{display:block;font-style:normal;color:var(--primary);font-weight:700}
+.cg-row .sw.lk span{opacity:.55}
+</style>
 </head>
 <body>
 <div id="app">
@@ -3380,9 +3414,9 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const STABLE_VER = '18.2.30';
-const BETA_VER = '18.2.35';
-const RELEASE_VER = '18.2.35'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const RELEASE_VER = '18.3.0'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.0';
+const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
 const APP_VERSION = IS_BETA ? BETA_VER : STABLE_VER;
@@ -4313,6 +4347,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.0', d: '2026/11/24 07:30', t: '考査までのやることリストを追加・色の並びを整理・版の表示を修正', n: ['課題タブに「やることリスト」を追加。日ごとに、どの課題をどのページからどのページまで進めるかを決められます（AIに作ってもらうこともできます）', '終わったら、その範囲までを課題の進み具合に記録します（外すと元に戻ります）', 'ホームの「自分のやること」に、今日の予定を出します', '20:00までに今日の予定が終わっていないと、自分の端末だけに通知が届きます（通知の設定で変えられます）', '設定の「色」を、色あいの順に並べ、近い色どうしをまとめ、名前と必要なレベルを出しました', '版の表示が古いままになっていた不具合を直しました'] },
   { v: '18.2.35', d: '2026/11/23 21:00', t: '（ベータ版）設定の挿絵を、項目の画面に合わせ、切り替えスイッチを仕様どおりに整えました', n: ['イラストを、項目の実際の画面（ホームならホーム、AIならAIの会話、完了時の演出なら紙吹雪など）に合わせ、中央に配置', 'カスタマイズに、背景・効果音・テーマの色・フォント・AIの見た目を追加（買っていないものも並び、理由と買い方を添えました）', '切り替えスイッチを、52×32・つまみ24・アイコン16の仕様に合わせ、ガクつかない滑らかな動きに', '切り替えの背景と同じ色になる項目に、縁の線を入れて、オンオフが見えるように', '左の一覧で、下の項目（情報など）を押しても、一覧が上へ戻らないように修正'] },
   { v: '18.2.34', d: '2026/11/23 20:00', t: '（ベータ版）設定の不具合を整理：左の一覧を押しても上へ戻らない、切り替えスイッチの動きを滑らかに、角の丸み、タブごとのイラスト', n: ['左の一覧（情報など下の項目を含む）を押しても、画面が上へ戻らないように修正（広い画面では右側だけがスクロールします）', '切り替えスイッチのつまみを、位置ではなく動き（変形）で動かすようにし、カクつきを解消', '切り替えを押したときに、つまみが前の位置から滑らかに動くように修正（画面を描き直しても）', '課題・考査と教科の一覧や注意書き、ツールの選択の角を丸く揃えた', 'イラストの文字（アイコン）が、ダークモードで暗く見えないように修正', 'イラストを、タブごとに違う配置と動きにした（考査はカードとチップ、タイマーは回る円、見た目は明暗の端末、ツールはタイル、ホームは吹き出し、AI先生は会話、タブバーは選択が移動、データは箱と同期、成長はメダル、通知はバナー、情報はアプリのアイコン）'] },
   { v: '18.2.33', d: '2026/11/23 19:00', t: '（ベータ版）設定の見た目と動きを整理：切り替えスイッチ、画面の移動、イラスト、課題と教科の揃え、上の余白', n: ['切り替えスイッチを、参考の形（オフは縁取りと×、オンは塗りと✓）に合わせた', '戻る・項目を開く・大項目を開くとき、右の画面が横からふわっと動くように', '通知は、項目の一覧を開かずそのまま出すように', 'イラストに、関係するアイコンを2つ添えて、音・波・回転などの動きを付けた', '課題と教科の見出しと行を、同じ左右の幅にそろえた', 'iPadで上がぼけて見えるので、タイトル・戻るボタン・検索バーを下げ、戻るボタンは円で囲んだ'] },
@@ -4704,7 +4739,8 @@ function viewTasks() {
   if (!subs.length) return emptyHome();
   const F = [['all', 'すべて'], ['pin', '今日やる'], ['req', '必須'], ['opt', '任意'], ['todo', '未完了'], ['done', '完了']];
   const tv = tview();
-  return ov() + `<div class="toolbar">
+  if (ui.tk === 'plan') return ov() + epSeg() + epTabHtml();
+  return ov() + epSeg() + `<div class="toolbar">
     <div class="seg tv" role="group" aria-label="表示の切り替え"><button class="${tv === 'subj' ? 'on' : ''}" data-act="tview" data-id="subj">${ms('menu_book')}教科別</button><button class="${tv === 'due' ? 'on' : ''}" data-act="tview" data-id="due">${ms('event_upcoming')}期限順</button></div>
     <div class="search">${ms('search')}<input id="q" type="search" placeholder="課題名・メモで検索" value="${esc(ui.q)}" enterkeyhint="search"></div>
     <div class="chips scroll">${F.map(([id, l]) => `<button class="chip ${ui.filter === id ? 'on' : ''}" data-act="filter" data-id="${id}">${id === 'pin' ? ms('star', 'f') : ''}${l}</button>`).join('')}</div>
@@ -5218,7 +5254,7 @@ const SET_ITEMS = {
     { id: 'g-ai', t: 'AIの見た目', s: '先生の見た目（買ったものも、まだのものも並びます）', ic: 'auto_awesome', body: () => growPickBody('ai') },
     { id: 'nat', t: '自然の音の大きさ', s: '雨・波などの音量', ic: 'nature', body: () => `<div class="card"><div class="fld" style="padding:18px 24px 20px"><div class="seg">${[[0.25, '小'], [0.5, '中'], [1, '大']].map(([v, t]) => `<button type="button" class="${Math.abs(NS.vol - v) < 0.01 ? 'on' : ''}" data-act="setnatvol" data-id="${v}">${t}</button>`).join('')}</div></div></div>` },
     { id: 'dark', t: 'ダークモード', s: '自動・ライト・ダーク', ic: 'dark_mode', body: () => { const st = S.set; const o = [['auto', '自動', 'auto'], ['light', 'ライト', 'light'], ['dark', 'ダーク', 'dark']]; return `<div class="card"><div class="pick-grid">${o.map(([v, l, k]) => `<button type="button" class="pick ${k} ${st.theme === v ? 'on' : ''}" data-act="theme" data-id="${v}" aria-pressed="${st.theme === v}"><span class="ph"><i></i><i></i><i></i></span>${l}</button>`).join('')}</div></div><p class="set-note">「自動」は、この端末の明るさの設定に合わせて切り替えます。</p>`; } },
-    { id: 'color', t: '色', s: 'アプリの色（レベルで増えます）', ic: 'palette', body: () => { const st = S.set; return `<div class="card"><div class="fld"><div class="lbl">アプリの色</div><div class="swatches">${[...SEEDS.map(([h, n]) => [h, n, 0]), ...LV_HUES].map(([h, n, need]) => { const ok = level().L >= need; return `<label class="sw ${ok ? '' : 'lk'}"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} ${ok ? `data-act="hue" data-id="${h}"` : 'disabled'} aria-label="${n}${ok ? '' : `（Lv.${need}で使えます）`}"><span style="background:hsl(${h} 66% 48%)">${ok ? '' : ms('lock', '', 'font-size:16px;color:#fff')}</span></label>`; }).join('')}</div><p class="muted" style="font-size:.8rem;margin:8px 4px 0">レベルが上がると、色が増えます（${LV_HUES.map(([, n, l]) => `Lv.${l}：${n}`).join('、')}）</p></div></div>`; } },
+    { id: 'color', t: '色', s: 'アプリの色（近い色どうしを、まとめて並べました）', ic: 'palette', body: () => { const st = S.set; const all = [...SEEDS.map(([h, n]) => [h, n, 0]), ...LV_HUES.map(([h, n, l]) => [h, n, l])].sort((a, b) => a[0] - b[0]); const grp = h => (h < 20 || h >= 330) ? '赤・ピンク' : h < 60 ? 'オレンジ・黄色' : h < 175 ? '緑' : h < 245 ? '水色・青' : '紫'; const order = ['赤・ピンク', 'オレンジ・黄色', '緑', '水色・青', '紫']; return `<div class="card"><div class="fld"><div class="lbl">アプリの色</div>${order.map(g => { const list = all.filter(([h]) => grp(h) === g); return `<div class="cg"><div class="cg-h">${g}</div><div class="cg-row">${list.map(([h, n, need]) => { const ok = level().L >= need; return `<label class="sw ${ok ? '' : 'lk'}"><input type="radio" name="seed" value="${h}" ${st.hue === h ? 'checked' : ''} ${ok ? `data-act="hue" data-id="${h}"` : 'disabled'} aria-label="${n}${ok ? '' : `（Lv.${need}で使えます）`}"><span style="background:hsl(${h} 66% 48%)">${ok ? '' : ms('lock', '', 'font-size:16px;color:#fff')}</span><small>${n}${ok ? '' : `<em>Lv.${need}</em>`}</small></label>`; }).join('')}</div></div>`; }).join('')}</div><p class="muted" style="font-size:.8rem;margin:10px 4px 0">レベルが上がると、色が増えます。鍵の付いた色は、そのレベルになると使えます。</p></div></div>`; } },
     { id: 'fs', t: '文字のサイズ', s: '小・標準・大', ic: 'format_size', body: () => { const st = S.set; const o = [['s', '小', '1.1rem'], ['m', '標準', '1.45rem'], ['l', '大', '1.9rem']]; return `<div class="card"><div class="pick-grid">${o.map(([v, l, z]) => `<button type="button" class="pick ${st.fs === v ? 'on' : ''}" data-act="fs" data-id="${v}" aria-pressed="${st.fs === v}"><span class="ph aa" style="font-size:${z}">Aa</span>${l}</button>`).join('')}</div></div><p class="set-note">アプリ全体の文字の大きさが変わります。</p>`; } },
     { id: 'anim', t: 'アニメーション', s: 'オフで動きを最小限に', ic: 'animation', master: 'anim', note: 'オフにすると、動きを最小限にします', body: () => '' },
     { id: 'wx', t: '今日の天気をホームに出す', s: '位置情報を使います', ic: 'wb_sunny', master: 'wx', note: '位置情報を使います（一度だけ確認します）', body: () => '' },
@@ -10155,6 +10191,7 @@ function tdSuggest() {
 let TDS = [];
 /* ---- ホームの「今日のプラン」に入れる、自分のやることの部分 ---- */
 function tdBlock() {
+  epSyncTd();
   const list = tdToday(), dn = list.filter(x => x.done).length, left = tdMinLeft(), ap = S.aiplan && S.aiplan.d === today() ? S.aiplan : null;
   const old = tdAll().filter(x => x.d < today() && !x.done && !x.x && !x.h && daysBetween(x.d, today()) <= 3);
   const skipped = examTasks().filter(t => t.skip === today() && !isDone(t));
@@ -10242,7 +10279,7 @@ Object.assign(ACT, {
   },
   tddel(id) { closeDlg(); undoable('やることを消しました', () => { const x = tdFind(id); if (!x) return; x.x = 1; x.u = Date.now(); }); },
   tdck(id) {
-    const x = tdFind(id); if (!x) return; x.done = !x.done; x.dt = x.done ? Date.now() : 0; x.u = Date.now(); save(); render();
+    const x = tdFind(id); if (!x) return; if (x.src === 'ep') { epSetDone(x.xid, !x.done); save(); render(); return; } x.done = !x.done; x.dt = x.done ? Date.now() : 0; x.u = Date.now(); save(); render();
     if (x.done) { const l = tdToday(); if (l.length >= 2 && l.every(v => v.done)) { toast('今日のやることが、ぜんぶ終わりました！'); try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } }
   },
   tdgo(id) {
@@ -10292,6 +10329,154 @@ Object.assign(ACT, {
     pick.forEach(x => { if (x.kind === 'task') { const t = T(x.tid); if (t) { t.pn = { d: td, n: x.pages, m: x.min, ai: 1 }; delete t.skip; } } else tdAdd({ t: x.title, min: x.min, src: 'ai', go: x.kind === 'cards' ? x.kind : '' }); });
     S.aiplan = { d: td, msg: TDA.msg, min: pick.reduce((a, x) => a + x.min, 0) }; save(); closeDlg(); render(); toast('今日の計画に入れました');
   }
+});
+
+/* ====================== 考査までのやることリスト（18.3.0）：日ごとに、課題のどのページからどのページまで ====================== */
+const EP = { step: 'form', items: [], ok: [], msg: '', pk: '' };
+const epStore = () => { if (!S.ep || typeof S.ep !== 'object') S.ep = { items: [], msg: '' }; if (!Array.isArray(S.ep.items)) S.ep.items = []; return S.ep; };
+const epList = () => (S.ep && Array.isArray(S.ep.items) ? S.ep.items : []);
+const epMine = () => { const ex = curExam(); return epList().filter(it => it && it.ex === ex.id); };
+const epTasks = () => examTasks().filter(t => t && t.kind === 'pg' && !isDone(t));   // ページで進む、未完了の課題
+const epPageIn = (t, p) => segsOf(t).some(([a, b]) => p >= a && p <= b);
+const epNext = t => pageOf(t, (t.done || 0) + 1);                                    // 次に読むページ
+function epText(it) { const t = T(it.tid), s = t ? SUB(t.sid) : null; return `${s ? s.name + '：' : ''}${it.title}　p.${it.from}${it.to > it.from ? '〜' + it.to : ''}`; }
+function epCheck(o) {
+  const t = T(o.tid), ex = curExam();
+  if (!t || t.kind !== 'pg' || isDone(t)) return '課題を選んでください';
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(o.date || '')) return '日付を入れてください';
+  if (o.date < today() || (ex.date && o.date >= ex.date)) return '日付は、今日から考査の前日までにしてください';
+  if (!Number.isInteger(o.from) || !Number.isInteger(o.to) || o.from < 1 || o.to < o.from) return 'ページは「何ページから」「何ページまで」を正しく入れてください';
+  if (!epPageIn(t, o.from) || !epPageIn(t, o.to)) return `ページは、この課題の範囲（${rangesText(t)}）の中で入れてください`;
+  return '';
+}
+// 終わったとき、その範囲までを課題の進み具合に記録する（外したら、前の進み具合に戻す）
+function epSetRec(it, on) {
+  const t = T(it.tid); if (!t) return;
+  if (on) { it.prev = t.done || 0; const want = Math.min(t.total, Math.max(t.done || 0, countTo(t, it.to))); it.rec = want; if (want > (t.done || 0)) setDone(t, want); }
+  else if (it.rec != null) { if ((t.done || 0) === it.rec) setDone(t, it.prev || 0); it.rec = null; }
+}
+function epSetDone(id, on) {
+  const it = epList().find(x => x.id === id); if (!it) return;
+  it.done = !!on; epSetRec(it, !!on); epSyncTd(); epPush();
+}
+// 今日の予定を、ホームの「自分のやること」に、同じ項目として出す（チェックも、そのまま予定に反映）
+function epSyncTd() {
+  const td = today(), want = new Map(epList().filter(it => it && it.date === td).map(it => [it.id, it])), l = tdAll();
+  l.forEach(x => {
+    if (x.src !== 'ep' || x.x) return;
+    const it = want.get(x.xid);
+    if (!it) { x.x = 1; x.u = Date.now(); return; }
+    want.delete(x.xid);
+    const txt = epText(it).slice(0, 60);
+    if (x.t !== txt || !!x.done !== !!it.done) { x.t = txt; x.done = !!it.done; x.dt = it.done ? Date.now() : 0; x.u = Date.now(); }
+  });
+  want.forEach(it => { const t = T(it.tid); l.push({ id: uid(), t: epText(it).slice(0, 60), d: td, min: 0, done: !!it.done, src: 'ep', xid: it.id, sid: t ? t.sid : '', go: '', h: '', o: Date.now() + l.length, u: Date.now() }); });
+  epPush();
+}
+// 20:00の確認のために、今日の終わっていない数を、通知の予約に入れる（この端末から、自分の端末へ送るため）
+function epPush() {
+  try {
+    if (!(pushLocal().on && CLOUD.user && CLOUD.fb)) return;
+    const td = today(), left = epMine().filter(it => it.date === td && !it.done).length, key = td + ':' + left;
+    if (EP.pk === key) return; EP.pk = key;
+    const { fs, db } = CLOUD.fb;
+    fs.setDoc(fs.doc(db, 'pushPlan', CLOUD.user.uid), { daily: { xp: { date: td, left } }, updated: Date.now() }, { merge: true }).catch(() => { });
+  } catch (e) { }
+}
+function epSeg() {
+  const onPlan = ui.tk === 'plan';
+  return `<div class="seg ep-seg" role="group" aria-label="課題の画面の切り替え"><button type="button" class="${onPlan ? '' : 'on'}" data-act="eptab" data-id="list">${ms('assignment')}課題</button><button type="button" class="${onPlan ? 'on' : ''}" data-act="eptab" data-id="plan">${ms('event_note')}やることリスト</button></div>`;
+}
+function epTabHtml() {
+  const ex = curExam(), td = today();
+  if (!ex.date) return `<div class="ep-empty">${ms('event_available')}<b>考査の日を入れると、その日までの予定を作れます</b><small>考査の日は「考査と教科」から入れられます</small></div>`;
+  const left = daysBetween(td, ex.date);
+  if (left < 0) return `<div class="ep-empty">${ms('event_available')}<b>${esc(ex.name)}は終わりました</b></div>`;
+  const mine = epMine(), dn = mine.filter(x => x.done).length;
+  const late = mine.filter(x => x.date < td && !x.done).sort((a, b) => (a.date < b.date ? -1 : 1));
+  const days = {}; mine.filter(x => x.date >= td).forEach(x => { (days[x.date] = days[x.date] || []).push(x); });
+  const keys = Object.keys(days).sort();
+  const row = (x, mv) => { const t = T(x.tid), s = t ? SUB(t.sid) : null, n = x.to - x.from + 1; return `<div class="ep-r ${x.done ? 'ok' : ''}"><button type="button" class="td-ck" data-act="epck" data-id="${x.id}" role="checkbox" aria-checked="${!!x.done}" aria-label="${esc(x.title)}を終えた">${ms('check')}</button><div class="ep-t"><b>${esc(x.title)}</b><small>${s ? `<span class="ep-sub" style="--sh:${s.hue}">${esc(s.name)}</span> ・ ` : ''}p.${x.from}${n > 1 ? '〜' + x.to : ''} ・ ${n}ページ</small></div>${mv ? `<button type="button" class="btn tonal xs" data-act="epmove" data-id="${x.id}">今日にうつす</button>` : ''}<button type="button" class="ibtn" data-act="epdel" data-id="${x.id}" aria-label="この予定を消す">${ms('delete')}</button></div>`; };
+  const head = d => { const dt = parse(d); return d === td ? '今日' : d === ntPlus(1) ? '明日' : `${dt.getMonth() + 1}/${dt.getDate()}（${WD[dt.getDay()]}）`; };
+  return `<div class="ep-h"><div><b>${esc(ex.name)}まで あと${left}日</b><small>${dn} / ${mine.length} 終わりました</small></div><span class="sp" style="flex:1"></span><button type="button" class="btn tonal xs" data-act="epai">${gem(18)}AIに作ってもらう</button><button type="button" class="btn tonal xs" data-act="epadd" data-id="${td}">${ms('add')}予定を足す</button></div>`
+    + (S.ep && S.ep.msg && !mine.length ? '' : (S.ep && S.ep.msg ? `<div class="td-ai" style="margin:0 0 10px">${gem(18)}<span>${esc(S.ep.msg)}</span></div>` : ''))
+    + (late.length ? `<div class="ep-day late"><h3>遅れている分</h3>${late.map(x => row(x, true)).join('')}</div>` : '')
+    + (keys.length ? keys.map(d => `<div class="ep-day${d === td ? ' today' : ''}"><h3>${head(d)}</h3>${days[d].map(x => row(x, false)).join('')}</div>`).join('') : `<div class="ep-empty">${ms('edit_calendar')}<b>まだ予定がありません</b><small>AIに作ってもらうか、「予定を足す」から入れられます。</small></div>`);
+}
+function epAddDlg(date) {
+  const ts = epTasks();
+  if (!ts.length) return toast('ページで進む、未完了の課題がありません（課題を「ページ」で登録すると使えます）');
+  const ex = curExam(), d = date || today(), t0 = ts[0];
+  openDlg(`<h2>${ms('edit_calendar')}予定を足す</h2><div class="ep-form">
+    <div class="fld"><div class="lbl">日付</div><input id="epd" type="date" value="${d}" min="${today()}" ${ex.date ? `max="${ex.date}"` : ''}></div>
+    <div class="fld"><div class="lbl">課題</div><select id="ept">${ts.map(t => { const s = SUB(t.sid); return `<option value="${t.id}">${esc(s ? s.name + '：' : '')}${esc(t.title)}（p.${epNext(t)}〜${lastPage(t)}）</option>`; }).join('')}</select></div>
+    <div class="ep-pg"><div class="fld"><div class="lbl">何ページから</div><input id="epf1" type="number" inputmode="numeric" min="1" value="${epNext(t0)}"></div><div class="fld"><div class="lbl">何ページまで</div><input id="epf2" type="number" inputmode="numeric" min="1" value="${Math.min(lastPage(t0), epNext(t0) + 9)}"></div></div>
+    <p class="muted" style="font-size:.8rem;margin:0">終わったら、課題の進み具合にも記録されます。</p></div>
+    <div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">やめる</button><button type="button" class="btn" data-act="epsave">${ms('check')}入れる</button></div>`);
+}
+// AIの答えを、きまりに合わせて直す（存在する課題・未完了・範囲の中・重ならない順番・考査の前日まで）
+function epNorm(res, ts) {
+  const ex = curExam(), td = today(), byId = new Map(ts.map(t => [t.id, t])), cur = new Map(ts.map(t => [t.id, epNext(t)])), out = [];
+  (Array.isArray(res && res.days) ? res.days : []).slice(0, 21).forEach(d => {
+    const date = String((d && d.date) || '');
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || date < td || (ex.date && date >= ex.date)) return;
+    (Array.isArray(d.items) ? d.items : []).slice(0, 8).forEach(x => {
+      const t = byId.get(String(x && x.tid)); if (!t) return;
+      let from = Math.max(+x.from || 0, cur.get(t.id)), to = Math.min(+x.to || 0, lastPage(t));
+      while (from <= to && !epPageIn(t, from)) from++;
+      if (from > to || !epPageIn(t, to)) return;
+      out.push({ date, tid: t.id, title: t.title, sid: t.sid, from, to });
+      cur.set(t.id, to + 1);
+    });
+  });
+  return out.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0));
+}
+const epDlgRender = () => { dlg.innerHTML = `<div class="dlg">${epDlgHtml()}</div>`; };
+function epDlgHtml() {
+  if (EP.step === 'load') return `<h2>${gem(22)}やることリスト</h2><div class="aq-load" style="padding:36px 0">${gspin(44)}<b>AIが予定を考えています…</b><small class="muted">少し待ってください</small></div>`;
+  let byD = {}; EP.items.forEach((x, k) => { (byD[x.date] = byD[x.date] || []).push(k); });
+  return `<h2>${gem(22)}予定ができました</h2><div class="td-ai" style="margin-bottom:12px">${gem(22)}<span>${esc(EP.msg || '考査までの予定です。')}</span></div><div class="ep-pick">${Object.keys(byD).sort().map(d => { const dt = parse(d); return `<div class="ep-day"><h3>${dt.getMonth() + 1}/${dt.getDate()}（${WD[dt.getDay()]}）</h3>${byD[d].map(k => { const x = EP.items[k], t = T(x.tid), s = t ? SUB(t.sid) : null; return `<button type="button" class="ep-pk ${EP.ok[k] ? 'on' : ''}" ${s ? `style="--sh:${s.hue}"` : ''} data-act="epaitog" data-id="${k}" aria-pressed="${!!EP.ok[k]}">${ms(EP.ok[k] ? 'check_box' : 'check_box_outline_blank')}<span><b>${esc(x.title)}</b><small>${s ? esc(s.name) + ' ・ ' : ''}p.${x.from}${x.to > x.from ? '〜' + x.to : ''}</small></span></button>`; }).join('')}</div>`; }).join('')}</div><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">やめる</button><button type="button" class="btn" data-act="epaiok">${ms('check')}この予定を入れる</button></div>`;
+}
+async function epAi() {
+  const ex = curExam(), ts = epTasks();
+  if (!ex.date) return toast('考査の日を入れると、AIに予定を作ってもらえます');
+  if (!ts.length) return toast('ページで進む、未完了の課題がありません');
+  const left = daysBetween(today(), ex.date);
+  if (left < 1) return toast('考査までの日がありません');
+  EP.step = 'load'; openDlg(epDlgHtml());
+  const days = []; for (let i = 0; i < Math.min(left, 21); i++) { const d = new Date(); d.setDate(d.getDate() + i); const we = d.getDay() === 0 || d.getDay() === 6; days.push(`${ymd(d)}（${WD[d.getDay()]}）${we ? TP.we : TP.wk}分`); }
+  const tl = ts.map(t => { const s = SUB(t.sid); return `${t.id}｜${s ? s.name : ''}｜${t.title}｜未読 p.${epNext(t)}〜${lastPage(t)}（残り${t.total - (t.done || 0)}ページ）｜期限 ${t.due || 'なし'}｜${t.req ? '必須' : '任意'}`; });
+  const res = await aiRun({ system: AI_MINI + '生徒の考査までの勉強の予定を、日ごとに、課題のページ範囲で立てます。', prompt: `今日は${today()}で、${ex.name}は${ex.date}です。\n日ごとに使える時間：\n${days.join('\n')}\n1ページの目安は約5分です。\n課題（id｜教科｜課題名｜未読のページ｜期限｜必須か）：\n${tl.join('\n')}\n\n期限が近い課題と必須の課題を先に、日ごとの時間に収まるように、未読のページを順に割り当ててください。同じ課題のページは重ねず、順番どおりに進めます。\n答えは次の形のJSONだけにしてください：\n{"msg":"やさしい一言（80字以内）","days":[{"date":"YYYY-MM-DD","items":[{"tid":"課題のid","from":ページ,"to":ページ}]}]}`, json: true });
+  const items = res ? epNorm(res, ts) : [];
+  if (!items.length) { EP.step = 'form'; closeDlg(); return toast('予定をつくれませんでした。もう一度、お試しください'); }
+  EP.items = items; EP.ok = items.map(() => true); EP.msg = snOne((res && res.msg) || '').slice(0, 80); EP.step = 'view'; epDlgRender();
+}
+Object.assign(ACT, {
+  eptab(id) { ui.tk = id === 'plan' ? 'plan' : 'list'; render(); },
+  epck(id) { const it = epList().find(x => x.id === id); if (!it) return; epSetDone(id, !it.done); save(); render(); },
+  epadd(date) { epAddDlg(date); },
+  epsave() {
+    const d = (document.getElementById('epd') || {}).value, tid = (document.getElementById('ept') || {}).value;
+    const f = parseInt((document.getElementById('epf1') || {}).value, 10), e = parseInt((document.getElementById('epf2') || {}).value, 10);
+    const msg = epCheck({ date: d, tid, from: f, to: e }); if (msg) return toast(msg);
+    const t = T(tid), ex = curExam();
+    epStore().items.push({ id: uid(), ex: ex.id, date: d, tid, title: t.title, from: f, to: e, done: false, rec: null, prev: null, at: Date.now() });
+    closeDlg(); epSyncTd(); epPush(); save(); render(); toast('予定に入れました');
+  },
+  epmove(id) { const it = epList().find(x => x.id === id); if (!it) return; it.date = today(); epSyncTd(); epPush(); save(); render(); toast('今日にうつしました'); },
+  epdel(id) {
+    const it = epList().find(x => x.id === id); if (!it) return;
+    undoable('予定を消しました', () => { if (it.done) epSetRec(it, false); it.done = false; const st = epStore(); st.items = st.items.filter(x => x.id !== id); epSyncTd(); epPush(); });
+  },
+  epai() { epAi(); },
+  epaitog(k) { EP.ok[+k] = !EP.ok[+k]; epDlgRender(); },
+  epaiok() {
+    const pick = EP.items.filter((x, i) => EP.ok[i]); if (!pick.length) return toast('入れる予定を選んでください');
+    const td = today(), ex = curExam(), st = epStore();
+    st.items = st.items.filter(it => !(it.ex === ex.id && it.date >= td && !it.done));
+    pick.forEach(x => st.items.push({ id: uid(), ex: ex.id, date: x.date, tid: x.tid, title: x.title, from: x.from, to: x.to, done: false, rec: null, prev: null, at: Date.now() }));
+    st.msg = EP.msg || ''; epSyncTd(); epPush(); closeDlg(); save(); render(); toast('やることリストに入れました');
+  },
 });
 /* ====================== テスト対策プラン：考査の日まで、日ごとの勉強計画（17.2） ====================== */
 const TP = { wk: 90, we: 180, off: [], weak: [], step: 'form', days: [], msg: '' };
@@ -15946,9 +16131,10 @@ const PUSH_CATS = [
   ['word', '単語帳', '単語帳の中から、毎日1語', 'style', '12:30'],
   ['game', '息抜きにゲーム', '「息抜きにゲームはいかがですか？」と、歴打や元素マージをすすめます', 'sports_esports', '20:00'],
   ['timer', '集中タイマー', '勉強の時間に、集中タイマーをすすめます', 'timer', '16:00'],
+  ['plan', '今日のやることの確認', '20:00までに終わっていない分を、自分の端末だけに届けます', 'checklist', '20:00'],
 ];
-const PUSH_DEF_ON = { news: true, ann: true, event: true, tip: false, word: false, game: false, timer: false };
-const PUSH_DEF_TIME = { event: '07:00', tip: '07:30', word: '12:30', game: '20:00', timer: '16:00' };
+const PUSH_DEF_ON = { news: true, ann: true, event: true, tip: false, word: false, game: false, timer: false, plan: true };
+const PUSH_DEF_TIME = { event: '07:00', tip: '07:30', word: '12:30', game: '20:00', timer: '16:00', plan: '20:00' };
 let PUSH_RESULT = null;
 function pushPrefs() { const p = lsj(PUSH_PREFS_KEY, null) || {}; return { on: { ...PUSH_DEF_ON, ...(p.on || {}) }, time: { ...PUSH_DEF_TIME, ...(p.time || {}) } }; }
 function pushPrefsSave(p) {
