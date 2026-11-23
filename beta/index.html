@@ -3391,6 +3391,18 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 .cg-row .sw small em{display:block;font-style:normal;color:var(--primary);font-weight:700}
 .cg-row .sw.lk span{opacity:.55}
 </style>
+<style id="p42">
+/* 18.3.1：オンオフを少し大きく（形は同じ）。背景と同じ色にならないよう、ふちを文字の色で描く。青い行（全体のオンオフ）では、オンのときのトラックを白にする */
+.sw2 .tr,.psw .tr,.set-page .sw2 .tr,.set-master .sw2 .tr{width:60px!important;height:36px!important;border-radius:18px!important;box-sizing:border-box!important;box-shadow:inset 0 0 0 2px color-mix(in srgb,currentColor 55%,transparent)!important}
+.sw2 .th,.psw .th,.set-page .sw2 .th,.set-master .sw2 .th{left:4px!important;top:4px!important;width:28px!important;height:28px!important}
+.sw2 .th .ms,.psw .th .ms,.set-page .sw2 .th .ms,.set-master .sw2 .th .ms{font-size:17px!important}
+.sw2 input:checked+.tr .th,.psw[aria-checked="true"] .th,.set-page .sw2 input:checked+.tr .th,.set-master .sw2 input:checked+.tr .th{transform:translate3d(24px,0,0)!important}
+.sw2 input:checked:active+.tr .th,.psw[aria-checked="true"]:active .th,.set-page .sw2 input:checked:active+.tr .th,.set-master .sw2 input:checked:active+.tr .th{transform:translate3d(24px,0,0) scale(1.12)!important}
+.sw2 input:checked+.tr,.psw[aria-checked="true"] .tr,.set-page .sw2 input:checked+.tr{background:var(--primary)!important}
+.set-master .sw2 input:checked+.tr{background:var(--on-primary)!important}
+.set-master .sw2 input:checked+.tr .th{background:var(--primary)!important;color:var(--on-primary)!important}
+.sw2 input:checked+.tr,.psw[aria-checked="true"] .tr,.set-page .sw2 input:checked+.tr,.set-master .sw2 input:checked+.tr{box-shadow:inset 0 0 0 2px color-mix(in srgb,currentColor 55%,transparent)!important}
+</style>
 </head>
 <body>
 <div id="app">
@@ -3414,8 +3426,8 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.0'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.0';
+const RELEASE_VER = '18.3.1'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.1';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4347,6 +4359,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.1', d: '2026/11/24 08:30', t: 'AIの途中停止を直す・元素マージのXPとくっつき・オンオフを見やすく', n: ['AIの回答が途中で止まる・「AI/parse-failed」のエラーを直しました（答えを待つ時間を10分にし、途中で切れたら同じ質問を自動で作りなおします）', 'AIのバランスモードを、無料で使えるGemini 3.6 Flashに変えました（以前のモデルは無料枠になく、使えなくなったため）', '元素マージ：普通はEPが少し貯まりにくく、難しいは玉が少しくっつきやすくなりました', '設定のオンオフを、形はそのままに少し大きくしました。背景と同じ色になっていたものは、ふちを見やすくしました'] },
   { v: '18.3.0', d: '2026/11/24 07:30', t: '考査までのやることリストを追加・色の並びを整理・版の表示を修正', n: ['課題タブに「やることリスト」を追加。日ごとに、どの課題をどのページからどのページまで進めるかを決められます（AIに作ってもらうこともできます）', '終わったら、その範囲までを課題の進み具合に記録します（外すと元に戻ります）', 'ホームの「自分のやること」に、今日の予定を出します', '20:00までに今日の予定が終わっていないと、自分の端末だけに通知が届きます（通知の設定で変えられます）', '設定の「色」を、色あいの順に並べ、近い色どうしをまとめ、名前と必要なレベルを出しました', '版の表示が古いままになっていた不具合を直しました'] },
   { v: '18.2.35', d: '2026/11/23 21:00', t: '（ベータ版）設定の挿絵を、項目の画面に合わせ、切り替えスイッチを仕様どおりに整えました', n: ['イラストを、項目の実際の画面（ホームならホーム、AIならAIの会話、完了時の演出なら紙吹雪など）に合わせ、中央に配置', 'カスタマイズに、背景・効果音・テーマの色・フォント・AIの見た目を追加（買っていないものも並び、理由と買い方を添えました）', '切り替えスイッチを、52×32・つまみ24・アイコン16の仕様に合わせ、ガクつかない滑らかな動きに', '切り替えの背景と同じ色になる項目に、縁の線を入れて、オンオフが見えるように', '左の一覧で、下の項目（情報など）を押しても、一覧が上へ戻らないように修正'] },
   { v: '18.2.34', d: '2026/11/23 20:00', t: '（ベータ版）設定の不具合を整理：左の一覧を押しても上へ戻らない、切り替えスイッチの動きを滑らかに、角の丸み、タブごとのイラスト', n: ['左の一覧（情報など下の項目を含む）を押しても、画面が上へ戻らないように修正（広い画面では右側だけがスクロールします）', '切り替えスイッチのつまみを、位置ではなく動き（変形）で動かすようにし、カクつきを解消', '切り替えを押したときに、つまみが前の位置から滑らかに動くように修正（画面を描き直しても）', '課題・考査と教科の一覧や注意書き、ツールの選択の角を丸く揃えた', 'イラストの文字（アイコン）が、ダークモードで暗く見えないように修正', 'イラストを、タブごとに違う配置と動きにした（考査はカードとチップ、タイマーは回る円、見た目は明暗の端末、ツールはタイル、ホームは吹き出し、AI先生は会話、タブバーは選択が移動、データは箱と同期、成長はメダル、通知はバナー、情報はアプリのアイコン）'] },
@@ -7232,14 +7245,15 @@ async function aiStart(text) {
   if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
   const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
   const mid = aiModel(text);
-  const model = AI.mod.getGenerativeModel(ai, { model: mid, systemInstruction: AI_SYS + '\n\n' + AIM_TXT[AIM.mode] + '\n\n' + aiContext() });
+  const model = AI.mod.getGenerativeModel(ai, { model: mid, systemInstruction: AI_SYS + '\n\n' + AIM_TXT[AIM.mode] + '\n\n' + aiContext() }, AI_RO);
   AI.chatModel = mid;
   { const h = aiHistory(); AI.chat = h.length ? model.startChat({ history: h }) : model.startChat(); }   // 前の会話があれば、続きから
 }
 function aiErr(e) {
   const s = `${(e && e.code) || ''} ${(e && e.message) || ''} ${e || ''}`.replace(/\s+/g, ' ').trim();
   let m;
-  if (/app ?check|app-check|appcheck|401|unauthenticated/i.test(s)) m = 'AIとの接続を確認できませんでした。アプリを開き直してから、もう一度お試しください。それでも直らないときは、フィードバックでお知らせください。';
+  if (/parse-failed|Failed to parse|parse stream/i.test(s)) m = '答えの受け取りが途中で止まりました。もう一度、お試しください。長い質問は、少しに分けると答えやすくなります。';
+  else if (/app ?check|app-check|appcheck|401|unauthenticated/i.test(s)) m = 'AIとの接続を確認できませんでした。アプリを開き直してから、もう一度お試しください。それでも直らないときは、フィードバックでお知らせください。';
   else if (/\b429\b|quota|RESOURCE_EXHAUSTED|rate.?limit|too many requests/i.test(s)) m = 'AIの利用上限に達しました。しばらくしてから、もう一度お試しください。';
   else if (/403|permission|not been used|disabled|not enabled/i.test(s)) m = 'AI機能がまだ有効になっていないようです。FirebaseコンソールのAI Logicで、Gemini Developer APIを有効にしてください。';
   else if (/404|not found|not supported/i.test(s)) m = 'モデル名が正しくない可能性があります。firebase-config.js の AI_MODEL を確認してください。';
@@ -7250,6 +7264,26 @@ function aiErr(e) {
 }
 /* ---- AIの共通呼び出し（ログイン・1日の回数・エラー表示をまとめる） ---- */
 const AI_MINI = 'あなたは日本の中学生を応援する、学習アドバイザーです。やさしく前向きな日本語で、です・ます調で書きます。難しい言葉は使わず、与えられた情報にないことは作りません。数式にLaTeXは使わず、ふつうの文字で書きます。個人情報は聞き出しません。';
+// AIの答えを待つ上限。SDKの既定（3分）では、長く考える答えが途中で打ち切られ「AI/parse-failed」になるので、10分に延ばす
+const AI_RO = { timeout: 600000 };
+const aiParseErr = e => /parse-failed|Failed to parse|parse stream|timeout|timed out|deadline|fetch|network|stream/i.test(`${(e && e.code) || ''} ${(e && e.message) || ''} ${e || ''}`);
+const aiChunkText = c => { try { return (c && typeof c.text === 'function' && c.text()) || ''; } catch (e) { return ''; } };   // 文字のない欄（関数呼び出しなど）は、数えない
+// 答えを少しずつ受け取る。途中で切れたら、同じ質問を一度だけ、まとめて送りなおす（切れた途中の文は捨てて、最初から書き直す）
+async function aiGetStream(send, sendOnce, onText) {
+  let got = '';
+  try {
+    const res = await send();
+    for await (const c of res.stream) { const t = aiChunkText(c); if (t) { got += t; onText(got); } }
+    if (!got) { const t = String((await res.response).text() || '').trim(); if (t) { got = t; onText(got); } }
+    return got;
+  } catch (e) {
+    if (!aiParseErr(e) || aiBusyErr(e)) throw e;   // 混みあっているときは、外側で別のモデルに切りかえる
+    onText('');
+    const r = await sendOnce();
+    got = String(r.response.text() || '').trim(); onText(got);
+    return got;
+  }
+}
 async function aiRun({ system, prompt, json = false, imgs = [], model = '', maxTokens = 0 }) {
   if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return null; }
   if (aiFull()) { toast(`今日のAI利用は${aiLimit()}回までです`); return null; }
@@ -7262,10 +7296,14 @@ async function aiRun({ system, prompt, json = false, imgs = [], model = '', maxT
     const content = imgs.length ? [prompt, ...imgs.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))] : prompt;
     aiCount();
     let res;
-    try { res = await AI.mod.getGenerativeModel(ai, cfg).generateContent(content); }
-    catch (e) {   // 選んだモデルが使えないときは、標準のモデルで答えなおす
-      const std = window.AI_MODEL || AI_STD; if (cfg.model === std) throw e;
-      res = await AI.mod.getGenerativeModel(ai, { ...cfg, model: std }).generateContent(content); toast('選んだモデルは使えなかったので、標準のモデルで答えました');
+    const gen = c => AI.mod.getGenerativeModel(ai, c, AI_RO).generateContent(content);
+    try { res = await gen(cfg); }
+    catch (e) {
+      if (aiParseErr(e) && !aiBusyErr(e)) res = await gen(cfg);   // 答えの受け取りだけが失敗したときは、もう一度作りなおす
+      else {   // 選んだモデルが使えないときは、標準のモデルで答えなおす
+        const std = window.AI_MODEL || AI_STD; if (cfg.model === std) throw e;
+        res = await gen({ ...cfg, model: std }); toast('選んだモデルは使えなかったので、標準のモデルで答えました');
+      }
     }
     const t = String(res.response.text() || '').trim();
     if (!t) throw new Error('empty');
@@ -7333,7 +7371,7 @@ const AI_MODES = [
   { id: 'auto', ttl: '自動モード', sub: '質問に合わせて、いちばん合うモデルを選びます', short: '自動' },
   { id: 'gemini-3.5-flash-lite', ttl: '高速モード', sub: 'Gemini 3.5 Flash-Lite', short: '高速' },
   { id: 'gemini-3.8-flash', ttl: '思考モード', sub: 'Gemini 3.8 Flash', short: '思考' },
-  { id: 'gemini-4-hydrogen', ttl: 'バランスモード', sub: 'Gemini 4 Hydrogen', short: 'バランス' }
+  { id: 'gemini-3.6-flash', ttl: 'バランスモード', sub: 'Gemini 3.6 Flash', short: 'バランス' }
 ];
 const AI_PICK = { get() { try { return localStorage.getItem('kosa-ai-pick') || 'auto'; } catch (e) { return 'auto'; } }, set(v) { try { localStorage.setItem('kosa-ai-pick', v); } catch (e) { } } };
 const AI_THINK = [null, '質問の内容を考えています', '答えを組み立てています', '写真を探しています'];   // 思考の段階（実際に行っている作業）
@@ -7458,8 +7496,8 @@ async function aiSend(text) {
       if (AI.chat && AI.chatModel !== aiModel(text)) AI.chat = null;   // 自動のとき、質問で別のモデルになったら作り直す（履歴は残る）
       if (!AI.chat) await aiStart(text);
       if (tryN === 0) aiCount();
-      const res = await AI.chat.sendMessageStream([text, ...atts.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))]);
-      for await (const c of res.stream) { if (AI_ST.on < 2) aiSteps(2); m.t += c.text(); renderAiLog(); }
+      const aiParts = [text, ...atts.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))];
+      m.t = await aiGetStream(() => AI.chat.sendMessageStream(aiParts), () => AI.chat.sendMessage(aiParts), t => { if (AI_ST.on < 2 && t) aiSteps(2); m.t = t; renderAiLog(); });
       if (!m.t) m.t = '回答を作れませんでした。言い方を変えて、もう一度質問してください。';
       // 写真のしるし [[画像:…]] を取り出して、ネットの写真を探す
       const mk = m.t.match(/\[\[画像[:：]\s*([^\]]+?)\s*\]\]/);
@@ -7890,7 +7928,7 @@ async function trRun() {
   try {
     if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
     const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
-    const model = AI.mod.getGenerativeModel(ai, { model: aiModel(), systemInstruction: 'あなたは正確な翻訳者です。指定された言語に翻訳し、翻訳文だけを出力します。説明・引用符・注釈は付けません。' });
+    const model = AI.mod.getGenerativeModel(ai, { model: aiModel(), systemInstruction: 'あなたは正確な翻訳者です。指定された言語に翻訳し、翻訳文だけを出力します。説明・引用符・注釈は付けません。' }, AI_RO);
     aiCount();
     const res = await model.generateContent(`${TR.from === 'auto' ? '' : `原文は${langName(TR.from)}です。`}次の文章を${langName(TR.to)}に翻訳してください。\n\n${text}`);
     TR.out = res.response.text().trim();
@@ -9910,7 +9948,7 @@ async function snStart() {
   if (!CLOUD.fb) throw new Error('nofb');
   if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
   const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
-  const model = AI.mod.getGenerativeModel(ai, { model: aiModel(), systemInstruction: snSys() });
+  const model = AI.mod.getGenerativeModel(ai, { model: aiModel(), systemInstruction: snSys() }, AI_RO);
   const hist = snHistory();
   SN.chat = hist.length ? model.startChat({ history: hist }) : model.startChat();
   SN.sig = snSig();
@@ -9993,8 +10031,8 @@ async function snSend(text) {
   try {
     if (!SN.chat || SN.sig !== snSig()) await snStart();
     aiCount();
-    const res = await SN.chat.sendMessageStream([sub + shown, ...atts.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))]);
-    for await (const c of res.stream) { m.t += c.text(); snRenderLog(); }
+    const snParts = [sub + shown, ...atts.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))];
+    m.t = await aiGetStream(() => SN.chat.sendMessageStream(snParts), () => SN.chat.sendMessage(snParts), t => { m.t = t; snRenderLog(); });
     if (!m.t.trim()) { m.t = '答えを作れませんでした。写真を撮りなおすか、言い方を変えて、もう一度送ってください。'; m.err = true; SN.chat = null; }
   } catch (e) { m.t = aiErr(e); m.err = true; SN.chat = null; }
   SN.busy = false; snRenderLog(); snRenderChips(); snBusyUi(); histSave(SNH, SN.msgs);
@@ -13096,13 +13134,13 @@ const AI_STD = 'gemini-3.5-flash-lite';   // 標準（最初から使える。fi
 const AI_SHOP = {
   'gemini-3.5-flash-lite': { n: 'Gemini 3.5 Flash-Lite（標準）', c: 0, d: '返事が一番速い' },
   'gemini-3.8-flash': { n: 'Gemini 3.8 Flash', c: 0, lv: 12, d: 'じっくり考えて、くわしく答える（レベル12で解放。XPでは買えません）' },
-  'gemini-4-hydrogen': { n: 'Gemini 4 Hydrogen', c: 0, lv: 17, d: '速さと分かりやすさのバランス（レベル17で解放。XPでは買えません）' }
+  'gemini-3.6-flash': { n: 'Gemini 3.6 Flash', c: 0, lv: 17, d: '速さと分かりやすさのバランス（レベル17で解放。XPでは買えません）' }
 };
 // ショップの上に出す、モデルごとの違いの説明（長い説明は、カードに入れない）
 const AI_GUIDE = [
   ['Gemini 3.5 Flash-Lite（標準）', '返事が一番速いモデルです。単語の意味や、かんたんな質問、短い答えがほしいときに向いています。'],
   ['Gemini 3.8 Flash', '答える前にじっくり考えるモデルです。計算の途中式や、理由を順番に知りたいとき、長い文章の整理に向いています。'],
-  ['Gemini 4 Hydrogen', '速さと分かりやすさのバランスがよいモデルです。ふだんの勉強の質問や、解き方の説明に向いています。']
+  ['Gemini 3.6 Flash', '速さと分かりやすさのバランスがよいモデルです。ふだんの勉強の質問や、解き方の説明に向いています。']
 ];
 const aiLabel = id => (AI_SHOP[id] ? AI_SHOP[id].n : id);
 // いま使うモデル。高速・思考・バランスを選んでいればそれ。自動なら、質問の中身で持っているものから選ぶ
@@ -13110,13 +13148,13 @@ const aiLabel = id => (AI_SHOP[id] ? AI_SHOP[id].n : id);
 const AI_COOL = { until: 0, from: '', to: '' };
 function aiModel(text) { const r = aiModelRaw(text); return (r === AI_COOL.from && Date.now() < AI_COOL.until) ? AI_COOL.to : r; }
 const aiBusyErr = e => /high demand|overload|unavailable|experiencing|\b50[03]\b/i.test(`${(e && e.code) || ''} ${(e && e.message) || ''} ${e || ''}`);
-const aiFallback = m => (m === 'gemini-4-hydrogen' && shopHas('ai', 'gemini-3.8-flash')) ? 'gemini-3.8-flash' : (m && m !== AI_STD ? AI_STD : '');
+const aiFallback = m => (m === 'gemini-3.6-flash' && shopHas('ai', 'gemini-3.8-flash')) ? 'gemini-3.8-flash' : (m && m !== AI_STD ? AI_STD : '');
 function aiModelRaw(text) {
-  const pick = AI_PICK.get();
+  let pick = AI_PICK.get(); if (pick === 'gemini-4-hydrogen') pick = 'gemini-3.6-flash';   // 以前に選んだ「バランス」は、新しいモデルに移す
   if (pick !== 'auto') return shopHas('ai', pick) ? pick : (window.AI_MODEL || AI_STD);
   const t = String(text || '');
   if (shopHas('ai', 'gemini-3.8-flash') && (t.length > 120 || /計算|証明|途中式|理由|なぜ|順番|比べ|整理|くわしく|説明/.test(t))) return 'gemini-3.8-flash';
-  if (shopHas('ai', 'gemini-4-hydrogen') && t.length > 30) return 'gemini-4-hydrogen';
+  if (shopHas('ai', 'gemini-3.6-flash') && t.length > 30) return 'gemini-3.6-flash';
   return window.AI_MODEL || AI_STD;
 }
 function aiGuideHtml() { return AI_GUIDE.map(([n, t]) => `<p><b>${n}</b><br>${t}</p>`).join(''); }
@@ -13142,7 +13180,7 @@ const LV_REWARD = { 2: 'XPショップが使えるようになりました', 4: 
 function growGet() {
   // 友達・プロフィールは、アカウントの状態（S.soc）に入れて、どの端末でも同じにする（以前の端末ごとの保存も引き継ぐ）
   const g = lsj(GROW_KEY, null) || {}, so = (S.soc && typeof S.soc === 'object') ? S.soc : g;
-  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [], theme: (g.owned && g.owned.theme) || [], font: (g.owned && g.owned.font) || ['def'], ai: (g.owned && g.owned.ai) || ['gemini-3.5-flash-lite'], pat: (g.owned && g.owned.pat) || [] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', pat: g.pat, lvSeen: g.lvSeen, code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
+  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [], theme: (g.owned && g.owned.theme) || [], font: (g.owned && g.owned.font) || ['def'], ai: [...new Set(((g.owned && g.owned.ai) || ['gemini-3.5-flash-lite']).map(x => x === 'gemini-4-hydrogen' ? 'gemini-3.6-flash' : x))], pat: (g.owned && g.owned.pat) || [] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', pat: g.pat, lvSeen: g.lvSeen, code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
 }
 function growPut(g) {
   const soc = { code: g.code || '', nick: g.nick || '', av: g.av || '', shared: !!g.shared, friends: g.friends || [], at: g.at || {}, rm: g.rm || {} };
@@ -14956,7 +14994,7 @@ async function dgProbe(prompt, o = {}) {   // AIを1回呼ぶ（1日の回数に
   try {
     const m = await dgAiMod(), ai = m.getAI(CLOUD.fb.app, { backend: new m.GoogleAIBackend() });
     const cfg = { model: window.AI_MODEL || 'gemini-3.5-flash-lite' }; if (o.json) cfg.generationConfig = { responseMimeType: 'application/json' };
-    const model = m.getGenerativeModel(ai, cfg), t = performance.now();
+    const model = m.getGenerativeModel(ai, cfg, AI_RO), t = performance.now();
     const res = await model.generateContent(o.img ? [prompt, { inlineData: { mimeType: o.img.mime, data: o.img.data } }] : prompt);
     return { text: String(res.response.text() || '').trim(), ms: Math.round(performance.now() - t) };
   } catch (e) { throw new Error(aiErr(e).replace(/\s+/g, ' ')); }
