@@ -214,12 +214,12 @@ const resText = (kind, r) => `${kind}：送信${r.ok}・失敗${r.fail}・無効
 const isEv = k => /^evm?:/.test(k);                       // 予定は、アプリが毎日まとめる（daily.ev）ので、通知の内容には入れない
 const jstOf = now => { const j = new Date(now + 9 * 3600000); return { day: j.toISOString().slice(0, 10), hour: j.getUTCHours(), min: j.getUTCMinutes(), mins: j.getUTCHours() * 60 + j.getUTCMinutes() }; };
 // 端末ごとの設定（アプリの「通知の内容」で決めます）。何も決めていないときは、ここの初期値
-const DEF_ON = { news: true, ann: true, event: true, tip: false, word: false, game: false, timer: false };
-const DEF_TIME = { event: '07:00', tip: '07:30', word: '12:30', game: '20:00', timer: '16:00' };
-const SCHED = ['event', 'tip', 'word', 'game', 'timer'];
+const DEF_ON = { news: true, ann: true, event: true, tip: false, word: false, game: false, timer: false, plan: true };
+const DEF_TIME = { event: '07:00', tip: '07:30', word: '12:30', game: '20:00', timer: '16:00', plan: '20:00' };
+const SCHED = ['event', 'tip', 'word', 'game', 'timer', 'plan'];
 const WINDOW_MIN = 120;                                    // 決まった時刻から2時間のあいだに、まだ送っていなければ送る
-const CAT_NAME = { news: 'お知らせ（アプリ内）', ann: '管理者のお知らせ', event: '予定', tip: '豆知識', word: '単語', game: 'ゲーム', timer: 'タイマー' };
-const LABEL = { news: '新着', ann: 'お知らせ', event: '予定', tip: '豆知識', word: '単語', game: 'ゲーム', timer: 'タイマー' };
+const CAT_NAME = { news: 'お知らせ（アプリ内）', ann: '管理者のお知らせ', event: '予定', tip: '豆知識', word: '単語', game: 'ゲーム', timer: 'タイマー', plan: '今日のやること' };
+const LABEL = { news: '新着', ann: 'お知らせ', event: '予定', tip: '豆知識', word: '単語', game: 'ゲーム', timer: 'タイマー', plan: 'やること' };
 const prefOn = (d, cat) => { const on = d.prefs && d.prefs.on; return on && typeof on[cat] === 'boolean' ? on[cat] : DEF_ON[cat]; };
 const hm2min = t => { const m = /^(\d{1,2}):(\d{2})$/.exec(String(t || '')); return m ? Number(m[1]) * 60 + Number(m[2]) : null; };
 const prefMin = (d, cat) => { const v = hm2min(d.prefs && d.prefs.time && d.prefs.time[cat]); return v === null ? hm2min(DEF_TIME[cat]) : v; };
@@ -234,6 +234,13 @@ function schedMsg(cat, daily, dn) {
   if (cat === 'game') return { title: '息抜きにゲームはいかがですか？', body: GAME_TEXT[((dn % GAME_TEXT.length) + GAME_TEXT.length) % GAME_TEXT.length], tag: 'kosa-game', url: './' };
   if (cat === 'timer') return { title: '集中タイマーで勉強しませんか？', body: '25分だけ集中してみましょう。終わったら、ひと休みを。', tag: 'kosa-timer', url: './' };
   return null;
+}
+
+// 20:00の確認：アプリが書いた「今日の終わっていない数」を、自分の端末へ（0件・古い日のものは送らない）
+function planMsg(daily, day) {
+  const x = daily.xp, left = x && typeof x === 'object' && x.date === day ? Math.floor(Number(x.left)) : 0;
+  if (!(left > 0 && left < 100)) return null;
+  return { title: '考査課題マネージャー', body: `今日のやることが、あと${left}件 残っています。20:00までに、チェックしてみましょう。`, tag: 'kosa-plan', url: './' };
 }
 
 // 1人分：テスト・お知らせ・通知の内容（新しいもの）・端末ごとの毎日の内容（時刻になったら）
@@ -286,7 +293,7 @@ async function runPlan(uid, data, now, annList) {
     if (silent) { if (jst.mins >= at) { sched[key] = jst.day; schedChanged = true; } continue; }
     if (jst.mins < at || jst.mins >= at + WINDOW_MIN) continue;
     sched[key] = jst.day; schedChanged = true;
-    const msg = schedMsg(cat, daily, dn);
+    const msg = cat === 'plan' ? planMsg(daily, jst.day) : schedMsg(cat, daily, dn);
     if (!msg) continue;
     dlog(uid, `${CAT_NAME[cat]}を、端末${devs.indexOf(d) + 1}へ送ります`);
     const r = await sendTo(uid, msg, null, [d]);
