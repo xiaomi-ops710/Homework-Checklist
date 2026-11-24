@@ -4434,7 +4434,7 @@
           setDiffUI(); updateEpUI(); paint();
           return;
         }
-        if (e.target.closest('[data-start]')) { ov.remove(); ensureGameFocus(); }
+        if (e.target.closest('[data-start]')) beginNewGame(() => { ov.remove(); ensureGameFocus(); });
       });
     }
     // 途中のゲームがあるとき、続きから遊ぶか、新しく始めるかを選んでもらう
@@ -4450,7 +4450,126 @@
         + '<button id="resumeNo" type="button" style="margin-top:10px;width:100%;padding:12px;border-radius:14px;font-weight:900;font-size:15px;background:#fff;color:#92400e;border:2px solid rgba(146,64,14,.3)">新しく始める</button></div>';
       document.body.appendChild(ov);
       ov.querySelector('#resumeYes').onclick = () => { ov.remove(); resumeGame(sv); ensureGameFocus(); };
-      ov.querySelector('#resumeNo').onclick = () => { ov.remove(); clearSave(); ensureGameFocus(); };
+      ov.querySelector('#resumeNo').onclick = () => beginNewGame(() => { ov.remove(); clearSave(); ensureGameFocus(); });
+    }
+
+    // ===== 1日10回まで（11回目からは元素の問題に答えてから始める）=====
+    // 数えるのは、新しいゲームが始まるとき（始める・新しく始める・やり直す・もう一度・難易度を変えて始める）だけ。続きから遊ぶは数えない
+    // 日付は日本時間（Asia/Tokyo）で区切る。保存できない環境では制限をかけず、そのまま遊べるようにする
+    const PLAY_KEY = 'kosa-merge-plays';
+    const PLAY_FREE = 10;      // 1日のうち、問題なしで遊べる回数（問題に答えると、さらに10回ずつ増える）
+    const PLAY_QUIZ_NEED = 3;  // 10回ぶんを解除するのに、正解する問題数
+    function playDayKey() {
+      return new Date(new Date().getTime() + 9 * 3600 * 1000).toISOString().slice(0, 10);
+    }
+    // 今日の状態 { d: 日付, n: 遊んだ回数, a: 遊んでよい回数 }。読めないときは null（制限をかけない）
+    function loadPlayState() {
+      try {
+        const sv = JSON.parse(localStorage.getItem(PLAY_KEY) || 'null');
+        const day = playDayKey();
+        if (sv && sv.d === day && Number.isFinite(sv.n) && Number.isFinite(sv.a)) return { d: day, n: sv.n, a: sv.a };
+        return { d: day, n: 0, a: PLAY_FREE };
+      } catch (e) { return null; }
+    }
+    function savePlayState(st) { try { localStorage.setItem(PLAY_KEY, JSON.stringify(st)); } catch (e) { } }
+    function countAndStart(st, start) {
+      if (st) { st.n += 1; savePlayState(st); }
+      start();
+    }
+    // 新しいゲームを始める入口。今日の回数を使い切っていたら、問題に答えてもらってから始める
+    function beginNewGame(start) {
+      const st = loadPlayState();
+      if (!st || st.n < st.a) { countAndStart(st, start); return; }
+      openPlayQuiz(() => countAndStart(loadPlayState(), start));
+    }
+    // 問題に3問正解したとき、今日あと10回ぶん遊べるように増やす
+    function unlockMorePlays() {
+      const st = loadPlayState();
+      if (st && st.n >= st.a) { st.a += PLAY_FREE; savePlayState(st); }
+    }
+    // 元素の問題を1問作る（記号→名前、名前→記号を混ぜて出す）
+    function shuffleArr(arr) {
+      const a = arr.slice();
+      for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+      return a;
+    }
+    function makePlayQuizQuestion(prevIdx) {
+      let i = Math.floor(Math.random() * ELEMENTS.length);
+      while (ELEMENTS.length > 1 && i === prevIdx) i = Math.floor(Math.random() * ELEMENTS.length);
+      const e = ELEMENTS[i];
+      const byName = Math.random() < 0.5; // true: 「記号」→「名前」 / false: 「名前」→「記号」
+      const key = byName ? 'name' : 'symbol';
+      const wrong = shuffleArr(ELEMENTS.filter((x, j) => j !== i)).slice(0, 3).map((x) => x[key]);
+      return {
+        idx: i,
+        prompt: byName ? `「${e.symbol}」の名前は？` : `「${e.name}」の元素記号は？`,
+        answer: e[key],
+        choices: shuffleArr([e[key], ...wrong])
+      };
+    }
+    // 元素の問題の画面。「戻る」以外では閉じられない。3問正解で解除し、「はじめる」でゲームを始める
+    function openPlayQuiz(onStart) {
+      if (document.getElementById('playQuizOv')) return;
+      const ov = document.createElement('div');
+      ov.id = 'playQuizOv';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:9700;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;background:rgba(40,20,0,.6)';
+      ov.innerHTML = '<div id="pqCard" style="background:#fff7e6;border-radius:20px;padding:20px 16px;max-width:380px;width:100%;box-sizing:border-box;text-align:center;font-family:sans-serif;color:#451a03;box-shadow:0 10px 30px rgba(0,0,0,.25)"></div>';
+      document.body.appendChild(ov);
+      const card = ov.querySelector('#pqCard');
+      const later = (fn, ms) => setTimeout(() => { if (ov.isConnected) fn(); }, ms);
+      const backBtn = '<button type="button" id="pqBack" style="margin-top:14px;width:100%;padding:12px;border-radius:14px;font:inherit;font-weight:900;font-size:15px;background:#fff;color:#92400e;border:2px solid rgba(146,64,14,.3);cursor:pointer">戻る</button>';
+      let correct = 0, busy = false, cur = null, prevIdx = -1;
+
+      function header() {
+        const st = loadPlayState();
+        const used = st ? st.a : PLAY_FREE;
+        const dots = Array.from({ length: PLAY_QUIZ_NEED }, (_, k) => `<span style="font-size:20px;color:${k < correct ? '#f59e0b' : '#d6c7b0'}">●</span>`).join('');
+        return `<div style="font-weight:900;font-size:18px;line-height:1.5">今日の${used}回は遊び終わりました</div>`
+          + `<div style="font-size:13px;line-height:1.6;margin-top:4px">元素の問題に${PLAY_QUIZ_NEED}問答えると、あと${PLAY_FREE}回遊べます</div>`
+          + `<div style="margin-top:8px">${dots}<span style="font-size:13px;font-weight:700;margin-left:6px">${correct} / ${PLAY_QUIZ_NEED}</span></div>`;
+      }
+      function showQuestion() {
+        cur = makePlayQuizQuestion(prevIdx); prevIdx = cur.idx; busy = false;
+        card.innerHTML = header()
+          + `<div style="margin-top:14px;padding:16px 8px;border-radius:16px;background:#fff;font-size:22px;font-weight:900;overflow-wrap:anywhere">${tEsc(cur.prompt)}</div>`
+          + `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">${cur.choices.map((c, k) => `<button type="button" data-ans="${k}" style="min-height:56px;padding:8px 6px;border-radius:14px;border:2px solid rgba(146,64,14,.3);background:#fff;color:#451a03;font:inherit;font-size:17px;font-weight:900;overflow-wrap:anywhere;cursor:pointer">${tEsc(c)}</button>`).join('')}</div>`
+          + `<div id="pqMsg" style="min-height:44px;margin-top:10px;font-size:14px;font-weight:700;line-height:1.5"></div>`
+          + backBtn;
+      }
+      function showDone() {
+        busy = true; cur = null;
+        const st = loadPlayState();
+        const left = st ? st.a - st.n : PLAY_FREE;
+        card.innerHTML = `<div style="font-weight:900;font-size:24px;color:#b45309;margin-top:6px">${PLAY_QUIZ_NEED}問正解！</div>`
+          + `<div style="font-size:15px;font-weight:700;line-height:1.7;margin-top:8px">今日あと${left}回、遊べるようになりました</div>`
+          + `<button type="button" id="pqGo" style="margin-top:16px;width:100%;padding:14px;border-radius:14px;border:0;font:inherit;font-weight:900;font-size:18px;background:linear-gradient(#a3e635,#16a34a);color:#fff;cursor:pointer">はじめる</button>`
+          + backBtn;
+      }
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('#pqBack')) { ov.remove(); ensureGameFocus(); return; }
+        if (e.target.closest('#pqGo')) { ov.remove(); onStart(); return; }
+        const b = e.target.closest('[data-ans]');
+        if (!b || busy || !cur) return;
+        busy = true;
+        const ok = cur.choices[Number(b.dataset.ans)] === cur.answer;
+        const btns = card.querySelectorAll('[data-ans]');
+        const msg = card.querySelector('#pqMsg');
+        btns.forEach((x) => { x.disabled = true; x.style.cursor = 'default'; });
+        if (ok) {
+          correct += 1;
+          b.style.background = '#bbf7d0'; b.style.borderColor = '#16a34a';
+          msg.innerHTML = '<span style="color:#15803d">正解！</span>';
+          if (correct >= PLAY_QUIZ_NEED) { unlockMorePlays(); later(showDone, 600); }
+          else later(showQuestion, 700);
+        } else {
+          // 不正解：正解を少し見せてから、別の問題にする（正解の数は残る）
+          b.style.background = '#fecaca'; b.style.borderColor = '#dc2626';
+          btns.forEach((x) => { if (cur.choices[Number(x.dataset.ans)] === cur.answer) { x.style.background = '#bbf7d0'; x.style.borderColor = '#16a34a'; } });
+          msg.innerHTML = `<span style="color:#b91c1c">ざんねん。正解は「${tEsc(cur.answer)}」</span>`;
+          later(showQuestion, 1800);
+        }
+      });
+      showQuestion();
     }
 
     // メインアニメーションループ（60fps固定・キーボード慣性移動対応）
@@ -4489,7 +4608,7 @@
       const dt = Math.min((now - lastFrameTime) / 1000, 0.05);
       lastFrameTime = now;
       // タイトル画面・続きから確認の間は、ゲームを止める（時間・溢れそう・ミッションが、裏で進まないように）
-      if (document.getElementById('titleOv') || document.getElementById('resumeOv') || document.getElementById('titleConfirmOv')) return;
+      if (document.getElementById('titleOv') || document.getElementById('resumeOv') || document.getElementById('titleConfirmOv') || document.getElementById('playQuizOv')) return;
 
       // 1. キーボード左右キー押しっぱなしによる滑らかな慣性移動
       const moveDir = (keysHeld.right ? 1 : 0) - (keysHeld.left ? 1 : 0);
@@ -5156,7 +5275,8 @@
         clearSave();
         initPhysicsGame();
       };
-      if (score > 0) askResetConfirm(go); else go();
+      const startIt = () => beginNewGame(go);
+      if (score > 0) askResetConfirm(startIt); else startIt();
     }
     function askDifficulty() {
       const ov = document.createElement('div');
@@ -5192,9 +5312,11 @@
       ensureGameFocus();
       askResetConfirm(async () => {
         audio.init();
-        if (!scoreReported) { scoreReported = true; reportMerge(score, maxReachedLevel, gameDifficulty); try { await rankingService.recordGameScore(score, maxReachedLevel, gameDifficulty); } catch (err) { console.warn('score save failed', err); } }
-        clearSave();
-        initPhysicsGame();
+        beginNewGame(async () => {
+          if (!scoreReported) { scoreReported = true; reportMerge(score, maxReachedLevel, gameDifficulty); try { await rankingService.recordGameScore(score, maxReachedLevel, gameDifficulty); } catch (err) { console.warn('score save failed', err); } }
+          clearSave();
+          initPhysicsGame();
+        });
       });
     });
     document.getElementById('quitBtn').addEventListener('click', () => {
@@ -5207,8 +5329,7 @@
     document.getElementById('playAgainBtn').addEventListener('click', () => {
       ensureGameFocus();
       audio.init();
-      clearSave();
-      initPhysicsGame();
+      beginNewGame(() => { clearSave(); initPhysicsGame(); });
     });
 
     // 下部バーの高さを測り、盤面の高さに反映する（下部バーの下に玉が隠れないように）
