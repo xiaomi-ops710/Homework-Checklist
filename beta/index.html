@@ -3403,7 +3403,51 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 .set-master .sw2 input:checked+.tr .th{background:var(--primary)!important;color:var(--on-primary)!important}
 .sw2 input:checked+.tr,.psw[aria-checked="true"] .tr,.set-page .sw2 input:checked+.tr,.set-master .sw2 input:checked+.tr{box-shadow:inset 0 0 0 2px color-mix(in srgb,currentColor 55%,transparent)!important}
 </style>
+<style id="p48">
+/* 18.3.3：歴代総理大臣。和紙・墨・朱の和風に、Material 3 Expressive の大きな形と動き */
+.sh-wrap{--ink:#2a2420;--wash:#f7f1e2;--paper:#fffdf6;--vermil:#c23b22;--gold:#b08d3c;font-family:"Hiragino Mincho ProN","Yu Mincho","YuMincho","Noto Serif JP",serif;color:var(--ink);padding-bottom:48px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sh-wrap{--ink:#f1e9da;--wash:#1f1b17;--paper:#2a251f;--vermil:#f0735a;--gold:#d8b96a}}
+:root[data-theme="dark"] .sh-wrap{--ink:#f1e9da;--wash:#1f1b17;--paper:#2a251f;--vermil:#f0735a;--gold:#d8b96a}
+.sh-hero{position:relative;display:grid;grid-template-columns:auto 1fr;gap:14px 18px;align-items:center;padding:22px 20px;border-radius:36px;background:linear-gradient(135deg,var(--paper),var(--wash));box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--gold) 45%,transparent),0 6px 18px rgba(0,0,0,.06);overflow:hidden}
+.sh-seal{width:60px;height:60px;display:grid;place-items:center;border-radius:16px;background:var(--vermil);color:#fff;font-size:30px;font-weight:800;transform:rotate(-4deg);box-shadow:0 3px 0 rgba(0,0,0,.18)}
+.sh-hero-t h3{margin:0;font-size:1.5rem;font-weight:800;letter-spacing:.08em}
+.sh-hero-t p{margin:4px 0 0;font-size:.9rem;opacity:.8}
+.sh-stats{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap}
+.sh-stats span{padding:8px 16px;border-radius:999px;background:color-mix(in srgb,var(--vermil) 12%,transparent);font-size:.85rem}
+.sh-stats b{font-size:1.15rem;margin-right:3px;color:var(--vermil)}
+.sh-chips{display:flex;gap:8px;overflow-x:auto;padding:14px 2px 6px;scrollbar-width:none}
+.sh-chips::-webkit-scrollbar{display:none}
+.sh-chip{flex:none;border:0;border-radius:999px;padding:10px 18px;background:var(--paper);color:var(--ink);font:inherit;font-weight:800;letter-spacing:.06em;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 14%,transparent);transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s}
+.sh-chip:active{transform:scale(.94)}
+.sh-chip.on{background:var(--c,var(--vermil));color:#fff;box-shadow:none}
+.sh-q{margin:8px 0 6px}
+.sh-q input{width:100%;box-sizing:border-box;border:0;border-radius:28px;padding:15px 20px;background:var(--paper);color:var(--ink);font:inherit;box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 14%,transparent)}
+.sh-q input:focus{outline:3px solid color-mix(in srgb,var(--vermil) 45%,transparent);outline-offset:2px}
+.sh-era{display:flex;align-items:baseline;gap:12px;margin:24px 2px 12px;padding:12px 20px;border-radius:24px;background:var(--era);color:#fff;letter-spacing:.1em}
+.sh-era b{font-size:1.2rem}
+.sh-era small{opacity:.92;font-size:.85rem}
+.sh-card{position:relative;display:grid;grid-template-columns:26px 1fr;gap:8px;margin-bottom:14px;animation:shIn .5s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes shIn{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
+.sh-line{position:relative}
+.sh-line::before{content:"";position:absolute;left:11px;top:0;bottom:-14px;width:2px;background:color-mix(in srgb,var(--era) 35%,transparent)}
+.sh-dot{position:absolute;left:4px;top:30px;width:16px;height:16px;border-radius:50%;background:var(--era);box-shadow:0 0 0 4px var(--wash)}
+.sh-body{padding:18px 20px;border-radius:32px;background:var(--paper);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--era) 24%,transparent),0 2px 0 rgba(0,0,0,.03)}
+.sh-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.sh-hanko{flex:none;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:var(--era);color:#fff;font-size:20px;font-weight:800;transform:rotate(-3deg);box-shadow:0 2px 0 rgba(0,0,0,.16)}
+.sh-body h3{margin:0;font-size:1.35rem;font-weight:800;letter-spacing:.08em}
+.sh-cnt{margin-left:auto;padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--era) 14%,transparent);color:var(--era);font-size:.8rem;font-weight:800}
+.sh-pd{margin-top:14px;padding-top:12px;border-top:1px dashed color-mix(in srgb,var(--era) 30%,transparent)}
+.sh-when b{display:block;font-size:1rem;color:var(--era)}
+.sh-when small{display:block;margin-top:2px;opacity:.78;font-size:.82rem}
+.sh-ev{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
+.sh-ev li{display:grid;grid-template-columns:48px 1fr;gap:10px;font-size:.95rem;line-height:1.6}
+.sh-y{font-weight:800;color:var(--era);font-variant-numeric:tabular-nums}
+.sh-empty{padding:30px 20px;text-align:center;border-radius:32px;background:var(--paper);opacity:.85}
+.sh-note{margin:18px 4px 0;font-size:.8rem;line-height:1.6}
+@media (prefers-reduced-motion:reduce){.sh-card{animation:none}.sh-chip{transition:none}}
+</style>
 </head>
+
 <body>
 <div id="app">
   <nav id="nav" aria-label="メインメニュー"></nav>
@@ -3426,8 +3470,8 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.2'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.2';
+const RELEASE_VER = '18.3.3'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.3';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4359,6 +4403,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.3', d: '2026/11/24 11:00', t: '管理者の送信を先に同期・歴代総理大臣の年表を追加', n: ['管理者メニューの「届ける」「お知らせを送る」は、送る前に同期してから送ります（送られないことがあった問題）', '社会の新しいツール「歴代総理大臣」：明治から今までの内閣総理大臣と、在任期間の年号、主な出来事を年表で見られます'] },
   { v: '18.3.2', d: '2026/11/24 10:00', t: '元素マージの難しいを見直し・ランキングに載っていない人は最初のゲームオーバーで同期', n: ['元素マージの難しい：箱を少し広くし、小さい元素から出るようにしました', 'ランキングにまだ載っていない人は、最初のゲームオーバーで同期します（「友達に見せる」がオンのとき。以後は、登録された最高点より高い点のときに同期します）'] },
   { v: '18.3.1', d: '2026/11/24 08:30', t: 'AIの途中停止を直す・元素マージのXPとくっつき・オンオフを見やすく', n: ['AIの回答が途中で止まる・「AI/parse-failed」のエラーを直しました（答えを待つ時間を10分にし、途中で切れたら同じ質問を自動で作りなおします）', 'AIのバランスモードを、無料で使えるGemini 3.6 Flashに変えました（以前のモデルは無料枠になく、使えなくなったため）', '元素マージ：普通はEPが少し貯まりにくく、難しいは玉が少しくっつきやすくなりました', '設定のオンオフを、形はそのままに少し大きくしました。背景と同じ色になっていたものは、ふちを見やすくしました'] },
   { v: '18.3.0', d: '2026/11/24 07:30', t: '考査までのやることリストを追加・色の並びを整理・版の表示を修正', n: ['課題タブに「やることリスト」を追加。日ごとに、どの課題をどのページからどのページまで進めるかを決められます（AIに作ってもらうこともできます）', '終わったら、その範囲までを課題の進み具合に記録します（外すと元に戻ります）', 'ホームの「自分のやること」に、今日の予定を出します', '20:00までに今日の予定が終わっていないと、自分の端末だけに通知が届きます（通知の設定で変えられます）', '設定の「色」を、色あいの順に並べ、近い色どうしをまとめ、名前と必要なレベルを出しました', '版の表示が古いままになっていた不具合を直しました'] },
@@ -7949,14 +7994,120 @@ const TOOLS = [['music', '音楽', 'library_music', '端末の音楽や、YouTub
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
   ['board', '板書', 'photo_library', '撮った黒板・ホワイトボードを見返し、AIで要点をまとめる', 205, 'c'], ['kanji', '漢字練習', 'draw', '漢字を書いて練習。読みと二字熟語もわかる', 20, 'b'], ['gram', '国語文法', 'auto_stories', '表を隠して覚え、テストで確かめる。活用・音便・品詞', 285, 'b'], ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['merge', '元素マージ', 'bubble_chart', '同じ元素をくっつけて進化させるパズル（レベル7で解放）', 210, 'b'],
   ['shiri', 'しりとり', 'forum', 'AIと対戦、または友達とオンラインで対戦（レベル7で解放）', 300, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], 
-  ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素・くっつけて反応を見る実験・分子量の計算', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
+  ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素・くっつけて反応を見る実験・分子量の計算', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['shusho', '歴代総理大臣', 'account_balance', '明治から今まで、在任中の年号と主な出来事を年表で', 12, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
 // 以前の「分子量・物質の量」のツールは、元素ラボの中へ
 function mgTileIcon() { return '<span class="mgb" aria-hidden="true"><i class="mgb-a"></i><i class="mgb-b"></i><i class="mgb-c"></i></span>'; }
+/* ===== 18.3.3：歴代総理大臣（在任期間ごとの年号・主な出来事）。和風・Material 3 Expressive ===== */
+const SH_ERAS = [['明治', '1868-01-25', 1868, '#1f3a5f'], ['大正', '1912-07-30', 1912, '#8a2c3b'], ['昭和', '1926-12-25', 1926, '#3d6b4f'], ['平成', '1989-01-08', 1989, '#3f5f8f'], ['令和', '2019-05-01', 2019, '#c23b22']];
+const SHO = { era: 'all', q: '' };
+function shEra(ds) { let e = SH_ERAS[0]; for (const x of SH_ERAS) if (ds >= x[1]) e = x; return { n: e[0], y: parseInt(ds.slice(0, 4), 10) - e[2] + 1, c: e[3] }; }
+function shEraDate(ds) { const e = shEra(ds), [, m, d] = ds.split('-').map(Number); return `${e.n}${e.y === 1 ? '元' : e.y}年${m}月${d}日`; }
+function shDate(ds) { const [y, m, d] = ds.split('-').map(Number); return `${y}年${m}月${d}日`; }
+function shDays(a, b) { return Math.round((Date.parse(b) - Date.parse(a)) / 86400000); }
+// [名前, [[在任の始まり, 終わり（空なら現在）, [[年, 主な出来事]...]], ...]]
+const SH_PM = [
+ ['伊藤博文', [['1885-12-22', '1888-04-30', [['1885', '内閣制度ができ、初代の内閣総理大臣になる'], ['1888', '枢密院が設けられる']]], ['1892-08-08', '1896-08-31', [['1894', '日英通商航海条約に調印し、領事裁判権の撤廃を決める'], ['1894', '日清戦争が始まる'], ['1895', '下関条約で日清戦争が終わる']]], ['1898-01-12', '1898-06-30', [['1898', '自由党と進歩党が合同し、憲政党が結成される']]], ['1900-10-19', '1901-06-02', [['1900', '立憲政友会の総裁として、内閣を組織する']]]]],
+ ['黒田清隆', [['1888-04-30', '1889-10-25', [['1889', '大日本帝国憲法が発布される']]]]],
+ ['山県有朋', [['1889-12-24', '1891-05-06', [['1890', '第1回帝国議会が開かれる'], ['1890', '教育に関する勅語が出される']]], ['1898-11-08', '1900-10-19', [['1900', '治安警察法が定められる'], ['1900', '軍部大臣現役武官制が定められる']]]]],
+ ['松方正義', [['1891-05-06', '1892-08-08', [['1891', '大津事件が起こる'], ['1892', '第2回総選挙で、政府による選挙干渉が行われる']]], ['1896-09-18', '1898-01-12', [['1897', '貨幣法が定められ、金本位制が確立する']]]]],
+ ['大隈重信', [['1898-06-30', '1898-11-08', [['1898', '日本で初めての政党内閣（隈板内閣）ができる']]], ['1914-04-16', '1916-10-09', [['1914', '第一次世界大戦に参戦する'], ['1915', '対華二十一か条要求を中国に突きつける']]]]],
+ ['桂太郎', [['1901-06-02', '1906-01-07', [['1902', '日英同盟が結ばれる'], ['1904', '日露戦争が始まる'], ['1905', 'ポーツマス条約で日露戦争が終わる']]], ['1908-07-14', '1911-08-30', [['1910', '韓国併合が行われる'], ['1910', '大逆事件が起こる'], ['1911', '日米通商航海条約の改正で、関税自主権を回復する']]], ['1912-12-21', '1913-02-20', [['1913', '護憲運動の高まりで、約2か月で退陣する']]]]],
+ ['西園寺公望', [['1906-01-07', '1908-07-14', [['1906', '鉄道国有法が定められ、主要な鉄道が国有化される']]], ['1911-08-30', '1912-12-21', [['1912', '大正に改元される'], ['1912', '第一次護憲運動が起こる']]]]],
+ ['山本権兵衛', [['1913-02-20', '1914-04-16', [['1914', 'シーメンス事件で海軍の汚職が問題となり、退陣する']]], ['1923-09-02', '1924-01-07', [['1923', '関東大震災が起こる'], ['1923', '虎ノ門事件のあと、内閣が総辞職する']]]]],
+ ['寺内正毅', [['1916-10-09', '1918-09-29', [['1918', 'シベリア出兵を決める'], ['1918', '米騒動が全国に広がり、退陣する']]]]],
+ ['原敬', [['1918-09-29', '1921-11-04', [['1920', '第1回総選挙で立憲政友会が大勝する'], ['1921', '東京駅で暗殺される']]]]],
+ ['高橋是清', [['1921-11-13', '1922-06-12', [['1922', 'ワシントン海軍軍縮条約が結ばれる']]]]],
+ ['加藤友三郎', [['1922-06-12', '1923-08-24', [['1922', 'シベリアからの撤兵が完了する'], ['1923', '在任中に亡くなる']]]]],
+ ['清浦奎吾', [['1924-01-07', '1924-06-11', [['1924', '護憲三派が反対し、第二次護憲運動が起こる']]]]],
+ ['加藤高明', [['1924-06-11', '1926-01-30', [['1925', '治安維持法と普通選挙法が成立する']]]]],
+ ['若槻礼次郎', [['1926-01-30', '1927-04-20', [['1926', '昭和に改元される'], ['1927', '金融恐慌が起こる']]], ['1931-04-14', '1931-12-13', [['1931', '満州事変が起こる']]]]],
+ ['田中義一', [['1927-04-20', '1929-07-02', [['1927', '山東出兵を行う'], ['1928', '初めての普通選挙が行われる'], ['1928', '張作霖爆殺事件が起こる']]]]],
+ ['浜口雄幸', [['1929-07-02', '1931-04-14', [['1930', '金解禁（金本位制への復帰）を実施する'], ['1930', 'ロンドン海軍軍縮条約が結ばれる']]]]],
+ ['犬養毅', [['1931-12-13', '1932-05-16', [['1931', '金輸出を再び禁止する'], ['1932', '満州国が建国される'], ['1932', '五・一五事件で暗殺される']]]]],
+ ['斎藤実', [['1932-05-26', '1934-07-08', [['1932', '日満議定書で満州国を承認する'], ['1933', '国際連盟から脱退する']]]]],
+ ['岡田啓介', [['1934-07-08', '1936-03-09', [['1935', '天皇機関説事件が起こる'], ['1936', '二・二六事件が起こる']]]]],
+ ['広田弘毅', [['1936-03-09', '1937-02-02', [['1936', '軍部大臣現役武官制が復活する'], ['1936', '日独防共協定が結ばれる']]]]],
+ ['林銑十郎', [['1937-02-02', '1937-06-04', [['1937', '組閣から約4か月で退陣する']]]]],
+ ['近衛文麿', [['1937-06-04', '1939-01-05', [['1937', '盧溝橋事件が起こり、日中戦争が始まる'], ['1938', '国家総動員法が成立する']]], ['1940-07-22', '1941-10-18', [['1940', '日独伊三国同盟が結ばれる'], ['1940', '大政翼賛会が発足する'], ['1941', '日ソ中立条約が結ばれる'], ['1941', '日米交渉が行き詰まり、退陣する']]]]],
+ ['平沼騏一郎', [['1939-01-05', '1939-08-30', [['1939', '独ソ不可侵条約の締結に「複雑怪奇」と述べて退陣する']]]]],
+ ['阿部信行', [['1939-08-30', '1940-01-16', [['1939', '第二次世界大戦が始まる']]]]],
+ ['米内光政', [['1940-01-16', '1940-07-22', [['1940', '日米通商航海条約が失効する']]]]],
+ ['東条英機', [['1941-10-18', '1944-07-22', [['1941', '太平洋戦争が始まる'], ['1942', 'ミッドウェー海戦で大敗する'], ['1944', 'サイパン島が陥落する']]]]],
+ ['小磯国昭', [['1944-07-22', '1945-04-07', [['1945', '東京大空襲で、多くの人が亡くなる'], ['1945', '沖縄戦が始まる']]]]],
+ ['鈴木貫太郎', [['1945-04-07', '1945-08-17', [['1945', 'ポツダム宣言を受け入れる'], ['1945', '玉音放送で、戦争の終わりが伝えられる']]]]],
+ ['東久邇宮稔彦', [['1945-08-17', '1945-10-09', [['1945', '降伏文書に調印する']]]]],
+ ['幣原喜重郎', [['1945-10-09', '1946-05-22', [['1945', '衆議院議員選挙法が改正され、女性に選挙権が認められる']]]]],
+ ['吉田茂', [['1946-05-22', '1947-05-24', [['1946', '日本国憲法が公布される'], ['1946', '農地改革が始まる']]], ['1948-10-15', '1954-12-10', [['1950', '朝鮮戦争が始まる'], ['1951', 'サンフランシスコ平和条約と日米安全保障条約が結ばれる'], ['1954', '自衛隊が発足する']]]]],
+ ['片山哲', [['1947-05-24', '1948-03-10', [['1947', '日本国憲法が施行される'], ['1947', '労働基準法が公布される']]]]],
+ ['芦田均', [['1948-03-10', '1948-10-15', [['1948', '昭和電工事件（汚職）が起こり、退陣する']]]]],
+ ['鳩山一郎', [['1954-12-10', '1956-12-23', [['1955', '保守合同で自由民主党が結成される'], ['1956', '日ソ共同宣言に調印する'], ['1956', '日本が国際連合に加盟する']]]]],
+ ['石橋湛山', [['1956-12-23', '1957-02-25', [['1957', '病気のため、約2か月で退陣する']]]]],
+ ['岸信介', [['1957-02-25', '1960-07-19', [['1957', '東南アジアの国々との賠償の交渉を進める'], ['1960', '日米新安全保障条約が結ばれる'], ['1960', '安保闘争が大きく広がる']]]]],
+ ['池田勇人', [['1960-07-19', '1964-11-09', [['1960', '所得倍増計画が閣議決定される'], ['1964', '東京オリンピックが開かれる'], ['1964', '東海道新幹線が開業する']]]]],
+ ['佐藤栄作', [['1964-11-09', '1972-07-07', [['1965', '日韓基本条約に調印する'], ['1967', '非核三原則を打ち出す'], ['1970', '大阪で日本万国博覧会が開かれる'], ['1972', '沖縄が日本に復帰する']]]]],
+ ['田中角栄', [['1972-07-07', '1974-12-09', [['1972', '日中共同声明に調印し、国交を正常化する'], ['1973', '石油危機が起こる']]]]],
+ ['三木武夫', [['1974-12-09', '1976-12-24', [['1976', 'ロッキード事件が明るみに出る']]]]],
+ ['福田赳夫', [['1976-12-24', '1978-12-07', [['1977', '「福田ドクトリン」で東南アジアとの友好を打ち出す'], ['1978', '日中平和友好条約に調印する']]]]],
+ ['大平正芳', [['1978-12-07', '1980-06-12', [['1979', '元号法が成立する'], ['1979', '第2次石油危機が起こる'], ['1980', '在任中に亡くなる']]]]],
+ ['鈴木善幸', [['1980-07-17', '1982-11-27', [['1981', '日米首脳会談で、日米の協力関係を確認する'], ['1981', '臨時行政調査会の答申をもとに、行政改革を進める']]]]],
+ ['中曽根康弘', [['1982-11-27', '1987-11-06', [['1985', '男女雇用機会均等法が成立する'], ['1985', 'プラザ合意が結ばれる'], ['1987', '国鉄が分割・民営化される']]]]],
+ ['竹下登', [['1987-11-06', '1989-06-03', [['1988', 'リクルート事件が明るみに出る'], ['1989', '消費税（3％）が導入される']]]]],
+ ['宇野宗佑', [['1989-06-03', '1989-08-10', [['1989', '参議院選挙で自民党が大敗する']]]]],
+ ['海部俊樹', [['1989-08-10', '1991-11-05', [['1989', 'ベルリンの壁が崩壊する'], ['1991', '湾岸戦争が起こる']]]]],
+ ['宮沢喜一', [['1991-11-05', '1993-08-09', [['1992', 'PKO協力法が成立する'], ['1993', '衆議院選挙で自民党が過半数を失う']]]]],
+ ['細川護熙', [['1993-08-09', '1994-04-28', [['1993', '55年体制が終わり、非自民の連立政権が発足する'], ['1994', '小選挙区比例代表並立制の法律が成立する']]]]],
+ ['羽田孜', [['1994-04-28', '1994-06-30', [['1994', '少数与党の内閣となり、約2か月で退陣する']]]]],
+ ['村山富市', [['1994-06-30', '1996-01-11', [['1995', '阪神・淡路大震災が起こる'], ['1995', '戦後50年の村山談話が出される']]]]],
+ ['橋本龍太郎', [['1996-01-11', '1998-07-30', [['1996', '日米安全保障共同宣言が出される'], ['1997', '消費税率が5％に引き上げられる'], ['1997', '山一證券が経営破綻する']]]]],
+ ['小渕恵三', [['1998-07-30', '2000-04-05', [['1999', '日米ガイドライン関連法が成立する'], ['1999', '国旗・国歌法が成立する']]]]],
+ ['森喜朗', [['2000-04-05', '2001-04-26', [['2000', '沖縄サミットが開かれる'], ['2000', 'IT基本法が成立する']]]]],
+ ['小泉純一郎', [['2001-04-26', '2006-09-26', [['2002', '日朝首脳会談で、拉致被害者が帰国する'], ['2004', 'イラクへ自衛隊を派遣する'], ['2005', '郵政民営化関連法が成立する']]]]],
+ ['安倍晋三', [['2006-09-26', '2007-09-26', [['2006', '教育基本法が改正される'], ['2007', '防衛庁が防衛省に変わる']]], ['2012-12-26', '2020-09-16', [['2013', 'アベノミクスを進める'], ['2014', '集団的自衛権の行使を容認する'], ['2015', '平和安全法制が成立する'], ['2019', '令和に改元される']]]]],
+ ['福田康夫', [['2007-09-26', '2008-09-24', [['2008', '洞爺湖サミットが開かれる'], ['2008', 'リーマン・ショックが起こる']]]]],
+ ['麻生太郎', [['2008-09-24', '2009-09-16', [['2009', '衆議院選挙で自民党が大敗し、退陣する']]]]],
+ ['鳩山由紀夫', [['2009-09-16', '2010-06-08', [['2009', '民主党による政権が始まる'], ['2009', '事業仕分けが行われる']]]]],
+ ['菅直人', [['2010-06-08', '2011-09-02', [['2011', '東日本大震災が起こる'], ['2011', '福島第一原子力発電所の事故が起こる']]]]],
+ ['野田佳彦', [['2011-09-02', '2012-12-26', [['2012', '消費税増税法が成立する'], ['2012', '衆議院を解散する']]]]],
+ ['菅義偉', [['2020-09-16', '2021-10-04', [['2020', '新型コロナウイルス感染症への対応を進める'], ['2021', 'デジタル庁が発足する']]]]],
+ ['岸田文雄', [['2021-10-04', '2024-10-01', [['2022', 'ロシアのウクライナ侵攻に対応する'], ['2022', '安保3文書が改定される'], ['2023', '広島でG7サミットが開かれる']]]]],
+ ['石破茂', [['2024-10-01', '2025-10-21', [['2024', '衆議院選挙で与党が過半数を失う'], ['2025', '参議院選挙で与党が過半数を失う']]]]],
+ ['高市早苗', [['2025-10-21', '2026-02-18', [['2025', '初めての女性の内閣総理大臣になる']]], ['2026-02-18', '', [['2026', '衆議院を解散して総選挙を行い、第2次高市内閣が発足する']]]]]
+];
+function shHay(p) { return p[0] + p[1].map(t => t[0].slice(0, 4) + t[1].slice(0, 4) + t[2].map(e => e[0] + e[1]).join('')).join(''); }
+function shCard(p) {
+  const e0 = shEra(p[1][0][0]);
+  const per = p[1].map(([s, e, evs]) => {
+    const end = e || today(), days = shDays(s, end);
+    return `<section class="sh-pd"><div class="sh-when"><b>${shEraDate(s)} 〜 ${e ? shEraDate(e) : '現在'}</b><small>${shDate(s)} 〜 ${e ? shDate(e) : '現在'}　在任 約${days.toLocaleString('ja-JP')}日</small></div><ul class="sh-ev">${evs.map(([y, t]) => `<li><span class="sh-y">${y}</span><span>${esc(t)}</span></li>`).join('')}</ul></section>`;
+  }).join('');
+  return `<article class="sh-card" style="--era:${e0.c}"><div class="sh-line" aria-hidden="true"><span class="sh-dot"></span></div><div class="sh-body"><div class="sh-top"><span class="sh-hanko" aria-hidden="true">${e0.n.slice(0, 1)}</span><h3>${esc(p[0])}</h3><span class="sh-cnt">在任 ${p[1].length}回</span></div>${per}</div></article>`;
+}
+function shList() {
+  const q = SHO.q.trim();
+  const list = SH_PM.filter(p => (SHO.era === 'all' || p[1].some(t => shEra(t[0]).n === SHO.era)) && (!q || shHay(p).includes(q)));
+  if (!list.length) return '<div class="sh-empty">見つかりませんでした。別の言葉や年で探してみてください。</div>';
+  let out = '', cur = '';
+  list.forEach(p => { const e = shEra(p[1][0][0]); if (e.n !== cur) { cur = e.n; out += `<div class="sh-era" style="--era:${e.c}"><b>${e.n}時代</b><small>${SH_ERAS.find(x => x[0] === e.n)[2]}年〜</small></div>`; } out += shCard(p); });
+  return out;
+}
+function shushoHtml() {
+  const chips = [['all', 'すべて', 'var(--vermil)'], ...SH_ERAS.map(x => [x[0], x[0], x[3]])];
+  return `<div class="sh-wrap">
+    <section class="sh-hero"><span class="sh-seal" aria-hidden="true">史</span><div class="sh-hero-t"><h3>歴代内閣総理大臣</h3><p>明治18年（1885年）の内閣制度から、今まで</p></div><div class="sh-stats"><span><b>${SH_PM.length}</b>人</span><span><b>${SH_PM.reduce((a, p) => a + p[1].length, 0)}</b>回の在任</span></div></section>
+    <div class="sh-chips" role="group" aria-label="年号で絞る">${chips.map(([k, l, c]) => `<button type="button" class="sh-chip${SHO.era === k ? ' on' : ''}" style="--c:${c}" data-act="shera" data-id="${k}" aria-pressed="${SHO.era === k}">${l}</button>`).join('')}</div>
+    <div class="sh-q"><input id="shq" type="search" placeholder="名前・出来事・年で探す" value="${esc(SHO.q)}" autocomplete="off" aria-label="歴代総理大臣を探す"></div>
+    <div id="shlist" class="sh-list">${shList()}</div>
+    <p class="muted sh-note">主な出来事は抜粋です。年号は、その日付の元号で表しています。「現在」は、今の日付での在任です。</p>
+  </div>`;
+}
+Object.assign(ACT, { shera(id) { SHO.era = id; toolsRefresh(); } });
+document.addEventListener('input', e => { if (e.target && e.target.id === 'shq') { SHO.q = e.target.value; const l = $('#shlist'); if (l) l.innerHTML = shList(); } });
+
 /* ツールを教科ごとに分ける（ここにないツールは「勉強」に入る） */
 const TOOL_SUBJ = { math: '数学', frac: '数学', shape: '数学', sim: '数学', poly: '数学', stat: '数学', comb: '数学', line: '数学', trig: '数学', sqrt: '数学', seq: '数学', gcd: '数学', quad: '数学', graph: '数学', pct: '数学',
   eigo: '英語', verbs: '英語', tr: '英語',
   rika: '理科', res: '理科', iden: '理科', ptable: '理科', merge: '理科', unit: '理科',
-  jnen: '社会', sekai: '社会', nenpyo: '社会', nengo: '社会', jisa: '社会', rekida: '社会',
+  shusho: '社会', jnen: '社会', sekai: '社会', nenpyo: '社会', nengo: '社会', jisa: '社会', rekida: '社会',
   kanji: '国語', gram: '国語', calc: '数学' };
 function viewTools() {
   if (ui.tool === 'mol') { ui.tool = 'ptable'; PT.mode = 'mol'; }
@@ -7978,7 +8129,7 @@ function viewTools() {
       + (subNow === 'all' ? sec('人気', 'local_fire_department', '#e11d48', ['card', 'merge', 'rekida', 'ptable'].map(id => TOOLS.find(x => x[0] === id))) : '')
       + SUBJ_ORDER.filter(([name]) => subNow === 'all' || name === SUB_OF[subNow]).map(([name, icon, col]) => { const list = TOOLS.filter(t => subjOf(t) === name); return list.length ? sec(name, icon, col, byPop(list)) : ''; }).join('');
   }
-  const T = TOOLS.find(x => x[0] === tl), body = { board: boardHtml, kanji: kjHtml, gram: gramHtml, rekida: rekidaHtml, merge: mergeHtml, shiri: shiriHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { shusho: shushoHtml, board: boardHtml, kanji: kjHtml, gram: gramHtml, rekida: rekidaHtml, merge: mergeHtml, shiri: shiriHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2>${tl === 'card' ? wcTbarActs() : ''}</div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -14059,6 +14210,13 @@ function asgApply() {
   S.asgDone = [...seen].slice(-300); save();
   if (n) { toast(`先生から ${n} 件届きました`); if (!dlg.open && ui.tab !== 'settings') render(); }
 }
+// 送る前に、いまのデータを同期する（送信のたびに、先に同期してから送る）
+async function admSyncFirst() {
+  if (!CLOUD.user || !CLOUD.fb) throw new Error('ログインしてください');
+  if (CLOUD.hold) throw new Error('同期を止めています（同期の選択をしてください）');
+  await cloudPushNow();
+  if (CLOUD.status !== 'ok') throw new Error(CLOUD.err || '同期できませんでした');
+}
 function admFormBind() {
   const kd = () => {
     const kv = (document.querySelector('input[name=admkind]:checked') || {}).value, tk = (document.querySelector('input[name=admtk]:checked') || {}).value || 'pg';
@@ -14109,6 +14267,7 @@ Object.assign(ACT, {
     if (target === 'some') { ids = [...document.querySelectorAll('#admTg input[type=checkbox]:checked')].map(x => x.value); if (!ids.length) return toast('送る生徒を選んでください'); }
     if (!CLOUD.user || !CLOUD.fb) return toast('ログインしてください');
     try {
+      await admSyncFirst();
       const { fs, db } = CLOUD.fb;
       // 同じ内容をもう一度押したときは、同じIDで送る（届いた人に、二重に入らない）
       const sig = JSON.stringify([kind, a.sub, a.title, a.date, a.tm, a.note, a.tk, a.start, a.end, a.url, a.req, a.due, target, ids.join(',')]);
@@ -14120,7 +14279,7 @@ Object.assign(ACT, {
         if (!ng) { ADM_SEND = null; toast(`${ok}人に届けました`); }
         else toast(`${ok}人に届けました。${ng}人には届きませんでした（もう一度押すと、届かなかった人にだけ届きます）`);
       }
-    } catch (e) { toast(`届けられませんでした（${String((e && e.code) || 'エラー').slice(0, 40)}）`); }
+    } catch (e) { toast(`届けられませんでした（${String((e && (e.code || e.message)) || 'エラー').slice(0, 60)}）`); }
   },
 });
 /* ホームの考査ボタンを長押し：すぐ編集（名前・考査の初日など）を開く */
@@ -14190,7 +14349,7 @@ Object.assign(ACT, {
     if (!CLOUD.fb || !CLOUD.user) return;
     confirmDlg('お知らせを送りますか？', 'このアプリを使っているすべての人の画面に、中央で表示されます。', '送る', async () => {
       const { fs, db } = CLOUD.fb;
-      try { await fs.setDoc(fs.doc(db, 'announcements', uid()), { text: v.slice(0, 500), t: Date.now(), uid: CLOUD.user.uid }); toast('お知らせを送りました'); }
+      try { await admSyncFirst(); await fs.setDoc(fs.doc(db, 'announcements', uid()), { text: v.slice(0, 500), t: Date.now(), uid: CLOUD.user.uid }); toast('お知らせを送りました'); }
       catch (e) { toast('送れませんでした。接続を確認してください'); }
     });
   },
