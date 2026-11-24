@@ -742,7 +742,7 @@
     const DIFFICULTY_TABLE = {
       easy:   { label: '簡単',   desc: 'スキルが安く、EPが貯まりやすい。箱が広く、溢れるまでも長め', skillCostMul: 0.8,  dangerLimitMul: 1.25, epGainMul: 1.2,  dropMin: 1, dropMax: 4, boxInset: -16, fillStep: 14, spawnCap: 5, mergeReach: 1.02 },
       normal: { label: '普通',   desc: '標準の難しさ。箱が増えると大きい元素が出る',          skillCostMul: 1.0,  dangerLimitMul: 0.9,  epGainMul: 0.7, dropMin: 1, dropMax: 5, boxInset: 0,   fillStep: 9,  spawnCap: 5, mergeReach: 1.01 },
-      hard:   { label: '難しい', desc: '箱が狭く、玉が増えるほど大きい元素が出る。スキルは2.4倍、EPが貯まりにくく、溢れるのも早い', skillCostMul: 2.4,  dangerLimitMul: 0.6,  epGainMul: 0.35, dropMin: 4, dropMax: 6, boxInset: 70,  fillStep: 5,  spawnCap: 5, mergeReach: 1.0 }
+      hard:   { label: '難しい', desc: '箱は少し狭く、小さい元素から始まり、玉が増えるほど大きい元素が出る。スキルは2.4倍、EPが貯まりにくく、溢れるのも早い', skillCostMul: 2.4,  dangerLimitMul: 0.6,  epGainMul: 0.35, dropMin: 1, dropMax: 3, boxInset: 40,  fillStep: 5,  spawnCap: 5, mergeReach: 1.0 }
     };
     const DIFFICULTY_ORDER = ['easy', 'normal', 'hard'];
     const DEFAULT_DIFFICULTY = 'normal';
