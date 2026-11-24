@@ -736,13 +736,14 @@
      *   boxInset       : ガラスケースの左右を、内側へ何px狭めるか（大きいほど狭い。負の数は広くなる）
      *   fillStep       : 箱の中の玉が、この数だけ増えるごとに、出る元素が1段階大きくなる（小さいほど早く大きくなる）
      *   spawnCap       : 玉が増えても、出る元素はこの段階までにとどまる
+     *   dropLevels     : （あれば）出る元素をこの段階だけに限る。難しいはN・O・Na・Cl（段階3〜6）
      *   mergeReach     : 同じ元素の合体の当たり判定（1より小さいほど、強くぶつけないと合体しない）
      *   「普通」は古い保存データを引き継ぎます。18.3.4で難しさを上げたため、それ以前のランキングとは条件が少し違います。
      */
     const DIFFICULTY_TABLE = {
       easy:   { label: '簡単',   desc: 'スキルが少し安く、EPが貯まりやすい。溢れるまでも長め', skillCostMul: 0.9,  dangerLimitMul: 1.15, epGainMul: 1.05, dropMin: 1, dropMax: 4, boxInset: -4, fillStep: 12, spawnCap: 6, mergeReach: 1.01 },
       normal: { label: '普通',   desc: '標準の難しさ。箱が増えると大きい元素が出る',          skillCostMul: 1.15, dangerLimitMul: 0.8,  epGainMul: 0.6, dropMin: 1, dropMax: 5, boxInset: 12,  fillStep: 9,  spawnCap: 7, mergeReach: 1.0 },
-      hard:   { label: '難しい', desc: '箱は狭く、小さい元素から始まり、玉が増えるほど大きい元素が出る。スキルは2.6倍、EPが貯まりにくく、溢れるのも早い', skillCostMul: 2.6,  dangerLimitMul: 0.55, epGainMul: 0.3,  dropMin: 1, dropMax: 3, boxInset: 52,  fillStep: 5,  spawnCap: 7, mergeReach: 0.99 }
+      hard:   { label: '難しい', desc: '箱は狭く、出る元素は窒素・酸素・ナトリウム・塩素（N・O・Na・Cl）だけ。スキルは2.6倍、EPが貯まりにくく、溢れるのも早い', skillCostMul: 2.6,  dangerLimitMul: 0.55, epGainMul: 0.3,  dropMin: 1, dropMax: 3, dropLevels: [3, 4, 5, 6], boxInset: 52,  fillStep: 5,  spawnCap: 7, mergeReach: 0.99 }
     };
     const DIFFICULTY_ORDER = ['easy', 'normal', 'hard'];
     const DEFAULT_DIFFICULTY = 'normal';
@@ -3958,6 +3959,11 @@
     // 次に出る元素：箱の中の玉が増えるほど大きい元素が出る（難しいほど早く大きくなる）
     function getRandomInitialLevel() {
       const c = diffCfg();
+      if (c.dropLevels) { // 限定出現（難しい）：決まった元素だけを、同じ確率で出す
+        const fit = c.dropLevels.filter(levelFitsBox);
+        const pool = fit.length ? fit : [c.dropLevels[0]];
+        return pool[Math.floor(Math.random() * pool.length)];
+      }
       let lv = c.dropMin + Math.floor(Math.random() * (c.dropMax - c.dropMin + 1));
       lv = Math.min(lv + Math.floor(boxElementCount() / c.fillStep), c.spawnCap);
       while (lv > 1 && !levelFitsBox(lv)) lv--;
