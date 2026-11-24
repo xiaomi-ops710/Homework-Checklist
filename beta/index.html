@@ -3426,8 +3426,8 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.1'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.1';
+const RELEASE_VER = '18.3.2'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.2';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4359,6 +4359,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.2', d: '2026/11/24 10:00', t: '元素マージの難しいを見直し・ランキングに載っていない人は最初のゲームオーバーで同期', n: ['元素マージの難しい：箱を少し広くし、小さい元素から出るようにしました', 'ランキングにまだ載っていない人は、最初のゲームオーバーで同期します（「友達に見せる」がオンのとき。以後は、登録された最高点より高い点のときに同期します）'] },
   { v: '18.3.1', d: '2026/11/24 08:30', t: 'AIの途中停止を直す・元素マージのXPとくっつき・オンオフを見やすく', n: ['AIの回答が途中で止まる・「AI/parse-failed」のエラーを直しました（答えを待つ時間を10分にし、途中で切れたら同じ質問を自動で作りなおします）', 'AIのバランスモードを、無料で使えるGemini 3.6 Flashに変えました（以前のモデルは無料枠になく、使えなくなったため）', '元素マージ：普通はEPが少し貯まりにくく、難しいは玉が少しくっつきやすくなりました', '設定のオンオフを、形はそのままに少し大きくしました。背景と同じ色になっていたものは、ふちを見やすくしました'] },
   { v: '18.3.0', d: '2026/11/24 07:30', t: '考査までのやることリストを追加・色の並びを整理・版の表示を修正', n: ['課題タブに「やることリスト」を追加。日ごとに、どの課題をどのページからどのページまで進めるかを決められます（AIに作ってもらうこともできます）', '終わったら、その範囲までを課題の進み具合に記録します（外すと元に戻ります）', 'ホームの「自分のやること」に、今日の予定を出します', '20:00までに今日の予定が終わっていないと、自分の端末だけに通知が届きます（通知の設定で変えられます）', '設定の「色」を、色あいの順に並べ、近い色どうしをまとめ、名前と必要なレベルを出しました', '版の表示が古いままになっていた不具合を直しました'] },
   { v: '18.2.35', d: '2026/11/23 21:00', t: '（ベータ版）設定の挿絵を、項目の画面に合わせ、切り替えスイッチを仕様どおりに整えました', n: ['イラストを、項目の実際の画面（ホームならホーム、AIならAIの会話、完了時の演出なら紙吹雪など）に合わせ、中央に配置', 'カスタマイズに、背景・効果音・テーマの色・フォント・AIの見た目を追加（買っていないものも並び、理由と買い方を添えました）', '切り替えスイッチを、52×32・つまみ24・アイコン16の仕様に合わせ、ガクつかない滑らかな動きに', '切り替えの背景と同じ色になる項目に、縁の線を入れて、オンオフが見えるように', '左の一覧で、下の項目（情報など）を押しても、一覧が上へ戻らないように修正'] },
@@ -16113,6 +16114,24 @@ const MG_VER = 3;
 function mgStat() { let v = {}; try { v = JSON.parse(localStorage.getItem('kosa-merge') || '{}') || {}; } catch (e) { v = {}; } if (v.mgv !== MG_VER) v = { plays: v.plays || 0, mgv: MG_VER }; v.maxLv = Math.min(v.maxLv || 0, CHEAT.MG_LV); if (v.best) v.best = Math.min(v.best, 2200 * Math.pow(2, v.maxLv || CHEAT.MG_LV) + 3000); return v; }
 const mgOf = d => (d && d.mg && typeof d.mg === 'object' && d.mg.v === MG_VER) ? (Number(d.mg.b) || 0) : 0;
 function mgStatHtml() { const v = mgStat(); return `<span>最高点 <b>${v.best || 0}</b></span><span>最高の元素 <b>${v.maxLv ? 'Lv.' + v.maxLv : '-'}</b></span><span>挑戦 <b>${v.plays || 0}</b>回</span>`; }
+// 元素マージの点数を友達ランキングに載せる。まだ載っていない最初のゲームオーバーと、登録された最高点より高い点のときに、
+// 同期ボタンと同じ同期（アカウントのデータ）を、こちらから強制で行う。ランキング用の点数は「友達に見せる」がオンのときだけ送る
+let MG_NAG = false;
+async function mgRegSync(score) {
+  if (!CLOUD.user || !CLOUD.fb) return;
+  const r = (S.mgReg && typeof S.mgReg === 'object' && S.mgReg.v === MG_VER) ? S.mgReg : null;
+  if (r && score <= (Number(r.best) || 0)) return;
+  await cloudPushNow();
+  if (CLOUD.status !== 'ok') { toast('同期できませんでした。接続を確認して、もう一度お試しください'); return; }
+  if (!growGet().shared) {
+    if (!MG_NAG) { MG_NAG = true; toast('ランキングに載せるには、友達との比較で「進み具合を友達に見せる」をオンにしてください'); }
+    return;
+  }
+  try { await growPublish(); } catch (e) { toast('ランキングの更新に失敗しました。接続を確認して、もう一度お試しください'); return; }
+  S.mgReg = { v: MG_VER, best: score, first: r ? (Number(r.first) || score) : score, at: Date.now() };
+  save();
+  toast(r ? 'ランキングの点数を更新しました' : 'ランキングに登録しました');
+}
 // ゲームの結果を受け取って保存する（0点の挑戦は数えない）
 window.addEventListener('message', e => {
   const d = e.data; if (!d || d.type !== 'kosa-merge') return;
@@ -16129,6 +16148,7 @@ window.addEventListener('message', e => {
   const el = document.getElementById('mgstat'); if (el) el.innerHTML = mgStatHtml();
   mgPostFriends(); // ゲームの中の友達ランキングに、いまの点数をすぐ出す
   checkBadges(false); save(); frChanged(); mgRankLoad(true);
+  mgRegSync(score).catch(() => { });
 });
 // 全画面：枠を画面いっぱいに広げる。ゲームの中で Escape を押しても戻せる（ゲームから届く）
 function mgFullOn(on) { gameFull('mg', on); }
