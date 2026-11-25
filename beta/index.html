@@ -2138,6 +2138,41 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .tx-ink{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
 .tx-ink.er{cursor:cell}
 .tx-ld{position:absolute;inset:0;display:grid;place-items:center;padding:16px;text-align:center;font-weight:700;color:#555;pointer-events:none}
+/* 18.3.8：拡大・全画面で書く・ページ移動（操作を大きく、迷わず使えるように） */
+.tx-view{display:grid;gap:12px;min-width:0}
+.tx-view:not(.tx-full) .tx-bar{position:static}
+.tx-col{width:44px;height:44px}
+.tx-zoom,.tx-nav{display:inline-flex;align-items:center;gap:2px;padding:3px;border-radius:22px;background:var(--s3);flex:none}
+.tx-zb{display:inline-flex;align-items:center;justify-content:center;gap:4px;min-width:44px;min-height:44px;padding:0 10px;border:0;border-radius:22px;background:transparent;color:var(--on);font:inherit;font-weight:700;font-size:.9rem;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.tx-zb:active{background:var(--s1,#fff)}
+.tx-zl,.tx-nl{text-align:center;font-weight:800;font-size:.9rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tx-zl{min-width:52px}
+.tx-nl{padding:0 6px}
+.tx-scroll{min-width:0;overflow-x:auto;overscroll-behavior-x:contain}
+.tx-pages{grid-template-columns:minmax(0,1fr)}
+.tx-pgw{width:calc(var(--tz,1)*100%)}
+.tx-view.tx-full{position:fixed;inset:0;z-index:9000;display:flex;flex-direction:column;box-sizing:border-box;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px);gap:0;background:var(--bg);overflow:hidden;overscroll-behavior:contain}
+.tx-view:not(.tx-full) .tx-fx{display:none}
+.tx-view.tx-full .tx-head{display:none}
+.tx-view.tx-full .tx-t{min-height:42px;padding:0 12px;font-size:.85rem}
+.tx-view.tx-full .tx-head b{display:none}
+.tx-view.tx-full .tx-head small{display:none}
+.tx-view.tx-full .tx-head .btn{flex:none}
+.tx-view.tx-full .tx-bar{flex:none;position:relative;top:auto;flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;border-radius:0;box-shadow:0 1px 0 rgba(0,0,0,.08);padding:8px 12px;gap:8px}
+.tx-view.tx-full .tx-bar::-webkit-scrollbar{display:none}
+.tx-view.tx-full .tx-fx{order:-1}
+.tx-view.tx-full .tx-zoom,.tx-view.tx-full .tx-nav{position:fixed;bottom:calc(env(safe-area-inset-bottom,0px) + 14px);z-index:3;box-shadow:var(--shadow);background:var(--s2)}
+.tx-view.tx-full .tx-zoom{left:calc(env(safe-area-inset-left,0px) + 12px)}
+.tx-view.tx-full .tx-nav{right:calc(env(safe-area-inset-right,0px) + 12px)}
+.tx-view.tx-full [data-id="fit"],.tx-view.tx-full .tx-lbl,.tx-view.tx-full .tx-nl{display:none}
+.tx-view.tx-full .tx-zb{min-width:44px;padding:0 6px}
+.tx-view.tx-full .tx-bar>*{flex:none}
+.tx-view.tx-full .tx-cur{display:none}
+.tx-view.tx-full .tx-scroll{flex:1 1 auto;min-height:0;overflow:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:14px 12px 100px}
+.tx-view.tx-full .tx-pages{gap:26px}
+.tx-view.tx-full .kj-note{display:none}
+html.tx-lock,html.tx-lock body{overflow:hidden}
+
 .kj-tools{display:grid;gap:10px;margin-top:14px}
 .kj-g{display:flex;align-items:center;gap:10px;font-weight:650;font-size:.9rem}
 .kj-g input{flex:1}
@@ -3573,8 +3608,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.7'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.7';
+const RELEASE_VER = '18.3.8'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.8';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4540,6 +4575,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.8', d: '2026/11/25 17:50', t: '漢字テキストを拡大・全画面で書けるように、操作を使いやすく', n: ['教科書のページを、2本の指を広げて拡大・縮小できるようにしました。「幅に合わせる」で元に戻せます', '「全画面で書く」を押すと、画面いっぱいに広げて書けます。閉じるは「全画面をとじる」か、Escキー', '「前へ」「次へ」で、見開きのページを移動できます。指で動かしたあとも、いまのページを正しく覚えます', '開いたページの範囲・ペンの色・拡大の大きさは、次に開いたときも使えます', '道具のボタンを大きくして、押しやすくしました'] },
   { v: '18.3.7', d: '2026/11/25 12:40', t: '元素マージの起動の白い画面を消し、英語の文法ツールと漢字テキストの書き込みを追加', n: ['元素マージを開くとき、ゲーム画面が一瞬出てからタイトルが出る問題を直し、起動のアニメーションも早くしました', '歴代総理大臣の文字が、ダークモードで見にくい問題を直しました', '英語に「不定詞」「動名詞」「比較級・最上級」「現在完了」の練習ツールを追加しました（各10問）', '漢字練習に「テキストで勉強」を追加しました。ページの範囲（例：92〜93）を選ぶと、学校の漢字テキストが出て、Apple Pencilなどで書き込めます。書き込みは端末に残ります'] },
   { v: '18.3.6', d: '2026/11/25 07:30', t: 'やることリストを一つにまとめ、使いやすく刷新・先生から届いた課題を完了まで守る・同期の表示を改善', n: ['「計画」「今日のプラン」「やることリスト」を一つの「やることリスト」にまとめました。今までの内容は移行されます', 'やることリストは、課題がなくても、宿題などを自由に入れられます。ページ・リンク・完了のみの3種類です', 'やることリストの日付つきの項目は、予定タブのカレンダーにも表示されます', '先生から届いた課題は、完了を押すまで消せません。届いたときに通知が来ます', '課題カードの「プランをたてる」と「プランに追加」を一つにまとめました', '+ボタンの「単語帳を追加」を「やることを追加」に変えました', '同期のとき、アカウントボタンに回転表示が出て、友達・ランキングの読み込み時にも自動で同期します', '歴打の征夷大将軍などのモードで、コースの文字数に合う答えだけを出すようにしました', '元素マージの難しいモードは、N・O・Na・Clだけが出るようになりました'] },
   { v: '18.3.5', d: '2026/11/24 17:40', t: '歴代総理大臣を内閣の代ごとに並べ替え・歴打の問題と実績を増やす・元素マージに1日10回の制限を追加', n: ['歴代総理大臣を、初代から第105代まで代ごとに並べ、「（○度目）」を付けました', '歴打の問題を見直し、答えが問いと合わないものを直しました（「A と B」の答えを一つに絞るなど）。問題を約110問追加しました', '歴打の実績を増やしました（回数・打った回数・連撃・ヒントなし・図鑑・時代など）', '元素マージは、1日10回遊ぶと、元素の問題に3問正解するまで次の10回に進めなくなりました'] },
@@ -9601,7 +9637,7 @@ function kjPaint() {
 }
 TPAINT.kanji = kjPaint;
 /* ---- 漢字練習：テキストで勉強。教科書のPDF（beta/kanji/books.json に登録）を開き、Apple Pencilで書き込みます ---- */
-const TX = { books: null, bookErr: false, loading: false, bookId: '', from: 0, to: 0, open: false, cur: 0, color: '#c62828', eraser: false, finger: false, penAt: 0, ink: null, docs: {}, lib: null, pc: {}, pr: {}, io: null, ro: null, rt: 0, saveWarned: false };
+const TX = { books: null, bookErr: false, loading: false, bookId: '', from: 0, to: 0, open: false, cur: 0, color: '#c62828', eraser: false, finger: false, penAt: 0, ink: null, docs: {}, lib: null, pc: {}, pr: {}, io: null, ro: null, rt: 0, saveWarned: false, z: 1, full: false, tch: new Map(), pinch: null, zt: 0, raf: 0 };
 const TX_INK_KEY = 'kosa-kanji-ink-v1', TX_PEN_W = 0.0035, TX_COLORS = [['#c62828', '赤'], ['#1565c0', '青'], ['#111111', '黒']];
 const txR4 = v => Math.round(v * 1e4) / 1e4, txClamp = v => Math.min(1, Math.max(0, v));
 const txDpr = () => Math.min(2, window.devicePixelRatio || 1);
@@ -9614,7 +9650,7 @@ async function txBooks() {
     const j = await r.json();
     TX.books = (Array.isArray(j) ? j : []).filter(b => b && typeof b.id === 'string' && typeof b.file === 'string' && !/^(\/|[a-z]+:)/i.test(b.file) && Number.isInteger(b.from) && Number.isInteger(b.to) && b.to >= b.from && Number.isInteger(b.perPdfPage) && b.perPdfPage >= 1)
       .map(b => ({ id: b.id, title: String(b.title || b.id), file: b.file, from: b.from, to: b.to, per: b.perPdfPage }));
-    if (TX.books.length) { const b0 = TX.books[0]; TX.bookId = b0.id; TX.from = b0.from; TX.to = b0.to; }
+    if (TX.books.length) { const b0 = TX.books[0]; TX.bookId = b0.id; TX.from = b0.from; TX.to = b0.to; txPrefLoad(); }
   } catch (e) { TX.books = null; TX.bookErr = true; }
   finally { TX.loading = false; }
   return TX.books;
@@ -9744,7 +9780,15 @@ function txWire(ink) {
   });
   ink.addEventListener('pointermove', ev => {
     if (!act || ev.pointerId !== act.id) return;
-    if (act.mode === 'scroll') { const dx = ev.clientX - act.x, dy = ev.clientY - act.y; act.x = ev.clientX; act.y = ev.clientY; window.scrollBy(-dx, -dy); return; }
+    if (act.mode === 'scroll') {
+      if (TX.tch.size >= 2) return;   // 2本の指のときは、拡大・縮小だけを使う
+      const dx = ev.clientX - act.x, dy = ev.clientY - act.y; act.x = ev.clientX; act.y = ev.clientY;
+      const sc = document.getElementById('txscroll');
+      // 指の動きに、すぐついてくるように（ページ全体のなめらかな動きは使わない）
+      if (TX.full && sc) sc.scrollBy({ left: -dx, top: -dy, behavior: 'instant' });
+      else { window.scrollBy({ top: -dy, behavior: 'instant' }); if (sc) sc.scrollLeft -= dx; }
+      return;
+    }
     ev.preventDefault();
     const list = ev.getCoalescedEvents ? ev.getCoalescedEvents() : [], evs = list.length ? list : [ev];
     const ctx = ink.getContext('2d'), W = ink.width, H = ink.height, r = ink.getBoundingClientRect();
@@ -9763,9 +9807,91 @@ function txWire(ink) {
   };
   ink.addEventListener('pointerup', end); ink.addEventListener('pointercancel', end); ink.addEventListener('lostpointercapture', end);
 }
+/* 18.3.8：拡大・全画面・ページ移動。開いた範囲・ペンの色・拡大の大きさは、次に開いたときも使えるように覚える */
+const TX_PREF_KEY = 'kosa-kanji-text-v2';
+function txPrefLoad() {
+  try {
+    const v = JSON.parse(localStorage.getItem(TX_PREF_KEY) || '{}');
+    if (!v || typeof v !== 'object') return;
+    if (TX_COLORS.some(([c]) => c === v.color)) TX.color = v.color;
+    if (typeof v.z === 'number' && isFinite(v.z)) TX.z = Math.min(3, Math.max(1, v.z));
+    const b = (TX.books || []).find(x => x.id === v.book);
+    if (b) {
+      TX.bookId = b.id; TX.from = b.from; TX.to = b.to;
+      if (Number.isInteger(v.from) && Number.isInteger(v.to) && v.from >= b.from && v.to <= b.to && v.from <= v.to) { TX.from = v.from; TX.to = v.to; }
+    }
+  } catch (e) { }
+}
+function txPrefSave() {
+  try { localStorage.setItem(TX_PREF_KEY, JSON.stringify({ book: TX.bookId, from: TX.from, to: TX.to, color: TX.color, z: TX.z })); } catch (e) { }
+}
+function txZoomLabel() { const el = document.getElementById('txzl'); if (el) el.textContent = Math.round(TX.z * 100) + '%'; }
+/* 拡大・縮小：見た目はすぐ変え、ページの描き直しは少し待ってまとめて行う（指で動かしている間の負担を減らす） */
+function txZoomSet(z) {
+  const n = Math.round(Math.min(3, Math.max(1, z)) * 100) / 100;
+  if (n === TX.z) return;
+  TX.z = n; TX.pc = {};
+  const box = document.getElementById('txpages'); if (box) box.style.setProperty('--tz', String(n));
+  txZoomLabel(); txPrefSave();
+  clearTimeout(TX.zt);
+  TX.zt = setTimeout(() => document.querySelectorAll('.tx-pgw[data-vis="1"]').forEach(s => txShow(s)), 160);
+}
+/* 全画面：画面いっぱいに広げて、ペンで書く（閉じるときは「全画面をとじる」か Esc） */
+function txFullSync() {
+  const v = document.getElementById('txview');
+  if (v) v.classList.toggle('tx-full', TX.full);
+  document.documentElement.classList.toggle('tx-lock', TX.full);
+  document.querySelectorAll('[data-act="txfull"]').forEach(x => { x.innerHTML = TX.full ? `${ms('fullscreen_exit')}全画面をとじる` : `${ms('fullscreen')}全画面で書く`; });
+  if (TX.full) setTimeout(() => txGoPage(TX.cur), 30);
+  setTimeout(() => document.querySelectorAll('.tx-pgw[data-vis="1"]').forEach(s => txShow(s)), 90);
+}
+/* 指定のページ（見開き）を、画面の上に合わせる */
+function txGoPage(k) {
+  const secs = [...document.querySelectorAll('.tx-pgw')]; if (!secs.length) return;
+  const sec = secs.find(s => +s.dataset.k === k) || secs[0];
+  const sc = document.getElementById('txscroll');
+  const r = sec.getBoundingClientRect();
+  TX.lock = Date.now() + 900;
+  if (TX.full && sc) { const sr = sc.getBoundingClientRect(); sc.scrollBy({ top: r.top - sr.top - 12, behavior: 'smooth' }); }
+  else window.scrollTo({ top: window.scrollY + r.top - 16, behavior: 'smooth' });
+}
+/* いま見ているページを覚える（指で動かしたときも、「次のページ」が正しく動くように） */
+function txTrackNow() {
+  TX.raf = 0;
+  if (Date.now() < (TX.lock || 0)) return;   // 「次へ」などで動かしている間は、いまの場所を変えない
+  const secs = [...document.querySelectorAll('.tx-pgw')]; if (!secs.length || !TX.open) return;
+  const bar = document.querySelector('#txview .tx-bar'), sc = document.getElementById('txscroll');
+  const atEnd = TX.full && sc ? sc.scrollTop + sc.clientHeight >= sc.scrollHeight - 4 : window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
+  let pick = secs[0];
+  if (atEnd) pick = secs[secs.length - 1];
+  else { const line = (TX.full && bar ? bar.getBoundingClientRect().bottom : 0) + 80; for (const s of secs) { if (s.getBoundingClientRect().top <= line) pick = s; } }
+  const k = +pick.dataset.k; if (k && k !== TX.cur) { TX.cur = k; txCurLabel(); }
+}
+function txTrackRaf() { if (!TX.raf) TX.raf = requestAnimationFrame(txTrackNow); }
+window.addEventListener('scroll', txTrackRaf, { passive: true, capture: true });
+document.addEventListener('keydown', e => { if (e.key === 'Escape' && TX.full) { TX.full = false; txFullSync(); } });
+/* 2本の指で広げる・狭める：拡大・縮小（ペンで書いている間は、反応しない） */
+function txPinchWire(box) {
+  TX.tch = new Map(); TX.pinch = null;
+  const gap = () => { const v = [...TX.tch.values()]; return Math.hypot(v[0].x - v[1].x, v[0].y - v[1].y); };
+  box.addEventListener('pointerdown', ev => {
+    if (ev.pointerType !== 'touch') return;
+    TX.tch.set(ev.pointerId, { x: ev.clientX, y: ev.clientY });
+    if (TX.tch.size === 2) TX.pinch = { d0: Math.max(24, gap()), z0: TX.z };
+  });
+  box.addEventListener('pointermove', ev => {
+    const t = TX.tch.get(ev.pointerId); if (!t) return;
+    t.x = ev.clientX; t.y = ev.clientY;
+    if (TX.pinch && TX.tch.size === 2) txZoomSet(TX.pinch.z0 * gap() / TX.pinch.d0);
+  });
+  const up = ev => { TX.tch.delete(ev.pointerId); if (TX.tch.size < 2) TX.pinch = null; };
+  box.addEventListener('pointerup', up); box.addEventListener('pointercancel', up);
+}
 function txCurLabel() {
-  const b = txBook(), el = document.getElementById('txcur'); if (!b || !el || !TX.cur) return;
-  el.textContent = `いまのページ：教科書 ${txPageLabel(b, TX.cur)}`;
+  const b = txBook(); if (!b || !TX.cur) return;
+  const el = document.getElementById('txcur'); if (el) el.textContent = `いまのページ：教科書 ${txPageLabel(b, TX.cur)}`;
+  const nv = document.getElementById('txnavl');
+  if (nv) { const secs = [...document.querySelectorAll('.tx-pgw')], i = secs.findIndex(s => +s.dataset.k === TX.cur); nv.textContent = `${txPageLabel(b, TX.cur)}（${i + 1}/${secs.length}）`; }
 }
 function txBarSync() {
   document.querySelectorAll('[data-act="txcolor"]').forEach(x => x.setAttribute('aria-pressed', String(!TX.eraser && x.dataset.id === TX.color)));
@@ -9805,17 +9931,31 @@ function txViewHtml(b) {
   const nums = txPageNums(b, TX.from, TX.to);
   if (!nums.includes(TX.cur)) TX.cur = nums[0] || 0;
   const pages = nums.map(k => `<section class="tx-pgw" data-k="${k}"><div class="tx-lb">${txPageLabel(b, k)}</div><div class="tx-pg"><canvas class="tx-ink" aria-label="ここにペンで書き込めます"></canvas><div class="tx-ld">読み込んでいます…</div></div></section>`).join('');
-  return `<div class="tx-head"><b>${esc(b.title)}</b><small>${TX.from}〜${TX.to}ページ</small><span class="sp"></span><button type="button" class="btn text sm" data-act="txclose">${ms('tune')}ページの範囲をかえる</button></div>
+  return `<div class="tx-view${TX.full ? ' tx-full' : ''}" id="txview">
+    <div class="tx-head"><b>${esc(b.title)}</b><small>${TX.from}〜${TX.to}ページ</small><span class="sp"></span><button type="button" class="btn text sm" data-act="txclose">${ms('tune')}範囲をかえる</button><button type="button" class="btn tonal sm" data-act="txfull">${TX.full ? ms('fullscreen_exit') + '全画面をとじる' : ms('fullscreen') + '全画面で書く'}</button></div>
     <div class="tx-bar" role="toolbar" aria-label="書き込みの道具">
       <div class="tx-cols">${TX_COLORS.map(([c, n]) => `<button type="button" class="tx-col" style="--c:${c}" data-act="txcolor" data-id="${c}" aria-pressed="false" aria-label="${n}のペン"></button>`).join('')}</div>
       <button type="button" class="tx-t" data-act="txeraser" aria-pressed="false">${ms('ink_eraser')}消しゴム</button>
       <button type="button" class="tx-t" data-act="txundo">${ms('undo')}1本もどす</button>
       <button type="button" class="tx-t" data-act="txclear">${ms('delete_sweep')}このページを消す</button>
       <button type="button" class="tx-t" data-act="txfinger" aria-pressed="false">${ms('pan_tool')}指でも書く</button>
+      <div class="tx-zoom" role="group" aria-label="拡大と縮小">
+        <button type="button" class="tx-zb" data-act="txzoom" data-id="out" aria-label="縮小">${ms('zoom_out')}</button>
+        <output class="tx-zl" id="txzl">${Math.round(TX.z * 100)}%</output>
+        <button type="button" class="tx-zb" data-act="txzoom" data-id="in" aria-label="拡大">${ms('zoom_in')}</button>
+        <button type="button" class="tx-zb" data-act="txzoom" data-id="fit">幅に合わせる</button>
+      </div>
+      <div class="tx-nav" role="group" aria-label="ページ">
+        <button type="button" class="tx-zb" data-act="txgo" data-id="-1" aria-label="前のページ">${ms('chevron_left')}<span class="tx-lbl">前へ</span></button>
+        <output class="tx-nl" id="txnavl"></output>
+        <button type="button" class="tx-zb" data-act="txgo" data-id="1" aria-label="次のページ"><span class="tx-lbl">次へ</span>${ms('chevron_right')}</button>
+      </div>
+      <button type="button" class="tx-t tx-fx" data-act="txfull">${ms('fullscreen_exit')}全画面をとじる</button>
       <div class="tx-cur" id="txcur" aria-live="polite"></div>
     </div>
-    <div class="tx-pages" id="txpages">${pages}</div>
-    <p class="kj-note">Apple Pencilで書けます。指でなぞると、ページがスクロールします。「指でも書く」を押すと、指でも線が書けます。</p>`;
+    <div class="tx-scroll" id="txscroll"><div class="tx-pages" id="txpages" style="--tz:${TX.z}">${pages}</div></div>
+    <p class="kj-note">Apple Pencilで書けます。指でなぞるとページが動きます。2本の指を広げると拡大できます。</p>
+  </div>`;
 }
 function txHtml() {
   if (TX.bookErr) return `<div class="kj-card tx-msg"><p>教科書の一覧を読み込めませんでした。通信を確かめて、もう一度お試しください。</p><button type="button" class="btn tonal" data-act="txretry">${ms('refresh')}もう一度読み込む</button></div>`;
@@ -9834,6 +9974,7 @@ function txPaint() {
   if (!TX.open || !TX.books || !txBook()) return;
   const box = document.getElementById('txpages'); if (!box) return;
   box.querySelectorAll('.tx-ink').forEach(txWire);
+  txPinchWire(box);
   txBarSync();
   TX.io = new IntersectionObserver(es => es.forEach(en => { en.target.dataset.vis = en.isIntersecting ? '1' : ''; if (en.isIntersecting) txShow(en.target); }), { rootMargin: '900px 0px' });
   box.querySelectorAll('.tx-pgw').forEach(sec => TX.io.observe(sec));
@@ -9842,12 +9983,22 @@ function txPaint() {
   TX.ro.observe(box);
 }
 Object.assign(ACT, {
-  txbook(id) { const b = (TX.books || []).find(x => x.id === id); if (!b) return; TX.bookId = b.id; TX.from = b.from; TX.to = b.to; TX.open = false; render(); },
-  txspread(v) { const [a, z] = String(v || '').split('-').map(Number); if (!(a > 0) || !(z >= a)) return; TX.from = a; TX.to = z; render(); },
-  txopen() { const b = txBook(); if (!b) return; const r = txReadRange(b); if (!r) return; TX.from = r[0]; TX.to = r[1]; TX.open = true; TX.eraser = false; render(); },
-  txclose() { TX.open = false; render(); },
+  txbook(id) { const b = (TX.books || []).find(x => x.id === id); if (!b) return; TX.bookId = b.id; TX.from = b.from; TX.to = b.to; TX.open = false; txPrefSave(); render(); },
+  txspread(v) { const [a, z] = String(v || '').split('-').map(Number); if (!(a > 0) || !(z >= a)) return; TX.from = a; TX.to = z; txPrefSave(); render(); },
+  txopen() { const b = txBook(); if (!b) return; const r = txReadRange(b); if (!r) return; TX.from = r[0]; TX.to = r[1]; TX.open = true; TX.eraser = false; txPrefSave(); render(); },
+  txclose() { TX.full = false; TX.open = false; txFullSync(); render(); },
   txretry() { TX.books = null; TX.bookErr = false; render(); },
-  txcolor(c) { TX.color = c; TX.eraser = false; txBarSync(); },
+  txfull() { TX.full = !TX.full; txFullSync(); },
+  txzoom(v) { txZoomSet(v === 'fit' ? 1 : TX.z + (v === 'in' ? 0.25 : -0.25)); },
+  txgo(d) {
+    const b = txBook(); if (!b) return;
+    const secs = [...document.querySelectorAll('.tx-pgw')]; if (!secs.length) return;
+    let i = secs.findIndex(x => +x.dataset.k === TX.cur); if (i < 0) i = 0;
+    const j = i + (+d || 0);
+    if (j < 0 || j >= secs.length) return toast(j < 0 ? 'ここが最初のページです' : 'ここが最後のページです');
+    TX.cur = +secs[j].dataset.k; txCurLabel(); txGoPage(TX.cur);
+  },
+  txcolor(c) { TX.color = c; TX.eraser = false; txPrefSave(); txBarSync(); },
   txeraser() { TX.eraser = !TX.eraser; txBarSync(); },
   txfinger() { TX.finger = !TX.finger; txBarSync(); },
   txundo() {
