@@ -2102,6 +2102,42 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .kj-stage{position:relative;width:min(340px,88vw);aspect-ratio:1;margin:0 auto;border-radius:24px;background:var(--s1,#fff);overflow:hidden;color:var(--on);box-shadow:inset 0 0 0 2px var(--s3)}
 .kj-guide{position:absolute;inset:0;display:grid;place-items:center;font-family:"Hiragino Mincho ProN","Yu Mincho","Noto Serif JP",serif;font-size:min(300px,70vw);line-height:1;pointer-events:none;user-select:none;transition:opacity .2s}
 #kjc{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:crosshair}
+/* 漢字練習：テキストで勉強（教科書のPDFに、Apple Pencilで書き込む） */
+.tx-mode{display:flex;align-items:center;gap:14px;width:100%;border:0;text-align:left;color:inherit;font:inherit;cursor:pointer;flex-wrap:wrap}
+.tx-mode .tx-mi{display:grid;place-items:center;width:48px;height:48px;border-radius:16px;background:var(--pc);color:var(--on-pc);flex:none}
+.tx-mode .tx-mtx{flex:1 1 180px;min-width:0;display:grid;gap:3px}
+.tx-mode b{font-size:1.02rem}
+.tx-mode small{opacity:.8;line-height:1.5;font-size:.84rem}
+.tx-mode.on{cursor:default;background:var(--pc);color:var(--on-pc)}
+.tx-mode.on .tx-mi{background:var(--s1,#fff);color:var(--on)}
+.tx-setup{display:grid;gap:12px}
+.tx-range{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}
+.tx-rl{display:grid;gap:4px;font-weight:700;font-size:.9rem;flex:1 1 120px;min-width:0}
+.tx-rl input{width:100%;min-width:0;text-align:center;font-weight:700}
+.tx-sep{font-weight:700;padding-bottom:16px}
+.tx-quick{margin-top:0}
+.tx-quick .chip{min-width:0;min-height:40px;padding:8px 14px}
+.tx-msg{display:grid;gap:12px;justify-items:start}
+.tx-msg p{margin:0;line-height:1.7}
+.tx-head{display:flex;align-items:center;gap:8px 12px;flex-wrap:wrap;padding:0 4px}
+.tx-head b{font-size:1.05rem}
+.tx-head small{opacity:.75;font-weight:600}
+.tx-head .sp{flex:1}
+.tx-bar{position:sticky;top:calc(env(safe-area-inset-top,0px) + 70px);z-index:4;display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:8px 10px;border-radius:24px;background:var(--s2);box-shadow:var(--shadow)}
+.tx-cols{display:flex;gap:10px;align-items:center;padding:0 4px}
+.tx-col{width:38px;height:38px;border-radius:50%;border:3px solid var(--s1,#fff);background:var(--c);box-shadow:0 0 0 1px rgba(0,0,0,.28);padding:0;cursor:pointer;flex:none}
+.tx-col[aria-pressed="true"]{box-shadow:0 0 0 3px var(--s2),0 0 0 5px var(--primary)}
+.tx-t{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 14px;border:0;border-radius:22px;background:var(--s3);color:var(--on);font:inherit;font-weight:700;font-size:.9rem;cursor:pointer}
+.tx-t[aria-pressed="true"]{background:var(--sec-c);color:var(--on-sec-c)}
+.tx-cur{flex:1 1 100%;font-size:.82rem;font-weight:700;opacity:.8;padding:0 4px}
+.tx-pages{display:grid;gap:18px;min-width:0}
+.tx-pgw{min-width:0}
+.tx-lb{font-size:.85rem;font-weight:700;opacity:.8;margin:0 4px 6px}
+.tx-pg{position:relative;width:100%;aspect-ratio:842/595;background:#fff;color:#333;border-radius:14px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.tx-pdf{position:absolute;inset:0;width:100%;height:100%;display:block}
+.tx-ink{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:crosshair;-webkit-touch-callout:none;-webkit-user-select:none;user-select:none}
+.tx-ink.er{cursor:cell}
+.tx-ld{position:absolute;inset:0;display:grid;place-items:center;padding:16px;text-align:center;font-weight:700;color:#555;pointer-events:none}
 .kj-tools{display:grid;gap:10px;margin-top:14px}
 .kj-g{display:flex;align-items:center;gap:10px;font-weight:650;font-size:.9rem}
 .kj-g input{flex:1}
@@ -3435,13 +3471,13 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 .sh-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .sh-hanko{flex:none;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:var(--era);color:#fff;font-size:20px;font-weight:800;transform:rotate(-3deg);box-shadow:0 2px 0 rgba(0,0,0,.16)}
 .sh-body h3{margin:0;font-size:1.35rem;font-weight:800;letter-spacing:.08em}
-.sh-cnt{margin-left:auto;padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--era) 14%,transparent);color:var(--era);font-size:.8rem;font-weight:800}
+.sh-cnt{margin-left:auto;padding:4px 12px;border-radius:999px;background:color-mix(in srgb,var(--era) 14%,transparent);color:var(--era-ink,var(--era));font-size:.8rem;font-weight:800}
 .sh-pd{margin-top:14px;padding-top:12px;border-top:1px dashed color-mix(in srgb,var(--era) 30%,transparent)}
-.sh-when b{display:block;font-size:1rem;color:var(--era)}
+.sh-when b{display:block;font-size:1rem;color:var(--era-ink,var(--era))}
 .sh-when small{display:block;margin-top:2px;opacity:.78;font-size:.82rem}
 .sh-ev{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:8px}
 .sh-ev li{display:grid;grid-template-columns:48px 1fr;gap:10px;font-size:.95rem;line-height:1.6}
-.sh-y{font-weight:800;color:var(--era);font-variant-numeric:tabular-nums}
+.sh-y{font-weight:800;color:var(--era-ink,var(--era));font-variant-numeric:tabular-nums}
 .sh-empty{padding:30px 20px;text-align:center;border-radius:32px;background:var(--paper);opacity:.85}
 .sh-note{margin:18px 4px 0;font-size:.8rem;line-height:1.6}
 @media (prefers-reduced-motion:reduce){.sh-card{animation:none}.sh-chip{transition:none}}
@@ -3451,6 +3487,15 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 .sh-no{display:block;font-size:.78rem;font-weight:800;letter-spacing:.14em;color:var(--vermil);margin-bottom:2px}
 .sh-tt h3{margin:0;font-size:1.35rem;font-weight:800;letter-spacing:.06em}
 .sh-nth{font-size:.72em;font-weight:700;margin-left:.35em;color:var(--gold);letter-spacing:.04em}
+/* 18.3.6：暗い画面で文字を読みやすく。時代の色を明るくした --era-ink を、年号・日付・件数の文字に使う（明るいときは元の色のまま） */
+:root[data-theme="dark"] .sh-card,:root[data-theme="dark"] .sh-era{--era-ink:color-mix(in srgb,var(--era) 42%,#fff)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sh-card,:root:not([data-theme="light"]) .sh-era{--era-ink:color-mix(in srgb,var(--era) 42%,#fff)}}
+:root[data-theme="dark"] .sh-era{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sh-era{box-shadow:inset 0 0 0 1px rgba(255,255,255,.22)}}
+:root[data-theme="dark"] .sh-chip.on,:root[data-theme="dark"] .sh-seal{background:color-mix(in srgb,var(--c,var(--vermil)) 45%,#fff);color:#1a1410}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sh-chip.on,:root:not([data-theme="light"]) .sh-seal{background:color-mix(in srgb,var(--c,var(--vermil)) 45%,#fff);color:#1a1410}}
+:root[data-theme="dark"] .sh-q input::placeholder{color:#b8ae9c;opacity:1}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .sh-q input::placeholder{color:#b8ae9c;opacity:1}}
 </style>
 </head>
 
@@ -3528,8 +3573,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.6'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.6';
+const RELEASE_VER = '18.3.7'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.7';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4495,6 +4540,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.7', d: '2026/11/25 12:40', t: '元素マージの起動の白い画面を消し、英語の文法ツールと漢字テキストの書き込みを追加', n: ['元素マージを開くとき、ゲーム画面が一瞬出てからタイトルが出る問題を直し、起動のアニメーションも早くしました', '歴代総理大臣の文字が、ダークモードで見にくい問題を直しました', '英語に「不定詞」「動名詞」「比較級・最上級」「現在完了」の練習ツールを追加しました（各10問）', '漢字練習に「テキストで勉強」を追加しました。ページの範囲（例：92〜93）を選ぶと、学校の漢字テキストが出て、Apple Pencilなどで書き込めます。書き込みは端末に残ります'] },
   { v: '18.3.6', d: '2026/11/25 07:30', t: 'やることリストを一つにまとめ、使いやすく刷新・先生から届いた課題を完了まで守る・同期の表示を改善', n: ['「計画」「今日のプラン」「やることリスト」を一つの「やることリスト」にまとめました。今までの内容は移行されます', 'やることリストは、課題がなくても、宿題などを自由に入れられます。ページ・リンク・完了のみの3種類です', 'やることリストの日付つきの項目は、予定タブのカレンダーにも表示されます', '先生から届いた課題は、完了を押すまで消せません。届いたときに通知が来ます', '課題カードの「プランをたてる」と「プランに追加」を一つにまとめました', '+ボタンの「単語帳を追加」を「やることを追加」に変えました', '同期のとき、アカウントボタンに回転表示が出て、友達・ランキングの読み込み時にも自動で同期します', '歴打の征夷大将軍などのモードで、コースの文字数に合う答えだけを出すようにしました', '元素マージの難しいモードは、N・O・Na・Clだけが出るようになりました'] },
   { v: '18.3.5', d: '2026/11/24 17:40', t: '歴代総理大臣を内閣の代ごとに並べ替え・歴打の問題と実績を増やす・元素マージに1日10回の制限を追加', n: ['歴代総理大臣を、初代から第105代まで代ごとに並べ、「（○度目）」を付けました', '歴打の問題を見直し、答えが問いと合わないものを直しました（「A と B」の答えを一つに絞るなど）。問題を約110問追加しました', '歴打の実績を増やしました（回数・打った回数・連撃・ヒントなし・図鑑・時代など）', '元素マージは、1日10回遊ぶと、元素の問題に3問正解するまで次の10回に進めなくなりました'] },
   { v: '18.3.4', d: '2026/11/24 10:40', t: '元素マージの難しさを全体的に上げ、箱を少し狭く・大きい元素も出るように', n: ['元素マージの簡単・普通・難しいを、全体的に少し難しくしました（スキルの消費・溢れるまでの時間・EPの貯まり方・合体のゆるさ）', '元素マージの箱を、少し狭くしました', '元素マージで、大きい元素（塩素・鉄など）も箱の中に出るようになりました（玉が増えたときに）'] },
@@ -8084,11 +8130,12 @@ function trHtml() {
   ${TR.out || TR.err ? `<div class="card" style="margin-top:12px">${TR.err ? `<p class="muted">${esc(TR.err)}</p>` : `<div class="trout">${esc(TR.out).replace(/\n/g, '<br>')}</div><div class="dact" style="margin:10px 0 0"><button class="btn text" data-act="trspeak">${ms('volume_up')}読み上げ</button><button class="btn text" data-act="trcopy">${ms('content_copy')}コピー</button></div>`}</div>` : ''}
   <p class="muted" style="font-size:.8rem;margin-top:10px">入力した文章がGoogleのAIに送られます。個人情報は入力しないでください。</p>`;
 }
+function engFrame(topic) { return `<div class="gr-frame"><iframe src="games/grammar.html?topic=${topic}" title="英語の文法 ${topic}" style="width:100%;height:78vh;min-height:520px;border:0;border-radius:18px;background:transparent"></iframe></div>`; }
 const TOOLS = [['music', '音楽', 'library_music', '端末の音楽や、YouTubeで探した曲を、アプリの中でずっと流せる', 300, 'e'], ['aiquiz', 'AI小テスト', 'quiz', 'テーマを決めると、AIが4択の問題をつくる', 285, 'b'], ['calc', '電卓', 'calculate', '関数電卓つき・計算履歴を保存', 222, 'a'], ['graph', '関数グラフ', 'show_chart', '式を入れてグラフを描く', 150, 'a'], ['cur', '通貨計算', 'currency_exchange', '為替レートで金額を換算', 40, 'a'], ['tr', '翻訳', 'translate', 'AIで14の言語に翻訳', 280, 'a'], ['unit', '単位換算', 'straighten', '長さ・重さ・温度などを換算', 190, 'a'], ['math', '数学ツール', 'function', '素因数分解・方程式・進数', 260, 'c'], ['frac', '分数計算', 'pie_chart', '分数のたし算・ひき算・約分', 20, 'c'], ['shape', '図形の計算', 'square_foot', '面積・体積・三平方の定理', 120, 'c'], ['date', '日付計算', 'event', '日数の差・○日後の日付', 330, 'a'],
   ['sim', '連立方程式', 'equal', '2元・3元の連立1次方程式', 205, 'c'], ['poly', '展開・因数分解', 'superscript', '式の展開と、二次式の因数分解', 280, 'c'], ['stat', '統計', 'analytics', '平均・中央値・分散・標準偏差', 160, 'c'], ['comb', '順列・組合せ', 'shuffle', 'nPr・nCr・階乗など', 35, 'c'], ['line', '座標と直線', 'polyline', '2点間の距離・直線の式', 95, 'c'], ['trig', '三角比', 'change_history', 'sin・cos・tanと直角三角形', 345, 'c'], ['sqrt', '平方根', 'functions', '√の簡単化と近似値', 240, 'c'], ['seq', '数列', 'format_list_numbered', '等差数列・等比数列', 15, 'c'],
   ['board', '板書', 'photo_library', '撮った黒板・ホワイトボードを見返し、AIで要点をまとめる', 205, 'c'], ['kanji', '漢字練習', 'draw', '漢字を書いて練習。読みと二字熟語もわかる', 20, 'b'], ['gram', '国語文法', 'auto_stories', '表を隠して覚え、テストで確かめる。活用・音便・品詞', 285, 'b'], ['focus', '集中タイマー', 'timer', '時間を区切って、集中と休憩をくり返す', 210, 'b'], ['card', '単語帳', 'style', 'カードをめくって暗記', 340, 'b'], ['sheet', '暗記シート', 'visibility_off', '赤シートで用語を隠して確認', 10, 'b'], ['rekida', '歴打', 'keyboard', '中学歴史のタイピング。石高を集めて天下をめざす（レベル5で解放）', 25, 'b'], ['merge', '元素マージ', 'bubble_chart', '同じ元素をくっつけて進化させるパズル（レベル7で解放）', 210, 'b'],
   ['shiri', 'しりとり', 'forum', 'AIと対戦、または友達とオンラインで対戦（レベル7で解放）', 300, 'b'], ['quiz', '暗記クイズ', 'quiz', '県庁所在地・元素記号・不規則動詞', 200, 'b'], 
-  ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素・くっつけて反応を見る実験・分子量の計算', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['shusho', '歴代総理大臣', 'account_balance', '明治から今まで、在任中の年号と主な出来事を年表で', 12, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b']];
+  ['formula', '公式集', 'menu_book', '数学・理科の公式を検索して確認', 70, 'b'], ['ptable', '元素ラボ', 'science', '118元素・くっつけて反応を見る実験・分子量の計算', 150, 'b'], ['pct', '割合・パーセント', 'percent', '○％の計算・割引・増減率', 45, 'a'], ['sw', 'ストップウォッチ', 'timer', 'ラップも記録できる', 200, 'a'], ['tbl', '時間割', 'calendar_view_week', '曜日ごとの時間割と、あしたの確認', 170, 'b'], ['memo', 'ふせんメモ', 'sticky_note_2', '思いついたことを、すぐ書き留める', 50, 'b'], ['rika', '理科の計算', 'science', '速さ・密度・濃度・オームの法則', 175, 'c'], ['nengo', '年号・西暦', 'history_edu', '社会：明治以降の年号と西暦を、互いに変換', 30, 'c'], ['jisa', '時差計算', 'public', '地理：経度から、日本との時差と現地の時刻', 190, 'c'], ['gcd', '最大公約数・最小公倍数', 'numbers', '数学（中学）：素因数分解と、公約数・公倍数', 120, 'c'], ['quad', '二次関数の頂点', 'show_chart', '数学（高校）：頂点・軸・平方完成・判別式', 260, 'c'], ['res', '合成抵抗', 'electric_bolt', '理科（中学・高校）：直列・並列の抵抗を計算', 55, 'c'], ['iden', '遺伝の確率', 'biotech', '生物（中学・高校）：かけ合わせの表と、現れる割合', 330, 'c'], ['jnen', '日本史年表', 'auto_stories', '社会：旧石器〜昭和。重要な語は、暗記モードでタップして確かめる', 40, 'b'], ['shusho', '歴代総理大臣', 'account_balance', '明治から今まで、在任中の年号と主な出来事を年表で', 12, 'b'], ['sekai', '世界史年表', 'public', '社会：古代〜現代。重要な語は、暗記モードでタップして確かめる', 200, 'b'], ['nenpyo', '年表', 'timeline', '出来事を、年の順に自分で並べる', 25, 'b'], ['eigo', '英語の時制・品詞', 'menu_book', '時制と品詞を、例文つきで確かめる', 220, 'b'], ['verbs', '不規則動詞表', 'spellcheck', '原形・過去形・過去分詞を隠してチェック', 310, 'b'], ['eng-inf', '不定詞', 'arrow_right_alt', 'to＋動詞の原形の3つの使い方を、例文つきで確かめる', 145, 'b'], ['eng-ger', '動名詞', 'autorenew', '-ingとto～の使い分けを練習する', 28, 'b'], ['eng-cmp', '比較級・最上級', 'compare_arrows', '-er・more・-est・most と不規則変化を練習', 212, 'b'], ['eng-pp', '現在完了', 'history', 'have＋過去分詞の経験・継続・完了・結果を練習', 285, 'b']];
 // 以前の「分子量・物質の量」のツールは、元素ラボの中へ
 function mgTileIcon() { return '<span class="mgb" aria-hidden="true"><i class="mgb-a"></i><i class="mgb-b"></i><i class="mgb-c"></i></span>'; }
 /* ===== 18.3.3：歴代総理大臣（在任期間ごとの年号・主な出来事）。和風・Material 3 Expressive ===== */
@@ -8236,7 +8283,7 @@ document.addEventListener('input', e => { if (e.target && e.target.id === 'shq')
 
 /* ツールを教科ごとに分ける（ここにないツールは「勉強」に入る） */
 const TOOL_SUBJ = { math: '数学', frac: '数学', shape: '数学', sim: '数学', poly: '数学', stat: '数学', comb: '数学', line: '数学', trig: '数学', sqrt: '数学', seq: '数学', gcd: '数学', quad: '数学', graph: '数学', pct: '数学',
-  eigo: '英語', verbs: '英語', tr: '英語',
+  eigo: '英語', verbs: '英語', tr: '英語', 'eng-inf': '英語', 'eng-ger': '英語', 'eng-cmp': '英語', 'eng-pp': '英語',
   rika: '理科', res: '理科', iden: '理科', ptable: '理科', merge: '理科', unit: '理科',
   shusho: '社会', jnen: '社会', sekai: '社会', nenpyo: '社会', nengo: '社会', jisa: '社会', rekida: '社会',
   kanji: '国語', gram: '国語', calc: '数学' };
@@ -8260,7 +8307,7 @@ function viewTools() {
       + (subNow === 'all' ? sec('人気', 'local_fire_department', '#e11d48', ['card', 'merge', 'rekida', 'ptable'].map(id => TOOLS.find(x => x[0] === id))) : '')
       + SUBJ_ORDER.filter(([name]) => subNow === 'all' || name === SUB_OF[subNow]).map(([name, icon, col]) => { const list = TOOLS.filter(t => subjOf(t) === name); return list.length ? sec(name, icon, col, byPop(list)) : ''; }).join('');
   }
-  const T = TOOLS.find(x => x[0] === tl), body = { shusho: shushoHtml, board: boardHtml, kanji: kjHtml, gram: gramHtml, rekida: rekidaHtml, merge: mergeHtml, shiri: shiriHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
+  const T = TOOLS.find(x => x[0] === tl), body = { shusho: shushoHtml, board: boardHtml, kanji: kjHtml, gram: gramHtml, rekida: rekidaHtml, merge: mergeHtml, shiri: shiriHtml, calc: calcHtml, graph: graphHtml, cur: curHtml, tr: trHtml, card: cardsHtml, sheet: sheetHtml, unit: unitHtml, math: mathHtml, frac: fracHtml, sim: simHtml, poly: polyHtml, stat: statHtml, comb: combHtml, line: lineHtml, trig: trigHtml, sqrt: sqrtHtml, seq: seqHtml, shape: shapeHtml, date: dateHtml, quiz: quizHtml, formula: formulaHtml, ptable: ptableHtml, verbs: verbsHtml, pct: pctHtml, sw: swHtml, tbl: tblHtml, memo: memoHtml, sensei: snHtml, aiquiz: aqHtml, music: muHtml, focus: focusToolHtml, rika: rikaHtml, jnen: jnenHtml, sekai: sekaiHtml, nenpyo: nenpyoHtml, eigo: engHtml, 'eng-inf': () => engFrame('infinitive'), 'eng-ger': () => engFrame('gerund'), 'eng-cmp': () => engFrame('comparison'), 'eng-pp': () => engFrame('present-perfect'), nengo: nengoHtml, jisa: jisaHtml, gcd: gcdHtml, quad: quadHtml, mol: molHtml, res: resHtml, iden: idenHtml }[tl]();
   return `<div class="tbar"><button class="ibtn" data-act="toolback" aria-label="ツール一覧へ戻る">${ms('arrow_back')}</button><h2>${ms(T[2])}${T[1]}</h2>${tl === 'card' ? wcTbarActs() : ''}</div><div class="tbody tb-${tl} ${tl === 'graph' && FNG.kbOpen ? 'gkb' : ''}"><div class="tool-${tl}">${body}</div></div>`;
 }
 /* ===== 単語帳：複数の単語帳・めくる／スワイプのアニメーション・写真から追加 ===== */
@@ -9501,6 +9548,7 @@ function kjBody(e) {
   return `<p class="kj-note" style="text-align:center">問題 ${T.i + 1} / ${T.qs.length}（正解 ${T.ok}）</p>${kjQView(T.qs[T.i], 'kjtcheck', 'kjtnext', 'kjtreveal')}`;
 }
 function kjHtml() {
+  if (KJ.mode === 'text') return `<div class="kj">${txCard(true)}${txHtml()}</div>`;
   const L = kjList();
   if (KJ.cur && !L.includes(KJ.cur)) KJ.cur = '';
   if (!KJ.cur && L.length) KJ.cur = L[0];
@@ -9515,7 +9563,7 @@ function kjHtml() {
       <p class="kj-note">漢字プリントの写真を撮ると、AIが漢字・読み・二字熟語を読み取り、練習の順番を提案します。いくつまとめて入れてもOK。</p>
     </div>`;
   const modes = `<div class="wx-seg kj-modes" role="radiogroup" aria-label="練習の方法">${KJ_MODES.map(([k, t, i]) => `<button type="button" role="radio" aria-checked="${KJ.mode === k}" class="wx-sg ${KJ.mode === k ? 'on' : ''}" data-act="kjmode" data-id="${k}">${ms(i, '', 'font-size:18px;vertical-align:-4px;margin-right:4px')}${t}</button>`).join('')}</div>`;
-  return `<div class="kj">${plan}${add}${L.length ? `<div class="kj-list" aria-label="練習する漢字">${chips}</div>` : '<div class="kj-empty">練習したい漢字を入れると、ここに並びます。</div>'}${KJ.cur ? `${modes}${kjBody(e)}` : ''}</div>`;
+  return `<div class="kj">${plan}${add}${L.length ? `<div class="kj-list" aria-label="練習する漢字">${chips}</div>` : '<div class="kj-empty">練習したい漢字を入れると、ここに並びます。</div>'}${txCard(false)}${KJ.cur ? `${modes}${kjBody(e)}` : ''}</div>`;
 }
 function kjDraw(c) {
   const ctx = c.getContext('2d'), W = c.width, H = c.height; if (!W || !H) return;
@@ -9535,6 +9583,7 @@ function kjDraw(c) {
   }
 }
 function kjPaint() {
+  if (KJ.mode === 'text') return txPaint();
   const c = document.getElementById('kjc'); if (!c) return;
   const fit = () => { const r = c.getBoundingClientRect(), d = Math.min(2, window.devicePixelRatio || 1); c.width = Math.round(r.width * d); c.height = Math.round(r.height * d); kjDraw(c); };
   fit();
@@ -9551,6 +9600,268 @@ function kjPaint() {
   if (g && !g.dataset.b) { g.dataset.b = '1'; g.addEventListener('input', () => { KJ.guide = +g.value; const gd = document.getElementById('kjguide'); if (gd) gd.style.opacity = KJ.guide / 100; }); }
 }
 TPAINT.kanji = kjPaint;
+/* ---- 漢字練習：テキストで勉強。教科書のPDF（beta/kanji/books.json に登録）を開き、Apple Pencilで書き込みます ---- */
+const TX = { books: null, bookErr: false, loading: false, bookId: '', from: 0, to: 0, open: false, cur: 0, color: '#c62828', eraser: false, finger: false, penAt: 0, ink: null, docs: {}, lib: null, pc: {}, pr: {}, io: null, ro: null, rt: 0, saveWarned: false };
+const TX_INK_KEY = 'kosa-kanji-ink-v1', TX_PEN_W = 0.0035, TX_COLORS = [['#c62828', '赤'], ['#1565c0', '青'], ['#111111', '黒']];
+const txR4 = v => Math.round(v * 1e4) / 1e4, txClamp = v => Math.min(1, Math.max(0, v));
+const txDpr = () => Math.min(2, window.devicePixelRatio || 1);
+async function txBooks() {
+  if (TX.books || TX.loading) return TX.books;
+  TX.loading = true; TX.bookErr = false;
+  try {
+    const r = await fetch('kanji/books.json', { cache: 'no-cache' });
+    if (!r.ok) throw new Error('books ' + r.status);
+    const j = await r.json();
+    TX.books = (Array.isArray(j) ? j : []).filter(b => b && typeof b.id === 'string' && typeof b.file === 'string' && !/^(\/|[a-z]+:)/i.test(b.file) && Number.isInteger(b.from) && Number.isInteger(b.to) && b.to >= b.from && Number.isInteger(b.perPdfPage) && b.perPdfPage >= 1)
+      .map(b => ({ id: b.id, title: String(b.title || b.id), file: b.file, from: b.from, to: b.to, per: b.perPdfPage }));
+    if (TX.books.length) { const b0 = TX.books[0]; TX.bookId = b0.id; TX.from = b0.from; TX.to = b0.to; }
+  } catch (e) { TX.books = null; TX.bookErr = true; }
+  finally { TX.loading = false; }
+  return TX.books;
+}
+const txBook = () => (TX.books || []).find(b => b.id === TX.bookId) || (TX.books || [])[0] || null;
+const txKey = (b, k) => b.id + ':' + k;
+/* 教科書のページ番号 → PDFのページ番号（見開き1枚に何ページ入っているかは perPdfPage）。例：92〜93 → 1 */
+function txPageNums(b, from, to) {
+  const n = Math.ceil((b.to - b.from + 1) / b.per), a = Math.floor((from - b.from) / b.per) + 1, z = Math.floor((to - b.from) / b.per) + 1, out = [];
+  for (let k = Math.max(1, a); k <= Math.min(n, z); k++) out.push(k);
+  return out;
+}
+function txPageLabel(b, k) { const a = b.from + (k - 1) * b.per, z = Math.min(b.to, a + b.per - 1); return z > a ? `${a}・${z}ページ` : `${a}ページ`; }
+function txInk() {
+  if (TX.ink) return TX.ink;
+  try { const v = JSON.parse(localStorage.getItem(TX_INK_KEY) || '{}'); TX.ink = v && typeof v === 'object' && !Array.isArray(v) ? v : {}; } catch (e) { TX.ink = {}; }
+  return TX.ink;
+}
+function txStrokes(key) { const I = txInk(); if (!Array.isArray(I[key])) I[key] = []; return I[key]; }
+function txInkSave() {
+  try { localStorage.setItem(TX_INK_KEY, JSON.stringify(txInk())); }
+  catch (e) { if (!TX.saveWarned) { TX.saveWarned = true; toast('この端末に保存できませんでした。書いた線は、このページを開いている間だけ残ります'); } }
+}
+async function txDoc(b) {
+  if (TX.docs[b.id]) return TX.docs[b.id];
+  const p = (async () => {
+    if (!TX.lib) { const lib = await import('./vendor/pdfjs/pdf.min.mjs'); lib.GlobalWorkerOptions.workerSrc = './vendor/pdfjs/pdf.worker.min.mjs'; TX.lib = lib; }
+    return TX.lib.getDocument({ url: b.file, isEvalSupported: false }).promise;
+  })();
+  TX.docs[b.id] = p; p.catch(() => { if (TX.docs[b.id] === p) delete TX.docs[b.id]; });
+  return p;
+}
+/* 1ページ分を、表示する幅（端末のピクセル）で描く。描いた絵は、ページを離れても使えるように覚えておく */
+function txRenderPdf(b, k, w) {
+  const key = txKey(b, k), hit = TX.pc[key];
+  if (hit && hit.width === w) return Promise.resolve(hit);
+  const pk = key + '|' + w;
+  if (TX.pr[pk]) return TX.pr[pk];
+  const p = (async () => {
+    const doc = await txDoc(b);
+    if (k > doc.numPages) throw new Error('page');
+    const page = await doc.getPage(k), vp1 = page.getViewport({ scale: 1 });
+    const cv = document.createElement('canvas');
+    cv.width = w; cv.height = Math.round(w * vp1.height / vp1.width); cv.className = 'tx-pdf';
+    await page.render({ canvasContext: cv.getContext('2d'), viewport: page.getViewport({ scale: w / vp1.width }) }).promise;
+    page.cleanup();
+    TX.pc[key] = cv;
+    return cv;
+  })().finally(() => { delete TX.pr[pk]; });
+  TX.pr[pk] = p;
+  return p;
+}
+async function txShow(sec) {
+  const b = txBook(); if (!b) return;
+  const k = +sec.dataset.k, box = sec.querySelector('.tx-pg'), ink = box && box.querySelector('.tx-ink');
+  if (!box || !ink) return;
+  const w = Math.round(box.clientWidth * txDpr()); if (!w || box.dataset.w === String(w)) return;
+  box.dataset.w = String(w);
+  try {
+    const cv = await txRenderPdf(b, k, w);
+    if (box.dataset.w !== String(w) || !box.isConnected) return;
+    const prev = box.querySelector('.tx-pdf'); if (prev && prev !== cv) prev.remove();
+    if (cv.parentNode !== box) box.insertBefore(cv, ink);
+    ink.width = w; ink.height = cv.height; txDrawInk(ink, txKey(b, k));
+    const ld = box.querySelector('.tx-ld'); if (ld) ld.remove();
+  } catch (e) {
+    box.dataset.w = '';
+    const ld = box.querySelector('.tx-ld'); if (ld) ld.textContent = '教科書を開けませんでした。通信を確かめて、もう一度お試しください';
+  }
+}
+function txPaintStroke(ctx, W, H, st) {
+  const pts = st.pts; if (!Array.isArray(pts) || !pts.length) return;
+  const col = /^#[0-9a-f]{6}$/i.test(st.c) ? st.c : '#111111';
+  ctx.strokeStyle = col; ctx.fillStyle = col;
+  if (pts.length === 1) { const d = st.w * W * (0.6 + 0.8 * pts[0].p); ctx.beginPath(); ctx.arc(pts[0].x * W, pts[0].y * H, Math.max(1, d / 2), 0, Math.PI * 2); ctx.fill(); return; }
+  for (let i = 1; i < pts.length; i++) txSeg(ctx, W, H, st, pts[i - 1], pts[i]);
+}
+function txSeg(ctx, W, H, st, a, b) {
+  ctx.lineWidth = Math.max(1, st.w * W * (0.6 + 0.8 * ((a.p + b.p) / 2)));
+  ctx.beginPath(); ctx.moveTo(a.x * W, a.y * H); ctx.lineTo(b.x * W, b.y * H); ctx.stroke();
+}
+function txDrawInk(cv, key) {
+  const ctx = cv.getContext('2d'), W = cv.width, H = cv.height; if (!W || !H) return;
+  ctx.clearRect(0, 0, W, H); ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  for (const st of txStrokes(key)) if (st && Array.isArray(st.pts)) txPaintStroke(ctx, W, H, st);
+}
+function txRedrawAll() {
+  const b = txBook(); if (!b) return;
+  document.querySelectorAll('.tx-pgw').forEach(sec => { const ink = sec.querySelector('.tx-ink'); if (ink && ink.width) txDrawInk(ink, txKey(b, +sec.dataset.k)); });
+}
+/* 消しゴム：近くにある線を、1本まるごと消す */
+function txEraseAt(ink, key, q) {
+  const r = ink.getBoundingClientRect(), I = txStrokes(key); let n = 0;
+  for (let i = I.length - 1; i >= 0; i--) {
+    const st = I[i];
+    if (st && Array.isArray(st.pts) && st.pts.some(p => Math.hypot((p.x - q.x) * r.width, (p.y - q.y) * r.height) < 16)) { I.splice(i, 1); n++; }
+  }
+  if (n) txDrawInk(ink, key);
+  return n;
+}
+function txWire(ink) {
+  const sec = ink.closest('.tx-pgw'), k = +sec.dataset.k, b = txBook(), key = txKey(b, k);
+  const pw = Math.round(ink.parentNode.clientWidth * txDpr());
+  if (pw && !ink.width) { ink.width = pw; ink.height = Math.round(pw * 595.276 / 841.89); }   // 描く場所の大きさを、先にそろえておく
+  let act = null;   // { id, mode: 'draw' | 'erase' | 'scroll', st, x, y, changed }
+  const pt = ev => { const r = ink.getBoundingClientRect(); return { x: txR4(txClamp((ev.clientX - r.left) / r.width)), y: txR4(txClamp((ev.clientY - r.top) / r.height)), p: ev.pressure > 0 ? Math.round(ev.pressure * 100) / 100 : 0.5 }; };
+  const setCur = () => { TX.cur = k; txCurLabel(); };
+  ink.addEventListener('contextmenu', e => e.preventDefault());
+  ink.addEventListener('pointerdown', ev => {
+    if (ev.pointerType === 'touch') {
+      // 手のひらは無視：ペンを使った直後や、ほかの指が動いているときは反応しない
+      if (act || Date.now() - TX.penAt < 700) return;
+      if (!TX.finger) { act = { id: ev.pointerId, mode: 'scroll', x: ev.clientX, y: ev.clientY }; try { ink.setPointerCapture(ev.pointerId); } catch (e) { } return; }
+    } else {
+      if (act && act.mode !== 'scroll') return;   // 線を書いている途中は、ほかのペンを受けない
+      act = null; TX.penAt = Date.now();
+    }
+    ev.preventDefault();
+    try { ink.setPointerCapture(ev.pointerId); } catch (e) { }
+    setCur();
+    const q = pt(ev);
+    if (TX.eraser) { act = { id: ev.pointerId, mode: 'erase', changed: false }; if (txEraseAt(ink, key, q)) act.changed = true; return; }
+    const st = { c: TX.color, w: TX_PEN_W, pts: [q] };
+    txStrokes(key).push(st);
+    act = { id: ev.pointerId, mode: 'draw', st, changed: true };
+    txPaintStroke(ink.getContext('2d'), ink.width, ink.height, st);
+  });
+  ink.addEventListener('pointermove', ev => {
+    if (!act || ev.pointerId !== act.id) return;
+    if (act.mode === 'scroll') { const dx = ev.clientX - act.x, dy = ev.clientY - act.y; act.x = ev.clientX; act.y = ev.clientY; window.scrollBy(-dx, -dy); return; }
+    ev.preventDefault();
+    const list = ev.getCoalescedEvents ? ev.getCoalescedEvents() : [], evs = list.length ? list : [ev];
+    const ctx = ink.getContext('2d'), W = ink.width, H = ink.height, r = ink.getBoundingClientRect();
+    for (const e of evs) {
+      const q = pt(e);
+      if (act.mode === 'erase') { if (txEraseAt(ink, key, q)) act.changed = true; continue; }
+      const pts = act.st.pts, last = pts[pts.length - 1];
+      if (Math.hypot((q.x - last.x) * r.width, (q.y - last.y) * r.height) < 0.8) continue;
+      pts.push(q); txSeg(ctx, W, H, act.st, last, q);
+    }
+  });
+  const end = ev => {
+    if (!act || ev.pointerId !== act.id) return;
+    const a = act; act = null;
+    if (a.mode !== 'scroll' && a.changed) txInkSave();
+  };
+  ink.addEventListener('pointerup', end); ink.addEventListener('pointercancel', end); ink.addEventListener('lostpointercapture', end);
+}
+function txCurLabel() {
+  const b = txBook(), el = document.getElementById('txcur'); if (!b || !el || !TX.cur) return;
+  el.textContent = `いまのページ：教科書 ${txPageLabel(b, TX.cur)}`;
+}
+function txBarSync() {
+  document.querySelectorAll('[data-act="txcolor"]').forEach(x => x.setAttribute('aria-pressed', String(!TX.eraser && x.dataset.id === TX.color)));
+  const e = document.querySelector('[data-act="txeraser"]'); if (e) e.setAttribute('aria-pressed', String(TX.eraser));
+  const f = document.querySelector('[data-act="txfinger"]'); if (f) f.setAttribute('aria-pressed', String(TX.finger));
+  document.querySelectorAll('.tx-ink').forEach(c => c.classList.toggle('er', TX.eraser));
+  txCurLabel();
+}
+function txCard(on) {
+  return on
+    ? `<div class="kj-card tx-mode on"><span class="tx-mi" aria-hidden="true">${ms('menu_book')}</span><span class="tx-mtx"><b>テキストで勉強</b><small>教科書のページに、Apple Pencilで書き込めます</small></span><button type="button" class="btn text sm" data-act="kjmode" data-id="trace">${ms('arrow_back')}漢字の練習にもどる</button></div>`
+    : `<button type="button" class="kj-card tx-mode" data-act="kjmode" data-id="text"><span class="tx-mi" aria-hidden="true">${ms('menu_book')}</span><span class="tx-mtx"><b>テキストで勉強</b><small>教科書のページを開いて、Apple Pencilで書き込めます</small></span>${ms('chevron_right')}</button>`;
+}
+function txReadRange(b) {
+  const a = parseInt((document.getElementById('txfrom') || {}).value, 10), z = parseInt((document.getElementById('txto') || {}).value, 10);
+  if (isNaN(a) || isNaN(z)) { toast('ページの番号を入れてください'); return null; }
+  let x = Math.min(Math.max(Math.min(a, z), b.from), b.to), y = Math.min(Math.max(Math.max(a, z), b.from), b.to);
+  if (x > y) [x, y] = [y, x];
+  return [x, y];
+}
+function txSetupHtml(b) {
+  const bl = TX.books, n = Math.ceil((b.to - b.from + 1) / b.per);
+  const pick = bl.length > 1 ? `<div class="wx-seg tx-books" role="radiogroup" aria-label="教科書">${bl.map(x => `<button type="button" role="radio" aria-checked="${x.id === b.id}" class="wx-sg ${x.id === b.id ? 'on' : ''}" data-act="txbook" data-id="${esc(x.id)}">${esc(x.title)}</button>`).join('')}</div>` : '';
+  const full = TX.from === b.from && TX.to === b.to;
+  const spreads = Array.from({ length: n }, (_, i) => { const a = b.from + i * b.per; return [a, Math.min(b.to, a + b.per - 1)]; });
+  const quick = [`<button type="button" class="chip ${full ? 'on' : ''}" data-act="txspread" data-id="${b.from}-${b.to}">すべて</button>`]
+    .concat(spreads.map(([a, z]) => `<button type="button" class="chip ${TX.from === a && TX.to === z ? 'on' : ''}" data-act="txspread" data-id="${a}-${z}">${a}${z > a ? '・' + z : ''}</button>`)).join('');
+  return `<div class="kj-card tx-setup">${pick}
+    <div class="kj-ch">開くページ（教科書の番号）</div>
+    <div class="tx-range"><label class="tx-rl">から<input id="txfrom" type="number" inputmode="numeric" min="${b.from}" max="${b.to}" value="${TX.from}"></label><span class="tx-sep">〜</span><label class="tx-rl">まで<input id="txto" type="number" inputmode="numeric" min="${b.from}" max="${b.to}" value="${TX.to}"></label></div>
+    <div class="chips tx-quick" aria-label="見開きで選ぶ">${quick}</div>
+    <p class="kj-note">${esc(b.title)}は ${b.from}〜${b.to}ページです。選んだページを含む見開きが、そのまま全部出ます。</p>
+    <button type="button" class="btn" data-act="txopen">${ms('auto_stories')}開く</button>
+  </div>`;
+}
+function txViewHtml(b) {
+  const nums = txPageNums(b, TX.from, TX.to);
+  if (!nums.includes(TX.cur)) TX.cur = nums[0] || 0;
+  const pages = nums.map(k => `<section class="tx-pgw" data-k="${k}"><div class="tx-lb">${txPageLabel(b, k)}</div><div class="tx-pg"><canvas class="tx-ink" aria-label="ここにペンで書き込めます"></canvas><div class="tx-ld">読み込んでいます…</div></div></section>`).join('');
+  return `<div class="tx-head"><b>${esc(b.title)}</b><small>${TX.from}〜${TX.to}ページ</small><span class="sp"></span><button type="button" class="btn text sm" data-act="txclose">${ms('tune')}ページの範囲をかえる</button></div>
+    <div class="tx-bar" role="toolbar" aria-label="書き込みの道具">
+      <div class="tx-cols">${TX_COLORS.map(([c, n]) => `<button type="button" class="tx-col" style="--c:${c}" data-act="txcolor" data-id="${c}" aria-pressed="false" aria-label="${n}のペン"></button>`).join('')}</div>
+      <button type="button" class="tx-t" data-act="txeraser" aria-pressed="false">${ms('ink_eraser')}消しゴム</button>
+      <button type="button" class="tx-t" data-act="txundo">${ms('undo')}1本もどす</button>
+      <button type="button" class="tx-t" data-act="txclear">${ms('delete_sweep')}このページを消す</button>
+      <button type="button" class="tx-t" data-act="txfinger" aria-pressed="false">${ms('pan_tool')}指でも書く</button>
+      <div class="tx-cur" id="txcur" aria-live="polite"></div>
+    </div>
+    <div class="tx-pages" id="txpages">${pages}</div>
+    <p class="kj-note">Apple Pencilで書けます。指でなぞると、ページがスクロールします。「指でも書く」を押すと、指でも線が書けます。</p>`;
+}
+function txHtml() {
+  if (TX.bookErr) return `<div class="kj-card tx-msg"><p>教科書の一覧を読み込めませんでした。通信を確かめて、もう一度お試しください。</p><button type="button" class="btn tonal" data-act="txretry">${ms('refresh')}もう一度読み込む</button></div>`;
+  if (!TX.books) return `<div class="kj-card tx-msg"><p>教科書の一覧を読み込んでいます…</p></div>`;
+  if (!TX.books.length) return `<div class="kj-card tx-msg"><p>教科書がまだ登録されていません。</p></div>`;
+  const b = txBook();
+  return TX.open ? txViewHtml(b) : txSetupHtml(b);
+}
+function txPaint() {
+  if (TX.io) { TX.io.disconnect(); TX.io = null; }
+  if (TX.ro) { TX.ro.disconnect(); TX.ro = null; }
+  if (TX.books === null && !TX.bookErr && !TX.loading) {
+    txBooks().then(() => { if (ui.tab === 'tools' && ui.tool === 'kanji' && KJ.mode === 'text') render(); });
+    return;
+  }
+  if (!TX.open || !TX.books || !txBook()) return;
+  const box = document.getElementById('txpages'); if (!box) return;
+  box.querySelectorAll('.tx-ink').forEach(txWire);
+  txBarSync();
+  TX.io = new IntersectionObserver(es => es.forEach(en => { en.target.dataset.vis = en.isIntersecting ? '1' : ''; if (en.isIntersecting) txShow(en.target); }), { rootMargin: '900px 0px' });
+  box.querySelectorAll('.tx-pgw').forEach(sec => TX.io.observe(sec));
+  // 横向き・縦向きの切り替えでは、いま近くに出ているページだけ描き直す（ほかのページは、近づいたときに描く）
+  TX.ro = new ResizeObserver(() => { clearTimeout(TX.rt); TX.rt = setTimeout(() => box.querySelectorAll('.tx-pgw[data-vis="1"]').forEach(s => txShow(s)), 180); });
+  TX.ro.observe(box);
+}
+Object.assign(ACT, {
+  txbook(id) { const b = (TX.books || []).find(x => x.id === id); if (!b) return; TX.bookId = b.id; TX.from = b.from; TX.to = b.to; TX.open = false; render(); },
+  txspread(v) { const [a, z] = String(v || '').split('-').map(Number); if (!(a > 0) || !(z >= a)) return; TX.from = a; TX.to = z; render(); },
+  txopen() { const b = txBook(); if (!b) return; const r = txReadRange(b); if (!r) return; TX.from = r[0]; TX.to = r[1]; TX.open = true; TX.eraser = false; render(); },
+  txclose() { TX.open = false; render(); },
+  txretry() { TX.books = null; TX.bookErr = false; render(); },
+  txcolor(c) { TX.color = c; TX.eraser = false; txBarSync(); },
+  txeraser() { TX.eraser = !TX.eraser; txBarSync(); },
+  txfinger() { TX.finger = !TX.finger; txBarSync(); },
+  txundo() {
+    const b = txBook(); if (!b || !TX.cur) return;
+    const I = txStrokes(txKey(b, TX.cur)); if (!I.length) return toast('戻せる線がありません');
+    I.pop(); txInkSave(); txRedrawAll();
+  },
+  txclear() {
+    const b = txBook(); if (!b || !TX.cur) return;
+    const key = txKey(b, TX.cur);
+    if (!txStrokes(key).length) return toast('このページには、まだ線がありません');
+    confirmDlg('このページの線を消しますか？', `${txPageLabel(b, TX.cur)}に書いた線を、すべて消します。教科書の写真は消えません。`, '消す', () => { txStrokes(key).length = 0; txInkSave(); txRedrawAll(); });
+  },
+});
 Object.assign(ACT, {
   kjadd() {
     const add = kjParse((document.getElementById('kjin') || {}).value);
