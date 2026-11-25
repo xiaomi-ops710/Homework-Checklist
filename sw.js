@@ -1,6 +1,6 @@
 // バージョン番号：index.html の STABLE_VER / BETA_VER と同じ値にする（ベータ版は /beta/ の中で、BETA_VER を使う）
-const STABLE_VER = '18.3.9';
-const BETA_VER = '18.3.9';
+const STABLE_VER = '18.3.10';
+const BETA_VER = '18.3.10';
 const APP_VERSION = self.location.pathname.includes('/beta/') ? BETA_VER : STABLE_VER;
 // ベータ版（beta/ の中）と正式版（いちばん上）は、別々のキャッシュを使う（互いに消し合わないように）
 const BETA = self.location.pathname.includes('/beta/');
