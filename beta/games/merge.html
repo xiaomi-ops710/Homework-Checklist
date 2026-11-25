@@ -4466,7 +4466,7 @@
     // 日付は日本時間（Asia/Tokyo）で区切る。保存できない環境では制限をかけず、そのまま遊べるようにする
     const PLAY_KEY = 'kosa-merge-plays';
     const PLAY_FREE = 10;      // 1日のうち、問題なしで遊べる回数（問題に答えると、さらに10回ずつ増える）
-    const PLAY_QUIZ_NEED = 3;  // 10回ぶんを解除するのに、正解する問題数
+    const PLAY_QUIZ_NEED = 10; // 10回ぶんを解除するのに、正解する問題数
     function playDayKey() {
       return new Date(new Date().getTime() + 9 * 3600 * 1000).toISOString().slice(0, 10);
     }
@@ -4501,18 +4501,52 @@
       for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
       return a;
     }
-    function makePlayQuizQuestion(prevIdx) {
-      let i = Math.floor(Math.random() * ELEMENTS.length);
-      while (ELEMENTS.length > 1 && i === prevIdx) i = Math.floor(Math.random() * ELEMENTS.length);
-      const e = ELEMENTS[i];
-      const byName = Math.random() < 0.5; // true: 「記号」→「名前」 / false: 「名前」→「記号」
+    // 元素の問題の種類：記号と名前・説明文から名前や記号を当てる・分類を当てる（問題の種類はつづけて同じものを出さない）
+    const PLAY_KINDS = ['sym2name', 'name2sym', 'desc2name', 'desc2sym', 'name2cat', 'sym2cat'];
+    const ELEM_CAT_SKIP = 'スイカ枠・化合物';   // 分類の表記が特殊な元素は、分類の問題に出さない
+    // 説明文の1文目から、名前・記号を〇〇にした文を作る。元素名や英字が残るときは、その元素では出さない（答えがわかってしまうため）
+    function descPrompt(e) {
+      let t = (e.desc.split('。')[0] || '') + '。';
+      t = t.split(e.name).join('〇〇');
+      t = t.split(e.symbol).join('〇〇');
+      if (/[A-Za-z]/.test(t) || ELEMENTS.some(x => t.includes(x.name))) return null;
+      return t;
+    }
+    const PLAY_DESC = ELEMENTS.map(e => [e, descPrompt(e)]).filter(x => x[1]);
+    function makePlayQuizQuestion(prevIdx, prevKind) {
+      const kinds = PLAY_KINDS.filter(k => k !== prevKind);
+      const kind = kinds[Math.floor(Math.random() * kinds.length)];
+      const pickFrom = list => {
+        const cand = list.filter(x => x.idx !== prevIdx);
+        const c = cand.length ? cand : list;
+        return c[Math.floor(Math.random() * c.length)];
+      };
+      const elemIdx = e => ELEMENTS.indexOf(e);
+      const others = (key, ans, pool) => shuffleArr(Array.from(new Set(pool.map(x => x[key]).filter(v => v !== ans)))).slice(0, 3);
+      const all = ELEMENTS.map((e, i) => Object.assign({ idx: i }, e));
+      if (kind === 'desc2name' || kind === 'desc2sym') {
+        if (!PLAY_DESC.length) return makePlayQuizQuestion(prevIdx, 'desc2name');
+        const pick = pickFrom(PLAY_DESC.map(([e, t]) => ({ idx: elemIdx(e), e, t })));
+        const e = pick.e, key = kind === 'desc2name' ? 'name' : 'symbol';
+        return { idx: pick.idx, kind, long: true, prompt: `次の説明に当てはまる${kind === 'desc2name' ? '元素の名前' : '元素記号'}は？\n${pick.t}`, answer: e[key], choices: shuffleArr([e[key], ...others(key, e[key], ELEMENTS)]) };
+      }
+      if (kind === 'name2cat' || kind === 'sym2cat') {
+        const eligible = all.filter(x => x.category !== ELEM_CAT_SKIP);
+        const e = pickFrom(eligible);
+        const key = 'category';
+        const cats = Array.from(new Set(eligible.map(x => x.category))).filter(c => c !== e.category);
+        const wrong = shuffleArr(cats).slice(0, 3);
+        return { idx: e.idx, kind, prompt: kind === 'name2cat' ? `「${e.name}」は、どの分類？` : `「${e.symbol}」は、どの分類？`, answer: e[key], choices: shuffleArr([e[key], ...wrong]) };
+      }
+      const e = pickFrom(all);
+      const byName = kind === 'sym2name';
       const key = byName ? 'name' : 'symbol';
-      const wrong = shuffleArr(ELEMENTS.filter((x, j) => j !== i)).slice(0, 3).map((x) => x[key]);
       return {
-        idx: i,
+        idx: e.idx,
+        kind,
         prompt: byName ? `「${e.symbol}」の名前は？` : `「${e.name}」の元素記号は？`,
         answer: e[key],
-        choices: shuffleArr([e[key], ...wrong])
+        choices: shuffleArr([e[key], ...others(key, e[key], ELEMENTS)])
       };
     }
     // 元素の問題の画面。「戻る」以外では閉じられない。3問正解で解除し、「はじめる」でゲームを始める
@@ -4526,7 +4560,7 @@
       const card = ov.querySelector('#pqCard');
       const later = (fn, ms) => setTimeout(() => { if (ov.isConnected) fn(); }, ms);
       const backBtn = '<button type="button" id="pqBack" style="margin-top:14px;width:100%;padding:12px;border-radius:14px;font:inherit;font-weight:900;font-size:15px;background:#fff;color:#92400e;border:2px solid rgba(146,64,14,.3);cursor:pointer">戻る</button>';
-      let correct = 0, busy = false, cur = null, prevIdx = -1;
+      let correct = 0, busy = false, cur = null, prevIdx = -1, prevKind = '';
 
       function header() {
         const st = loadPlayState();
@@ -4537,9 +4571,9 @@
           + `<div style="margin-top:8px">${dots}<span style="font-size:13px;font-weight:700;margin-left:6px">${correct} / ${PLAY_QUIZ_NEED}</span></div>`;
       }
       function showQuestion() {
-        cur = makePlayQuizQuestion(prevIdx); prevIdx = cur.idx; busy = false;
+        cur = makePlayQuizQuestion(prevIdx, prevKind); prevIdx = cur.idx; prevKind = cur.kind; busy = false;
         card.innerHTML = header()
-          + `<div style="margin-top:14px;padding:16px 8px;border-radius:16px;background:#fff;font-size:22px;font-weight:900;overflow-wrap:anywhere">${tEsc(cur.prompt)}</div>`
+          + `<div style="margin-top:14px;padding:16px 8px;border-radius:16px;background:#fff;font-size:${cur.long ? 16 : 22}px;line-height:1.6;white-space:pre-line;font-weight:900;overflow-wrap:anywhere">${tEsc(cur.prompt)}</div>`
           + `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px">${cur.choices.map((c, k) => `<button type="button" data-ans="${k}" style="min-height:56px;padding:8px 6px;border-radius:14px;border:2px solid rgba(146,64,14,.3);background:#fff;color:#451a03;font:inherit;font-size:17px;font-weight:900;overflow-wrap:anywhere;cursor:pointer">${tEsc(c)}</button>`).join('')}</div>`
           + `<div id="pqMsg" style="min-height:44px;margin-top:10px;font-size:14px;font-weight:700;line-height:1.5"></div>`
           + backBtn;
