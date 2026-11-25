@@ -3638,8 +3638,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.10'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.10';
+const RELEASE_VER = '18.3.11'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.11';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4146,6 +4146,42 @@ async function admBeta(v) {
     admView(uid);
   } catch (e) { toast('変更できませんでした。ルールの公開を確かめてください'); }
 }
+// 応急処置：先生が、生徒の歴打の石高（ランキング用の最高・累計）を直す。生徒のアプリを次に開いたときに一度だけ入る
+function rkFixHtml(uid) {
+  return `<div class="fld" style="margin-bottom:12px"><div class="lbl">歴打の石高を直す（応急処置）</div><p class="muted" style="font-weight:500;margin:6px 0 10px">生徒のアプリを次に開いたときに、直ります。空欄は変えません。</p><div class="admrow"><input id="admRkBest" type="number" inputmode="numeric" min="0" max="${CHEAT.RK_BEST}" placeholder="ランキング用（最高）" style="width:150px"><input id="admRkTotal" type="number" inputmode="numeric" min="0" max="2000000000" placeholder="累計" style="width:150px"></div><div class="admrow" style="margin-top:8px"><button type="button" class="btn tonal sm" data-act="admrk" data-id="${esc(uid)}">${ms('send')}直す</button></div></div>`;
+}
+async function admRkSet(target) {
+  if (!CLOUD.fb || !CLOUD.user || !adminOn()) return;
+  const bv = (document.getElementById('admRkBest') || {}).value, tv = (document.getElementById('admRkTotal') || {}).value;
+  const best = bv === '' || bv == null ? null : Math.floor(Number(bv)), total = tv === '' || tv == null ? null : Math.floor(Number(tv));
+  if (best === null && total === null) return toast('どちらか、数字を入れてください');
+  if (best !== null && !(best >= 0 && best <= CHEAT.RK_BEST)) return toast(`ランキング用は 0〜${CHEAT.RK_BEST} の数字で入れてください`);
+  if (total !== null && !(total >= 0 && total <= 2000000000)) return toast('累計の数字が大きすぎます');
+  if (!confirm(`この生徒の歴打の石高を直しますか？\n${best !== null ? 'ランキング用：' + best + '\n' : ''}${total !== null ? '累計：' + total + '\n' : ''}生徒のアプリを開くと反映されます。`)) return;
+  const { fs, db } = CLOUD.fb, id = 'rk' + Date.now();
+  const body = { id, t: Date.now(), by: CLOUD.user.uid };
+  if (best !== null) body.best = best; if (total !== null) body.total = total;
+  try { await fs.setDoc(fs.doc(db, 'rekidaFix', target, 'items', id), body); toast('届けました（生徒のアプリを開くと直ります）'); admView(target); }
+  catch (e) { toast('届けられませんでした。ルールの公開を確かめてください'); }
+}
+// 生徒の側：届いた石高の直しを、一度だけ入れる（入れたものは覚えて、二回入れない）
+function rkFixApply(sn) {
+  if (!CLOUD.user || !S || CLOUD.first || CLOUD.hold) return;
+  const seen = new Set(Array.isArray(S.rkFixDone) ? S.rkFixDone : []);
+  let n = 0;
+  sn.forEach(d => {
+    const x = d.data() || {}; if (!x.id || seen.has(x.id)) return;
+    try {
+      const v = rkStat();
+      if (typeof x.best === 'number') v.best = Math.max(0, Math.min(CHEAT.RK_BEST, Math.floor(x.best)));
+      if (typeof x.total === 'number') v.total = Math.max(0, Math.floor(x.total));
+      localStorage.setItem('kosa-rekida', JSON.stringify(v)); seen.add(x.id); n++;
+    } catch (e) { }
+  });
+  if (!n) return;
+  S.rkFixDone = [...seen].slice(-100); save(); growPubSoon();
+  toast('先生が、歴打の石高を直しました'); if (!dlg.open && ui.tab !== 'settings') render();
+}
 async function admView(uid) {
   openDlg(`<h2>${ms('person')}生徒の記録</h2><div id="admDet"><p class="muted">読み込み中…</p></div><div class="dact"><button type="button" class="btn text" data-act="admopen">一覧にもどる</button></div>`);
   dlg.dataset.k = 'admv';
@@ -4164,7 +4200,7 @@ async function admView(uid) {
     const KL = { open: 'アプリを開いた', task: '課題を完了', xp: 'XPを獲得', lv: 'レベルアップ', mg: '元素マージの結果' };
     const acts = []; ev.forEach(d => acts.push(d.data()));
     const fmt = t => new Date(t).toLocaleString('ja-JP');
-    el.innerHTML = `${betaHtml}<div class="adm-sum"><p><b>${esc(sm.name || '（名前なし）')}</b></p>
+    el.innerHTML = `${betaHtml}${rkFixHtml(uid)}<div class="adm-sum"><p><b>${esc(sm.name || '（名前なし）')}</b></p>
       <p>Lv.${sm.lv ?? '-'}・XP ${sm.xp ?? '-'}・ページ ${sm.pg ?? '-'}・勉強 ${sm.min ?? '-'}分・完了 ${sm.done ?? '-'}件・連続 ${sm.streak ?? '-'}日</p>
       <p class="muted" style="font-weight:500">最終同期：${sm.at ? fmt(sm.at) : 'なし'}</p></div>
       <div class="lbl" style="margin-top:12px">いつ・何をしたか（直近3日）</div>
@@ -4607,6 +4643,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.11', d: '2026/11/26 08:50', t: '管理者メニューから、生徒の歴打の石高を直せるように（応急処置）', n: ['管理者メニューの生徒の記録に、歴打の石高（ランキング用の最高・累計）を直す欄を追加しました', '直した石高は、その生徒のアプリを次に開いたときに、一度だけ入ります。入ったあとは、ランキングにも反映されます', '空欄のものは変わりません（最高だけ、累計だけでも直せます）'] },
   { v: '18.3.10', d: '2026/11/26 08:40', t: '歴打の累計石高を戻し、ランキングだけをリセット。タイマーの見た目はドット風を作り直し、ボタンを右上に移動してプレビューできるように', n: ['歴打の累計石高は、ランキングのリセットでは消えないようにしました', '集中タイマーの見た目ボタンを、右上のアニメーションボタンの左隣（アイコンだけ）に移動しました', '見た目の一覧で「見る」を押すと、タイマーの見た目をためせます。「もとにもどす」で、いつもの見た目に戻ります（買うまで保存されません）', 'ドット風のタイマーを、石のボタンと経験値バーのような見た目に作り直しました'] },
   { v: '18.3.9', d: '2026/11/25 18:30', t: '歴打と元素マージを10問で遊べるように、ランキング・実績XP・ショップ・集中タイマーの見た目を更新', n: ['歴打のランキングを新しい季節にして、石高をいったんリセットしました。以前の記録は、ランキングから外れます', '歴打の問題を大幅に追加し、どのモードにも問題が入るようにしました', '歴打は、1日10回を超えるとき、歴史の4択クイズ10問に答えると続けられます', '元素マージは、1日10回を超えるとき、3問から10問に増やし、読み・説明・分類など6種類の問題を出します', '実績を解除すると、「＋30 XP獲得」を通知と解除の画面に出します。今後解除したものから、XPがもらえます', '実績・レベルの「使えるXP」と、ショップで使えるXPを同じ数字にして、わかりやすくしました', 'ショップに、桜・藍・抹茶・金箔の色、月夜・抹茶の庭の背景、集中タイマーの見た目（ドット・和風・ネオン）を追加しました', '集中タイマーに「見た目」ボタンを追加。ドットは、マイクラ風のブロックの画面です'] },
   { v: '18.3.8', d: '2026/11/25 17:50', t: '漢字テキストを拡大・全画面で書けるように、操作を使いやすく', n: ['教科書のページを、2本の指を広げて拡大・縮小できるようにしました。「幅に合わせる」で元に戻せます', '「全画面で書く」を押すと、画面いっぱいに広げて書けます。閉じるは「全画面をとじる」か、Escキー', '「前へ」「次へ」で、見開きのページを移動できます。指で動かしたあとも、いまのページを正しく覚えます', '開いたページの範囲・ペンの色・拡大の大きさは、次に開いたときも使えます', '道具のボタンを大きくして、押しやすくしました'] },
@@ -7212,6 +7249,7 @@ Object.assign(ACT, {
   betaback() { betaBackDlg(); },
   betaback2() { betaSwitch('stable'); },
   admbeta(id) { admBeta(id); },
+  admrk(id) { admRkSet(id); },
 });
 function cloudStart() {
   openLogOnce();
@@ -14955,6 +14993,7 @@ function asgWatchStart() {
   try {
     ASG.unsub.push(fs.onSnapshot(fs.query(fs.collection(db, 'assignAll'), fs.orderBy('t', 'desc'), fs.limit(50)), sn => { ASG.all = []; sn.forEach(d => ASG.all.push({ ...d.data(), id: d.id })); asgApply(); }, () => { }));
     ASG.unsub.push(fs.onSnapshot(fs.query(fs.collection(db, 'assignUser', me, 'items'), fs.orderBy('t', 'desc'), fs.limit(50)), sn => { ASG.mine = []; sn.forEach(d => ASG.mine.push({ ...d.data(), id: d.id })); asgApply(); }, () => { }));
+    ASG.unsub.push(fs.onSnapshot(fs.query(fs.collection(db, 'rekidaFix', me, 'items'), fs.orderBy('t', 'desc'), fs.limit(20)), sn => rkFixApply(sn), () => { }));
   } catch (e) { }
 }
 function asgSubject(name) {
