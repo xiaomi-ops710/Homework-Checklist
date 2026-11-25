@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>英文法ドリル</title>
+<style>
+:root{
+  --bg:#fff8f1; --surface:#ffffff; --surface2:#fdeedd; --text:#2b2118; --sub:#6e5f52;
+  --primary:#c2570c; --on-primary:#ffffff; --line:#ecd9c6;
+  --ok:#1b7f3b; --ok-bg:#dff5e4; --ng:#b3261e; --ng-bg:#fde3e0;
+  --shadow:0 1px 3px rgba(80,50,20,.15),0 2px 8px rgba(80,50,20,.08);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1c1511; --surface:#2a211b; --surface2:#3a2d24; --text:#f4e8dc; --sub:#c2afa0;
+    --primary:#ffb77a; --on-primary:#3a1d00; --line:#4d3d31;
+    --ok:#7fdc97; --ok-bg:#1d3a26; --ng:#ffb4ab; --ng-bg:#4a2220;
+    --shadow:0 1px 3px rgba(0,0,0,.5);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1c1511; --surface:#2a211b; --surface2:#3a2d24; --text:#f4e8dc; --sub:#c2afa0;
+  --primary:#ffb77a; --on-primary:#3a1d00; --line:#4d3d31;
+  --ok:#7fdc97; --ok-bg:#1d3a26; --ng:#ffb4ab; --ng-bg:#4a2220;
+  --shadow:0 1px 3px rgba(0,0,0,.5);
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif;line-height:1.7;font-size:16px;-webkit-text-size-adjust:100%}
+#app{max-width:760px;margin:0 auto;padding:16px 16px 48px}
+h1{font-size:22px;margin:8px 0 4px}
+h2{font-size:18px;margin:20px 0 8px}
+h3{font-size:16px;margin:14px 0 6px}
+.lead{color:var(--sub);margin:0 0 16px;font-size:14px}
+.top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.btn{min-height:48px;min-width:48px;padding:0 20px;border:none;border-radius:24px;font:inherit;font-weight:700;cursor:pointer;background:var(--primary);color:var(--on-primary);box-shadow:var(--shadow)}
+.btn.sec{background:var(--surface2);color:var(--text);box-shadow:none;border:1px solid var(--line)}
+.btn:disabled{opacity:.45;cursor:default}
+.btn.block{display:block;width:100%;margin-top:12px}
+.card{background:var(--surface);border-radius:20px;padding:16px;box-shadow:var(--shadow);margin:12px 0}
+.topic{display:block;width:100%;text-align:left;font:inherit;color:inherit;border:none;cursor:pointer;min-height:96px;position:relative;padding-right:96px;border-left:8px solid hsl(var(--h) 70% 55%)}
+.topic .t{font-size:19px;font-weight:800}
+.topic .t small{font-size:12px;font-weight:600;color:var(--sub);margin-left:6px}
+.topic .d{font-size:14px;color:var(--sub);margin-top:2px}
+.badge{position:absolute;right:14px;top:50%;transform:translateY(-50%);background:var(--surface2);border:1px solid var(--line);border-radius:16px;padding:4px 12px;font-weight:800;font-size:15px;white-space:nowrap}
+.badge.done{background:var(--ok-bg);color:var(--ok);border-color:transparent}
+.ex{background:var(--surface2);border-radius:14px;padding:10px 14px;margin:8px 0}
+.ex .en{font-weight:700;font-size:17px;word-break:break-word}
+.ex .jp{font-size:14px;color:var(--sub)}
+ul{padding-left:20px;margin:6px 0}
+li{margin:4px 0}
+b,.key{color:var(--primary)}
+.tag{display:inline-block;background:var(--surface2);border-radius:10px;padding:1px 10px;margin:2px 4px 2px 0;font-weight:700}
+.qno{font-size:13px;color:var(--sub);font-weight:700}
+.q{font-size:18px;font-weight:700;margin:6px 0 4px}
+.qjp{font-size:14px;color:var(--sub);margin-bottom:8px}
+.choice{display:block;width:100%;min-height:52px;margin:8px 0;padding:10px 16px;text-align:left;font:inherit;font-size:17px;font-weight:600;color:var(--text);background:var(--surface);border:2px solid var(--line);border-radius:16px;cursor:pointer}
+.choice.ok{background:var(--ok-bg);border-color:var(--ok);color:var(--ok)}
+.choice.ng{background:var(--ng-bg);border-color:var(--ng);color:var(--ng)}
+.slot{min-height:56px;border:2px dashed var(--line);border-radius:16px;padding:8px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.pool{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0}
+.chip{min-height:44px;padding:0 16px;border-radius:22px;border:2px solid var(--line);background:var(--surface);color:var(--text);font:inherit;font-size:17px;font-weight:700;cursor:pointer}
+.chip.used{opacity:.25}
+.slot .chip{background:var(--surface2)}
+.fb{border-radius:16px;padding:12px 16px;margin-top:12px;font-size:15px}
+.fb.ok{background:var(--ok-bg);color:var(--ok)}
+.fb.ng{background:var(--ng-bg);color:var(--ng)}
+.fb .ans{font-weight:800;font-size:17px;color:var(--text)}
+.fb .why{color:var(--text);margin-top:4px}
+.score{font-size:48px;font-weight:900;text-align:center;color:var(--primary);margin:8px 0 0}
+.msg{text-align:center;color:var(--sub);margin-bottom:8px}
+.bar{height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;margin:8px 0 4px}
+.bar i{display:block;height:100%;background:var(--primary)}
+.row{display:flex;gap:10px}
+.row .btn{flex:1}
+@media (min-width:700px){#app{padding:28px 24px 64px}h1{font-size:26px}.q{font-size:20px}}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+(function(){
+"use strict";
+
+/* ===== データ ===== */
+function ex(en, jp){ return {en:en, jp:jp}; }
+
+var TOPICS = [
+{
+  id:"infinitive", title:"不定詞", en:"Infinitive", hue:145,
+  desc:"to + 動詞の原形。名詞・形容詞・副詞の3つの働き",
+  explain:[
+    {h:"1. 名詞的用法「〜すること」", items:[
+      "<b>to + 動詞の原形</b>が、文の<b>主語・目的語・補語</b>になります。",
+      "目的語になるとき：want / hope / decide / like などのあとに使います。"],
+     ex:[ex("To read books is fun.","本を読むことは楽しい。（主語）"),
+         ex("My dream is to be a doctor.","私の夢は医者になることです。（補語）"),
+         ex("I want to play soccer.","私はサッカーがしたい。（目的語）")]},
+    {h:"2. 形容詞的用法「〜するための／〜すべき」", items:[
+      "<b>名詞（代名詞）のうしろ</b>に置いて、その名詞を説明します。",
+      "something / anything などのときも「something to drink」の語順です。"],
+     ex:[ex("I have a lot of homework to do.","私にはやるべき宿題がたくさんある。"),
+         ex("She wants something to drink.","彼女は何か飲むものがほしい。")]},
+    {h:"3. 副詞的用法", items:[
+      "<b>目的</b>「〜するために」：動作の目的を表します。",
+      "<b>感情の原因</b>「〜して」：glad / happy / sad / surprised のあとに使います。",
+      "<b>判断の理由</b>「〜するなんて」：kind / careless などのあとに使います。"],
+     ex:[ex("He went to the library to borrow some books.","彼は本を借りるために図書館へ行った。（目的）"),
+         ex("I'm happy to see you.","あなたに会えてうれしい。（感情の原因）"),
+         ex("She was kind to help me.","私を助けてくれるなんて彼女は親切だった。（判断）")]}
+  ],
+  questions:[
+    {t:"c", q:"My dream is ___ a doctor.", jp:"私の夢は医者になることです。", ch:["to be","be","was","to being"], a:0, why:"「〜になること」は補語になる名詞的用法で、to be とします。"},
+    {t:"c", q:"She wants something ___.", jp:"彼女は何か飲むものがほしい。", ch:["to drink","drinking","drink","to drinking"], a:0, why:"something のあとに to + 動詞の原形を置く形容詞的用法です。"},
+    {t:"c", q:"I'm glad ___ you.", jp:"あなたに会えてうれしい。", ch:["to see","seeing","see","to seeing"], a:0, why:"glad（感情）のあとの「〜して」は、副詞的用法の to see です。"},
+    {t:"c", q:"He went to the library ___ some books.", jp:"彼は本を借りるために図書館へ行った。", ch:["to borrow","borrow","borrowing","borrowed"], a:0, why:"「〜するために」の目的は to + 動詞の原形（副詞的用法）で表します。"},
+    {t:"o", jp:"彼は英語を学ぶために留学した。", words:["He","studied","abroad","to","learn","English"], a:"He studied abroad to learn English", why:"「〜するために」は to learn（副詞的用法・目的）です。"},
+    {t:"c", q:"___ English is fun.", jp:"英語を勉強することは楽しい。", ch:["To study","Study","To studying","Studied"], a:0, why:"主語になる名詞的用法は To study となります。"},
+    {t:"c", q:"I have a lot of homework ___ today.", jp:"私は今日やるべき宿題がたくさんある。", ch:["to do","doing","do","did"], a:0, why:"名詞 homework を後ろから説明する形容詞的用法で、to do とします。"},
+    {t:"c", q:"She was surprised to hear the news. この to hear の用法は？", jp:"", ch:["名詞的用法","形容詞的用法","副詞的用法（感情の原因）","現在分詞"], a:2, why:"surprised（感情）のあとの「〜して」なので、副詞的用法です。"},
+    {t:"c", q:"It is important ___ English every day.", jp:"毎日英語を勉強することは大切です。", ch:["to study","studying","study","studied"], a:0, why:"It is important to ～ は「〜することは大切だ」。It が形式主語、to study が本当の主語（名詞的用法）です。"},
+    {t:"o", jp:"私には本を読む時間がありません。", words:["I","have","no","time","to","read","books"], a:"I have no time to read books", why:"time を to read books が後ろから説明する形容詞的用法です。"}
+  ]
+},
+{
+  id:"gerund", title:"動名詞", en:"Gerund", hue:28,
+  desc:"-ing と to ～ の使い分け。enjoy / want などの動詞ごとのルール",
+  explain:[
+    {h:"1. 動名詞（-ing）だけを目的語にする動詞", items:[
+      "<span class=\"tag\">enjoy</span><span class=\"tag\">finish</span><span class=\"tag\">stop</span><span class=\"tag\">avoid</span><span class=\"tag\">mind</span><span class=\"tag\">give up</span><span class=\"tag\">practice</span>",
+      "<b>-ing 形</b>で「〜すること」になります。to ～ は使えません。"],
+     ex:[ex("I enjoyed listening to music.","私は音楽を聞いて楽しんだ。"),
+         ex("He finished doing his homework.","彼は宿題をし終えた。"),
+         ex("Would you mind opening the window?","窓を開けていただけますか。")]},
+    {h:"2. 不定詞（to ～）だけを目的語にする動詞", items:[
+      "<span class=\"tag\">want</span><span class=\"tag\">hope</span><span class=\"tag\">decide</span><span class=\"tag\">plan</span><span class=\"tag\">promise</span><span class=\"tag\">need</span>",
+      "未来に向かう気持ち（これから〜する）の動詞は <b>to + 動詞の原形</b> です。"],
+     ex:[ex("She decided to buy a new bike.","彼女は新しい自転車を買うと決めた。"),
+         ex("We hope to see you again.","またお会いできるといいですね。")]},
+    {h:"3. どちらも使えるが意味が変わる動詞", items:[
+      "<b>remember to ～</b>＝忘れずに〜する／<b>remember -ing</b>＝〜したことを覚えている",
+      "<b>forget to ～</b>＝〜し忘れる／<b>forget -ing</b>＝〜したことを忘れる",
+      "<b>stop -ing</b>＝〜するのをやめる／<b>stop to ～</b>＝〜するために立ち止まる"],
+     ex:[ex("Please remember to lock the door.","忘れずにドアのかぎをかけてね。"),
+         ex("I remember hearing this song when I was a child.","子どものころこの歌を聞いたことを覚えている。"),
+         ex("I forgot to mail the letter.","手紙を出し忘れた。"),
+         ex("I'll never forget visiting Kyoto.","京都を訪れたことは決して忘れない。"),
+         ex("He stopped to drink tea.","彼は立ち止まってお茶を飲んだ。"),
+         ex("He stopped drinking tea.","彼はお茶を飲むのをやめた。")]}
+  ],
+  questions:[
+    {t:"c", q:"I enjoyed ___ music.", jp:"私は音楽を聞いて楽しんだ。", ch:["listening to","to listen to","listen to","to listening to"], a:0, why:"enjoy は -ing だけを目的語にします。listen to 〜 → listening to 〜。"},
+    {t:"c", q:"She decided ___ a new bike.", jp:"彼女は新しい自転車を買うと決めた。", ch:["to buy","buying","buy","bought"], a:0, why:"decide は to + 動詞の原形だけを目的語にします。"},
+    {t:"c", q:"He finished ___ his homework.", jp:"彼は宿題をし終えた。", ch:["doing","to do","do","done"], a:0, why:"finish は -ing だけを目的語にします。"},
+    {t:"c", q:"We hope ___ you again.", jp:"またお会いできるといいですね。", ch:["to see","seeing","see","saw"], a:0, why:"hope は to + 動詞の原形だけを目的語にします。"},
+    {t:"c", q:"Please remember ___ the door when you leave.", jp:"出かけるときは忘れずにドアのかぎをかけてください。", ch:["to lock","locking","lock","locked"], a:0, why:"「忘れずに〜する」は remember to ～ です。"},
+    {t:"c", q:"I remember ___ this song when I was a child.", jp:"子どものころこの歌を聞いたことを覚えている。", ch:["hearing","to hear","hear","heard"], a:0, why:"「〜したことを覚えている」は remember -ing です。"},
+    {t:"c", q:"He stopped ___ tea.", jp:"彼はお茶を飲むために立ち止まった。", ch:["to drink","drinking","drink","drank"], a:0, why:"「〜するために立ち止まる」は stop to ～。stop -ing は「〜するのをやめる」です。"},
+    {t:"c", q:"She stopped ___ after the doctor's advice.", jp:"彼女は医者の助言を聞いて、たばこをやめた。", ch:["smoking","to smoke","smoke","smoked"], a:0, why:"「〜するのをやめる」は stop -ing です。"},
+    {t:"c", q:"Would you mind ___ the window?", jp:"窓を開けていただけますか。", ch:["opening","to open","open","opened"], a:0, why:"mind は -ing だけを目的語にします。"},
+    {t:"o", jp:"彼はその質問に答えるのを避けた。", words:["He","avoided","answering","the","question"], a:"He avoided answering the question", why:"avoid は -ing だけを目的語にします。"}
+  ]
+},
+{
+  id:"comparison", title:"比較級・最上級", en:"Comparison", hue:212,
+  desc:"-er / more、-est / most、as ... as、不規則変化",
+  explain:[
+    {h:"1. 比較級と最上級のつくり方", items:[
+      "短い語：<b>-er / -est</b>（tall → taller → tallest、heavy → heavier → heaviest）",
+      "長い語：<b>more / most</b> を前に置く（beautiful → more beautiful → most beautiful）",
+      "不規則変化：<span class=\"tag\">good / well → better → best</span><span class=\"tag\">bad → worse → worst</span><span class=\"tag\">many / much → more → most</span><span class=\"tag\">little → less → least</span>"],
+     ex:[ex("This bag is heavier than that one.","このかばんはあれより重い。"),
+         ex("This book is more interesting than that one.","この本はあの本よりおもしろい。")]},
+    {h:"2. 比べる文", items:[
+      "<b>比較級 + than ～</b>「〜より…」",
+      "<b>as + 原級 + as ～</b>「〜と同じくらい…」（原級は何も変えない形）",
+      "<b>比較級 + than any other + 単数名詞</b>「ほかのどの〜より…」（最上級と同じ意味）"],
+     ex:[ex("Ken is as tall as his father.","ケンはお父さんと同じくらい背が高い。"),
+         ex("Tokyo is bigger than any other city in Japan.","東京は日本のほかのどの都市よりも大きい。")]},
+    {h:"3. 最上級の文", items:[
+      "<b>the + 最上級</b>「いちばん〜」。副詞の最上級では the を省くこともあります。",
+      "範囲を表す：<b>in + 場所・集団</b>（in Japan / in my class）、<b>of + 複数のもの</b>（of the three / of all）"],
+     ex:[ex("Mt. Fuji is the highest mountain in Japan.","富士山は日本でいちばん高い山です。"),
+         ex("She is the tallest of the three.","彼女は3人の中でいちばん背が高い。")]}
+  ],
+  questions:[
+    {t:"c", q:"This bag is ___ than that one.", jp:"このかばんはあれより重い。（heavy）", ch:["heavier","more heavy","heavyer","heaviest"], a:0, why:"heavy は y を i に変えて -er。heavy → heavier です。"},
+    {t:"c", q:"This book is ___ than that one.", jp:"この本はあの本よりおもしろい。（interesting）", ch:["more interesting","interestinger","most interesting","much interesting"], a:0, why:"interesting のように長い語は more を前に置きます。"},
+    {t:"c", q:"Mt. Fuji is the ___ mountain in Japan.", jp:"富士山は日本でいちばん高い山です。", ch:["highest","higher","most high","more high"], a:0, why:"the のあとは最上級。high の最上級は highest です。"},
+    {t:"c", q:"Tom plays tennis ___ than I.", jp:"トムは私より上手にテニスをする。（well）", ch:["better","gooder","more well","best"], a:0, why:"well の比較級は不規則変化で better です。"},
+    {t:"c", q:"This is the ___ movie I have ever seen.", jp:"これは私が今までに見た中でいちばん悪い映画です。", ch:["worst","worse","baddest","most bad"], a:0, why:"bad - worse - worst。the のあとなので最上級 worst です。"},
+    {t:"c", q:"Ken is as tall ___ his father.", jp:"ケンはお父さんと同じくらい背が高い。", ch:["as","than","that","so"], a:0, why:"「〜と同じくらい…」は as + 原級 + as ～ です。"},
+    {t:"c", q:"Tokyo is bigger than any other ___ in Japan.", jp:"東京は日本のほかのどの都市よりも大きい。", ch:["city","cities","citys","the city"], a:0, why:"than any other のあとは単数名詞（city）です。"},
+    {t:"c", q:"She is the tallest ___ the three.", jp:"彼女は3人の中でいちばん背が高い。", ch:["of","in","than","at"], a:0, why:"複数のものの範囲には of、場所・集団には in を使います。the three は複数なので of です。"},
+    {t:"o", jp:"これは庭でいちばん美しい花です。", words:["This","is","the","most","beautiful","flower","in","the","garden"], a:"This is the most beautiful flower in the garden", why:"the most + 長い語 + 名詞 + in ～ の形です。"},
+    {t:"o", jp:"英語は数学より難しい。", words:["English","is","more","difficult","than","math"], a:"English is more difficult than math", why:"difficult は長い語なので more difficult than ～ とします。"}
+  ]
+},
+{
+  id:"present-perfect", title:"現在完了", en:"Present Perfect", hue:285,
+  desc:"have / has + 過去分詞。経験・継続・完了・結果",
+  explain:[
+    {h:"かたち：have / has + 過去分詞", items:[
+      "主語が he / she / it や単数名詞のときは <b>has</b>、それ以外は <b>have</b>。",
+      "過去から今につながっていることを表します。"]},
+    {h:"1. 経験「〜したことがある」", items:[
+      "よく使う語：<span class=\"tag\">ever</span>（今までに）<span class=\"tag\">never</span>（一度も〜ない）<span class=\"tag\">before</span><span class=\"tag\">once</span><span class=\"tag\">twice</span>"],
+     ex:[ex("I have never seen a koala.","私はコアラを見たことが一度もない。"),
+         ex("Have you ever eaten sushi?","あなたは今までに寿司を食べたことがありますか。")]},
+    {h:"2. 継続「ずっと〜している」", items:[
+      "よく使う語：<span class=\"tag\">for</span>（〜の間）<span class=\"tag\">since</span>（〜以来）。<b>for + 期間、since + 始まりの時点</b>です。",
+      "How long ～?（どのくらい）でたずねます。"],
+     ex:[ex("I have lived in Osaka since 2020.","私は2020年からずっと大阪に住んでいる。"),
+         ex("She has been sick for three days.","彼女は3日間ずっと具合が悪い。")]},
+    {h:"3. 完了「〜したところだ／もう〜した」", items:[
+      "よく使う語：<span class=\"tag\">just</span>（ちょうど）<span class=\"tag\">already</span>（もう）<span class=\"tag\">yet</span>（疑問文で「もう」、否定文で「まだ」）"],
+     ex:[ex("I have already finished my homework.","私はもう宿題を終えた。"),
+         ex("Tom has just come home.","トムはちょうど帰宅したところだ。")]},
+    {h:"4. 結果「〜してしまった（今も、その状態だ）」", items:[
+      "過去の出来事の<b>結果が今に残っている</b>ことを表します。"],
+     ex:[ex("He has gone to America.","彼はアメリカに行ってしまった。（今ここにいない）"),
+         ex("I have lost my key.","私はかぎをなくしてしまった。（今も見つからない）")]}
+  ],
+  questions:[
+    {t:"c", q:"I have ___ been to Okinawa.", jp:"私は沖縄へ一度も行ったことがない。", ch:["never","ever","yet","since"], a:0, why:"「一度も〜ない」は never（経験）です。"},
+    {t:"c", q:"Have you ___ eaten sushi?", jp:"あなたは今までに寿司を食べたことがありますか。", ch:["ever","never","just","since"], a:0, why:"疑問文で「今までに」は ever（経験）です。"},
+    {t:"c", q:"I have lived in Osaka ___ 2020.", jp:"私は2020年からずっと大阪に住んでいる。", ch:["since","for","from","during"], a:0, why:"2020 は「始まりの時点」なので since を使います。"},
+    {t:"c", q:"She has been sick ___ three days.", jp:"彼女は3日間ずっと具合が悪い。", ch:["for","since","from","while"], a:0, why:"three days は「期間」なので for を使います。"},
+    {t:"c", q:"Tom ___ just come home.", jp:"トムはちょうど帰宅したところです。", ch:["has","have","is","did"], a:0, why:"主語が Tom（3人称単数）なので has + 過去分詞（完了）です。"},
+    {t:"c", q:"Have you cleaned your room ___?", jp:"もう部屋をそうじしましたか。", ch:["yet","since","for","never"], a:0, why:"疑問文で「もう」は yet（完了）です。"},
+    {t:"c", q:"He has gone to America. この文の意味は？", jp:"", ch:["彼はアメリカへ行ってしまい、今ここにいない","彼はアメリカへ行ったことがある","彼は今までずっとアメリカにいる","彼はアメリカへ行く予定だ"], a:0, why:"has gone to ～ は「〜へ行ってしまった（今はいない）」という結果の意味です。"},
+    {t:"c", q:"My sister ___ in London for five years.", jp:"私の姉は5年間ずっとロンドンに住んでいる。（今も住んでいる）", ch:["has lived","lived","live","is lived"], a:0, why:"for five years と今も続く継続を表すので、has + 過去分詞です。"},
+    {t:"o", jp:"私はコアラを一度も見たことがない。", words:["I","have","never","seen","a","koala"], a:"I have never seen a koala", why:"have + never + 過去分詞（seen）の語順です。"},
+    {t:"o", jp:"あなたはどのくらいここに住んでいますか。", words:["How","long","have","you","lived","here"], a:"How long have you lived here", why:"How long のあとに疑問文の語順 have you + 過去分詞 を続けます。"}
+  ]
+}
+];
+
+/* ===== 保存 ===== */
+var KEY="kosa-grammar-v1";
+function load(){ try{ var s=localStorage.getItem(KEY); var o=s?JSON.parse(s):{}; return (o&&typeof o==="object")?o:{}; }catch(e){ return {}; } }
+function save(o){ try{ localStorage.setItem(KEY, JSON.stringify(o)); }catch(e){} }
+var prog=load();
+function best(id){ var v=prog[id]; return (v&&typeof v.best==="number")?v.best:0; }
+
+/* ===== 補助 ===== */
+var app=document.getElementById("app");
+function el(tag, cls, html){ var e=document.createElement(tag); if(cls) e.className=cls; if(html!=null) e.innerHTML=html; return e; }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+function clear(){ app.innerHTML=""; try{ window.scrollTo(0,0); }catch(e){} }
+function topicBy(id){ for(var i=0;i<TOPICS.length;i++) if(TOPICS[i].id===id) return TOPICS[i]; return null; }
+function topBar(label, fn){
+  var t=el("div","top");
+  if(fn){ var b=el("button","btn sec","← もどる"); b.setAttribute("data-act","back"); b.onclick=fn; t.appendChild(b); }
+  if(label){ var s=el("div",null,"<b>"+label+"</b>"); s.style.color="var(--text)"; t.appendChild(s); }
+  return t;
+}
+
+/* ===== 画面：トピック一覧 ===== */
+function showList(){
+  clear();
+  app.appendChild(el("h1",null,"英文法ドリル"));
+  app.appendChild(el("p","lead","学びたい単元をえらぼう。解説を読んでから練習問題にチャレンジ！"));
+  TOPICS.forEach(function(t){
+    var b=el("button","card topic");
+    b.style.setProperty("--h", t.hue);
+    b.setAttribute("data-topic", t.id);
+    var n=t.questions.length, c=best(t.id);
+    b.innerHTML="<div class=\"t\">"+t.title+"<small>"+t.en+"</small></div><div class=\"d\">"+t.desc+"</div><span class=\"badge"+(c>=n?" done":"")+"\">"+c+" / "+n+"</span>";
+    b.onclick=function(){ showTopic(t.id); };
+    app.appendChild(b);
+  });
+}
+
+/* ===== 画面：解説 ===== */
+function showTopic(id){
+  var t=topicBy(id); clear();
+  app.appendChild(topBar(t.title+" <small style=\"color:var(--sub)\">"+t.en+"</small>", showList));
+  app.appendChild(el("h2",null,"解説"));
+  t.explain.forEach(function(s){
+    var c=el("div","card");
+    c.appendChild(el("h3",null,s.h));
+    var ul=el("ul");
+    s.items.forEach(function(i){ ul.appendChild(el("li",null,i)); });
+    c.appendChild(ul);
+    (s.ex||[]).forEach(function(e){ c.appendChild(el("div","ex","<div class=\"en\">"+esc(e.en)+"</div><div class=\"jp\">"+esc(e.jp)+"</div>")); });
+    app.appendChild(c);
+  });
+  app.appendChild(el("h2",null,"練習"));
+  var c2=el("div","card");
+  c2.appendChild(el("div",null,t.questions.length+"問の練習問題です。ベストスコア："+best(id)+" / "+t.questions.length));
+  var go=el("button","btn block","練習をはじめる");
+  go.setAttribute("data-act","start");
+  go.onclick=function(){ startPractice(id); };
+  c2.appendChild(go);
+  app.appendChild(c2);
+}
+
+/* ===== 練習 ===== */
+var S=null;
+function startPractice(id){
+  var t=topicBy(id);
+  S={id:id, list:shuffle(t.questions.map(function(_,i){return i;})), i:0, score:0};
+  showQ();
+}
+function showQ(){
+  var t=topicBy(S.id), q=t.questions[S.list[S.i]], n=t.questions.length;
+  clear();
+  app.appendChild(topBar(t.title+"の練習", function(){ showTopic(S.id); }));
+  var card=el("div","card");
+  card.appendChild(el("div","qno","第 "+(S.i+1)+" 問 / "+n+"　（せいかい "+S.score+"）"));
+  card.appendChild(el("div","bar","<i style=\"width:"+(S.i/n*100)+"%\"></i>"));
+  var fb=el("div"); var done=false;
+  function finish(ok, ansText){
+    if(done) return; done=true;
+    if(ok) S.score++;
+    fb.className="fb "+(ok?"ok":"ng");
+    fb.setAttribute("data-result", ok?"ok":"ng");
+    fb.innerHTML=(ok?"<b style=\"color:inherit\">正解！</b>":"<b style=\"color:inherit\">ちがいます。</b><div>正しい答え：<span class=\"ans\">"+esc(ansText)+"</span></div>")+"<div class=\"why\"><b>解説</b>　"+esc(q.why)+"</div>";
+    var nx=el("button","btn block", S.i+1>=n?"結果を見る":"次へ");
+    nx.setAttribute("data-act","next");
+    nx.onclick=function(){ S.i++; if(S.i>=n) showResult(); else showQ(); };
+    card.appendChild(fb); card.appendChild(nx);
+    nx.focus && nx.focus({preventScroll:false});
+  }
+  if(q.t==="c"){
+    card.appendChild(el("div","q",esc(q.q)));
+    if(q.jp) card.appendChild(el("div","qjp",esc(q.jp)));
+    var order=shuffle(q.ch.map(function(_,i){return i;}));
+    var btns=[];
+    order.forEach(function(oi){
+      var b=el("button","choice",esc(q.ch[oi]));
+      b.setAttribute("data-correct", oi===q.a?"1":"0");
+      b.onclick=function(){
+        if(done) return;
+        var ok=(oi===q.a);
+        btns.forEach(function(x){ x.disabled=true; if(x.getAttribute("data-correct")==="1") x.classList.add("ok"); });
+        if(!ok) b.classList.add("ng");
+        finish(ok, q.ch[q.a]);
+      };
+      btns.push(b); card.appendChild(b);
+    });
+  } else {
+    card.appendChild(el("div","q","単語をならべかえて、英文を完成させよう。"));
+    card.appendChild(el("div","qjp",esc(q.jp)));
+    var slot=el("div","slot"), pool=el("div","pool");
+    slot.setAttribute("data-slot","1");
+    var words=shuffle(q.words.map(function(w,i){return {w:w,i:i};}));
+    var picked=[];
+    var chk=el("button","btn block","答え合わせ"); chk.disabled=true;
+    var clr=el("button","btn sec block","やり直す");
+    function draw(){
+      slot.innerHTML="";
+      picked.forEach(function(p,k){
+        var c=el("button","chip",esc(p.w)); c.onclick=function(){ if(done) return; picked.splice(k,1); draw(); };
+        slot.appendChild(c);
+      });
+      words.forEach(function(w){ w.el.classList.toggle("used", picked.indexOf(w)>=0); w.el.disabled=done||picked.indexOf(w)>=0; });
+      chk.disabled=done||picked.length!==words.length;
+    }
+    words.forEach(function(w){
+      var c=el("button","chip",esc(w.w)); w.el=c; c.setAttribute("data-word","1");
+      c.onclick=function(){ if(done||picked.indexOf(w)>=0) return; picked.push(w); draw(); };
+      pool.appendChild(c);
+    });
+    clr.onclick=function(){ if(done) return; picked=[]; draw(); };
+    chk.onclick=function(){
+      if(done) return;
+      var ans=picked.map(function(p){return p.w;}).join(" ");
+      var ok=(ans===q.a);
+      finish(ok, q.a+".");
+      draw();
+    };
+    card.appendChild(slot); card.appendChild(pool);
+    card.appendChild(chk); card.appendChild(clr);
+    draw();
+  }
+  app.appendChild(card);
+}
+
+function showResult(){
+  var t=topicBy(S.id), n=t.questions.length;
+  if(S.score>best(S.id)){ prog[S.id]={best:S.score,total:n}; save(prog); }
+  clear();
+  app.appendChild(topBar(t.title+"の結果", null));
+  var card=el("div","card");
+  card.appendChild(el("div","score",S.score+" / "+n));
+  var m=S.score===n?"全問正解！ すばらしい！":(S.score>=n*0.7?"よくできました！":(S.score>=n*0.4?"もう少し！ 解説を読み直してみよう。":"まずは解説をもう一度読んでみよう。"));
+  card.appendChild(el("div","msg",m));
+  var row=el("div","row");
+  var again=el("button","btn","もう一度"); again.setAttribute("data-act","again"); again.onclick=function(){ startPractice(S.id); };
+  var back=el("button","btn sec","もどる"); back.setAttribute("data-act","back"); back.onclick=showList;
+  row.appendChild(again); row.appendChild(back);
+  card.appendChild(row);
+  app.appendChild(card);
+}
+
+window.__GRAMMAR__=TOPICS;
+// URL の ?topic=infinitive などで、そのトピックを直接開く（アプリのツールから使う）
+var want=null; try{ want=new URLSearchParams(location.search).get("topic"); }catch(e){}
+if(want && topicBy(want)) showTopic(want); else showList();
+})();
+</script>
+</body>
+</html>
