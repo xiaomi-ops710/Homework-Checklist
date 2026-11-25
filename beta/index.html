@@ -217,15 +217,20 @@ body.tmo #mchip.show{z-index:70;right:auto;left:0;right:0;margin:0 auto;width:ma
 .f-px{display:none}
 #focus[data-fst]:not([data-fst=m3e]) #fshape{display:none}
 #focus[data-fst=dot] .f-ring svg,#focus[data-fst=wafuu] .f-ring svg,#focus[data-fst=neon] .f-ring svg{display:none}
-#focus[data-fst=dot] .f-ring{width:auto;height:auto;min-height:0}
-#focus[data-fst=dot] .f-time b,#focus[data-fst=dot] .f-time small{font-family:"DotGothic16","Noto Sans JP",monospace}
-#focus[data-fst=dot]{background:linear-gradient(180deg,#8fd3ff 0 55%,#6a4a2a 55%)!important;color:#fff}
-#focus[data-fst=dot] .f-time b{font-size:clamp(64px,18vw,96px);text-shadow:5px 5px 0 #1b1b1b;letter-spacing:.04em}
-#focus[data-fst=dot] .f-time small{text-shadow:2px 2px 0 #1b1b1b}
-#focus[data-fst=dot] .f-px{display:block;width:min(86vw,440px);height:34px;margin:16px auto 8px;padding:4px;box-sizing:border-box;background:#2b2b2b;border:4px solid #111;box-shadow:0 6px 0 #111}
-#focus[data-fst=dot] .f-px i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#5fd35f 0 16px,#3fae3f 16px 32px);transition:width .3s steps(10)}
-#focus[data-fst=dot] button,#focus[data-fst=dot] .chip,#focus[data-fst=dot] .fb,#focus[data-fst=dot] .seg button{border-radius:0!important;border:3px solid #111!important;box-shadow:0 4px 0 #111;font-family:"DotGothic16","Noto Sans JP",monospace}
-#focus[data-fst=dot] .f-play{background:#5fd35f!important;color:#111!important}
+/* 18.3.10：ドット（マイクラ風）。石のタイルの背景、石のボタン、経験値バーのような進みバー */
+#focus[data-fst=dot]{--s2:#3a3a3e;--s3:#4a4a4e;--on:#fff;--on-v:#d4d4d4;background-color:#2a2a2d!important;background-image:linear-gradient(45deg,#0000001f 25%,transparent 25% 75%,#0000001f 75%),linear-gradient(45deg,#0000001f 25%,transparent 25% 75%,#0000001f 75%)!important;background-size:32px 32px;background-position:0 0,16px 16px;color:#fff}
+#focus[data-fst=dot] .f-stage{min-height:0;padding-top:8px}
+#focus[data-fst=dot] .f-time{padding:16px 22px 14px;background:#1b1b1e;box-shadow:inset 0 0 0 4px #000,inset 4px 4px 0 #3a3a3e,inset -4px -4px 0 #0c0c0e}
+#focus[data-fst=dot] .f-time b{font-family:"Courier New",ui-monospace,monospace;font-weight:900;font-size:clamp(52px,15vw,84px);letter-spacing:.06em;color:#fff;text-shadow:4px 4px 0 #3f3f3f}
+#focus[data-fst=dot] .f-time small{color:#c8c8c8;text-shadow:2px 2px 0 #3f3f3f}
+#focus[data-fst=dot] .f-px{display:block;width:min(84vw,420px);height:22px;margin:18px auto 8px;padding:3px;box-sizing:border-box;background:#000;box-shadow:inset 0 0 0 2px #1b1b1e}
+#focus[data-fst=dot] .f-px i{display:block;height:100%;width:0;background-image:repeating-linear-gradient(90deg,transparent 0 22px,#2a2a2d 22px 25px),linear-gradient(180deg,#b6ff5c,#6fd12a 60%,#4fa61d);transition:width .4s steps(12)}
+#focus[data-fst=dot] button,#focus[data-fst=dot] .chip,#focus[data-fst=dot] .fb{border-radius:0!important;background:#8b8b8b!important;color:#fff!important;border:0!important;box-shadow:inset -4px -4px 0 #4a4a4a,inset 4px 4px 0 #c6c6c6,0 0 0 3px #000!important;text-shadow:2px 2px 0 #3f3f3f}
+#focus[data-fst=dot] button:active{transform:translateY(2px)}
+#focus[data-fst=dot] .fb.on,#focus[data-fst=dot] .seg button.on,#focus[data-fst=dot] .chip.on{background:#5c9c35!important;box-shadow:inset -4px -4px 0 #2f5a1a,inset 4px 4px 0 #9fe070,0 0 0 3px #000!important}
+#focus[data-fst=dot] .f-play{background:#5fbf3f!important;color:#fff!important}
+#focus[data-fst=dot] .f-sheet{background:#2a2a2d;color:#fff;border-radius:0;box-shadow:inset 0 0 0 4px #000,inset 4px 4px 0 #3a3a3e}
+#focus[data-fst=dot] .f-sheet button{box-shadow:inset -4px -4px 0 #4a4a4a,inset 4px 4px 0 #c6c6c6,0 0 0 3px #000!important}
 #focus[data-fst=wafuu]{background:#f6ecd6!important;color:#2b1d12}
 #focus[data-fst=wafuu] .f-time b,#focus[data-fst=wafuu] .f-time small{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;color:#2b1d12}
 #focus[data-fst=wafuu] .f-ring svg .trk{stroke:#e0cfa6}
@@ -3633,8 +3638,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.9'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.9';
+const RELEASE_VER = '18.3.10'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.10';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4602,6 +4607,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.10', d: '2026/11/26 08:40', t: '歴打の累計石高を戻し、ランキングだけをリセット。タイマーの見た目はドット風を作り直し、ボタンを右上に移動してプレビューできるように', n: ['歴打の累計石高は、ランキングのリセットでは消えないようにしました', '集中タイマーの見た目ボタンを、右上のアニメーションボタンの左隣（アイコンだけ）に移動しました', '見た目の一覧で「見る」を押すと、タイマーの見た目をためせます。「もとにもどす」で、いつもの見た目に戻ります（買うまで保存されません）', 'ドット風のタイマーを、石のボタンと経験値バーのような見た目に作り直しました'] },
   { v: '18.3.9', d: '2026/11/25 18:30', t: '歴打と元素マージを10問で遊べるように、ランキング・実績XP・ショップ・集中タイマーの見た目を更新', n: ['歴打のランキングを新しい季節にして、石高をいったんリセットしました。以前の記録は、ランキングから外れます', '歴打の問題を大幅に追加し、どのモードにも問題が入るようにしました', '歴打は、1日10回を超えるとき、歴史の4択クイズ10問に答えると続けられます', '元素マージは、1日10回を超えるとき、3問から10問に増やし、読み・説明・分類など6種類の問題を出します', '実績を解除すると、「＋30 XP獲得」を通知と解除の画面に出します。今後解除したものから、XPがもらえます', '実績・レベルの「使えるXP」と、ショップで使えるXPを同じ数字にして、わかりやすくしました', 'ショップに、桜・藍・抹茶・金箔の色、月夜・抹茶の庭の背景、集中タイマーの見た目（ドット・和風・ネオン）を追加しました', '集中タイマーに「見た目」ボタンを追加。ドットは、マイクラ風のブロックの画面です'] },
   { v: '18.3.8', d: '2026/11/25 17:50', t: '漢字テキストを拡大・全画面で書けるように、操作を使いやすく', n: ['教科書のページを、2本の指を広げて拡大・縮小できるようにしました。「幅に合わせる」で元に戻せます', '「全画面で書く」を押すと、画面いっぱいに広げて書けます。閉じるは「全画面をとじる」か、Escキー', '「前へ」「次へ」で、見開きのページを移動できます。指で動かしたあとも、いまのページを正しく覚えます', '開いたページの範囲・ペンの色・拡大の大きさは、次に開いたときも使えます', '道具のボタンを大きくして、押しやすくしました'] },
   { v: '18.3.7', d: '2026/11/25 12:40', t: '元素マージの起動の白い画面を消し、英語の文法ツールと漢字テキストの書き込みを追加', n: ['元素マージを開くとき、ゲーム画面が一瞬出てからタイトルが出る問題を直し、起動のアニメーションも早くしました', '歴代総理大臣の文字が、ダークモードで見にくい問題を直しました', '英語に「不定詞」「動名詞」「比較級・最上級」「現在完了」の練習ツールを追加しました（各10問）', '漢字練習に「テキストで勉強」を追加しました。ページの範囲（例：92〜93）を選ぶと、学校の漢字テキストが出て、Apple Pencilなどで書き込めます。書き込みは端末に残ります'] },
@@ -6054,14 +6060,15 @@ function updateMini() { const e = $('#mtime'); if (e) e.textContent = fmtT(TM.re
 const flabelText = () => { if (TM.mode !== 'focus') return TM.mode === 'break' ? 'ひと休み' : 'ゆっくり長めの休憩'; const k = T(TM.tid); return k ? esc(k.title) : '集中タイマー'; };
 function fbarHtml() {
   const btn = (id, ic, l, sub) => `<button class="fb ${TM.sheet === id ? 'on' : ''}" data-act="fsheet" data-id="${id}">${ms(ic)}<b>${l}</b><small>${esc(sub)}</small></button>`, k = T(TM.tid);
-  return `<div class="f-bar">${TM.mode === 'focus' ? btn('task', 'task_alt', '課題', k ? k.title : '選ばない') : ''}${btn('dur', 'timer', '時間', Math.round(TM.total / 60) + '分')}${btn('look', 'palette', '見た目', (TSTYLE_SHOP[growGet().tstyle || 'm3e'] || { n: 'M3E' }).n)}${btn('nat', 'music_note', '音楽', (NAT.find(x => x[0] === NS.kind) || [0, 'なし'])[1])}</div>`;
+  return `<div class="f-bar">${TM.mode === 'focus' ? btn('task', 'task_alt', '課題', k ? k.title : '選ばない') : ''}${btn('dur', 'timer', '時間', Math.round(TM.total / 60) + '分')}${btn('nat', 'music_note', '音楽', (NAT.find(x => x[0] === NS.kind) || [0, 'なし'])[1])}</div>`;
 }
-function tstyleRow(id, it, cur) {
+function tstyleRow(id, it, cur, pv) {
   const has = shopHas('tstyle', id), eq = cur === id, sp = spendXp(), locked = !!it.lv && !it.free && level().L < it.lv;
-  const act = eq ? `<b style="white-space:nowrap">${ms('check')}使用中</b>` : locked ? `<small style="white-space:nowrap">Lv.${it.lv}で解放</small>`
+  const pvBtn = eq ? '' : `<button class="btn text xs" data-act="tsprev" data-id="${id}" ${pv === id ? 'disabled' : ''}>${pv === id ? '見ている' : '見る'}</button>`;
+  const act = pvBtn + (eq ? `<b style="white-space:nowrap">${ms('check')}使用中</b>` : locked ? `<small style="white-space:nowrap">Lv.${it.lv}で解放</small>`
     : has ? `<button class="btn tonal xs" data-act="shopeq" data-id="tstyle:${id}">使う</button>`
-    : `<button class="btn xs" data-act="shopbuy" data-id="tstyle:${id}" ${sp < it.c ? 'disabled' : ''}>${it.c} XP</button>`;
-  return `<div style="display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:16px;background:var(--s2)"><span style="display:flex;flex-direction:column;min-width:0"><b>${esc(it.n)}</b><small class="muted">${esc(it.d || '')}</small></span>${act}</div>`;
+    : `<button class="btn xs" data-act="shopbuy" data-id="tstyle:${id}" ${sp < it.c ? 'disabled' : ''}>${it.c} XP</button>`);
+  return `<div style="display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:16px;background:var(--s2)"><span style="display:flex;flex-direction:column;min-width:0"><b>${esc(it.n)}</b><small class="muted">${esc(it.d || '')}</small></span><span style="display:flex;gap:6px;align-items:center;flex-shrink:0">${act}</span></div>`;
 }
 function fsheetHtml() {
   if (!TM.sheet) return '';
@@ -6074,8 +6081,10 @@ function fsheetHtml() {
     const durs = durList(), cur = Math.round(TM.total / 60);
     body = head('timer', (TM.mode === 'focus' ? '集中' : '休憩') + 'の時間') + `<div class="chips" style="margin-bottom:14px">${durs.map(d => `<button class="chip ${d === cur ? 'on' : ''}" data-act="fdur" data-id="${d}">${d}分</button>`).join('')}<span class="fcus"><input id="fcus" type="number" inputmode="numeric" min="1" max="300" placeholder="${cur}" aria-label="時間を自分で設定（分）"><button class="chip" data-act="fcus">${ms('edit')}自分で設定</button></span></div><p class="muted" style="font-size:.85rem;margin:0">いまの時間：${cur}分。計測中でも変えられます（経過した時間は引き継ぎます）。時間をのばすときは、円の下の「＋分」のボタンを使います。</p>`;
   } else if (TM.sheet === 'look') {
-    const cur = growGet().tstyle || 'm3e';
-    body = head('palette', '見た目（集中タイマー）') + `<p class="muted" style="font-weight:500;margin:0 0 10px">タイマーの見た目を選べます。XPで買うと、ずっと使えます。</p><div style="display:grid;gap:8px">${Object.entries(TSTYLE_SHOP).map(([id, it]) => tstyleRow(id, it, cur)).join('')}</div>`;
+    const cur = growGet().tstyle || 'm3e', pv = TM.tsPrev || '';
+    body = head('palette', '見た目（集中タイマー）') + `<p class="muted" style="font-weight:500;margin:0 0 10px">「見る」で、タイマーの見た目をためせます（まだ変わりません）。XPで買うと、ずっと使えます。</p>` +
+      (pv ? `<div style="display:flex;gap:8px;align-items:center;justify-content:space-between;margin:0 0 10px;padding:10px 12px;border-radius:16px;background:var(--pc)"><b>プレビュー中：${esc(TSTYLE_SHOP[pv].n)}</b><button class="btn tonal xs" data-act="tsprev" data-id="">もとにもどす</button></div>` : '') +
+      `<div style="display:grid;gap:8px">${Object.entries(TSTYLE_SHOP).map(([id, it]) => tstyleRow(id, it, cur, pv)).join('')}</div>`;
   } else {
     body = head('music_note', '音楽・自然の音') + `<div class="chips" style="margin-bottom:14px">${NAT.map(([k, l, i]) => `<button class="chip ${NS.kind === k ? 'on' : ''}" data-act="nat" data-id="${k}">${ms(i)}${l}</button>`).join('')}${NS.kind ? `<button class="chip" data-act="natoff">${ms('music_off')}止める</button>` : ''}<button class="chip" data-act="fmusic">${ms('library_music')}音楽アプリを開く</button></div>${NS.kind ? `<label class="f-vol" style="width:100%">${ms('volume_up')}<input type="range" id="natvol" min="0" max="100" value="${Math.round(NS.vol * 100)}" aria-label="自然の音の音量"></label>` : '<p class="muted" style="font-size:.85rem;margin:0">好きな音を選ぶと、すぐに流れます。</p>'}`;
   }
@@ -6084,13 +6093,13 @@ function fsheetHtml() {
 function renderFocus() {
   if (TM.sheet === 'task' && TM.mode !== 'focus') TM.sheet = '';
   const el = $('#focus'), brk = TM.mode !== 'focus';
-  el.dataset.fst = growGet().tstyle || 'm3e';
+  el.dataset.fst = TM.tsPrev || growGet().tstyle || 'm3e';
   el.classList.toggle('brk', brk); el.classList.toggle('noanim', S.set.timerAnim === false);
   const tasks = examTasks().filter(t => !isDone(t));
   const opts = subjects().map(s => { const ts = tasks.filter(t => t.sid === s.id); return ts.length ? `<optgroup label="${esc(s.name)}">${ts.map(t => `<option value="${t.id}" ${t.id === TM.tid ? 'selected' : ''}>${esc(t.title)}</option>`).join('')}</optgroup>` : ''; }).join('');
   const durs = durList();
   const cur = TM.mode === 'focus' ? S.set.focus : TM.mode === 'break' ? S.set.brk : S.set.lbrk;
-  el.innerHTML = `<div class="f-top"><button class="ibtn tonal" data-act="fmin" aria-label="最小化">${ms('keyboard_arrow_down')}</button><button class="ibtn tonal" data-act="fclose" aria-label="閉じる">${ms('close')}</button><div class="seg"><button class="${TM.mode === 'focus' ? 'on' : ''}" data-act="fmode" data-id="focus">${ms('bolt')}集中</button><button class="${TM.mode !== 'focus' ? 'on' : ''}" data-act="fmode" data-id="break">${ms('coffee')}休憩</button></div><span class="sp"></span><button class="ibtn tonal" data-act="ftanim" aria-label="アニメーションの切り替え" title="アニメーション">${ms(S.set.timerAnim === false ? 'motion_photos_off' : 'animation')}</button><span class="pillchip">${ms('repeat')}${TM.cycle} / ${S.set.cycles} 回目</span></div>
+  el.innerHTML = `<div class="f-top"><button class="ibtn tonal" data-act="fmin" aria-label="最小化">${ms('keyboard_arrow_down')}</button><button class="ibtn tonal" data-act="fclose" aria-label="閉じる">${ms('close')}</button><div class="seg"><button class="${TM.mode === 'focus' ? 'on' : ''}" data-act="fmode" data-id="focus">${ms('bolt')}集中</button><button class="${TM.mode !== 'focus' ? 'on' : ''}" data-act="fmode" data-id="break">${ms('coffee')}休憩</button></div><span class="sp"></span><button class="ibtn tonal${TM.sheet === 'look' ? ' on' : ''}" data-act="fsheet" data-id="look" aria-label="見た目" title="見た目">${ms('palette')}</button><button class="ibtn tonal" data-act="ftanim" aria-label="アニメーションの切り替え" title="アニメーション">${ms(S.set.timerAnim === false ? 'motion_photos_off' : 'animation')}</button><span class="pillchip">${ms('repeat')}${TM.cycle} / ${S.set.cycles} 回目</span></div>
   <div class="f-stage"><div class="f-ring"><svg viewBox="0 0 320 320" aria-hidden="true"><circle class="trk" cx="160" cy="160" r="150" fill="none" stroke-width="12"/><circle id="fprg" class="prg" cx="160" cy="160" r="150" fill="none" stroke-width="12" stroke-linecap="round" transform="rotate(-90 160 160)" stroke-dasharray="0.01 943"/><path id="fshape" d=""/></svg><div class="f-time"><b id="ftime">${fmtT(TM.remain)}</b><small id="flabel">${flabelText()}</small></div></div><div class="f-px" aria-hidden="true"><i id="fpxbar"></i></div></div>
   <div class="f-add">${[1, 5, 10].map(n => `<button class="chip" data-act="fadd" data-id="${n}">${ms('add')}${n}分</button>`).join('')}</div>
   <div class="f-ctl"><button class="ibtn" data-act="freset" aria-label="リセット">${ms('replay')}</button><button id="fplay" class="f-play rp" data-act="fplay" data-s="" aria-label="開始/一時停止"></button><button class="ibtn" data-act="fskip" aria-label="次へ">${ms('skip_next')}</button></div>
@@ -6119,7 +6128,7 @@ function openFocus(tid) {
   if (tid) { const t = T(tid); if (t) { TM.tid = tid; TM.sid = t.sid; if (TM.mode !== 'focus' && !TM.running) tmReset('focus'); } }
   if (!TM.total) tmReset('focus');
   ui.fab = false; renderFab();
-  TM.open = true; TM.min = false; TM.sheet = ''; document.body.classList.add('tmo'); renderFocus();
+  TM.open = true; TM.min = false; TM.sheet = ''; TM.tsPrev = ''; document.body.classList.add('tmo'); renderFocus();
   const el = $('#focus'); el.hidden = false; el.classList.remove('in');
   if (!timerReduced() && el.animate) { el.style.transformOrigin = `${innerWidth / 2}px ${innerHeight - 136}px`; const a = el.animate([{ transform: 'scale(.04)', opacity: 0, borderRadius: '300px' }, { transform: 'scale(1)', opacity: 1, borderRadius: '0px' }], { duration: 560, easing: 'cubic-bezier(.2,.9,.25,1)' }); a.onfinish = () => { el.style.transformOrigin = ''; }; }
   renderMini(); if (!floop) floop = requestAnimationFrame(fl);
@@ -6591,7 +6600,8 @@ const ACT = {
   freset() { tmReset(TM.mode); renderFocus(); renderMini(); },
   fskip() { tmNext(); renderFocus(); renderMini(); },
   fmode(id) { tmReset(id === 'focus' ? 'focus' : 'break'); renderFocus(); renderMini(); },
-  fsheet(id) { TM.sheetAnim = !!id && TM.sheet !== id; TM.sheet = (!id || TM.sheet === id) ? '' : id; renderFocus(); }, ftp(id) { const k = id ? T(id) : null; TM.tid = id || ''; TM.sid = k ? k.sid : ''; TM.sheet = ''; renderFocus(); renderMini(); },
+  fsheet(id) { TM.sheetAnim = !!id && TM.sheet !== id; TM.sheet = (!id || TM.sheet === id) ? '' : id; if (TM.sheet !== 'look') TM.tsPrev = ''; renderFocus(); },
+  tsprev(id) { TM.sheetAnim = false; const cur = growGet().tstyle || 'm3e'; TM.tsPrev = (id && id !== cur) ? id : ''; renderFocus(); }, ftp(id) { const k = id ? T(id) : null; TM.tid = id || ''; TM.sid = k ? k.sid : ''; TM.sheet = ''; renderFocus(); renderMini(); },
   fdur(id) { setDur(+id); }, fcus() { const v = parseInt(($('#fcus') || {}).value, 10); if (!(v >= 1 && v <= 300)) return toast('1〜300分の間で入力してください'); setDur(v); },
   fadd(id) { const n = +id * 60; TM.total += n; TM.remain += n; if (TM.running) TM.endAt += n * 1000; updateFocus(true); updateMini(); toast(`${id}分、延長しました`); },
 };
@@ -16155,7 +16165,7 @@ const RK_SEASON = 2;
 function rkStat() {
   try {
     const v = JSON.parse(localStorage.getItem('kosa-rekida') || '{}') || {};
-    if (v.season !== RK_SEASON) { v.season = RK_SEASON; v.best = 0; v.total = 0; try { localStorage.setItem('kosa-rekida', JSON.stringify(v)); } catch (e) { } }
+    if (v.season !== RK_SEASON) { v.season = RK_SEASON; v.best = 0; try { localStorage.setItem('kosa-rekida', JSON.stringify(v)); } catch (e) { } }
     v.best = Math.min(v.best || 0, CHEAT.RK_BEST); return v;
   } catch (e) { return {}; }
 }
