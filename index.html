@@ -213,6 +213,31 @@ body.tmo #mchip.show{z-index:70;right:auto;left:0;right:0;margin:0 auto;width:ma
 @media(max-width:699px){.tt-tm{min-width:82px;font-size:.76rem}}
 
 /* ===== 17.9：集中タイマー（ツール）・ホームの検索バー・設定（M3 Expressive風） ===== */
+/* 18.3.9：集中タイマーの見た目（ドット・和風・ネオン）。M3Eは、もとのまま */
+.f-px{display:none}
+#focus[data-fst]:not([data-fst=m3e]) #fshape{display:none}
+#focus[data-fst=dot] .f-ring svg,#focus[data-fst=wafuu] .f-ring svg,#focus[data-fst=neon] .f-ring svg{display:none}
+#focus[data-fst=dot] .f-ring{width:auto;height:auto;min-height:0}
+#focus[data-fst=dot] .f-time b,#focus[data-fst=dot] .f-time small{font-family:"DotGothic16","Noto Sans JP",monospace}
+#focus[data-fst=dot]{background:linear-gradient(180deg,#8fd3ff 0 55%,#6a4a2a 55%)!important;color:#fff}
+#focus[data-fst=dot] .f-time b{font-size:clamp(64px,18vw,96px);text-shadow:5px 5px 0 #1b1b1b;letter-spacing:.04em}
+#focus[data-fst=dot] .f-time small{text-shadow:2px 2px 0 #1b1b1b}
+#focus[data-fst=dot] .f-px{display:block;width:min(86vw,440px);height:34px;margin:16px auto 8px;padding:4px;box-sizing:border-box;background:#2b2b2b;border:4px solid #111;box-shadow:0 6px 0 #111}
+#focus[data-fst=dot] .f-px i{display:block;height:100%;width:0;background:repeating-linear-gradient(90deg,#5fd35f 0 16px,#3fae3f 16px 32px);transition:width .3s steps(10)}
+#focus[data-fst=dot] button,#focus[data-fst=dot] .chip,#focus[data-fst=dot] .fb,#focus[data-fst=dot] .seg button{border-radius:0!important;border:3px solid #111!important;box-shadow:0 4px 0 #111;font-family:"DotGothic16","Noto Sans JP",monospace}
+#focus[data-fst=dot] .f-play{background:#5fd35f!important;color:#111!important}
+#focus[data-fst=wafuu]{background:#f6ecd6!important;color:#2b1d12}
+#focus[data-fst=wafuu] .f-time b,#focus[data-fst=wafuu] .f-time small{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;color:#2b1d12}
+#focus[data-fst=wafuu] .f-ring svg .trk{stroke:#e0cfa6}
+#focus[data-fst=wafuu] .f-ring svg .prg{stroke:#b3261e}
+#focus[data-fst=wafuu] button,#focus[data-fst=wafuu] .chip,#focus[data-fst=wafuu] .fb{border-radius:8px!important;background:#fffaf0!important;color:#2b1d12!important;border:1.5px solid #2b1d12!important;font-family:"Shippori Mincho","Hiragino Mincho ProN",serif}
+#focus[data-fst=wafuu] .f-play{background:#b3261e!important;color:#fff8e8!important;border-radius:50%!important}
+#focus[data-fst=neon]{background:#070713!important;color:#dff8ff}
+#focus[data-fst=neon] .f-ring svg .trk{stroke:#1d2a4a}
+#focus[data-fst=neon] .f-ring svg .prg{stroke:#2ef2ff;filter:drop-shadow(0 0 6px #2ef2ff) drop-shadow(0 0 16px #ff2fd6)}
+#focus[data-fst=neon] .f-time b{color:#fff;text-shadow:0 0 10px #2ef2ff,0 0 26px #ff2fd6}
+#focus[data-fst=neon] button,#focus[data-fst=neon] .chip,#focus[data-fst=neon] .fb{background:transparent!important;color:#2ef2ff!important;border:1.5px solid #2ef2ff!important;box-shadow:0 0 10px rgba(46,242,255,.45)}
+#focus[data-fst=neon] .f-play{background:#ff2fd6!important;color:#070713!important;box-shadow:0 0 18px #ff2fd6}
 .hsearch{gap:8px;min-width:128px;height:40px;padding:0 16px 0 12px;justify-content:flex-start;color:var(--on-v);background:var(--s2);border:0;font:inherit;font-weight:600;font-size:.9rem;white-space:nowrap}
 .hsearch .ms{font-size:20px}
 .ft{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding:18px 20px;border-radius:36px}
@@ -3608,8 +3633,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.8'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.8';
+const RELEASE_VER = '18.3.9'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.9';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -3642,6 +3667,8 @@ const PRESETS = [['国語','menu_book',350],['数学','calculate',205],['英語'
 const ICONS = ['menu_book','auto_stories','calculate','functions','translate','language','abc','science','experiment','biotech','bolt','public','map','explore','history_edu','castle','temple_buddhist','account_balance','gavel','savings','music_note','piano','headphones','palette','brush','draw','photo_camera','sports_soccer','sports_basketball','sports_tennis','directions_run','fitness_center','build','handyman','architecture','computer','code','psychology','eco','water_drop','wb_sunny','restaurant','theater_comedy','school','edit_note','lightbulb','rocket_launch','local_fire_department'];
 const E2I = {'📖':'menu_book','📐':'calculate','🔤':'translate','🔬':'science','🌏':'public','🎵':'music_note','🎨':'palette','⚽':'sports_soccer','🔧':'build','💻':'computer','⚛️':'bolt','🧪':'experiment','🧬':'biotech','🏯':'castle','📜':'auto_stories','🖌️':'brush','🏛️':'account_balance','🗺️':'map','✏️':'edit_note','📚':'menu_book','🧮':'calculate','🗣️':'translate','🎹':'piano','📘':'menu_book'};
 const DEF_SET = { theme: 'auto', hue: 222, scope: 'all', lastBackup: 0, fs: 'm', anim: true, confetti: false, sound: true, goalMode: 'auto', goal: 30, focus: 25, brk: 5, lbrk: 15, cycles: 4, timerAnim: true, natStop: true, nav: null, navPos: 'auto', homeTools: [] };
+const ACH_XP = 30;   // 実績を解除したときにもらえるXP（これから解除したものから）
+const achXpSum = () => Object.values(S.badgeXp || {}).reduce((a, b) => a + (+b || 0), 0);
 const BADGES = [
   ['first', 'flag', 'はじめの一歩', '課題を1つ完了', c => c.done >= 1, c => [c.done, 1]],
   ['t10', 'checklist', '課題マスター見習い', '課題を10個完了', c => c.done >= 10, c => [c.done, 10]],
@@ -4152,7 +4179,7 @@ function totals() {
     a = adm ? Math.max(0, a) : Math.max(0, Math.min(a, PG_DAY_BASE + PG_PER_MIN * m));
     pages += a; min += m; best = Math.max(best, a);
   }
-  const ex = examTasks(), rq = ex.filter(t => t.req), xp = pages + min * .5 + S.tasks.filter(t => isDone(t) && !flag.has(t.id)).length * 20 + xpQuestXp();
+  const ex = examTasks(), rq = ex.filter(t => t.req), xp = pages + min * .5 + S.tasks.filter(t => isDone(t) && !flag.has(t.id)).length * 20 + xpQuestXp() + achXpSum();
   const subDone = S.subjects.filter(s => { const ts = tasksOfSub(s.id); return ts.length && ts.every(isDone); }).length;
   return { pages, min, best, done: S.tasks.filter(isDone).length, streak: streak(), bestStreak: bestStreak(),
     subClear: subDone > 0, subDone, reqClear: rq.length > 0 && rq.every(isDone), xp, lv: Math.floor(Math.sqrt(xp / 25)) + 1,
@@ -4168,7 +4195,7 @@ function checkBadges(silent) {
   lvWatch();
   xpCheck(silent); growPubSoon();
   const c = totals(); let fresh_ = [];
-  for (const [id, icon, name, desc, test] of BADGES) if (!S.badges[id] && test(c)) { S.badges[id] = Date.now(); fresh_.push(name); if (!silent) achQueue({ id, icon, name, desc }); }
+  for (const [id, icon, name, desc, test] of BADGES) if (!S.badges[id] && test(c)) { S.badges[id] = Date.now(); S.badgeXp = S.badgeXp || {}; S.badgeXp[id] = ACH_XP; fresh_.push(name); if (!silent) achQueue({ id, icon, name, desc, xp: ACH_XP }); }
   lvCheck(silent);
   if (fresh_.length && !silent) { setTimeout(() => { confetti(innerWidth / 2, innerHeight / 3, 60); }, 350); }
   // レベルアップ：上がったときに、お祝いと称号を知らせる
@@ -4575,6 +4602,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.9', d: '2026/11/25 18:30', t: '歴打と元素マージを10問で遊べるように、ランキング・実績XP・ショップ・集中タイマーの見た目を更新', n: ['歴打のランキングを新しい季節にして、石高をいったんリセットしました。以前の記録は、ランキングから外れます', '歴打の問題を大幅に追加し、どのモードにも問題が入るようにしました', '歴打は、1日10回を超えるとき、歴史の4択クイズ10問に答えると続けられます', '元素マージは、1日10回を超えるとき、3問から10問に増やし、読み・説明・分類など6種類の問題を出します', '実績を解除すると、「＋30 XP獲得」を通知と解除の画面に出します。今後解除したものから、XPがもらえます', '実績・レベルの「使えるXP」と、ショップで使えるXPを同じ数字にして、わかりやすくしました', 'ショップに、桜・藍・抹茶・金箔の色、月夜・抹茶の庭の背景、集中タイマーの見た目（ドット・和風・ネオン）を追加しました', '集中タイマーに「見た目」ボタンを追加。ドットは、マイクラ風のブロックの画面です'] },
   { v: '18.3.8', d: '2026/11/25 17:50', t: '漢字テキストを拡大・全画面で書けるように、操作を使いやすく', n: ['教科書のページを、2本の指を広げて拡大・縮小できるようにしました。「幅に合わせる」で元に戻せます', '「全画面で書く」を押すと、画面いっぱいに広げて書けます。閉じるは「全画面をとじる」か、Escキー', '「前へ」「次へ」で、見開きのページを移動できます。指で動かしたあとも、いまのページを正しく覚えます', '開いたページの範囲・ペンの色・拡大の大きさは、次に開いたときも使えます', '道具のボタンを大きくして、押しやすくしました'] },
   { v: '18.3.7', d: '2026/11/25 12:40', t: '元素マージの起動の白い画面を消し、英語の文法ツールと漢字テキストの書き込みを追加', n: ['元素マージを開くとき、ゲーム画面が一瞬出てからタイトルが出る問題を直し、起動のアニメーションも早くしました', '歴代総理大臣の文字が、ダークモードで見にくい問題を直しました', '英語に「不定詞」「動名詞」「比較級・最上級」「現在完了」の練習ツールを追加しました（各10問）', '漢字練習に「テキストで勉強」を追加しました。ページの範囲（例：92〜93）を選ぶと、学校の漢字テキストが出て、Apple Pencilなどで書き込めます。書き込みは端末に残ります'] },
   { v: '18.3.6', d: '2026/11/25 07:30', t: 'やることリストを一つにまとめ、使いやすく刷新・先生から届いた課題を完了まで守る・同期の表示を改善', n: ['「計画」「今日のプラン」「やることリスト」を一つの「やることリスト」にまとめました。今までの内容は移行されます', 'やることリストは、課題がなくても、宿題などを自由に入れられます。ページ・リンク・完了のみの3種類です', 'やることリストの日付つきの項目は、予定タブのカレンダーにも表示されます', '先生から届いた課題は、完了を押すまで消せません。届いたときに通知が来ます', '課題カードの「プランをたてる」と「プランに追加」を一つにまとめました', '+ボタンの「単語帳を追加」を「やることを追加」に変えました', '同期のとき、アカウントボタンに回転表示が出て、友達・ランキングの読み込み時にも自動で同期します', '歴打の征夷大将軍などのモードで、コースの文字数に合う答えだけを出すようにしました', '元素マージの難しいモードは、N・O・Na・Clだけが出るようになりました'] },
@@ -5231,7 +5259,7 @@ async function grkLoad(force) {
   GRK.busy = true; GRK.err = false; grkRedraw();
   try {
     const rows = await friendsLoad(), ok = rows.filter(r => !r.fof && r.data && !r.err);
-    const pick = k => ok.filter(r => typeof r.data[k] === 'number').map(r => ({ name: String(r.data.name || r.f.name || '名前なし'), v: Number(r.data[k]) || 0 }));
+    const pick = k => ok.filter(r => typeof r.data[k] === 'number' && (k !== 'rk' || (r.data.mg || {}).rs === RK_SEASON)).map(r => ({ name: String(r.data.name || r.f.name || '名前なし'), v: Number(r.data[k]) || 0 }));
     const miss = k => ok.filter(r => typeof r.data[k] !== 'number').length;
     GRK.rows = { rk: pick('rk'), iv: pick('iv') }; GRK.miss = { rk: miss('rk'), iv: miss('iv') }; GRK.at = Date.now();
   } catch (e) { GRK.err = true; }
@@ -5318,7 +5346,7 @@ function achHelpHtml() {
 }
 function achPage() {
   const lv = level();
-  return `<div class="ach-hero"><div class="ach-lv"><small>レベル</small><b>${lv.L}</b></div><div class="ach-hi"><div class="ach-tt">${ms('military_tech')}${esc(titleOf(lv.L))}</div><div class="ach-xp"><b>${lv.xp.toLocaleString('ja-JP')}</b><small>XP</small></div><div class="ach-bar"><i style="width:${Math.max(0, Math.min(100, Math.round(lv.p * 100)))}%"></i></div><small class="muted">次のレベルまで あと ${lv.need.toLocaleString('ja-JP')} XP</small></div></div>` +
+  return `<div class="ach-hero"><div class="ach-lv"><small>レベル</small><b>${lv.L}</b></div><div class="ach-hi"><div class="ach-tt">${ms('military_tech')}${esc(titleOf(lv.L))}</div><div class="ach-xp"><b>${spendXp().toLocaleString('ja-JP')}</b><small>使えるXP</small></div><div class="ach-bar"><i style="width:${Math.max(0, Math.min(100, Math.round(lv.p * 100)))}%"></i></div><small class="muted">次のレベルまで あと ${lv.need.toLocaleString('ja-JP')} XP（レベルは、累計 ${lv.xp.toLocaleString('ja-JP')} XPで決まります）</small></div></div>` +
     `<div class="ach-btns"><button type="button" class="ach-btn" data-act="shopopen">${ms('shopping_bag')}<span><b>ショップ</b><small>XPで背景・効果音・ツール</small></span></button><button type="button" class="ach-btn" data-act="achall">${ms('workspace_premium')}<span><b>全実績</b><small>${achDoneN().done} / ${achDoneN().all} 達成</small></span></button></div>` +
     `${lvNextHtml()}${achNextHtml()}<h3 class="shop-h">レベルごとの特典</h3>${ladderHtml(lv.L)}`;
 }
@@ -6026,7 +6054,14 @@ function updateMini() { const e = $('#mtime'); if (e) e.textContent = fmtT(TM.re
 const flabelText = () => { if (TM.mode !== 'focus') return TM.mode === 'break' ? 'ひと休み' : 'ゆっくり長めの休憩'; const k = T(TM.tid); return k ? esc(k.title) : '集中タイマー'; };
 function fbarHtml() {
   const btn = (id, ic, l, sub) => `<button class="fb ${TM.sheet === id ? 'on' : ''}" data-act="fsheet" data-id="${id}">${ms(ic)}<b>${l}</b><small>${esc(sub)}</small></button>`, k = T(TM.tid);
-  return `<div class="f-bar">${TM.mode === 'focus' ? btn('task', 'task_alt', '課題', k ? k.title : '選ばない') : ''}${btn('dur', 'timer', '時間', Math.round(TM.total / 60) + '分')}${btn('nat', 'music_note', '音楽', (NAT.find(x => x[0] === NS.kind) || [0, 'なし'])[1])}</div>`;
+  return `<div class="f-bar">${TM.mode === 'focus' ? btn('task', 'task_alt', '課題', k ? k.title : '選ばない') : ''}${btn('dur', 'timer', '時間', Math.round(TM.total / 60) + '分')}${btn('look', 'palette', '見た目', (TSTYLE_SHOP[growGet().tstyle || 'm3e'] || { n: 'M3E' }).n)}${btn('nat', 'music_note', '音楽', (NAT.find(x => x[0] === NS.kind) || [0, 'なし'])[1])}</div>`;
+}
+function tstyleRow(id, it, cur) {
+  const has = shopHas('tstyle', id), eq = cur === id, sp = spendXp(), locked = !!it.lv && !it.free && level().L < it.lv;
+  const act = eq ? `<b style="white-space:nowrap">${ms('check')}使用中</b>` : locked ? `<small style="white-space:nowrap">Lv.${it.lv}で解放</small>`
+    : has ? `<button class="btn tonal xs" data-act="shopeq" data-id="tstyle:${id}">使う</button>`
+    : `<button class="btn xs" data-act="shopbuy" data-id="tstyle:${id}" ${sp < it.c ? 'disabled' : ''}>${it.c} XP</button>`;
+  return `<div style="display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:16px;background:var(--s2)"><span style="display:flex;flex-direction:column;min-width:0"><b>${esc(it.n)}</b><small class="muted">${esc(it.d || '')}</small></span>${act}</div>`;
 }
 function fsheetHtml() {
   if (!TM.sheet) return '';
@@ -6038,6 +6073,9 @@ function fsheetHtml() {
   } else if (TM.sheet === 'dur') {
     const durs = durList(), cur = Math.round(TM.total / 60);
     body = head('timer', (TM.mode === 'focus' ? '集中' : '休憩') + 'の時間') + `<div class="chips" style="margin-bottom:14px">${durs.map(d => `<button class="chip ${d === cur ? 'on' : ''}" data-act="fdur" data-id="${d}">${d}分</button>`).join('')}<span class="fcus"><input id="fcus" type="number" inputmode="numeric" min="1" max="300" placeholder="${cur}" aria-label="時間を自分で設定（分）"><button class="chip" data-act="fcus">${ms('edit')}自分で設定</button></span></div><p class="muted" style="font-size:.85rem;margin:0">いまの時間：${cur}分。計測中でも変えられます（経過した時間は引き継ぎます）。時間をのばすときは、円の下の「＋分」のボタンを使います。</p>`;
+  } else if (TM.sheet === 'look') {
+    const cur = growGet().tstyle || 'm3e';
+    body = head('palette', '見た目（集中タイマー）') + `<p class="muted" style="font-weight:500;margin:0 0 10px">タイマーの見た目を選べます。XPで買うと、ずっと使えます。</p><div style="display:grid;gap:8px">${Object.entries(TSTYLE_SHOP).map(([id, it]) => tstyleRow(id, it, cur)).join('')}</div>`;
   } else {
     body = head('music_note', '音楽・自然の音') + `<div class="chips" style="margin-bottom:14px">${NAT.map(([k, l, i]) => `<button class="chip ${NS.kind === k ? 'on' : ''}" data-act="nat" data-id="${k}">${ms(i)}${l}</button>`).join('')}${NS.kind ? `<button class="chip" data-act="natoff">${ms('music_off')}止める</button>` : ''}<button class="chip" data-act="fmusic">${ms('library_music')}音楽アプリを開く</button></div>${NS.kind ? `<label class="f-vol" style="width:100%">${ms('volume_up')}<input type="range" id="natvol" min="0" max="100" value="${Math.round(NS.vol * 100)}" aria-label="自然の音の音量"></label>` : '<p class="muted" style="font-size:.85rem;margin:0">好きな音を選ぶと、すぐに流れます。</p>'}`;
   }
@@ -6046,13 +6084,14 @@ function fsheetHtml() {
 function renderFocus() {
   if (TM.sheet === 'task' && TM.mode !== 'focus') TM.sheet = '';
   const el = $('#focus'), brk = TM.mode !== 'focus';
+  el.dataset.fst = growGet().tstyle || 'm3e';
   el.classList.toggle('brk', brk); el.classList.toggle('noanim', S.set.timerAnim === false);
   const tasks = examTasks().filter(t => !isDone(t));
   const opts = subjects().map(s => { const ts = tasks.filter(t => t.sid === s.id); return ts.length ? `<optgroup label="${esc(s.name)}">${ts.map(t => `<option value="${t.id}" ${t.id === TM.tid ? 'selected' : ''}>${esc(t.title)}</option>`).join('')}</optgroup>` : ''; }).join('');
   const durs = durList();
   const cur = TM.mode === 'focus' ? S.set.focus : TM.mode === 'break' ? S.set.brk : S.set.lbrk;
   el.innerHTML = `<div class="f-top"><button class="ibtn tonal" data-act="fmin" aria-label="最小化">${ms('keyboard_arrow_down')}</button><button class="ibtn tonal" data-act="fclose" aria-label="閉じる">${ms('close')}</button><div class="seg"><button class="${TM.mode === 'focus' ? 'on' : ''}" data-act="fmode" data-id="focus">${ms('bolt')}集中</button><button class="${TM.mode !== 'focus' ? 'on' : ''}" data-act="fmode" data-id="break">${ms('coffee')}休憩</button></div><span class="sp"></span><button class="ibtn tonal" data-act="ftanim" aria-label="アニメーションの切り替え" title="アニメーション">${ms(S.set.timerAnim === false ? 'motion_photos_off' : 'animation')}</button><span class="pillchip">${ms('repeat')}${TM.cycle} / ${S.set.cycles} 回目</span></div>
-  <div class="f-stage"><div class="f-ring"><svg viewBox="0 0 320 320" aria-hidden="true"><circle class="trk" cx="160" cy="160" r="150" fill="none" stroke-width="12"/><circle id="fprg" class="prg" cx="160" cy="160" r="150" fill="none" stroke-width="12" stroke-linecap="round" transform="rotate(-90 160 160)" stroke-dasharray="0.01 943"/><path id="fshape" d=""/></svg><div class="f-time"><b id="ftime">${fmtT(TM.remain)}</b><small id="flabel">${flabelText()}</small></div></div></div>
+  <div class="f-stage"><div class="f-ring"><svg viewBox="0 0 320 320" aria-hidden="true"><circle class="trk" cx="160" cy="160" r="150" fill="none" stroke-width="12"/><circle id="fprg" class="prg" cx="160" cy="160" r="150" fill="none" stroke-width="12" stroke-linecap="round" transform="rotate(-90 160 160)" stroke-dasharray="0.01 943"/><path id="fshape" d=""/></svg><div class="f-time"><b id="ftime">${fmtT(TM.remain)}</b><small id="flabel">${flabelText()}</small></div></div><div class="f-px" aria-hidden="true"><i id="fpxbar"></i></div></div>
   <div class="f-add">${[1, 5, 10].map(n => `<button class="chip" data-act="fadd" data-id="${n}">${ms('add')}${n}分</button>`).join('')}</div>
   <div class="f-ctl"><button class="ibtn" data-act="freset" aria-label="リセット">${ms('replay')}</button><button id="fplay" class="f-play rp" data-act="fplay" data-s="" aria-label="開始/一時停止"></button><button class="ibtn" data-act="fskip" aria-label="次へ">${ms('skip_next')}</button></div>
   <p class="f-sum">今日の集中 ${dayLog().m}分</p>${fbarHtml()}${fsheetHtml()}`;
@@ -6065,6 +6104,7 @@ function updateFocus(force) {
   t.textContent = fmtT(TM.remain);
   const C = 2 * Math.PI * 150, k = TM.total ? Math.min(1, Math.max(0, 1 - TM.remain / TM.total)) : 0;
   $('#fprg').setAttribute('stroke-dasharray', `${Math.max(.01, C * k).toFixed(1)} ${C.toFixed(1)}`);
+  const px = $('#fpxbar'); if (px) px.style.width = (k * 100).toFixed(1) + '%';
   const pl = $('#fplay'), s = TM.running ? '1' : '0';
   if (pl && (force || pl.dataset.s !== s)) { pl.dataset.s = s; pl.classList.toggle('run', TM.running); pl.innerHTML = ms(TM.running ? 'pause' : 'play_arrow', 'f'); }
 }
@@ -7288,8 +7328,8 @@ function applyTheme() {
   r.dataset.theme = dark ? 'dark' : 'light';
   r.dataset.nav = S.set.navPos === 'bottom' ? 'bottom' : '';
   try { applyFont(); } catch (e) { }
-  let vol = false; try { vol = (THEME_PREV || growGet().theme) === 'volcano'; } catch (e) { }
-  r.style.setProperty('--h', vol ? 12 : S.set.hue);
+  let vol = false, hue = S.set.hue; try { const tid = THEME_PREV || growGet().theme || ''; vol = tid === 'volcano'; const th = THEME_SHOP[tid]; if (th && th.hue != null) hue = th.hue; } catch (e) { }
+  r.style.setProperty('--h', vol ? 12 : hue);
   if (vol) r.dataset.vol = '1'; else delete r.dataset.vol;
   r.style.setProperty('--fs', { s: .92, m: 1, l: 1.12 }[S.set.fs] || 1);
   r.classList.toggle('noanim', !S.set.anim);
@@ -13904,14 +13944,14 @@ setInterval(() => { notiScan(); }, 30 * 60 * 1000);
 const achQ = []; let achBusy = false;
 function achSound() { sfxSeq([523, 659, 784, 1047], .11, .5, .18); }
 function achQueue(a) {
-  notiAdd({ k: 'ach:' + a.id, icon: a.icon, text: '実績を解除：' + a.name, sub: a.desc, act: 'tab', aid: 'stats' });
+  notiAdd({ k: 'ach:' + a.id, icon: a.icon, text: '実績を解除：' + a.name + (a.xp ? `（＋${a.xp} XP獲得）` : ''), sub: a.desc, act: 'tab', aid: 'stats' });
   achQ.push(a); if (!achBusy) achNext();
 }
 function achNext() {
   const a = achQ.shift(); if (!a) { achBusy = false; return; }
   achBusy = true;
   const el = document.createElement('div'); el.className = 'achfx'; el.setAttribute('role', 'status');
-  el.innerHTML = `<div class="achfx-in"><div class="achfx-ray"></div><div class="achfx-ic">${ms(a.icon)}</div><div class="achfx-t"><small>実績を解除</small><b>${esc(a.name)}</b><span>${esc(a.desc)}</span></div></div>`;
+  el.innerHTML = `<div class="achfx-in"><div class="achfx-ray"></div><div class="achfx-ic">${ms(a.icon)}</div><div class="achfx-t"><small>実績を解除</small><b>${esc(a.name)}</b><span>${esc(a.desc)}</span>${a.xp ? `<em style="font-style:normal;font-weight:900;color:#b45309">＋${a.xp} XP獲得</em>` : ''}</div></div>`;
   document.body.appendChild(el);
   try { achSound(); } catch (e) { }
   setTimeout(() => { el.classList.add('out'); }, 3400);
@@ -13921,6 +13961,8 @@ function achNext() {
 const GROW_KEY = 'kosa-grow', SHOP_LV = 2, FRIEND_LV = 0;
 const HOME_BG = {
   aurora: { n: 'オーロラ', c: 0, css: '' },
+  ryokucha: { n: '抹茶の庭', c: 140, css: 'linear-gradient(170deg,#e6f2d9,#f6fbef 50%,#d4e8c0)' },
+  yoru: { n: '月夜', c: 180, lv: 8, css: 'linear-gradient(170deg,#1b2440,#2c3868 55%,#0f1530)' },
   sakura: { n: 'さくら', c: 0, lv: 3, css: 'linear-gradient(160deg,#ffe3ec,#fff4f7 55%,#fde2f0)' },
   ocean: { n: '海の青', c: 150, css: 'linear-gradient(170deg,#d7efff,#eef8ff 50%,#c8e6ff)' },
   night: { n: '星空', c: 300, css: 'radial-gradient(circle at 20% 15%,#4b5fa6 0 1.5px,transparent 2.5px),radial-gradient(circle at 70% 40%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 45% 80%,#ffd9a0 0 1px,transparent 1.5px),linear-gradient(180deg,#0d1430,#1d2a55)' },
@@ -13968,7 +14010,12 @@ const SFX_T = {
 // テーマ：アプリ全体の色（火山は、背景・ボタン・色を溶岩の色にする）
 // free：レベルに達すると、XPを使わずに使える（c のXPで、先に買うこともできる）
 var THEME_PREV = null, THEME_BACK = null;   // テーマの見本（アプリ画面のまま試す）
-const THEME_SHOP = { volcano: { n: '火山', c: 1000, lv: 10, free: true, d: 'レベル10で、XPを使わずに使えます（先に買うこともできます）。背景・ボタン・色を、火山と溶岩の色にします' } };
+const THEME_SHOP = {
+  sakura: { n: '桜', c: 700, lv: 6, hue: 344, sw: 'linear-gradient(135deg,#ffb7c5,#e76f8e 60%,#7a2a44)', d: '桜のピンクで、ボタンや色をそろえます。レベル6になると、XPで買えます' },
+  indigo: { n: '藍（あい）', c: 600, lv: 5, hue: 226, sw: 'linear-gradient(135deg,#5b7fb8,#1f3a5f 60%,#0d1a2e)', d: '藍色で、落ち着いた和風の色にします。レベル5になると、XPで買えます' },
+  matcha: { n: '抹茶', c: 600, lv: 9, hue: 118, sw: 'linear-gradient(135deg,#c5e8a8,#5a9a3c 60%,#24401a)', d: '抹茶の緑で、やわらかい色にします。レベル9になると、XPで買えます' },
+  kinpaku: { n: '金箔', c: 900, lv: 15, hue: 46, sw: 'linear-gradient(135deg,#f5e6a8,#c9a24a 60%,#5a4212)', d: '金色で、きらびやかにします。レベル15になると、XPで買えます' },
+  volcano: { n: '火山', c: 1000, lv: 10, free: true, d: 'レベル10で、XPを使わずに使えます（先に買うこともできます）。背景・ボタン・色を、火山と溶岩の色にします' } };
 // アプリ全体のフォント（XPで買う）。fam は Google Fonts の名前（見るときだけ読み込む）
 const FONT_SHOP = {
   def: { n: '標準（すっきり）', c: 0, stack: '"Google Sans Flex","Noto Sans JP","Hiragino Sans",-apple-system,system-ui,sans-serif', d: 'いつもの見た目です' },
@@ -14029,7 +14076,15 @@ function aiModelBarHtml() {
 }
 // 単語帳カードの模様（ショップで買える。レベル12で、XPなしでも使える）
 const PAT_SHOP = { dots: { n: 'ドット', c: 60, lv: RW_LV.cardpat, free: true, d: '文字のまわりに、小さな点' }, stripes: { n: 'ストライプ', c: 60, lv: RW_LV.cardpat, free: true, d: '斜めのしま模様' }, grid: { n: '方眼', c: 80, lv: RW_LV.cardpat, free: true, d: 'ノートのような方眼' }, wave: { n: '波', c: 100, lv: RW_LV.cardpat, free: true, d: 'やわらかい波の模様' }, sparkle: { n: 'きらめき', c: 150, lv: RW_LV.cardpat, free: true, d: 'きらきら光る模様' } };
-const SHOP_MAP = { bg: HOME_BG, sfx: SFX_T, theme: THEME_SHOP, font: FONT_SHOP, ai: AI_SHOP, pat: PAT_SHOP };
+// 集中タイマーの見た目（ショップで買う。M3Eはいつものデザインで、最初から使える）
+const TSTYLE_SHOP = {
+  m3e: { n: 'M3E（いつもの）', c: 0, sw: 'linear-gradient(135deg,#c7d7ff,#7b93e6 60%,#2c3f7a)', d: 'はじめから使えます。丸や波の形が動く、いつものデザインです' },
+  dot: { n: 'ドット（マイクラ風）', c: 160, sw: 'linear-gradient(180deg,#8fd3ff 0 55%,#6a4a2a 55%)', d: '四角いブロックと、ドットの字。草原のようなゲーム風です' },
+  wafuu: { n: '和風（和紙と朱）', c: 200, lv: 6, sw: 'linear-gradient(135deg,#f6ecd6,#e9d2a6 60%,#b3261e)', d: '和紙と朱色と、明朝の字。レベル6になると、XPで買えます' },
+  neon: { n: 'ネオン（夜）', c: 240, sw: 'linear-gradient(135deg,#070713,#2a0d4a 55%,#0b3d4a)', d: '暗い画面で光る、ネオンのようなタイマーです' }
+};
+const SHOP_MAP = { bg: HOME_BG, sfx: SFX_T, theme: THEME_SHOP, font: FONT_SHOP, ai: AI_SHOP, pat: PAT_SHOP, tstyle: TSTYLE_SHOP };
+function tstyleSync(kind) { if (kind === 'tstyle' && TM.open) { try { renderFocus(); } catch (e) { } } }
 // 買っている、または、レベルで使える（lv があって c が 0のもの）
 function shopHas(kind, id) { const map = SHOP_MAP[kind], it = map && map[id]; if (!it) return false; if ((growGet().owned[kind] || []).includes(id)) return true; if (it.free) return level().L >= it.lv; return !it.c && (!it.lv || level().L >= it.lv); }
 // 集中・休憩の時間の選択肢（レベルで増える）
@@ -14039,11 +14094,11 @@ const LV_REWARD = { 2: 'XPショップが使えるようになりました', 4: 
 function growGet() {
   // 友達・プロフィールは、アカウントの状態（S.soc）に入れて、どの端末でも同じにする（以前の端末ごとの保存も引き継ぐ）
   const g = lsj(GROW_KEY, null) || {}, so = (S.soc && typeof S.soc === 'object') ? S.soc : g;
-  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [], theme: (g.owned && g.owned.theme) || [], font: (g.owned && g.owned.font) || ['def'], ai: [...new Set(((g.owned && g.owned.ai) || ['gemini-3.5-flash-lite']).map(x => x === 'gemini-4-hydrogen' ? 'gemini-3.6-flash' : x))], pat: (g.owned && g.owned.pat) || [] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', pat: g.pat, lvSeen: g.lvSeen, code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
+  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [], theme: (g.owned && g.owned.theme) || [], font: (g.owned && g.owned.font) || ['def'], ai: [...new Set(((g.owned && g.owned.ai) || ['gemini-3.5-flash-lite']).map(x => x === 'gemini-4-hydrogen' ? 'gemini-3.6-flash' : x))], pat: (g.owned && g.owned.pat) || [] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', pat: g.pat, lvSeen: g.lvSeen, tstyle: g.tstyle || '', code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
 }
 function growPut(g) {
   const soc = { code: g.code || '', nick: g.nick || '', av: g.av || '', shared: !!g.shared, friends: g.friends || [], at: g.at || {}, rm: g.rm || {} };
-  lss(GROW_KEY, { spent: g.spent || 0, owned: g.owned, bg: g.bg, sfx: g.sfx, theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', pat: g.pat, lvSeen: g.lvSeen });
+  lss(GROW_KEY, { spent: g.spent || 0, owned: g.owned, bg: g.bg, sfx: g.sfx, theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', pat: g.pat, lvSeen: g.lvSeen, tstyle: g.tstyle || '' });
   const before = JSON.stringify(S.soc || null); S.soc = soc;
   if (JSON.stringify(soc) !== before) save();
 }
@@ -14184,7 +14239,7 @@ function xpRow(q) {
   return `<div class="xp-r ${got ? 'done' : ''}"><span class="xp-i">${ms(q.i)}</span><div class="xp-t"><b>${esc(q.n)}${q.daily ? '<em>毎日</em>' : ''}</b><small>${esc(q.d)}</small><div class="xp-bar"><i style="width:${pct}%"></i></div></div><div class="xp-a"><b class="xp-v">+${q.xp} XP</b>${st}</div></div>`;
 }
 function xpHtml() {
-  let h = `<h2 class="noti-h">${ms('bolt')}<span>XPのふやし方</span><em class="noti-cnt">いまのXP ${Math.floor(totals().xp)}</em></h2><p class="muted" style="font-weight:500;margin:0 0 6px">できたときに、XPがもらえます。もらったXPは減りません（「毎日」のものは、毎日もらえます）。</p>`;
+  let h = `<h2 class="noti-h">${ms('bolt')}<span>XPのふやし方</span><em class="noti-cnt">使えるXP ${spendXp()}</em></h2><p class="muted" style="font-weight:500;margin:0 0 6px">できたときに、XPがもらえます。もらったXPは減りません（「毎日」のものは、毎日もらえます）。</p>`;
   for (const lv of ['easy', 'mid', 'hard']) h += `<h3 class="shop-h">${XP_GRP[lv]}</h3><div class="xp-l">${XP_Q.filter(q => q.lv === lv).map(xpRow).join('')}</div>`;
   return h + `<div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
 }
@@ -14198,9 +14253,9 @@ function growEntryHtml(L) {
 function shopHtml() {
   const g = growGet(), sp = spendXp();
   const card = (kind, id, it) => {
-    const has = shopHas(kind, id), eq = kind === 'ai' ? aiModel() === id : kind === 'pat' ? patNow() === id : g[kind] === id, locked = !!it.lv && !it.free && level().L < it.lv;
-    const sw = kind === 'bg' ? (it.css ? `background:${it.css}` : 'background:linear-gradient(135deg,var(--pc),var(--s3))') : kind === 'theme' ? 'background:linear-gradient(135deg,#ff7a3d,#8a1f0c 60%,#1a0a06)' : kind === 'font' ? 'background:var(--pc)' : kind === 'ai' ? 'background:linear-gradient(135deg,#4285f4,#9b72cb 55%,#e0637a)' : kind === 'pat' ? 'background:var(--s3)' : '';
-    const ic = kind === 'sfx' ? ms('music_note') : kind === 'theme' ? ms('local_fire_department') : kind === 'font' ? `<span class="fnt-s" style='font-family:${it.stack}'>あ</span>` : kind === 'ai' ? gem(22) : kind === 'pat' ? ms('texture') : '';
+    const has = shopHas(kind, id), eq = kind === 'ai' ? aiModel() === id : kind === 'pat' ? patNow() === id : kind === 'tstyle' ? (g.tstyle || 'm3e') === id : g[kind] === id, locked = !!it.lv && !it.free && level().L < it.lv;
+    const sw = kind === 'bg' ? (it.css ? `background:${it.css}` : 'background:linear-gradient(135deg,var(--pc),var(--s3))') : kind === 'theme' ? 'background:' + (it.sw || 'linear-gradient(135deg,#ff7a3d,#8a1f0c 60%,#1a0a06)') : kind === 'tstyle' ? 'background:' + it.sw : kind === 'font' ? 'background:var(--pc)' : kind === 'ai' ? 'background:linear-gradient(135deg,#4285f4,#9b72cb 55%,#e0637a)' : kind === 'pat' ? 'background:var(--s3)' : '';
+    const ic = kind === 'sfx' ? ms('music_note') : kind === 'theme' ? ms('local_fire_department') : kind === 'font' ? `<span class="fnt-s" style='font-family:${it.stack}'>あ</span>` : kind === 'ai' ? gem(22) : kind === 'pat' ? ms('texture') : kind === 'tstyle' ? ms('timer') : '';
     const prev = kind === 'theme' ? `<button type="button" class="btn text xs" data-act="themeprev" data-id="${id}">${ms('visibility')}見る</button>` : kind === 'bg' ? `<button class="btn text xs" data-act="bgprev" data-id="${id}">${ms('visibility')}見る</button>` : kind === 'sfx' ? `<button class="btn text xs" data-act="shoptry" data-id="${id}">${ms('play_arrow')}試す</button>` : kind === 'font' ? `<button class="btn text xs" data-act="fontprev" data-id="${id}">${ms('visibility')}見る</button>` : '';
     const act = locked ? `<button class="btn xs" disabled>${ms('lock')}Lv.${it.lv}で解放</button>`
       : eq ? (kind === 'theme' ? `<button class="btn tonal xs" data-act="shopeq" data-id="theme:none">${ms('undo')}標準にもどす</button>` : `<button class="btn xs" disabled>${ms('check')}使用中</button>`)
@@ -14215,6 +14270,7 @@ function shopHtml() {
     `<h3 class="shop-h">効果音</h3><div class="shop-l">${Object.entries(SFX_T).map(([id, it]) => card('sfx', id, it)).join('')}</div>` + `<h3 class="shop-h">フォント（アプリ全体）</h3><div class="shop-l">${Object.entries(FONT_SHOP).map(([id, it]) => card('font', id, it)).join('')}</div>` +
     `<h3 class="shop-h">AIのモデル</h3><p class="muted" style="font-weight:500;margin:0 0 8px">いまのモデルは「${AI_PICK.get() === 'auto' ? '自動（質問に合わせて選びます）' : esc(aiLabel(aiModel()))}」です。モデルを変えても、1日に使える回数は同じです。</p><div class="ai-guide">${aiGuideHtml()}</div><div class="shop-l ai-l">${Object.entries(AI_SHOP).map(([id, it]) => card('ai', id, it)).join('')}</div>` +
     `<h3 class="shop-h">カードの模様（単語帳）</h3><div class="shop-l">${Object.entries(PAT_SHOP).map(([id, it]) => card('pat', id, it)).join('')}</div>` +
+    `<h3 class="shop-h">集中タイマーの見た目</h3><div class="shop-l">${Object.entries(TSTYLE_SHOP).map(([id, it]) => card('tstyle', id, it)).join('')}</div>` +
     `<h3 class="shop-h">ツール</h3><div class="shop-l">${Object.entries(TOOL_SHOP).map(([id, it]) => toolShopCard(id, it)).join('')}</div><div class="noti-a"><span class="sp"></span><button class="btn" data-act="close">閉じる</button></div>`;
 }
 // 背景のプレビュー（買う前に、ホームの見た目を試せる）
@@ -14341,13 +14397,13 @@ Object.assign(ACT, {
     if (it.lv && !it.free && level().L < it.lv) return toast(`Lv.${it.lv}で解放されます`);
     const g = growGet(), sp = spendXp(); if (sp < it.c) return toast(`XPが${it.c - sp}足りません`);
     g.spent += it.c; g.owned[kind] = [...(g.owned[kind] || []), id]; g[kind] = id; if (kind === 'ai') AI.chat = null; growPut(g);
-    applyHomeBg(); applyTheme(); if (kind === 'theme') volcanoFx(); toast(`${it.n}を買って、使い始めました`); shopRedraw();
+    applyHomeBg(); applyTheme(); if (kind === 'theme') volcanoFx(); tstyleSync(kind); toast(`${it.n}を買って、使い始めました`); shopRedraw();
   },
   shopeq(v) {
     const [kind, id] = String(v).split(':'), g = growGet();
     if (kind === 'theme' && id === 'none') { g.theme = ''; growPut(g); applyTheme(); toast('標準の色にもどしました'); return shopRedraw(); }
     if (!shopHas(kind, id)) return;
-    g[kind] = (kind === 'ai' && id === AI_STD) ? '' : id; if (kind === 'ai') AI.chat = null; growPut(g); applyHomeBg(); applyTheme(); if (kind === 'theme') volcanoFx(); toast('使うものを変えました'); shopRedraw();
+    g[kind] = (kind === 'ai' && id === AI_STD) ? '' : id; if (kind === 'ai') AI.chat = null; growPut(g); applyHomeBg(); applyTheme(); if (kind === 'theme') volcanoFx(); tstyleSync(kind); toast('使うものを変えました'); shopRedraw();
   },
   fontprev(id) { fontPrevDlg(id); },
   themeprev(id) {
@@ -14614,7 +14670,7 @@ async function growPublish() {
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'friendStats', m.code);
   const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() };
   const ext = { ...base, tt: m.tt, typed: m.typed, fr: g.friends.slice(0, 30).map(f => ({ o: String(f.uid || ''), c: String(f.code || ''), n: String(f.name || '').slice(0, 20) })) };
-  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0, mg: { v: MG_VER, b: m.mg || 0, bd: m.mgBd || {} } };
+  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0, mg: { v: MG_VER, b: m.mg || 0, bd: m.mgBd || {}, rs: RK_SEASON } };
   // 新しい項目 → 点数を抜いた項目 → 名前とアイコン → 名前と進み具合だけ（ルールが古いときも、最低限は届く）
   const tries = m.av ? [{ ...full, av: m.av }, { ...ext, av: m.av }, full, ext, base] : [full, ext, base];
   let err = null;
@@ -16094,7 +16150,15 @@ const CHEAT = {
   flag(k) { try { S.cheat = S.cheat || {}; S.cheat[k] = (S.cheat[k] || 0) + 1; } catch (e) { } },
   RK_BEST: 300000, IV_BEST: 451000, MG_LV: 11
 };
-function rkStat() { try { const v = JSON.parse(localStorage.getItem('kosa-rekida') || '{}') || {}; v.best = Math.min(v.best || 0, CHEAT.RK_BEST); return v; } catch (e) { return {}; } }
+// 歴打のランキングの季節：数を変えると、前の季節の石高はランキングから外れ、自分の最高石高も0から数え直す
+const RK_SEASON = 2;
+function rkStat() {
+  try {
+    const v = JSON.parse(localStorage.getItem('kosa-rekida') || '{}') || {};
+    if (v.season !== RK_SEASON) { v.season = RK_SEASON; v.best = 0; v.total = 0; try { localStorage.setItem('kosa-rekida', JSON.stringify(v)); } catch (e) { } }
+    v.best = Math.min(v.best || 0, CHEAT.RK_BEST); return v;
+  } catch (e) { return {}; }
+}
 /* 歴打の追加の記録（打鍵数・正解数・連撃・ヒントなし・図鑑・時代・コース別）。無い項目は0から数える。打鍵数はrkRunで確認済みの値を使う */
 function rkExtra(v, d, keys) {
   const n = (x, max) => Math.max(0, Math.min(max, Math.floor(Number(x) || 0)));
