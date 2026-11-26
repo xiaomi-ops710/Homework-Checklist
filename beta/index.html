@@ -116,6 +116,40 @@ html.vquake #main{animation:vShake .6s linear}
 @keyframes vShake{10%,90%{transform:translate(-1px,0)}20%,80%{transform:translate(2px,0)}30%,50%,70%{transform:translate(-4px,1px)}40%,60%{transform:translate(4px,-2px)}}
 @media (prefers-reduced-motion:reduce){html[data-vol] body::after,html[data-vol] .btn,html[data-vol] .ach-btn,.vb,.vb i,html.vquake #main{animation:none!important}}
 
+/* 18.3.14：噴火の演出（単語帳の間違い） */
+.vero{position:fixed;inset:0;z-index:96;pointer-events:none;overflow:hidden}
+.vero::before{content:'';position:absolute;left:0;right:0;bottom:0;height:60%;background:radial-gradient(ellipse at 50% 100%,rgba(255,214,110,.95),rgba(255,90,20,.7) 38%,transparent 72%);animation:veGlow 1.8s ease-out forwards}
+.vero i{position:absolute;bottom:-60px;width:var(--s);height:var(--s);border-radius:42% 58% 52% 48%;background:radial-gradient(circle at 35% 30%,#fff3b0,#ff9a2e 45%,#c8300c);box-shadow:0 0 16px #ff7a2a;animation:veRise var(--d) cubic-bezier(.2,.7,.3,1) var(--dl) forwards}
+.vero u{position:absolute;top:-20px;width:6px;height:6px;border-radius:50%;background:rgba(70,60,55,.75);animation:veFall var(--d) linear var(--dl) forwards}
+.vero b{position:absolute;left:50%;top:40%;transform:translate(-50%,-50%);font-size:clamp(40px,12vw,72px);font-weight:900;color:#fff4e0;letter-spacing:.08em;text-shadow:0 0 18px #ff6a1a,0 0 40px #ff3d00,0 4px 0 #7a1a00;animation:veTxt 1.6s ease-out forwards;white-space:nowrap}
+@keyframes veGlow{0%{opacity:0}15%{opacity:1}100%{opacity:0}}
+@keyframes veRise{0%{transform:translateY(0) scale(.6);opacity:1}70%{opacity:1}100%{transform:translateY(-115vh) scale(1.25);opacity:0}}
+@keyframes veFall{0%{transform:translateY(0);opacity:.9}100%{transform:translateY(115vh);opacity:0}}
+@keyframes veTxt{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}18%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}30%{transform:translate(-50%,-50%) scale(1)}80%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.vero,.vero *{animation:none!important;display:none}}
+/* 18.3.14：火山テーマを、ツールバー・見出し・バー・ボタンまで火山の色に（見やすさを優先して、文字は明るく） */
+html[data-vol] #nav{background:linear-gradient(180deg,rgba(44,15,8,.93),rgba(22,7,4,.95))!important;box-shadow:0 -1px 0 rgba(255,140,60,.55),0 -10px 30px rgba(255,80,20,.18)!important;border:0!important}
+html[data-vol][data-theme=light] #nav{background:linear-gradient(180deg,rgba(255,244,234,.94),rgba(255,226,206,.96))!important}
+html[data-vol] #nav .ni{color:#f6dccb}
+html[data-vol][data-theme=light] #nav .ni{color:#4a1f12}
+html[data-vol] #nav .ni.on .pill{background:linear-gradient(135deg,#ffb347,#ff5a1f 60%,#b82c0a)!important;color:#fff8ee!important;box-shadow:0 0 14px rgba(255,100,30,.55)!important}
+html[data-vol] .subbar{background:linear-gradient(180deg,rgba(44,15,8,.9),rgba(44,15,8,.5));box-shadow:0 1px 0 rgba(255,140,60,.5)}
+html[data-vol] .lvp-bar i,html[data-vol] .lvg-bar i,html[data-vol] .achn-bar i{background:linear-gradient(90deg,#ffd36b,#ff7a2a 55%,#d8350f)!important}
+html[data-vol] .sw2 input:checked+.tr{background:linear-gradient(135deg,#ffb347,#e8431b)!important}
+html[data-vol] .chip.on,html[data-vol] .pillchip.on{background:linear-gradient(135deg,#ffb347,#e8431b)!important;color:#fff8ee!important;box-shadow:0 0 12px rgba(255,110,40,.45)}
+html[data-vol] .card{border-top:1px solid rgba(255,150,80,.3)}
+html[data-vol] .f-ring .prg{stroke:#ff8a3a}
+html[data-vol] h2 .ms{color:#ffb070}
+/* 18.3.14：「おすすめ」の帯の四角い箱を消す（すりガラスの効果が残っていたため） */
+html[data-vol][data-theme] .hlay:not(.hed) .hsec[data-sec="sug"]{background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important;border-radius:0!important}
+/* 18.3.14：抹茶テーマ：やわらかい抹茶の緑と、泡のような点の模様 */
+html[data-tid=matcha][data-theme=light]{background:linear-gradient(170deg,#eef5d8,#fbfdf2 48%,#e2efc6)}
+html[data-tid=matcha][data-theme=dark]{background:linear-gradient(170deg,#1b2612,#223016 50%,#141d0b)}
+html[data-tid=matcha]:not([data-hbg]) body::before{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;background-image:radial-gradient(circle,rgba(120,150,50,.16) 2px,transparent 3px),radial-gradient(circle,rgba(255,255,255,.5) 1.5px,transparent 2.5px);background-size:34px 34px,52px 52px;background-position:0 0,17px 21px}
+html[data-tid=matcha] .card{border-top:1px solid rgba(140,170,70,.28)}
+html[data-tid=matcha] .chip.on,html[data-tid=matcha] .pillchip.on{background:#6f9a3a!important;color:#fff!important}
+html[data-tid=matcha] #nav .ni.on .pill{background:#6f9a3a!important;color:#fff!important}
+
 body.tmo #mchip.show{z-index:70;right:auto;left:0;right:0;margin:0 auto;width:max-content;max-width:calc(100vw - 28px);top:calc(74px + env(safe-area-inset-top))}
 #mini.pop{animation:miniPop .45s var(--spring)}
 @keyframes miniPop{0%{transform:translate(-50%,0) scale(.6)}60%{transform:translate(-50%,0) scale(1.12)}100%{transform:translate(-50%,0) scale(1)}}
@@ -3663,8 +3697,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.13'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.13';
+const RELEASE_VER = '18.3.14'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.14';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4254,7 +4288,7 @@ function totals() {
     a = adm ? Math.max(0, a) : Math.max(0, Math.min(a, PG_DAY_BASE + PG_PER_MIN * m));
     pages += a; min += m; best = Math.max(best, a);
   }
-  const ex = examTasks(), rq = ex.filter(t => t.req), xp = pages + min * .5 + S.tasks.filter(t => isDone(t) && !flag.has(t.id)).length * 20 + xpQuestXp() + achXpSum();
+  const ex = examTasks(), rq = ex.filter(t => t.req), xp = pages + min * 1 + S.tasks.filter(t => isDone(t) && !flag.has(t.id)).length * 20 + xpQuestXp() + achXpSum();
   const subDone = S.subjects.filter(s => { const ts = tasksOfSub(s.id); return ts.length && ts.every(isDone); }).length;
   return { pages, min, best, done: S.tasks.filter(isDone).length, streak: streak(), bestStreak: bestStreak(),
     subClear: subDone > 0, subDone, reqClear: rq.length > 0 && rq.every(isDone), xp, lv: lvOf(xp),
@@ -4677,6 +4711,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.14', d: '2026/11/26 11:50', t: '集中タイマーは1分1XP・火山の噴火の演出・火山と抹茶のテーマを作り直し', n: ['集中タイマーで1分集中すると、1XPもらえるように（今までは0.5XP）', '火山テーマで、単語帳の問題を間違えると噴火します（4択は1回ごと。入力テストは、2.5秒に1回まで）', '火山テーマを、ツールバー・見出し・バー・ボタンまで火山の色に（文字は見やすく）', '抹茶テーマを、やわらかい抹茶の緑と泡のような模様に作り直しました', 'テーマを変えたときに出ていた、四角い箱（おすすめの帯）を直しました'] },
   { v: '18.3.13', d: '2026/11/26 11:10', t: 'レベル画面を、今のレベル・持っているXP・次まであと何XPが一目で分かるレイアウトに', n: ['いちばん上に、今のレベル・持っているXP・次のレベルまでの残りを大きく出しました', 'レベルを上げる方法を、課題・ページ・集中タイマーの3つに分けて、あと何個・何ページ・何分かを表示', 'それぞれの横のボタンで、課題・集中タイマーのそのまま開けるように'] },
   { v: '18.3.12', d: '2026/11/26 10:50', t: 'レベルが低いうちは、少ないXPで上がるように。レベルの上げ方は、あと何をすればいいかを具体的に', n: ['はじめのレベルに必要なXPを減らしました（Lv.2〜5は、今の半分ほど。Lv.13からは今までと同じ伸び方）。Lv.10 までの合計は約30%減、Lv.20 までは約8%減', 'レベル画面で、あと何個の課題・何ページ・何分でレベルアップするかを、分かりやすく出すようにしました', '次のレベルになると、何が使えるようになるかも出します', 'レベルの説明の数字は、新しい計算に合わせて自動で出します'] },
   { v: '18.3.11', d: '2026/11/26 08:50', t: '管理者メニューから、生徒の歴打の石高を直せるように（応急処置）', n: ['管理者メニューの生徒の記録に、歴打の石高（ランキング用の最高・累計）を直す欄を追加しました', '直した石高は、その生徒のアプリを次に開いたときに、一度だけ入ります。入ったあとは、ランキングにも反映されます', '空欄のものは変わりません（最高だけ、累計だけでも直せます）'] },
@@ -5371,7 +5406,7 @@ function lvWays(need) {
   return [
     { ic: 'task_alt', t: '課題を終わらせる（いちばん早い）', s: `1つで 20 XP。あと ${Math.ceil(need / 20)} 個で届きます${left ? `（いま未完了の課題は ${left} 個）` : '（課題を追加すると、ここから始められます）'}` },
     { ic: 'menu_book', t: 'ページを進める', s: `1ページで 1 XP。あと ${Math.ceil(need)} ページで届きます` },
-    { ic: 'timer', t: '勉強の時間を使う', s: `1分で 0.5 XP。あと ${Math.ceil(need / 0.5)} 分で届きます` },
+    { ic: 'timer', t: '集中タイマーで勉強する', s: `1分で 1 XP。あと ${Math.ceil(need)} 分で届きます` },
     { ic: 'bolt', t: '毎日、少しずつ続ける', s: '1日にもらえるXPには上限があります。毎日すこしずつ進めるのが、いちばん確実です' }
   ];
 }
@@ -5381,7 +5416,7 @@ function lvNextHtml(target) {
   const ways = [
     { ic: 'task_alt', t: '課題を終わらせる', how: '「課題」で、課題を完了にする', xp: '1つで 20 XP', n: Math.ceil(need / 20), u: '個', go: 'tasks', gt: '課題へ' },
     { ic: 'menu_book', t: 'ページを進める', how: '「課題」で、ページの ＋ を押す', xp: '1ページで 1 XP', n: need, u: 'ページ', go: 'tasks', gt: '課題へ' },
-    { ic: 'timer', t: '集中タイマーで勉強する', how: '「ツール」の集中タイマーで勉強する', xp: '1分で 0.5 XP', n: Math.ceil(need / 0.5), u: '分', go: 'tool:focus', gt: 'タイマーへ' }
+    { ic: 'timer', t: '集中タイマーで勉強する', how: '「ツール」の集中タイマーで勉強する', xp: '1分で 1 XP', n: need, u: '分', go: 'tool:focus', gt: 'タイマーへ' }
   ];
   return `<div class="card lvp-ways"><h3 class="lvp-h">${ms('trending_up')}レベルを上げる方法</h3>` +
     (rw ? `<div class="lvg-rw">Lv.${tg} になると：${esc(rw)}</div>` : '') +
@@ -5412,7 +5447,7 @@ function achHelpHtml() {
     </section>
     <section class="ahp-sec"><h3>${ms('bolt')}経験値（XP）</h3>
       <p>やった分だけ、XPがたまります。</p>
-      <div class="ahp-chips"><span>${ms('task_alt')}課題を1つ終える <b>+20 XP</b></span><span>${ms('menu_book')}ページを1枚進める <b>+1 XP</b></span><span>${ms('timer')}勉強を1分する <b>+0.5 XP</b></span></div>
+      <div class="ahp-chips"><span>${ms('task_alt')}課題を1つ終える <b>+20 XP</b></span><span>${ms('menu_book')}ページを1枚進める <b>+1 XP</b></span><span>${ms('timer')}集中タイマーで1分 <b>+1 XP</b></span></div>
       <small class="ahp-note">1日にもらえるXPには上限があります。毎日少しずつ続けるのが、いちばん確実です。</small>
     </section>
     <section class="ahp-sec"><h3>${ms('trending_up')}レベル</h3>
@@ -6480,7 +6515,7 @@ const ACT = {
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); S.cleared = Date.now(); ui.sid = ''; ui.tab = 'home'; })); },
   reload() { startUpdate(); },
   hardrefresh() { okDlg('最新版を読み込み直しますか？', 'アプリの保存済みファイルを消して、最新版を読み込み直します。課題や成績などのデータは消えません。ネットにつながっている状態で行ってください。', '読み込み直す', hardRefresh); }, ai() { ACT.tab('ai'); },
-  simn(id) { SM.n = +id; toolsRefresh(); }, qzset(id) { quizStart(id); }, qzpick(id) { if (QZ.pick >= 0) return; QZ.pick = +id; QZ.why = ''; QZ.whyBusy = false; const q = QZ.q[QZ.i]; if (q.o[QZ.pick] === q.b) QZ.ok++; else QZ.wrong.push(q); toolsRefresh(); }, qzfav() { const q = QZ.q[QZ.i]; if (!q || QZ.pick < 0) return; qzFavAdd(q); toast('お気に入りに入れました'); toolsRefresh(); }, qznext() { QZ.i++; QZ.pick = -1; QZ.why = ''; QZ.whyBusy = false; if (QZ.i >= QZ.q.length) { QZ.phase = 'done'; if (QZ.ok === QZ.q.length) { try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } } toolsRefresh(); }, qzreset() { QZ.phase = 'setup'; toolsRefresh(); }, nat(id) { if (NS.kind === id) natStop(); else natStart(id); renderMini(); renderFocus(); }, natoff() { natStop(); renderMini(); if (TM.open) renderFocus(); }, ftanim() { S.set.timerAnim = S.set.timerAnim === false; save(); renderFocus(); },
+  simn(id) { SM.n = +id; toolsRefresh(); }, qzset(id) { quizStart(id); }, qzpick(id) { if (QZ.pick >= 0) return; QZ.pick = +id; QZ.why = ''; QZ.whyBusy = false; const q = QZ.q[QZ.i]; if (q.o[QZ.pick] === q.b) QZ.ok++; else { QZ.wrong.push(q); try { volcanoErupt(); } catch (e) { } } toolsRefresh(); }, qzfav() { const q = QZ.q[QZ.i]; if (!q || QZ.pick < 0) return; qzFavAdd(q); toast('お気に入りに入れました'); toolsRefresh(); }, qznext() { QZ.i++; QZ.pick = -1; QZ.why = ''; QZ.whyBusy = false; if (QZ.i >= QZ.q.length) { QZ.phase = 'done'; if (QZ.ok === QZ.q.length) { try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } } toolsRefresh(); }, qzreset() { QZ.phase = 'setup'; toolsRefresh(); }, nat(id) { if (NS.kind === id) natStop(); else natStart(id); renderMini(); renderFocus(); }, natoff() { natStop(); renderMini(); if (TM.open) renderFocus(); }, ftanim() { S.set.timerAnim = S.set.timerAnim === false; save(); renderFocus(); },
   wcsheet() { WC.sheet = null; wcPaint(false); },
   wcflip() { const c = $('#wcc'); if (!c || WC.busy) return; WC.flip = !WC.flip; c.classList.toggle('flip', WC.flip); },
   wcok() { wcMark(1); }, wcng() { wcMark(0); },
@@ -7396,6 +7431,19 @@ function eruptBurst(el, x, y) {
   for (let i = 0; i < 9; i++) { const p = document.createElement('i'); p.style.setProperty('--a', (i * 40 + Math.random() * 16) + 'deg'); b.appendChild(p); }
   el.appendChild(b); setTimeout(() => b.remove(), 760);
 }
+// 火山テーマで、単語帳の問題を間違えたときの噴火（溶岩・灰・揺れ。見やすさのため、すぐ消えます）
+function volcanoErupt() {
+  if (!document.documentElement.hasAttribute('data-vol') || timerReduced()) return;
+  const r = () => (Math.random() * 100).toFixed(1) + '%';
+  let h = '<b>噴火！</b>';
+  for (let k = 0; k < 16; k++) h += `<i style="left:${r()};--s:${(18 + Math.random() * 34).toFixed(0)}px;--d:${(1.1 + Math.random() * 0.8).toFixed(2)}s;--dl:${(Math.random() * 0.35).toFixed(2)}s"></i>`;
+  for (let k = 0; k < 24; k++) h += `<u style="left:${r()};--d:${(1.6 + Math.random() * 1.2).toFixed(2)}s;--dl:${(Math.random() * 0.8).toFixed(2)}s"></u>`;
+  const d = document.createElement('div'); d.className = 'vero'; d.setAttribute('aria-hidden', 'true'); d.innerHTML = h;
+  document.body.appendChild(d);
+  document.documentElement.classList.remove('vquake'); void document.documentElement.offsetWidth; document.documentElement.classList.add('vquake');
+  setTimeout(() => document.documentElement.classList.remove('vquake'), 650);
+  setTimeout(() => d.remove(), 2200);
+}
 function volcanoFx() {
   if (timerReduced()) return;
   const d = document.createElement('div'); d.className = 'vfx'; document.body.appendChild(d);
@@ -7423,9 +7471,10 @@ function applyTheme() {
   r.dataset.theme = dark ? 'dark' : 'light';
   r.dataset.nav = S.set.navPos === 'bottom' ? 'bottom' : '';
   try { applyFont(); } catch (e) { }
-  let vol = false, hue = S.set.hue; try { const tid = THEME_PREV || growGet().theme || ''; vol = tid === 'volcano'; const th = THEME_SHOP[tid]; if (th && th.hue != null) hue = th.hue; } catch (e) { }
+  let vol = false, hue = S.set.hue, tid0 = ''; try { const tid = THEME_PREV || growGet().theme || ''; tid0 = tid; vol = tid === 'volcano'; const th = THEME_SHOP[tid]; if (th && th.hue != null) hue = th.hue; } catch (e) { }
   r.style.setProperty('--h', vol ? 12 : hue);
   if (vol) r.dataset.vol = '1'; else delete r.dataset.vol;
+  if (tid0) r.dataset.tid = tid0; else delete r.dataset.tid;
   r.style.setProperty('--fs', { s: .92, m: 1, l: 1.12 }[S.set.fs] || 1);
   r.classList.toggle('noanim', !S.set.anim);
   try { applyHomeBg(); } catch (e) { }
@@ -8768,7 +8817,7 @@ function ttType(ev) {
     if (want !== undefined && v[j].toLowerCase() !== want.toLowerCase()) {
       // まちがえた文字は入れない（消さなくても、そのまま次の文字を打てます）
       inp.value = v.slice(0, -1); v = inp.value;
-      TT.miss++; TT.streak = 0; const st = $('#tystk'); if (st) st.textContent = 0;
+      TT.miss++; TT.streak = 0; if (Date.now() - (TT.eruT || 0) > 2500) { TT.eruT = Date.now(); try { volcanoErupt(); } catch (e) { } } const st = $('#tystk'); if (st) st.textContent = 0;
       const sl = $('#tyslots'); if (sl) { sl.classList.remove('ty-shake'); void sl.offsetWidth; sl.classList.add('ty-shake'); }
     } else { S.typed = (S.typed || 0) + 1; save(); }
   }
@@ -14108,7 +14157,7 @@ var THEME_PREV = null, THEME_BACK = null;   // テーマの見本（アプリ画
 const THEME_SHOP = {
   sakura: { n: '桜', c: 700, lv: 6, hue: 344, sw: 'linear-gradient(135deg,#ffb7c5,#e76f8e 60%,#7a2a44)', d: '桜のピンクで、ボタンや色をそろえます。レベル6になると、XPで買えます' },
   indigo: { n: '藍（あい）', c: 600, lv: 5, hue: 226, sw: 'linear-gradient(135deg,#5b7fb8,#1f3a5f 60%,#0d1a2e)', d: '藍色で、落ち着いた和風の色にします。レベル5になると、XPで買えます' },
-  matcha: { n: '抹茶', c: 600, lv: 9, hue: 118, sw: 'linear-gradient(135deg,#c5e8a8,#5a9a3c 60%,#24401a)', d: '抹茶の緑で、やわらかい色にします。レベル9になると、XPで買えます' },
+  matcha: { n: '抹茶', c: 600, lv: 9, hue: 92, sw: 'linear-gradient(135deg,#e2efc0,#8aa743 60%,#3f5a1c)', d: '抹茶の緑で、やわらかい色にします。レベル9になると、XPで買えます' },
   kinpaku: { n: '金箔', c: 900, lv: 15, hue: 46, sw: 'linear-gradient(135deg,#f5e6a8,#c9a24a 60%,#5a4212)', d: '金色で、きらびやかにします。レベル15になると、XPで買えます' },
   volcano: { n: '火山', c: 1000, lv: 10, free: true, d: 'レベル10で、XPを使わずに使えます（先に買うこともできます）。背景・ボタン・色を、火山と溶岩の色にします' } };
 // アプリ全体のフォント（XPで買う）。fam は Google Fonts の名前（見るときだけ読み込む）
