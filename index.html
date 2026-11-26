@@ -67,8 +67,8 @@
 <link rel="icon" href="icon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&family=Noto+Sans+JP:wght@100..900&display=swap" media="print" onload="this.onload=null;this.media='all'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&family=Noto+Sans+JP:wght@100..900&display=swap"></noscript>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&family=Noto+Sans+JP:wght@100..900&family=DotGothic16&family=Press+Start+2P&display=swap" media="print" onload="this.onload=null;this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&family=Noto+Sans+JP:wght@100..900&family=DotGothic16&family=Press+Start+2P&display=swap"></noscript>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&display=swap">
 <link id="msl" rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block" media="print" onload="this.onload=null;this.media='all';window.__fl&&__fl()">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0..1,0&display=block"></noscript>
@@ -252,19 +252,45 @@ body.tmo #mchip.show{z-index:70;right:auto;left:0;right:0;margin:0 auto;width:ma
 #focus[data-fst]:not([data-fst=m3e]) #fshape{display:none}
 #focus[data-fst=dot] .f-ring svg,#focus[data-fst=wafuu] .f-ring svg,#focus[data-fst=neon] .f-ring svg{display:none}
 /* 18.3.10：ドット（マイクラ風）。石のタイルの背景、石のボタン、経験値バーのような進みバー */
-#focus[data-fst=dot]{--s2:#3a3a3e;--s3:#4a4a4e;--on:#fff;--on-v:#d4d4d4;background-color:#2a2a2d!important;background-image:linear-gradient(45deg,#0000001f 25%,transparent 25% 75%,#0000001f 75%),linear-gradient(45deg,#0000001f 25%,transparent 25% 75%,#0000001f 75%)!important;background-size:32px 32px;background-position:0 0,16px 16px;color:#fff}
-#focus[data-fst=dot] .f-stage{min-height:0;padding-top:8px}
-#focus[data-fst=dot] .f-time{padding:16px 22px 14px;background:#1b1b1e;box-shadow:inset 0 0 0 4px #000,inset 4px 4px 0 #3a3a3e,inset -4px -4px 0 #0c0c0e}
-#focus[data-fst=dot] .f-time b{font-family:"Courier New",ui-monospace,monospace;font-weight:900;font-size:clamp(52px,15vw,84px);letter-spacing:.06em;color:#fff;text-shadow:4px 4px 0 #3f3f3f}
-#focus[data-fst=dot] .f-time small{color:#c8c8c8;text-shadow:2px 2px 0 #3f3f3f}
-#focus[data-fst=dot] .f-px{display:block;width:min(84vw,420px);height:22px;margin:18px auto 8px;padding:3px;box-sizing:border-box;background:#000;box-shadow:inset 0 0 0 2px #1b1b1e}
+/* 18.3.15：マイクラ風の集中タイマー（石の背景・ドットの数字・石のボタン・木の看板・草のボタン） */
+#focus[data-fst=dot]{--s2:#3a3a3e;--s3:#4a4a4e;--on:#fff;--on-v:#d4d4d4;background-color:#6b6b6b!important;background-image:var(--mcbg)!important;background-size:64px 64px;image-rendering:pixelated;color:#fff}
+#focus[data-fst=dot] .f-stage{min-height:0;padding-top:10px}
+#focus[data-fst=dot] .f-time{padding:18px 20px 16px;background:#141418;box-shadow:inset 0 0 0 4px #000,inset 4px 4px 0 #2e2e36,inset -4px -4px 0 #0a0a0c,0 0 0 4px #000}
+#focus[data-fst=dot] .f-time b{font-family:"Press Start 2P",monospace;font-weight:400;font-size:clamp(34px,10vw,58px);line-height:1.3;letter-spacing:.02em;color:#fff;text-shadow:4px 4px 0 #3f3f3f}
+#focus[data-fst=dot] .f-time small{font-family:"DotGothic16","Noto Sans JP",monospace;font-size:16px;color:#d6d6d6;text-shadow:2px 2px 0 #3f3f3f}
+#focus[data-fst=dot] .f-px{display:block;width:min(84vw,420px);height:22px;margin:18px auto 8px;padding:3px;box-sizing:border-box;background:#000;box-shadow:0 0 0 3px #000,inset 0 0 0 2px #1b1b1e}
 #focus[data-fst=dot] .f-px i{display:block;height:100%;width:0;background-image:repeating-linear-gradient(90deg,transparent 0 22px,#2a2a2d 22px 25px),linear-gradient(180deg,#b6ff5c,#6fd12a 60%,#4fa61d);transition:width .4s steps(12)}
 #focus[data-fst=dot] button,#focus[data-fst=dot] .chip,#focus[data-fst=dot] .fb{border-radius:0!important;background:#8b8b8b!important;color:#fff!important;border:0!important;box-shadow:inset -4px -4px 0 #4a4a4a,inset 4px 4px 0 #c6c6c6,0 0 0 3px #000!important;text-shadow:2px 2px 0 #3f3f3f}
 #focus[data-fst=dot] button:active{transform:translateY(2px)}
 #focus[data-fst=dot] .fb.on,#focus[data-fst=dot] .seg button.on,#focus[data-fst=dot] .chip.on{background:#5c9c35!important;box-shadow:inset -4px -4px 0 #2f5a1a,inset 4px 4px 0 #9fe070,0 0 0 3px #000!important}
-#focus[data-fst=dot] .f-play{background:#5fbf3f!important;color:#fff!important}
+#focus[data-fst=dot] .f-play{background:#5fbf3f!important;box-shadow:inset -4px -4px 0 #2f6a1a,inset 4px 4px 0 #9fe070,0 0 0 3px #000!important;color:#fff!important}
+#focus[data-fst=dot] .f-top .ibtn{width:50px;height:50px;padding:0;display:grid;place-items:center}
+#focus[data-fst=dot] .f-top .seg{background:#2a2a2e;box-shadow:0 0 0 3px #000;border-radius:0;padding:4px;gap:4px;display:flex}
+#focus[data-fst=dot] .f-top .pillchip{border-radius:0!important;background:#9c6b3c!important;color:#fff!important;box-shadow:inset -4px -4px 0 #5e3d1c,inset 4px 4px 0 #c99a62,0 0 0 3px #000!important;text-shadow:2px 2px 0 #3f3f3f;padding:10px 14px}
 #focus[data-fst=dot] .f-sheet{background:#2a2a2d;color:#fff;border-radius:0;box-shadow:inset 0 0 0 4px #000,inset 4px 4px 0 #3a3a3e}
 #focus[data-fst=dot] .f-sheet button{box-shadow:inset -4px -4px 0 #4a4a4a,inset 4px 4px 0 #c6c6c6,0 0 0 3px #000!important}
+/* 集中と休憩の切り替え：クリーパーの爆発 */
+.cboom{position:fixed;inset:0;z-index:97;pointer-events:none;overflow:hidden}
+.cboom .cb-face{position:absolute;left:50%;top:44%;width:min(42vw,190px);height:min(42vw,190px);image-rendering:pixelated;animation:cbFuse 1s linear forwards;filter:drop-shadow(0 6px 0 rgba(0,0,0,.35))}
+@keyframes cbFuse{0%{opacity:0;transform:translate(-50%,-50%) scale(.3)}8%{opacity:1;transform:translate(-50%,-50%) scale(1)}55%{transform:translate(-50%,-50%) scale(1)}62%{transform:translate(calc(-50% - 7px),-50%) scale(1.04)}68%{transform:translate(calc(-50% + 7px),-50%) scale(1.06)}74%{transform:translate(-50%,-50%) scale(1.1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.8)}}
+.cboom .cb-ssss{position:absolute;left:50%;top:calc(44% + min(42vw,190px) / 2 + 26px);transform:translateX(-50%);font-family:"Press Start 2P",monospace;font-size:14px;color:#fff;text-shadow:3px 3px 0 #000;white-space:nowrap;animation:cbSs 1s steps(1,end) forwards}
+@keyframes cbSs{0%{opacity:0}4%{opacity:1}92%{opacity:1}100%{opacity:0}}
+.cboom .cb-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 44%,#fff,rgba(255,255,255,.75) 28%,transparent 65%);opacity:0;animation:cbFlash .6s ease-out 1s forwards}
+@keyframes cbFlash{0%{opacity:0}12%{opacity:1}100%{opacity:0}}
+.cboom .cb-px{position:absolute;left:50%;top:44%;width:var(--s);height:var(--s);background:var(--c);box-shadow:inset -3px -3px 0 rgba(0,0,0,.35),inset 3px 3px 0 rgba(255,255,255,.25);opacity:0;animation:cbFly 1.2s cubic-bezier(.12,.7,.25,1) 1s forwards}
+@keyframes cbFly{0%{opacity:1;transform:translate(-50%,-50%) rotate(0) scale(1)}100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) rotate(var(--r)) scale(.5)}}
+.cboom .cb-title{position:absolute;left:50%;top:44%;transform:translate(-50%,-50%);font-family:"DotGothic16","Noto Sans JP",monospace;font-size:clamp(28px,8vw,46px);font-weight:900;color:#fff;text-shadow:4px 4px 0 #3f3f3f,0 0 22px #5fbf3f;white-space:nowrap;opacity:0;animation:cbTitle 1.6s ease-out 1.25s forwards}
+.cboom .cb-sub{position:absolute;left:50%;top:calc(44% + 62px);transform:translateX(-50%);font-family:"DotGothic16","Noto Sans JP",monospace;font-size:18px;color:#fff;text-shadow:2px 2px 0 #000;white-space:nowrap;opacity:0;animation:cbSub 1.6s ease-out 1.35s forwards}
+@keyframes cbTitle{0%{opacity:0;transform:translate(-50%,-50%) scale(.6)}25%{opacity:1;transform:translate(-50%,-50%) scale(1)}85%{opacity:1}100%{opacity:0}}
+@keyframes cbSub{0%{opacity:0;transform:translateX(-50%)}25%{opacity:1;transform:translateX(-50%)}85%{opacity:1}100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.cboom{display:none}}
+/* 18.3.15：漢字テキストの「ペンの太さ」「選択できない」 */
+#txview,#txview *{-webkit-user-select:none!important;user-select:none!important;-webkit-touch-callout:none!important;-webkit-tap-highlight-color:transparent}
+#txview ::selection{background:transparent}
+.tx-widths{display:flex;gap:6px;align-items:center}
+.tx-w{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:52px;min-height:44px;border-radius:14px;border:2px solid var(--s3,#ccc);background:var(--s1,#fff);color:inherit;font-weight:800;font-size:12px;padding:4px 8px;cursor:pointer}
+.tx-w i{display:block;width:30px;border-radius:99px;background:currentColor;height:var(--w)}
+.tx-w.on{border-color:var(--primary);background:var(--pc)}
 #focus[data-fst=wafuu]{background:#f6ecd6!important;color:#2b1d12}
 #focus[data-fst=wafuu] .f-time b,#focus[data-fst=wafuu] .f-time small{font-family:"Shippori Mincho","Hiragino Mincho ProN","Yu Mincho",serif;color:#2b1d12}
 #focus[data-fst=wafuu] .f-ring svg .trk{stroke:#e0cfa6}
@@ -3697,8 +3723,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.14'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.14';
+const RELEASE_VER = '18.3.15'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.15';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4711,6 +4737,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.15', d: '2026/11/26 13:30', t: '集中タイマーをマイクラ風に（クリーパーの爆発）・板書に写真を選んで入れる・漢字テキストの拡大と書き心地', n: ['集中タイマーを、マイクラ風の字（ドット文字）・石の背景・石と木のボタンにしました', '集中と休憩を切り換えると、クリーパーが爆発する演出を出します（アニメーションを減らす設定のときは出ません）', '板書に「写真を選ぶ」を追加。iPadの写真から、何枚でも入れられます（写真は、この端末の中だけに保存されます）', '漢字テキストの拡大・縮小は、指で押さえた場所（2本指の真ん中・ボタンのときは画面の真ん中）が、ずれずに残るようにしました', 'ペンの太さを「細・中・太」から選べるように。線は曲線でつながり、なめらかに書けます', '漢字テキストで長押ししても、青い選択やコピーの表示が出ないようにしました'] },
   { v: '18.3.14', d: '2026/11/26 11:50', t: '集中タイマーは1分1XP・火山の噴火の演出・火山と抹茶のテーマを作り直し', n: ['集中タイマーで1分集中すると、1XPもらえるように（今までは0.5XP）', '火山テーマで、単語帳の問題を間違えると噴火します（4択は1回ごと。入力テストは、2.5秒に1回まで）', '火山テーマを、ツールバー・見出し・バー・ボタンまで火山の色に（文字は見やすく）', '抹茶テーマを、やわらかい抹茶の緑と泡のような模様に作り直しました', 'テーマを変えたときに出ていた、四角い箱（おすすめの帯）を直しました'] },
   { v: '18.3.13', d: '2026/11/26 11:10', t: 'レベル画面を、今のレベル・持っているXP・次まであと何XPが一目で分かるレイアウトに', n: ['いちばん上に、今のレベル・持っているXP・次のレベルまでの残りを大きく出しました', 'レベルを上げる方法を、課題・ページ・集中タイマーの3つに分けて、あと何個・何ページ・何分かを表示', 'それぞれの横のボタンで、課題・集中タイマーのそのまま開けるように'] },
   { v: '18.3.12', d: '2026/11/26 10:50', t: 'レベルが低いうちは、少ないXPで上がるように。レベルの上げ方は、あと何をすればいいかを具体的に', n: ['はじめのレベルに必要なXPを減らしました（Lv.2〜5は、今の半分ほど。Lv.13からは今までと同じ伸び方）。Lv.10 までの合計は約30%減、Lv.20 までは約8%減', 'レベル画面で、あと何個の課題・何ページ・何分でレベルアップするかを、分かりやすく出すようにしました', '次のレベルになると、何が使えるようになるかも出します', 'レベルの説明の数字は、新しい計算に合わせて自動で出します'] },
@@ -6212,6 +6239,7 @@ function renderFocus() {
   if (TM.sheet === 'task' && TM.mode !== 'focus') TM.sheet = '';
   const el = $('#focus'), brk = TM.mode !== 'focus';
   el.dataset.fst = TM.tsPrev || growGet().tstyle || 'm3e';
+  if (el.dataset.fst === 'dot') el.style.setProperty('--mcbg', mcBg());
   el.classList.toggle('brk', brk); el.classList.toggle('noanim', S.set.timerAnim === false);
   const tasks = examTasks().filter(t => !isDone(t));
   const opts = subjects().map(s => { const ts = tasks.filter(t => t.sid === s.id); return ts.length ? `<optgroup label="${esc(s.name)}">${ts.map(t => `<option value="${t.id}" ${t.id === TM.tid ? 'selected' : ''}>${esc(t.title)}</option>`).join('')}</optgroup>` : ''; }).join('');
@@ -6274,8 +6302,35 @@ function minimizeFocus() {
   a.onfinish = () => { el.hidden = true; renderMini(); const m = $('#mini'); if (m) { m.classList.add('pop'); setTimeout(() => m.classList.remove('pop'), 500); } };
 }
 // 休憩・集中が切り替わるときの演出（光の放射・文字が跳ねる・紙吹雪）
+// マイクラ風の石の模様（16×16の小さな石が並ぶ。ページを開いてから一度だけ作る）
+let MC_BG = '';
+function mcBg() {
+  if (MC_BG) return MC_BG;
+  let seed = 7; const rnd = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+  const cols = ['#7a7a7a', '#707070', '#858585', '#6a6a6a', '#8c8c8c', '#767676'];
+  let rects = '';
+  for (let y = 0; y < 16; y++) for (let x = 0; x < 16; x++) rects += `<rect x="${x}" y="${y}" width="1" height="1" fill="${cols[Math.floor(rnd() * cols.length)]}"/>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" shape-rendering="crispEdges">${rects}</svg>`;
+  MC_BG = `url("data:image/svg+xml;utf8,${encodeURIComponent(svg)}")`;
+  return MC_BG;
+}
+// クリーパーの顔（8×8）。K は黒い目と口、G は緑
+const CB_FACE = ['GGGGGGGG', 'GGGGGGGG', 'GKKGGKKG', 'GKKGGKKG', 'GGGKKGGG', 'GGKKKKGG', 'GGKGGKGG', 'GGKGGKGG'];
+// 集中と休憩を切り換えると、クリーパーが「シュー」と爆発して、新しい時間が始まる
+function creeperBoom(mode) {
+  const face = `<svg class="cb-face" viewBox="0 0 8 8" shape-rendering="crispEdges" aria-hidden="true"><rect width="8" height="8" fill="#5fbf3f"/>${CB_FACE.flatMap((row, y) => [...row].map((c, x) => c === 'K' ? `<rect x="${x}" y="${y}" width="1" height="1" fill="#111"/>` : (c === 'G' && (x + y) % 3 === 0 ? `<rect x="${x}" y="${y}" width="1" height="1" fill="#4aa52c"/>` : ''))).join('')}</svg>`;
+  const COLS = ['#5fbf3f', '#3f8f2a', '#111111', '#7fd65a', '#2a2a2a'];
+  const parts = Array.from({ length: 28 }, () => { const a = Math.random() * Math.PI * 2, r = 30 + Math.random() * 45; return `<i class="cb-px" style="--x:${(Math.cos(a) * r).toFixed(1)}vw;--y:${(Math.sin(a) * r * 1.4).toFixed(1)}vh;--s:${(8 + Math.random() * 12).toFixed(0)}px;--c:${COLS[Math.floor(Math.random() * COLS.length)]};--r:${(Math.random() * 540 - 270).toFixed(0)}deg"></i>`; }).join('');
+  const d = document.createElement('div'); d.className = 'cboom'; d.setAttribute('aria-hidden', 'true');
+  d.innerHTML = `${face}<div class="cb-ssss">ssss…</div><div class="cb-flash"></div>${parts}<div class="cb-title">${mode === 'focus' ? '集中スタート' : '休憩タイム'}</div><div class="cb-sub">${Math.round(durOf(mode) / 60)}分</div>`;
+  const f = document.getElementById('focus');
+  if (f && f.animate) f.animate([{ transform: 'translate(0,0)' }, { transform: 'translate(-7px,4px)' }, { transform: 'translate(6px,-5px)' }, { transform: 'translate(-4px,3px)' }, { transform: 'translate(0,0)' }], { duration: 480, delay: 1000 });
+  document.body.appendChild(d);
+  setTimeout(() => d.remove(), 3200);
+}
 function phaseFx(mode) {
   if (timerReduced()) return;
+  if ((TM.tsPrev || growGet().tstyle) === 'dot') { creeperBoom(mode); return; }
   const brk = mode !== 'focus', d = document.createElement('div');
   d.className = 'pfx ' + (brk ? 'brk' : 'foc');
   const title = mode === 'focus' ? '集中スタート' : mode === 'long' ? 'ゆっくり休憩' : '休憩タイム';
@@ -9822,7 +9877,7 @@ function kjPaint() {
 TPAINT.kanji = kjPaint;
 /* ---- 漢字練習：テキストで勉強。教科書のPDF（beta/kanji/books.json に登録）を開き、Apple Pencilで書き込みます ---- */
 const TX = { books: null, bookErr: false, loading: false, bookId: '', from: 0, to: 0, open: false, cur: 0, color: '#c62828', eraser: false, finger: false, penAt: 0, ink: null, docs: {}, lib: null, pc: {}, pr: {}, io: null, ro: null, rt: 0, saveWarned: false, z: 1, full: false, tch: new Map(), pinch: null, zt: 0, raf: 0 };
-const TX_INK_KEY = 'kosa-kanji-ink-v1', TX_PEN_W = 0.0035, TX_COLORS = [['#c62828', '赤'], ['#1565c0', '青'], ['#111111', '黒']];
+const TX_INK_KEY = 'kosa-kanji-ink-v1', TX_PEN_W = 0.0035, TX_PEN_WS = { s: 0.0022, m: 0.0035, l: 0.0058 }, TX_COLORS = [['#c62828', '赤'], ['#1565c0', '青'], ['#111111', '黒']];
 const txR4 = v => Math.round(v * 1e4) / 1e4, txClamp = v => Math.min(1, Math.max(0, v));
 const txDpr = () => Math.min(2, window.devicePixelRatio || 1);
 async function txBooks() {
@@ -9905,12 +9960,19 @@ async function txShow(sec) {
     const ld = box.querySelector('.tx-ld'); if (ld) ld.textContent = '教科書を開けませんでした。通信を確かめて、もう一度お試しください';
   }
 }
+// なめらかな線：点と点のあいだを、中点どうしを曲線でつないで描く（角がガタガタしないように）
+const txMid = (a, b) => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, p: (a.p + b.p) / 2 });
+function txPiece(ctx, W, H, st, P, i) {
+  const n = P.length, a = i === 0 ? P[0] : txMid(P[i - 1], P[i]), c = P[i], b = i === n - 1 ? P[n - 1] : txMid(P[i], P[i + 1]);
+  ctx.lineWidth = Math.max(1, st.w * W * (0.7 + 0.6 * c.p));
+  ctx.beginPath(); ctx.moveTo(a.x * W, a.y * H); ctx.quadraticCurveTo(c.x * W, c.y * H, b.x * W, b.y * H); ctx.stroke();
+}
 function txPaintStroke(ctx, W, H, st) {
   const pts = st.pts; if (!Array.isArray(pts) || !pts.length) return;
   const col = /^#[0-9a-f]{6}$/i.test(st.c) ? st.c : '#111111';
   ctx.strokeStyle = col; ctx.fillStyle = col;
   if (pts.length === 1) { const d = st.w * W * (0.6 + 0.8 * pts[0].p); ctx.beginPath(); ctx.arc(pts[0].x * W, pts[0].y * H, Math.max(1, d / 2), 0, Math.PI * 2); ctx.fill(); return; }
-  for (let i = 1; i < pts.length; i++) txSeg(ctx, W, H, st, pts[i - 1], pts[i]);
+  for (let i = 0; i < pts.length; i++) txPiece(ctx, W, H, st, pts, i);
 }
 function txSeg(ctx, W, H, st, a, b) {
   ctx.lineWidth = Math.max(1, st.w * W * (0.6 + 0.8 * ((a.p + b.p) / 2)));
@@ -9957,7 +10019,7 @@ function txWire(ink) {
     setCur();
     const q = pt(ev);
     if (TX.eraser) { act = { id: ev.pointerId, mode: 'erase', changed: false }; if (txEraseAt(ink, key, q)) act.changed = true; return; }
-    const st = { c: TX.color, w: TX_PEN_W, pts: [q] };
+    const st = { c: TX.color, w: TX_PEN_WS[TX.pw] || TX_PEN_W, pts: [q] };
     txStrokes(key).push(st);
     act = { id: ev.pointerId, mode: 'draw', st, changed: true };
     txPaintStroke(ink.getContext('2d'), ink.width, ink.height, st);
@@ -9981,12 +10043,13 @@ function txWire(ink) {
       if (act.mode === 'erase') { if (txEraseAt(ink, key, q)) act.changed = true; continue; }
       const pts = act.st.pts, last = pts[pts.length - 1];
       if (Math.hypot((q.x - last.x) * r.width, (q.y - last.y) * r.height) < 0.8) continue;
-      pts.push(q); txSeg(ctx, W, H, act.st, last, q);
+      pts.push(q); if (pts.length >= 2) txPiece(ctx, W, H, act.st, pts, pts.length - 2);
     }
   });
   const end = ev => {
     if (!act || ev.pointerId !== act.id) return;
     const a = act; act = null;
+    if (a.mode === 'draw' && a.st.pts.length >= 2) txPiece(ink.getContext('2d'), ink.width, ink.height, a.st, a.st.pts, a.st.pts.length - 1);
     if (a.mode !== 'scroll' && a.changed) txInkSave();
   };
   ink.addEventListener('pointerup', end); ink.addEventListener('pointercancel', end); ink.addEventListener('lostpointercapture', end);
@@ -9998,6 +10061,7 @@ function txPrefLoad() {
     const v = JSON.parse(localStorage.getItem(TX_PREF_KEY) || '{}');
     if (!v || typeof v !== 'object') return;
     if (TX_COLORS.some(([c]) => c === v.color)) TX.color = v.color;
+    if (['s', 'm', 'l'].includes(v.pw)) TX.pw = v.pw;
     if (typeof v.z === 'number' && isFinite(v.z)) TX.z = Math.min(3, Math.max(1, v.z));
     const b = (TX.books || []).find(x => x.id === v.book);
     if (b) {
@@ -10007,15 +10071,27 @@ function txPrefLoad() {
   } catch (e) { }
 }
 function txPrefSave() {
-  try { localStorage.setItem(TX_PREF_KEY, JSON.stringify({ book: TX.bookId, from: TX.from, to: TX.to, color: TX.color, z: TX.z })); } catch (e) { }
+  try { localStorage.setItem(TX_PREF_KEY, JSON.stringify({ book: TX.bookId, from: TX.from, to: TX.to, color: TX.color, z: TX.z, pw: TX.pw || 'm' })); } catch (e) { }
 }
 function txZoomLabel() { const el = document.getElementById('txzl'); if (el) el.textContent = Math.round(TX.z * 100) + '%'; }
 /* 拡大・縮小：見た目はすぐ変え、ページの描き直しは少し待ってまとめて行う（指で動かしている間の負担を減らす） */
-function txZoomSet(z) {
+function txZoomSet(z, ax, ay) {
   const n = Math.round(Math.min(3, Math.max(1, z)) * 100) / 100;
   if (n === TX.z) return;
+  // 指の下（または画面の真ん中）にある場所を覚えて、拡大・縮小のあとも、同じ場所が同じ位置に残るように
+  let anc = null;
+  if (ax != null && ay != null) {
+    const s = [...document.querySelectorAll('.tx-pgw')].find(x => { const r = x.getBoundingClientRect(); return ay >= r.top && ay <= r.bottom; });
+    if (s) { const r = s.getBoundingClientRect(); anc = { s, fx: (ax - r.left) / r.width, fy: (ay - r.top) / r.height, ax, ay }; }
+  }
   TX.z = n; TX.pc = {};
   const box = document.getElementById('txpages'); if (box) box.style.setProperty('--tz', String(n));
+  if (anc) {
+    const r = anc.s.getBoundingClientRect(), dx = r.left + anc.fx * r.width - anc.ax, dy = r.top + anc.fy * r.height - anc.ay;
+    const sc = document.getElementById('txscroll');
+    if (TX.full && sc) sc.scrollBy({ left: dx, top: dy, behavior: 'instant' });
+    else { window.scrollBy({ top: dy, behavior: 'instant' }); if (sc && dx) sc.scrollLeft += dx; }
+  }
   txZoomLabel(); txPrefSave();
   clearTimeout(TX.zt);
   TX.zt = setTimeout(() => document.querySelectorAll('.tx-pgw[data-vis="1"]').forEach(s => txShow(s)), 160);
@@ -10055,6 +10131,8 @@ function txTrackRaf() { if (!TX.raf) TX.raf = requestAnimationFrame(txTrackNow);
 window.addEventListener('scroll', txTrackRaf, { passive: true, capture: true });
 document.addEventListener('keydown', e => { if (e.key === 'Escape' && TX.full) { TX.full = false; txFullSync(); } });
 /* 2本の指で広げる・狭める：拡大・縮小（ペンで書いている間は、反応しない） */
+// 長押しで青い選択やコピーの表示が出ないように（書き込みの邪魔になるため）
+['selectstart', 'contextmenu', 'dragstart'].forEach(t => document.addEventListener(t, e => { if (e.target && e.target.closest && e.target.closest('#txview')) e.preventDefault(); }, true));
 function txPinchWire(box) {
   TX.tch = new Map(); TX.pinch = null;
   const gap = () => { const v = [...TX.tch.values()]; return Math.hypot(v[0].x - v[1].x, v[0].y - v[1].y); };
@@ -10066,7 +10144,7 @@ function txPinchWire(box) {
   box.addEventListener('pointermove', ev => {
     const t = TX.tch.get(ev.pointerId); if (!t) return;
     t.x = ev.clientX; t.y = ev.clientY;
-    if (TX.pinch && TX.tch.size === 2) txZoomSet(TX.pinch.z0 * gap() / TX.pinch.d0);
+    if (TX.pinch && TX.tch.size === 2) { const v = [...TX.tch.values()]; txZoomSet(TX.pinch.z0 * gap() / TX.pinch.d0, (v[0].x + v[1].x) / 2, (v[0].y + v[1].y) / 2); }
   });
   const up = ev => { TX.tch.delete(ev.pointerId); if (TX.tch.size < 2) TX.pinch = null; };
   box.addEventListener('pointerup', up); box.addEventListener('pointercancel', up);
@@ -10119,6 +10197,7 @@ function txViewHtml(b) {
     <div class="tx-head"><b>${esc(b.title)}</b><small>${TX.from}〜${TX.to}ページ</small><span class="sp"></span><button type="button" class="btn text sm" data-act="txclose">${ms('tune')}範囲をかえる</button><button type="button" class="btn tonal sm" data-act="txfull">${TX.full ? ms('fullscreen_exit') + '全画面をとじる' : ms('fullscreen') + '全画面で書く'}</button></div>
     <div class="tx-bar" role="toolbar" aria-label="書き込みの道具">
       <div class="tx-cols">${TX_COLORS.map(([c, n]) => `<button type="button" class="tx-col" style="--c:${c}" data-act="txcolor" data-id="${c}" aria-pressed="false" aria-label="${n}のペン"></button>`).join('')}</div>
+      <div class="tx-widths" role="group" aria-label="ペンの太さ">${[['s', '細', 3], ['m', '中', 6], ['l', '太', 11]].map(([k, n, w]) => `<button type="button" class="tx-w${(TX.pw || 'm') === k ? ' on' : ''}" data-act="txwidth" data-id="${k}" aria-pressed="${(TX.pw || 'm') === k}" aria-label="${n}い線"><i style="--w:${w}px"></i>${n}</button>`).join('')}</div>
       <button type="button" class="tx-t" data-act="txeraser" aria-pressed="false">${ms('ink_eraser')}消しゴム</button>
       <button type="button" class="tx-t" data-act="txundo">${ms('undo')}1本もどす</button>
       <button type="button" class="tx-t" data-act="txclear">${ms('delete_sweep')}このページを消す</button>
@@ -10173,7 +10252,8 @@ Object.assign(ACT, {
   txclose() { TX.full = false; TX.open = false; txFullSync(); render(); },
   txretry() { TX.books = null; TX.bookErr = false; render(); },
   txfull() { TX.full = !TX.full; txFullSync(); },
-  txzoom(v) { txZoomSet(v === 'fit' ? 1 : TX.z + (v === 'in' ? 0.25 : -0.25)); },
+  txzoom(v) { txZoomSet(v === 'fit' ? 1 : TX.z + (v === 'in' ? 0.25 : -0.25), innerWidth / 2, innerHeight / 2); },
+  txwidth(v) { TX.pw = v; txPrefSave(); txBarSync(); },
   txgo(d) {
     const b = txBook(); if (!b) return;
     const secs = [...document.querySelectorAll('.tx-pgw')]; if (!secs.length) return;
@@ -10446,6 +10526,30 @@ function bdInput() {
   }
   return f;
 }
+// 「写真を選ぶ」：iPadの写真から、何枚でも選べる（カメラは開かない）
+function bdUploadInput() {
+  let f = document.getElementById('bdupf');
+  if (!f) {
+    f = document.createElement('input'); f.type = 'file'; f.id = 'bdupf'; f.accept = 'image/*'; f.multiple = true; f.hidden = true;
+    document.body.appendChild(f);
+    f.addEventListener('change', () => { const files = [...(f.files || [])]; f.value = ''; if (files.length) bdUpload(files); });
+  }
+  return f;
+}
+async function bdUpload(files) {
+  toast(`写真を${files.length}枚、保存しています…`);
+  let ok = 0, last = null;
+  for (const file of files) {
+    try {
+      const img = await aiResize(file, 1600);
+      const rec = { id: uid(), at: Date.now() + ok, title: `板書 ${today()}`, url: img.url, summary: '' };
+      await bdbPut(rec); last = rec; ok++;
+    } catch (e) { }
+  }
+  BD.list = null; if (last) BD.sel = last.id;
+  toast(ok ? `${ok}枚、保存しました` : '写真を保存できませんでした');
+  if (ui.tab === 'tools' && ui.tool === 'board') bdLoad(); else ACT.tab('tool:board');
+}
 async function bdSnap(file) {
   toast('板書を保存しています…');
   try {
@@ -10462,7 +10566,7 @@ function boardHtml() {
   if (BD.list === null) return `<div class="bd"><p class="muted" style="font-weight:500">板書の写真を読み込んでいます…</p></div>`;
   const L = BD.list; if (BD.sel && !L.some(r => r.id === BD.sel)) BD.sel = '';
   const cur = L.find(r => r.id === BD.sel) || null;
-  const top = `<div class="bd-top"><button type="button" class="btn" data-act="bsnap">${ms('photo_camera')}板書を撮る</button><span class="muted bd-n">${L.length ? `${L.length}枚` : ''}</span></div>`;
+  const top = `<div class="bd-top"><button type="button" class="btn" data-act="bsnap">${ms('photo_camera')}板書を撮る</button><button type="button" class="btn tonal" data-act="bupload">${ms('photo_library')}写真を選ぶ</button><span class="muted bd-n">${L.length ? `${L.length}枚` : ''}</span></div>`;
   if (!L.length) return `<div class="bd">${top}<div class="card muted" style="font-weight:500;line-height:1.8">黒板やホワイトボードを撮ると、ここに並びます。<br>左上の「＋」から「板書を撮る」を押してください。</div></div>`;
   const grid = `<div class="bd-grid" role="list">${L.map(r => `<button type="button" role="listitem" class="bd-th ${r.id === BD.sel ? 'on' : ''}" data-act="bdsel" data-id="${esc(r.id)}"><img src="${r.url}" alt="${esc(r.title)}"><span>${esc(r.title)}</span></button>`).join('')}</div>`;
   const det = cur ? `<div class="card bd-det">
@@ -10482,6 +10586,7 @@ document.addEventListener('change', e => {
 });
 Object.assign(ACT, {
   bsnap() { ui.fab = false; renderFab(); bdInput().click(); },
+  bupload() { bdUploadInput().click(); },
   bdsel(id) { BD.sel = id; toolsRefresh(); },
   async bdai(id) {
     const r = (BD.list || []).find(x => x.id === id); if (!r) return;
