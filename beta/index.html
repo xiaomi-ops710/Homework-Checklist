@@ -2615,40 +2615,68 @@ html.tx-lock,html.tx-lock body{overflow:hidden}
 html[data-theme=dark] .tsub{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#f1edff}
 html[data-theme=dark] .tsub.on{background:var(--tc,var(--primary));border-color:transparent;color:#fff}
 #mgframe.ps-pin iframe{top:0;left:0;width:100%;height:100%}
-/* 水槽（魚を育てる） */
-.fsh-card{padding:14px 14px 12px}
+/* 水槽（魚を育てる）：金の枠の水槽キャビネット */
+.fsh-card{padding:14px}
 .fsh-hd{display:flex;align-items:center;gap:8px;margin:0 0 10px;flex-wrap:wrap}
 .fsh-hd h2{margin:0;font-size:1.05rem;display:flex;align-items:center;gap:6px}
+.fsh-title{background:linear-gradient(90deg,#8a5b10,#ffe07a 40%,#b07a1e 62%,#fff1b8);-webkit-background-clip:text;background-clip:text;color:transparent}
 .fsh-ft{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
-.fsh-tank{position:relative;container-type:inline-size;overflow:hidden;height:clamp(190px,46vw,320px);border-radius:20px;isolation:isolate;background:linear-gradient(180deg,#b9f2f9 0,#4fbfd3 9%,#1f8aa6 35%,#126482 65%,#0b4262 88%,#072c44 100%);box-shadow:inset 0 0 0 7px #2a3a44,inset 0 0 0 9px rgba(255,255,255,.22),0 12px 24px rgba(0,25,40,.3)}
-.fsh-tank.big{height:clamp(220px,52vw,360px)}
-.fsh-rays{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 16% 70% at 16% -12%,rgba(255,255,255,.32),transparent 70%),radial-gradient(ellipse 12% 60% at 44% -12%,rgba(255,255,255,.22),transparent 70%),radial-gradient(ellipse 10% 55% at 76% -12%,rgba(255,255,255,.26),transparent 70%)}
-.fsh-surf{position:absolute;left:0;right:0;top:0;height:16px;background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0))}
-.fsh-plant{position:absolute;bottom:40px;width:26px;transform-origin:50% 100%;animation:fshSway 5.5s ease-in-out infinite alternate}
-.fsh-gravel{position:absolute;left:0;right:0;bottom:0;width:100%;height:56px}
+.fsh-cab{position:relative;padding:9px 9px 0;border-radius:26px;background:linear-gradient(160deg,#f7e2a0 0,#b8862b 22%,#fff0b8 40%,#a9741c 62%,#e8c46a 82%,#8d5d14 100%);box-shadow:0 14px 28px rgba(60,35,5,.35),inset 0 1px 0 rgba(255,255,255,.6)}
+.fsh-hood{position:relative;height:14px;margin:0 4px 6px;border-radius:12px 12px 4px 4px;background:linear-gradient(180deg,#4a3516,#1b1209);overflow:hidden}
+.fsh-hood i{position:absolute;left:8%;right:8%;top:50%;height:4px;margin-top:-2px;border-radius:4px;background:linear-gradient(90deg,#fff3b0,#ffd76a,#fff3b0);box-shadow:0 0 10px 2px rgba(255,220,120,.7);animation:fshLed 3.2s ease-in-out infinite alternate}
+@keyframes fshLed{from{opacity:.55}to{opacity:1}}
+.fsh-stand{margin:0 -9px;padding:9px 12px 12px;border-radius:0 0 26px 26px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.05) 0 2px,transparent 2px 9px),linear-gradient(180deg,#5b3a1f,#2b1a0b);text-align:center}
+.fsh-plate{display:inline-block;padding:6px 16px;border-radius:8px;background:linear-gradient(180deg,#fff2b5,#d9a53a 55%,#8c5f14);color:#3d2706;font-weight:800;font-size:.8rem;letter-spacing:.08em;box-shadow:inset 0 1px 0 #fff,0 2px 4px rgba(0,0,0,.4)}
+.fsh-tank{position:relative;container-type:inline-size;overflow:hidden;height:clamp(180px,44vw,260px);border-radius:14px 14px 0 0;isolation:isolate;box-shadow:inset 0 0 0 3px rgba(20,30,40,.7),inset 0 0 40px rgba(0,0,0,.35)}
+.fsh-cab.big .fsh-tank{height:clamp(220px,52vw,340px)}
+.fsh-water{position:absolute;inset:0;background:linear-gradient(180deg,var(--tt) 0,var(--tm) 38%,var(--tb) 100%)}
+.fsh-caustic{position:absolute;inset:-30px;opacity:.5;pointer-events:none;background:radial-gradient(ellipse 18px 10px at 20% 30%,rgba(255,255,255,.55),transparent 70%),radial-gradient(ellipse 26px 12px at 65% 55%,rgba(255,255,255,.4),transparent 70%),radial-gradient(ellipse 14px 9px at 85% 20%,rgba(255,255,255,.5),transparent 70%);background-size:150px 110px;animation:fshCaust 9s linear infinite}
+@keyframes fshCaust{from{transform:translate3d(0,0,0)}to{transform:translate3d(-150px,-110px,0)}}
+.fsh-rays{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 16% 70% at 16% -12%,rgba(255,255,255,.3),transparent 70%),radial-gradient(ellipse 12% 60% at 44% -12%,rgba(255,255,255,.2),transparent 70%),radial-gradient(ellipse 10% 55% at 76% -12%,rgba(255,255,255,.24),transparent 70%)}
+.fsh-deco{position:absolute;left:0;bottom:0;width:100%;height:100%;pointer-events:none}
+.fsh-plant{position:absolute;bottom:44px;width:26px;transform-origin:50% 100%;animation:fshSway 5.5s ease-in-out infinite alternate}
+@keyframes fshSway{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+.fsh-bio{position:absolute;width:3px;height:3px;border-radius:50%;background:#a6ffff;box-shadow:0 0 6px #a6ffff;opacity:0;animation:fshTw var(--d,4s) ease-in-out var(--dl,0s) infinite}
+@keyframes fshTw{0%,100%{opacity:0}50%{opacity:.9}}
+.fsh-dust i{position:absolute;width:2px;height:2px;border-radius:50%;background:rgba(255,255,255,.7);animation:fshDrift var(--d,20s) ease-in-out var(--dl,0s) infinite alternate}
+@keyframes fshDrift{from{transform:translate3d(-6px,0,0)}to{transform:translate3d(10px,-12px,0)}}
 .fsh-bubs i{position:absolute;bottom:50px;width:var(--s);height:var(--s);border-radius:50%;border:1px solid rgba(255,255,255,.65);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.9),rgba(255,255,255,0) 45%);opacity:0;animation:fshRise var(--d) linear var(--dl) infinite}
+@keyframes fshRise{0%{transform:translate3d(0,0,0);opacity:0}10%{opacity:.9}90%{opacity:.7}100%{transform:translate3d(3px,-170px,0);opacity:0}}
 .fsh-fishes{position:absolute;inset:0}
 .fsh-fw{position:absolute;left:0;width:76px;height:42px;margin-top:-21px;will-change:transform;animation:fshRoam var(--d,20s) ease-in-out var(--dl,0s) infinite}
-.fsh-fb{width:100%;height:100%;display:flex;align-items:center;will-change:transform;animation:fshBob 1.8s ease-in-out infinite alternate}
+.fsh-fb{width:100%;height:100%;display:flex;align-items:center;will-change:transform;animation:fshBob 2.2s ease-in-out infinite alternate}
+.fsh-tank .fsh-tail{animation:fshWag .9s ease-in-out infinite alternate}
+.fsh-tank .fsh-pec{animation:fshFlap 1.3s ease-in-out infinite alternate}
 .fsh-svg{display:block;width:76px;height:auto;margin:auto;overflow:visible}
 .fsh-fw.fry .fsh-svg{width:46px}
-.fsh-glass{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(118deg,rgba(255,255,255,.2),rgba(255,255,255,0) 26%,rgba(255,255,255,0) 80%,rgba(255,255,255,.1))}
-.fsh-empty{position:absolute;left:0;right:0;top:40%;margin:0;text-align:center;color:#eaffff;font-weight:700;text-shadow:0 1px 4px rgba(0,30,50,.6)}
 @keyframes fshRoam{0%{transform:translate3d(var(--a),0,0) scaleX(-1)}48%{transform:translate3d(var(--b),0,0) scaleX(-1)}50%{transform:translate3d(var(--b),0,0) scaleX(1)}98%{transform:translate3d(var(--a),0,0) scaleX(1)}100%{transform:translate3d(var(--a),0,0) scaleX(-1)}}
 @keyframes fshBob{from{transform:translateY(-2px) rotate(-1.5deg)}to{transform:translateY(2px) rotate(1.5deg)}}
-@keyframes fshSway{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
-@keyframes fshRise{0%{transform:translate3d(0,0,0);opacity:0}10%{opacity:.9}90%{opacity:.7}100%{transform:translate3d(3px,-170px,0);opacity:0}}
-@keyframes fshPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
-@media (prefers-reduced-motion:reduce){.fsh-fw,.fsh-fb,.fsh-plant,.fsh-bubs i,.fsh-rev.leg .fsh-rev-fish{animation:none!important}}
-.fsh-h{margin:18px 0 8px;font-size:1rem}
-.fsh-stat{margin:8px 0 0}
+@keyframes fshWag{from{transform:rotate(-10deg)}to{transform:rotate(10deg)}}
+@keyframes fshFlap{from{transform:rotate(-8deg)}to{transform:rotate(8deg)}}
+/* 魚は、ほかの動きを止める設定（アニメーションオフ・動きを減らす・ポップアップ中）でも泳がせる */
+html.noanim .fsh-fw{animation:fshRoam calc(var(--d,20s)*2.2) ease-in-out var(--dl,0s) infinite!important}
+html.noanim .fsh-tank .fsh-tail{animation:fshWag 1.6s ease-in-out infinite alternate!important}
+html.noanim .fsh-tank .fsh-pec{animation:fshFlap 2.4s ease-in-out infinite alternate!important}
+html.noanim .fsh-fb{animation:none!important}
+/* 動きを減らす設定でも魚は泳ぐ（ゆっくり・上下のゆれなし）。ほかの全体ルール（.ti * など）より強く指定する */
+@media (prefers-reduced-motion:reduce){html:not(.noanim) .fsh-fw{animation-duration:calc(var(--d,20s)*2.2)!important}html:not(.noanim) .fsh-fb{animation:none!important}html:not(.noanim) .fsh-tank .fsh-tail{animation-duration:1.6s!important}html:not(.noanim) .fsh-tank .fsh-pec{animation-duration:2.4s!important}html:not(.noanim) .fsh-plant,html:not(.noanim) .fsh-bubs i,html:not(.noanim) .fsh-caustic,html:not(.noanim) .fsh-dust i{animation:none!important}}
+html.bg-idle #view .fsh-fw,html.bg-idle #view .fsh-fb,html.bg-idle #view .fsh-tank .fsh-tail,html.bg-idle #view .fsh-tank .fsh-pec{animation-play-state:running!important}
+.fsh-glass{position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:linear-gradient(112deg,rgba(255,255,255,.22),rgba(255,255,255,0) 24%,rgba(255,255,255,0) 78%,rgba(255,255,255,.14)),linear-gradient(180deg,rgba(255,255,255,.12),transparent 12%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.12)}
+.fsh-empty{position:absolute;left:0;right:0;top:40%;margin:0;text-align:center;color:#eaffff;font-weight:700;text-shadow:0 1px 4px rgba(0,30,50,.6)}
+.fsh-stat{margin:14px 0 0}
 .fsh-gacha{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 4px}
+.fsh-tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+.fsh-h{margin:18px 0 8px;font-size:1rem}
+.fsh-themes{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.fsh-th{appearance:none;border:0;cursor:pointer;padding:9px 12px;border-radius:14px;background:rgba(127,127,127,.12);color:inherit;font:inherit;font-weight:700;display:grid;gap:2px;text-align:left}
+.fsh-th.on{box-shadow:inset 0 0 0 2px #d9a53a;background:rgba(217,165,58,.16)}
+.fsh-th small{font-weight:600;opacity:.75}
 .fsh-odds{margin:8px 0}
 .fsh-odds ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
 .fsh-odds li{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .fsh-list{display:grid;gap:8px}
 .fsh-row{display:flex;align-items:center;gap:10px;padding:8px;border-radius:14px;background:rgba(127,127,127,.08)}
-.fsh-row.exh{box-shadow:inset 0 0 0 2px rgba(60,160,200,.6)}
+.fsh-row.exh{box-shadow:inset 0 0 0 2px rgba(217,165,58,.7)}
 .fsh-thumb{width:72px;height:44px;flex:none;display:grid;place-items:center}
 .fsh-thumb .fsh-svg{width:72px}
 .fsh-info{flex:1;min-width:0;display:grid;gap:2px}
@@ -2660,15 +2688,53 @@ html[data-theme=dark] .tsub.on{background:var(--tc,var(--primary));border-color:
 .fsh-tier.t3{background:#ffe3d6;color:#a33a12}
 .fsh-tier.t4{background:linear-gradient(90deg,#ffe0ea,#fff3c8,#d9fbe6,#dcecff,#eadcff);color:#6a2fa0;box-shadow:inset 0 0 0 1px #d6b3ff}
 .fsh-gold{display:inline-block;font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:999px;background:linear-gradient(135deg,#fff3b0,#e8b53a);color:#6b4500;margin-left:4px}
+.fsh-new{display:inline-block;font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:999px;background:#2a5b8f;color:#fff;margin-left:4px}
+.fsh-bonus{font-weight:800;color:#b07a18}
 .fsh-fr{padding:10px 0;border-top:1px solid rgba(127,127,127,.2)}
 .fsh-fr-l{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
 .fsh-fr-l figure{margin:0;width:96px;text-align:center}
 .fsh-fr-l .fsh-svg{width:96px}
 .fsh-fr-l figcaption{font-size:.74rem;font-weight:700}
+.fsh-dex{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}
+.fsh-dx{border-radius:14px;padding:8px;background:rgba(127,127,127,.1);text-align:center;display:grid;gap:4px;justify-items:center}
+.fsh-dx .fsh-svg{width:100%}
+.fsh-dx.sil .fsh-svg{filter:brightness(0);opacity:.5}
+.fsh-dx small{font-size:.72rem}
 .fsh-rev{text-align:center;display:grid;justify-items:center;gap:8px;padding:6px 0 0}
 .fsh-rev-fish .fsh-svg{width:min(240px,70vw)}
-.fsh-rev.leg .fsh-rev-fish{animation:fshPulse 2.4s ease-in-out infinite}
+.fsh-rev-t{display:flex;gap:4px;flex-wrap:wrap;justify-content:center}
 .fsh-rev p{margin:0;font-weight:500;line-height:1.7}
+.fsh-rev.leg .fsh-rev-fish{animation:fshPulse 2.4s ease-in-out infinite}
+@keyframes fshPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+/* ガチャ演出 */
+.fg{position:relative;height:340px;margin:-4px -6px 0;border-radius:20px;overflow:hidden;display:grid;place-items:center;background:radial-gradient(circle at 50% 45%,#2b2350 0,#0d0a22 60%,#05040f 100%);isolation:isolate;--gc:#fff3b0;animation:fgQuake .5s ease-in-out 1.15s both;animation-play-state:running}
+.fg.t1{--gc:#7fd1ff}.fg.t2{--gc:#7cff9e}.fg.t3{--gc:#ff4d4d}.fg.t4{--gc:#ffd6ff}.fg.gold{--gc:#ffd447}
+.fg:not(.t2):not(.t3):not(.t4):not(.gold){animation:none}
+.fg-rays{position:absolute;left:50%;top:44%;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;background:repeating-conic-gradient(from 0deg,color-mix(in srgb,var(--gc) 38%,transparent) 0 6deg,transparent 6deg 18deg);animation:fgSpin 9s linear infinite,fgIn .8s ease-out both}
+.fg.t4 .fg-rays{background:repeating-conic-gradient(from 0deg,rgba(255,94,122,.4) 0 4deg,rgba(255,184,77,.35) 4deg 8deg,rgba(245,245,90,.35) 8deg 12deg,rgba(94,227,138,.35) 12deg 16deg,rgba(79,184,255,.35) 16deg 20deg,rgba(166,123,255,.35) 20deg 24deg,transparent 24deg 40deg)}
+@keyframes fgSpin{to{transform:rotate(360deg)}}
+@keyframes fgIn{from{opacity:0}to{opacity:1}}
+.fg-orb{position:absolute;left:50%;top:44%;width:130px;height:130px;margin:-65px 0 0 -65px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff 0,var(--gc) 22%,rgba(60,40,120,.7) 62%,transparent 70%);box-shadow:0 0 60px 10px var(--gc);animation:fgShake 1.1s ease-in-out both,fgOut .3s ease-in 1.1s forwards}
+@keyframes fgShake{0%{transform:scale(.6) rotate(0)}12%{transform:scale(1) rotate(-7deg)}24%{transform:rotate(7deg) translate(2px,0)}36%{transform:rotate(-8deg) translate(-2px,1px)}48%{transform:rotate(8deg) translate(2px,-1px)}60%{transform:rotate(-9deg)}72%{transform:rotate(9deg) scale(1.06)}84%{transform:rotate(-10deg) scale(1.12)}100%{transform:rotate(0) scale(1.18)}}
+@keyframes fgOut{to{transform:scale(2.2);opacity:0}}
+.fg-flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 44%,#fff,var(--gc) 35%,transparent 70%);opacity:0;animation:fgFlash .7s ease-out 1.1s forwards}
+@keyframes fgFlash{0%{opacity:0}25%{opacity:1}100%{opacity:0}}
+.fg-ring{position:absolute;left:50%;top:44%;width:140px;height:140px;margin:-70px 0 0 -70px;border-radius:50%;border:3px solid var(--gc);opacity:0;animation:fgRing 1s ease-out forwards}
+@keyframes fgRing{from{transform:scale(.6);opacity:.9}to{transform:scale(3.4);opacity:0}}
+.fg-burst{position:absolute;left:50%;top:44%;width:0;height:0}
+.fg-burst i{position:absolute;left:-5px;top:-5px;width:10px;height:10px;border-radius:50%;opacity:0;background:radial-gradient(circle,#fff 0,var(--gc) 40%,transparent 70%);animation:fgBurst .9s ease-out var(--dl) forwards}
+@keyframes fgBurst{0%{opacity:1;transform:rotate(var(--an)) translateY(0) scale(.5)}100%{opacity:0;transform:rotate(var(--an)) translateY(calc(var(--dist) * -1)) scale(1)}}
+.fg-fish{position:relative;width:min(230px,62vw);z-index:2;opacity:0;animation:fgFishIn .9s cubic-bezier(.2,1.4,.4,1) 1.2s forwards}
+.fg-fish .fsh-svg{width:100%;height:auto}
+@keyframes fgFishIn{0%{opacity:0;transform:scale(.1) rotate(-40deg)}40%{opacity:1}100%{opacity:1;transform:scale(1) rotate(0)}}
+.fg-tag{position:absolute;left:0;right:0;bottom:58px;z-index:3;text-align:center;color:#fff;opacity:0;text-shadow:0 0 14px var(--gc),0 2px 6px rgba(0,0,0,.6);animation:fgTag .6s ease-out 2.2s forwards;display:grid;gap:2px}
+.fg-tag b{font-size:1.35rem;letter-spacing:.14em}
+.fg-tag span{font-size:.9rem}
+.fg-tag em{font-style:normal;font-weight:900;font-size:1rem;color:#ffe07a}
+.fg.t3 .fg-tag b,.fg.t4 .fg-tag b{background:linear-gradient(90deg,#ff5d6e,#ffd66b,#7dffb0,#7bb6ff,#d99bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+@keyframes fgTag{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+@keyframes fgQuake{0%,100%{transform:none}20%{transform:translate(-4px,3px)}40%{transform:translate(4px,-3px)}60%{transform:translate(-3px,-2px)}80%{transform:translate(2px,2px)}}
+.fg-foot{position:absolute;left:0;right:0;bottom:8px;text-align:center;z-index:4}
 </style>
 <style id="tools-subj">
   #totop{position:fixed;z-index:29;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 176px);width:52px;height:52px;border:0;border-radius:18px;background:var(--pc);color:var(--on-pc);box-shadow:0 10px 24px -8px rgba(0,0,0,.45);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(28px) scale(.6);pointer-events:none;transition:opacity .35s ease,transform .55s var(--spring),border-radius .45s var(--spring)}
@@ -3785,8 +3851,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.18'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.18';
+const RELEASE_VER = '18.3.19'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.19';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4799,6 +4865,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.19', d: '2026/11/26 23:30', t: '水槽の魚が泳がない問題を直し、魚ガチャの演出・図鑑・エサ・水槽テーマを追加しました', n: ['動きを減らす設定やアニメーションオフのとき、魚が止まってしまう問題を直しました（魚はゆっくり泳ぎ続けます）','魚ガチャに、段階のある演出を追加しました（光の渦→玉が震える→閃光→魚が登場）。レアが高いほど派手になり、色違いは金色の光になります。スキップもできます','魚の図鑑を追加しました。見つけた魚の絵が出て、全部そろうと 1000 XP もらえます','稚魚に「エサ」をあげると、大人になるまでの時間が15分短くなります（エサは1回 5 XP）','水槽のテーマ（清流・夜の深海・サンゴ礁）を追加しました。XPで買って、いつでも切り替えられます','水槽を金の枠・ライト・台のあるキャビネットにして、魚と水槽の見た目をよりリアルにしました（魚の尾やひれも動きます）'] },
   { v: '18.3.18', d: '2026/11/26 19:30', t: '集中タイマーの見た目を買い直さなくてよいように直し、水槽で魚を育てる機能を追加しました', n: ['集中タイマーの見た目は、一度買えば、ほかの見た目に変えても、もう一回買い直す必要がないように直しました','ホームに「水槽」のカードを追加しました。魚ガチャ（100XP）で魚を手に入れ、水槽の中で育てます','魚には、レア・激レア・超激レア・伝説レアがあります。色違い（全身が金色）も、まれに出ます','稚魚は、約2時間で大人になります。大人の魚は売って XP にできます（売ったXPはショップで使えます。レベルは上がりません）','大人の魚は「展示する」で、水槽に3匹まで飾れます。「進み具合を友達に見せる」をオンにしていると、友達の水槽で見てもらえます'] },
   { v: '18.3.17', d: '2026/11/26 18:30', t: '漢字の太さが変わらないバグを直し、アプリを軽く・安定させました（機能はそのまま）', n: ['漢字テキストで、細・中・太を選ぶと、選んだ太さがちゃんと切り替わり、選んだボタンも分かるように直しました','火山テーマの、ボタンの溶岩と背景の火の粉を、画面を描き直さずに動かすようにして、動くときの負担を大きく減らしました（見た目はほぼ同じです）','ホームの背景のオーロラを、ぼかしの代わりに、やわらかい色の広がりにして軽くしました','友達の進み具合が、通信がつながらず読み込めないときは、いつまでも回らずに、わかる言葉で知らせるようにしました','集中タイマーの画面は、数字や円が変わったときだけ描き直すようにしました'] },
   { v: '18.3.16', d: '2026/11/26 13:30', t: '漢字テキストが重くなって落ちる問題を直し、書いた内容を保存できるように', n: ['漢字テキストで拡大・移動しても、アプリが落ちないように、描く大きさと、同時に残すページ数に上限をつけました（拡大しすぎたときは、少し小さく描かれます）', '書いた線は、端末のメモリに保存するようにしました（たくさん書いても消えにくくなります）。閉じたときにも、すぐ保存します', '「このページを保存」で、教科書と書き込みを、板書の一覧に保存できるようにしました'] },
@@ -6504,6 +6571,11 @@ const ACT = {
   fshpull() { fshPull(); },
   fshsell(id) { fshSell(id); },
   fshex(id) { fshEx(id); },
+  fshfeed(id) { fshFeed(id); },
+  fshfeedall() { fshFeedAll(); },
+  fshdex() { fshDex(); },
+  fshtheme(id) { fshTheme(id); },
+  fshskip() { fshSkip(); },
   quick(id) { quickDlg(id); },
   qadd(id) { const t = window._qt, n = $('#qn'), c = countTo(t, parseInt(n.value, 10) || firstPage(t) - 1); ACT.qset(pageOf(t, Math.min(t.total, c + +id))); },
   duptask(id) { const k = T(id); if (!k) return; closeDlg(); undoable('課題を複製しました', () => { S.tasks.push({ ...k, id: uid(), title: k.title + '（コピー）', done: 0, feel: 0, doneAt: null, submitted: null, pin: '', at: Date.now(), segs: k.segs ? k.segs.map(x => [...x]) : null, items: k.items ? k.items.map(x => ({ text: x.text, done: false })) : null }); }); },
@@ -14500,6 +14572,7 @@ function growPut(g) {
 const spendXp = () => Math.max(0, Math.floor(totals().xp) - growGet().spent + fshEarn());
 // ===== 水槽（魚を育てる） =====
 const FSH_MAX = 12, FSH_EX_MAX = 3, FSH_PRICE = 100, FSH_GROW = 2 * 3600 * 1000, FSH_FRY = 10, FSH_GOLD_X = 15, FSH_GOLD_P = 1 / 4096;
+const FSH_FOOD_XP = 5, FSH_FOOD_MS = 15 * 60 * 1000, FSH_DEX_REWARD = 1000;
 // 出る確率（合計100%）。「レア」は普通の魚です
 const FSH_TIERS = [
   { n: 'レア', p: 69.7, lo: 30, hi: 50, c: 't1' },
@@ -14514,7 +14587,7 @@ const FSH_SP = [
   { id: 'guppy', n: 'グッピー', t: 0, body: '#6fd3a0', fin: '#c05fd6', sh: 'round', pat: 'none' },
   { id: 'dojo', n: 'ドジョウ', t: 0, body: '#8a7255', fin: '#b9a27e', sh: 'long', pat: 'spots', pc: '#4a3a28' },
   { id: 'angel', n: 'エンゼルフィッシュ', t: 1, body: '#e9e4cc', fin: '#f6f2e2', sh: 'flat', pat: 'vbars', pc: '#2a2a2a' },
-  { id: 'betta', n: 'ベタ', t: 1, body: '#2f7fe0', fin: '#8a3fe0', sh: 'round', pat: 'none' },
+  { id: 'betta', n: 'ベタ', t: 1, body: '#2f7fe0', fin: '#8a3fe0', sh: 'flow', pat: 'none' },
   { id: 'discus', n: 'ディスカス', t: 1, body: '#e88a5c', fin: '#f2b08a', sh: 'round', pat: 'hband', pc: '#3ea6a2' },
   { id: 'koi', n: 'ニシキゴイ', t: 1, body: '#f5f1e8', fin: '#fbe9e6', sh: 'round', pat: 'spots', pc: '#e0342c' },
   { id: 'chou', n: 'チョウチョウウオ', t: 1, body: '#f7d54a', fin: '#fff09a', sh: 'flat', pat: 'vbars', pc: '#222222' },
@@ -14524,90 +14597,143 @@ const FSH_SP = [
   { id: 'rainbow', n: 'にじいろの魚', t: 3, body: '#ffffff', fin: '#ffffff', sh: 'round', pat: 'rainbow' },
   { id: 'hikari', n: 'ひかりの王', t: 3, body: '#ffffff', fin: '#ffffff', sh: 'long', pat: 'rainbow' }
 ];
-const fshGet = () => { const a = S.fsh && typeof S.fsh === 'object' ? S.fsh : {}; return { fish: Array.isArray(a.fish) ? a.fish : [], earn: +a.earn || 0 }; };
-function fshPut(a) { S.fsh = { fish: a.fish, earn: a.earn }; save(); }
+const FSH_THEMES = [
+  { id: 'basic', n: 'ふつうの海', c: 0 },
+  { id: 'river', n: '清流（川）', c: 300 },
+  { id: 'night', n: '夜の深海', c: 500 },
+  { id: 'coral', n: 'サンゴ礁', c: 800 }
+];
+// 水槽テーマの色（水の上から下へ）と砂・岩・水草
+const FSH_TH = {
+  basic: { top: '#b9f2f9', mid: '#1f8aa6', bot: '#072c44', light: '#ffffff', sand: ['#dcc89e', '#9c8660'], rock: ['#8e9397', '#3d4347'], pl: ['#2f7d4a', '#4fa86a'] },
+  river: { top: '#dcf2c4', mid: '#4f8a5a', bot: '#1d3626', light: '#e9ffd6', sand: ['#8d7a52', '#4f3f27'], rock: ['#7b6f5e', '#3a3328'], pl: ['#3f7a34', '#7fbf4a'] },
+  night: { top: '#2b4c8e', mid: '#122452', bot: '#04081c', light: '#8fb6ff', sand: ['#3d3c4c', '#1a1923'], rock: ['#3d4558', '#151a26'], pl: ['#1d5c6e', '#3fa9b8'] },
+  coral: { top: '#caf9f3', mid: '#1fb8c2', bot: '#0a5b7a', light: '#ffffff', sand: ['#f3e5c9', '#c9ab80'], rock: ['#cbb7a2', '#7d6755'], pl: ['#2f8f7a', '#5fd1b0'] }
+};
+const FSH_SHAPE = {
+  slim: { x0: 18, x1: 94, top: 22, bot: 42, dh: 9, tl: 11, tlen: 20, ah: 8 },
+  round: { x0: 14, x1: 96, top: 13, bot: 51, dh: 10, tl: 13, tlen: 18, ah: 9 },
+  long: { x0: 8, x1: 100, top: 23, bot: 41, dh: 7, tl: 14, tlen: 22, ah: 7 },
+  flat: { x0: 22, x1: 92, top: 12, bot: 52, dh: 17, tl: 10, tlen: 16, ah: 15 },
+  flow: { x0: 16, x1: 90, top: 20, bot: 44, dh: 15, tl: 17, tlen: 30, ah: 12 }
+};
+const fshGet = () => {
+  const a = S.fsh && typeof S.fsh === 'object' ? S.fsh : {};
+  return { fish: Array.isArray(a.fish) ? a.fish : [], earn: +a.earn || 0, seen: a.seen && typeof a.seen === 'object' ? a.seen : {}, own: Array.isArray(a.own) ? a.own : ['basic'], th: a.th || 'basic', rw: !!a.rw };
+};
+function fshPut(a) { S.fsh = { fish: a.fish, earn: a.earn, seen: a.seen, own: a.own, th: a.th, rw: a.rw }; save(); }
 function fshEarn() { return fshGet().earn; }
 const fshSpec = id => FSH_SP.find(s => s.id === id) || FSH_SP[0];
-const fshStage = f => (Date.now() - (f.t || 0) >= FSH_GROW ? 'a' : 'f');
-const fshLeft = f => Math.max(0, FSH_GROW - (Date.now() - (f.t || 0)));
+// 育った時間（エサで早めた分を足す）
+const fshAge = f => Date.now() - (f.t || 0) + (f.b || 0);
+const fshStage = f => (fshAge(f) >= FSH_GROW ? 'a' : 'f');
+const fshLeft = f => Math.max(0, FSH_GROW - fshAge(f));
 const fshPrice = f => (fshStage(f) === 'a' ? f.v : FSH_FRY) * (f.g ? FSH_GOLD_X : 1);
 const fshLeftTxt = ms => { const m = Math.ceil(ms / 60000); return m >= 60 ? `${Math.floor(m / 60)}時間${m % 60 ? (m % 60) + '分' : ''}` : `${m}分`; };
 function fshHash(s) { let h = 2166136261; for (const c of String(s)) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967295; }
 function fshMix(a, b, t) { const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)), x = p(a), y = p(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join(''); }
+const fshReduced = () => document.documentElement.classList.contains('noanim') || matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-// 魚の絵（SVG）。体は左向きで、動くときに左右を反転させる
+// 魚の絵（SVG）。頭は左向き。尾・胸びれは動くので、水槽の中でだけ揺れる
 let FSH_N = 0;
 function fshFishSvg(s, gold, st) {
-  const k = 'fk' + (++FSH_N), W = 124, H = 64, rain = s.pat === 'rainbow' && !gold;
-  const [x0, x1, top, bot] = { slim: [18, 94, 22, 42], round: [14, 96, 13, 51], long: [8, 100, 23, 41], flat: [22, 92, 12, 52] }[s.sh];
-  const cy = (top + bot) / 2, tall = s.sh === 'flat' ? 1.1 : 1, tl = s.sh === 'long' ? 15 : 12, tx = x1 - 1, cx = (x0 + x1) / 2;
-  const body = `M${x0} ${cy} C${x0 + 12} ${top - 2} ${x1 - 26} ${top - 1} ${x1} ${cy - 2} L${x1} ${cy + 2} C${x1 - 26} ${bot + 1} ${x0 + 12} ${bot + 2} ${x0} ${cy} Z`;
-  const tail = `M${tx} ${cy} L${tx + 21} ${cy - tl} Q${tx + 13} ${cy} ${tx + 21} ${cy + tl} Z`;
-  const dor = `M${x0 + 26} ${top + 4} C${x0 + 34} ${top - 11 * tall} ${x1 - 30} ${top - 9 * tall} ${x1 - 16} ${top + 4} Z`;
-  const ana = `M${x0 + 38} ${bot - 3} C${x0 + 44} ${bot + 9} ${x1 - 26} ${bot + 7} ${x1 - 14} ${bot - 4} Z`;
-  const pec = `M${x0 + 16} ${cy + 2} C${x0 + 22} ${cy + 11} ${x0 + 31} ${cy + 11} ${x0 + 35} ${cy + 4} Z`;
-  const gill = `M${x0 + 18} ${top + 5} C${x0 + 25} ${cy - 2} ${x0 + 25} ${cy + 6} ${x0 + 18} ${bot - 5}`;
-  const pc = s.pc || '#000000', pt = gold ? 'none' : s.pat; // 色違いは、全身が金色（もようなし）
-  const gc = gold ? ['#fff6b8', '#f6c93c', '#8f5f0e'] : [fshMix(s.body, '#ffffff', 0.42), s.body, fshMix(s.body, '#000000', 0.38)];
+  const k = 'fk' + (++FSH_N), W = 124, H = 64;
+  const rain = s.pat === 'rainbow' && !gold, pt = gold ? 'none' : s.pat, pc = s.pc || '#000000';
+  const P = FSH_SHAPE[s.sh] || FSH_SHAPE.slim, x0 = P.x0, x1 = P.x1, top = P.top, bot = P.bot, dh = P.dh, tl = P.tl, tlen = P.tlen, ah = P.ah;
+  const cy = (top + bot) / 2, cx = (x0 + x1) / 2, tb = x1 - 2;
+  const body = `M${x0} ${cy} C${x0 + 10} ${top - 1.5} ${x1 - 30} ${top - 0.5} ${x1} ${cy - 3} L${x1} ${cy + 3} C${x1 - 30} ${bot + 0.5} ${x0 + 10} ${bot + 1.5} ${x0} ${cy} Z`;
+  const tail = `M${tb} ${cy - 3} C${tb + 6} ${cy - tl * 0.5} ${tb + tlen - 4} ${cy - tl} ${tb + tlen} ${cy - tl} Q${tb + tlen * 0.6} ${cy} ${tb + tlen} ${cy + tl} C${tb + tlen - 4} ${cy + tl} ${tb + 6} ${cy + tl * 0.5} ${tb} ${cy + 3} Z`;
+  const dA = x0 + 26, dB = x1 - 12;
+  const dor = `M${dA} ${top + 3} C${dA + 4} ${top - dh} ${dB - 12} ${top - dh} ${dB} ${top + 4} C${dB - 6} ${top + 6} ${dA + 6} ${top + 8} ${dA} ${top + 3} Z`;
+  const aA = x0 + 36, aB = x1 - 14;
+  const ana = `M${aA} ${bot - 3} C${aA + 4} ${bot + ah} ${aB - 10} ${bot + ah} ${aB} ${bot - 4} C${aB - 6} ${bot - 6} ${aA + 6} ${bot - 6} ${aA} ${bot - 3} Z`;
+  const pel = `M${x0 + 30} ${cy + 5} L${x0 + 27} ${bot + 6} L${x0 + 37} ${bot - 1} Z`;
+  const pec = `M${x0 + 17} ${cy + 2} C${x0 + 22} ${cy + 9} ${x0 + 30} ${cy + 11} ${x0 + 36} ${cy + 5} C${x0 + 30} ${cy + 5} ${x0 + 24} ${cy + 4} ${x0 + 17} ${cy + 2} Z`;
+  const oper = `M${x0 + 21} ${top + 5} Q${x0 + 34} ${cy} ${x0 + 21} ${bot - 5} Q${x0 + 27} ${cy} ${x0 + 21} ${top + 5} Z`;
+  const lat = `M${x0 + 24} ${cy - 1} L${x1 - 6} ${cy - 1}`;
+  const ex = x0 + 9, ey = cy - 3;
+  const fin = gold ? '#ffd966' : s.fin;
+  const finF = rain ? `url(#${k}b)` : `url(#${k}f)`;
+  const dRays = [1, 2, 3].map(i => { const x = dA + (dB - dA) * i / 4; return `M${x.toFixed(1)} ${top + 5} L${(x + 2).toFixed(1)} ${(top - dh * 0.55).toFixed(1)}`; }).join('');
+  const aRays = [1, 2].map(i => { const x = aA + (aB - aA) * i / 3; return `M${x.toFixed(1)} ${bot - 4} L${(x + 2).toFixed(1)} ${(bot + ah * 0.55).toFixed(1)}`; }).join('');
+  const tRays = [-1, 0, 1].map(i => `M${tb + 2} ${cy} L${(tb + tlen - 2).toFixed(1)} ${(cy + i * tl * 0.8).toFixed(1)}`).join('');
+  const gc = gold ? ['#fff9d2', '#f7d24e', '#c48a1d', '#6e4608'] : [fshMix(s.body, '#ffffff', 0.55), fshMix(s.body, '#ffffff', 0.18), s.body, fshMix(s.body, '#000000', 0.42)];
+  const gp = [0, 0.32, 0.64, 1];
+  const stops = gc.map((c, i) => `<stop offset="${gp[i]}" stop-color="${c}"/>`).join('');
   const rb = ['#ff5e7a', '#ffb84d', '#f5f55a', '#5ee38a', '#4fb8ff', '#a67bff'].map((c, i, a) => `<stop offset="${(i / (a.length - 1)).toFixed(2)}" stop-color="${c}"/>`).join('');
-  const stops = gc.map((c, i) => `<stop offset="${[0, 0.5, 1][i]}" stop-color="${c}"/>`).join('');
-  const fin = gold ? '#ffd966' : s.fin, finF = rain ? `url(#${k}b)` : `url(#${k}f)`;
   let pat = '';
-  if (pt === 'hband') pat = `<rect x="${x0 - 2}" y="${(cy - 4.5).toFixed(1)}" width="${x1 - x0 + 4}" height="9" fill="${pc}" opacity=".85"/>`;
-  else if (pt === 'vbars') { const w = s.sh === 'flat' ? 9 : 5; pat = [0.3, 0.52, 0.74].map(f => `<rect x="${(x0 + (x1 - x0) * f).toFixed(1)}" y="${top - 2}" width="${w}" height="${bot - top + 4}" fill="${pc}" opacity=".88"/>`).join(''); }
-  else if (pt === 'spots') pat = Array.from({ length: 11 }, (_, i) => `<circle cx="${(x0 + 10 + fshHash(s.id + i) * (x1 - x0 - 20)).toFixed(1)}" cy="${(top + 6 + fshHash(s.id + 'y' + i) * (bot - top - 12)).toFixed(1)}" r="${(1.5 + fshHash(s.id + 'r' + i) * 2).toFixed(1)}" fill="${pc}" opacity=".8"/>`).join('');
-  else if (pt === 'glow') pat = `<rect x="${x0}" y="${(cy - 9).toFixed(1)}" width="${x1 - x0}" height="18" fill="${pc}" opacity=".28"/><rect x="${x0}" y="${(cy - 3.2).toFixed(1)}" width="${x1 - x0}" height="6.4" fill="${pc}" opacity=".95"/>`;
+  if (pt === 'hband') pat = `<rect x="${x0 - 2}" y="${(cy - 5).toFixed(1)}" width="${x1 - x0 + 4}" height="10" fill="${pc}" opacity=".35"/><rect x="${x0 - 2}" y="${(cy - 3.6).toFixed(1)}" width="${x1 - x0 + 4}" height="7.2" fill="${pc}" opacity=".88"/>`;
+  else if (pt === 'vbars') { const w = s.sh === 'flat' ? 9 : 5; pat = [0.3, 0.52, 0.74].map(f => { const x = x0 + (x1 - x0) * f; return `<rect x="${x.toFixed(1)}" y="${top - 2}" width="${w}" height="${bot - top + 4}" fill="${pc}" opacity=".88"/><rect x="${(x + w - 1).toFixed(1)}" y="${top - 2}" width="1" height="${bot - top + 4}" fill="#ffffff" opacity=".25"/>`; }).join(''); }
+  else if (pt === 'spots') pat = Array.from({ length: 11 }, (_, i) => { const x = x0 + 10 + fshHash(s.id + i) * (x1 - x0 - 20), y = top + 6 + fshHash(s.id + 'y' + i) * (bot - top - 12), r = 1.5 + fshHash(s.id + 'r' + i) * 2; return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${pc}" opacity=".85"/><circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="none" stroke="#ffffff" stroke-opacity=".3" stroke-width=".5"/>`; }).join('');
+  else if (pt === 'glow') pat = `<rect x="${x0}" y="${(cy - 9).toFixed(1)}" width="${x1 - x0}" height="18" fill="${pc}" opacity=".26"/><rect x="${x0}" y="${(cy - 2.6).toFixed(1)}" width="${x1 - x0}" height="5.2" fill="${pc}" opacity=".96"/><rect x="${x0}" y="${(cy - 0.6).toFixed(1)}" width="${x1 - x0}" height="1.2" fill="#ffffff" opacity=".8"/>`;
   const halo = pt === 'glow' ? `<ellipse cx="${cx}" cy="${cy}" rx="${(x1 - x0) / 2 + 14}" ry="${(bot - top) / 2 + 14}" fill="url(#${k}g)"/>` : '';
   const sheen = gold ? `<path d="${body}" fill="url(#${k}h)"/>` : '';
   return `<svg class="fsh-svg${gold ? ' gold' : ''}" viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs>` +
     `<linearGradient id="${k}b" x1="0" y1="0" x2="${rain ? 1 : 0}" y2="${rain ? 0 : 1}">${rain ? rb : stops}</linearGradient>` +
     `<linearGradient id="${k}f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${fin}"/><stop offset="1" stop-color="${fshMix(fin, gold ? '#b07a18' : '#000000', 0.3)}"/></linearGradient>` +
-    `<linearGradient id="${k}h" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".75"/><stop offset=".45" stop-color="#ffffff" stop-opacity="0"/></linearGradient>` +
+    `<linearGradient id="${k}h" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".8"/><stop offset=".45" stop-color="#ffffff" stop-opacity="0"/></linearGradient>` +
+    `<radialGradient id="${k}e"><stop offset="0" stop-color="#d7b45c"/><stop offset=".55" stop-color="#4a3614"/><stop offset="1" stop-color="#0a0804"/></radialGradient>` +
     `<clipPath id="${k}c"><path d="${body}"/></clipPath>` +
-    `<pattern id="${k}s" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 3 A3 3 0 0 0 6 3" fill="none" stroke="#ffffff" stroke-opacity=".28" stroke-width=".6"/></pattern>` +
+    `<pattern id="${k}s" width="5.5" height="5.5" patternUnits="userSpaceOnUse"><path d="M0 2.75 A2.75 2.75 0 0 0 5.5 2.75" fill="none" stroke="#ffffff" stroke-opacity=".3" stroke-width=".5"/></pattern>` +
     `<radialGradient id="${k}g"><stop offset="0" stop-color="${pc}" stop-opacity=".6"/><stop offset="1" stop-color="${pc}" stop-opacity="0"/></radialGradient>` +
     `</defs>${halo}` +
-    `<path d="${tail}" fill="${finF}" opacity=".9"/><path d="${dor}" fill="${finF}" opacity=".85"/><path d="${ana}" fill="${finF}" opacity=".8"/>` +
+    `<g class="fsh-tail" style="transform-origin:${tb}px ${cy}px"><path d="${tail}" fill="${finF}" opacity=".92"/><path d="${tRays}" stroke="#000000" stroke-opacity=".15" stroke-width=".7"/></g>` +
+    `<path d="${dor}" fill="${finF}" opacity=".86"/><path d="${dRays}" stroke="#000000" stroke-opacity=".16" stroke-width=".6"/>` +
+    `<path d="${ana}" fill="${finF}" opacity=".82"/><path d="${aRays}" stroke="#000000" stroke-opacity=".15" stroke-width=".6"/>` +
+    `<path d="${pel}" fill="${finF}" opacity=".8"/>` +
     `<path d="${body}" fill="url(#${k}b)"/>` +
-    `<g clip-path="url(#${k}c)">${pat}<rect x="0" y="0" width="${W}" height="${H}" fill="url(#${k}s)" opacity=".8"/>${sheen}<ellipse cx="${cx}" cy="${(bot - 5).toFixed(1)}" rx="${((x1 - x0) / 2.2).toFixed(1)}" ry="3" fill="#ffffff" opacity=".2"/></g>` +
-    `<path d="M${tx + 3} ${cy} L${tx + 19} ${cy}" stroke="#000000" stroke-opacity=".18" stroke-width=".8"/>` +
-    `<path d="${pec}" fill="${finF}" opacity=".85"/>` +
-    `<path d="${gill}" fill="none" stroke="#000000" stroke-opacity=".3" stroke-width="1.2" stroke-linecap="round"/>` +
-    `<circle cx="${x0 + 9}" cy="${cy - 3}" r="3.6" fill="#f6f6ef"/><circle cx="${x0 + 9.5}" cy="${cy - 3}" r="2.3" fill="#111111"/><circle cx="${x0 + 10.4}" cy="${cy - 4}" r=".9" fill="#ffffff"/>` +
+    `<g clip-path="url(#${k}c)">${pat}<rect x="0" y="0" width="${W}" height="${H}" fill="url(#${k}s)" opacity=".85"/>${sheen}<ellipse cx="${cx}" cy="${(bot - 4).toFixed(1)}" rx="${((x1 - x0) / 2.2).toFixed(1)}" ry="3.2" fill="#ffffff" opacity=".22"/><path d="M${x0} ${(top + 2).toFixed(1)} C${x0 + 18} ${(top - 1).toFixed(1)} ${x1 - 26} ${(top - 1).toFixed(1)} ${x1} ${(cy - 3).toFixed(1)}" stroke="#ffffff" stroke-opacity=".35" stroke-width="1.2" fill="none"/></g>` +
+    `<path d="${lat}" stroke="#ffffff" stroke-opacity=".28" stroke-width=".8" stroke-dasharray="1.2 1.6" fill="none"/>` +
+    `<path d="${oper}" fill="#000000" fill-opacity=".14" stroke="#000000" stroke-opacity=".25" stroke-width=".7"/>` +
+    `<g class="fsh-pec" style="transform-origin:${x0 + 17}px ${cy + 2}px"><path d="${pec}" fill="${finF}" opacity=".8"/></g>` +
+    `<path d="M${x0 + 0.5} ${cy + 2} q1.8 -1.2 3.6 -0.4" stroke="#000000" stroke-opacity=".35" stroke-width=".6" fill="none"/>` +
+    `<circle cx="${ex}" cy="${ey}" r="4.2" fill="#0d1417" opacity=".9"/><circle cx="${ex}" cy="${ey}" r="3.3" fill="url(#${k}e)"/><circle cx="${ex}" cy="${ey}" r="1.7" fill="#050505"/><circle cx="${(ex + 1.1).toFixed(1)}" cy="${(ey - 1.2).toFixed(1)}" r="0.9" fill="#ffffff" opacity=".95"/>` +
     `</svg>`;
 }
 
-// 水槽の背景（変わらない部分は一度だけ作る）
-let FSH_ST = '';
-function fshStatic() {
-  if (FSH_ST) return FSH_ST;
+// 水槽の背景（テーマごとの砂・岩・装飾）。ids は水槽ごとに作るので重ならない
+function fshDecor(th, k) {
+  const c = FSH_TH[th] || FSH_TH.basic;
   let peb = '';
-  for (let i = 0; i < 44; i++) { const r = 1.4 + fshHash('pr' + i) * 2.6; peb += `<ellipse cx="${(fshHash('px' + i) * 400).toFixed(1)}" cy="${(40 + fshHash('py' + i) * 18).toFixed(1)}" rx="${(r * 1.5).toFixed(1)}" ry="${r.toFixed(1)}" fill="${['#8f7d63', '#6d5d47', '#b19f83', '#4f4336', '#7d8a86'][i % 5]}"/>`; }
-  let plants = '';
-  [[4, 120, 0, '#2f7d4a', '#4fa86a'], [16, 88, 1.3, '#3a8a50', '#5fb374'], [78, 130, 0.6, '#2f7d4a', '#4fa86a'], [91, 96, 2, '#3a8a50', '#6cba7b']].forEach(([x, h, d, c1, c2]) => {
-    plants += `<svg class="fsh-plant" viewBox="0 0 30 100" aria-hidden="true" style="left:${x}%;height:${h}px;animation-delay:${-d}s"><path d="M15 100 C7 80 23 64 15 44 C9 28 18 16 16 2" fill="none" stroke="${c1}" stroke-width="3.4" stroke-linecap="round"/><path d="M15 74 C1 70 1 52 13 54 C16 62 16 68 15 74Z" fill="${c2}"/><path d="M15 52 C29 46 30 30 18 31 C15 38 15 44 15 52Z" fill="${c2}"/><path d="M15 90 C28 86 29 72 18 72 C15 78 15 84 15 90Z" fill="${c1}"/></svg>`;
-  });
-  const bub = Array.from({ length: 7 }, (_, i) => `<i style="left:${(8 + fshHash('bx' + i) * 84).toFixed(1)}%;--s:${(4 + fshHash('bs' + i) * 6).toFixed(1)}px;--d:${(5 + fshHash('bd' + i) * 5).toFixed(1)}s;--dl:${(-fshHash('bl' + i) * 9).toFixed(1)}s"></i>`).join('');
-  FSH_ST = `<div class="fsh-rays"></div><div class="fsh-surf"></div>${plants}<svg class="fsh-gravel" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><rect x="0" y="28" width="400" height="32" fill="#8a7757"/><rect x="0" y="44" width="400" height="16" fill="#5f4d37"/>${peb}</svg><div class="fsh-bubs">${bub}</div>`;
-  return FSH_ST;
+  for (let i = 0; i < 40; i++) { const r = 1.5 + fshHash('dp' + i) * 2.6, x = fshHash('dx' + i) * 400, y = 214 + fshHash('dy' + i) * 22; peb += `<ellipse cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" rx="${(r * 1.45).toFixed(1)}" ry="${r.toFixed(1)}" fill="${c.sand[i % 2]}" stroke="#000000" stroke-opacity=".2" stroke-width=".6"/><ellipse cx="${(x - r * 0.3).toFixed(1)}" cy="${(y - r * 0.35).toFixed(1)}" rx="${(r * 0.5).toFixed(1)}" ry="${(r * 0.3).toFixed(1)}" fill="#ffffff" opacity=".25"/>`; }
+  let extra = '';
+  if (th === 'river') extra = `<path d="M150 214 C170 196 230 194 262 206 C272 212 266 222 252 220 C220 216 186 218 160 224 C150 226 144 220 150 214 Z" fill="url(#${k}wd)"/><path d="M180 212 C200 204 230 204 250 210" stroke="#c7b08a" stroke-opacity=".35" stroke-width="1.4" fill="none"/>`;
+  if (th === 'coral') extra = `<g stroke-linecap="round" fill="none"><path d="M300 230 Q296 198 312 174 M312 174 Q322 160 316 144 M306 198 Q292 188 288 172" stroke="#ff7f8f" stroke-width="6"/><path d="M48 230 Q52 202 40 182 M40 182 Q30 170 36 154 M46 206 Q62 198 66 184" stroke="#ff9a4a" stroke-width="5"/><path d="M190 232 Q186 214 196 204" stroke="#ffb3c6" stroke-width="4"/></g>`;
+  const rocks = `<path d="M30 226 C30 196 70 182 104 188 C128 194 134 226 124 232 L36 232 Z" fill="url(#${k}rk)"/><path d="M52 204 C66 196 84 196 94 202" stroke="#ffffff" stroke-opacity=".25" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M286 230 C286 204 318 196 344 200 C366 204 372 230 362 236 L292 236 Z" fill="url(#${k}rk)"/><path d="M308 214 C322 206 340 206 352 212" stroke="#ffffff" stroke-opacity=".2" stroke-width="3" fill="none" stroke-linecap="round"/>`;
+  return `<svg class="fsh-deco" viewBox="0 0 400 240" preserveAspectRatio="xMidYMax slice" aria-hidden="true"><defs><linearGradient id="${k}sd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.sand[0]}"/><stop offset="1" stop-color="${c.sand[1]}"/></linearGradient><linearGradient id="${k}rk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c.rock[0]}"/><stop offset="1" stop-color="${c.rock[1]}"/></linearGradient><linearGradient id="${k}wd" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8b6a44"/><stop offset="1" stop-color="#4a3420"/></linearGradient></defs><path d="M0 196 Q90 184 190 194 T400 190 V240 H0Z" fill="url(#${k}sd)"/>${peb}${rocks}${extra}</svg>`;
 }
-// 水槽の中身（友達の展示にも使う）
-function fshTankHtml(list, cls) {
+// 水槽の中身。キャビネット（金の枠・ライト・台）の中に入れる
+function fshTankHtml(list, cls, th) {
+  th = th || fshGet().th || 'basic';
+  const c = FSH_TH[th] || FSH_TH.basic, k = 'tk' + (++FSH_N);
   const fishes = list.slice(0, FSH_MAX).map(f => {
     const s = fshSpec(f.s), st = fshStage(f), r1 = fshHash(f.id), r2 = fshHash(f.id + 'y'), r3 = fshHash(f.id + 'd');
     const a = (r1 * 10).toFixed(1), b = (94 - r2 * 12).toFixed(1);
-    return `<div class="fsh-fw ${st === 'f' ? 'fry' : 'adt'}" style="top:${(8 + r2 * 54).toFixed(1)}%;--d:${(15 + r3 * 14).toFixed(1)}s;--dl:${(-r1 * 22).toFixed(1)}s;--a:${a}cqw;--b:calc(${b}cqw - 76px)"><div class="fsh-fb" style="animation-duration:${(1.4 + r3 * 1.2).toFixed(2)}s">${fshFishSvg(s, !!f.g, st)}</div></div>`;
+    return `<div class="fsh-fw ${st === 'f' ? 'fry' : 'adt'}" style="top:${(8 + r2 * 54).toFixed(1)}%;--d:${(15 + r3 * 14).toFixed(1)}s;--dl:${(-r1 * 22).toFixed(1)}s;--a:${a}cqw;--b:calc(${b}cqw - 76px)"><div class="fsh-fb" style="animation-duration:${(1.8 + r3 * 1.2).toFixed(2)}s">${fshFishSvg(s, !!f.g, st)}</div></div>`;
   }).join('');
-  return `<div class="fsh-tank ${cls || ''}" role="img" aria-label="水槽。魚が${list.length}匹います">${fshStatic()}<div class="fsh-fishes">${fishes}</div><div class="fsh-glass"></div>${list.length ? '' : '<p class="fsh-empty">まだ魚がいません。魚ガチャで入れましょう</p>'}</div>`;
+  const pl = [[4, 118, 0], [16, 86, 1.3], [78, 128, 0.6], [91, 96, 2]].map(([x, h, d]) => `<svg class="fsh-plant" viewBox="0 0 30 100" aria-hidden="true" style="left:${x}%;height:${h}px;animation-delay:${-d}s"><path d="M15 100 C7 80 23 64 15 44 C9 28 18 16 16 2" fill="none" stroke="${c.pl[0]}" stroke-width="3.4" stroke-linecap="round"/><path d="M15 74 C1 70 1 52 13 54 C16 62 16 68 15 74Z" fill="${c.pl[1]}"/><path d="M15 52 C29 46 30 30 18 31 C15 38 15 44 15 52Z" fill="${c.pl[1]}"/><path d="M15 90 C28 86 29 72 18 72 C15 78 15 84 15 90Z" fill="${c.pl[0]}"/></svg>`).join('');
+  const dust = Array.from({ length: 12 }, (_, i) => `<i style="left:${(fshHash('dx' + i) * 100).toFixed(1)}%;top:${(fshHash('dy' + i) * 100).toFixed(1)}%;--d:${(18 + fshHash('dd' + i) * 16).toFixed(1)}s;--dl:${(-fshHash('dl' + i) * 20).toFixed(1)}s"></i>`).join('');
+  const bub = Array.from({ length: 7 }, (_, i) => `<i style="left:${(8 + fshHash('bx' + i) * 84).toFixed(1)}%;--s:${(4 + fshHash('bs' + i) * 6).toFixed(1)}px;--d:${(5 + fshHash('bd' + i) * 5).toFixed(1)}s;--dl:${(-fshHash('bl' + i) * 9).toFixed(1)}s"></i>`).join('');
+  const bio = th === 'night' ? Array.from({ length: 14 }, (_, i) => `<i class="fsh-bio" style="left:${(fshHash('bi' + i) * 96).toFixed(1)}%;top:${(30 + fshHash('bj' + i) * 60).toFixed(1)}%;--d:${(3 + fshHash('bk' + i) * 3).toFixed(1)}s;--dl:${(-fshHash('bm' + i) * 5).toFixed(1)}s"></i>`).join('') : '';
+  return `<div class="fsh-tank th-${th} ${cls || ''}" style="--tt:${c.top};--tm:${c.mid};--tb:${c.bot};--tl:${c.light}" role="img" aria-label="水槽。魚${list.length}匹">` +
+    `<div class="fsh-water"></div><div class="fsh-caustic"></div><div class="fsh-rays"></div>${fshDecor(th, k)}${pl}${bio}<div class="fsh-dust">${dust}</div><div class="fsh-bubs">${bub}</div>` +
+    `<div class="fsh-fishes">${fishes}</div><div class="fsh-glass"></div>${list.length ? '' : '<p class="fsh-empty">まだ魚がいません</p>'}</div>`;
+}
+// 金の枠・ライト・台のついた水槽キャビネット
+function fshCabinet(list, big, th) {
+  const adult = list.filter(f => fshStage(f) === 'a').length;
+  const t = FSH_THEMES.find(x => x.id === (th || fshGet().th)) || FSH_THEMES[0];
+  return `<div class="fsh-cab${big ? ' big' : ''}"><div class="fsh-hood"><i></i></div>${fshTankHtml(list, big ? 'big' : '', th)}<div class="fsh-stand"><span class="fsh-plate">${esc(t.n)} ・ 大人 ${adult} 匹</span></div></div>`;
 }
 function fshCard() {
-  const a = fshGet(), sp = spendXp(), n = a.fish.length, ad = a.fish.filter(f => fshStage(f) === 'a').length, can = sp >= FSH_PRICE && n < FSH_MAX;
-  return `<section class="card fsh-card"><div class="fsh-hd"><h2>${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshTankHtml(a.fish)}<div class="fsh-ft"><small class="muted">${n ? `${n}匹（大人${ad}匹）` : 'まだ魚がいません'}</small><span class="sp" style="flex:1"></span><button type="button" class="btn tonal sm" data-act="fshopen">${ms('visibility')}水槽を見る</button><button type="button" class="btn sm" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}魚ガチャ 100 XP</button></div></section>`;
+  const a = fshGet(), sp = spendXp(), n = a.fish.length, can = sp >= FSH_PRICE && n < FSH_MAX;
+  return `<section class="card fsh-card"><div class="fsh-hd"><h2>${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(a.fish, false)}<div class="fsh-ft"><small class="muted">${n ? `${n}匹` : 'まだ魚がいません'}</small><span class="sp" style="flex:1"></span><button type="button" class="btn tonal sm" data-act="fshopen">${ms('visibility')}水槽を見る</button><button type="button" class="btn sm" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}魚ガチャ 100 XP</button></div></section>`;
 }
 function fshRowHtml(f) {
   const s = fshSpec(f.s), st = fshStage(f), T = FSH_TIERS[s.t], pr = fshPrice(f);
   const when = st === 'f' ? `稚魚・あと${fshLeftTxt(fshLeft(f))}で大人` : '大人';
-  return `<div class="fsh-row${f.ex ? ' exh' : ''}"><div class="fsh-thumb">${fshFishSvg(s, !!f.g, st)}</div><div class="fsh-info"><b>${f.g ? '金色の' : ''}${esc(s.n)}</b><span><span class="fsh-tier ${T.c}">${T.n}</span>${f.g ? '<span class="fsh-gold">色違い</span>' : ''}</span><small>${when}</small><small>売値 ${pr} XP${f.ex ? '・展示中' : ''}</small></div><div class="fsh-acts"><button type="button" class="btn tonal xs" data-act="fshex" data-id="${f.id}">${f.ex ? 'しまう' : '展示する'}</button><button type="button" class="btn text xs" data-act="fshsell" data-id="${f.id}" ${f.ex ? 'disabled' : ''}>売る</button></div></div>`;
+  const feed = st === 'f' ? `<button type="button" class="btn tonal xs" data-act="fshfeed" data-id="${f.id}">エサ ${FSH_FOOD_XP}XP</button>` : '';
+  return `<div class="fsh-row${f.ex ? ' exh' : ''}"><div class="fsh-thumb">${fshFishSvg(s, !!f.g, st)}</div><div class="fsh-info"><b>${f.g ? '金色の' : ''}${esc(s.n)}</b><span><span class="fsh-tier ${T.c}">${T.n}</span>${f.g ? '<span class="fsh-gold">色違い</span>' : ''}</span><small>${when}</small><small>売値 ${pr} XP${f.ex ? '・展示中' : ''}</small></div><div class="fsh-acts">${feed}<button type="button" class="btn tonal xs" data-act="fshex" data-id="${f.id}">${f.ex ? 'しまう' : '展示する'}</button><button type="button" class="btn text xs" data-act="fshsell" data-id="${f.id}" ${f.ex ? 'disabled' : ''}>売る</button></div></div>`;
 }
 function fshFriendsHtml() {
   if (!CLOUD.user) return '<p class="muted">友達の水槽を見るには、Googleログインが必要です</p>';
@@ -14618,38 +14744,92 @@ function fshFriendsHtml() {
 }
 function fshOpen() {
   if (CLOUD.user && !FR_HOME.rows) { try { frHomeLoad(false); } catch (e) { } }
-  const a = fshGet(), sp = spendXp(), n = a.fish.length, ex = a.fish.filter(f => f.ex).length, ad = a.fish.filter(f => fshStage(f) === 'a').length;
-  const old = dlg.open && dlg.querySelector('.fsh-full') && dlg.querySelector('.dlg'), sc = old ? old.scrollTop : 0, can = sp >= FSH_PRICE && n < FSH_MAX;
+  const a = fshGet(), sp = spendXp(), n = a.fish.length, ex = a.fish.filter(f => f.ex).length, can = sp >= FSH_PRICE && n < FSH_MAX;
+  const old = dlg.open && dlg.querySelector('.fsh-full') && dlg.querySelector('.dlg'), sc = old ? old.scrollTop : 0;
   const note = n >= FSH_MAX ? '水槽がいっぱいです。売ると、空きができます' : sp < FSH_PRICE ? `あと${FSH_PRICE - sp} XP で、1回引けます` : '1回 100 XP。出る魚は、下の確率です';
-  openDlg(`<div class="fsh-full"><div class="fsh-hd"><h2>${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshTankHtml(a.fish, 'big')}<p class="muted fsh-stat">${n}/${FSH_MAX}匹（大人${ad}匹）・展示 ${ex}/${FSH_EX_MAX}</p><div class="fsh-gacha"><button type="button" class="btn" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}魚ガチャ（100 XP）</button><small class="muted">${note}</small></div><details class="fsh-odds"><summary>魚の出る確率</summary><ul>${FSH_TIERS.map(t => `<li><span class="fsh-tier ${t.c}">${t.n}</span><b>${t.p}%</b><small>大人の売値 ${t.lo}〜${t.hi} XP</small></li>`).join('')}<li><span class="fsh-gold">色違い</span><b>4096分の1</b><small>全身が金色。売値は${FSH_GOLD_X}倍</small></li></ul></details><h3 class="fsh-h">もっている魚</h3><div class="fsh-list">${a.fish.map(fshRowHtml).join('') || '<p class="muted">まだ魚がいません。魚ガチャで、最初の魚を手に入れましょう</p>'}</div><h3 class="fsh-h">友達の水槽（展示）</h3>${fshFriendsHtml()}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
+  const themes = FSH_THEMES.map(t => { const own = a.own.includes(t.id), on = a.th === t.id; return `<button type="button" class="fsh-th${on ? ' on' : ''}" data-act="fshtheme" data-id="${t.id}">${esc(t.n)}<small>${on ? '使用中' : own ? '持っている' : t.c + ' XP で買う'}</small></button>`; }).join('');
+  openDlg(`<div class="fsh-full"><div class="fsh-hd"><h2 class="fsh-title">${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(a.fish, true)}<p class="muted fsh-stat">${n}/${FSH_MAX}匹・展示 ${ex}/${FSH_EX_MAX}</p><div class="fsh-gacha"><button type="button" class="btn" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}魚ガチャ（100 XP）</button><small class="muted">${note}</small></div><div class="fsh-tools"><button type="button" class="btn tonal sm" data-act="fshfeedall">${ms('set_meal')}稚魚に全部エサ（${FSH_FOOD_XP}XPずつ）</button><button type="button" class="btn tonal sm" data-act="fshdex">${ms('menu_book')}魚の図鑑</button></div><h3 class="fsh-h">水槽のテーマ</h3><div class="fsh-themes">${themes}</div><details class="fsh-odds"><summary>魚の出る確率</summary><ul>${FSH_TIERS.map(t => `<li><span class="fsh-tier ${t.c}">${t.n}</span><b>${t.p}%</b><small>大人の売値 ${t.lo}〜${t.hi} XP</small></li>`).join('')}<li><span class="fsh-gold">色違い</span><b>4096分の1</b><small>全身が金色。売値は${FSH_GOLD_X}倍</small></li></ul></details><h3 class="fsh-h">もっている魚</h3><div class="fsh-list">${a.fish.map(fshRowHtml).join('') || '<p class="muted">まだ魚がいません。魚ガチャで、最初の魚を手に入れましょう</p>'}</div><h3 class="fsh-h">友達の水槽（展示）</h3>${fshFriendsHtml()}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
   const nd = dlg.querySelector('.dlg'); if (nd && sc) nd.scrollTop = sc;
   FSH_SIG = a.fish.map(fshStage).join('');
   if (!FSH_T) FSH_T = setInterval(fshTick, 30000);
 }
-let FSH_T = 0, FSH_SIG = '';
+let FSH_T = 0, FSH_SIG = '', FSH_FG = 0, FSH_LAST = null;
 // 育つ時間を見て、大人になったら画面を描き直す
 function fshTick() { if (!dlg.open || !dlg.querySelector('.fsh-full')) return; const sig = fshGet().fish.map(fshStage).join(''); if (sig !== FSH_SIG) { FSH_SIG = sig; try { render(); } catch (e) { } fshOpen(); } }
+
+// ガチャ：抽選して、演出 → 結果の順に見せる
 function fshPull() {
   const a = fshGet(), sp = spendXp();
-  if (a.fish.length >= FSH_MAX) return toast('水槽がいっぱいです。売るか、よい魚だけ残してください');
+  if (a.fish.length >= FSH_MAX) return toast('水槽がいっぱいです。売るか、ほかの魚を入れかえてください');
   if (sp < FSH_PRICE) return toast(`XPが${FSH_PRICE - sp}足りません`);
   const r = Math.random() * 100; let acc = 0, ti = 0;
   for (let i = 0; i < FSH_TIERS.length; i++) { acc += FSH_TIERS[i].p; ti = i; if (r < acc) break; }
   const T = FSH_TIERS[ti], pool = FSH_SP.filter(s => s.t === ti), sp2 = pool[Math.floor(Math.random() * pool.length)];
   const g = Math.random() < FSH_GOLD_P ? 1 : 0, v = T.lo + Math.floor(Math.random() * (T.hi - T.lo + 1));
-  const f = { id: uid(), s: sp2.id, t: Date.now(), v, g, ex: false };
+  const f = { id: uid(), s: sp2.id, t: Date.now(), v, g, ex: false, b: 0 };
   const gg = growGet(); gg.spent += FSH_PRICE; growPut(gg);
-  a.fish.push(f); fshPut(a); render(); fshReveal(f);
+  const fresh = !a.seen[sp2.id];
+  a.fish.push(f); a.seen[sp2.id] = Math.max(a.seen[sp2.id] || 0, g ? 2 : 1);
+  let bonus = 0;
+  if (!a.rw && Object.keys(a.seen).length >= FSH_SP.length) { a.rw = true; a.earn += FSH_DEX_REWARD; bonus = FSH_DEX_REWARD; }
+  fshPut(a); render();
+  fshGacha(f, { fresh, bonus });
 }
-function fshReveal(f) {
-  const s = fshSpec(f.s), T = FSH_TIERS[s.t], gold = !!f.g, leg = s.t >= 2;
-  openDlg(`<div class="fsh-rev ${leg ? 'leg' : ''}"><div class="fsh-rev-fish">${fshFishSvg(s, gold, 'f')}</div><h2>${gold ? '色違い！ ' : ''}${esc(s.n)}</h2><span class="fsh-tier ${T.c}">${T.n}</span><p>稚魚を水槽に入れました。2時間ほどで大人になります。大人になったときの売値は ${f.v * (gold ? FSH_GOLD_X : 1)} XP です</p><div class="dact"><span class="sp"></span><button type="button" class="btn tonal" data-act="fshopen">${ms('visibility')}水槽を見る</button><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
+// 演出：光の渦 → 玉が震える → 割れて閃光 → 魚が現れる（レア度で派手さが変わる）
+function fshGacha(f, info) {
+  FSH_LAST = { f, info };
+  if (fshReduced()) return fshReveal(f, info);
+  const s = fshSpec(f.s), T = FSH_TIERS[s.t], gold = !!f.g, tier = s.t;
+  const burst = Array.from({ length: 30 }, (_, i) => `<i style="--an:${(i * 360 / 30 + fshHash('ga' + i) * 9).toFixed(1)}deg;--dist:${(110 + fshHash('gd' + i) * 120).toFixed(0)}px;--dl:${(1.1 + fshHash('gl' + i) * 0.12).toFixed(2)}s"></i>`).join('');
+  const rings = [0, 0.18, 0.36].map(d => `<i class="fg-ring" style="animation-delay:${(1.1 + d).toFixed(2)}s"></i>`).join('');
+  openDlg(`<div class="fg t${tier}${gold ? ' gold' : ''}"><div class="fg-rays"></div><div class="fg-orb"></div><div class="fg-flash"></div>${rings}<div class="fg-burst">${burst}</div><div class="fg-fish">${fshFishSvg(s, gold, 'f')}</div><div class="fg-tag">${gold ? '<em>色違い！</em>' : ''}<b>${T.n}</b><span>${esc(s.n)}</span></div><div class="fg-foot"><button type="button" class="btn text" data-act="fshskip">スキップ</button></div></div>`);
+  clearTimeout(FSH_FG);
+  FSH_FG = setTimeout(() => { if (dlg.open && dlg.querySelector('.fg')) fshReveal(f, info); }, 4300);
+}
+function fshSkip() { clearTimeout(FSH_FG); if (FSH_LAST) fshReveal(FSH_LAST.f, FSH_LAST.info); }
+function fshReveal(f, info) {
+  clearTimeout(FSH_FG);
+  const s = fshSpec(f.s), T = FSH_TIERS[s.t], gold = !!f.g, leg = s.t >= 2, can = spendXp() >= FSH_PRICE && fshGet().fish.length < FSH_MAX;
+  const fresh = info && info.fresh, bonus = info && info.bonus;
+  openDlg(`<div class="fsh-rev${leg ? ' leg' : ''}"><div class="fsh-rev-fish">${fshFishSvg(s, gold, 'f')}</div><div class="fsh-rev-t"><span class="fsh-tier ${T.c}">${T.n}</span>${gold ? '<span class="fsh-gold">色違い</span>' : ''}${fresh ? '<span class="fsh-new">図鑑に新登録！</span>' : ''}</div><h2>${gold ? '金色の' : ''}${esc(s.n)}</h2><p>稚魚を水槽に入れました。2時間ほどで大人になります。大人になったときの売値は ${f.v * (gold ? FSH_GOLD_X : 1)} XP です</p>${bonus ? `<p class="fsh-bonus">図鑑コンプリート！ ${bonus} XP を受け取りました</p>` : ''}<div class="dact"><button type="button" class="btn tonal" data-act="fshopen">${ms('visibility')}水槽を見る</button>${can ? `<button type="button" class="btn" data-act="fshpull">${ms('casino')}もう一回（100 XP）</button>` : ''}</div><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">とじる</button></div></div>`);
+}
+// 図鑑：見つけた魚だけ絵が出る。全部そろうと XP がもらえる
+function fshDex() {
+  const a = fshGet(), n = Object.keys(a.seen).length;
+  const cards = FSH_SP.map(s => { const v = a.seen[s.id] || 0, T = FSH_TIERS[s.t]; return `<div class="fsh-dx${v ? '' : ' sil'}">${fshFishSvg(s, false, 'a')}<b>${v ? esc(s.n) : '？？？'}</b><span class="fsh-tier ${T.c}">${T.n}</span>${v >= 2 ? '<small class="fsh-gold">色違い ✓</small>' : v ? '<small class="muted">色違いは未発見</small>' : ''}</div>`; }).join('');
+  openDlg(`<div class="fsh-dexw"><div class="fsh-hd"><h2 class="fsh-title">${ms('menu_book')}魚の図鑑</h2><span class="sp" style="flex:1"></span><span class="pillchip">${n} / ${FSH_SP.length}</span></div><p class="muted">全部集めると、${FSH_DEX_REWARD} XP もらえます${a.rw ? '（受け取り済み）' : ''}</p><div class="fsh-dex">${cards}</div><div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="fshopen">水槽にもどる</button></div></div>`);
+}
+function fshTheme(id) {
+  const a = fshGet(), th = FSH_THEMES.find(t => t.id === id); if (!th) return;
+  if (!a.own.includes(id)) {
+    if (spendXp() < th.c) return toast(`XPが${th.c - spendXp()}足りません`);
+    const gg = growGet(); gg.spent += th.c; growPut(gg); a.own.push(id); toast(`${th.n}を買いました`);
+  }
+  a.th = id; fshPut(a); render(); fshOpen();
+}
+function fshFeed(id) {
+  const a = fshGet(), f = a.fish.find(x => x.id === id); if (!f) return;
+  if (fshStage(f) === 'a') return toast('もう大人です');
+  if (spendXp() < FSH_FOOD_XP) return toast(`XPが${FSH_FOOD_XP - spendXp()}足りません`);
+  const gg = growGet(); gg.spent += FSH_FOOD_XP; growPut(gg);
+  f.b = (f.b || 0) + FSH_FOOD_MS; fshPut(a);
+  toast(fshStage(f) === 'a' ? '大人になりました！' : `エサをあげました（あと${fshLeftTxt(fshLeft(f))}）`);
+  render(); if (dlg.open && dlg.querySelector('.fsh-full')) fshOpen();
+}
+function fshFeedAll() {
+  const a = fshGet(), fry = a.fish.filter(f => fshStage(f) === 'f');
+  if (!fry.length) return toast('稚魚がいません');
+  const can = Math.min(fry.length, Math.floor(spendXp() / FSH_FOOD_XP));
+  if (!can) return toast(`XPが足りません（エサは1匹 ${FSH_FOOD_XP} XP）`);
+  const gg = growGet(); gg.spent += can * FSH_FOOD_XP; growPut(gg);
+  fry.slice(0, can).forEach(f => { f.b = (f.b || 0) + FSH_FOOD_MS; });
+  fshPut(a); toast(`${can}匹にエサをあげました`); render(); fshOpen();
 }
 function fshSell(id) {
   const a = fshGet(), f = a.fish.find(x => x.id === id); if (!f) return;
   if (f.ex) return toast('展示をやめてから売ってください');
   const pr = fshPrice(f), s = fshSpec(f.s);
-  confirmDlg(`${s.n}を売りますか？`, `${fshStage(f) === 'a' ? '大人' : '稚魚'}として ${pr} XP で売ります。売ったXPは、ショップで使えます（レベルは上がりません）`, '売る', () => {
+  confirmDlg(`${s.n}を売りますか？`, `${fshStage(f) === 'a' ? '大人' : '稚魚'}として ${pr} XP で売ります。売ったXPはショップで使えます（レベルは上がりません）`, '売る', () => {
     const b = fshGet(); b.fish = b.fish.filter(x => x.id !== id); b.earn += pr; fshPut(b); toast(`${pr} XP で売りました`); render(); fshOpen();
   });
 }
