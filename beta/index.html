@@ -3723,8 +3723,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.15'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.15';
+const RELEASE_VER = '18.3.16'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.16';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4737,6 +4737,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.16', d: '2026/11/26 13:30', t: '漢字テキストが重くなって落ちる問題を直し、書いた内容を保存できるように', n: ['漢字テキストで拡大・移動しても、アプリが落ちないように、描く大きさと、同時に残すページ数に上限をつけました（拡大しすぎたときは、少し小さく描かれます）', '書いた線は、端末のメモリに保存するようにしました（たくさん書いても消えにくくなります）。閉じたときにも、すぐ保存します', '「このページを保存」で、教科書と書き込みを、板書の一覧に保存できるようにしました'] },
   { v: '18.3.15', d: '2026/11/26 13:30', t: '集中タイマーをマイクラ風に（クリーパーの爆発）・板書に写真を選んで入れる・漢字テキストの拡大と書き心地', n: ['集中タイマーを、マイクラ風の字（ドット文字）・石の背景・石と木のボタンにしました', '集中と休憩を切り換えると、クリーパーが爆発する演出を出します（アニメーションを減らす設定のときは出ません）', '板書に「写真を選ぶ」を追加。iPadの写真から、何枚でも入れられます（写真は、この端末の中だけに保存されます）', '漢字テキストの拡大・縮小は、指で押さえた場所（2本指の真ん中・ボタンのときは画面の真ん中）が、ずれずに残るようにしました', 'ペンの太さを「細・中・太」から選べるように。線は曲線でつながり、なめらかに書けます', '漢字テキストで長押ししても、青い選択やコピーの表示が出ないようにしました'] },
   { v: '18.3.14', d: '2026/11/26 11:50', t: '集中タイマーは1分1XP・火山の噴火の演出・火山と抹茶のテーマを作り直し', n: ['集中タイマーで1分集中すると、1XPもらえるように（今までは0.5XP）', '火山テーマで、単語帳の問題を間違えると噴火します（4択は1回ごと。入力テストは、2.5秒に1回まで）', '火山テーマを、ツールバー・見出し・バー・ボタンまで火山の色に（文字は見やすく）', '抹茶テーマを、やわらかい抹茶の緑と泡のような模様に作り直しました', 'テーマを変えたときに出ていた、四角い箱（おすすめの帯）を直しました'] },
   { v: '18.3.13', d: '2026/11/26 11:10', t: 'レベル画面を、今のレベル・持っているXP・次まであと何XPが一目で分かるレイアウトに', n: ['いちばん上に、今のレベル・持っているXP・次のレベルまでの残りを大きく出しました', 'レベルを上げる方法を、課題・ページ・集中タイマーの3つに分けて、あと何個・何ページ・何分かを表示', 'それぞれの横のボタンで、課題・集中タイマーのそのまま開けるように'] },
@@ -9880,9 +9881,12 @@ const TX = { books: null, bookErr: false, loading: false, bookId: '', from: 0, t
 const TX_INK_KEY = 'kosa-kanji-ink-v1', TX_PEN_W = 0.0035, TX_PEN_WS = { s: 0.0022, m: 0.0035, l: 0.0058 }, TX_COLORS = [['#c62828', '赤'], ['#1565c0', '青'], ['#111111', '黒']];
 const txR4 = v => Math.round(v * 1e4) / 1e4, txClamp = v => Math.min(1, Math.max(0, v));
 const txDpr = () => Math.min(2, window.devicePixelRatio || 1);
+/* 描く大きさの上限（canvasは端末のメモリを使うので、拡大しても無制限に大きくしない）と、同時に残しておくページ数 */
+const TX_MAX_PX = 3600000, TX_LIVE_MAX = 3, TX_IDB = 'kosa-kanji-ink', TX_IDB_STORE = 'ink';
 async function txBooks() {
   if (TX.books || TX.loading) return TX.books;
   TX.loading = true; TX.bookErr = false;
+  await (TX.inkP = TX.inkP || txInkLoad());
   try {
     const r = await fetch('kanji/books.json', { cache: 'no-cache' });
     if (!r.ok) throw new Error('books ' + r.status);
@@ -9909,11 +9913,44 @@ function txInk() {
   return TX.ink;
 }
 function txStrokes(key) { const I = txInk(); if (!Array.isArray(I[key])) I[key] = []; return I[key]; }
-function txInkSave() {
-  try { localStorage.setItem(TX_INK_KEY, JSON.stringify(txInk())); }
-  catch (e) { if (!TX.saveWarned) { TX.saveWarned = true; toast('この端末に保存できませんでした。書いた線は、このページを開いている間だけ残ります'); } }
+function txIdb() {
+  if (!TX.idbP) TX.idbP = new Promise((res, rej) => {
+    if (!('indexedDB' in window)) return rej(new Error('noidb'));
+    const r = indexedDB.open(TX_IDB, 1);
+    r.onupgradeneeded = () => r.result.createObjectStore(TX_IDB_STORE);
+    r.onsuccess = () => res(r.result); r.onerror = () => rej(r.error);
+  }).catch(e => { TX.idbP = null; throw e; });
+  return TX.idbP;
 }
-async function txDoc(b) {
+/* 書いた線は、IndexedDBに保存する（localStorageは容量が小さく、たくさん書くと保存できなくなるため） */
+async function txInkLoad() {
+  let v = null;
+  try {
+    const db = await txIdb();
+    v = await new Promise((res, rej) => { const q = db.transaction(TX_IDB_STORE).objectStore(TX_IDB_STORE).get('all'); q.onsuccess = () => res(q.result || null); q.onerror = () => rej(q.error); });
+  } catch (e) { v = null; }
+  if (!v) { try { v = JSON.parse(localStorage.getItem(TX_INK_KEY) || 'null'); } catch (e) { v = null; } }
+  TX.ink = v && typeof v === 'object' && !Array.isArray(v) ? v : {};
+  TX.inkLoaded = true;
+  return TX.ink;
+}
+let TX_SAVE_T = null;
+function txInkSave() { clearTimeout(TX_SAVE_T); TX_SAVE_T = setTimeout(txInkFlush, 350); }
+async function txInkFlush() {
+  clearTimeout(TX_SAVE_T); TX_SAVE_T = null;
+  if (!TX.ink) return;
+  try {
+    const db = await txIdb();
+    await new Promise((res, rej) => { const t = db.transaction(TX_IDB_STORE, 'readwrite'); t.objectStore(TX_IDB_STORE).put(TX.ink, 'all'); t.oncomplete = () => res(); t.onerror = () => rej(t.error); t.onabort = () => rej(t.error); });
+    try { localStorage.removeItem(TX_INK_KEY); } catch (e) { }
+  } catch (e) {
+    try { localStorage.setItem(TX_INK_KEY, JSON.stringify(TX.ink)); return; } catch (e2) { }
+    if (!TX.saveWarned) { TX.saveWarned = true; toast('書いた線を保存できませんでした。画面を閉じると、書いた線がなくなることがあります'); }
+  }
+}
+/* 画面を閉じる・アプリを切り替えるときは、まだ保存していない線もすぐ保存する */
+addEventListener('pagehide', () => { if (TX_SAVE_T) txInkFlush(); });
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden' && TX_SAVE_T) txInkFlush(); });async function txDoc(b) {
   if (TX.docs[b.id]) return TX.docs[b.id];
   const p = (async () => {
     if (!TX.lib) { const lib = await import('./vendor/pdfjs/pdf.min.mjs'); lib.GlobalWorkerOptions.workerSrc = './vendor/pdfjs/pdf.worker.min.mjs'; TX.lib = lib; }
@@ -9923,44 +9960,69 @@ async function txDoc(b) {
   return p;
 }
 /* 1ページ分を、表示する幅（端末のピクセル）で描く。描いた絵は、ページを離れても使えるように覚えておく */
-function txRenderPdf(b, k, w) {
-  const key = txKey(b, k), hit = TX.pc[key];
-  if (hit && hit.width === w) return Promise.resolve(hit);
-  const pk = key + '|' + w;
+function txQueue(fn) { TX.q = TX.q || Promise.resolve(); const p = TX.q.then(fn); TX.q = p.catch(() => { }); return p; }
+/* 1ページ分を、表示する幅（端末のピクセル）で描く。一度に1ページずつ描き、もう表示していないページは描かない */
+function txRenderPdf(b, k, w, wanted) {
+  const pk = txKey(b, k) + '|' + w;
   if (TX.pr[pk]) return TX.pr[pk];
-  const p = (async () => {
+  const p = txQueue(async () => {
+    if (wanted && !wanted()) return null;
     const doc = await txDoc(b);
     if (k > doc.numPages) throw new Error('page');
-    const page = await doc.getPage(k), vp1 = page.getViewport({ scale: 1 });
-    const cv = document.createElement('canvas');
-    cv.width = w; cv.height = Math.round(w * vp1.height / vp1.width); cv.className = 'tx-pdf';
-    await page.render({ canvasContext: cv.getContext('2d'), viewport: page.getViewport({ scale: w / vp1.width }) }).promise;
-    page.cleanup();
-    TX.pc[key] = cv;
-    return cv;
-  })().finally(() => { delete TX.pr[pk]; });
+    const page = await doc.getPage(k);
+    try {
+      const vp1 = page.getViewport({ scale: 1 });
+      // 拡大しても描く大きさには上限をつける（表示は同じ大きさに広がるので、読めなくなることはない）
+      const cw = Math.max(1, Math.min(w, Math.floor(Math.sqrt(TX_MAX_PX * vp1.width / vp1.height))));
+      const cv = document.createElement('canvas');
+      cv.width = cw; cv.height = Math.round(cw * vp1.height / vp1.width); cv.className = 'tx-pdf';
+      const ctx = cv.getContext('2d'); if (!ctx) throw new Error('memory');
+      await page.render({ canvasContext: ctx, viewport: page.getViewport({ scale: cw / vp1.width }) }).promise;
+      return cv;
+    } finally { page.cleanup(); }
+  }).finally(() => { delete TX.pr[pk]; });
   TX.pr[pk] = p;
   return p;
 }
-async function txShow(sec) {
+/* canvasの中身を捨てて、メモリをすぐ返す */
+function txFree(cv) { cv.width = 0; cv.height = 0; cv.remove(); }
+/* ページの絵を外す（線は保存してあるので、また近くに来たときに描き直せる） */
+function txRelease(box) {
+  box.querySelectorAll('.tx-pdf').forEach(txFree);
+  const ink = box.querySelector('.tx-ink'); if (ink) { ink.width = 0; ink.height = 0; }
+  box.dataset.w = ''; if (TX.live) TX.live.delete(box);
+}
+/* 描いたページを新しい順に覚えて、残す数を超えたら、いちばん前に使ったページから（画面の近くにあるものは残す） */
+function txTrackLive(box) {
+  TX.live = TX.live || new Map();
+  TX.live.delete(box); TX.live.set(box, Date.now());
+  for (const [bx] of TX.live) {
+    if (TX.live.size <= TX_LIVE_MAX) break;
+    if (bx.closest('.tx-pgw') && bx.closest('.tx-pgw').dataset.vis === '1') continue;
+    txRelease(bx);
+  }
+}async function txShow(sec) {
   const b = txBook(); if (!b) return;
   const k = +sec.dataset.k, box = sec.querySelector('.tx-pg'), ink = box && box.querySelector('.tx-ink');
   if (!box || !ink) return;
   const w = Math.round(box.clientWidth * txDpr()); if (!w || box.dataset.w === String(w)) return;
   box.dataset.w = String(w);
+  const wanted = () => box.isConnected && box.dataset.w === String(w);
   try {
-    const cv = await txRenderPdf(b, k, w);
-    if (box.dataset.w !== String(w) || !box.isConnected) return;
-    const prev = box.querySelector('.tx-pdf'); if (prev && prev !== cv) prev.remove();
+    const cv = await txRenderPdf(b, k, w, wanted);
+    if (!cv) return;
+    if (!wanted()) { if (!cv.isConnected) txFree(cv); return; }
+    const prev = box.querySelector('.tx-pdf'); if (prev && prev !== cv) txFree(prev);
     if (cv.parentNode !== box) box.insertBefore(cv, ink);
-    ink.width = w; ink.height = cv.height; txDrawInk(ink, txKey(b, k));
+    ink.width = cv.width; ink.height = cv.height; txDrawInk(ink, txKey(b, k));
+    txTrackLive(box);
     const ld = box.querySelector('.tx-ld'); if (ld) ld.remove();
   } catch (e) {
     box.dataset.w = '';
-    const ld = box.querySelector('.tx-ld'); if (ld) ld.textContent = '教科書を開けませんでした。通信を確かめて、もう一度お試しください';
+    const ld = box.querySelector('.tx-ld');
+    if (ld) ld.textContent = e && e.message === 'memory' ? '画面が大きすぎて描けませんでした。拡大を少し戻してください' : '教科書を開けませんでした。通信を確かめて、もう一度お試しください';
   }
-}
-// なめらかな線：点と点のあいだを、中点どうしを曲線でつないで描く（角がガタガタしないように）
+}// なめらかな線：点と点のあいだを、中点どうしを曲線でつないで描く（角がガタガタしないように）
 const txMid = (a, b) => ({ x: (a.x + b.x) / 2, y: (a.y + b.y) / 2, p: (a.p + b.p) / 2 });
 function txPiece(ctx, W, H, st, P, i) {
   const n = P.length, a = i === 0 ? P[0] : txMid(P[i - 1], P[i]), c = P[i], b = i === n - 1 ? P[n - 1] : txMid(P[i], P[i + 1]);
@@ -10084,7 +10146,7 @@ function txZoomSet(z, ax, ay) {
     const s = [...document.querySelectorAll('.tx-pgw')].find(x => { const r = x.getBoundingClientRect(); return ay >= r.top && ay <= r.bottom; });
     if (s) { const r = s.getBoundingClientRect(); anc = { s, fx: (ax - r.left) / r.width, fy: (ay - r.top) / r.height, ax, ay }; }
   }
-  TX.z = n; TX.pc = {};
+  TX.z = n;
   const box = document.getElementById('txpages'); if (box) box.style.setProperty('--tz', String(n));
   if (anc) {
     const r = anc.s.getBoundingClientRect(), dx = r.left + anc.fx * r.width - anc.ax, dy = r.top + anc.fy * r.height - anc.ay;
@@ -10194,7 +10256,7 @@ function txViewHtml(b) {
   if (!nums.includes(TX.cur)) TX.cur = nums[0] || 0;
   const pages = nums.map(k => `<section class="tx-pgw" data-k="${k}"><div class="tx-lb">${txPageLabel(b, k)}</div><div class="tx-pg"><canvas class="tx-ink" aria-label="ここにペンで書き込めます"></canvas><div class="tx-ld">読み込んでいます…</div></div></section>`).join('');
   return `<div class="tx-view${TX.full ? ' tx-full' : ''}" id="txview">
-    <div class="tx-head"><b>${esc(b.title)}</b><small>${TX.from}〜${TX.to}ページ</small><span class="sp"></span><button type="button" class="btn text sm" data-act="txclose">${ms('tune')}範囲をかえる</button><button type="button" class="btn tonal sm" data-act="txfull">${TX.full ? ms('fullscreen_exit') + '全画面をとじる' : ms('fullscreen') + '全画面で書く'}</button></div>
+    <div class="tx-head"><b>${esc(b.title)}</b><small>${TX.from}〜${TX.to}ページ</small><span class="sp"></span><button type="button" class="btn text sm" data-act="txclose">${ms('tune')}範囲をかえる</button><button type="button" class="btn tonal sm" data-act="txsave">${ms('save')}このページを保存</button><button type="button" class="btn tonal sm" data-act="txfull">${TX.full ? ms('fullscreen_exit') + '全画面をとじる' : ms('fullscreen') + '全画面で書く'}</button></div>
     <div class="tx-bar" role="toolbar" aria-label="書き込みの道具">
       <div class="tx-cols">${TX_COLORS.map(([c, n]) => `<button type="button" class="tx-col" style="--c:${c}" data-act="txcolor" data-id="${c}" aria-pressed="false" aria-label="${n}のペン"></button>`).join('')}</div>
       <div class="tx-widths" role="group" aria-label="ペンの太さ">${[['s', '細', 3], ['m', '中', 6], ['l', '太', 11]].map(([k, n, w]) => `<button type="button" class="tx-w${(TX.pw || 'm') === k ? ' on' : ''}" data-act="txwidth" data-id="${k}" aria-pressed="${(TX.pw || 'm') === k}" aria-label="${n}い線"><i style="--w:${w}px"></i>${n}</button>`).join('')}</div>
@@ -10230,6 +10292,7 @@ function txHtml() {
 function txPaint() {
   if (TX.io) { TX.io.disconnect(); TX.io = null; }
   if (TX.ro) { TX.ro.disconnect(); TX.ro = null; }
+  TX.live = new Map();
   if (TX.books === null && !TX.bookErr && !TX.loading) {
     txBooks().then(() => { if (ui.tab === 'tools' && ui.tool === 'kanji' && KJ.mode === 'text') render(); });
     return;
@@ -10254,6 +10317,18 @@ Object.assign(ACT, {
   txfull() { TX.full = !TX.full; txFullSync(); },
   txzoom(v) { txZoomSet(v === 'fit' ? 1 : TX.z + (v === 'in' ? 0.25 : -0.25), innerWidth / 2, innerHeight / 2); },
   txwidth(v) { TX.pw = v; txPrefSave(); txBarSync(); },
+  txsave() {
+    const b = txBook(); if (!b) return;
+    const sec = document.querySelector(`.tx-pgw[data-k="${TX.cur}"]`), pdf = sec && sec.querySelector('.tx-pdf'), ink = sec && sec.querySelector('.tx-ink');
+    if (!pdf || !pdf.width) return toast('このページは、まだ表示されていません。少し待ってからお試しください');
+    const c = document.createElement('canvas'); c.width = pdf.width; c.height = pdf.height;
+    const g = c.getContext('2d'); if (!g) return toast('画面が大きすぎて保存できませんでした。拡大を少し戻してください');
+    g.fillStyle = '#fff'; g.fillRect(0, 0, c.width, c.height); g.drawImage(pdf, 0, 0);
+    if (ink && ink.width) g.drawImage(ink, 0, 0, c.width, c.height);
+    const url = c.toDataURL('image/jpeg', 0.9); c.width = 0; c.height = 0;
+    const rec = { id: uid(), at: Date.now(), title: `${txPageLabel(b, TX.cur)}の書き込み`, url, summary: '' };
+    bdbPut(rec).then(() => { BD.list = null; toast('板書に保存しました（ツール→板書で見られます）'); }).catch(() => toast('保存できませんでした'));
+  },
   txgo(d) {
     const b = txBook(); if (!b) return;
     const secs = [...document.querySelectorAll('.tx-pgw')]; if (!secs.length) return;
