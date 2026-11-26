@@ -89,21 +89,29 @@
 html[data-vol]{background:#2a0e08}
 html[data-vol][data-theme=light]{background:#ffe6d6}
 html[data-vol] body{background:transparent!important;transition:none}
-html[data-vol] body::before{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;background:url(assets/volcano-bg.jpg) center bottom/cover no-repeat}
+html[data-vol] body::before{content:'';position:fixed;inset:0;z-index:-3;pointer-events:none;background:url(assets/volcano-bg.jpg) center bottom/cover no-repeat}
 html[data-vol][data-theme=light] body::before{background:linear-gradient(180deg,rgba(255,240,230,.42),rgba(255,222,200,.22) 45%,rgba(255,200,170,.12)),url(assets/volcano-bg.jpg) center bottom/cover no-repeat}
 html[data-vol][data-theme=dark] body::before{filter:saturate(1.15) brightness(.85)}
-html[data-vol] body::after{content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;background-image:radial-gradient(circle,rgba(255,196,120,.95) 1.2px,transparent 2.4px),radial-gradient(circle,rgba(255,130,50,.9) 1px,transparent 2px),linear-gradient(0deg,rgba(255,84,20,.42),rgba(255,140,60,.08) 20%,transparent 38%);background-size:190px 230px,130px 170px,100% 100%;background-position:0 0,40px 70px,0 0;background-repeat:repeat,repeat,no-repeat;animation:vEmber 16s linear infinite}
-@keyframes vEmber{from{background-position:0 0,40px 70px,0 0}to{background-position:-70px -1000px,-30px -800px,0 0}}
+/* 火山の火の粉：背景の位置を動かすと画面全体を描き直すので、箱ごと動かす（描き直さず、GPUで動く） */
+html[data-vol] body::after{content:'';position:fixed;inset:0;z-index:-2;pointer-events:none;background:linear-gradient(0deg,rgba(255,84,20,.42),rgba(255,140,60,.08) 20%,transparent 38%)}
+html[data-vol]::before,html[data-vol]::after{content:'';position:fixed;left:0;top:0;width:calc(100% + 70px);pointer-events:none;z-index:-1;animation:vEmber1 16s linear infinite}
+html[data-vol]::after{height:calc(100% + 1000px);background-image:radial-gradient(circle,rgba(255,196,120,.95) 1.2px,transparent 2.4px);background-size:190px 230px}
+html[data-vol]::before{height:calc(100% + 870px);background-image:radial-gradient(circle,rgba(255,130,50,.9) 1px,transparent 2px);background-size:130px 170px;background-position:40px 70px;animation-name:vEmber2}
+@keyframes vEmber1{from{transform:translate3d(0,0,0)}to{transform:translate3d(-70px,-1000px,0)}}
+@keyframes vEmber2{from{transform:translate3d(0,0,0)}to{transform:translate3d(-70px,-870px,0)}}
 html[data-vol] .card{background:color-mix(in srgb,var(--s2) 80%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);box-shadow:0 0 0 1px rgba(255,120,50,.24),0 12px 30px rgba(90,15,0,.3)}
 html[data-vol][data-theme=light] .card{background:color-mix(in srgb,#fff 66%,transparent)}
 html[data-vol] h1,html[data-vol] h2{text-shadow:0 1px 2px rgba(0,0,0,.55)}
 html[data-vol] .focus{background:linear-gradient(rgba(24,7,2,.55),rgba(24,7,2,.78))}
 html[data-vol][data-theme=light] .focus{background:rgba(255,236,220,.72)}
 /* 溶岩のボタン：岩の割れ目から、ゆっくり光が流れる */
-html[data-vol] .btn:not(.text):not(.tonal):not(:disabled),html[data-vol] .ach-btn:not(:disabled){position:relative;overflow:hidden;color:#fff;border:0;background:linear-gradient(180deg,rgba(255,176,90,.28),rgba(110,16,0,.4)),url(assets/lava-tile.jpg) 0 0/256px 256px;animation:lavaFlow 10s linear infinite;box-shadow:0 0 0 1px rgba(255,170,80,.55),0 8px 24px rgba(255,80,20,.45),inset 0 1px 0 rgba(255,230,180,.35);text-shadow:0 1px 6px rgba(80,0,0,.85)}
+html[data-vol] .btn:not(.text):not(.tonal):not(:disabled),html[data-vol] .ach-btn:not(:disabled){position:relative;overflow:hidden;color:#fff;border:0;background:linear-gradient(180deg,rgba(255,176,90,.28),rgba(110,16,0,.4));isolation:isolate;box-shadow:0 0 0 1px rgba(255,170,80,.55),0 8px 24px rgba(255,80,20,.45);text-shadow:0 1px 6px rgba(80,0,0,.85)}
+/* 溶岩の模様は、背景を動かさず、模様の箱ごと動かす（ボタンの中を描き直さないので軽い）。上の1本の光も、模様の上に重ねる */
+html[data-vol] .btn:not(.text):not(.tonal):not(:disabled)::before,html[data-vol] .ach-btn:not(:disabled)::before{content:'';position:absolute;left:-256px;top:-256px;width:calc(100% + 512px);height:calc(100% + 512px);z-index:-1;pointer-events:none;background:url(assets/lava-tile.jpg) 256px 256px/256px 256px;animation:lavaMove 10s linear infinite}
+html[data-vol] .btn:not(.text):not(.tonal):not(:disabled)::after,html[data-vol] .ach-btn:not(:disabled)::after{content:'';position:absolute;left:0;right:0;top:0;height:1px;z-index:-1;pointer-events:none;background:rgba(255,230,180,.35)}
 html[data-vol] .btn.tonal:not(:disabled),html[data-vol] .chip:not(:disabled){position:relative;overflow:hidden;background:color-mix(in srgb,#ff7a3a 24%,var(--s3));box-shadow:0 0 0 1px rgba(255,120,50,.4),0 6px 18px rgba(255,80,20,.28)}
 html[data-vol] .btn:not(:disabled):active,html[data-vol] .ach-btn:active{transform:scale(.95)}
-@keyframes lavaFlow{from{background-position:0 0,0 0}to{background-position:0 0,256px 150px}}
+@keyframes lavaMove{from{transform:translate3d(0,0,0)}to{transform:translate3d(256px,150px,0)}}
 /* 噴火の演出：押したところから、火の粉が飛び散る */
 .vb{position:absolute;left:50%;top:50%;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;pointer-events:none;z-index:2;background:radial-gradient(circle,#fff6c8 0,#ffb040 38%,rgba(255,80,20,0) 72%);animation:vBurst .7s var(--smooth) forwards}
 .vb i{position:absolute;left:50%;top:50%;width:6px;height:6px;margin:-3px;border-radius:50%;background:#ffc060;box-shadow:0 0 6px #ff8030;animation:vSpark .6s var(--smooth) forwards;transform:rotate(var(--a)) translateX(0)}
@@ -114,7 +122,7 @@ html[data-vol] .btn:not(:disabled):active,html[data-vol] .ach-btn:active{transfo
 @keyframes vFlash{0%{opacity:0}10%{opacity:1}100%{opacity:0}}
 html.vquake #main{animation:vShake .6s linear}
 @keyframes vShake{10%,90%{transform:translate(-1px,0)}20%,80%{transform:translate(2px,0)}30%,50%,70%{transform:translate(-4px,1px)}40%,60%{transform:translate(4px,-2px)}}
-@media (prefers-reduced-motion:reduce){html[data-vol] body::after,html[data-vol] .btn,html[data-vol] .ach-btn,.vb,.vb i,html.vquake #main{animation:none!important}}
+@media (prefers-reduced-motion:reduce){html[data-vol]::before,html[data-vol]::after,html[data-vol] body::after,html[data-vol] .btn::before,html[data-vol] .ach-btn::before,html[data-vol] .btn,html[data-vol] .ach-btn,.vb,.vb i,html.vquake #main{animation:none!important}}
 
 /* 18.3.14：噴火の演出（単語帳の間違い） */
 .vero{position:fixed;inset:0;z-index:96;pointer-events:none;overflow:hidden}
@@ -642,9 +650,9 @@ dialog::backdrop{background:rgba(8,10,20,.5);backdrop-filter:none;animation:fade
 .stk{position:relative;overflow:hidden}
 .stk::after{content:"";position:absolute;top:0;bottom:0;left:0;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.55),transparent);animation:none;pointer-events:none}
 .greet{position:relative;isolation:isolate}
-.greet::before,.greet::after{content:"";position:absolute;z-index:-1;pointer-events:none;border-radius:50%;filter:blur(34px)}
-.greet::before{width:340px;height:220px;left:-40px;top:-60px;background:color-mix(in srgb,var(--primary) 38%,transparent);animation:auroraA 10s ease-in-out infinite}
-.greet::after{width:300px;height:200px;right:-60px;top:20px;background:color-mix(in srgb,var(--ter,var(--primary)) 30%,transparent);animation:auroraB 12s ease-in-out infinite}
+.greet::before,.greet::after{content:"";position:absolute;z-index:-1;pointer-events:none}
+.greet::before{width:400px;height:280px;left:-80px;top:-90px;background:radial-gradient(closest-side,color-mix(in srgb,var(--primary) 62%,transparent),transparent 92%);animation:auroraA 10s ease-in-out infinite}
+.greet::after{width:360px;height:260px;right:-90px;top:-10px;background:radial-gradient(closest-side,color-mix(in srgb,var(--ter,var(--primary)) 52%,transparent),transparent 92%);animation:auroraB 12s ease-in-out infinite}
 #fab .fabb{animation:none}
 .wc-prog i,.qz2-bar i,.bag-bar i{animation:growX .9s var(--spring) both}
 .ft-ring,.tt-now{animation:popIn .7s var(--spring) both}
@@ -3723,8 +3731,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.16'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.16';
+const RELEASE_VER = '18.3.17'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.17';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4737,6 +4745,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.17', d: '2026/11/26 18:30', t: '漢字の太さが変わらないバグを直し、アプリを軽く・安定させました（機能はそのまま）', n: ['漢字テキストで、細・中・太を選ぶと、選んだ太さがちゃんと切り替わり、選んだボタンも分かるように直しました','火山テーマの、ボタンの溶岩と背景の火の粉を、画面を描き直さずに動かすようにして、動くときの負担を大きく減らしました（見た目はほぼ同じです）','ホームの背景のオーロラを、ぼかしの代わりに、やわらかい色の広がりにして軽くしました','友達の進み具合が、通信がつながらず読み込めないときは、いつまでも回らずに、わかる言葉で知らせるようにしました','集中タイマーの画面は、数字や円が変わったときだけ描き直すようにしました'] },
   { v: '18.3.16', d: '2026/11/26 13:30', t: '漢字テキストが重くなって落ちる問題を直し、書いた内容を保存できるように', n: ['漢字テキストで拡大・移動しても、アプリが落ちないように、描く大きさと、同時に残すページ数に上限をつけました（拡大しすぎたときは、少し小さく描かれます）', '書いた線は、端末のメモリに保存するようにしました（たくさん書いても消えにくくなります）。閉じたときにも、すぐ保存します', '「このページを保存」で、教科書と書き込みを、板書の一覧に保存できるようにしました'] },
   { v: '18.3.15', d: '2026/11/26 13:30', t: '集中タイマーをマイクラ風に（クリーパーの爆発）・板書に写真を選んで入れる・漢字テキストの拡大と書き心地', n: ['集中タイマーを、マイクラ風の字（ドット文字）・石の背景・石と木のボタンにしました', '集中と休憩を切り換えると、クリーパーが爆発する演出を出します（アニメーションを減らす設定のときは出ません）', '板書に「写真を選ぶ」を追加。iPadの写真から、何枚でも入れられます（写真は、この端末の中だけに保存されます）', '漢字テキストの拡大・縮小は、指で押さえた場所（2本指の真ん中・ボタンのときは画面の真ん中）が、ずれずに残るようにしました', 'ペンの太さを「細・中・太」から選べるように。線は曲線でつながり、なめらかに書けます', '漢字テキストで長押ししても、青い選択やコピーの表示が出ないようにしました'] },
   { v: '18.3.14', d: '2026/11/26 11:50', t: '集中タイマーは1分1XP・火山の噴火の演出・火山と抹茶のテーマを作り直し', n: ['集中タイマーで1分集中すると、1XPもらえるように（今までは0.5XP）', '火山テーマで、単語帳の問題を間違えると噴火します（4択は1回ごと。入力テストは、2.5秒に1回まで）', '火山テーマを、ツールバー・見出し・バー・ボタンまで火山の色に（文字は見やすく）', '抹茶テーマを、やわらかい抹茶の緑と泡のような模様に作り直しました', 'テーマを変えたときに出ていた、四角い箱（おすすめの帯）を直しました'] },
@@ -6202,7 +6211,8 @@ function renderMini() {
   m.classList.toggle('show', show);
   m.innerHTML = `<button class="rp" data-act="fopen" style="display:flex;align-items:center;gap:10px;border-radius:24px;height:48px;padding-right:6px">${ms('timer', 'f')}<b id="mtime">${fmtT(TM.remain)}</b></button><button class="ibtn" data-act="fplay" aria-label="${TM.running ? '一時停止' : '再開'}">${ms(TM.running ? 'pause' : 'play_arrow', 'f')}</button>${NS.kind ? `<button class="ibtn" data-act="natoff" aria-label="自然の音を止める">${ms('music_off')}</button>` : ''}`;
 }
-function updateMini() { const e = $('#mtime'); if (e) e.textContent = fmtT(TM.remain); }
+/* 画面の文字や線は、変わったときだけ書き換える（毎秒の書き換えで画面を描き直さないように） */
+function updateMini() { const e = $('#mtime'); if (!e) return; const v = fmtT(TM.remain); if (e.textContent !== v) e.textContent = v; }
 const flabelText = () => { if (TM.mode !== 'focus') return TM.mode === 'break' ? 'ひと休み' : 'ゆっくり長めの休憩'; const k = T(TM.tid); return k ? esc(k.title) : '集中タイマー'; };
 function fbarHtml() {
   const btn = (id, ic, l, sub) => `<button class="fb ${TM.sheet === id ? 'on' : ''}" data-act="fsheet" data-id="${id}">${ms(ic)}<b>${l}</b><small>${esc(sub)}</small></button>`, k = T(TM.tid);
@@ -6257,9 +6267,10 @@ function renderFocus() {
 function updateFocus(force) {
   if (!TM.open) return;
   const t = $('#ftime'); if (!t) return;
-  t.textContent = fmtT(TM.remain);
+  const tv = fmtT(TM.remain); if (t.textContent !== tv) t.textContent = tv;
   const C = 2 * Math.PI * 150, k = TM.total ? Math.min(1, Math.max(0, 1 - TM.remain / TM.total)) : 0;
-  $('#fprg').setAttribute('stroke-dasharray', `${Math.max(.01, C * k).toFixed(1)} ${C.toFixed(1)}`);
+  const ds = `${Math.max(.01, C * k).toFixed(1)} ${C.toFixed(1)}`;
+  if (TM.dsh !== ds) { TM.dsh = ds; $('#fprg').setAttribute('stroke-dasharray', ds); }
   const px = $('#fpxbar'); if (px) px.style.width = (k * 100).toFixed(1) + '%';
   const pl = $('#fplay'), s = TM.running ? '1' : '0';
   if (pl && (force || pl.dataset.s !== s)) { pl.dataset.s = s; pl.classList.toggle('run', TM.running); pl.innerHTML = ms(TM.running ? 'pause' : 'play_arrow', 'f'); }
@@ -9878,7 +9889,7 @@ function kjPaint() {
 TPAINT.kanji = kjPaint;
 /* ---- 漢字練習：テキストで勉強。教科書のPDF（beta/kanji/books.json に登録）を開き、Apple Pencilで書き込みます ---- */
 const TX = { books: null, bookErr: false, loading: false, bookId: '', from: 0, to: 0, open: false, cur: 0, color: '#c62828', eraser: false, finger: false, penAt: 0, ink: null, docs: {}, lib: null, pc: {}, pr: {}, io: null, ro: null, rt: 0, saveWarned: false, z: 1, full: false, tch: new Map(), pinch: null, zt: 0, raf: 0 };
-const TX_INK_KEY = 'kosa-kanji-ink-v1', TX_PEN_W = 0.0035, TX_PEN_WS = { s: 0.0022, m: 0.0035, l: 0.0058 }, TX_COLORS = [['#c62828', '赤'], ['#1565c0', '青'], ['#111111', '黒']];
+const TX_INK_KEY = 'kosa-kanji-ink-v1', TX_PEN_W = 0.0040, TX_PEN_WS = { s: 0.0024, m: 0.0040, l: 0.0070 }, TX_COLORS = [['#c62828', '赤'], ['#1565c0', '青'], ['#111111', '黒']];
 const txR4 = v => Math.round(v * 1e4) / 1e4, txClamp = v => Math.min(1, Math.max(0, v));
 const txDpr = () => Math.min(2, window.devicePixelRatio || 1);
 /* 描く大きさの上限（canvasは端末のメモリを使うので、拡大しても無制限に大きくしない）と、同時に残しておくページ数 */
@@ -10222,6 +10233,7 @@ function txBarSync() {
   const e = document.querySelector('[data-act="txeraser"]'); if (e) e.setAttribute('aria-pressed', String(TX.eraser));
   const f = document.querySelector('[data-act="txfinger"]'); if (f) f.setAttribute('aria-pressed', String(TX.finger));
   document.querySelectorAll('.tx-ink').forEach(c => c.classList.toggle('er', TX.eraser));
+  document.querySelectorAll('[data-act="txwidth"]').forEach(x => { const on = (TX.pw || 'm') === x.dataset.id; x.classList.toggle('on', on); x.setAttribute('aria-pressed', String(on)); });
   txCurLabel();
 }
 function txCard(on) {
@@ -14987,7 +14999,12 @@ Object.assign(ACT, {
 });
 // --- 友達：ログイン状態の待ち・通知の受け取り・公開（ルールが古くても名前は届くように） ---
 let INBOX_UNSUB = null, FR_AV_OK = true;
-function frLoadingHtml() { return `<div class="fr-sk" role="status" aria-label="読み込み中"><div class="fr-sk-h">${gspin(26)}<span>友達の進み具合を読んでいます…</span></div><div class="fr-sk-r"><i></i><i></i><i></i></div></div>`; }
+let FRL_T0 = 0;
+/* 通信がつながらず読み込みが終わらないときは、いつまでも回さず、わかる言葉で知らせる（回り続けると電池も使うため） */
+function frLoadingHtml() {
+  if (!FRL_T0) { FRL_T0 = Date.now(); setTimeout(() => { if (document.querySelector('.fr-sk')) { try { render(); } catch (e) { } } }, 12500); }
+  if (Date.now() - FRL_T0 > 12000) return `<p class="fh-lock">${ms('cloud_off')}友達の進み具合を読み込めませんでした。通信がつながると、自動で表示されます</p>`;
+  return `<div class="fr-sk" role="status" aria-label="読み込み中"><div class="fr-sk-h">${gspin(26)}<span>友達の進み具合を読んでいます…</span></div><div class="fr-sk-r"><i></i><i></i><i></i></div></div>`; }
 async function growPublish() {
   PUB_AT = Date.now();
   const g = growGet(), m = growMine(g); growPut(g); PUB_SIG = growSig(m);
