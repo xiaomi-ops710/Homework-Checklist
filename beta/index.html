@@ -3860,8 +3860,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.21'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.21';
+const RELEASE_VER = '18.3.22'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.22';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4703,7 +4703,7 @@ const renderCore = render;
 render = function () { renderCore(); totopSync(); };
 let setKeyLast = '', pswPrevState = {};
 function render() {
-  tabLogWatch(); lbNoticeShow();
+  tabLogWatch(); lbNoticeShow(); syncChoiceShow();
   if (gameOv()) return;   // 全画面のゲーム中は、画面を描き直さない（ゲームの枠を守る）
   setTimeout(kbSync, 0);
   applyHomeBg();
@@ -4994,7 +4994,8 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '18.3.21', d: '2026/11/27 08:00', t: '魚ガチャが1日1回無料に。ログインボーナスが分かりやすくなりました（バグ修正あり）', n: ['魚ガチャは、1日1回だけ無料で引けます（2回目からは 100 XP）','ログインボーナスをもらったとき、大きなお知らせで出るようにしました（連続の日数も出ます）','先生の画面で、生徒が同期したときのレベル・XPや、勉強した時間・課題の内容などを、くわしく見られるようにしました','バグ修正：XPのふやし方（ログインボーナスなど）がもらえたとき、エラーで保存や画面の更新が止まることがある問題を直しました'] },
+  { v: '18.3.22', d: '2026/11/27 09:00', t: 'バグ修正', n: ['バグ修正：「進み具合を友達に見せる」をオンにしていても、友達から見えないことがある問題を直しました','バグ修正：一部の端末で、クラウドへの同期が止まったままになることがある問題を直しました（同期のどちらのデータを使うかの確認が、ほかの画面の後で出るようにしました）'] },
+  { v: '18.3.21', d: '2026/11/27 08:00', t: '魚ガチャが1日1回無料に。ログインボーナスが分かりやすくなりました（バグ修正あり）', n: ['魚ガチャは、1日1回だけ無料で引けます（2回目からは 100 XP）','ログインボーナスをもらったとき、大きなお知らせで出るようにしました（連続の日数も出ます）','バグ修正：XPのふやし方（ログインボーナスなど）がもらえたとき、エラーで保存や画面の更新が止まることがある問題を直しました'] },
   { v: '18.3.20', d: '2026/11/27 07:00', t: 'バグ修正', n: ['バグ修正'] },
   { v: '18.3.19', d: '2026/11/26 23:30', t: '水槽の魚が泳がない問題を直し、魚ガチャの演出・図鑑・エサ・水槽テーマを追加しました', n: ['動きを減らす設定やアニメーションオフのとき、魚が止まってしまう問題を直しました（魚はゆっくり泳ぎ続けます）','魚ガチャに、段階のある演出を追加しました（光の渦→玉が震える→閃光→魚が登場）。レアが高いほど派手になり、色違いは金色の光になります。スキップもできます','魚の図鑑を追加しました。見つけた魚の絵が出て、全部そろうと 1000 XP もらえます','稚魚に「エサ」をあげると、大人になるまでの時間が15分短くなります（エサは1回 5 XP）','水槽のテーマ（清流・夜の深海・サンゴ礁）を追加しました。XPで買って、いつでも切り替えられます','水槽を金の枠・ライト・台のあるキャビネットにして、魚と水槽の見た目をよりリアルにしました（魚の尾やひれも動きます）'] },
   { v: '18.3.18', d: '2026/11/26 19:30', t: '集中タイマーの見た目を買い直さなくてよいように直し、水槽で魚を育てる機能を追加しました', n: ['集中タイマーの見た目は、一度買えば、ほかの見た目に変えても、もう一回買い直す必要がないように直しました','ホームに「水槽」のカードを追加しました。魚ガチャ（100XP）で魚を手に入れ、水槽の中で育てます','魚には、レア・激レア・超激レア・伝説レアがあります。色違い（全身が金色）も、まれに出ます','稚魚は、約2時間で大人になります。大人の魚は売って XP にできます（売ったXPはショップで使えます。レベルは上がりません）','大人の魚は「展示する」で、水槽に3匹まで飾れます。「進み具合を友達に見せる」をオンにしていると、友達の水槽で見てもらえます'] },
@@ -7489,6 +7490,12 @@ function syncChoiceDlg() {
   <div class="wc-opt"><button class="wc-o" data-act="syncuse" data-id="cloud">${ms('cloud_download')}<b>クラウドのデータを使う</b><small>${cnt(P.remote)}（${fmt(P.rm)} 更新）</small></button><button class="wc-o" data-act="syncuse" data-id="local">${ms('smartphone')}<b>この端末のデータを使う</b><small>${cnt(S)}（${fmt(S.mt)} 更新）　クラウドを上書きします</small></button></div>
   <div class="dact"><button class="btn text" data-act="cloudout">${ms('logout')}ログアウトする</button><span class="sp"></span><button class="btn text" data-act="close">あとで決める</button></div>`);
 }
+// 同期の選択は、ほかの画面が開いていない時に出す（開いていたせいで出ず、同期が止まったままになるのを防ぐ）
+function syncChoiceShow() {
+  if (!CLOUD.hold || !CLOUD.pend || CLOUD.pendAsked) return;
+  if (dlg.open || document.getElementById('annpop')) { clearTimeout(CLOUD.pendT); CLOUD.pendT = setTimeout(syncChoiceShow, 1500); return; }   // 画面が閉じるまで、少し待って出す
+  CLOUD.pendAsked = true; syncChoiceDlg();
+}
 // ベータ版の確認：/beta/ を開けるのは、ベータ版に登録された人だけです（それ以外は正式版へ戻します）
 let BETA_ERR = ''; // 登録されていないときの理由（'login' ログイン前 / 'none' 未登録 / それ以外は確認に失敗した内容）
 // ベータ版の登録を、この端末に覚えておく（正式版のアイコンで開いたとき、ベータ版へ自動で切り替えるため）
@@ -7675,7 +7682,7 @@ function cloudStart() {
     if (!remote) { cloudPushNow(); done(); }
     else if (!lData && !S.cleared && rData) { cloudPull(remote, rm); done(); }          // 端末が空のときは、クラウドのデータを取り込む（空でクラウドを上書きしない）
     else if (lData && !rData && !remote.cleared) { cloudPush(); done(); }              // クラウドが空のときは、端末のデータを送る
-    else if (lData && rData && last !== myUid && !sameData(S, remote)) { _noSync = true; try { applyUnion(remote, false); save(); } finally { _noSync = false; } CLOUD.hold = true; CLOUD.pend = { remote, rm }; if (!dlg.open) syncChoiceDlg(); }   // 別のアカウント／初めての同期で、中身がちがうときは、選んでもらう
+    else if (lData && rData && last !== myUid && !sameData(S, remote)) { _noSync = true; try { applyUnion(remote, false); save(); } finally { _noSync = false; } CLOUD.hold = true; CLOUD.pend = { remote, rm }; CLOUD.pendAsked = false; setTimeout(syncChoiceShow, 300); }   // 別のアカウント／初めての同期で、中身がちがうときは、選んでもらう
     else {
       if (rm > lm) {
         const before = lm && CLOUD.first ? snap() : null; autoBackup('クラウドと同期する前');
@@ -7719,7 +7726,7 @@ async function cloudPushNow() {
   if (!CLOUD.user || !CLOUD.fb || CLOUD.hold) return; CLOUD.dirty = false; const { fs, db } = CLOUD.fb;
   CLOUD.status = 'sync'; cloudPaintSync();
   try { if (!S.mt) { _noSync = true; S.mt = Date.now(); save(); _noSync = false; } await mergeFromCloud(fs, db); await fs.setDoc(fs.doc(db, 'users', CLOUD.user.uid), { json: JSON.stringify(S), mt: S.mt, updatedAt: fs.serverTimestamp(), sum: sumNow() }); CLOUD.status = 'ok'; setLast(); syncSnap(); if (S.cleared) { _noSync = true; try { delete S.cleared; localStorage.setItem(KEY, JSON.stringify(S)); } finally { _noSync = false; } } }
-  catch (e) { CLOUD.status = 'error'; CLOUD.err = String((e && ((e.code ? e.code + ' ' : '') + (e.message || ''))) || e).slice(0, 240); }
+  catch (e) { CLOUD.status = 'error'; CLOUD.err = String((e && ((e.code ? e.code + ' ' : '') + (e.message || ''))) || e).slice(0, 240); CLOUD.dirty = true; clearTimeout(CLOUD.retry); CLOUD.retry = setTimeout(() => { if (CLOUD.status === 'error') cloudPush(); }, 60000); }
   cloudRefresh();
 }
 const isStandalone = () => navigator.standalone === true || matchMedia('(display-mode: standalone)').matches;
@@ -14095,7 +14102,7 @@ function applyUnion(rem, preferRem) {
   const bs = socOf(S), rs = rem && rem.soc;
   if (bs || rs) S.soc = socUnion(bs, rs, preferRem);
   ensureDecks(S);
-  if (JSON.stringify(S.soc.friends) !== fb && CLOUD.user) setTimeout(() => { if (CLOUD.user) frChanged(); }, 0);
+  if (JSON.stringify((S.soc && S.soc.friends) || []) !== fb && CLOUD.user) setTimeout(() => { if (CLOUD.user) frChanged(); }, 0);
 }
 // クラウドに書く前に、クラウドの最新の単語帳を読んで合わせる（読めなければ書かない）
 async function mergeFromCloud(fs, db) {
@@ -15326,8 +15333,11 @@ Object.assign(ACT, {
   friendsopen() { if (level().L < FRIEND_LV) return toast(`Lv.${FRIEND_LV}で使えるようになります`); openDlg(friendsShell()); dlg.dataset.k = 'friends'; friendsRefresh(); },
   async frtoggle() {
     if (!CLOUD.user) return;
-    const g = growGet();
-    try { if (g.shared) { await growUnpublish(); g.shared = false; } else { await growPublish(); g.shared = true; } growPut(g); toast(g.shared ? '友達に見せるようにしました' : '見せるのを止めました'); }
+    try {
+      // 待つ前の古い内容で書き戻すと、友達の番号（コード）が消えるので、待ったあとで読み直して書く
+      const turnOn = !growGet().shared;
+      if (turnOn) await growPublish(); else await growUnpublish();
+      const g = growGet(); g.shared = turnOn; growPut(g); toast(turnOn ? '友達に見せるようにしました' : '見せるのを止めました'); }
     catch (e) { toast('共有の設定を変えられませんでした（Firestoreの設定を確認してください）'); }
     friendsRedraw();
   },
@@ -15473,7 +15483,7 @@ let PUB_SIG = '';
 const growSig = m => JSON.stringify([m.lv, m.pct, m.wkMin, m.wkPg, m.tt, m.typed, m.iv, m.rk, m.mg, m.mgBd, m.fi]);
 let GPUB_T = 0;
 // 変わったら4秒後に送る（10分待たない）。上がっても下がっても、友達の画面に反映される
-function growPubSoon() { try { if (!CLOUD.user || !growGet().shared) return; clearTimeout(GPUB_T); GPUB_T = setTimeout(() => { const g = growGet(); if (CLOUD.user && g.shared && growSig(growMine(g)) !== PUB_SIG) growPublish().catch(() => { }); }, 4000); } catch (e) { } }   // 友達に見せる内容を、最後に送った時刻
+function growPubSoon() { try { if (!CLOUD.user || !growGet().shared) return; clearTimeout(GPUB_T); GPUB_T = setTimeout(() => { const g = growGet(); if (CLOUD.user && g.shared && growSig(growMine(g)) !== PUB_SIG) growPublish().catch(() => { clearTimeout(GPUB_T); GPUB_T = setTimeout(growPubSoon, 20000); }); }, 4000); } catch (e) { } }   // 友達に見せる内容を、最後に送った時刻
 const PF = { av: '' };
 function safeAv(v) { return typeof v === 'string' && v.length < 200000 && /^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+\/=]+$/.test(v) ? v : ''; }
 function avHtml(av, ch, cls = '') { const s = safeAv(av); return s ? `<img class="av-img ${cls}" src="${s}" alt="">` : `<span class="av-ch ${cls}">${esc(Array.from(String(ch || '？'))[0] || '？')}</span>`; }
@@ -15567,7 +15577,7 @@ function frLoadingHtml() {
   return `<div class="fr-sk" role="status" aria-label="読み込み中"><div class="fr-sk-h">${gspin(26)}<span>友達の進み具合を読んでいます…</span></div><div class="fr-sk-r"><i></i><i></i><i></i></div></div>`; }
 async function growPublish() {
   PUB_AT = Date.now();
-  const g = growGet(), m = growMine(g); growPut(g); PUB_SIG = growSig(m);
+  const g = growGet(), m = growMine(g); growPut(g);
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'friendStats', m.code);
   const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() };
   const ext = { ...base, tt: m.tt, typed: m.typed, fr: g.friends.slice(0, 30).map(f => ({ o: String(f.uid || ''), c: String(f.code || ''), n: String(f.name || '').slice(0, 20) })) };
@@ -15576,7 +15586,7 @@ async function growPublish() {
   const tries = m.av ? [{ ...full, av: m.av }, { ...ext, av: m.av }, full, ext, base] : [full, ext, base];
   let err = null;
   for (const data of tries) {
-    try { await fs.setDoc(ref, data); FR_AV_OK = !!data.av || !m.av; return; } catch (e) { err = e; }
+    try { await fs.setDoc(ref, data); FR_AV_OK = !!data.av || !m.av; PUB_SIG = growSig(m); return; } catch (e) { err = e; }   // 送れたときだけ、送った内容として覚える（失敗したら、あとで送り直す）
   }
   throw err;
 }
