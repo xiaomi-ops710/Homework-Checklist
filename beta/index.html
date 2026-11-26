@@ -2027,6 +2027,30 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .lvg-bar{height:10px;border-radius:99px;background:var(--scc);overflow:hidden}
 .lvg-bar i{display:block;height:100%;background:var(--primary);border-radius:99px}
 .lvg-rw{margin:10px 0 2px;padding:10px 12px;border-radius:14px;background:var(--s2);font-size:14px;font-weight:700;line-height:1.5}
+/* 18.3.13：レベル画面（いまのレベル・持っているXP・次まで）を、中学生にも分かりやすく */
+.lvp{display:flex;flex-direction:column;gap:12px}
+.lvp-top{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lvp-card{border-radius:22px;padding:14px 14px 12px;background:var(--s2);display:flex;flex-direction:column;gap:2px;min-width:0}
+.lvp-card small{font-size:13px;font-weight:800;opacity:.85}
+.lvp-card b{font-size:46px;font-weight:900;line-height:1.05}
+.lvp-card em{font-style:normal;font-size:13px;font-weight:700;opacity:.85}
+.lvp-next{border-radius:22px;padding:14px;background:var(--pc)}
+.lvp-nt{display:flex;justify-content:space-between;align-items:baseline;gap:6px;flex-wrap:wrap;font-weight:800;font-size:15px}
+.lvp-nt b{font-size:26px;font-weight:900}
+.lvp-bar{height:16px;border-radius:99px;background:var(--scc);overflow:hidden;margin:10px 0 8px}
+.lvp-bar i{display:block;height:100%;background:var(--primary);border-radius:99px}
+.lvp-note{display:block;font-size:12px;font-weight:600;opacity:.85;line-height:1.5}
+.lvp-ways{padding:14px}
+.lvp-h{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:900;margin:2px 0 8px}
+.lvw{display:grid;grid-template-columns:auto 1fr;gap:10px 12px;align-items:center;padding:12px 0;border-top:1px solid var(--scc)}
+.lvw-ic{width:44px;height:44px;border-radius:16px;background:var(--pc);display:grid;place-items:center}
+.lvw-b{min-width:0}
+.lvw-b b{display:block;font-size:16px;font-weight:900}
+.lvw-b small{display:block;font-size:13px;line-height:1.5;opacity:.9;margin-top:2px}
+.lvw-b p{margin:4px 0 0;font-size:15px;font-weight:700}
+.lvw-b p strong{font-size:24px;font-weight:900;color:var(--primary)}
+.lvw-go{grid-column:2;justify-self:start}
+.lvp-ways .lvg-rw{margin:4px 0 6px}
 .lvg-ways{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .lvg-ways li{display:flex;gap:10px;align-items:flex-start}
 .lvg-ways li>.ms{font-size:22px;flex:none;margin-top:2px}
@@ -3639,8 +3663,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.12'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.12';
+const RELEASE_VER = '18.3.13'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.13';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4653,6 +4677,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.13', d: '2026/11/26 11:10', t: 'レベル画面を、今のレベル・持っているXP・次まであと何XPが一目で分かるレイアウトに', n: ['いちばん上に、今のレベル・持っているXP・次のレベルまでの残りを大きく出しました', 'レベルを上げる方法を、課題・ページ・集中タイマーの3つに分けて、あと何個・何ページ・何分かを表示', 'それぞれの横のボタンで、課題・集中タイマーのそのまま開けるように'] },
   { v: '18.3.12', d: '2026/11/26 10:50', t: 'レベルが低いうちは、少ないXPで上がるように。レベルの上げ方は、あと何をすればいいかを具体的に', n: ['はじめのレベルに必要なXPを減らしました（Lv.2〜5は、今の半分ほど。Lv.13からは今までと同じ伸び方）。Lv.10 までの合計は約30%減、Lv.20 までは約8%減', 'レベル画面で、あと何個の課題・何ページ・何分でレベルアップするかを、分かりやすく出すようにしました', '次のレベルになると、何が使えるようになるかも出します', 'レベルの説明の数字は、新しい計算に合わせて自動で出します'] },
   { v: '18.3.11', d: '2026/11/26 08:50', t: '管理者メニューから、生徒の歴打の石高を直せるように（応急処置）', n: ['管理者メニューの生徒の記録に、歴打の石高（ランキング用の最高・累計）を直す欄を追加しました', '直した石高は、その生徒のアプリを次に開いたときに、一度だけ入ります。入ったあとは、ランキングにも反映されます', '空欄のものは変わりません（最高だけ、累計だけでも直せます）'] },
   { v: '18.3.10', d: '2026/11/26 08:40', t: '歴打の累計石高を戻し、ランキングだけをリセット。タイマーの見た目はドット風を作り直し、ボタンを右上に移動してプレビューできるように', n: ['歴打の累計石高は、ランキングのリセットでは消えないようにしました', '集中タイマーの見た目ボタンを、右上のアニメーションボタンの左隣（アイコンだけ）に移動しました', '見た目の一覧で「見る」を押すと、タイマーの見た目をためせます。「もとにもどす」で、いつもの見た目に戻ります（買うまで保存されません）', 'ドット風のタイマーを、石のボタンと経験値バーのような見た目に作り直しました'] },
@@ -5351,13 +5376,17 @@ function lvWays(need) {
   ];
 }
 function lvNextHtml(target) {
-  const lv = level(), tg = target || lv.L + 1, need = lvNeedXp(tg);
-  const pct = target && target !== lv.L + 1 ? Math.max(0, Math.min(100, Math.round(lv.xp / Math.max(1, lvNeed(tg)) * 100))) : Math.max(0, Math.min(100, Math.round(lv.p * 100)));
+  const lv = level(), tg = target || lv.L + 1, need = Math.max(1, lvNeedXp(tg));
   const rw = LV_REWARD[tg];
-  return `<div class="card lvg"><div class="lvg-h">${ms('trending_up')}<div><b>Lv.${tg} ${need ? `まで あと ${need.toLocaleString('ja-JP')} XP` : 'に届いています'}</b><small>いまは Lv.${lv.L}（${esc(titleOf(lv.L))}）・ ${lv.xp.toLocaleString('ja-JP')} XP</small></div></div>` +
-        `<div class="lvg-bar"><i style="width:${pct}%"></i></div>` +
-    (need ? `<ol class="lvg-ways">${lvWays(need).map(w => `<li>${ms(w.ic)}<div><b>${w.t}</b><small>${w.s}</small></div></li>`).join('')}</ol>` : '') +
+  const ways = [
+    { ic: 'task_alt', t: '課題を終わらせる', how: '「課題」で、課題を完了にする', xp: '1つで 20 XP', n: Math.ceil(need / 20), u: '個', go: 'tasks', gt: '課題へ' },
+    { ic: 'menu_book', t: 'ページを進める', how: '「課題」で、ページの ＋ を押す', xp: '1ページで 1 XP', n: need, u: 'ページ', go: 'tasks', gt: '課題へ' },
+    { ic: 'timer', t: '集中タイマーで勉強する', how: '「ツール」の集中タイマーで勉強する', xp: '1分で 0.5 XP', n: Math.ceil(need / 0.5), u: '分', go: 'tool:focus', gt: 'タイマーへ' }
+  ];
+  return `<div class="card lvp-ways"><h3 class="lvp-h">${ms('trending_up')}レベルを上げる方法</h3>` +
     (rw ? `<div class="lvg-rw">Lv.${tg} になると：${esc(rw)}</div>` : '') +
+    ways.map(w => `<div class="lvw"><div class="lvw-ic">${ms(w.ic)}</div><div class="lvw-b"><b>${w.t}</b><small>${w.how}・${w.xp}</small><p>あと <strong>${w.n.toLocaleString('ja-JP')}</strong> ${w.u}で届きます</p></div><button type="button" class="btn tonal sm lvw-go" data-act="lvgo" data-id="${w.go}">${w.gt}</button></div>`).join('') +
+    `<div class="lvw"><div class="lvw-ic">${ms('home')}</div><div class="lvw-b"><b>毎日、少しずつ</b><small>ホームの「今日やること」を終わらせると、毎日すこしずつ上がります。1日にもらえるXPには上限があります</small></div><button type="button" class="btn tonal sm lvw-go" data-act="lvgo" data-id="home">ホームへ</button></div>` +
     `<button type="button" class="btn tonal sm lvg-ask" data-act="lvask" data-id="${tg}">${gem(18)}AIにどうやって上げるか聞く</button></div>`;
 }
 // あと少しで取れる実績（まだ取っていない実績のうち、進みが大きいもの3つ）
@@ -5402,10 +5431,13 @@ function achHelpHtml() {
   <div class="dact"><button type="button" class="btn" data-act="close">閉じる</button></div>`;
 }
 function achPage() {
-  const lv = level();
-  return `<div class="ach-hero"><div class="ach-lv"><small>レベル</small><b>${lv.L}</b></div><div class="ach-hi"><div class="ach-tt">${ms('military_tech')}${esc(titleOf(lv.L))}</div><div class="ach-xp"><b>${spendXp().toLocaleString('ja-JP')}</b><small>使えるXP</small></div><div class="ach-bar"><i style="width:${Math.max(0, Math.min(100, Math.round(lv.p * 100)))}%"></i></div><small class="muted">次のレベルまで あと ${lv.need.toLocaleString('ja-JP')} XP（レベルは、累計 ${lv.xp.toLocaleString('ja-JP')} XPで決まります）</small></div></div>` +
+  const lv = level(), pct = Math.max(0, Math.min(100, Math.round(lv.p * 100)));
+  return `<div class="lvp">` +
+    `<div class="lvp-top"><div class="lvp-card lvp-lv"><small>いまのレベル</small><b>${lv.L}</b><em>${esc(titleOf(lv.L))}</em></div>` +
+    `<div class="lvp-card lvp-xp"><small>もっているXP</small><b>${spendXp().toLocaleString('ja-JP')}</b><em>ショップで使えます</em></div></div>` +
+    `<div class="lvp-next"><div class="lvp-nt"><span>次のレベル（Lv.${lv.L + 1}）まで</span><b>あと ${lv.need.toLocaleString('ja-JP')} XP</b></div><div class="lvp-bar"><i style="width:${pct}%"></i></div><small class="lvp-note">レベルは、いままでにためたXPの合計で上がります。使ったXPは、減りません。</small></div>` +
     `<div class="ach-btns"><button type="button" class="ach-btn" data-act="shopopen">${ms('shopping_bag')}<span><b>ショップ</b><small>XPで背景・効果音・ツール</small></span></button><button type="button" class="ach-btn" data-act="achall">${ms('workspace_premium')}<span><b>全実績</b><small>${achDoneN().done} / ${achDoneN().all} 達成</small></span></button></div>` +
-    `${lvNextHtml()}${achNextHtml()}<h3 class="shop-h">レベルごとの特典</h3>${ladderHtml(lv.L)}`;
+    `${lvNextHtml()}${achNextHtml()}<h3 class="shop-h">レベルごとの特典</h3>${ladderHtml(lv.L)}</div>`;
 }
 // 全実績：マイクラの実績画面のように、左に進み具合、右に一覧（デザインはM3の角丸と色）
 function mcRow(x) {
@@ -7264,6 +7296,7 @@ Object.assign(ACT, {
   betaback2() { betaSwitch('stable'); },
   admbeta(id) { admBeta(id); },
   admrk(id) { admRkSet(id); },
+  lvgo(id) { closeDlg(); ACT.tab(id); },
 });
 function cloudStart() {
   openLogOnce();
