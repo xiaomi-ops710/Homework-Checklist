@@ -2735,6 +2735,15 @@ html.bg-idle #view .fsh-fw,html.bg-idle #view .fsh-fb,html.bg-idle #view .fsh-ta
 @keyframes fgTag{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 @keyframes fgQuake{0%,100%{transform:none}20%{transform:translate(-4px,3px)}40%{transform:translate(4px,-3px)}60%{transform:translate(-3px,-2px)}80%{transform:translate(2px,2px)}}
 .fg-foot{position:absolute;left:0;right:0;bottom:8px;text-align:center;z-index:4}
+.lb-card{text-align:center;display:grid;justify-items:center;gap:6px;padding:10px 4px 4px}
+.lb-ic{width:88px;height:88px;border-radius:30px;display:grid;place-items:center;background:var(--pc);color:var(--on-pc);box-shadow:0 14px 30px -12px var(--primary);animation:lbPop .7s var(--spring) both}
+.lb-ic .material-symbols-rounded,.lb-ic span{font-size:44px}
+.lb-card small{font-weight:800;letter-spacing:.08em;color:var(--primary)}
+.lb-xp{font-size:3.2rem;line-height:1;font-weight:900;color:var(--primary);animation:lbPop .8s var(--spring) .15s both}
+.lb-card p{margin:4px 0 0;font-weight:500;color:var(--muted,#666);line-height:1.6}
+.lb-st{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:8px 16px;border-radius:999px;background:var(--s2);font-weight:800}
+@keyframes lbPop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){.lb-ic,.lb-xp{animation:none}}
 </style>
 <style id="tools-subj">
   #totop{position:fixed;z-index:29;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 176px);width:52px;height:52px;border:0;border-radius:18px;background:var(--pc);color:var(--on-pc);box-shadow:0 10px 24px -8px rgba(0,0,0,.45);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(28px) scale(.6);pointer-events:none;transition:opacity .35s ease,transform .55s var(--spring),border-radius .45s var(--spring)}
@@ -3851,8 +3860,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.20'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.20';
+const RELEASE_VER = '18.3.21'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.21';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4140,6 +4149,7 @@ function addMinutes(min, sid) {
   if (!(min <= 300)) { CHEAT.flag('min'); min = Math.min(Math.max(0, +min || 0), 300); if (!min) return; }
   const l = dayLog(today(), true); l.m += min;
   if (sid) l.sm[sid] = (l.sm[sid] || 0) + min;
+  try { const sj = sid && (S.subjects || []).find(x => x.id === sid); actLog('min', `${min}分${sj ? `（${sj.name}）` : ''}`); } catch (e) { }
 }
 function syncItems(t) {
   if (t.kind !== 'list' || !t.items) return;
@@ -4150,7 +4160,7 @@ function syncItems(t) {
 function setItem(t, i, on) {
   const it = t.items && t.items[i]; if (!it) return; it.done = !!on;
   const v = t.items.filter(x => x.done).length, d = v - t.done; t.done = v; addLog(d, t);
-  t.doneAt = v >= t.total ? (t.doneAt || Date.now()) : null; if (d > 0 && v >= t.total) actLog('task', t.title); ui.flash = { id: t.id }; commit();
+  t.doneAt = v >= t.total ? (t.doneAt || Date.now()) : null; if (d > 0 && v >= t.total) actLog('task', taskDesc(t)); ui.flash = { id: t.id }; commit();
 }
 const clRow = x => `<div class="rgrow clrow"><input type="checkbox" class="cld" ${x.done ? 'checked' : ''} aria-label="完了"><input class="clt" type="text" maxlength="60" value="${esc(x.text)}" placeholder="項目（例：問題1〜5）" style="text-align:left"><button type="button" class="ibtn" data-act="delcl" aria-label="この項目を削除">${ms('close')}</button></div>`;
 const clHtml = t => `<div class="cl">${(t.items || []).map((x, i) => `<label class="clr ${x.done ? 'on' : ''}"><input type="checkbox" data-cl="${t.id}" data-i="${i}" ${x.done ? 'checked' : ''}><span class="cb">${ms('check')}</span><span class="cx">${esc(x.text)}</span></label>`).join('')}</div>`;
@@ -4191,7 +4201,7 @@ function setDone(t, v) {
   if (!CHEAT.pgJump(d)) { CHEAT.flag('pg'); d = Math.sign(d) * PG_TASK_MAX; v = t.done + d; }
   if (!d) return false;
   t.done = v; syncItems(t); addLog(d, t); t.doneAt = v >= t.total ? Date.now() : null;
-  if (d > 0 && v >= t.total) actLog('task', t.title); else if (d > 0) actLogPg(t, d);
+  if (d > 0 && v >= t.total) actLog('task', taskDesc(t)); else if (d > 0) actLogPg(t, d);
   return true;
 }
 function commit() { checkBadges(); save(); render(); }
@@ -4410,7 +4420,7 @@ async function admView(uid) {
     const betaHtml = `<div class="adm-beta" style="margin-bottom:12px"><div class="lbl">ベータ版</div><p class="muted" style="font-weight:500;margin:6px 0 10px">${bt ? (bOn ? 'この生徒は、ベータ版を使えます（設定と更新の画面から移れます）' : 'まだ、ベータ版は使えません') : 'ベータ版の状態を読めませんでした'}</p><button type="button" class="btn ${bOn ? 'text' : 'tonal'} sm" data-act="admbeta" data-id="${esc(uid)}|${bOn ? 0 : 1}">${bOn ? 'ベータ版を使えなくする' : 'ベータ版を使えるようにする'}</button></div>`;
     const x = u.exists() ? (u.data() || {}) : {}, sm = x.sum || {};
     let data = null; try { data = JSON.parse(x.json || 'null'); } catch (e) { }
-    const KL = { open: 'アプリを開いた', tab: '開いた画面', add: '課題を作った', del: '課題を消した', pg: 'ページを進めた', task: '課題を完了', cheat: '不正の疑い（XPを減らした）', adm: '先生が直した', xp: 'XPを獲得', lv: 'レベルアップ', mg: '元素マージの結果' };
+    const KL = { open: 'アプリを開いた', tab: '開いた画面', add: '課題を作った', del: '課題を消した', pg: 'ページを進めた', task: '課題を完了', min: '勉強した時間', sync: '同期（レベル・XP）', cheat: '不正の疑い（XPを減らした）', adm: '先生が直した', xp: 'XPをもらった', lv: 'レベルアップ', mg: '元素マージの結果' };
     const acts = []; ev.forEach(d => acts.push(d.data()));
     const fmt = t => new Date(t).toLocaleString('ja-JP');
     el.innerHTML = `${betaHtml}${rkFixHtml(uid)}${stuFixHtml(uid, sm, data)}<div class="adm-sum"><p><b>${esc(sm.name || '（名前なし）')}</b></p>
@@ -4484,7 +4494,8 @@ function tabLogWatch() {
   } catch (e) { }
 }
 let PG_LOG_AT = 0;
-function actLogPg(t, d) { if (Date.now() - PG_LOG_AT < 120e3) return; PG_LOG_AT = Date.now(); actLog('pg', `${d > 0 ? '+' : ''}${d}ページ「${String(t.title).slice(0, 30)}」（${t.done}/${t.total}）`); }
+const taskDesc = t => { const sj = (S.subjects || []).find(x => x.id === t.sid); return `「${String(t.title || '').slice(0, 30)}」${sj ? `（${sj.name}）` : ''}${t.kind === 'pg' ? `・${t.total}ページ` : ''}`.slice(0, 120); };
+function actLogPg(t, d) { if (Date.now() - PG_LOG_AT < 60e3) return; PG_LOG_AT = Date.now(); actLog('pg', `${d > 0 ? '+' : ''}${d}ページ「${String(t.title).slice(0, 30)}」（${t.done}/${t.total}）`); }
 // ===== 先生：生徒のXP・レベルを直す／ペナルティ（届けたものは、生徒のアプリが一度だけ入れます） =====
 function stuFixHtml(uid, sm, data) {
   const pen = data && data.pen && typeof data.pen === 'object' ? Object.values(data.pen) : [];
@@ -4692,7 +4703,7 @@ const renderCore = render;
 render = function () { renderCore(); totopSync(); };
 let setKeyLast = '', pswPrevState = {};
 function render() {
-  tabLogWatch();
+  tabLogWatch(); lbNoticeShow();
   if (gameOv()) return;   // 全画面のゲーム中は、画面を描き直さない（ゲームの枠を守る）
   setTimeout(kbSync, 0);
   applyHomeBg();
@@ -4983,6 +4994,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.21', d: '2026/11/27 08:00', t: '魚ガチャが1日1回無料に。ログインボーナスが分かりやすくなりました（バグ修正あり）', n: ['魚ガチャは、1日1回だけ無料で引けます（2回目からは 100 XP）','ログインボーナスをもらったとき、大きなお知らせで出るようにしました（連続の日数も出ます）','先生の画面で、生徒が同期したときのレベル・XPや、勉強した時間・課題の内容などを、くわしく見られるようにしました','バグ修正：XPのふやし方（ログインボーナスなど）がもらえたとき、エラーで保存や画面の更新が止まることがある問題を直しました'] },
   { v: '18.3.20', d: '2026/11/27 07:00', t: 'バグ修正', n: ['バグ修正'] },
   { v: '18.3.19', d: '2026/11/26 23:30', t: '水槽の魚が泳がない問題を直し、魚ガチャの演出・図鑑・エサ・水槽テーマを追加しました', n: ['動きを減らす設定やアニメーションオフのとき、魚が止まってしまう問題を直しました（魚はゆっくり泳ぎ続けます）','魚ガチャに、段階のある演出を追加しました（光の渦→玉が震える→閃光→魚が登場）。レアが高いほど派手になり、色違いは金色の光になります。スキップもできます','魚の図鑑を追加しました。見つけた魚の絵が出て、全部そろうと 1000 XP もらえます','稚魚に「エサ」をあげると、大人になるまでの時間が15分短くなります（エサは1回 5 XP）','水槽のテーマ（清流・夜の深海・サンゴ礁）を追加しました。XPで買って、いつでも切り替えられます','水槽を金の枠・ライト・台のあるキャビネットにして、魚と水槽の見た目をよりリアルにしました（魚の尾やひれも動きます）'] },
   { v: '18.3.18', d: '2026/11/26 19:30', t: '集中タイマーの見た目を買い直さなくてよいように直し、水槽で魚を育てる機能を追加しました', n: ['集中タイマーの見た目は、一度買えば、ほかの見た目に変えても、もう一回買い直す必要がないように直しました','ホームに「水槽」のカードを追加しました。魚ガチャ（100XP）で魚を手に入れ、水槽の中で育てます','魚には、レア・激レア・超激レア・伝説レアがあります。色違い（全身が金色）も、まれに出ます','稚魚は、約2時間で大人になります。大人の魚は売って XP にできます（売ったXPはショップで使えます。レベルは上がりません）','大人の魚は「展示する」で、水槽に3匹まで飾れます。「進み具合を友達に見せる」をオンにしていると、友達の水槽で見てもらえます'] },
@@ -6147,7 +6159,7 @@ function taskDlg(id, sid, dueDef) {
     }
     const data = { sid: fd.get('sid'), title, req: fd.get('req') === '1', total, start, segs: segs && segs.length > 1 ? segs : null, kind, items, url: kind === 'url' ? url.slice(0, 500) : '', subreq: fd.get('subreq') === 'on', dest: (fd.get('dest') || '').trim(), due: fd.get('due') || '', note: (fd.get('note') || '').trim() };
     if (id) { Object.assign(t, data); t.done = done; t.doneAt = done >= total ? (t.doneAt || Date.now()) : null; }
-    else { S.tasks.push({ id: uid(), ...data, done, d0: done, pin: '', at: Date.now(), doneAt: done >= total ? Date.now() : null }); actLog('add', String(data.title || '').slice(0, 60)); }
+    else { S.tasks.push({ id: uid(), ...data, done, d0: done, pin: '', at: Date.now(), doneAt: done >= total ? Date.now() : null }); actLog('add', taskDesc(data)); }
     closeDlg(); commit(); toast(id ? '保存しました' : '課題を追加しました');
   };
 }
@@ -6724,7 +6736,7 @@ const ACT = {
     if (isDone(t)) undoable('未完了に戻しました', () => setDone(t, 0));
     else { const before = snap(); setDone(t, t.total); ui.flash = { id }; checkBadges(); save(); render(); celebrate(rect, t); if (!$('#toast').classList.contains('show')) toast('完了を記録しました', before); }
   },
-  deltask(id) { const t = T(id); if (t && t.aid && !isDone(t)) return toast('先生から届いた課題は、完了してから消せます'); if (t) actLog('del', t.title); closeDlg(); undoable(`「${t.title}」を削除しました`, () => { S.tasks = S.tasks.filter(x => x.id !== id); }); },
+  deltask(id) { const t = T(id); if (t && t.aid && !isDone(t)) return toast('先生から届いた課題は、完了してから消せます'); if (t) actLog('del', taskDesc(t)); closeDlg(); undoable(`「${t.title}」を削除しました`, () => { S.tasks = S.tasks.filter(x => x.id !== id); }); },
   delsubj(id) {
     if (tasksOfSub(id).some(t => t.aid && !isDone(t))) return toast('先生から届いた課題が残っているため、この教科は消せません（完了してから消せます）');
     const s = SUB(id), n = tasksOfSub(id).length;
@@ -7691,10 +7703,22 @@ function cloudAutoSync() {
     if (CSYNC.want) { CSYNC.want = false; setTimeout(cloudAutoSync, 0); }
   }, Math.max(1200, CSYNC.last + 30000 - Date.now()));
 }
+// 同期したときの、レベル・XP・活動の内容を記録（変わったときと、1時間に1回。先生の画面で見られます）
+function syncSnap() {
+  try {
+    if (adminOn()) return;
+    const c = totals(), L = c.lv, xp = Math.floor(c.xp), now = Date.now();
+    const p = JSON.parse(localStorage.getItem('kosa-sync-snap') || 'null');
+    if (p && p.lv === L && p.xp === xp && now - p.t < 3600e3) return;
+    const diff = p ? xp - p.xp : 0;
+    actLog('sync', `Lv.${L}・XP ${xp}${p && diff ? `（${diff > 0 ? '+' : ''}${diff}）` : ''}・${c.pages}ページ・勉強${c.min}分・完了${c.done}件`);
+    localStorage.setItem('kosa-sync-snap', JSON.stringify({ lv: L, xp, t: now }));
+  } catch (e) { }
+}
 async function cloudPushNow() {
   if (!CLOUD.user || !CLOUD.fb || CLOUD.hold) return; CLOUD.dirty = false; const { fs, db } = CLOUD.fb;
   CLOUD.status = 'sync'; cloudPaintSync();
-  try { if (!S.mt) { _noSync = true; S.mt = Date.now(); save(); _noSync = false; } await mergeFromCloud(fs, db); await fs.setDoc(fs.doc(db, 'users', CLOUD.user.uid), { json: JSON.stringify(S), mt: S.mt, updatedAt: fs.serverTimestamp(), sum: sumNow() }); CLOUD.status = 'ok'; setLast(); if (S.cleared) { _noSync = true; try { delete S.cleared; localStorage.setItem(KEY, JSON.stringify(S)); } finally { _noSync = false; } } }
+  try { if (!S.mt) { _noSync = true; S.mt = Date.now(); save(); _noSync = false; } await mergeFromCloud(fs, db); await fs.setDoc(fs.doc(db, 'users', CLOUD.user.uid), { json: JSON.stringify(S), mt: S.mt, updatedAt: fs.serverTimestamp(), sum: sumNow() }); CLOUD.status = 'ok'; setLast(); syncSnap(); if (S.cleared) { _noSync = true; try { delete S.cleared; localStorage.setItem(KEY, JSON.stringify(S)); } finally { _noSync = false; } } }
   catch (e) { CLOUD.status = 'error'; CLOUD.err = String((e && ((e.code ? e.code + ' ' : '') + (e.message || ''))) || e).slice(0, 240); }
   cloudRefresh();
 }
@@ -14739,9 +14763,12 @@ const FSH_SHAPE = {
 };
 const fshGet = () => {
   const a = S.fsh && typeof S.fsh === 'object' ? S.fsh : {};
-  return { fish: Array.isArray(a.fish) ? a.fish : [], earn: +a.earn || 0, seen: a.seen && typeof a.seen === 'object' ? a.seen : {}, own: Array.isArray(a.own) ? a.own : ['basic'], th: a.th || 'basic', rw: !!a.rw };
+  return { fish: Array.isArray(a.fish) ? a.fish : [], earn: +a.earn || 0, seen: a.seen && typeof a.seen === 'object' ? a.seen : {}, own: Array.isArray(a.own) ? a.own : ['basic'], th: a.th || 'basic', rw: !!a.rw, free: a.free || '' };
 };
-function fshPut(a) { S.fsh = { fish: a.fish, earn: a.earn, seen: a.seen, own: a.own, th: a.th, rw: a.rw }; save(); }
+// 魚ガチャは1日1回無料（その日の最初の1回）
+const fshFreeOk = () => fshGet().free !== today();
+const fshCanPull = () => fshFreeOk() || spendXp() >= FSH_PRICE;
+function fshPut(a) { S.fsh = { fish: a.fish, earn: a.earn, seen: a.seen, own: a.own, th: a.th, rw: a.rw, free: a.free || '' }; save(); }
 function fshEarn() { return fshGet().earn; }
 const fshSpec = id => FSH_SP.find(s => s.id === id) || FSH_SP[0];
 // 育った時間（エサで早めた分を足す）
@@ -14846,8 +14873,8 @@ function fshCabinet(list, big, th) {
   return `<div class="fsh-cab${big ? ' big' : ''}"><div class="fsh-hood"><i></i></div>${fshTankHtml(list, big ? 'big' : '', th)}<div class="fsh-stand"><span class="fsh-plate">${esc(t.n)} ・ 大人 ${adult} 匹</span></div></div>`;
 }
 function fshCard() {
-  const a = fshGet(), sp = spendXp(), n = a.fish.length, can = sp >= FSH_PRICE && n < FSH_MAX;
-  return `<section class="card fsh-card"><div class="fsh-hd"><h2>${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(a.fish, false)}<div class="fsh-ft"><small class="muted">${n ? `${n}匹` : 'まだ魚がいません'}</small><span class="sp" style="flex:1"></span><button type="button" class="btn tonal sm" data-act="fshopen">${ms('visibility')}水槽を見る</button><button type="button" class="btn sm" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}魚ガチャ 100 XP</button></div></section>`;
+  const a = fshGet(), sp = spendXp(), n = a.fish.length, can = fshCanPull() && n < FSH_MAX;
+  return `<section class="card fsh-card"><div class="fsh-hd"><h2>${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(a.fish, false)}<div class="fsh-ft"><small class="muted">${n ? `${n}匹` : 'まだ魚がいません'}</small><span class="sp" style="flex:1"></span><button type="button" class="btn tonal sm" data-act="fshopen">${ms('visibility')}水槽を見る</button><button type="button" class="btn sm" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}${fshFreeOk() ? '魚ガチャ（今日は無料）' : '魚ガチャ 100 XP'}</button></div></section>`;
 }
 function fshRowHtml(f) {
   const s = fshSpec(f.s), st = fshStage(f), T = FSH_TIERS[s.t], pr = fshPrice(f);
@@ -14864,11 +14891,11 @@ function fshFriendsHtml() {
 }
 function fshOpen() {
   if (CLOUD.user && !FR_HOME.rows) { try { frHomeLoad(false); } catch (e) { } }
-  const a = fshGet(), sp = spendXp(), n = a.fish.length, ex = a.fish.filter(f => f.ex).length, can = sp >= FSH_PRICE && n < FSH_MAX;
+  const a = fshGet(), sp = spendXp(), n = a.fish.length, ex = a.fish.filter(f => f.ex).length, can = fshCanPull() && n < FSH_MAX;
   const old = dlg.open && dlg.querySelector('.fsh-full') && dlg.querySelector('.dlg'), sc = old ? old.scrollTop : 0;
-  const note = n >= FSH_MAX ? '水槽がいっぱいです。売ると、空きができます' : sp < FSH_PRICE ? `あと${FSH_PRICE - sp} XP で、1回引けます` : '1回 100 XP。出る魚は、下の確率です';
+  const note = n >= FSH_MAX ? '水槽がいっぱいです。売ると、空きができます' : fshFreeOk() ? '今日は1回、無料で引けます（1日1回）。2回目からは 100 XP' : sp < FSH_PRICE ? `あと${FSH_PRICE - sp} XP で、1回引けます` : '1回 100 XP。出る魚は、下の確率です';
   const themes = FSH_THEMES.map(t => { const own = a.own.includes(t.id), on = a.th === t.id; return `<button type="button" class="fsh-th${on ? ' on' : ''}" data-act="fshtheme" data-id="${t.id}">${esc(t.n)}<small>${on ? '使用中' : own ? '持っている' : t.c + ' XP で買う'}</small></button>`; }).join('');
-  openDlg(`<div class="fsh-full"><div class="fsh-hd"><h2 class="fsh-title">${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(a.fish, true)}<p class="muted fsh-stat">${n}/${FSH_MAX}匹・展示 ${ex}/${FSH_EX_MAX}</p><div class="fsh-gacha"><button type="button" class="btn" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}魚ガチャ（100 XP）</button><small class="muted">${note}</small></div><div class="fsh-tools"><button type="button" class="btn tonal sm" data-act="fshfeedall">${ms('set_meal')}稚魚に全部エサ（${FSH_FOOD_XP}XPずつ）</button><button type="button" class="btn tonal sm" data-act="fshdex">${ms('menu_book')}魚の図鑑</button></div><h3 class="fsh-h">水槽のテーマ</h3><div class="fsh-themes">${themes}</div><details class="fsh-odds"><summary>魚の出る確率</summary><ul>${FSH_TIERS.map(t => `<li><span class="fsh-tier ${t.c}">${t.n}</span><b>${t.p}%</b><small>大人の売値 ${t.lo}〜${t.hi} XP</small></li>`).join('')}<li><span class="fsh-gold">色違い</span><b>4096分の1</b><small>全身が金色。売値は${FSH_GOLD_X}倍</small></li></ul></details><h3 class="fsh-h">もっている魚</h3><div class="fsh-list">${a.fish.map(fshRowHtml).join('') || '<p class="muted">まだ魚がいません。魚ガチャで、最初の魚を手に入れましょう</p>'}</div><h3 class="fsh-h">友達の水槽（展示）</h3>${fshFriendsHtml()}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
+  openDlg(`<div class="fsh-full"><div class="fsh-hd"><h2 class="fsh-title">${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(a.fish, true)}<p class="muted fsh-stat">${n}/${FSH_MAX}匹・展示 ${ex}/${FSH_EX_MAX}</p><div class="fsh-gacha"><button type="button" class="btn" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}${fshFreeOk() ? '魚ガチャ（今日は無料）' : '魚ガチャ（100 XP）'}</button><small class="muted">${note}</small></div><div class="fsh-tools"><button type="button" class="btn tonal sm" data-act="fshfeedall">${ms('set_meal')}稚魚に全部エサ（${FSH_FOOD_XP}XPずつ）</button><button type="button" class="btn tonal sm" data-act="fshdex">${ms('menu_book')}魚の図鑑</button></div><h3 class="fsh-h">水槽のテーマ</h3><div class="fsh-themes">${themes}</div><details class="fsh-odds"><summary>魚の出る確率</summary><ul>${FSH_TIERS.map(t => `<li><span class="fsh-tier ${t.c}">${t.n}</span><b>${t.p}%</b><small>大人の売値 ${t.lo}〜${t.hi} XP</small></li>`).join('')}<li><span class="fsh-gold">色違い</span><b>4096分の1</b><small>全身が金色。売値は${FSH_GOLD_X}倍</small></li></ul></details><h3 class="fsh-h">もっている魚</h3><div class="fsh-list">${a.fish.map(fshRowHtml).join('') || '<p class="muted">まだ魚がいません。魚ガチャで、最初の魚を手に入れましょう</p>'}</div><h3 class="fsh-h">友達の水槽（展示）</h3>${fshFriendsHtml()}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
   const nd = dlg.querySelector('.dlg'); if (nd && sc) nd.scrollTop = sc;
   FSH_SIG = a.fish.map(fshStage).join('');
   if (!FSH_T) FSH_T = setInterval(fshTick, 30000);
@@ -14879,15 +14906,15 @@ function fshTick() { if (!dlg.open || !dlg.querySelector('.fsh-full')) return; c
 
 // ガチャ：抽選して、演出 → 結果の順に見せる
 function fshPull() {
-  const a = fshGet(), sp = spendXp();
+  const a = fshGet(), sp = spendXp(), free = fshFreeOk();
   if (a.fish.length >= FSH_MAX) return toast('水槽がいっぱいです。売るか、ほかの魚を入れかえてください');
-  if (sp < FSH_PRICE) return toast(`XPが${FSH_PRICE - sp}足りません`);
+  if (!free && sp < FSH_PRICE) return toast(`XPが${FSH_PRICE - sp}足りません`);
   const r = Math.random() * 100; let acc = 0, ti = 0;
   for (let i = 0; i < FSH_TIERS.length; i++) { acc += FSH_TIERS[i].p; ti = i; if (r < acc) break; }
   const T = FSH_TIERS[ti], pool = FSH_SP.filter(s => s.t === ti), sp2 = pool[Math.floor(Math.random() * pool.length)];
   const g = Math.random() < FSH_GOLD_P ? 1 : 0, v = T.lo + Math.floor(Math.random() * (T.hi - T.lo + 1));
   const f = { id: uid(), s: sp2.id, t: Date.now(), v, g, ex: false, b: 0 };
-  const gg = growGet(); gg.spent += FSH_PRICE; growPut(gg);
+  if (free) a.free = today(); else { const gg = growGet(); gg.spent += FSH_PRICE; growPut(gg); }
   const fresh = !a.seen[sp2.id];
   a.fish.push(f); a.seen[sp2.id] = Math.max(a.seen[sp2.id] || 0, g ? 2 : 1);
   let bonus = 0;
@@ -14909,7 +14936,7 @@ function fshGacha(f, info) {
 function fshSkip() { clearTimeout(FSH_FG); if (FSH_LAST) fshReveal(FSH_LAST.f, FSH_LAST.info); }
 function fshReveal(f, info) {
   clearTimeout(FSH_FG);
-  const s = fshSpec(f.s), T = FSH_TIERS[s.t], gold = !!f.g, leg = s.t >= 2, can = spendXp() >= FSH_PRICE && fshGet().fish.length < FSH_MAX;
+  const s = fshSpec(f.s), T = FSH_TIERS[s.t], gold = !!f.g, leg = s.t >= 2, can = fshCanPull() && fshGet().fish.length < FSH_MAX;
   const fresh = info && info.fresh, bonus = info && info.bonus;
   openDlg(`<div class="fsh-rev${leg ? ' leg' : ''}"><div class="fsh-rev-fish">${fshFishSvg(s, gold, 'f')}</div><div class="fsh-rev-t"><span class="fsh-tier ${T.c}">${T.n}</span>${gold ? '<span class="fsh-gold">色違い</span>' : ''}${fresh ? '<span class="fsh-new">図鑑に新登録！</span>' : ''}</div><h2>${gold ? '金色の' : ''}${esc(s.n)}</h2><p>稚魚を水槽に入れました。2時間ほどで大人になります。大人になったときの売値は ${f.v * (gold ? FSH_GOLD_X : 1)} XP です</p>${bonus ? `<p class="fsh-bonus">図鑑コンプリート！ ${bonus} XP を受け取りました</p>` : ''}<div class="dact"><button type="button" class="btn tonal" data-act="fshopen">${ms('visibility')}水槽を見る</button>${can ? `<button type="button" class="btn" data-act="fshpull">${ms('casino')}もう一回（100 XP）</button>` : ''}</div><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">とじる</button></div></div>`);
 }
@@ -15078,6 +15105,7 @@ function xpQuestXp() { const c = S.xpq || {}; let n = 0; for (const k in c) { co
 function xpCheck(silent) {
   if (!S || typeof S !== 'object') return;
   S.xpq = S.xpq || {};
+  const got = [];
   for (const q of XP_Q) {
     const key = q.daily ? q.id + '@' + today() : q.id;
     if (S.xpq[key]) continue;
@@ -15085,9 +15113,19 @@ function xpCheck(silent) {
     if (v >= q.t) { S.xpq[key] = Date.now(); got.push(q); }
   }
   if (!got.length) return;
+  if (got.some(q => q.id === 'q_login')) LB_NOTE = { xp: XP_Q[0].xp, streak: streak() };
   actLog('xp', got.map(q => q.n).join('、'));
   save();
   if (!silent || got.some(q => q.id === 'q_login')) toast(`XPを${got.reduce((a, q) => a + q.xp, 0)}もらいました：${got.map(q => q.n).join('、')}`);
+}
+let LB_NOTE = null;   // ログインボーナスのお知らせ（その日の最初の一回だけ、大きく出す）
+function lbNoticeShow() {
+  if (!LB_NOTE || dlg.open || document.getElementById('annpop') || gameOv()) return;
+  const n = LB_NOTE; LB_NOTE = null;
+  openDlg(`<div class="lb-card"><div class="lb-ic">${ms('login')}</div><small>今日のログインボーナス</small><b class="lb-xp">+${n.xp} XP</b><p>毎日アプリを開くと、1日1回もらえます。もらったXPは、減りません。</p><div class="lb-st">${ms('local_fire_department')}${n.streak > 1 ? `${n.streak}日つづけています` : '今日から、はじまり'}</div><div class="dact"><button type="button" class="btn" data-act="close">ありがとう</button></div></div>`);
+  dlg.dataset.k = 'lb';
+  try { sfxSeq([523, 659, 784, 1047], .12, .8, .2); } catch (e) { }
+  setTimeout(() => confetti(innerWidth / 2, innerHeight * .4, 70), 250);
 }
 function xpRow(q) {
   const key = q.daily ? q.id + '@' + today() : q.id, got = !!(S.xpq || {})[key];
