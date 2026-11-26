@@ -2026,6 +2026,7 @@ html.bg-idle #view *,html.bg-idle #nav *{animation-play-state:paused!important}
 .lvg-h small{display:block;font-size:.78rem;opacity:.8;line-height:1.5}
 .lvg-bar{height:10px;border-radius:99px;background:var(--scc);overflow:hidden}
 .lvg-bar i{display:block;height:100%;background:var(--primary);border-radius:99px}
+.lvg-rw{margin:10px 0 2px;padding:10px 12px;border-radius:14px;background:var(--s2);font-size:14px;font-weight:700;line-height:1.5}
 .lvg-ways{list-style:none;margin:0;padding:0;display:grid;gap:8px}
 .lvg-ways li{display:flex;gap:10px;align-items:flex-start}
 .lvg-ways li>.ms{font-size:22px;flex:none;margin-top:2px}
@@ -3638,8 +3639,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.11'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.11';
+const RELEASE_VER = '18.3.12'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.12';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4211,6 +4212,15 @@ async function admView(uid) {
 // 不正の検知（画面には出さない）：勉強時間に対してページ数が極端な日、ページ数が極端に多い課題は、その分のXPを数えない
 const PG_TASK_MAX = 400, PG_DAY_BASE = 60, PG_PER_MIN = 4, MIN_DAY_MAX = 960;
 function flagTaskIds() { if (adminOn()) return new Set(); const s = new Set(); for (const t of S.tasks || []) if (t && t.kind !== 'list' && (+t.total || 0) > PG_TASK_MAX) s.add(t.id); return s; }
+// ===== レベルに必要なXP（18.3.12）：低いレベルほど、少ないXPで上がる =====
+// Lv.k から Lv.k+1 へ上がるのに必要なXP。Lv.1 は今の半分ほど、Lv.13 からは今までと同じ伸び方
+function lvStep(k) { return Math.round(25 * (2 * k - 1) * Math.min(1, 0.45 + 0.55 * (k - 1) / 12)); }
+var LV_TBL = null;
+function lvTbl() { if (!LV_TBL) { LV_TBL = [0, 0]; for (let L = 2; L <= 400; L++) LV_TBL[L] = LV_TBL[L - 1] + lvStep(L - 1); } return LV_TBL; }
+// Lv.L になるまでに必要なXPの合計
+function lvNeed(L) { const t = lvTbl(); return t[Math.max(1, Math.min(400, Math.floor(L)))] || 0; }
+// そのXPで、何レベルか
+function lvOf(xp) { const t = lvTbl(); let L = 1; while (L < 400 && t[L + 1] <= xp) L++; return L; }
 function totals() {
   let pages = 0, min = 0, best = 0;
   const flag = flagTaskIds(), adm = adminOn();
@@ -4223,13 +4233,13 @@ function totals() {
   const ex = examTasks(), rq = ex.filter(t => t.req), xp = pages + min * .5 + S.tasks.filter(t => isDone(t) && !flag.has(t.id)).length * 20 + xpQuestXp() + achXpSum();
   const subDone = S.subjects.filter(s => { const ts = tasksOfSub(s.id); return ts.length && ts.every(isDone); }).length;
   return { pages, min, best, done: S.tasks.filter(isDone).length, streak: streak(), bestStreak: bestStreak(),
-    subClear: subDone > 0, subDone, reqClear: rq.length > 0 && rq.every(isDone), xp, lv: Math.floor(Math.sqrt(xp / 25)) + 1,
+    subClear: subDone > 0, subDone, reqClear: rq.length > 0 && rq.every(isDone), xp, lv: lvOf(xp),
     known: (S.cards || []).filter(c => c.k).length, tools: tuList().length, lab: safeN(() => labSubs().size), labR: safeN(() => labReactCount()), ps: safeN(() => PS.best), invPlays: invStat().plays || 0, invHits: invStat().hits || 0, rk: rkStat().best || 0, rkt: rkStat().total || 0, rkp: rkStat().plays || 0, rkh: rkStat().hard || 0, mgp: mgStat().plays || 0, mgb: mgStat().best || 0, mgl: mgStat().maxLv || 0, ivb: invStat().best || 0, rkk: rkStat().keys || 0, rkc: rkStat().cleared || 0, rknh: rkStat().nohint || 0, rkcb: rkStat().combo || 0, rkq: rkStat().uniq || 0, rkera: rkStat().eras || 0, rkeasy: rkStat().easy || 0, rknorm: rkStat().normal || 0 };
 }
 function level() {
   const c = totals(), xp = c.xp; let L = c.lv;
   if (adminOn() && S.adminLv) L = S.adminLv;   // 先生だけ、自分で決めたレベルを使える
-  const lo = 25 * (L - 1) ** 2, hi = 25 * L * L;
+  const lo = lvNeed(L), hi = lvNeed(L + 1);
   return { L, xp: Math.round(xp), p: Math.max(0, Math.min(1, (xp - lo) / (hi - lo))), need: Math.ceil(hi - xp) };
 }
 function checkBadges(silent) {
@@ -4643,6 +4653,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.12', d: '2026/11/26 10:50', t: 'レベルが低いうちは、少ないXPで上がるように。レベルの上げ方は、あと何をすればいいかを具体的に', n: ['はじめのレベルに必要なXPを減らしました（Lv.2〜5は、今の半分ほど。Lv.13からは今までと同じ伸び方）。Lv.10 までの合計は約30%減、Lv.20 までは約8%減', 'レベル画面で、あと何個の課題・何ページ・何分でレベルアップするかを、分かりやすく出すようにしました', '次のレベルになると、何が使えるようになるかも出します', 'レベルの説明の数字は、新しい計算に合わせて自動で出します'] },
   { v: '18.3.11', d: '2026/11/26 08:50', t: '管理者メニューから、生徒の歴打の石高を直せるように（応急処置）', n: ['管理者メニューの生徒の記録に、歴打の石高（ランキング用の最高・累計）を直す欄を追加しました', '直した石高は、その生徒のアプリを次に開いたときに、一度だけ入ります。入ったあとは、ランキングにも反映されます', '空欄のものは変わりません（最高だけ、累計だけでも直せます）'] },
   { v: '18.3.10', d: '2026/11/26 08:40', t: '歴打の累計石高を戻し、ランキングだけをリセット。タイマーの見た目はドット風を作り直し、ボタンを右上に移動してプレビューできるように', n: ['歴打の累計石高は、ランキングのリセットでは消えないようにしました', '集中タイマーの見た目ボタンを、右上のアニメーションボタンの左隣（アイコンだけ）に移動しました', '見た目の一覧で「見る」を押すと、タイマーの見た目をためせます。「もとにもどす」で、いつもの見た目に戻ります（買うまで保存されません）', 'ドット風のタイマーを、石のボタンと経験値バーのような見た目に作り直しました'] },
   { v: '18.3.9', d: '2026/11/25 18:30', t: '歴打と元素マージを10問で遊べるように、ランキング・実績XP・ショップ・集中タイマーの見た目を更新', n: ['歴打のランキングを新しい季節にして、石高をいったんリセットしました。以前の記録は、ランキングから外れます', '歴打の問題を大幅に追加し、どのモードにも問題が入るようにしました', '歴打は、1日10回を超えるとき、歴史の4択クイズ10問に答えると続けられます', '元素マージは、1日10回を超えるとき、3問から10問に増やし、読み・説明・分類など6種類の問題を出します', '実績を解除すると、「＋30 XP獲得」を通知と解除の画面に出します。今後解除したものから、XPがもらえます', '実績・レベルの「使えるXP」と、ショップで使えるXPを同じ数字にして、わかりやすくしました', 'ショップに、桜・藍・抹茶・金箔の色、月夜・抹茶の庭の背景、集中タイマーの見た目（ドット・和風・ネオン）を追加しました', '集中タイマーに「見た目」ボタンを追加。ドットは、マイクラ風のブロックの画面です'] },
@@ -5328,22 +5339,25 @@ function subView() {
 }
 // ===== レベルの上げ方（実績の画面と、ロックされた画面で、同じ案内を出す）=====
 // 目標のレベルまで、あと何XP必要か（レベルは、XPが 25×(L-1)² を超えると上がる）
-function lvNeedXp(target) { return Math.max(0, Math.ceil(25 * (target - 1) ** 2 - totals().xp)); }
+function lvNeedXp(target) { return Math.max(0, Math.ceil(lvNeed(target) - totals().xp)); }
 // XPの稼ぎ方。XPの計算（課題20・ページ1・勉強1分0.5）に合わせて、あと何をすればいいかを出す
 function lvWays(need) {
   const left = S.tasks.filter(t => !isDone(t)).length;
   return [
-    { ic: 'task_alt', t: '課題を1つ終わらせる', s: `1つで 20 XP。あと約${Math.ceil(need / 20)}個で届きます${left ? `（未完了の課題は${left}個）` : '（課題を追加すると、ここから始められます）'}` },
-    { ic: 'menu_book', t: '勉強して、ページを進める', s: `ページは1枚で 1 XP、勉強は1分で 0.5 XP。勉強の時間だけなら、あと約${Math.ceil(need / 0.5)}分で届きます` },
-    { ic: 'bolt', t: '毎日、少しずつ続ける', s: '1日に稼げるXPには上限があります（勉強の分数で決まります）。毎日少しずつ進めるのが、一番確実です' }
+    { ic: 'task_alt', t: '課題を終わらせる（いちばん早い）', s: `1つで 20 XP。あと ${Math.ceil(need / 20)} 個で届きます${left ? `（いま未完了の課題は ${left} 個）` : '（課題を追加すると、ここから始められます）'}` },
+    { ic: 'menu_book', t: 'ページを進める', s: `1ページで 1 XP。あと ${Math.ceil(need)} ページで届きます` },
+    { ic: 'timer', t: '勉強の時間を使う', s: `1分で 0.5 XP。あと ${Math.ceil(need / 0.5)} 分で届きます` },
+    { ic: 'bolt', t: '毎日、少しずつ続ける', s: '1日にもらえるXPには上限があります。毎日すこしずつ進めるのが、いちばん確実です' }
   ];
 }
 function lvNextHtml(target) {
   const lv = level(), tg = target || lv.L + 1, need = lvNeedXp(tg);
-  const pct = target && target !== lv.L + 1 ? Math.max(0, Math.min(100, Math.round(lv.xp / (25 * (tg - 1) ** 2) * 100))) : Math.max(0, Math.min(100, Math.round(lv.p * 100)));
+  const pct = target && target !== lv.L + 1 ? Math.max(0, Math.min(100, Math.round(lv.xp / Math.max(1, lvNeed(tg)) * 100))) : Math.max(0, Math.min(100, Math.round(lv.p * 100)));
+  const rw = LV_REWARD[tg];
   return `<div class="card lvg"><div class="lvg-h">${ms('trending_up')}<div><b>Lv.${tg} ${need ? `まで あと ${need.toLocaleString('ja-JP')} XP` : 'に届いています'}</b><small>いまは Lv.${lv.L}（${esc(titleOf(lv.L))}）・ ${lv.xp.toLocaleString('ja-JP')} XP</small></div></div>` +
-    `<div class="lvg-bar"><i style="width:${pct}%"></i></div>` +
+        `<div class="lvg-bar"><i style="width:${pct}%"></i></div>` +
     (need ? `<ol class="lvg-ways">${lvWays(need).map(w => `<li>${ms(w.ic)}<div><b>${w.t}</b><small>${w.s}</small></div></li>`).join('')}</ol>` : '') +
+    (rw ? `<div class="lvg-rw">Lv.${tg} になると：${esc(rw)}</div>` : '') +
     `<button type="button" class="btn tonal sm lvg-ask" data-act="lvask" data-id="${tg}">${gem(18)}AIにどうやって上げるか聞く</button></div>`;
 }
 // あと少しで取れる実績（まだ取っていない実績のうち、進みが大きいもの3つ）
@@ -5360,7 +5374,7 @@ function achNextHtml() {
 // 実績とレベルの説明（イラストつき）
 function achHelpHtml() {
   const row = (ic, tt, s2, on) => `<div class="ahp-row${on ? ' on' : ''}">${ms(ic, on ? 'f' : '')}<div><b>${tt}</b><small>${s2}</small></div></div>`;
-  const st = [[1, 0], [2, 25], [3, 100], [5, 400], [10, 2025]].map(([l, x]) => `<div class="ahp-st" style="height:${56 + l * 6}px"><b>Lv.${l}</b><small>${x.toLocaleString('ja-JP')} XP</small></div>`).join('');
+  const st = [1, 2, 3, 5, 10].map(l => [l, lvNeed(l)]).map(([l, x]) => `<div class="ahp-st" style="height:${56 + l * 6}px"><b>Lv.${l}</b><small>${x.toLocaleString('ja-JP')} XP</small></div>`).join('');
   return `<h2>${ms('help')}実績とレベルの説明</h2>
   <div class="ahp">
     <section class="ahp-sec"><h3>${ms('emoji_events')}実績（バッジ）</h3>
@@ -5373,7 +5387,7 @@ function achHelpHtml() {
       <small class="ahp-note">1日にもらえるXPには上限があります。毎日少しずつ続けるのが、いちばん確実です。</small>
     </section>
     <section class="ahp-sec"><h3>${ms('trending_up')}レベル</h3>
-      <p>XPがたまると、レベルが上がります。レベルが上がるほど、次に必要なXPは多くなります。</p>
+      <p>XPがたまると、レベルが上がります。はじめのレベルは少ないXPで上がり、レベルが上がるほど、次に必要なXPは多くなります。</p>
       <div class="ahp-stairs">${st}</div>
       <small class="ahp-note">数字は、そのレベルになるまでに必要な、XPの合計です。</small>
     </section>
