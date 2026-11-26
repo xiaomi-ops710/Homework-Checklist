@@ -177,6 +177,28 @@ service cloud.firestore {
       allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
     }
 
+    // 先生からの直し（18.3.20）：生徒のXP・レベル。読めるのは生徒本人だけ、書く・消すのは先生だけ
+    match /stuFix/{uid}/items/{id} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
+        && request.resource.data.keys().hasOnly(['id','t','by','mode','xp','lv','msg'])
+        && request.resource.data.mode in ['set','lvset','add']
+        && (!('xp' in request.resource.data) || (request.resource.data.xp is number && request.resource.data.xp >= -100000 && request.resource.data.xp <= 2000000000))
+        && (!('lv' in request.resource.data) || (request.resource.data.lv is number && request.resource.data.lv >= 1 && request.resource.data.lv <= 400))
+        && (!('msg' in request.resource.data) || request.resource.data.msg.size() <= 200);
+      allow update: if false;
+      allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
+    }
+
+    // 先生からの歴打の石高の直し（応急処置）：読めるのは生徒本人だけ、書く・消すのは先生だけ
+    match /rekidaFix/{uid}/items/{id} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow create: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
+        && request.resource.data.keys().hasOnly(['id','t','by','best','total']);
+      allow update: if false;
+      allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
+    }
+
     // 管理者からのアンケート（全員が読める。作る・締め切る・消すのは管理者だけ）
     // 投票は、アンケートごとに1人1票（自分の投票だけ書けます。締め切られると書けません）
     match /surveys/{sid} {

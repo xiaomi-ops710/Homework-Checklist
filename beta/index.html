@@ -3851,8 +3851,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.19'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.19';
+const RELEASE_VER = '18.3.20'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.20';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4150,7 +4150,7 @@ function syncItems(t) {
 function setItem(t, i, on) {
   const it = t.items && t.items[i]; if (!it) return; it.done = !!on;
   const v = t.items.filter(x => x.done).length, d = v - t.done; t.done = v; addLog(d, t);
-  t.doneAt = v >= t.total ? (t.doneAt || Date.now()) : null; ui.flash = { id: t.id }; commit();
+  t.doneAt = v >= t.total ? (t.doneAt || Date.now()) : null; if (d > 0 && v >= t.total) actLog('task', t.title); ui.flash = { id: t.id }; commit();
 }
 const clRow = x => `<div class="rgrow clrow"><input type="checkbox" class="cld" ${x.done ? 'checked' : ''} aria-label="完了"><input class="clt" type="text" maxlength="60" value="${esc(x.text)}" placeholder="項目（例：問題1〜5）" style="text-align:left"><button type="button" class="ibtn" data-act="delcl" aria-label="この項目を削除">${ms('close')}</button></div>`;
 const clHtml = t => `<div class="cl">${(t.items || []).map((x, i) => `<label class="clr ${x.done ? 'on' : ''}"><input type="checkbox" data-cl="${t.id}" data-i="${i}" ${x.done ? 'checked' : ''}><span class="cb">${ms('check')}</span><span class="cx">${esc(x.text)}</span></label>`).join('')}</div>`;
@@ -4191,7 +4191,7 @@ function setDone(t, v) {
   if (!CHEAT.pgJump(d)) { CHEAT.flag('pg'); d = Math.sign(d) * PG_TASK_MAX; v = t.done + d; }
   if (!d) return false;
   t.done = v; syncItems(t); addLog(d, t); t.doneAt = v >= t.total ? Date.now() : null;
-  if (d > 0 && v >= t.total) actLog('task', t.title);
+  if (d > 0 && v >= t.total) actLog('task', t.title); else if (d > 0) actLogPg(t, d);
   return true;
 }
 function commit() { checkBadges(); save(); render(); }
@@ -4222,14 +4222,14 @@ const tuList = () => { try { const a = JSON.parse(localStorage.getItem(TU_KEY) |
 function tuNote(id) { if (!id) return; const a = tuList(); if (a.includes(id)) return; a.push(id); try { localStorage.setItem(TU_KEY, JSON.stringify(a)); } catch (e) { } checkBadges(false); }
 // ===== 17.91：先生（管理者）の機能・活動ログ・レベルの特典 =====
 const RW_LV = { medal: 4, guard: 6, cardpat: 12, mgep: 15 };   // 特典が使えるようになるレベル
-const ACT_KEEP = 3 * 864e5;   // 活動ログは3日分だけ残す
+const ACT_KEEP = 864e5;   // 活動ログは1日分だけ残す
 // 先生（管理者）かどうか。端末に覚えた判定を使う（計算の中で、すぐ調べられるように）
 function adminOn() {
   try { const a = JSON.parse(localStorage.getItem('kosa-fb-adm') || 'null'); return !!(a && a.v === 1 && CLOUD.user && a.uid === CLOUD.user.uid); } catch (e) { return false; }
 }
 // 生徒の一覧に出す要約（レベルは本当の値）
 function sumNow() {
-  try { const c = totals(); return { name: growGet().nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', lv: c.lv, xp: Math.floor(c.xp), pg: c.pages, min: c.min, done: c.done, streak: c.streak, at: Date.now() }; } catch (e) { return null; }
+  try { const c = totals(); return { name: growGet().nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', lv: c.lv, xp: Math.floor(c.xp), pg: c.pages, min: c.min, done: c.done, streak: c.streak, pen: Object.keys(S.pen || {}).length, at: Date.now() }; } catch (e) { return null; }
 }
 // 活動ログ（先生だけが見られます。生徒の画面には出しません）
 function actLog(k, d) {
@@ -4239,7 +4239,7 @@ function actLog(k, d) {
     fs.setDoc(fs.doc(db, 'activity', CLOUD.user.uid, 'ev', id), { k: String(k).slice(0, 20), d: String(d || '').slice(0, 200), t: Date.now() }).catch(() => { });
   } catch (e) { }
 }
-async function actPrune() {   // 3日より前の自分の記録を消す
+async function actPrune() {   // 1日より前の自分の記録を消す
   try {
     if (!CLOUD.user || !CLOUD.fb) return;
     const { fs, db } = CLOUD.fb;
@@ -4410,20 +4410,139 @@ async function admView(uid) {
     const betaHtml = `<div class="adm-beta" style="margin-bottom:12px"><div class="lbl">ベータ版</div><p class="muted" style="font-weight:500;margin:6px 0 10px">${bt ? (bOn ? 'この生徒は、ベータ版を使えます（設定と更新の画面から移れます）' : 'まだ、ベータ版は使えません') : 'ベータ版の状態を読めませんでした'}</p><button type="button" class="btn ${bOn ? 'text' : 'tonal'} sm" data-act="admbeta" data-id="${esc(uid)}|${bOn ? 0 : 1}">${bOn ? 'ベータ版を使えなくする' : 'ベータ版を使えるようにする'}</button></div>`;
     const x = u.exists() ? (u.data() || {}) : {}, sm = x.sum || {};
     let data = null; try { data = JSON.parse(x.json || 'null'); } catch (e) { }
-    const KL = { open: 'アプリを開いた', task: '課題を完了', xp: 'XPを獲得', lv: 'レベルアップ', mg: '元素マージの結果' };
+    const KL = { open: 'アプリを開いた', tab: '開いた画面', add: '課題を作った', del: '課題を消した', pg: 'ページを進めた', task: '課題を完了', cheat: '不正の疑い（XPを減らした）', adm: '先生が直した', xp: 'XPを獲得', lv: 'レベルアップ', mg: '元素マージの結果' };
     const acts = []; ev.forEach(d => acts.push(d.data()));
     const fmt = t => new Date(t).toLocaleString('ja-JP');
-    el.innerHTML = `${betaHtml}${rkFixHtml(uid)}<div class="adm-sum"><p><b>${esc(sm.name || '（名前なし）')}</b></p>
+    el.innerHTML = `${betaHtml}${rkFixHtml(uid)}${stuFixHtml(uid, sm, data)}<div class="adm-sum"><p><b>${esc(sm.name || '（名前なし）')}</b></p>
       <p>Lv.${sm.lv ?? '-'}・XP ${sm.xp ?? '-'}・ページ ${sm.pg ?? '-'}・勉強 ${sm.min ?? '-'}分・完了 ${sm.done ?? '-'}件・連続 ${sm.streak ?? '-'}日</p>
       <p class="muted" style="font-weight:500">最終同期：${sm.at ? fmt(sm.at) : 'なし'}</p></div>
-      <div class="lbl" style="margin-top:12px">いつ・何をしたか（直近3日）</div>
+      <div class="lbl" style="margin-top:12px">いつ・何をしたか（直近1日）</div>
       ${acts.length ? `<ul class="adm-acts">${acts.map(a => `<li><small>${fmt(a.t)}</small>　${esc(KL[a.k] || a.k)}${a.d ? `：${esc(a.d)}` : ''}</li>`).join('')}</ul>` : '<p class="muted">記録はありません</p>'}
       <details class="adm-raw" style="margin-top:12px"><summary>すべてのデータ（くわしく）</summary><pre>${esc(data ? JSON.stringify(data, null, 2) : '（データがありません）')}</pre></details>`;
   } catch (e) { el.innerHTML = `<p class="muted">読み込めませんでした（${esc(String((e && (e.code || e.message)) || e).slice(0, 120))}）</p>`; }
 }
 // 不正の検知（画面には出さない）：勉強時間に対してページ数が極端な日、ページ数が極端に多い課題は、その分のXPを数えない
-const PG_TASK_MAX = 400, PG_DAY_BASE = 60, PG_PER_MIN = 4, MIN_DAY_MAX = 960;
-function flagTaskIds() { if (adminOn()) return new Set(); const s = new Set(); for (const t of S.tasks || []) if (t && t.kind !== 'list' && (+t.total || 0) > PG_TASK_MAX) s.add(t.id); return s; }
+// 不正の検知（18.3.20）：ふさわしくない名前の課題、作ってすぐ完了した課題は、XPを数えず、ペナルティ（XPを減らす）も入る。一度入った記録は消えない
+const PG_TASK_MAX = 400, PG_DAY_BASE = 60, PG_PER_MIN = 4, MIN_DAY_MAX = 240;
+const CHEAT_PEN = 30, CHEAT_FAST_MIN = 10, CHEAT_FAST_PG = 20, TASK_XP_DAY_MAX = 10;
+// 名前が適当かどうか（同じ字の繰り返し・記号だけ・数字だけ・キーボードの並び・よくある適当な名前）
+function fakeName(s) {
+  const t = String(s || '').replace(/\s+/g, '');
+  if (t.length < 2) return true;
+  if (!/[\p{L}\p{N}]/u.test(t)) return true;
+  if (!/[\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Han}A-Za-z]/u.test(t)) return true;
+  if (/^(.)\1+$/u.test(t) || /(.)\1{3,}/u.test(t)) return true;
+  if (t.length >= 4 && new Set(t).size <= 2) return true;
+  if (/asdf|qwer|zxcv|fdsa|hjkl|ghjk|rewq/i.test(t) && t.length <= 10) return true;
+  if (/^(てすと|テスト|test|ほげ|なし|あああ|いいい|課題|宿題|hoge)\d*$/i.test(t)) return true;
+  return false;
+}
+// その課題が不正かどうか（理由を返す。問題なければ空）
+function taskCheat(t) {
+  if (!t || typeof t.title !== 'string') return '';
+  if (fakeName(t.title)) return 'ふさわしくない名前の課題';
+  if (typeof t.d0 === 'number' && t.doneAt && t.at && t.doneAt - t.at < CHEAT_FAST_MIN * 60e3 && (t.done - t.d0) >= CHEAT_FAST_PG) return 'すぐに完了した課題';
+  return '';
+}
+function penSum() { return Object.values(S.pen || {}).reduce((q, x) => q + (+x.xp || 0), 0); }
+// 完了した課題のうち、XPを数えるもの（1日に数えるのは TASK_XP_DAY_MAX 件まで）
+function taskXpCount(flag) {
+  const list = S.tasks.filter(t => t && isDone(t) && !flag.has(t.id)).sort((a, b) => (a.doneAt || a.at || 0) - (b.doneAt || b.at || 0));
+  const per = {}; let n = 0;
+  for (const t of list) { const k = new Date(t.doneAt || t.at || 0).toDateString(); per[k] = (per[k] || 0) + 1; if (per[k] <= TASK_XP_DAY_MAX) n++; }
+  return n;
+}
+// 不正の記録：見つけたらペナルティを一度だけ入れる（先生の画面にも出ます）
+function cheatScan(silent) {
+  if (adminOn() || !S || !Array.isArray(S.tasks)) return;
+  S.pen = S.pen && typeof S.pen === 'object' ? S.pen : {};
+  const got = [];
+  for (const t of S.tasks) {
+    if (!t || !t.id || S.pen[t.id]) continue;
+    const why = taskCheat(t); if (!why) continue;
+    S.pen[t.id] = { xp: CHEAT_PEN, why, n: String(t.title).slice(0, 30), t: Date.now() };
+    got.push(why); actLog('cheat', `${why}「${S.pen[t.id].n}」 -${CHEAT_PEN}XP`);
+  }
+  if (got.length && !silent) toast(`不正の疑いがあるため、${CHEAT_PEN * got.length} XP を減らしました`);
+}
+function flagTaskIds() {
+  if (adminOn()) return new Set();
+  const s = new Set();
+  for (const t of S.tasks || []) if (t && t.kind !== 'list' && (+t.total || 0) > PG_TASK_MAX) s.add(t.id);
+  for (const t of S.tasks || []) if (t && taskCheat(t)) s.add(t.id);
+  return s;
+}
+// 活動の記録：タブを開いたとき（切り替えのたびに1件）
+let TAB_LOG_KEY = '';
+function tabLogWatch() {
+  try {
+    const key = [ui.tab, ui.tool || '', ui.sid || ''].join('|');
+    if (key === TAB_LOG_KEY) return;
+    TAB_LOG_KEY = key;
+    const nm = (NAV_META[ui.tab] || [ui.tab])[0];
+    const tl = ui.tool ? (TOOLS.find(x => x[0] === ui.tool) || [ui.tool, ui.tool])[1] : '';
+    const sj = ui.sid ? ((S.subjects || []).find(x => x.id === ui.sid) || {}).name : '';
+    actLog('tab', [nm, sj ? `教科「${sj}」` : '', tl ? `道具「${tl}」` : ''].filter(Boolean).join(' '));
+  } catch (e) { }
+}
+let PG_LOG_AT = 0;
+function actLogPg(t, d) { if (Date.now() - PG_LOG_AT < 120e3) return; PG_LOG_AT = Date.now(); actLog('pg', `${d > 0 ? '+' : ''}${d}ページ「${String(t.title).slice(0, 30)}」（${t.done}/${t.total}）`); }
+// ===== 先生：生徒のXP・レベルを直す／ペナルティ（届けたものは、生徒のアプリが一度だけ入れます） =====
+function stuFixHtml(uid, sm, data) {
+  const pen = data && data.pen && typeof data.pen === 'object' ? Object.values(data.pen) : [];
+  const penHtml = pen.length ? `<ul class="adm-acts">${pen.map(p => `<li>${esc(p.why || '')}：「${esc(p.n || '')}」 -${+p.xp || 0} XP</li>`).join('')}</ul>` : '<p class="muted">不正の記録はありません</p>';
+  const adj = data && typeof data.adj === 'number' ? data.adj : 0;
+  return `<div class="fld" style="margin-bottom:12px"><div class="lbl">XP・レベルを直す（先生）</div><p class="muted" style="font-weight:500;margin:6px 0 10px">生徒のアプリを次に開いたときに、直ります。</p>
+  <div class="admrow"><input id="stuXp" type="number" inputmode="numeric" min="0" placeholder="XP（合計）" value="${sm.xp != null ? sm.xp : ''}" style="width:150px"><button type="button" class="btn tonal sm" data-act="stuxp" data-id="${esc(uid)}">XPを直す</button></div>
+  <div class="admrow" style="margin-top:8px"><input id="stuLv" type="number" inputmode="numeric" min="1" max="400" placeholder="レベル" value="${sm.lv != null ? sm.lv : ''}" style="width:150px"><button type="button" class="btn tonal sm" data-act="stulv" data-id="${esc(uid)}">レベルを直す</button></div>
+  <div class="admrow" style="margin-top:8px"><input id="stuPen" type="number" inputmode="numeric" min="1" max="100000" placeholder="減らすXP" style="width:120px"><input id="stuPenMsg" type="text" maxlength="80" placeholder="理由（生徒に出ます）" style="flex:1;min-width:140px"><button type="button" class="btn sm" data-act="stupen" data-id="${esc(uid)}">減らす</button></div>
+  <p class="muted" style="font-weight:500;margin:8px 0 0">先生の直し（XPの補正）：${adj >= 0 ? '+' : ''}${adj}</p>
+  <div class="lbl" style="margin-top:12px">不正の記録（ペナルティ）</div>${penHtml}</div>`;
+}
+async function stuFixSend(uid, body, okMsg) {
+  if (!CLOUD.fb || !CLOUD.user || !adminOn()) return;
+  const { fs, db } = CLOUD.fb, id = 'sf' + Date.now();
+  try { await fs.setDoc(fs.doc(db, 'stuFix', uid, 'items', id), { id, t: Date.now(), by: CLOUD.user.uid, ...body }); toast(okMsg); admView(uid); }
+  catch (e) { toast('届けられませんでした。ルールの公開を確かめてください'); }
+}
+function admStuXp(uid) {
+  const v = (document.getElementById('stuXp') || {}).value, n = Math.floor(Number(v));
+  if (v === '' || v == null || !(n >= 0 && n <= 2000000000)) return toast('XPは 0〜2000000000 の数字で入れてください');
+  if (!confirm(`この生徒のXPを ${n} に直しますか？`)) return;
+  stuFixSend(uid, { mode: 'set', xp: n }, 'XPを届けました（生徒のアプリを開くと直ります）');
+}
+function admStuLv(uid) {
+  const v = (document.getElementById('stuLv') || {}).value, n = Math.floor(Number(v));
+  if (v === '' || v == null || !(n >= 1 && n <= 400)) return toast('レベルは 1〜400 の数字で入れてください');
+  if (!confirm(`この生徒のレベルを ${n} に直しますか？`)) return;
+  stuFixSend(uid, { mode: 'lvset', lv: n }, 'レベルを届けました（生徒のアプリを開くと直ります）');
+}
+function admStuPen(uid) {
+  const v = (document.getElementById('stuPen') || {}).value, n = Math.floor(Number(v)), msg = ((document.getElementById('stuPenMsg') || {}).value || '').trim().slice(0, 80);
+  if (v === '' || v == null || !(n >= 1 && n <= 100000)) return toast('減らすXPは 1〜100000 の数字で入れてください');
+  if (!confirm(`この生徒のXPを ${n} 減らしますか？`)) return;
+  stuFixSend(uid, { mode: 'add', xp: -n, msg: msg || `先生から、${n} XP を減らしました` }, 'ペナルティを届けました');
+}
+// 生徒の側：届いた直し・ペナルティを、一度だけ入れる
+function stuFixApply(sn) {
+  if (!CLOUD.user || !S || CLOUD.first || CLOUD.hold) return;
+  const seen = new Set(Array.isArray(S.stuFixDone) ? S.stuFixDone : []);
+  const msgs = []; let n = 0;
+  sn.forEach(d => {
+    const x = d.data() || {}; if (!x.id || seen.has(x.id)) return;
+    seen.add(x.id);
+    try {
+      let m = '';
+      if (x.mode === 'set' && typeof x.xp === 'number') { const target = Math.max(0, Math.min(2e9, Math.floor(x.xp))); S.adj = Math.round(target - totals().xpRaw); m = `先生が、XPを ${target} に直しました`; }
+      else if (x.mode === 'lvset' && typeof x.lv === 'number') { const L = Math.max(1, Math.min(400, Math.floor(x.lv))); S.adj = Math.round(lvNeed(L) - totals().xpRaw); m = `先生が、レベルを ${L} に直しました`; }
+      else if (x.mode === 'add' && typeof x.xp === 'number') { S.adj = Math.round((S.adj || 0) + x.xp); m = String(x.msg || '先生から、XPが減らされました').slice(0, 80); }
+      if (m) { msgs.push(m); n++; actLog('adm', m); }
+    } catch (e) { }
+  });
+  if (!n) return;
+  S.stuFixDone = [...seen].slice(-100); save(); growPubSoon();
+  toast(msgs.join('・')); if (!dlg.open && ui.tab !== 'settings') render();
+}
 // ===== レベルに必要なXP（18.3.12）：低いレベルほど、少ないXPで上がる =====
 // Lv.k から Lv.k+1 へ上がるのに必要なXP。Lv.1 は今の半分ほど、Lv.13 からは今までと同じ伸び方
 function lvStep(k) { return Math.round(25 * (2 * k - 1) * Math.min(1, 0.45 + 0.55 * (k - 1) / 12)); }
@@ -4442,10 +4561,10 @@ function totals() {
     a = adm ? Math.max(0, a) : Math.max(0, Math.min(a, PG_DAY_BASE + PG_PER_MIN * m));
     pages += a; min += m; best = Math.max(best, a);
   }
-  const ex = examTasks(), rq = ex.filter(t => t.req), xp = pages + min * 1 + S.tasks.filter(t => isDone(t) && !flag.has(t.id)).length * 20 + xpQuestXp() + achXpSum();
+  const ex = examTasks(), rq = ex.filter(t => t.req), xpAll = pages + min * 1 + taskXpCount(flag) * 20 + xpQuestXp() + achXpSum() - penSum(), adjX = +S.adj || 0, xp = Math.max(0, xpAll + adjX);
   const subDone = S.subjects.filter(s => { const ts = tasksOfSub(s.id); return ts.length && ts.every(isDone); }).length;
   return { pages, min, best, done: S.tasks.filter(isDone).length, streak: streak(), bestStreak: bestStreak(),
-    subClear: subDone > 0, subDone, reqClear: rq.length > 0 && rq.every(isDone), xp, lv: lvOf(xp),
+    subClear: subDone > 0, subDone, reqClear: rq.length > 0 && rq.every(isDone), xp, xpRaw: xpAll, lv: lvOf(xp),
     known: (S.cards || []).filter(c => c.k).length, tools: tuList().length, lab: safeN(() => labSubs().size), labR: safeN(() => labReactCount()), ps: safeN(() => PS.best), invPlays: invStat().plays || 0, invHits: invStat().hits || 0, rk: rkStat().best || 0, rkt: rkStat().total || 0, rkp: rkStat().plays || 0, rkh: rkStat().hard || 0, mgp: mgStat().plays || 0, mgb: mgStat().best || 0, mgl: mgStat().maxLv || 0, ivb: invStat().best || 0, rkk: rkStat().keys || 0, rkc: rkStat().cleared || 0, rknh: rkStat().nohint || 0, rkcb: rkStat().combo || 0, rkq: rkStat().uniq || 0, rkera: rkStat().eras || 0, rkeasy: rkStat().easy || 0, rknorm: rkStat().normal || 0 };
 }
 function level() {
@@ -4455,7 +4574,7 @@ function level() {
   return { L, xp: Math.round(xp), p: Math.max(0, Math.min(1, (xp - lo) / (hi - lo))), need: Math.ceil(hi - xp) };
 }
 function checkBadges(silent) {
-  lvWatch();
+  cheatScan(silent); lvWatch();
   xpCheck(silent); growPubSoon();
   const c = totals(); let fresh_ = [];
   for (const [id, icon, name, desc, test] of BADGES) if (!S.badges[id] && test(c)) { S.badges[id] = Date.now(); S.badgeXp = S.badgeXp || {}; S.badgeXp[id] = ACH_XP; fresh_.push(name); if (!silent) achQueue({ id, icon, name, desc, xp: ACH_XP }); }
@@ -4575,6 +4694,7 @@ const renderCore = render;
 render = function () { renderCore(); totopSync(); };
 let setKeyLast = '', pswPrevState = {};
 function render() {
+  tabLogWatch();
   if (gameOv()) return;   // 全画面のゲーム中は、画面を描き直さない（ゲームの枠を守る）
   setTimeout(kbSync, 0);
   applyHomeBg();
@@ -4865,6 +4985,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.20', d: '2026/11/27 07:00', t: 'バグ修正：不正の検知を強化し、先生が生徒のXP・レベルを直せるようにしました', n: ['バグ修正：ふさわしくない名前の課題や、作ってすぐ完了した課題は、XPに数えないようにしました（不正の記録には、XPを減らすペナルティが入ります）','バグ修正：1日に完了を数える課題は10件まで、勉強の時間に数えるXPは1日240分までにして、一気にレベルが上がるのを防ぎました','先生の画面に、開いた画面・課題を作った・消した・ページを進めた・完了したことを、くわしく表示するようにしました','活動の記録は、1日分だけ残すようにしました（容量を減らすため）','先生が、生徒のXP・レベルを直したり、XPを減らしたりできるようにしました（生徒のアプリを開くと反映されます）'] },
   { v: '18.3.19', d: '2026/11/26 23:30', t: '水槽の魚が泳がない問題を直し、魚ガチャの演出・図鑑・エサ・水槽テーマを追加しました', n: ['動きを減らす設定やアニメーションオフのとき、魚が止まってしまう問題を直しました（魚はゆっくり泳ぎ続けます）','魚ガチャに、段階のある演出を追加しました（光の渦→玉が震える→閃光→魚が登場）。レアが高いほど派手になり、色違いは金色の光になります。スキップもできます','魚の図鑑を追加しました。見つけた魚の絵が出て、全部そろうと 1000 XP もらえます','稚魚に「エサ」をあげると、大人になるまでの時間が15分短くなります（エサは1回 5 XP）','水槽のテーマ（清流・夜の深海・サンゴ礁）を追加しました。XPで買って、いつでも切り替えられます','水槽を金の枠・ライト・台のあるキャビネットにして、魚と水槽の見た目をよりリアルにしました（魚の尾やひれも動きます）'] },
   { v: '18.3.18', d: '2026/11/26 19:30', t: '集中タイマーの見た目を買い直さなくてよいように直し、水槽で魚を育てる機能を追加しました', n: ['集中タイマーの見た目は、一度買えば、ほかの見た目に変えても、もう一回買い直す必要がないように直しました','ホームに「水槽」のカードを追加しました。魚ガチャ（100XP）で魚を手に入れ、水槽の中で育てます','魚には、レア・激レア・超激レア・伝説レアがあります。色違い（全身が金色）も、まれに出ます','稚魚は、約2時間で大人になります。大人の魚は売って XP にできます（売ったXPはショップで使えます。レベルは上がりません）','大人の魚は「展示する」で、水槽に3匹まで飾れます。「進み具合を友達に見せる」をオンにしていると、友達の水槽で見てもらえます'] },
   { v: '18.3.17', d: '2026/11/26 18:30', t: '漢字の太さが変わらないバグを直し、アプリを軽く・安定させました（機能はそのまま）', n: ['漢字テキストで、細・中・太を選ぶと、選んだ太さがちゃんと切り替わり、選んだボタンも分かるように直しました','火山テーマの、ボタンの溶岩と背景の火の粉を、画面を描き直さずに動かすようにして、動くときの負担を大きく減らしました（見た目はほぼ同じです）','ホームの背景のオーロラを、ぼかしの代わりに、やわらかい色の広がりにして軽くしました','友達の進み具合が、通信がつながらず読み込めないときは、いつまでも回らずに、わかる言葉で知らせるようにしました','集中タイマーの画面は、数字や円が変わったときだけ描き直すようにしました'] },
@@ -6028,7 +6149,7 @@ function taskDlg(id, sid, dueDef) {
     }
     const data = { sid: fd.get('sid'), title, req: fd.get('req') === '1', total, start, segs: segs && segs.length > 1 ? segs : null, kind, items, url: kind === 'url' ? url.slice(0, 500) : '', subreq: fd.get('subreq') === 'on', dest: (fd.get('dest') || '').trim(), due: fd.get('due') || '', note: (fd.get('note') || '').trim() };
     if (id) { Object.assign(t, data); t.done = done; t.doneAt = done >= total ? (t.doneAt || Date.now()) : null; }
-    else S.tasks.push({ id: uid(), ...data, done, pin: '', at: Date.now(), doneAt: done >= total ? Date.now() : null });
+    else { S.tasks.push({ id: uid(), ...data, done, d0: done, pin: '', at: Date.now(), doneAt: done >= total ? Date.now() : null }); actLog('add', String(data.title || '').slice(0, 60)); }
     closeDlg(); commit(); toast(id ? '保存しました' : '課題を追加しました');
   };
 }
@@ -6605,7 +6726,7 @@ const ACT = {
     if (isDone(t)) undoable('未完了に戻しました', () => setDone(t, 0));
     else { const before = snap(); setDone(t, t.total); ui.flash = { id }; checkBadges(); save(); render(); celebrate(rect, t); if (!$('#toast').classList.contains('show')) toast('完了を記録しました', before); }
   },
-  deltask(id) { const t = T(id); if (t && t.aid && !isDone(t)) return toast('先生から届いた課題は、完了してから消せます'); closeDlg(); undoable(`「${t.title}」を削除しました`, () => { S.tasks = S.tasks.filter(x => x.id !== id); }); },
+  deltask(id) { const t = T(id); if (t && t.aid && !isDone(t)) return toast('先生から届いた課題は、完了してから消せます'); if (t) actLog('del', t.title); closeDlg(); undoable(`「${t.title}」を削除しました`, () => { S.tasks = S.tasks.filter(x => x.id !== id); }); },
   delsubj(id) {
     if (tasksOfSub(id).some(t => t.aid && !isDone(t))) return toast('先生から届いた課題が残っているため、この教科は消せません（完了してから消せます）');
     const s = SUB(id), n = tasksOfSub(id).length;
@@ -13042,6 +13163,7 @@ document.addEventListener('keydown', e => {
   else if (e.target && e.target.id === 'cfb') { e.preventDefault(); ACT.wcadd(); }
 });
 Object.assign(ACT, { rerender() { render(); } });
+Object.assign(ACT, { stuxp(id) { admStuXp(id); }, stulv(id) { admStuLv(id); }, stupen(id) { admStuPen(id); } });
 /* ====================== 時間割の時間（17.8）：時間目ごとの始まり・終わり。ホームに、今日の時間割といまの時間目 ====================== */
 const TT_MIN = t => { const m = /^(\d{1,2}):(\d{2})$/.exec(String(t || '')); return m ? (+m[1]) * 60 + (+m[2]) : NaN; };
 const ttFmt = m => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
@@ -15690,6 +15812,7 @@ function asgWatchStart() {
     ASG.unsub.push(fs.onSnapshot(fs.query(fs.collection(db, 'assignAll'), fs.orderBy('t', 'desc'), fs.limit(50)), sn => { ASG.all = []; sn.forEach(d => ASG.all.push({ ...d.data(), id: d.id })); asgApply(); }, () => { }));
     ASG.unsub.push(fs.onSnapshot(fs.query(fs.collection(db, 'assignUser', me, 'items'), fs.orderBy('t', 'desc'), fs.limit(50)), sn => { ASG.mine = []; sn.forEach(d => ASG.mine.push({ ...d.data(), id: d.id })); asgApply(); }, () => { }));
     ASG.unsub.push(fs.onSnapshot(fs.query(fs.collection(db, 'rekidaFix', me, 'items'), fs.orderBy('t', 'desc'), fs.limit(20)), sn => rkFixApply(sn), () => { }));
+    ASG.unsub.push(fs.onSnapshot(fs.query(fs.collection(db, 'stuFix', me, 'items'), fs.orderBy('t', 'desc'), fs.limit(20)), sn => stuFixApply(sn), () => { }));
   } catch (e) { }
 }
 function asgSubject(name) {
