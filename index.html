@@ -2615,6 +2615,60 @@ html.tx-lock,html.tx-lock body{overflow:hidden}
 html[data-theme=dark] .tsub{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.2);color:#f1edff}
 html[data-theme=dark] .tsub.on{background:var(--tc,var(--primary));border-color:transparent;color:#fff}
 #mgframe.ps-pin iframe{top:0;left:0;width:100%;height:100%}
+/* 水槽（魚を育てる） */
+.fsh-card{padding:14px 14px 12px}
+.fsh-hd{display:flex;align-items:center;gap:8px;margin:0 0 10px;flex-wrap:wrap}
+.fsh-hd h2{margin:0;font-size:1.05rem;display:flex;align-items:center;gap:6px}
+.fsh-ft{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.fsh-tank{position:relative;container-type:inline-size;overflow:hidden;height:clamp(190px,46vw,320px);border-radius:20px;isolation:isolate;background:linear-gradient(180deg,#b9f2f9 0,#4fbfd3 9%,#1f8aa6 35%,#126482 65%,#0b4262 88%,#072c44 100%);box-shadow:inset 0 0 0 7px #2a3a44,inset 0 0 0 9px rgba(255,255,255,.22),0 12px 24px rgba(0,25,40,.3)}
+.fsh-tank.big{height:clamp(220px,52vw,360px)}
+.fsh-rays{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 16% 70% at 16% -12%,rgba(255,255,255,.32),transparent 70%),radial-gradient(ellipse 12% 60% at 44% -12%,rgba(255,255,255,.22),transparent 70%),radial-gradient(ellipse 10% 55% at 76% -12%,rgba(255,255,255,.26),transparent 70%)}
+.fsh-surf{position:absolute;left:0;right:0;top:0;height:16px;background:linear-gradient(180deg,rgba(255,255,255,.75),rgba(255,255,255,0))}
+.fsh-plant{position:absolute;bottom:40px;width:26px;transform-origin:50% 100%;animation:fshSway 5.5s ease-in-out infinite alternate}
+.fsh-gravel{position:absolute;left:0;right:0;bottom:0;width:100%;height:56px}
+.fsh-bubs i{position:absolute;bottom:50px;width:var(--s);height:var(--s);border-radius:50%;border:1px solid rgba(255,255,255,.65);background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.9),rgba(255,255,255,0) 45%);opacity:0;animation:fshRise var(--d) linear var(--dl) infinite}
+.fsh-fishes{position:absolute;inset:0}
+.fsh-fw{position:absolute;left:0;width:76px;height:42px;margin-top:-21px;will-change:transform;animation:fshRoam var(--d,20s) ease-in-out var(--dl,0s) infinite}
+.fsh-fb{width:100%;height:100%;display:flex;align-items:center;will-change:transform;animation:fshBob 1.8s ease-in-out infinite alternate}
+.fsh-svg{display:block;width:76px;height:auto;margin:auto;overflow:visible}
+.fsh-fw.fry .fsh-svg{width:46px}
+.fsh-glass{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(118deg,rgba(255,255,255,.2),rgba(255,255,255,0) 26%,rgba(255,255,255,0) 80%,rgba(255,255,255,.1))}
+.fsh-empty{position:absolute;left:0;right:0;top:40%;margin:0;text-align:center;color:#eaffff;font-weight:700;text-shadow:0 1px 4px rgba(0,30,50,.6)}
+@keyframes fshRoam{0%{transform:translate3d(var(--a),0,0) scaleX(-1)}48%{transform:translate3d(var(--b),0,0) scaleX(-1)}50%{transform:translate3d(var(--b),0,0) scaleX(1)}98%{transform:translate3d(var(--a),0,0) scaleX(1)}100%{transform:translate3d(var(--a),0,0) scaleX(-1)}}
+@keyframes fshBob{from{transform:translateY(-2px) rotate(-1.5deg)}to{transform:translateY(2px) rotate(1.5deg)}}
+@keyframes fshSway{from{transform:rotate(-5deg)}to{transform:rotate(5deg)}}
+@keyframes fshRise{0%{transform:translate3d(0,0,0);opacity:0}10%{opacity:.9}90%{opacity:.7}100%{transform:translate3d(3px,-170px,0);opacity:0}}
+@keyframes fshPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.04)}}
+@media (prefers-reduced-motion:reduce){.fsh-fw,.fsh-fb,.fsh-plant,.fsh-bubs i,.fsh-rev.leg .fsh-rev-fish{animation:none!important}}
+.fsh-h{margin:18px 0 8px;font-size:1rem}
+.fsh-stat{margin:8px 0 0}
+.fsh-gacha{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0 4px}
+.fsh-odds{margin:8px 0}
+.fsh-odds ul{list-style:none;padding:0;margin:8px 0 0;display:grid;gap:6px}
+.fsh-odds li{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.fsh-list{display:grid;gap:8px}
+.fsh-row{display:flex;align-items:center;gap:10px;padding:8px;border-radius:14px;background:rgba(127,127,127,.08)}
+.fsh-row.exh{box-shadow:inset 0 0 0 2px rgba(60,160,200,.6)}
+.fsh-thumb{width:72px;height:44px;flex:none;display:grid;place-items:center}
+.fsh-thumb .fsh-svg{width:72px}
+.fsh-info{flex:1;min-width:0;display:grid;gap:2px}
+.fsh-info small{opacity:.8}
+.fsh-acts{display:flex;flex-direction:column;gap:4px;flex:none}
+.fsh-tier{display:inline-block;font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:999px;width:max-content}
+.fsh-tier.t1{background:#e4eefb;color:#2a5b8f}
+.fsh-tier.t2{background:#dff5e6;color:#1d6b3a}
+.fsh-tier.t3{background:#ffe3d6;color:#a33a12}
+.fsh-tier.t4{background:linear-gradient(90deg,#ffe0ea,#fff3c8,#d9fbe6,#dcecff,#eadcff);color:#6a2fa0;box-shadow:inset 0 0 0 1px #d6b3ff}
+.fsh-gold{display:inline-block;font-size:.72rem;font-weight:800;padding:2px 8px;border-radius:999px;background:linear-gradient(135deg,#fff3b0,#e8b53a);color:#6b4500;margin-left:4px}
+.fsh-fr{padding:10px 0;border-top:1px solid rgba(127,127,127,.2)}
+.fsh-fr-l{display:flex;gap:10px;flex-wrap:wrap;margin-top:6px}
+.fsh-fr-l figure{margin:0;width:96px;text-align:center}
+.fsh-fr-l .fsh-svg{width:96px}
+.fsh-fr-l figcaption{font-size:.74rem;font-weight:700}
+.fsh-rev{text-align:center;display:grid;justify-items:center;gap:8px;padding:6px 0 0}
+.fsh-rev-fish .fsh-svg{width:min(240px,70vw)}
+.fsh-rev.leg .fsh-rev-fish{animation:fshPulse 2.4s ease-in-out infinite}
+.fsh-rev p{margin:0;font-weight:500;line-height:1.7}
 </style>
 <style id="tools-subj">
   #totop{position:fixed;z-index:29;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 176px);width:52px;height:52px;border:0;border-radius:18px;background:var(--pc);color:var(--on-pc);box-shadow:0 10px 24px -8px rgba(0,0,0,.45);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(28px) scale(.6);pointer-events:none;transition:opacity .35s ease,transform .55s var(--spring),border-radius .45s var(--spring)}
@@ -3731,8 +3785,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.17'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.17';
+const RELEASE_VER = '18.3.18'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.3.18';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4745,6 +4799,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.3.18', d: '2026/11/26 19:30', t: '集中タイマーの見た目を買い直さなくてよいように直し、水槽で魚を育てる機能を追加しました', n: ['集中タイマーの見た目は、一度買えば、ほかの見た目に変えても、もう一回買い直す必要がないように直しました','ホームに「水槽」のカードを追加しました。魚ガチャ（100XP）で魚を手に入れ、水槽の中で育てます','魚には、レア・激レア・超激レア・伝説レアがあります。色違い（全身が金色）も、まれに出ます','稚魚は、約2時間で大人になります。大人の魚は売って XP にできます（売ったXPはショップで使えます。レベルは上がりません）','大人の魚は「展示する」で、水槽に3匹まで飾れます。「進み具合を友達に見せる」をオンにしていると、友達の水槽で見てもらえます'] },
   { v: '18.3.17', d: '2026/11/26 18:30', t: '漢字の太さが変わらないバグを直し、アプリを軽く・安定させました（機能はそのまま）', n: ['漢字テキストで、細・中・太を選ぶと、選んだ太さがちゃんと切り替わり、選んだボタンも分かるように直しました','火山テーマの、ボタンの溶岩と背景の火の粉を、画面を描き直さずに動かすようにして、動くときの負担を大きく減らしました（見た目はほぼ同じです）','ホームの背景のオーロラを、ぼかしの代わりに、やわらかい色の広がりにして軽くしました','友達の進み具合が、通信がつながらず読み込めないときは、いつまでも回らずに、わかる言葉で知らせるようにしました','集中タイマーの画面は、数字や円が変わったときだけ描き直すようにしました'] },
   { v: '18.3.16', d: '2026/11/26 13:30', t: '漢字テキストが重くなって落ちる問題を直し、書いた内容を保存できるように', n: ['漢字テキストで拡大・移動しても、アプリが落ちないように、描く大きさと、同時に残すページ数に上限をつけました（拡大しすぎたときは、少し小さく描かれます）', '書いた線は、端末のメモリに保存するようにしました（たくさん書いても消えにくくなります）。閉じたときにも、すぐ保存します', '「このページを保存」で、教科書と書き込みを、板書の一覧に保存できるようにしました'] },
   { v: '18.3.15', d: '2026/11/26 13:30', t: '集中タイマーをマイクラ風に（クリーパーの爆発）・板書に写真を選んで入れる・漢字テキストの拡大と書き心地', n: ['集中タイマーを、マイクラ風の字（ドット文字）・石の背景・石と木のボタンにしました', '集中と休憩を切り換えると、クリーパーが爆発する演出を出します（アニメーションを減らす設定のときは出ません）', '板書に「写真を選ぶ」を追加。iPadの写真から、何枚でも入れられます（写真は、この端末の中だけに保存されます）', '漢字テキストの拡大・縮小は、指で押さえた場所（2本指の真ん中・ボタンのときは画面の真ん中）が、ずれずに残るようにしました', 'ペンの太さを「細・中・太」から選べるように。線は曲線でつながり、なめらかに書けます', '漢字テキストで長押ししても、青い選択やコピーの表示が出ないようにしました'] },
@@ -5060,7 +5115,7 @@ function viewHome() {
     h += `</div>`;
   } else h += `<div class="h-sec"><h2>${ms('event_upcoming')}${dly ? '提出スケジュール' : '期限が近い課題'}</h2></div><div class="card muted" style="text-align:center;font-weight:500;line-height:1.8">期限が設定された課題はありません${dly ? '<br>課題に提出期限を入れると、ここで提出日を管理できます' : ''}</div>`;
   P.due = h; h = '';
-  P.week = weekCard(); P.ai = aiTodayCard(); P.tt = homeTtCard(); P.memo = homeMemoCard(); P.rev = homeRevCard(); P.sug = homeSugCard();
+  P.aqua = fshCard(); P.week = weekCard(); P.ai = aiTodayCard(); P.tt = homeTtCard(); P.memo = homeMemoCard(); P.rev = homeRevCard(); P.sug = homeSugCard();
 
   // 教科
   h += `<div class="h-sec"><h2>${ms('donut_large')}教科ごとの進み具合</h2><span class="sp"></span><button class="btn tonal xs" data-act="addsubj">${ms('add')}教科</button></div>`;
@@ -5081,10 +5136,10 @@ function viewHome() {
 }
 
 /* ===== ホームの配置の編集 ===== */
-const HOME_SECS = [['hero', '達成率', 'donut_large'], ['mystat', '自分の統計', 'monitoring'], ['friend', '友達との比較', 'group'], ['sug', 'きょうのおすすめ', 'tips_and_updates'], ['tools', 'よく使うツール', 'apps'], ['plan', 'やることリスト', 'checklist'], ['due', '期限が近い課題・提出スケジュール', 'event_upcoming'], ['week', '今週の勉強', 'insights'], ['rev', '単語帳の見直し', 'style'], ['ai', 'AIの学習アドバイス', 'auto_awesome'], ['tt', 'あしたの時間割', 'calendar_view_week'], ['memo', 'ふせんメモ', 'sticky_note_2'], ['subj', '教科ごとの進み具合', 'donut_large']];
+const HOME_SECS = [['hero', '達成率', 'donut_large'], ['mystat', '自分の統計', 'monitoring'], ['aqua', '水槽', 'set_meal'], ['friend', '友達との比較', 'group'], ['sug', 'きょうのおすすめ', 'tips_and_updates'], ['tools', 'よく使うツール', 'apps'], ['plan', 'やることリスト', 'checklist'], ['due', '期限が近い課題・提出スケジュール', 'event_upcoming'], ['week', '今週の勉強', 'insights'], ['rev', '単語帳の見直し', 'style'], ['ai', 'AIの学習アドバイス', 'auto_awesome'], ['tt', 'あしたの時間割', 'calendar_view_week'], ['memo', 'ふせんメモ', 'sticky_note_2'], ['subj', '教科ごとの進み具合', 'donut_large']];
 function homeLay() {
   const o = (S.set && S.set.home) || {}, ids = HOME_SECS.map(x => x[0]), order = (Array.isArray(o.order) ? o.order : ids).filter(i => ids.includes(i));
-  ids.forEach(i => { if (!order.includes(i)) { const AF = { sug: 'hero', mystat: 'hero', friend: 'mystat', rev: 'week' }, af = AF[i] || '', k = af ? order.indexOf(af) : -1; if (k >= 0) order.splice(k + 1, 0, i); else order.push(i); } });   // 新しい部分は、「今週の勉強」の次に入れる
+  ids.forEach(i => { if (!order.includes(i)) { const AF = { aqua: 'mystat', sug: 'hero', mystat: 'hero', friend: 'mystat', rev: 'week' }, af = AF[i] || '', k = af ? order.indexOf(af) : -1; if (k >= 0) order.splice(k + 1, 0, i); else order.push(i); } });   // 新しい部分は、「今週の勉強」の次に入れる
   return { order, half: o.half || { plan: 1, due: 1 }, hide: o.hide || {}, sv: o.sv || 'card' };
 }
 function homeSave(L) { S.set.home = { order: L.order, half: L.half, hide: L.hide, sv: L.sv }; save(); render(); }
@@ -6445,6 +6500,10 @@ const ACT = {
   editexam(id) { examDlg(id); },
   preset() { presetDlg(); },
   close() { closeDlg(); },
+  fshopen() { fshOpen(); },
+  fshpull() { fshPull(); },
+  fshsell(id) { fshSell(id); },
+  fshex(id) { fshEx(id); },
   quick(id) { quickDlg(id); },
   qadd(id) { const t = window._qt, n = $('#qn'), c = countTo(t, parseInt(n.value, 10) || firstPage(t) - 1); ACT.qset(pageOf(t, Math.min(t.total, c + +id))); },
   duptask(id) { const k = T(id); if (!k) return; closeDlg(); undoable('課題を複製しました', () => { S.tasks.push({ ...k, id: uid(), title: k.title + '（コピー）', done: 0, feel: 0, doneAt: null, submitted: null, pin: '', at: Date.now(), segs: k.segs ? k.segs.map(x => [...x]) : null, items: k.items ? k.items.map(x => ({ text: x.text, done: false })) : null }); }); },
@@ -14430,7 +14489,7 @@ const LV_REWARD = { 2: 'XPショップが使えるようになりました', 4: 
 function growGet() {
   // 友達・プロフィールは、アカウントの状態（S.soc）に入れて、どの端末でも同じにする（以前の端末ごとの保存も引き継ぐ）
   const g = lsj(GROW_KEY, null) || {}, so = (S.soc && typeof S.soc === 'object') ? S.soc : g;
-  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [], theme: (g.owned && g.owned.theme) || [], font: (g.owned && g.owned.font) || ['def'], ai: [...new Set(((g.owned && g.owned.ai) || ['gemini-3.5-flash-lite']).map(x => x === 'gemini-4-hydrogen' ? 'gemini-3.6-flash' : x))], pat: (g.owned && g.owned.pat) || [] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', pat: g.pat, lvSeen: g.lvSeen, tstyle: g.tstyle || '', code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
+  return { spent: g.spent || 0, owned: { bg: (g.owned && g.owned.bg) || ['aurora'], sfx: (g.owned && g.owned.sfx) || ['classic'], tool: (g.owned && g.owned.tool) || [], theme: (g.owned && g.owned.theme) || [], font: (g.owned && g.owned.font) || ['def'], ai: [...new Set(((g.owned && g.owned.ai) || ['gemini-3.5-flash-lite']).map(x => x === 'gemini-4-hydrogen' ? 'gemini-3.6-flash' : x))], pat: (g.owned && g.owned.pat) || [], tstyle: (g.owned && g.owned.tstyle) || [] }, bg: g.bg || 'aurora', sfx: g.sfx || 'classic', theme: g.theme || '', font: g.font || 'def', ai: g.ai || '', pat: g.pat, lvSeen: g.lvSeen, tstyle: g.tstyle || '', code: so.code || '', nick: so.nick || '', av: so.av || '', shared: !!so.shared, friends: Array.isArray(so.friends) ? so.friends : [], at: so.at || {}, rm: so.rm || {} };
 }
 function growPut(g) {
   const soc = { code: g.code || '', nick: g.nick || '', av: g.av || '', shared: !!g.shared, friends: g.friends || [], at: g.at || {}, rm: g.rm || {} };
@@ -14438,7 +14497,171 @@ function growPut(g) {
   const before = JSON.stringify(S.soc || null); S.soc = soc;
   if (JSON.stringify(soc) !== before) save();
 }
-const spendXp = () => Math.max(0, Math.floor(totals().xp) - growGet().spent);
+const spendXp = () => Math.max(0, Math.floor(totals().xp) - growGet().spent + fshEarn());
+// ===== 水槽（魚を育てる） =====
+const FSH_MAX = 12, FSH_EX_MAX = 3, FSH_PRICE = 100, FSH_GROW = 2 * 3600 * 1000, FSH_FRY = 10, FSH_GOLD_X = 15, FSH_GOLD_P = 1 / 4096;
+// 出る確率（合計100%）。「レア」は普通の魚です
+const FSH_TIERS = [
+  { n: 'レア', p: 69.7, lo: 30, hi: 50, c: 't1' },
+  { n: '激レア', p: 25, lo: 120, hi: 200, c: 't2' },
+  { n: '超激レア', p: 5, lo: 200, hi: 500, c: 't3' },
+  { n: '伝説レア', p: 0.3, lo: 4000, hi: 8000, c: 't4' }
+];
+const FSH_SP = [
+  { id: 'medaka', n: 'めだか', t: 0, body: '#f29a4b', fin: '#ffd6a0', sh: 'slim', pat: 'none' },
+  { id: 'neon', n: 'ネオンテトラ', t: 0, body: '#4fb8ff', fin: '#b8e6ff', sh: 'slim', pat: 'hband', pc: '#e8242b' },
+  { id: 'zebra', n: 'ゼブラダニオ', t: 0, body: '#cfd6de', fin: '#e8edf2', sh: 'slim', pat: 'vbars', pc: '#2b3a4d' },
+  { id: 'guppy', n: 'グッピー', t: 0, body: '#6fd3a0', fin: '#c05fd6', sh: 'round', pat: 'none' },
+  { id: 'dojo', n: 'ドジョウ', t: 0, body: '#8a7255', fin: '#b9a27e', sh: 'long', pat: 'spots', pc: '#4a3a28' },
+  { id: 'angel', n: 'エンゼルフィッシュ', t: 1, body: '#e9e4cc', fin: '#f6f2e2', sh: 'flat', pat: 'vbars', pc: '#2a2a2a' },
+  { id: 'betta', n: 'ベタ', t: 1, body: '#2f7fe0', fin: '#8a3fe0', sh: 'round', pat: 'none' },
+  { id: 'discus', n: 'ディスカス', t: 1, body: '#e88a5c', fin: '#f2b08a', sh: 'round', pat: 'hband', pc: '#3ea6a2' },
+  { id: 'koi', n: 'ニシキゴイ', t: 1, body: '#f5f1e8', fin: '#fbe9e6', sh: 'round', pat: 'spots', pc: '#e0342c' },
+  { id: 'chou', n: 'チョウチョウウオ', t: 1, body: '#f7d54a', fin: '#fff09a', sh: 'flat', pat: 'vbars', pc: '#222222' },
+  { id: 'redlight', n: 'レッドライトテトラ', t: 2, body: '#2a6ad0', fin: '#7fb4ff', sh: 'slim', pat: 'glow', pc: '#ff2a2a' },
+  { id: 'fire', n: 'ファイアーフィッシュ', t: 2, body: '#ff5c2b', fin: '#ffb36b', sh: 'long', pat: 'glow', pc: '#ffd13a' },
+  { id: 'dragon', n: 'ドラゴンフィッシュ', t: 2, body: '#6e1d2e', fin: '#c23a4a', sh: 'long', pat: 'glow', pc: '#ff3b3b' },
+  { id: 'rainbow', n: 'にじいろの魚', t: 3, body: '#ffffff', fin: '#ffffff', sh: 'round', pat: 'rainbow' },
+  { id: 'hikari', n: 'ひかりの王', t: 3, body: '#ffffff', fin: '#ffffff', sh: 'long', pat: 'rainbow' }
+];
+const fshGet = () => { const a = S.fsh && typeof S.fsh === 'object' ? S.fsh : {}; return { fish: Array.isArray(a.fish) ? a.fish : [], earn: +a.earn || 0 }; };
+function fshPut(a) { S.fsh = { fish: a.fish, earn: a.earn }; save(); }
+function fshEarn() { return fshGet().earn; }
+const fshSpec = id => FSH_SP.find(s => s.id === id) || FSH_SP[0];
+const fshStage = f => (Date.now() - (f.t || 0) >= FSH_GROW ? 'a' : 'f');
+const fshLeft = f => Math.max(0, FSH_GROW - (Date.now() - (f.t || 0)));
+const fshPrice = f => (fshStage(f) === 'a' ? f.v : FSH_FRY) * (f.g ? FSH_GOLD_X : 1);
+const fshLeftTxt = ms => { const m = Math.ceil(ms / 60000); return m >= 60 ? `${Math.floor(m / 60)}時間${m % 60 ? (m % 60) + '分' : ''}` : `${m}分`; };
+function fshHash(s) { let h = 2166136261; for (const c of String(s)) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967295; }
+function fshMix(a, b, t) { const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)), x = p(a), y = p(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join(''); }
+
+// 魚の絵（SVG）。体は左向きで、動くときに左右を反転させる
+let FSH_N = 0;
+function fshFishSvg(s, gold, st) {
+  const k = 'fk' + (++FSH_N), W = 124, H = 64, rain = s.pat === 'rainbow' && !gold;
+  const [x0, x1, top, bot] = { slim: [18, 94, 22, 42], round: [14, 96, 13, 51], long: [8, 100, 23, 41], flat: [22, 92, 12, 52] }[s.sh];
+  const cy = (top + bot) / 2, tall = s.sh === 'flat' ? 1.1 : 1, tl = s.sh === 'long' ? 15 : 12, tx = x1 - 1, cx = (x0 + x1) / 2;
+  const body = `M${x0} ${cy} C${x0 + 12} ${top - 2} ${x1 - 26} ${top - 1} ${x1} ${cy - 2} L${x1} ${cy + 2} C${x1 - 26} ${bot + 1} ${x0 + 12} ${bot + 2} ${x0} ${cy} Z`;
+  const tail = `M${tx} ${cy} L${tx + 21} ${cy - tl} Q${tx + 13} ${cy} ${tx + 21} ${cy + tl} Z`;
+  const dor = `M${x0 + 26} ${top + 4} C${x0 + 34} ${top - 11 * tall} ${x1 - 30} ${top - 9 * tall} ${x1 - 16} ${top + 4} Z`;
+  const ana = `M${x0 + 38} ${bot - 3} C${x0 + 44} ${bot + 9} ${x1 - 26} ${bot + 7} ${x1 - 14} ${bot - 4} Z`;
+  const pec = `M${x0 + 16} ${cy + 2} C${x0 + 22} ${cy + 11} ${x0 + 31} ${cy + 11} ${x0 + 35} ${cy + 4} Z`;
+  const gill = `M${x0 + 18} ${top + 5} C${x0 + 25} ${cy - 2} ${x0 + 25} ${cy + 6} ${x0 + 18} ${bot - 5}`;
+  const pc = s.pc || '#000000', pt = gold ? 'none' : s.pat; // 色違いは、全身が金色（もようなし）
+  const gc = gold ? ['#fff6b8', '#f6c93c', '#8f5f0e'] : [fshMix(s.body, '#ffffff', 0.42), s.body, fshMix(s.body, '#000000', 0.38)];
+  const rb = ['#ff5e7a', '#ffb84d', '#f5f55a', '#5ee38a', '#4fb8ff', '#a67bff'].map((c, i, a) => `<stop offset="${(i / (a.length - 1)).toFixed(2)}" stop-color="${c}"/>`).join('');
+  const stops = gc.map((c, i) => `<stop offset="${[0, 0.5, 1][i]}" stop-color="${c}"/>`).join('');
+  const fin = gold ? '#ffd966' : s.fin, finF = rain ? `url(#${k}b)` : `url(#${k}f)`;
+  let pat = '';
+  if (pt === 'hband') pat = `<rect x="${x0 - 2}" y="${(cy - 4.5).toFixed(1)}" width="${x1 - x0 + 4}" height="9" fill="${pc}" opacity=".85"/>`;
+  else if (pt === 'vbars') { const w = s.sh === 'flat' ? 9 : 5; pat = [0.3, 0.52, 0.74].map(f => `<rect x="${(x0 + (x1 - x0) * f).toFixed(1)}" y="${top - 2}" width="${w}" height="${bot - top + 4}" fill="${pc}" opacity=".88"/>`).join(''); }
+  else if (pt === 'spots') pat = Array.from({ length: 11 }, (_, i) => `<circle cx="${(x0 + 10 + fshHash(s.id + i) * (x1 - x0 - 20)).toFixed(1)}" cy="${(top + 6 + fshHash(s.id + 'y' + i) * (bot - top - 12)).toFixed(1)}" r="${(1.5 + fshHash(s.id + 'r' + i) * 2).toFixed(1)}" fill="${pc}" opacity=".8"/>`).join('');
+  else if (pt === 'glow') pat = `<rect x="${x0}" y="${(cy - 9).toFixed(1)}" width="${x1 - x0}" height="18" fill="${pc}" opacity=".28"/><rect x="${x0}" y="${(cy - 3.2).toFixed(1)}" width="${x1 - x0}" height="6.4" fill="${pc}" opacity=".95"/>`;
+  const halo = pt === 'glow' ? `<ellipse cx="${cx}" cy="${cy}" rx="${(x1 - x0) / 2 + 14}" ry="${(bot - top) / 2 + 14}" fill="url(#${k}g)"/>` : '';
+  const sheen = gold ? `<path d="${body}" fill="url(#${k}h)"/>` : '';
+  return `<svg class="fsh-svg${gold ? ' gold' : ''}" viewBox="0 0 ${W} ${H}" aria-hidden="true"><defs>` +
+    `<linearGradient id="${k}b" x1="0" y1="0" x2="${rain ? 1 : 0}" y2="${rain ? 0 : 1}">${rain ? rb : stops}</linearGradient>` +
+    `<linearGradient id="${k}f" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${fin}"/><stop offset="1" stop-color="${fshMix(fin, gold ? '#b07a18' : '#000000', 0.3)}"/></linearGradient>` +
+    `<linearGradient id="${k}h" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".75"/><stop offset=".45" stop-color="#ffffff" stop-opacity="0"/></linearGradient>` +
+    `<clipPath id="${k}c"><path d="${body}"/></clipPath>` +
+    `<pattern id="${k}s" width="6" height="6" patternUnits="userSpaceOnUse"><path d="M0 3 A3 3 0 0 0 6 3" fill="none" stroke="#ffffff" stroke-opacity=".28" stroke-width=".6"/></pattern>` +
+    `<radialGradient id="${k}g"><stop offset="0" stop-color="${pc}" stop-opacity=".6"/><stop offset="1" stop-color="${pc}" stop-opacity="0"/></radialGradient>` +
+    `</defs>${halo}` +
+    `<path d="${tail}" fill="${finF}" opacity=".9"/><path d="${dor}" fill="${finF}" opacity=".85"/><path d="${ana}" fill="${finF}" opacity=".8"/>` +
+    `<path d="${body}" fill="url(#${k}b)"/>` +
+    `<g clip-path="url(#${k}c)">${pat}<rect x="0" y="0" width="${W}" height="${H}" fill="url(#${k}s)" opacity=".8"/>${sheen}<ellipse cx="${cx}" cy="${(bot - 5).toFixed(1)}" rx="${((x1 - x0) / 2.2).toFixed(1)}" ry="3" fill="#ffffff" opacity=".2"/></g>` +
+    `<path d="M${tx + 3} ${cy} L${tx + 19} ${cy}" stroke="#000000" stroke-opacity=".18" stroke-width=".8"/>` +
+    `<path d="${pec}" fill="${finF}" opacity=".85"/>` +
+    `<path d="${gill}" fill="none" stroke="#000000" stroke-opacity=".3" stroke-width="1.2" stroke-linecap="round"/>` +
+    `<circle cx="${x0 + 9}" cy="${cy - 3}" r="3.6" fill="#f6f6ef"/><circle cx="${x0 + 9.5}" cy="${cy - 3}" r="2.3" fill="#111111"/><circle cx="${x0 + 10.4}" cy="${cy - 4}" r=".9" fill="#ffffff"/>` +
+    `</svg>`;
+}
+
+// 水槽の背景（変わらない部分は一度だけ作る）
+let FSH_ST = '';
+function fshStatic() {
+  if (FSH_ST) return FSH_ST;
+  let peb = '';
+  for (let i = 0; i < 44; i++) { const r = 1.4 + fshHash('pr' + i) * 2.6; peb += `<ellipse cx="${(fshHash('px' + i) * 400).toFixed(1)}" cy="${(40 + fshHash('py' + i) * 18).toFixed(1)}" rx="${(r * 1.5).toFixed(1)}" ry="${r.toFixed(1)}" fill="${['#8f7d63', '#6d5d47', '#b19f83', '#4f4336', '#7d8a86'][i % 5]}"/>`; }
+  let plants = '';
+  [[4, 120, 0, '#2f7d4a', '#4fa86a'], [16, 88, 1.3, '#3a8a50', '#5fb374'], [78, 130, 0.6, '#2f7d4a', '#4fa86a'], [91, 96, 2, '#3a8a50', '#6cba7b']].forEach(([x, h, d, c1, c2]) => {
+    plants += `<svg class="fsh-plant" viewBox="0 0 30 100" aria-hidden="true" style="left:${x}%;height:${h}px;animation-delay:${-d}s"><path d="M15 100 C7 80 23 64 15 44 C9 28 18 16 16 2" fill="none" stroke="${c1}" stroke-width="3.4" stroke-linecap="round"/><path d="M15 74 C1 70 1 52 13 54 C16 62 16 68 15 74Z" fill="${c2}"/><path d="M15 52 C29 46 30 30 18 31 C15 38 15 44 15 52Z" fill="${c2}"/><path d="M15 90 C28 86 29 72 18 72 C15 78 15 84 15 90Z" fill="${c1}"/></svg>`;
+  });
+  const bub = Array.from({ length: 7 }, (_, i) => `<i style="left:${(8 + fshHash('bx' + i) * 84).toFixed(1)}%;--s:${(4 + fshHash('bs' + i) * 6).toFixed(1)}px;--d:${(5 + fshHash('bd' + i) * 5).toFixed(1)}s;--dl:${(-fshHash('bl' + i) * 9).toFixed(1)}s"></i>`).join('');
+  FSH_ST = `<div class="fsh-rays"></div><div class="fsh-surf"></div>${plants}<svg class="fsh-gravel" viewBox="0 0 400 60" preserveAspectRatio="none" aria-hidden="true"><rect x="0" y="28" width="400" height="32" fill="#8a7757"/><rect x="0" y="44" width="400" height="16" fill="#5f4d37"/>${peb}</svg><div class="fsh-bubs">${bub}</div>`;
+  return FSH_ST;
+}
+// 水槽の中身（友達の展示にも使う）
+function fshTankHtml(list, cls) {
+  const fishes = list.slice(0, FSH_MAX).map(f => {
+    const s = fshSpec(f.s), st = fshStage(f), r1 = fshHash(f.id), r2 = fshHash(f.id + 'y'), r3 = fshHash(f.id + 'd');
+    const a = (r1 * 10).toFixed(1), b = (94 - r2 * 12).toFixed(1);
+    return `<div class="fsh-fw ${st === 'f' ? 'fry' : 'adt'}" style="top:${(8 + r2 * 54).toFixed(1)}%;--d:${(15 + r3 * 14).toFixed(1)}s;--dl:${(-r1 * 22).toFixed(1)}s;--a:${a}cqw;--b:calc(${b}cqw - 76px)"><div class="fsh-fb" style="animation-duration:${(1.4 + r3 * 1.2).toFixed(2)}s">${fshFishSvg(s, !!f.g, st)}</div></div>`;
+  }).join('');
+  return `<div class="fsh-tank ${cls || ''}" role="img" aria-label="水槽。魚が${list.length}匹います">${fshStatic()}<div class="fsh-fishes">${fishes}</div><div class="fsh-glass"></div>${list.length ? '' : '<p class="fsh-empty">まだ魚がいません。魚ガチャで入れましょう</p>'}</div>`;
+}
+function fshCard() {
+  const a = fshGet(), sp = spendXp(), n = a.fish.length, ad = a.fish.filter(f => fshStage(f) === 'a').length, can = sp >= FSH_PRICE && n < FSH_MAX;
+  return `<section class="card fsh-card"><div class="fsh-hd"><h2>${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshTankHtml(a.fish)}<div class="fsh-ft"><small class="muted">${n ? `${n}匹（大人${ad}匹）` : 'まだ魚がいません'}</small><span class="sp" style="flex:1"></span><button type="button" class="btn tonal sm" data-act="fshopen">${ms('visibility')}水槽を見る</button><button type="button" class="btn sm" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}魚ガチャ 100 XP</button></div></section>`;
+}
+function fshRowHtml(f) {
+  const s = fshSpec(f.s), st = fshStage(f), T = FSH_TIERS[s.t], pr = fshPrice(f);
+  const when = st === 'f' ? `稚魚・あと${fshLeftTxt(fshLeft(f))}で大人` : '大人';
+  return `<div class="fsh-row${f.ex ? ' exh' : ''}"><div class="fsh-thumb">${fshFishSvg(s, !!f.g, st)}</div><div class="fsh-info"><b>${f.g ? '金色の' : ''}${esc(s.n)}</b><span><span class="fsh-tier ${T.c}">${T.n}</span>${f.g ? '<span class="fsh-gold">色違い</span>' : ''}</span><small>${when}</small><small>売値 ${pr} XP${f.ex ? '・展示中' : ''}</small></div><div class="fsh-acts"><button type="button" class="btn tonal xs" data-act="fshex" data-id="${f.id}">${f.ex ? 'しまう' : '展示する'}</button><button type="button" class="btn text xs" data-act="fshsell" data-id="${f.id}" ${f.ex ? 'disabled' : ''}>売る</button></div></div>`;
+}
+function fshFriendsHtml() {
+  if (!CLOUD.user) return '<p class="muted">友達の水槽を見るには、Googleログインが必要です</p>';
+  if (!FR_HOME.rows) return '<p class="muted">友達の水槽を読み込んでいます。少し待ってから、開き直してください</p>';
+  const rows = FR_HOME.rows.filter(r => r.data && r.data.mg && Array.isArray(r.data.mg.fi) && r.data.mg.fi.length);
+  if (!rows.length) return '<p class="muted">友達の展示は、まだありません。魚を展示すると、友達に見せられます（「進み具合を友達に見せる」をオンにしているとき）</p>';
+  return rows.map(r => `<div class="fsh-fr"><b>${esc(r.data.name || (r.f && r.f.name) || '名前なし')}</b><div class="fsh-fr-l">${r.data.mg.fi.slice(0, FSH_EX_MAX).map(x => { const s = fshSpec(x.s); return `<figure>${fshFishSvg(s, !!x.g, x.st ? 'a' : 'f')}<figcaption>${x.g ? '金色の' : ''}${esc(s.n)}</figcaption></figure>`; }).join('')}</div></div>`).join('');
+}
+function fshOpen() {
+  if (CLOUD.user && !FR_HOME.rows) { try { frHomeLoad(false); } catch (e) { } }
+  const a = fshGet(), sp = spendXp(), n = a.fish.length, ex = a.fish.filter(f => f.ex).length, ad = a.fish.filter(f => fshStage(f) === 'a').length;
+  const old = dlg.open && dlg.querySelector('.fsh-full') && dlg.querySelector('.dlg'), sc = old ? old.scrollTop : 0, can = sp >= FSH_PRICE && n < FSH_MAX;
+  const note = n >= FSH_MAX ? '水槽がいっぱいです。売ると、空きができます' : sp < FSH_PRICE ? `あと${FSH_PRICE - sp} XP で、1回引けます` : '1回 100 XP。出る魚は、下の確率です';
+  openDlg(`<div class="fsh-full"><div class="fsh-hd"><h2>${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshTankHtml(a.fish, 'big')}<p class="muted fsh-stat">${n}/${FSH_MAX}匹（大人${ad}匹）・展示 ${ex}/${FSH_EX_MAX}</p><div class="fsh-gacha"><button type="button" class="btn" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}魚ガチャ（100 XP）</button><small class="muted">${note}</small></div><details class="fsh-odds"><summary>魚の出る確率</summary><ul>${FSH_TIERS.map(t => `<li><span class="fsh-tier ${t.c}">${t.n}</span><b>${t.p}%</b><small>大人の売値 ${t.lo}〜${t.hi} XP</small></li>`).join('')}<li><span class="fsh-gold">色違い</span><b>4096分の1</b><small>全身が金色。売値は${FSH_GOLD_X}倍</small></li></ul></details><h3 class="fsh-h">もっている魚</h3><div class="fsh-list">${a.fish.map(fshRowHtml).join('') || '<p class="muted">まだ魚がいません。魚ガチャで、最初の魚を手に入れましょう</p>'}</div><h3 class="fsh-h">友達の水槽（展示）</h3>${fshFriendsHtml()}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
+  const nd = dlg.querySelector('.dlg'); if (nd && sc) nd.scrollTop = sc;
+  FSH_SIG = a.fish.map(fshStage).join('');
+  if (!FSH_T) FSH_T = setInterval(fshTick, 30000);
+}
+let FSH_T = 0, FSH_SIG = '';
+// 育つ時間を見て、大人になったら画面を描き直す
+function fshTick() { if (!dlg.open || !dlg.querySelector('.fsh-full')) return; const sig = fshGet().fish.map(fshStage).join(''); if (sig !== FSH_SIG) { FSH_SIG = sig; try { render(); } catch (e) { } fshOpen(); } }
+function fshPull() {
+  const a = fshGet(), sp = spendXp();
+  if (a.fish.length >= FSH_MAX) return toast('水槽がいっぱいです。売るか、よい魚だけ残してください');
+  if (sp < FSH_PRICE) return toast(`XPが${FSH_PRICE - sp}足りません`);
+  const r = Math.random() * 100; let acc = 0, ti = 0;
+  for (let i = 0; i < FSH_TIERS.length; i++) { acc += FSH_TIERS[i].p; ti = i; if (r < acc) break; }
+  const T = FSH_TIERS[ti], pool = FSH_SP.filter(s => s.t === ti), sp2 = pool[Math.floor(Math.random() * pool.length)];
+  const g = Math.random() < FSH_GOLD_P ? 1 : 0, v = T.lo + Math.floor(Math.random() * (T.hi - T.lo + 1));
+  const f = { id: uid(), s: sp2.id, t: Date.now(), v, g, ex: false };
+  const gg = growGet(); gg.spent += FSH_PRICE; growPut(gg);
+  a.fish.push(f); fshPut(a); render(); fshReveal(f);
+}
+function fshReveal(f) {
+  const s = fshSpec(f.s), T = FSH_TIERS[s.t], gold = !!f.g, leg = s.t >= 2;
+  openDlg(`<div class="fsh-rev ${leg ? 'leg' : ''}"><div class="fsh-rev-fish">${fshFishSvg(s, gold, 'f')}</div><h2>${gold ? '色違い！ ' : ''}${esc(s.n)}</h2><span class="fsh-tier ${T.c}">${T.n}</span><p>稚魚を水槽に入れました。2時間ほどで大人になります。大人になったときの売値は ${f.v * (gold ? FSH_GOLD_X : 1)} XP です</p><div class="dact"><span class="sp"></span><button type="button" class="btn tonal" data-act="fshopen">${ms('visibility')}水槽を見る</button><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
+}
+function fshSell(id) {
+  const a = fshGet(), f = a.fish.find(x => x.id === id); if (!f) return;
+  if (f.ex) return toast('展示をやめてから売ってください');
+  const pr = fshPrice(f), s = fshSpec(f.s);
+  confirmDlg(`${s.n}を売りますか？`, `${fshStage(f) === 'a' ? '大人' : '稚魚'}として ${pr} XP で売ります。売ったXPは、ショップで使えます（レベルは上がりません）`, '売る', () => {
+    const b = fshGet(); b.fish = b.fish.filter(x => x.id !== id); b.earn += pr; fshPut(b); toast(`${pr} XP で売りました`); render(); fshOpen();
+  });
+}
+function fshEx(id) {
+  const a = fshGet(), f = a.fish.find(x => x.id === id); if (!f) return;
+  if (!f.ex && a.fish.filter(x => x.ex).length >= FSH_EX_MAX) return toast(`展示は${FSH_EX_MAX}匹までです`);
+  f.ex = !f.ex; fshPut(a); try { growPubSoon(); } catch (e) { }
+  toast(f.ex ? '展示しました。友達に見せられます' : '展示をやめました'); render(); if (dlg.open && dlg.querySelector('.fsh-full')) fshOpen();
+}
+// 友達に送るのは、展示の魚だけ（名前や数字は入れない）
+function fshExPublic() { return fshGet().fish.filter(f => f.ex).slice(0, FSH_EX_MAX).map(f => ({ s: f.s, g: f.g ? 1 : 0, st: fshStage(f) === 'a' ? 1 : 0 })); }
+
 // 効果音（テーマで音色を変える）
 function sfxSeq(freqs, gap, dur, vol, th) {
   if (!S.set.sound) return; audio(); if (!AC) return;
@@ -14680,7 +14903,7 @@ const FR_CHARS = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
 function growCode(g) { if (!g.code) g.code = Array.from({ length: 6 }, () => FR_CHARS[Math.floor(Math.random() * FR_CHARS.length)]).join(''); return g.code; }
 function growWeek() { const nb = parse(today()), from = ymd(new Date(nb.getFullYear(), nb.getMonth(), nb.getDate() - 6)), to = today(); let min = 0, pg = 0; for (const k in S.log) if (k >= from && k <= to) { min += S.log[k].m || 0; pg += S.log[k].a || 0; } return { min, pg }; }
 function growPct() { const tot = S.tasks.reduce((a, t) => a + (t.total || 0), 0), dn = S.tasks.reduce((a, t) => a + Math.min(t.done || 0, t.total || 0), 0); return tot ? Math.round(dn / tot * 100) : 0; }
-function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: totals().lv, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0, mg: mgStat().best || 0, mgBd: mgStat().bd || {} }; }
+function growMine(g) { const w = growWeek(); return { code: growCode(g), name: g.nick || (CLOUD.user && CLOUD.user.displayName) || '名前なし', av: safeAv(g.av), lv: totals().lv, pct: growPct(), wkMin: w.min, wkPg: w.pg, tt: totals().min, typed: S.typed || 0, iv: invStat().best || 0, rk: rkStat().best || 0, mg: mgStat().best || 0, mgBd: mgStat().bd || {}, fi: fshExPublic() }; }
 async function growUnpublish() { const { fs, db } = CLOUD.fb; await fs.deleteDoc(fs.doc(db, 'friendStats', growGet().code)); }
 async function growAddFriend(code) {
   code = String(code || '').trim().toUpperCase(); if (!code) return;
@@ -14910,7 +15133,7 @@ Object.assign(ACT, {
 const FRR = { at: 0, html: '', seq: 0 };
 let PUB_AT = 0;
 let PUB_SIG = '';
-const growSig = m => JSON.stringify([m.lv, m.pct, m.wkMin, m.wkPg, m.tt, m.typed, m.iv, m.rk, m.mg, m.mgBd]);
+const growSig = m => JSON.stringify([m.lv, m.pct, m.wkMin, m.wkPg, m.tt, m.typed, m.iv, m.rk, m.mg, m.mgBd, m.fi]);
 let GPUB_T = 0;
 // 変わったら4秒後に送る（10分待たない）。上がっても下がっても、友達の画面に反映される
 function growPubSoon() { try { if (!CLOUD.user || !growGet().shared) return; clearTimeout(GPUB_T); GPUB_T = setTimeout(() => { const g = growGet(); if (CLOUD.user && g.shared && growSig(growMine(g)) !== PUB_SIG) growPublish().catch(() => { }); }, 4000); } catch (e) { } }   // 友達に見せる内容を、最後に送った時刻
@@ -15011,7 +15234,7 @@ async function growPublish() {
   const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'friendStats', m.code);
   const base = { owner: CLOUD.user.uid, name: m.name, lv: m.lv, pct: m.pct, wkMin: m.wkMin, wkPg: m.wkPg, t: Date.now() };
   const ext = { ...base, tt: m.tt, typed: m.typed, fr: g.friends.slice(0, 30).map(f => ({ o: String(f.uid || ''), c: String(f.code || ''), n: String(f.name || '').slice(0, 20) })) };
-  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0, mg: { v: MG_VER, b: m.mg || 0, bd: m.mgBd || {}, rs: RK_SEASON } };
+  const full = { ...ext, iv: m.iv || 0, rk: m.rk || 0, mg: { v: MG_VER, b: m.mg || 0, bd: m.mgBd || {}, rs: RK_SEASON, fi: m.fi || [] } };
   // 新しい項目 → 点数を抜いた項目 → 名前とアイコン → 名前と進み具合だけ（ルールが古いときも、最低限は届く）
   const tries = m.av ? [{ ...full, av: m.av }, { ...ext, av: m.av }, full, ext, base] : [full, ext, base];
   let err = null;
