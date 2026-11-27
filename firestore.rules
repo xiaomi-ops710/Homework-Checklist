@@ -62,6 +62,14 @@ service cloud.firestore {
     }
 
 
+    // 元素マージを使えない生徒（先生が設定。ドキュメントIDはユーザーID）。本人は自分の設定を読めます。書き換えは、管理者だけができます
+    match /mgBan/{uid} {
+      allow get: if request.auth != null && (request.auth.uid == uid || request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2');
+      allow list: if false;
+      allow create, update: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
+        && request.resource.data.keys().hasOnly(['on','t']);
+      allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
+    }
     // ベータ版の利用者（ドキュメントIDはユーザーID）。本人は自分が使えるかを読めます。書き換えは、管理者だけができます
     match /betaTesters/{uid} {
       allow get: if request.auth != null && (request.auth.uid == uid || request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2');
