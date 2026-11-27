@@ -162,7 +162,9 @@ service cloud.firestore {
         && (!('title' in request.resource.data) || request.resource.data.title.size() <= 60)
         && (!('url' in request.resource.data) || request.resource.data.url.size() <= 500)
         && (!('note' in request.resource.data) || request.resource.data.note.size() <= 300);
-      allow update: if false;
+      allow update: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['cancel','ct','reply','rt'])
+        && (!('reply' in request.resource.data) || request.resource.data.reply.size() <= 300);
       allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
     }
 
@@ -175,7 +177,9 @@ service cloud.firestore {
         && (!('title' in request.resource.data) || request.resource.data.title.size() <= 60)
         && (!('url' in request.resource.data) || request.resource.data.url.size() <= 500)
         && (!('note' in request.resource.data) || request.resource.data.note.size() <= 300);
-      allow update: if false;
+      allow update: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2'
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['cancel','ct','reply','rt'])
+        && (!('reply' in request.resource.data) || request.resource.data.reply.size() <= 300);
       allow delete: if request.auth != null && request.auth.uid == 'ZAvLKJMPhScz0896tQDhOhdkWrW2';
     }
 
