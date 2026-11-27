@@ -1,6 +1,6 @@
 // バージョン番号：index.html の STABLE_VER / BETA_VER と同じ値にする（ベータ版は /beta/ の中で、BETA_VER を使う）
-const STABLE_VER = '18.5.2';
-const BETA_VER = '18.5.2';
+const STABLE_VER = '18.5.3';
+const BETA_VER = '18.5.3';
 const APP_VERSION = self.location.pathname.includes('/beta/') ? BETA_VER : STABLE_VER;
 // ベータ版（beta/ の中）と正式版（いちばん上）は、別々のキャッシュを使う（互いに消し合わないように）
 const BETA = self.location.pathname.includes('/beta/');
@@ -9,7 +9,7 @@ const V = PFX + APP_VERSION;
 // フォント用のキャッシュは、バージョンが変わっても消さない（更新のあと最初に開くときも、すぐに表示できるように）
 const FC = 'kosa-fonts';
 const CORE = ['./', 'index.html', 'firebase-config.js'];
-const EXTRA = ['manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'games/invader.html', 'games/merge.html', 'assets/volcano-bg.jpg', 'assets/lava-tile.jpg'];
+const EXTRA = ['manifest.webmanifest', 'icon-192.png', 'icon-512.png', 'apple-touch-icon.png', 'kanji-db.js', 'games/invader.html', 'games/merge.html', 'assets/volcano-bg.jpg', 'assets/lava-tile.jpg'];
 const FONT = ['fonts.googleapis.com', 'fonts.gstatic.com', 'www.gstatic.com'];
 // 取り込むときは、ブラウザのキャッシュ（GitHub Pages は10分間キャッシュさせる）を使わず、必ずサーバーから取る。
 // そうしないと、新しいバージョンのキャッシュに「古い index.html」が入ってしまい、更新しても反映されない。
@@ -138,7 +138,8 @@ self.addEventListener('fetch', e => {
     const nav = r.mode === 'navigate', cfg = u.pathname.endsWith('firebase-config.js');
     const fresh = () => fetch(nav ? r.url : r, FRESH).then(res => { if (res.ok) { const cp = res.clone(); caches.open(V).then(c => c.put(r, cp)); } return res; });
     e.respondWith(caches.match(r, { ignoreSearch: true }).then(h => {
-      if (h) { e.waitUntil(new Promise(ok => setTimeout(ok, cfg ? 6000 : 5000)).then(() => fresh().catch(() => { }))); return nav ? clean(h) : h; }
+      // 保存してある版をそのまま返す。画面の本体（index.html）は、新しい版のサービスワーカーが入るときに取り直すので、開くたびに2.6MBを取り直さない
+      if (h) { if (cfg) e.waitUntil(new Promise(ok => setTimeout(ok, 6000)).then(() => fresh().catch(() => { }))); return nav ? clean(h) : h; }
       const net = fresh().then(res => nav ? clean(res) : res);
       return (nav ? limit(net, 8000) : cfg ? limit(net, 4000) : net).catch(() => nav ? caches.match('index.html').then(x => x && clean(x)) : undefined);
     }));
