@@ -1041,6 +1041,12 @@ dialog:has(.ob){width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;marg
 .ux-h{margin:0;font-size:1.9rem;font-weight:800;line-height:1.22;letter-spacing:-.01em;color:var(--on);text-wrap:balance}
 .ux-p{margin:10px 0 0;color:var(--on-v);font-size:1rem;line-height:1.7;max-width:30em;text-wrap:pretty}
 .ux-chip{display:inline-flex;align-items:center;gap:6px;margin-top:16px;padding:8px 16px;border-radius:999px;background:var(--ter-c);color:var(--on-ter-c);font-weight:700;font-size:.92rem}
+.ux-err{margin:12px 0 4px;text-align:left;width:100%;max-width:520px;font-size:.84rem;background:rgba(127,127,127,.12);border-radius:14px;padding:10px 12px}
+.ux-err summary{cursor:pointer;font-weight:800;margin-bottom:6px}
+.ux-err dl{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;margin:0}
+.ux-err dt{opacity:.7}
+.ux-err dd{margin:0;word-break:break-word}
+.ux-err pre{white-space:pre-wrap;word-break:break-all;font-size:.74rem;max-height:200px;overflow:auto;margin:8px 0;padding:8px;border-radius:10px;background:rgba(0,0,0,.18)}
 .ux-chip .ms{font-size:20px}
 .ux-ver{margin-top:12px;color:var(--out);font-size:.85rem;font-weight:600}
 .ux-wave{width:100%;max-width:300px;height:14px;margin:26px 0 2px;overflow:hidden}
@@ -3869,6 +3875,7 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 <div id="updbar" hidden></div>
 <div id="acct"></div>
 <div id="fab"></div>
+<button type="button" id="navham" class="navham" data-act="navtog" aria-label="メニューを開く" aria-expanded="false" aria-controls="nav"></button>
 <div id="mini"></div>
 <div id="focus" class="focus" hidden></div>
 <dialog id="dlg"></dialog>
@@ -3929,6 +3936,14 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 .acc-sync{position:absolute;top:1px;right:1px;width:12px;height:12px;border-radius:50%;border:2px solid var(--primary);border-top-color:transparent;animation:tlspin .9s linear infinite;pointer-events:none}
 @keyframes tlspin{to{transform:rotate(360deg)}}
 @media (prefers-reduced-motion:reduce){.acc-sync{animation:none}}
+
+/* ナビゲーションバーの「ハンバーガーメニュー」モード：バーは隠し、左上の ≡ で出し入れする */
+.navham{display:none;position:fixed;z-index:60;width:64px;height:64px;border:0;border-radius:24px;place-items:center;background:var(--primary);color:var(--on-primary);box-shadow:var(--shadow);cursor:pointer;left:20px;top:calc(98px + env(safe-area-inset-top,0px))}
+.navham .ms{font-size:30px}
+html[data-navmode=menu] .navham{display:grid}
+html[data-navmode=menu] #nav{visibility:hidden!important;opacity:0!important;pointer-events:none!important;transition:opacity .25s var(--smooth),visibility .25s!important;padding-top:96px}
+html[data-navmode=menu][data-navopen] #nav{visibility:visible!important;opacity:1!important;pointer-events:auto!important}
+@media (max-width:699px){ .navham{left:14px;top:calc(12px + env(safe-area-inset-top,0px))} html[data-navmode=menu] #nav{padding-top:0!important} }
 </style>
 
 <script src="firebase-config.js"></script>
@@ -3936,8 +3951,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.5.1'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.5.1';
+const RELEASE_VER = '18.5.2'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.5.2';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4074,6 +4089,8 @@ const BADGES = [
   ['rknh10', 'psychology', 'ヒントなし10問', '歴打でヒントを使わずに10問正解', c => c.rknh >= 10, c => [c.rknh, 10]],
   ['rknh100', 'psychology', 'ヒントなし100問', '歴打でヒントを使わずに100問正解', c => c.rknh >= 100, c => [c.rknh, 100]],
   ['rknh500', 'psychology', 'ヒントなし500問', '歴打でヒントを使わずに500問正解', c => c.rknh >= 500, c => [c.rknh, 500]],
+  ['rknh1000', 'psychology', 'ヒントなし1000問', '歴打でヒントを使わずに1000問正解', c => c.rknh >= 1000, c => [c.rknh, 1000]],
+  ['rknh3000', 'psychology', 'ヒントなし3000問', '歴打でヒントを使わずに3000問正解', c => c.rknh >= 3000, c => [c.rknh, 3000]],
   ['rkq50', 'menu_book', '図鑑50問', '歴打で正解した問題が図鑑に50種類たまる', c => c.rkq >= 50, c => [c.rkq, 50]],
   ['rkq150', 'menu_book', '図鑑150問', '歴打で正解した問題が図鑑に150種類たまる', c => c.rkq >= 150, c => [c.rkq, 150]],
   ['rkq300', 'menu_book', '図鑑300問', '歴打で正解した問題が図鑑に300種類たまる', c => c.rkq >= 300, c => [c.rkq, 300]],
@@ -5119,6 +5136,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.5.2', d: '2026/11/27 19:30', t: '機能追加', n: ['修正：アプリの更新が、通信はつながっているのに失敗することがある不具合を直しました（通信がゆっくりでも、途中で失敗と出ないようにしました）', '追加：更新に失敗したときは、失敗した理由と詳しい内容を表示するようにしました（「詳しい内容をコピー」で、そのまま送れます）', '追加：設定のナビゲーションバーに「ハンバーガーメニュー」を追加しました。左上の≡を押すとバーが出て、もう一度押すと隠れます', '追加：実績に「ヒントなし1000問」「ヒントなし3000問」を追加しました', '修正：歴打の実績の一覧に、「ヒントなし500問」が出ていなかったのを直しました'] },
   { v: '18.5.1', d: '2026/11/27 17:30', t: '機能追加', n: ['追加：元素ラボに「冷やす」を追加しました（水は氷に、二酸化炭素はドライアイスになります）', '変更：魚の水槽を、水族館の展示ケースのような見た目に変えました', '追加：設定に「UIの大きさ」（小・標準・大）を追加しました。文字の大きさとは別に、画面全体の大きさを変えられます', '変更：カードを追加する画面の下の説明を消しました', '修正：AI画面が、ときどき小さくなる不具合を直しました', '修正：iPadのマルチタスク（ウインドウを小さくしたとき）に、集中タイマーとAI画面のボタンが重なったり、崩れたりしないようにしました'] },
   { v: '18.5', d: '2026/11/27 14:00', t: '機能追加', n: ['追加：魚を100種類に増やしました。水槽の「まとめて売る」で、魚を選んで一度に売れます','追加：レアな魚ほど、星と色で豪華に表示するようにしました（超激レア・伝説レアは特に派手に）','追加：友達の水槽で、展示中の魚のレア度と売値が見られるようにしました。自分の展示も並びます','追加：年表（日本史・世界史）で出来事を選んで、右下の「AIで解説」を押すと、詳しく解説してもらえます','バグ修正：カードの追加の3つの選び方の画面が崩れる問題を直しました','バグ修正：集中タイマーを、Macのウインドウで開いたとき、左上のボタンがウインドウのボタンに重なる問題を直しました','バグ修正：AIの画面が全画面にならず、余白が出ることがある問題を直しました'] },  { v: '18.4', d: '2026/11/27 12:00', t: '機能追加', n: ['追加：魚のミキサー。同じ魚を3匹入れると、1つ上のレアの魚が出ます（まれに、同じレアの別の魚。色違いは色違いが出やすくなります）','追加：単語帳の「カードの追加」を押すと、「自分で作る」「AIで作る」「写真を撮って作る」の3つから選べるようにしました','追加：単語帳で範囲の最後まで進むと、「完了しました」と「もう一度やる」「テストをする」ボタンを出すようにしました','追加：アプリを開いている間は、5分ごとに自動で同期するようにしました','追加：友達から受け取った単語帳に自分でカードを追加すると、渡してくれた友達にも届き、受け取れるようにしました','バグ修正：単語帳の写真読み取りが「読み取り中」のまま進まないことがある問題を直しました（進みの表示と、返事が来ないときの案内を出すようにしました）'] },  { v: '18.3.22', d: '2026/11/27 09:00', t: 'バグ修正', n: ['バグ修正：「進み具合を友達に見せる」をオンにしていても、友達から見えないことがある問題を直しました','バグ修正：一部の端末で、クラウドへの同期が止まったままになることがある問題を直しました（同期のどちらのデータを使うかの確認が、ほかの画面の後で出るようにしました）'] },
   { v: '18.3.21', d: '2026/11/27 08:00', t: '魚ガチャが1日1回無料に。ログインボーナスが分かりやすくなりました（バグ修正あり）', n: ['魚ガチャは、1日1回だけ無料で引けます（2回目からは 100 XP）','ログインボーナスをもらったとき、大きなお知らせで出るようにしました（連続の日数も出ます）','バグ修正：XPのふやし方（ログインボーナスなど）がもらえたとき、エラーで保存や画面の更新が止まることがある問題を直しました'] },
@@ -5726,7 +5744,7 @@ const ACH_TIPS = [
   { loc: 'tool:card', ids: ['wc50', 'wc200', 'q_known20'], act: '単語帳の学習で「覚えた」を押す' },
   { loc: 'tool:card', ids: ['q_cards10'], act: '単語帳で単語を1つ追加する' },
   { loc: 'tool:focus', ids: ['f1', 'f10', 'f25', 'f50', 'q_focus60', 'q_focus600'], act: '集中タイマーで時間を計って勉強する' },
-  { loc: 'tool:rekida', ids: ['rk1000', 'rk4500', 'rkt10000', 'q_rk500', 'rkp10', 'rkp300', 'rkh100', 'rke10', 'rkn10', 'rkall3', 'rkk1000', 'rkk10000', 'rkt3000', 'rkt300000', 'rk6000', 'rk10000', 'rkcb20', 'rkcb50', 'rkc100', 'rkc500', 'rknh10', 'rknh100', 'rkq50', 'rkq150', 'rkera3', 'rkera6', 'q_rkkeys', 'q_rkcombo', 'q_rkhint'], act: '歴打を遊ぶ' },
+  { loc: 'tool:rekida', ids: ['rk1000', 'rk4500', 'rkt10000', 'q_rk500', 'rkp10', 'rkp300', 'rkh100', 'rke10', 'rkn10', 'rkall3', 'rkk1000', 'rkk10000', 'rkt3000', 'rkt300000', 'rk6000', 'rk10000', 'rkcb20', 'rkcb50', 'rkc100', 'rkc500', 'rknh10', 'rknh100', 'rknh500', 'rknh1000', 'rknh3000', 'rkq50', 'rkq150', 'rkera3', 'rkera6', 'q_rkkeys', 'q_rkcombo', 'q_rkhint'], act: '歴打を遊ぶ' },
   { loc: 'tool:merge', ids: ['q_mg1000', 'q_mglv11'], act: '元素マージで遊ぶ' },
   { loc: 'tool:ptable:game', ids: ['inv1', 'inv10', 'inv500', 'q_inv1000', 'ps100', 'ps1000'], act: '元素インベーダーを遊ぶ' },
   { loc: 'tool:ptable:lab', ids: ['lab10'], act: '元素ラボの「くっつけてみよう」で、物質をくっつけて見つける' },
@@ -6073,7 +6091,7 @@ const SET_ITEMS = {
     { id: 'ty', t: 'タイピング', s: '次の問題へ進みかた', ic: 'keyboard', body: () => { const on = S.set.tyAuto !== false; return `<div class="card"><div class="fld"><div class="lbl">次の問題へ</div><div class="seg">${[['true', '自動で次の問題へ'], ['false', 'ボタンで次へ']].map(([v, l]) => `<button class="${(v === 'true') === on ? 'on' : ''}" data-act="setv" data-id="tyAuto|${v}">${l}</button>`).join('')}</div></div></div>`; } },
   ],
   nav: [
-    { id: 'bar', t: 'タブの並びと表示', s: '下のタブの順番と、表示するタブ', ic: 'dock_to_right', body: () => `${navPosCard()}<div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>${navSettings()}` },
+    { id: 'bar', t: 'タブの並びと表示', s: '下のタブの順番と、表示するタブ', ic: 'dock_to_right', body: () => `${navModeCard()}${navPosCard()}<div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>${navSettings()}` },
   ],
   data: [
     { id: 'cloud', t: 'アカウントと同期', s: 'Googleアカウントと同期の状態', ic: 'cloud_sync', body: () => cloudCard() },
@@ -6098,6 +6116,7 @@ const SET_ITEMS = {
 };
 // 項目が少ない考査と教科・ナビゲーション・データ・ツールと集計は、一覧を使わず中身をそのまま出す
 const SET_DIRECT = ['exam', 'nav', 'data', 'tools', 'home', 'notif'];
+function navModeCard() { const v = S.set.navMode === 'menu' ? 'menu' : 'bar'; const o = [['bar', 'バーを表示', 'ill-auto'], ['menu', 'ハンバーガーメニュー', 'ill-bottom']]; return `<div class="card"><div class="pick-grid pick-2">${o.map(([k, l, c]) => `<button type="button" class="pick ${c} ${v === k ? 'on' : ''}" data-act="navmode" data-id="${k}" aria-pressed="${v === k}"><span class="ph ${c}"><i></i></span>${l}</button>`).join('')}</div><p class="set-note">ハンバーガーメニューにすると、バーは隠れます。左上の「≡」を押すとバーが出て、もう一度押すと隠れます。バーのタブを選ぶと、自動で隠れます。</p></div>`; }
 function navPosCard() { const v = S.set.navPos || 'auto'; const o = [['auto', '自動', 'ill-auto'], ['bottom', '下に固定', 'ill-bottom']]; return `<div class="card"><div class="pick-grid pick-2">${o.map(([k, l, c]) => `<button type="button" class="pick ${c} ${v === k ? 'on' : ''}" data-act="setv" data-id="navPos|${k}" aria-pressed="${v === k}"><span class="ph ${c}"><i></i></span>${l}</button>`).join('')}</div><p class="set-note">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div>`; }
 // 先生の設定（AI）の選ぶ一覧：項目ごとに、説明つきの行
 function snPickList(key, list) { const cur = snCfg()[key]; return `<div class="card">${list.map(([v, t, ic, d]) => `<button type="button" class="setrow${cur === v ? ' on' : ''}" data-act="setsn" data-id="${key}|${v}"><span class="ric">${ms(ic)}</span><span class="t">${t}<small>${d}</small></span>${cur === v ? ms('check_circle') : ''}</button>`).join('')}</div>`; }
@@ -6739,6 +6758,7 @@ function phaseFx(mode) {
 let updating = false, waiting = null;
 const ACT = {
   tab(id) {
+    if (document.documentElement.dataset.navopen) { delete document.documentElement.dataset.navopen; applyTheme(); }
     const ord = navList(), from = navCur(); let tid = '';
     if (id.startsWith('tool:')) { tid = id.slice(5); if (ui.tab === 'tools' && ui.tool === tid) { window.scrollTo(0, 0); return; } }
     else if (id === 'tools') { if (ui.tab === 'tools' || navPinned().includes(ui.tool)) ui.tool = ''; }
@@ -6964,6 +6984,8 @@ const ACT = {
   subjup(id) { moveSubj(id, -1); }, subjdown(id) { moveSubj(id, 1); },
   theme(id) { S.set.theme = id; applyTheme(); commit(); },
   navpos(id) { S.set.navPos = id === 'bottom' ? 'bottom' : 'auto'; applyTheme(); commit(); },
+  navmode(id) { S.set.navMode = id === 'menu' ? 'menu' : 'bar'; delete document.documentElement.dataset.navopen; applyTheme(); commit(); },
+  navtog() { const r = document.documentElement; if (r.dataset.navopen) delete r.dataset.navopen; else r.dataset.navopen = '1'; applyTheme(); },
   hue(id) { const h = +id; if (!SEEDS.some(s => s[0] === h) && !LV_HUES.some(x => x[0] === h && level().L >= x[2])) { toast('このレベルになると使えます'); return; } S.set.hue = h; applyTheme(); save(); },
   fs(id) { S.set.fs = id; applyTheme(); commit(); },
   uis(id) { S.set.ui = id; applyTheme(); commit(); },
@@ -6976,6 +6998,7 @@ const ACT = {
   expcards() { closeDlg(); exportCards(false); }, expcardsall() { closeDlg(); exportCards(true); }, impcards() { closeDlg(); $('#impcards').click(); },
   reset() { confirmDlg('すべてのデータを削除しますか？', '考査・教科・課題・記録がすべて消えます。事前にバックアップを保存してください。', 'すべて削除', () => undoable('すべて削除しました', () => { S = fresh(); S.cleared = Date.now(); ui.sid = ''; ui.tab = 'home'; })); },
   reload() { startUpdate(); },
+  updcopy() { const t = updErrText(), fail = () => toast('コピーできませんでした。文字を選んでコピーしてください'); try { navigator.clipboard.writeText(t).then(() => toast('詳しい内容をコピーしました'), fail); } catch (e) { fail(); } },
   hardrefresh() { okDlg('最新版を読み込み直しますか？', 'アプリの保存済みファイルを消して、最新版を読み込み直します。課題や成績などのデータは消えません。ネットにつながっている状態で行ってください。', '読み込み直す', hardRefresh); }, ai() { ACT.tab('ai'); },
   simn(id) { SM.n = +id; toolsRefresh(); }, qzset(id) { quizStart(id); }, qzpick(id) { if (QZ.pick >= 0) return; QZ.pick = +id; QZ.why = ''; QZ.whyBusy = false; const q = QZ.q[QZ.i]; if (q.o[QZ.pick] === q.b) QZ.ok++; else { QZ.wrong.push(q); try { volcanoErupt(); } catch (e) { } } toolsRefresh(); }, qzfav() { const q = QZ.q[QZ.i]; if (!q || QZ.pick < 0) return; qzFavAdd(q); toast('お気に入りに入れました'); toolsRefresh(); }, qznext() { QZ.i++; QZ.pick = -1; QZ.why = ''; QZ.whyBusy = false; if (QZ.i >= QZ.q.length) { QZ.phase = 'done'; if (QZ.ok === QZ.q.length) { try { confetti(innerWidth / 2, innerHeight / 3, 70); } catch (e) { } } } toolsRefresh(); }, qzreset() { QZ.phase = 'setup'; toolsRefresh(); }, nat(id) { if (NS.kind === id) natStop(); else natStart(id); renderMini(); renderFocus(); }, natoff() { natStop(); renderMini(); if (TM.open) renderFocus(); }, ftanim() { S.set.timerAnim = S.set.timerAnim === false; save(); renderFocus(); },
   wcsheet() { WC.sheet = null; wcPaint(false); },
@@ -8016,6 +8039,9 @@ function applyTheme() {
   const mode = S.set.theme, dark = mode === 'dark' || (mode === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches), r = document.documentElement;
   r.dataset.theme = dark ? 'dark' : 'light';
   r.dataset.nav = S.set.navPos === 'bottom' ? 'bottom' : '';
+  r.dataset.navmode = S.set.navMode === 'menu' ? 'menu' : '';
+  if (r.dataset.navmode !== 'menu') delete r.dataset.navopen;
+  const hb = document.getElementById('navham'); if (hb) { if (!hb.firstChild) hb.innerHTML = ms('menu'); hb.setAttribute('aria-expanded', r.dataset.navopen ? 'true' : 'false'); hb.setAttribute('aria-label', r.dataset.navopen ? 'メニューをとじる' : 'メニューを開く'); }
   try { applyFont(); } catch (e) { }
   let vol = false, hue = S.set.hue, tid0 = ''; try { const tid = THEME_PREV || growGet().theme || ''; tid0 = tid; vol = tid === 'volcano'; const th = THEME_SHOP[tid]; if (th && th.hue != null) hue = th.hue; } catch (e) { }
   r.style.setProperty('--h', vol ? 12 : hue);
@@ -8041,7 +8067,7 @@ const updInfo = () => ({
   installing: ['autorenew', '更新しています…', 'まもなく再起動します。そのままお待ちください。'],
   checking: ['sync', '更新を確認しています…', ''],
   latest: ['check_circle', 'アプリは最新の状態です', updTime()],
-  error: ['error', '更新を確認できませんでした', '接続を確認して、もう一度お試しください。'],
+  error: ['error', '更新を確認できませんでした', UPD.err ? `${UPD.err.stage}で失敗：${UPD.err.reason}` : '接続を確認して、もう一度お試しください。'],
   idle: ['system_update', 'アプリのアップデート', '更新を確認できます。']
 }[UPD.state]);
 /* ====================== 初回の説明（18.4）：Androidのセットアップのような、ページごとのイラストつきの流れ ====================== */
@@ -14473,7 +14499,7 @@ function updHtml() {
     <div class="ux-hero ${tone} ${busy ? 'busy' : ''}">${ms(ic, '', 'font-size:76px')}</div>
     <h2 class="ux-h">${esc(ti)}</h2>
     ${su ? `<p class="ux-p">${esc(su)}</p>` : ''}
-    ${chip}${wave}
+    ${chip}${wave}${updErrHtml()}
     <div class="ux-btns">${btns}</div>
   </div>`;
 }
@@ -14489,29 +14515,56 @@ function updRefresh() {
   if (dlg.open && dlg.dataset.k === 'upd') dlg.innerHTML = `<div class="dlg">${updHtml()}</div>`;
   else if (ui.tab === 'settings' && !dlg.open && !TM.open) render();
 }
+// 更新の失敗：理由と記録を残して、画面に出す（コピーして、先生や開発者に送れるように）
+const UPD_STALL = 120000, UPD_HARD = 420000; // 2分間まったく進まないときだけ失敗にする（遅い回線で、ちゃんと取り込んでいるときは待つ）。全体は7分まで
+const mbTxt = b => (b / 1048576).toFixed(1) + 'MB';
+function updFail(stage, reason, log) {
+  UPD.state = 'error'; UPD.prog = null; UPD.done = null;
+  UPD.err = { stage, reason: String(reason || '不明'), t: Date.now(), ms: UPD.t0 ? Date.now() - UPD.t0 : 0, online: navigator.onLine !== false, log: log || UPD.swLog || [], storage: '' };
+  UPD.swLog = null;
+  try { if (navigator.storage && navigator.storage.estimate) navigator.storage.estimate().then(x => { if (UPD.err && x) { UPD.err.storage = `使用中 ${mbTxt(x.usage || 0)} ／ 上限 ${x.quota ? mbTxt(x.quota) : '不明'}`; updRefresh(); } }).catch(() => { }); } catch (e) { }
+  updRefresh();
+}
+function updDevice() {
+  const ua = navigator.userAgent || '';
+  const dev = /iPad/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1) ? 'iPad' : /iPhone/.test(ua) ? 'iPhone' : /Android/.test(ua) ? 'Android' : 'パソコン';
+  const mode = (matchMedia('(display-mode: standalone)').matches || navigator.standalone) ? 'ホーム画面のアプリ' : 'ブラウザ';
+  return `${dev}（${mode}）`;
+}
+function updErrText() {
+  const e = UPD.err; if (!e) return '';
+  return ['【考査課題マネージャー 更新の失敗】', `失敗した段階：${e.stage}`, `理由：${e.reason}`, `時刻：${new Date(e.t).toLocaleString('ja-JP')}`, `かかった時間：${(e.ms / 1000).toFixed(1)}秒`, `通信：${e.online ? 'つながっている' : 'つながっていない'}`, `今の版：v${verTxt(APP_VERSION)}`, `端末：${updDevice()}`, `保存容量：${e.storage || '不明'}`, `ブラウザ：${(navigator.userAgent || '').slice(0, 160)}`, '--- 取り込みの記録 ---', ...(e.log.length ? e.log : ['（記録はありません）'])].join('\n');
+}
+function updErrHtml() {
+  const e = UPD.err; if (!e || UPD.state !== 'error') return '';
+  const rows = [['失敗した段階', e.stage], ['理由', e.reason], ['通信', e.online ? 'つながっています' : 'つながっていません'], ['時刻', new Date(e.t).toLocaleString('ja-JP')], ['かかった時間', (e.ms / 1000).toFixed(1) + ' 秒'], ['端末', updDevice()], ['保存容量', e.storage || '確認中…']];
+  return `<details class="ux-err" open><summary>失敗の詳しい内容</summary><dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${esc(String(v))}</dd>`).join('')}</dl><pre>${esc(e.log.length ? e.log.join('\n') : '（記録はありません）')}</pre><button class="ux-btn x" data-act="updcopy">${ms('content_copy')}詳しい内容をコピー</button></details>`;
+}
 function checkUpdate() {
   if (UPD.state === 'available' || UPD.state === 'installing' || UPD.state === 'checking') return;
-  if (!UPD.reg) { UPD.state = 'latest'; UPD.t = Date.now(); return updRefresh(); }
-  UPD.state = 'checking'; UPD.prog = null; updRefresh();
-  // 終わり方：新しいファイルの取り込み（インストール）が「完了」か「失敗」になったら、100%を見せてから結果を出す
-  let fin = false;
-  const done = (ok) => {
-    if (fin) return; fin = true;
-    if (!ok) { UPD.prog = null; UPD.state = 'error'; updRefresh(); return; }
+  if (!UPD.reg) return updFail('確認', UPD.regErr ? `サービスワーカーを登録できませんでした（${UPD.regErr}）` : 'この端末では、オフライン用の準備（サービスワーカー）が使えないため、更新を確認できません');
+  UPD.state = 'checking'; UPD.prog = null; UPD.err = null; UPD.swLog = null; UPD.t0 = Date.now(); UPD.last = Date.now(); updRefresh();
+  let fin = false, watch = null, hard = null;
+  const done = (ok, stage, reason) => {
+    if (fin) return; fin = true; clearInterval(watch); clearTimeout(hard);
+    if (!ok) return updFail(stage || '取り込み', reason);
     UPD.prog = 100; updRefresh();
     setTimeout(() => { UPD.prog = null; UPD.state = waiting ? 'available' : 'latest'; UPD.t = Date.now(); updRefresh(); }, 700);
   };
-  // 新しい版がなかったとき、またはネットワークが止まったときに備えて、長く待ったら打ち切る（強制的な再読み込みはしない）
-  const guard = setTimeout(() => done(false), 60000);
+  UPD.done = done;
+  watch = setInterval(() => { if (!fin && Date.now() - UPD.last > UPD_STALL) done(false, '取り込み', `${Math.round(UPD_STALL / 1000)}秒以上、ファイルの取り込みが進みませんでした（通信が止まっている可能性があります）`); }, 5000);
+  hard = setTimeout(() => done(false, '取り込み', `${Math.round(UPD_HARD / 60000)}分たっても取り込みが終わりませんでした`), UPD_HARD);
   UPD.reg.update().then(() => {
     const ins = UPD.reg.installing;
-    if (!ins) { clearTimeout(guard); return done(true); }
-    if (ins.state === 'installed' || ins.state === 'activated') { clearTimeout(guard); return done(true); }
+    if (!ins) return done(true);
+    if (ins.state === 'installed' || ins.state === 'activated') return done(true);
     ins.addEventListener('statechange', () => {
-      if (ins.state === 'installed' || ins.state === 'activated') { clearTimeout(guard); done(true); }
-      else if (ins.state === 'redundant') { clearTimeout(guard); done(false); }
+      UPD.last = Date.now();
+      if (ins.state === 'installed' || ins.state === 'activated') done(true);
+      // 失敗の理由（サービスワーカーからの連絡）が、少し遅れて届くことがあるので、少し待ってから判定する
+      else if (ins.state === 'redundant') setTimeout(() => done(false, '取り込み', UPD.swErr || '取り込みが途中で止まりました（下の詳しい内容を見てください）'), 1500);
     });
-  }).catch(() => { clearTimeout(guard); done(false); });
+  }).catch(e => done(false, '新しい版の確認', `${e && e.name ? e.name + '：' : ''}${(e && e.message) || '不明'}`));
 }
 // 画面（index.html）のバージョンと、サービスワーカーのバージョンが食い違っているとき（古い画面が残っているとき）は、
 // 最新の index.html を取り直して読み込み直す。同じバージョンでは1回だけ行う（無限に繰り返さない）。
@@ -14544,7 +14597,7 @@ function startUpdate() {
   setTimeout(() => {
     if (reloadOnce || UPD.state !== 'installing') return;
     if (waiting && waiting.state === 'activated') return doReload();
-    updating = false; UPD.state = 'error'; updRefresh();
+    updating = false; updFail('有効化', '25秒たっても新しい版が有効になりませんでした（通信の状態や、端末の省電力の設定をご確認ください）');
     if (dlg.open && dlg.dataset.k === 'updload') { closeDlg(); updDlg(); }
     toast('更新を完了できませんでした。もう一度お試しください');
   }, 25000);
@@ -14564,13 +14617,21 @@ if ('serviceWorker' in navigator) {
     if (reg.waiting && navigator.serviceWorker.controller) mark(reg.waiting);
     reg.addEventListener('updatefound', () => watch(reg.installing));
     document.addEventListener('visibilitychange', () => { if (!document.hidden && UPD.state !== 'available' && UPD.state !== 'installing') reg.update().catch(() => { }); });
-  }).catch(() => { });
+  }).catch(e => { UPD.regErr = `${e && e.name ? e.name + '：' : ''}${(e && e.message) || '不明'}`; });
   navigator.serviceWorker.addEventListener('controllerchange', () => { if (updating) { updLoadShow(); setTimeout(doReload, 1600); } });
   // 取り込みが終わったファイルの数を受け取り、実際の割合として表示する
   navigator.serviceWorker.addEventListener('message', e => {
-    const d = e.data; if (!d || d.type !== 'prog' || !d.total) return;
+    const d = e.data; if (!d) return;
+    if (d.type === 'instres') {
+      if (d.ok) return;
+      UPD.last = Date.now(); UPD.swErr = d.err; UPD.swLog = d.log || [];
+      if (UPD.state === 'checking' && UPD.done) return UPD.done(false, '取り込み', d.err);
+      if (UPD.state === 'idle' || UPD.state === 'latest') return updFail('自動の確認', d.err, d.log);
+      return;
+    }
+    if (d.type !== 'prog' || !d.total) return;
     if (UPD.state !== 'checking') return;
-    UPD.prog = Math.min(99, Math.round(d.done / d.total * 100)); updRefresh();
+    UPD.last = Date.now(); UPD.prog = Math.min(99, Math.round(d.done / d.total * 100)); updRefresh();
   });
 }
 if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => { });
