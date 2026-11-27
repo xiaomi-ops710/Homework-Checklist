@@ -105,8 +105,10 @@ service cloud.firestore {
     // 友達の通知（友達に追加されたとき。自分の受信箱だけ読んで消せます）
     match /friendInbox/{uid}/items/{id} {
       allow create: if request.auth != null && request.resource.data.from == request.auth.uid
-        && request.resource.data.keys().hasOnly(['from','name','code','t'])
-        && request.resource.data.name.size() <= 40 && request.resource.data.code.size() <= 6;
+        && request.resource.data.keys().hasOnly(['from','name','code','t','kind','deck','json'])
+        && request.resource.data.name.size() <= 40 && request.resource.data.code.size() <= 9
+        && (!('kind' in request.resource.data) || (request.resource.data.kind == 'deckadd'
+            && request.resource.data.deck.size() <= 20 && request.resource.data.json.size() <= 20000));
       allow read, delete: if request.auth != null && request.auth.uid == uid;
       allow update: if false;
     }
