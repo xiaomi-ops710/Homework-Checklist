@@ -1,6 +1,6 @@
 // バージョン番号：index.html の STABLE_VER / BETA_VER と同じ値にする（ベータ版は /beta/ の中で、BETA_VER を使う）
-const STABLE_VER = '18.5.1';
-const BETA_VER = '18.5.1';
+const STABLE_VER = '18.5.2';
+const BETA_VER = '18.5.2';
 const APP_VERSION = self.location.pathname.includes('/beta/') ? BETA_VER : STABLE_VER;
 // ベータ版（beta/ の中）と正式版（いちばん上）は、別々のキャッシュを使う（互いに消し合わないように）
 const BETA = self.location.pathname.includes('/beta/');
@@ -17,10 +17,55 @@ const FRESH = { cache: 'no-cache' };
 const limit = (p, ms) => new Promise((ok, ng) => { const t = setTimeout(() => ng(new Error('timeout')), ms); p.then(v => { clearTimeout(t); ok(v); }, e => { clearTimeout(t); ng(e); }); });
 // リダイレクトされた応答は、画面の読み込みに使うと、Safariで表示に失敗することがあるので、作り直す
 const clean = res => (res && res.redirected) ? res.blob().then(b => new Response(b, { status: res.status, statusText: res.statusText, headers: res.headers })) : res;
-const grab = (c, u) => fetch(new Request(u, { cache: 'reload' })).then(r => { if (!r.ok) throw new Error(u); return c.put(u, r); });
+// 取り込みの記録：失敗したときの理由を、画面（更新の表示）で見せるために残す
+const LOG = [];
+let LAST = null;
+const logAdd = s => { LOG.push(new Date().toLocaleTimeString('ja-JP') + '  ' + s); if (LOG.length > 80) LOG.shift(); };
+const errText = e => { if (!e) return '不明なエラー'; if (e.status) return `サーバーから HTTP ${e.status} が返りました`; return `${e.name || 'Error'}：${String(e.message || '').slice(0, 160)}`; };
+// 1つのファイルを取る。「データが届かない時間」が続いたら止めて、取り直す（ゆっくりでも届いているなら、待ち続ける）。
+// 失敗したら少し待って取り直す（一時的に通信が切れても、更新を最後まで終えられるように）。404などは取り直しても同じなので、すぐにやめる。
+const fetchTry = async (u, tries, stall) => {
+  let last = null;
+  for (let i = 1; i <= tries; i++) {
+    const ac = new AbortController(), t0 = Date.now();
+    let timer = setTimeout(() => ac.abort(), stall);
+    const kick = () => { clearTimeout(timer); timer = setTimeout(() => ac.abort(), stall); };
+    try {
+      const r = await fetch(new Request(u, { cache: 'reload' }), { signal: ac.signal });
+      kick();
+      if (!r.ok) { const e = new Error('HTTP ' + r.status); e.status = r.status; throw e; }
+      let blob;
+      if (r.body && r.body.getReader) {
+        const reader = r.body.getReader(), parts = [];
+        for (;;) { const { done, value } = await reader.read(); if (done) break; parts.push(value); kick(); }
+        blob = new Blob(parts, { type: r.headers.get('content-type') || '' });
+      } else blob = await r.blob();
+      clearTimeout(timer);
+      logAdd(`取得 ${u}：成功（${i}回目、${Date.now() - t0}ミリ秒、${Math.round(blob.size / 1024)}KB）`);
+      return { blob, headers: r.headers };
+    } catch (e) {
+      clearTimeout(timer);
+      last = e.name === 'AbortError' ? Object.assign(new Error(`${Math.round(stall / 1000)}秒のあいだ、データが届きませんでした`), { name: 'Timeout' }) : e;
+      logAdd(`取得 ${u}：失敗（${i}回目）${errText(last)}`);
+      if (last.status && last.status < 500 && last.status !== 408 && last.status !== 429) break;
+      if (i < tries) await new Promise(res => setTimeout(res, 1500 * i));
+    }
+  }
+  const err = new Error(`${u}：${errText(last)}`); err.step = u; throw err;
+};
+const mkRes = f => new Response(f.blob, { status: 200, headers: f.headers });
+// 古い版の保存を消す（保存できる容量が足りないときだけ使う）
+const clearOld = async () => { for (const k of await caches.keys()) if (k.startsWith(PFX) && k !== V && k !== FC) await caches.delete(k); };
+const putSafe = async (c, u, f) => {
+  try { await c.put(u, mkRes(f)); }
+  catch (e) {
+    logAdd(`保存 ${u}：失敗（${errText(e)}）。古い版の保存を消して、もう一度試します`);
+    await clearOld();
+    try { await c.put(u, mkRes(f)); }
+    catch (e2) { const x = new Error(`${u} を保存できませんでした：${errText(e2)}`); x.step = u; throw x; }
+  }
+};
 // 古いバージョンのキャッシュに入っているフォントを、フォント用のキャッシュに引き継ぐ
-// index.html は、'./' と 'index.html' の2つの名前で使うので、1回だけダウンロードして、両方に入れる（更新のダウンロード量が、半分になる）
-const grabHtml = c => fetch(new Request('index.html', { cache: 'reload' })).then(r => { if (!r.ok) throw new Error('index.html'); return c.put('index.html', r.clone()).then(() => c.put('./', r)); });
 const keepFonts = async () => {
   try {
     const fc = await caches.open(FC);
@@ -35,9 +80,37 @@ const keepFonts = async () => {
 const TOTAL = EXTRA.length + 2;
 let got = 0;
 const tick = () => { got++; self.clients.matchAll({ includeUncontrolled: true, type: 'window' }).then(cs => cs.forEach(c => c.postMessage({ type: 'prog', done: got, total: TOTAL }))).catch(() => { }); };
-self.addEventListener('install', e => { got = 0; e.waitUntil(
-  caches.open(V).then(c => Promise.all([grabHtml(c).then(tick), grab(c, 'firebase-config.js').then(tick), ...EXTRA.map(u => grab(c, u).catch(() => { }).then(tick))])).then(keepFonts)
-); });
+// 取り込みの結果（失敗した理由を含む）を、画面に知らせる
+const report = (ok, err) => {
+  LAST = { ok, ver: APP_VERSION, t: Date.now(), err: err ? (err.step ? err.message : errText(err)) : '', step: (err && err.step) || '', log: LOG.slice() };
+  self.clients.matchAll({ includeUncontrolled: true, type: 'window' }).then(cs => cs.forEach(c => c.postMessage(Object.assign({ type: 'instres' }, LAST)))).catch(() => { });
+};
+self.addEventListener('install', e => {
+  got = 0; LOG.length = 0; const t0 = Date.now();
+  logAdd(`版 ${APP_VERSION} の取り込みを始めます`);
+  e.waitUntil((async () => {
+    try {
+      const c = await caches.open(V);
+      // 欠けると動かないファイル（画面の本体・設定）は、取り直しをしながら、必ず取る
+      const core = (async () => {
+        const h = await fetchTry('index.html', 3, 30000); tick();
+        await putSafe(c, 'index.html', h); await putSafe(c, './', h);
+        const f = await fetchTry('firebase-config.js', 3, 30000); tick();
+        await putSafe(c, 'firebase-config.js', f);
+      })();
+      // あとからでもよいファイルは、取れなくても更新は止めない（理由だけ記録する）
+      const extra = Promise.all(EXTRA.map(u => fetchTry(u, 2, 20000).then(f => putSafe(c, u, f)).catch(x => logAdd(`任意のファイル ${u} は取れませんでした（${errText(x)}）`)).then(tick)));
+      await Promise.all([core, extra]);
+      await keepFonts();
+      logAdd(`取り込みが終わりました（${Math.round((Date.now() - t0) / 1000)}秒）`);
+      report(true);
+    } catch (err) {
+      logAdd('取り込みに失敗しました：' + (err.message || errText(err)));
+      report(false, err);
+      throw err;
+    }
+  })());
+});
 self.addEventListener('activate', e => e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k.startsWith(PFX) && k !== V && k !== FC).map(k => caches.delete(k)))).then(() => self.clients.claim())));
 // プッシュ通知の受け取りと、通知を押したときの処理（アプリを開く）
 self.addEventListener('push', e => {
@@ -50,7 +123,7 @@ self.addEventListener('notificationclick', e => {
   const url = (e.notification.data && e.notification.data.url) || './';
   e.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(cs => { const c = cs.find(x => 'focus' in x); return c ? c.focus() : self.clients.openWindow(url); }));
 });
-self.addEventListener('message', e => { if (e.data === 'skip') self.skipWaiting(); else if (e.data === 'ver' && e.ports[0]) e.ports[0].postMessage(APP_VERSION); });
+self.addEventListener('message', e => { if (e.data === 'skip') self.skipWaiting(); else if (e.data === 'ver' && e.ports[0]) e.ports[0].postMessage(APP_VERSION); else if (e.data === 'log' && e.ports[0]) e.ports[0].postMessage(LAST || { ok: null, ver: APP_VERSION, log: LOG.slice() }); });
 self.addEventListener('fetch', e => {
   const r = e.request, u = new URL(r.url);
   if (r.method !== 'GET') return;
