@@ -2744,6 +2744,40 @@ html.bg-idle #view .fsh-fw,html.bg-idle #view .fsh-fb,html.bg-idle #view .fsh-ta
 .lb-st{display:inline-flex;align-items:center;gap:6px;margin-top:6px;padding:8px 16px;border-radius:999px;background:var(--s2);font-weight:800}
 @keyframes lbPop{from{transform:scale(.4);opacity:0}to{transform:scale(1);opacity:1}}
 @media (prefers-reduced-motion:reduce){.lb-ic,.lb-xp{animation:none}}
+.ch-hd{margin:0 0 12px}.ch-hd h2{margin:0 0 4px}.ch-hd p{margin:0;font-weight:500}
+.ch3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.ch-b{aspect-ratio:1/1;border:0;border-radius:32px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;background:var(--s2);color:var(--on);font:inherit;text-align:center;cursor:pointer;box-shadow:0 10px 24px -14px rgba(0,0,0,.35);transition:transform .2s var(--spring)}
+.ch-b:active{transform:scale(.95)}
+.ch-b.ai{background:var(--pc);color:var(--on-pc)}
+.ch-ic{width:56px;height:56px;border-radius:20px;display:grid;place-items:center;background:rgba(255,255,255,.35)}
+.ch-ic .material-symbols-rounded{font-size:32px}
+.ch-b b{font-size:.98rem;line-height:1.25}
+.ch-b small{font-size:.7rem;line-height:1.35;opacity:.85}
+.ch-n{margin:12px 0 0;font-size:.85rem;line-height:1.6}
+@media (max-width:420px){.ch-b small{display:none}.ch-ic{width:48px;height:48px}}
+.wp-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 14px}
+.wp-big{border:0;border-radius:26px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;gap:4px;background:var(--pc);color:var(--on-pc);font:inherit;cursor:pointer}
+.wp-big .material-symbols-rounded{font-size:34px}
+.wp-big b{font-size:1rem}.wp-big small{font-size:.72rem;opacity:.85}
+.wp-prog{margin:0 0 14px;padding:14px 16px;border-radius:24px;background:var(--s2)}
+.wp-prog-h{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.wp-prog-h span{font-weight:700;color:var(--muted,#666);font-variant-numeric:tabular-nums}
+.wp-steps{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.wp-steps li{padding:6px 10px 6px 34px;border-radius:14px;position:relative;font-weight:500;color:var(--muted,#777)}
+.wp-steps li::before{content:'';position:absolute;left:12px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:var(--s3,#ccc)}
+.wp-steps li.now{color:var(--on);font-weight:800}
+.wp-steps li.now::before{background:var(--primary);animation:wpPulse 1s ease-in-out infinite}
+.wp-steps li.done{color:var(--on)}
+.wp-steps li.done::before{background:#1e8e3e}
+.wp-prog-n{margin:8px 0 0;font-weight:700;color:#b3261e}
+@keyframes wpPulse{50%{opacity:.35}}
+@media (prefers-reduced-motion:reduce){.wp-steps li.now::before{animation:none}}
+.wc-done{text-align:center;padding:30px 18px;border-radius:32px;background:var(--s2);display:grid;justify-items:center;gap:8px}
+.wc-done h3{margin:0;font-size:1.5rem}
+.wc-done p{margin:0;font-weight:500}
+.wc-done-ic{width:84px;height:84px;border-radius:30px;display:grid;place-items:center;background:var(--pc);color:var(--on-pc)}
+.wc-done-ic .material-symbols-rounded{font-size:42px}
+.wc-done-b{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:8px}
 </style>
 <style id="tools-subj">
   #totop{position:fixed;z-index:29;right:16px;bottom:calc(env(safe-area-inset-bottom,0px) + 176px);width:52px;height:52px;border:0;border-radius:18px;background:var(--pc);color:var(--on-pc);box-shadow:0 10px 24px -8px rgba(0,0,0,.45);display:grid;place-items:center;cursor:pointer;opacity:0;transform:translateY(28px) scale(.6);pointer-events:none;transition:opacity .35s ease,transform .55s var(--spring),border-radius .45s var(--spring)}
@@ -3803,6 +3837,7 @@ body.ai-full #axw .gm-main{height:100%;min-height:0}
 <input type="file" id="impsub" accept=".json,.txt,application/json,text/plain" hidden>
 <input type="file" id="impcards" accept=".json,.csv,.txt,application/json,text/csv,text/plain" hidden>
 <input type="file" id="wcphoto" accept="image/*" multiple hidden>
+<input type="file" id="wcphotocam" accept="image/*" capture="environment" hidden>
 <style id="tl-css">
 .tl-hd{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:4px 4px 10px}
 .tl-hd .tl-n{display:flex;align-items:baseline;gap:4px;min-width:64px}
@@ -3860,8 +3895,8 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.3.22'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.3.22';
+const RELEASE_VER = '18.4'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.4';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4994,7 +5029,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
-  { v: '18.3.22', d: '2026/11/27 09:00', t: 'バグ修正', n: ['バグ修正：「進み具合を友達に見せる」をオンにしていても、友達から見えないことがある問題を直しました','バグ修正：一部の端末で、クラウドへの同期が止まったままになることがある問題を直しました（同期のどちらのデータを使うかの確認が、ほかの画面の後で出るようにしました）'] },
+  { v: '18.4', d: '2026/11/27 12:00', t: '機能追加', n: ['追加：魚のミキサー。同じ魚を3匹入れると、1つ上のレアの魚が出ます（まれに、同じレアの別の魚。色違いは色違いが出やすくなります）','追加：単語帳の「カードの追加」を押すと、「自分で作る」「AIで作る」「写真を撮って作る」の3つから選べるようにしました','追加：単語帳で範囲の最後まで進むと、「完了しました」と「もう一度やる」「テストをする」ボタンを出すようにしました','追加：アプリを開いている間は、5分ごとに自動で同期するようにしました','追加：友達から受け取った単語帳に自分でカードを追加すると、渡してくれた友達にも届き、受け取れるようにしました','バグ修正：単語帳の写真読み取りが「読み取り中」のまま進まないことがある問題を直しました（進みの表示と、返事が来ないときの案内を出すようにしました）'] },  { v: '18.3.22', d: '2026/11/27 09:00', t: 'バグ修正', n: ['バグ修正：「進み具合を友達に見せる」をオンにしていても、友達から見えないことがある問題を直しました','バグ修正：一部の端末で、クラウドへの同期が止まったままになることがある問題を直しました（同期のどちらのデータを使うかの確認が、ほかの画面の後で出るようにしました）'] },
   { v: '18.3.21', d: '2026/11/27 08:00', t: '魚ガチャが1日1回無料に。ログインボーナスが分かりやすくなりました（バグ修正あり）', n: ['魚ガチャは、1日1回だけ無料で引けます（2回目からは 100 XP）','ログインボーナスをもらったとき、大きなお知らせで出るようにしました（連続の日数も出ます）','バグ修正：XPのふやし方（ログインボーナスなど）がもらえたとき、エラーで保存や画面の更新が止まることがある問題を直しました'] },
   { v: '18.3.20', d: '2026/11/27 07:00', t: 'バグ修正', n: ['バグ修正'] },
   { v: '18.3.19', d: '2026/11/26 23:30', t: '水槽の魚が泳がない問題を直し、魚ガチャの演出・図鑑・エサ・水槽テーマを追加しました', n: ['動きを減らす設定やアニメーションオフのとき、魚が止まってしまう問題を直しました（魚はゆっくり泳ぎ続けます）','魚ガチャに、段階のある演出を追加しました（光の渦→玉が震える→閃光→魚が登場）。レアが高いほど派手になり、色違いは金色の光になります。スキップもできます','魚の図鑑を追加しました。見つけた魚の絵が出て、全部そろうと 1000 XP もらえます','稚魚に「エサ」をあげると、大人になるまでの時間が15分短くなります（エサは1回 5 XP）','水槽のテーマ（清流・夜の深海・サンゴ礁）を追加しました。XPで買って、いつでも切り替えられます','水槽を金の枠・ライト・台のあるキャビネットにして、魚と水槽の見た目をよりリアルにしました（魚の尾やひれも動きます）'] },
@@ -6945,6 +6980,7 @@ const ACT = {
   wcpull() { const d = wcDeck(); if (d.from) shLook(d.from, true); },
   wcphoto() { wcPhotoDlg(); },
   wpadd() { $('#wcphoto').click(); },
+  wpcam() { $('#wcphotocam').click(); },
   wprm(id) { WP.imgs.splice(+id, 1); wpPaint(); },
   wpex(id) { const t = $('#wpi') || $('#aici'), x = WP.exs[+id]; if (t && x) { t.value = x; t.focus(); } },
   async wpgo() {
@@ -6954,8 +6990,10 @@ const ACT = {
     try { localStorage.setItem('kosa-wc-instr', instr); localStorage.setItem('kosa-wc-mode', mode); } catch (e) { }
     WP.busy = true; const g = $('#wpgo'); g.disabled = true; g.textContent = '読み取り中…';
     const imgs = WP.imgs.slice();
-    const r = await aiRun({ json: true, imgs, prompt: wcPhotoPrompt(mode, instr) });
-    WP.busy = false;
+    WP.err = false; wpProgShow();
+    const r = await aiRun({ json: true, imgs, prompt: wcPhotoPrompt(mode, instr), onStep: (k, m) => { if (k === 'error') WP.err = true; wpProgStep(k, m); } });
+    WP.busy = false; clearInterval(WP.tick);
+    if (!r && !WP.err) wpProgStep('error', 'カードを作れませんでした。写真を変えるか、もう一度お試しください');
     const g2 = $('#wpgo'); if (!g2) return;
     g2.innerHTML = `${gem(18)}カードを作る`; g2.disabled = !WP.imgs.length;
     const arr = Array.isArray(r) ? r : (r && Array.isArray(r.cards) ? r.cards : []);
@@ -6968,7 +7006,7 @@ const ACT = {
   wcbulk() { openDlg(`<h2>カードをまとめて追加</h2><p class="muted" style="margin:-8px 0 12px">「${esc(wcDeck().name)}」に追加します。1行に1枚、「表,裏」の形で入力します（カンマ・タブ・全角コロンで区切れます）。</p><textarea id="wcbulk" class="trta" rows="8" placeholder="apple,りんご\nbook,本"></textarea><div class="dact" style="margin-top:12px"><button class="btn text" data-act="close">キャンセル</button><span class="sp"></span><button class="btn" data-act="wcbulkok">${ms('check')}追加する</button></div>`); },
   wcbulkok() {
     const rows = $('#wcbulk').value.split('\n').map(l => l.split(/[\t,，、：]/)).filter(p => p.length >= 2 && p[0].trim() && p[1].trim()); closeDlg(); if (!rows.length) return toast('追加できる行がありませんでした');
-    const did = wcDeck().id; undoable(`${rows.length}枚のカードを追加しました`, () => { rows.forEach(p => S.cards.push({ id: uid(), f: p[0].trim(), b: p.slice(1).join(',').trim(), k: 0, d: did })); });
+    const did = wcDeck().id; undoable(`${rows.length}枚のカードを追加しました`, () => { const added = []; rows.forEach(p => { const c = { id: uid(), f: p[0].trim(), b: p.slice(1).join(',').trim(), k: 0, d: did }; S.cards.push(c); added.push(c); }); shQueueAdds(S.decks.find(x => x.id === did), added); });
   },
   wcimpok() {
     const rows = [...document.querySelectorAll('.wc-ir')].map(r => ({ on: r.querySelector('[data-wi]').checked, f: r.querySelector('[data-wf]').value.trim(), b: r.querySelector('[data-wb]').value.trim() })).filter(x => x.on && x.f && x.b);
@@ -6976,7 +7014,7 @@ const ACT = {
     undoable(`${rows.length}枚のカードを追加しました`, () => {
       let did = sel; if (sel === '__new') { const nd = { id: uid(), name: nm || '新しい単語帳', hue: WC_HUES[S.decks.length % WC_HUES.length] }; S.decks.push(nd); did = nd.id; }
       const have = new Set(S.cards.filter(c => c.d === did).map(c => c.f + '\u0001' + c.b));
-      rows.forEach(x => { const k = x.f + '\u0001' + x.b; if (have.has(k)) return; have.add(k); S.cards.push({ id: uid(), f: x.f.slice(0, 200), b: x.b.slice(0, 400), k: 0, d: did }); });
+      const added = []; rows.forEach(x => { const k = x.f + '\u0001' + x.b; if (have.has(k)) return; have.add(k); const c = { id: uid(), f: x.f.slice(0, 200), b: x.b.slice(0, 400), k: 0, d: did }; S.cards.push(c); added.push(c); }); shQueueAdds(S.decks.find(x => x.id === did), added);
       WC.deck = did; WC.i = 0; WC.flip = false; wcSave();
     });
   },
@@ -7087,7 +7125,7 @@ document.addEventListener('change', e => {
   else if (t.id === 'imp') importData(t);
   else if (t.id === 'impsub') importSubjects(t);
   else if (t.id === 'impcards') importCards(t);
-  else if (t.id === 'wcphoto') wcPhoto(t);
+  else if (t.id === 'wcphoto' || t.id === 'wcphotocam') wcPhoto(t);
 });
 document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target.dataset && e.target.dataset.cur) e.target.blur(); });
 // 「体感の進み」スライダー：動かしている間は表示だけ更新し、離したときに保存する
@@ -7208,6 +7246,53 @@ function shPreview(x) {
   <div class="dact" style="flex-wrap:wrap;gap:10px"><button type="button" class="btn text" data-act="close">やめる</button><span class="sp"></span>${ex ? `<button type="button" class="btn tonal" id="shr">置き換える</button><button type="button" class="btn" id="sha" ${fresh ? '' : 'disabled'}>${ms('add')}追加する</button>` : `<button type="button" class="btn" id="shn">${ms('download')}取り込む</button>`}</div>`);
   const go = (mode) => { closeDlg(); undoable(`「${x.name}」を取り込みました`, () => shApply(x, mode, ex)); airFx(`「${x.name}」を受け取りました`, `カード ${x.cards.length}枚`, 'style'); };
   if (ex) { $('#shr').onclick = () => go('rep'); $('#sha').onclick = () => go('add'); } else $('#shn').onclick = () => go('new');
+}
+// 受け取った単語帳にカードを足したときの送り返し（まとめて、3秒後に1回だけ届けます）
+const SHQ = { m: {}, t: 0 };
+function shQueueAdds(d, cards) {
+  if (!d || !d.from || !cards || !cards.length) return;
+  const q = SHQ.m[d.id] = SHQ.m[d.id] || { d: { id: d.id, from: d.from, name: d.name }, cards: [] };
+  q.cards.push(...cards.map(c => ({ f: c.f, b: c.b })));
+  clearTimeout(SHQ.t); SHQ.t = setTimeout(shFlushAdds, 3000);
+}
+function shFlushAdds() { clearTimeout(SHQ.t); const all = Object.values(SHQ.m); SHQ.m = {}; all.forEach(x => shSendAdds(x.d, x.cards)); }
+document.addEventListener('visibilitychange', () => { if (document.hidden && Object.keys(SHQ.m).length) shFlushAdds(); });
+async function shSendAdds(d, cards) {
+  if (!CLOUD.user || !CLOUD.fb || !cards.length) return;
+  try {
+    const { fs, db } = CLOUD.fb;
+    const sn = await fs.getDoc(fs.doc(db, 'shares', d.from));
+    if (!sn.exists()) return;
+    const owner = String(sn.data().owner || '');
+    if (!owner || owner === CLOUD.user.uid) return;
+    let keep = []; for (const c of cards) { const t = JSON.stringify([...keep, c]); if (t.length > 19000) break; keep.push(c); }
+    if (!keep.length) return;
+    const me = (growGet().nick || CLOUD.user.displayName || '名前なし').slice(0, 40);
+    await fs.setDoc(fs.doc(fs.collection(db, 'friendInbox', owner, 'items')), { from: CLOUD.user.uid, name: me, code: d.from, kind: 'deckadd', deck: String(d.name || '単語帳').slice(0, 20), json: JSON.stringify(keep), t: Date.now() });
+  } catch (e) { }
+}
+// 渡してくれた友達の側：届いたカードの知らせ（タップで受け取る）
+function deckAddNotice(id, d, nm) {
+  let n = 0; try { n = (JSON.parse(d.json || '[]') || []).length; } catch (e) { }
+  const added = notiAdd({ k: 'deckadd-' + id, icon: 'style', text: `${nm}さんが「${String(d.deck || '単語帳').slice(0, 20)}」にカードを追加しました`, sub: `${n}枚・タップすると受け取れます`, act: 'deckget', aid: id });
+  if (added) toast(`${nm}さんが、単語帳にカードを追加しました（タップで受け取れます）`);
+}
+// 受け取る：自分が共有している同じ単語帳に、まだないカードを足す
+async function deckGetNow(id) {
+  if (!CLOUD.user || !CLOUD.fb) return toast('ログインしてください');
+  try {
+    const { fs, db } = CLOUD.fb, ref = fs.doc(db, 'friendInbox', CLOUD.user.uid, 'items', id);
+    const sn = await fs.getDoc(ref);
+    if (!sn.exists()) return toast('このカードは、もう受け取り済みです');
+    const x = sn.data() || {}, code = String(x.code || ''), d = S.decks.find(dk => dk.share === code);
+    if (!d) { await fs.deleteDoc(ref); return toast('この単語帳は、もう共有していないため、受け取れません'); }
+    const cards = shUpdCards(JSON.parse(x.json || '[]')), have = new Set(S.cards.filter(c => c.d === d.id).map(wcKey));
+    let n = 0; cards.forEach(c => { const k = wcKey(c); if (have.has(k)) return; have.add(k); S.cards.push({ id: uid(), f: c.f, b: c.b, k: 0, d: d.id }); n++; });
+    if (n) { save(); }
+    await fs.deleteDoc(ref);
+    toast(n ? `${String(x.name || '友達')}さんのカードを${n}枚、「${d.name}」に受け取りました` : '新しいカードはありませんでした（すでにあります）');
+    if (ui.tab === 'tool:card' || ui.tool === 'card') render();
+  } catch (e) { toast('受け取れませんでした。ルールの公開を確かめてください'); }
 }
 function shApply(x, mode, ex) {
   ensureDecks(); let d = ex;
@@ -8038,11 +8123,13 @@ async function aiGetStream(send, sendOnce, onText) {
     return got;
   }
 }
-async function aiRun({ system, prompt, json = false, imgs = [], model = '', maxTokens = 0 }) {
+// AIの返事を、時間内に待つ（返事が来ないまま止まるのを防ぐ）
+function aiWait(p, ms, why) { let t = 0; return Promise.race([p, new Promise((_, rej) => { t = setTimeout(() => rej(Object.assign(new Error(why), { code: 'timeout' })), ms); })]).finally(() => clearTimeout(t)); }
+async function aiRun({ system, prompt, json = false, imgs = [], model = '', maxTokens = 0, onStep = null, timeout = 90000 }) {
   if (!CLOUD.user) { toast('AIは、Googleログイン後に使えます'); return null; }
   if (aiFull()) { toast(`今日のAI利用は${aiLimit()}回までです`); return null; }
   try {
-    if (!AI.mod) AI.mod = await import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`);
+    if (!AI.mod) AI.mod = await aiWait(import(`https://www.gstatic.com/firebasejs/${FB_VER}/firebase-ai.js`), 30000, 'load');
     const ai = AI.mod.getAI(CLOUD.fb.app, { backend: new AI.mod.GoogleAIBackend() });
     const cfg = { model: model || aiModel() };
     if (system) cfg.systemInstruction = system;
@@ -8050,21 +8137,24 @@ async function aiRun({ system, prompt, json = false, imgs = [], model = '', maxT
     const content = imgs.length ? [prompt, ...imgs.map(a => ({ inlineData: { mimeType: a.mime, data: a.data } }))] : prompt;
     aiCount();
     let res;
-    const gen = c => AI.mod.getGenerativeModel(ai, c, AI_RO).generateContent(content);
+    const gen = c => aiWait(AI.mod.getGenerativeModel(ai, c, AI_RO).generateContent(content), timeout, 'reply');
+    if (onStep) onStep('wait');
     try { res = await gen(cfg); }
     catch (e) {
+      if (e && e.code === 'timeout') throw e;   // 返事が来ないときは、待ちなおさず、すぐ知らせる
       if (aiParseErr(e) && !aiBusyErr(e)) res = await gen(cfg);   // 答えの受け取りだけが失敗したときは、もう一度作りなおす
       else {   // 選んだモデルが使えないときは、標準のモデルで答えなおす
         const std = window.AI_MODEL || AI_STD; if (cfg.model === std) throw e;
         res = await gen({ ...cfg, model: std }); toast('選んだモデルは使えなかったので、標準のモデルで答えました');
       }
     }
+    if (onStep) onStep('parse');
     const t = String(res.response.text() || '').trim();
     if (!t) throw new Error('empty');
     if (!json) return t;
     const clean = t.replace(/```json|```/g, '').trim();
     try { return JSON.parse(clean); } catch (e) { const m = clean.match(/\{[\s\S]*\}/); if (m) return JSON.parse(m[0]); throw e; }
-  } catch (e) { toast(aiErr(e).split('\n')[0]); return null; }
+  } catch (e) { const m = e && e.code === 'timeout' ? 'AIの返事が時間内に届きませんでした。少し待ってから、もう一度お試しください' : aiErr(e).split('\n')[0]; toast(m); if (onStep) onStep('error', m); return null; }
 }
 const aiNormTasks = arr => (Array.isArray(arr) ? arr : []).filter(x => x && x.title).map(x => ({ subject: String(x.subject || '').trim(), title: String(x.title).trim(), start: parseInt(x.start, 10) || 0, end: parseInt(x.end, 10) || 0, due: String(x.due || ''), dest: String(x.dest || '').trim().slice(0, 30) }));
 const TEX = { angle: '∠', triangle: '△', times: '×', div: '÷', circ: '°', degree: '°', cdot: '・', pi: 'π', leq: '≦', le: '≦', geq: '≧', ge: '≧', neq: '≠', ne: '≠', parallel: '∥', perp: '⊥', therefore: '∴', because: '∵', alpha: 'α', beta: 'β', gamma: 'γ', theta: 'θ', pm: '±', equiv: '≡', sim: '∽', infty: '∞', rightarrow: '→', to: '→', Rightarrow: '⇒', ldots: '…', dots: '…', cdots: '⋯', quad: '\u00a0\u00a0', qquad: '\u00a0\u00a0\u00a0\u00a0', ',': ' ', ';': ' ', ':': ' ', '!': '', left: '', right: '', displaystyle: '' };
@@ -8914,13 +9004,31 @@ function wcDayN() { try { const o = JSON.parse(localStorage.getItem(wcDayKey) ||
 function wcDayAdd(n) { try { localStorage.setItem(wcDayKey, JSON.stringify({ d: today(), n: wcDayN() + (n || 1) })); } catch (e) { } }
 function wcStatText() { const all = wcAll(), k = all.filter(c => c.k).length, t = wcDayN(); return `覚えた ${k} / ${all.length}枚${t ? ` ・ 今日 ${t}枚 学習` : ''}`; }
 function wcSay(t) { if (!window.speechSynthesis) return false; const u = new SpeechSynthesisUtterance(t); u.lang = /[A-Za-z]/.test(t) && !/[ぁ-んァ-ン一-龥]/.test(t) ? 'en-US' : 'ja-JP'; u.rate = .92; speechSynthesis.cancel(); speechSynthesis.speak(u); return true; }
-const wcCur = () => { const l = wcList(); return l.length ? l[WC.i % l.length] : null; };
+const wcCur = () => { const l = wcList(); return l.length && WC.i < l.length ? l[WC.i] : null; };
 const wcNl = t => esc(t).replace(/\n/g, '<br>');
 const wcKey = c => c.f + '\u0001' + c.b;
 
+// 追加：まず、作り方を3つから選ぶ（大きな角丸のボタン）
+function wcChooseDlg() {
+  const d = wcDeck();
+  openDlg(`<div class="ch-hd"><h2>${ms('add')}カードを追加</h2><p class="muted">「${esc(d.name)}」に追加します。作り方を選んでください。</p></div>
+  <div class="ch3">
+    <button type="button" class="ch-b" data-act="wcmanual"><span class="ch-ic">${ms('edit')}</span><b>自分で作る</b><small>表と裏を、自分で入力します</small></button>
+    <button type="button" class="ch-b ai" data-act="wcaitext"><span class="ch-ic">${gem(34, true)}</span><b>AIで作る</b><small>テーマを入れると、AIがカードを作ります</small></button>
+    <button type="button" class="ch-b" data-act="wcphoto"><span class="ch-ic">${ms('photo_camera')}</span><b>写真を撮って作る</b><small>プリントや黒板の写真から作ります</small></button>
+  </div>
+  <p class="muted ch-n">AIのカードは、確かめてから追加できます。${CLOUD.user ? '' : 'AIは、Googleログイン後に使えます。'}</p>
+  <div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">閉じる</button></div>`);
+  dlg.dataset.k = 'wcchoose';
+}
+// 範囲の最後まで終えたときの表示（最初に戻らず、ここで止める）
+function wcDoneHtml(d, n, rg, sc) {
+  const rs = rg ? `番号 ${rg[0]}〜${rg[1]} の${n}枚` : `${n}枚`;
+  return `<div class="wc-wrap sc" ${sc}><div class="wc-done"><span class="wc-done-ic">${ms('celebration')}</span><h3>完了しました！</h3><p class="muted">「${esc(d.name)}」の${rs}を、最後まで終えました。</p><div class="wc-done-b"><button type="button" class="btn" data-act="wcagain">${ms('replay')}もう一度やる</button><button type="button" class="btn tonal" data-act="wcgotest">${ms('quiz')}テストをする</button></div></div></div>`;
+}
 function wcEmptyHtml(d, all, study, rg, sc) {
   const box = (ic, h, p, btns) => `<div class="card wc-empty sc" ${sc}><span class="wc-eic">${ms(ic)}</span><h3>${h}</h3><p class="muted" style="margin:0">${p}</p><div class="dact" style="justify-content:center;gap:10px;flex-wrap:wrap;margin:10px 0 0">${btns}</div></div>`;
-  if (!all.length) return box('style', `「${esc(d.name)}」にカードを追加しましょう`, '写真から読み取ったり、AIに作ってもらったり、自分で入力したりできます。', `<button class="btn" data-act="wcaiadd">${ms('add')}カードを追加</button>`);
+  if (!all.length) return box('style', `「${esc(d.name)}」にカードを追加しましょう`, '写真から読み取ったり、AIに作ってもらったり、自分で入力したりできます。', `<button class="btn" data-act="wcchoose">${ms('add')}カードを追加</button>`);
   if (!study.length) return box('pin', 'この番号の範囲には、カードがありません', '範囲を変えるか、解除してください。', `<button class="btn" data-act="wcrng">${ms('pin')}範囲を変える</button><button class="btn tonal" data-act="wcrngclr">範囲を解除</button>`);
   if (WC.sel !== 'all') return box('star', WC.sel === 'star' ? '★をつけたカードは、ありません' : '苦手なカードは、ありません', WC.sel === 'star' ? 'カードの「★をつける」で、あとで見直したいカードに印をつけられます。' : '「まだ」を2回以上押したカードが、苦手なカードとして集まります。', `<button class="btn tonal" data-act="wcsel" data-id="all">${ms('close')}絞り込みを解除</button>`);
   if (WC.filt === 'rev') return box('task_alt', '見直すカードは、ありません', '覚えてから1週間たったカードが、ここに出ます。', `<button class="btn tonal" data-act="wcfilt" data-id="new">${ms('arrow_back')}覚えていないカードにもどる</button>`);
@@ -8930,7 +9038,8 @@ function wcEmptyHtml(d, all, study, rg, sc) {
 function wcStageHtml() {
   const d = wcDeck(), all = wcAll(), study = wcStudy(), list = wcList(), rg = wcRangeOf(d.id), sc = `style="--sh:${d.hue}"`;
   if (!list.length) return wcEmptyHtml(d, all, study, rg, sc);
-  const n = WC.i % list.length, c = list[n], f = WC.rev ? c.b : c.f, b = WC.rev ? c.f : c.b;
+  if (WC.i >= list.length) return wcDoneHtml(d, list.length, rg, sc);
+  const n = WC.i, c = list[n], f = WC.rev ? c.b : c.f, b = WC.rev ? c.f : c.b;
   return `<div class="wc-wrap sc" ${sc}><div class="wc-stack">${list.length > 2 ? '<i class="wc-gh g2"></i>' : ''}${list.length > 1 ? '<i class="wc-gh g1"></i>' : ''}
     <button class="wc-card ${WC.flip ? 'flip' : ''} ${cardPatCls()}" id="wcc" aria-label="カードをめくる。右にスワイプで覚えた、左にスワイプでまだ">
       <span class="wc-stamp ok">覚えた</span><span class="wc-stamp ng">まだ</span>
@@ -9334,6 +9443,20 @@ function wpThumbs() {
   return WP.imgs.map((a, i) => `<span class="wp-t"><img src="${a.url}" alt=""><button type="button" data-act="wprm" data-id="${i}" aria-label="写真を外す">${ms('close')}</button></span>`).join('')
     + (WP.imgs.length < WP_MAX ? `<button type="button" class="wp-add" data-act="wpadd">${ms('add_a_photo')}<span>写真を${WP.imgs.length ? '追加' : '選ぶ・撮る'}</span></button>` : '');
 }
+// 読み取りの進み（写真を送る → AIが読む → 形に整える）。止まったときは、そのことを表示する
+const WP_STEPS = [['send', '写真を送っています'], ['wait', 'AIが写真を読み取っています（30秒ほどかかることがあります）'], ['parse', 'カードの形に整えています']];
+function wpProgShow() {
+  const g = $('#wpgo'); if (!g) return; const old = $('#wpprog'); if (old) old.remove();
+  g.closest('.dact').insertAdjacentHTML('beforebegin', `<div class="wp-prog" id="wpprog" role="status" aria-live="polite"><div class="wp-prog-h"><b id="wpphead">読み取っています…</b><span id="wpsec">0秒</span></div><ol class="wp-steps">${WP_STEPS.map(([k, t]) => `<li data-st="${k}">${t}</li>`).join('')}</ol><p class="wp-prog-n" id="wppn"></p></div>`);
+  WP.t0 = Date.now(); clearInterval(WP.tick); WP.tick = setInterval(() => { const x = $('#wpsec'); if (x) x.textContent = Math.floor((Date.now() - WP.t0) / 1000) + '秒'; }, 1000);
+  wpProgStep('send');
+}
+function wpProgStep(k, msg) {
+  const els = [...document.querySelectorAll('#wpprog [data-st]')]; if (!els.length) return;
+  if (k === 'error') { els.forEach(el => { el.className = ''; }); const n = $('#wppn'); if (n) n.textContent = msg || 'うまくいきませんでした。もう一度お試しください'; const h = $('#wpphead'); if (h) h.textContent = '途中で止まりました'; clearInterval(WP.tick); return; }
+  const i = WP_STEPS.findIndex(x => x[0] === k);
+  els.forEach((el, j) => { el.className = j < i ? 'done' : j === i ? 'now' : ''; });
+}
 function wpPaint() { const t = $('#wpth'), g = $('#wpgo'); if (t) t.innerHTML = wpThumbs(); if (g) g.disabled = WP.busy || !WP.imgs.length; }
 function wcPhotoDlg() {
   WP.imgs = []; WP.busy = false;
@@ -9341,7 +9464,8 @@ function wcPhotoDlg() {
   if (!WP_MODES.some(m => m[0] === mode)) mode = 'auto';
   WP.exs = [...(last && !WP_EX.includes(last) ? [last] : []), ...WP_EX];
   openDlg(`<h2>${gem(24, true)}写真からカードを作る</h2>
-  <div class="fld"><label>写真（${WP_MAX}枚まで）</label><div class="wp-th" id="wpth">${wpThumbs()}</div></div>
+  <div class="wp-pick"><button type="button" class="wp-big" data-act="wpcam">${ms('photo_camera')}<b>写真を撮る</b><small>黒板・プリントを撮ります</small></button><button type="button" class="wp-big" data-act="wpadd">${ms('photo_library')}<b>写真を選ぶ</b><small>撮ってある写真から選びます</small></button></div>
+  <div class="fld"><label>選んだ写真（${WP_MAX}枚まで）</label><div class="wp-th" id="wpth">${wpThumbs()}</div></div>
   <div class="fld"><label for="wpi">どんなカードにする？（任意）</label><textarea id="wpi" class="trta" rows="2" maxlength="200" style="min-height:84px" placeholder="例：表は過去分詞、裏は過去形"></textarea><div class="wp-ex">${WP.exs.map((x, i) => `<button type="button" class="tchip" data-act="wpex" data-id="${i}">${esc(x)}</button>`).join('')}</div></div>
   <div class="fld"><label>写真の内容</label><div class="wp-modes">${WP_MODES.map(([v, ic, t, d]) => `<label class="wp-m"><input type="radio" name="wpm" value="${v}" ${v === mode ? 'checked' : ''}><span>${ms(ic)}<b>${t}</b><small>${d}</small></span></label>`).join('')}</div></div>
   <p class="muted" style="margin:0 0 4px;font-size:.88rem;line-height:1.7">AIの読み取りや答えは、間違うことがあります。必ず確認してから追加してください。${CLOUD.user ? '' : '<br>Googleログイン後に使えます。'}</p>
@@ -13105,7 +13229,7 @@ function sugAiAuto() { if (!CLOUD.user || SUGAI.busy) return; if (S.sugAi && S.s
 Object.assign(ACT, { sugai() { if (!CLOUD.user) return toast('AIは、Googleログイン後に使えます'); toast('おすすめを、いまの取り組みに合わせています…'); sugAiRun(true); } });
 /* ====================== 単語帳の画面（17.6）：ボタンを減らして、カードを大きく。手動追加は、表 → 裏 で入力しやすく ====================== */
 const CF = { n: 0, rec: [] };
-function wcTbarActs() { return `<div class="wx-acts wc-tacts"><button class="btn" data-act="wcmanual" aria-label="カードを追加" title="カードを追加">${ms('add')}<span class="bl">追加</span></button><button class="ibtn wc-more" data-act="wcmore" aria-label="その他の操作" title="その他の操作">${ms('more_vert')}</button></div>`; }
+function wcTbarActs() { return `<div class="wx-acts wc-tacts"><button class="btn" data-act="wcchoose" aria-label="カードを追加" title="カードを追加">${ms('add')}<span class="bl">追加</span></button><button class="ibtn wc-more" data-act="wcmore" aria-label="その他の操作" title="その他の操作">${ms('more_vert')}</button></div>`; }
 function cardsHtml() {
   ensureDecks(); const d = wcDeck(), all = wcAll(), k = all.filter(c => c.k).length;
   return `<div class="wx"><aside class="wx-side"><div class="wx-sh">単語帳</div><div class="wc-decks">${S.decks.map(dk => `<button class="wc-dk sc ${dk.id === d.id ? 'on' : ''}" style="--sh:${dk.hue}" data-act="wcdeck" data-id="${dk.id}"><i></i><b>${esc(dk.name)}</b><small>${S.cards.filter(c => c.d === dk.id).length}</small></button>`).join('')}<p class="wc-lp">長押しで、名前と色を変えられます</p><div class="wc-side-acts"><button class="wc-ib" data-act="wcdeckadd" aria-label="新しい単語帳" title="新しい単語帳">${ms('add')}</button><button class="wc-ib" data-act="wcbackup" aria-label="共有・バックアップ" title="共有・バックアップ">${ms('share')}</button><button class="wc-ib" data-act="wcrecv" aria-label="コードで受け取る" title="コードで受け取る">${ms('key')}</button></div></div></aside>
@@ -13175,7 +13299,7 @@ Object.assign(ACT, {
     const fe = $('#cff'), be = $('#cfb'), f = fe ? fe.value.trim() : '', b = be ? be.value.trim() : '';
     if (!f) { toast('表（問題・単語）を入力してください'); fe && fe.focus(); return; }
     if (!b) { toast('裏（答え・意味）を入力してください'); be && be.focus(); return; }
-    const c = { id: uid(), f, b, k: 0, d: wcDeck().id }; S.cards.push(c); save();
+    const c = { id: uid(), f, b, k: 0, d: wcDeck().id }; S.cards.push(c); save(); shQueueAdds(wcDeck(), [c]);
     CF.n++; CF.rec = [{ id: c.id, f, b }, ...CF.rec].slice(0, 6);
     fe.value = ''; be.value = ''; cfPaint(); try { wcHeadPaint(); } catch (e) { } fe.focus();
     toast(`追加しました（${wcAll().length}枚）`);
@@ -13193,6 +13317,15 @@ document.addEventListener('keydown', e => {
 });
 Object.assign(ACT, { rerender() { render(); } });
 Object.assign(ACT, { stuxp(id) { admStuXp(id); }, stulv(id) { admStuLv(id); }, stupen(id) { admStuPen(id); } });
+Object.assign(ACT, { fshmixdlg() { fshMixDlg(); }, fshmix(id) { fshCombine(id); }, fshback() { fshOpen(); }, deckget(id) { deckGetNow(id); } });
+// アプリを開いている間は、5分ごとに自動で同期する（同期の選択が出ている間や、オフラインのときは送らない）
+setInterval(() => { try { if (CLOUD.user && CLOUD.fb && !CLOUD.hold && !CSYNC.busy && !document.hidden && navigator.onLine !== false) cloudPushNow(); } catch (e) { } }, 5 * 60 * 1000);
+// 単語帳：追加の3択、範囲の終わり
+Object.assign(ACT, {
+  wcchoose() { wcChooseDlg(); },
+  wcagain() { WC.i = 0; WC.flip = false; WC.sheet = null; wcSave(); wcPaint(true); },
+  wcgotest() { const d = wcDeck(), r = wcRangeOf(d.id); if (r) WC.trng[d.id] = [r[0], r[1]]; WC.tab = 'test'; wcSave(); closeDlg(); toolsRefresh(); },
+});
 /* ====================== 時間割の時間（17.8）：時間目ごとの始まり・終わり。ホームに、今日の時間割といまの時間目 ====================== */
 const TT_MIN = t => { const m = /^(\d{1,2}):(\d{2})$/.exec(String(t || '')); return m ? (+m[1]) * 60 + (+m[2]) : NaN; };
 const ttFmt = m => `${String(Math.floor(m / 60)).padStart(2, '0')}:${String(m % 60).padStart(2, '0')}`;
@@ -14902,7 +15035,7 @@ function fshOpen() {
   const old = dlg.open && dlg.querySelector('.fsh-full') && dlg.querySelector('.dlg'), sc = old ? old.scrollTop : 0;
   const note = n >= FSH_MAX ? '水槽がいっぱいです。売ると、空きができます' : fshFreeOk() ? '今日は1回、無料で引けます（1日1回）。2回目からは 100 XP' : sp < FSH_PRICE ? `あと${FSH_PRICE - sp} XP で、1回引けます` : '1回 100 XP。出る魚は、下の確率です';
   const themes = FSH_THEMES.map(t => { const own = a.own.includes(t.id), on = a.th === t.id; return `<button type="button" class="fsh-th${on ? ' on' : ''}" data-act="fshtheme" data-id="${t.id}">${esc(t.n)}<small>${on ? '使用中' : own ? '持っている' : t.c + ' XP で買う'}</small></button>`; }).join('');
-  openDlg(`<div class="fsh-full"><div class="fsh-hd"><h2 class="fsh-title">${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(a.fish, true)}<p class="muted fsh-stat">${n}/${FSH_MAX}匹・展示 ${ex}/${FSH_EX_MAX}</p><div class="fsh-gacha"><button type="button" class="btn" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}${fshFreeOk() ? '魚ガチャ（今日は無料）' : '魚ガチャ（100 XP）'}</button><small class="muted">${note}</small></div><div class="fsh-tools"><button type="button" class="btn tonal sm" data-act="fshfeedall">${ms('set_meal')}稚魚に全部エサ（${FSH_FOOD_XP}XPずつ）</button><button type="button" class="btn tonal sm" data-act="fshdex">${ms('menu_book')}魚の図鑑</button></div><h3 class="fsh-h">水槽のテーマ</h3><div class="fsh-themes">${themes}</div><details class="fsh-odds"><summary>魚の出る確率</summary><ul>${FSH_TIERS.map(t => `<li><span class="fsh-tier ${t.c}">${t.n}</span><b>${t.p}%</b><small>大人の売値 ${t.lo}〜${t.hi} XP</small></li>`).join('')}<li><span class="fsh-gold">色違い</span><b>4096分の1</b><small>全身が金色。売値は${FSH_GOLD_X}倍</small></li></ul></details><h3 class="fsh-h">もっている魚</h3><div class="fsh-list">${a.fish.map(fshRowHtml).join('') || '<p class="muted">まだ魚がいません。魚ガチャで、最初の魚を手に入れましょう</p>'}</div><h3 class="fsh-h">友達の水槽（展示）</h3>${fshFriendsHtml()}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
+  openDlg(`<div class="fsh-full"><div class="fsh-hd"><h2 class="fsh-title">${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(a.fish, true)}<p class="muted fsh-stat">${n}/${FSH_MAX}匹・展示 ${ex}/${FSH_EX_MAX}</p><div class="fsh-gacha"><button type="button" class="btn" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}${fshFreeOk() ? '魚ガチャ（今日は無料）' : '魚ガチャ（100 XP）'}</button><small class="muted">${note}</small></div><div class="fsh-tools"><button type="button" class="btn tonal sm" data-act="fshfeedall">${ms('set_meal')}稚魚に全部エサ（${FSH_FOOD_XP}XPずつ）</button><button type="button" class="btn tonal sm" data-act="fshdex">${ms('menu_book')}魚の図鑑</button><button type="button" class="btn tonal sm" data-act="fshmixdlg">${ms('blender')}ミキサー</button></div><h3 class="fsh-h">水槽のテーマ</h3><div class="fsh-themes">${themes}</div><details class="fsh-odds"><summary>魚の出る確率</summary><ul>${FSH_TIERS.map(t => `<li><span class="fsh-tier ${t.c}">${t.n}</span><b>${t.p}%</b><small>大人の売値 ${t.lo}〜${t.hi} XP</small></li>`).join('')}<li><span class="fsh-gold">色違い</span><b>4096分の1</b><small>全身が金色。売値は${FSH_GOLD_X}倍</small></li></ul></details><h3 class="fsh-h">もっている魚</h3><div class="fsh-list">${a.fish.map(fshRowHtml).join('') || '<p class="muted">まだ魚がいません。魚ガチャで、最初の魚を手に入れましょう</p>'}</div><h3 class="fsh-h">友達の水槽（展示）</h3>${fshFriendsHtml()}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
   const nd = dlg.querySelector('.dlg'); if (nd && sc) nd.scrollTop = sc;
   FSH_SIG = a.fish.map(fshStage).join('');
   if (!FSH_T) FSH_T = setInterval(fshTick, 30000);
@@ -14986,6 +15119,36 @@ function fshSell(id) {
   confirmDlg(`${s.n}を売りますか？`, `${fshStage(f) === 'a' ? '大人' : '稚魚'}として ${pr} XP で売ります。売ったXPはショップで使えます（レベルは上がりません）`, '売る', () => {
     const b = fshGet(); b.fish = b.fish.filter(x => x.id !== id); b.earn += pr; fshPut(b); toast(`${pr} XP で売りました`); render(); fshOpen();
   });
+}
+// ミキサー：同じ魚を3匹入れると、1つ上のレアの魚が出ます（まれに、同じレアの別の魚）
+function fshMixDlg() {
+  const a = fshGet(), groups = new Map();
+  a.fish.filter(f => !f.ex && fshStage(f) === 'a').forEach(f => { const k = f.s + '|' + (f.g ? 1 : 0); if (!groups.has(k)) groups.set(k, { s: f.s, g: !!f.g, n: 0 }); groups.get(k).n++; });
+  const list = [...groups.values()].sort((x, y) => fshSpec(y.s).t - fshSpec(x.s).t || y.n - x.n);
+  const rows = list.map(x => { const sp0 = fshSpec(x.s), T = FSH_TIERS[sp0.t], ok = x.n >= 3, top = sp0.t >= FSH_TIERS.length - 1;
+    return `<div class="mx-r${ok ? '' : ' lack'}"><div class="mx-f">${fshFishSvg(sp0, x.g, 'a')}</div><div class="mx-i"><b>${x.g ? '金色の' : ''}${esc(sp0.n)}</b><span><span class="fsh-tier ${T.c}">${T.n}</span>${x.g ? '<span class="fsh-gold">色違い</span>' : ''}</span><small>大人 ×${x.n}匹${top ? '（これ以上のレアはありません）' : ''}</small></div><button type="button" class="btn ${ok ? '' : 'tonal'} sm" data-act="fshmix" data-id="${x.s}|${x.g ? 1 : 0}" ${ok ? '' : 'disabled'}>${ok ? '3匹で合成' : `あと${3 - x.n}匹`}</button></div>`; }).join('');
+  openDlg(`<div class="mx"><div class="fsh-hd"><h2 class="fsh-title">${ms('blender')}魚のミキサー</h2></div>
+  <p class="muted mx-p">同じ魚を<b>3匹</b>入れると、1つ上のレアの魚が出ます（まれに、同じレアの別の魚）。色違い同士なら、色違いが出やすくなります。展示中の魚と、稚魚は入れられません。</p>
+  <div class="mx-list">${rows || '<p class="muted">大人の魚が、まだいません。魚ガチャで増えたら、ここで合成できます。</p>'}</div>
+  <div class="dact"><button type="button" class="btn text" data-act="fshback">水槽にもどる</button></div></div>`);
+  dlg.dataset.k = 'fshmix';
+}
+function fshCombine(key) {
+  const [sid, gs] = String(key).split('|'), gold = gs === '1';
+  const a = fshGet();
+  const pick = a.fish.filter(f => !f.ex && fshStage(f) === 'a' && f.s === sid && !!f.g === gold).sort((x, y) => (x.t || 0) - (y.t || 0)).slice(0, 3);
+  if (pick.length < 3) return toast('同じ魚が3匹そろっていません');
+  const base = fshSpec(sid), up = base.t < FSH_TIERS.length - 1 && Math.random() < 0.6, tier = up ? base.t + 1 : base.t;
+  let pool = FSH_SP.filter(x => x.t === tier && (up || x.id !== sid)); if (!pool.length) pool = FSH_SP.filter(x => x.t === tier);
+  const sp2 = pool[Math.floor(Math.random() * pool.length)];
+  const g = gold ? (Math.random() < 0.5 ? 1 : 0) : (Math.random() < FSH_GOLD_P ? 1 : 0);
+  const T = FSH_TIERS[tier], v = T.lo + Math.floor(Math.random() * (T.hi - T.lo + 1));
+  const ids = new Set(pick.map(f => f.id)); a.fish = a.fish.filter(f => !ids.has(f.id));
+  const f = { id: uid(), s: sp2.id, t: Date.now(), v, g, ex: false, b: 0 };
+  a.fish.push(f); const fresh = !a.seen[sp2.id]; a.seen[sp2.id] = Math.max(a.seen[sp2.id] || 0, g ? 2 : 1);
+  let bonus = 0; if (!a.rw && Object.keys(a.seen).length >= FSH_SP.length) { a.rw = true; a.earn += FSH_DEX_REWARD; bonus = FSH_DEX_REWARD; }
+  fshPut(a); closeDlg(); render();
+  fshGacha(f, { fresh, bonus, mix: true });
 }
 function fshEx(id) {
   const a = fshGet(), f = a.fish.find(x => x.id === id); if (!f) return;
@@ -15607,6 +15770,7 @@ function inboxStart() {
       snap.docChanges().forEach(ch => {
         if (ch.type !== 'added') return;
         const d = ch.doc.data() || {}, nm = String(d.name || '名前なし').slice(0, 20);
+        if (d.kind === 'deckadd') { deckAddNotice(ch.doc.id, d, nm); return; }   // 単語帳のカードの知らせ（友達の申請ではない）
         const g = growGet(), cd = String(d.code || '').toUpperCase();
         if (/^[A-Z0-9]{6}$/.test(cd) && d.from && d.from !== CLOUD.user.uid && !g.friends.some(f => f.uid === d.from)) { g.friends.push({ uid: String(d.from), code: cd, name: nm }); g.at = { ...(g.at || {}), [String(d.from)]: Date.now() }; growPut(g); frChanged(); }
         notiAdd({ k: 'friend-' + ch.doc.id, icon: 'group', text: `${nm}さんと友達になりました`, sub: '記録タブの「友達と比べる」で、進み具合を比べられます', act: 'tab', aid: 'stats' });
