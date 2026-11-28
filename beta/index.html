@@ -2708,6 +2708,46 @@ html.noanim .fsh-rays,html.noanim .fsh-surf{animation:none!important}
 /* 動きを減らす設定でも魚は泳ぐ（ゆっくり・上下のゆれなし）。ほかの全体ルール（.ti * など）より強く指定する */
 @media (prefers-reduced-motion:reduce){html:not(.noanim) .fsh-fw{animation-duration:calc(var(--d,20s)*2.2)!important}html:not(.noanim) .fsh-fb{animation:none!important}html:not(.noanim) .fsh-tank .fsh-tail{animation-duration:1.6s!important}html:not(.noanim) .fsh-tank .fsh-pec{animation-duration:2.4s!important}html:not(.noanim) .fsh-plant,html:not(.noanim) .fsh-bubs i,html:not(.noanim) .fsh-caustic,html:not(.noanim) .fsh-dust i{animation:none!important}}
 html.bg-idle #view .fsh-fw,html.bg-idle #view .fsh-fb,html.bg-idle #view .fsh-tank .fsh-tail,html.bg-idle #view .fsh-tank .fsh-pec{animation-play-state:running!important}
+/* ===== 水族館（18.5.5）：金の額縁・看板・木の台・水槽の切り替え。ミキサーの行をそろえる ===== */
+.fsh-cab{background:radial-gradient(120% 70% at 50% -10%,#3b6a80 0,#132636 42%,#070f17 100%);padding:16px 16px 0;border-radius:30px;box-shadow:0 26px 44px -16px rgba(0,0,0,.7),inset 0 0 0 2px #e0b04a,inset 0 0 0 5px #5b3b0e,inset 0 0 0 7px #ffe8a0,0 0 0 1px rgba(255,214,120,.35)}
+.fsh-cab::before{content:"";position:absolute;left:12%;right:12%;top:0;height:70%;pointer-events:none;border-radius:30px 30px 0 0;background:linear-gradient(180deg,rgba(255,246,214,.24),rgba(255,246,214,0) 85%);clip-path:polygon(22% 0,78% 0,100% 100%,0 100%);opacity:.85;z-index:0}
+.fsh-cab>*{position:relative;z-index:1}
+.fsh-sign{margin:0 auto 12px;width:max-content;max-width:90%;padding:6px 18px;border-radius:12px;background:linear-gradient(180deg,#fff3c2,#d9a53a 55%,#94610f);color:#3b2600;font-weight:900;letter-spacing:.1em;box-shadow:0 5px 12px rgba(0,0,0,.45),inset 0 1px 0 #fffbe6,inset 0 0 0 1px #7a4f0c}
+.fsh-sign .ms{color:#5a3a06}
+.fsh-sign em{font-style:normal;font-size:.7rem;font-weight:700;opacity:.75;margin-left:4px}
+.fsh-hood{height:12px;margin:0 6px 10px;border-radius:12px;background:linear-gradient(180deg,#f5e9c6,#b98a3a);box-shadow:inset 0 0 0 1px #5b3b0e,0 4px 10px rgba(0,0,0,.4)}
+.fsh-hood i{background:linear-gradient(90deg,#fffbe6,#ffffff,#fffbe6);box-shadow:0 0 14px 4px rgba(255,236,170,.75)}
+.fsh-tank{border-radius:18px 18px 0 0;box-shadow:inset 0 0 0 3px #02060a,inset 0 0 0 6px rgba(255,236,170,.22),inset 0 0 80px rgba(0,30,50,.7)}
+.fsh-glass{background:linear-gradient(112deg,transparent 0 38%,rgba(255,255,255,.14) 40%,transparent 44% 70%,rgba(255,255,255,.08) 72%,transparent 76%)}
+.fsh-stand{margin:0 -16px;padding:12px 16px 16px;border-radius:0 0 30px 30px;background:linear-gradient(180deg,#5a3a1d,#2a180b 60%,#160c04);box-shadow:inset 0 2px 0 rgba(255,220,160,.25),inset 0 -2px 0 #000}
+.fsh-plate{padding:8px 18px;border-radius:8px;background:linear-gradient(180deg,#fff3c4,#d9a53a 60%,#a06d18);color:#3b2600;font-weight:900;letter-spacing:.06em;box-shadow:0 3px 8px rgba(0,0,0,.5),inset 0 1px 0 #fffbe6,inset 0 0 0 1px #7a4f0c}
+/* 水槽の切り替え（横に並ぶ。最後は「水槽を買う」） */
+.fsh-gal{display:flex;gap:10px;overflow-x:auto;padding:6px 2px 12px;scroll-snap-type:x proximity;scrollbar-width:none}
+.fsh-gal::-webkit-scrollbar{display:none}
+.fsh-gtab{flex:none;min-width:150px;scroll-snap-align:start;appearance:none;border:0;cursor:pointer;text-align:left;display:grid;gap:4px;padding:12px 14px;border-radius:18px;color:inherit;background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.03));box-shadow:inset 0 0 0 1px rgba(255,236,170,.25),0 6px 14px -8px rgba(0,0,0,.6);transition:transform .25s var(--spring),box-shadow .25s}
+.fsh-gtab:active{transform:scale(.97)}
+.fsh-gtab b{display:flex;align-items:center;gap:6px;font-size:.92rem}
+.fsh-gtab b .ms{font-size:18px;color:#8fe3ff}
+.fsh-gtab span{font-size:.78rem;opacity:.85}
+.fsh-gtab.on{background:linear-gradient(180deg,rgba(255,214,120,.32),rgba(255,214,120,.08));box-shadow:inset 0 0 0 2px #e6b84f,0 0 22px -4px rgba(255,200,90,.7)}
+.fsh-gtab.add{border:2px dashed rgba(255,214,120,.55);background:transparent;box-shadow:none;align-content:center;justify-items:center;text-align:center}
+.fsh-gtab.add b{justify-content:center;color:#ffe07a}
+.fsh-capbar{display:block;height:6px;border-radius:6px;background:rgba(255,255,255,.14);overflow:hidden;margin-top:4px}
+.fsh-capbar u{display:block;height:100%;border-radius:6px;background:linear-gradient(90deg,#7fe3ff,#ffe07a)}
+/* 魚ガチャのボタンを、金色で目立たせる */
+.fsh-gacha .btn:not([disabled]){background:linear-gradient(180deg,#ffe9a0,#e0a52c 60%,#a86d12);color:#3b2400;box-shadow:0 6px 18px -6px rgba(255,190,80,.8),inset 0 1px 0 #fff8d6;font-weight:900}
+/* ミキサー：魚の絵・名前・ボタンを、行ごとにそろえる */
+.mx-p{margin:4px 0 0;line-height:1.7}
+.mx-list{display:grid;gap:8px;margin-top:12px}
+.mx-r{display:grid;grid-template-columns:84px minmax(0,1fr) auto;align-items:center;gap:12px;padding:8px 12px 8px 8px;border-radius:18px;background:linear-gradient(90deg,rgba(255,255,255,.1),rgba(255,255,255,.03));box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+.mx-r.lack{opacity:.7}
+.mx-f{width:84px;height:54px;display:grid;place-items:center;border-radius:14px;overflow:hidden;background:radial-gradient(circle at 50% 35%,rgba(140,230,255,.35),rgba(4,20,34,.5))}
+.mx-f .fsh-svg{width:76px;height:auto;display:block}
+.mx-i{display:grid;gap:4px;min-width:0}
+.mx-i>b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mx-i>span{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.mx-i>small{opacity:.8}
+.mx-r .btn{white-space:nowrap}
 .fsh-glass{position:absolute;inset:0;pointer-events:none;border-radius:inherit;background:radial-gradient(ellipse at 50% 45%,transparent 58%,rgba(0,14,28,.38) 100%),linear-gradient(112deg,rgba(255,255,255,.2),rgba(255,255,255,0) 24%,rgba(255,255,255,0) 78%,rgba(255,255,255,.12)),linear-gradient(180deg,rgba(255,255,255,.12),transparent 12%);box-shadow:inset 0 0 0 2px rgba(255,255,255,.1)}
 .fsh-empty{position:absolute;left:0;right:0;top:40%;margin:0;text-align:center;color:#eaffff;font-weight:700;text-shadow:0 1px 4px rgba(0,30,50,.6)}
 .fsh-stat{margin:14px 0 0}
@@ -3971,8 +4011,8 @@ html[data-theme=dark] .navst-solo .ph.phone{background:#15181f;box-shadow:inset 
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.5.4'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.5.4';
+const RELEASE_VER = '18.5.5'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.5.5';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -5163,6 +5203,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.5.5', d: '2026/11/28 18:00', t: '機能追加', n: ['修正：魚を売ったあと、同期が入るとXPが戻ってしまうことがある不具合を直しました', '追加：水槽を買えるようになりました（水槽は4つまで。1つの水槽には、魚を20匹まで入ります）', '修正：魚のミキサーで、魚の絵の位置がずれて見える不具合を直しました', '変更：水族館の見た目を作り直しました（金の額縁・看板・木の台・水槽の切り替え）'] },
   { v: '18.5.4', d: '2026/11/28 12:30', t: '機能追加', n: ['変更：ナビゲーションの表示を、iPadでは「左」「下」「コンパクト」から選べるようにしました（スマホは下のバーです）', '改善：コンパクトのとき、左上の「≡」だけを出し、開くとプラスボタンも出るようにしました。ボタンがタブに重ならないようにしました', '改善：背景を変えたとき、ホームのオーロラも消えるようにしました', '追加：実績を追加しました（図鑑500問・正解2000問・石高2万・20000ページ・レベル60）'] },
   { v: '18.5.3', d: '2026/11/28 08:00', t: '機能追加', n: ['修正：正式版で「最新」と出たまま更新されない不具合を直しました（配信されている版を直接確認し、新しい版が取り込めていないときは自動で取り直します）','改善：アプリを開くときの読み込みを軽くしました（漢字のデータは、漢字を使うときに読み込みます）','改善：ハンバーガーメニューの「≡」が、プラスボタンやタブと重ならないようにし、開く・閉じるときにアニメーションをつけました','変更：ナビゲーションの表示は、初期設定で縦に固定のバーに戻しました（設定で、いつでも選べます）','改善：アプリを別の画面で使っているとき（見えていないとき）は、背景の動きを止めて、端末の負担を減らしました'] },
   { v: '18.5.2', d: '2026/11/27 19:30', t: '機能追加', n: ['修正：アプリの更新が、通信はつながっているのに失敗することがある不具合を直しました（通信がゆっくりでも、途中で失敗と出ないようにしました）', '追加：更新に失敗したときは、失敗した理由と詳しい内容を表示するようにしました（「詳しい内容をコピー」で、そのまま送れます）', '追加：設定のナビゲーションバーに「ハンバーガーメニュー」を追加しました。左上の≡を押すとバーが出て、もう一度押すと隠れます', '追加：実績に「ヒントなし1000問」「ヒントなし3000問」を追加しました', '修正：歴打の実績の一覧に、「ヒントなし500問」が出ていなかったのを直しました'] },
@@ -6894,6 +6935,8 @@ const ACT = {
   fshfeedall() { fshFeedAll(); },
   fshdex() { fshDex(); },
   fshtheme(id) { fshTheme(id); },
+  fshtank(id) { fshSetTank(id); },
+  fshbuytank() { fshBuyTank(); },
   fshskip() { fshSkip(); },
   quick(id) { quickDlg(id); },
   qadd(id) { const t = window._qt, n = $('#qn'), c = countTo(t, parseInt(n.value, 10) || firstPage(t) - 1); ACT.qset(pageOf(t, Math.min(t.total, c + +id))); },
@@ -7722,7 +7765,7 @@ function autoBackup(why, obj) {
   } catch (e) { }
 }
 const sameData = (a, b) => { try { return JSON.stringify({ ...a, mt: 0 }) === JSON.stringify({ ...b, mt: 0 }); } catch (e) { return false; } };
-function cloudPull(remote, rm) { _noSync = true; setStamp(); const local = S, raw = { decks: Array.isArray(remote.decks) ? remote.decks.slice() : [], cards: Array.isArray(remote.cards) ? remote.cards.slice() : [], gone: remote.gone, alive: remote.alive }; S = migrate(remote); { const mg = mergeSetKeys(local.set, local.setT, S.set, remote.setT); S.set = Object.assign({}, DEF_SET, mg.set); S.setT = mg.t; setApplied(); } S.mt = rm; if (!local.cleared && !remote.cleared) { S.log = unionLog(local.log, S.log); S.sessions = unionSessions(local.sessions, S.sessions); S.badges = unionBadges(local.badges, S.badges); } S.todos = unionById(local.todos, remote.todos); S.habits = unionById(local.habits, remote.habits); S.soc = socUnion(socOf(local), remote.soc, true); const m = unionDW(local, raw, true); S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive; ensureDecks(S); applyTheme(); save(); _noSync = false; ui.sid = ''; if (!dlg.open && !TM.open) render(); }
+function cloudPull(remote, rm) { _noSync = true; setStamp(); const local = S, raw = { decks: Array.isArray(remote.decks) ? remote.decks.slice() : [], cards: Array.isArray(remote.cards) ? remote.cards.slice() : [], gone: remote.gone, alive: remote.alive }; S = migrate(remote); if (local.fsh && (local.fsh.t || 0) >= ((S.fsh && S.fsh.t) || 0)) S.fsh = local.fsh; { const mg = mergeSetKeys(local.set, local.setT, S.set, remote.setT); S.set = Object.assign({}, DEF_SET, mg.set); S.setT = mg.t; setApplied(); } S.mt = rm; if (!local.cleared && !remote.cleared) { S.log = unionLog(local.log, S.log); S.sessions = unionSessions(local.sessions, S.sessions); S.badges = unionBadges(local.badges, S.badges); } S.todos = unionById(local.todos, remote.todos); S.habits = unionById(local.habits, remote.habits); S.soc = socUnion(socOf(local), remote.soc, true); const m = unionDW(local, raw, true); S.decks = m.decks; S.cards = m.cards; S.gone = m.gone; S.alive = m.alive; ensureDecks(S); applyTheme(); save(); _noSync = false; ui.sid = ''; if (!dlg.open && !TM.open) render(); }
 function syncChoiceDlg() {
   const P = CLOUD.pend; if (!P) return;
   const fmt = t => t ? new Date(t).toLocaleString('ja-JP', { month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : '不明';
@@ -15130,7 +15173,7 @@ function growPut(g) {
 }
 const spendXp = () => Math.max(0, Math.floor(totals().xp) - growGet().spent + fshEarn());
 // ===== 水槽（魚を育てる） =====
-const FSH_MAX = 12, FSH_EX_MAX = 3, FSH_PRICE = 100, FSH_GROW = 2 * 3600 * 1000, FSH_FRY = 10, FSH_GOLD_X = 15, FSH_GOLD_P = 1 / 4096;
+const FSH_MAX = 20, FSH_TANK_MAX = 4, FSH_TANK_PRICE = [0, 300, 800, 1500], FSH_EX_MAX = 3, FSH_PRICE = 100, FSH_GROW = 2 * 3600 * 1000, FSH_FRY = 10, FSH_GOLD_X = 15, FSH_GOLD_P = 1 / 4096;
 const FSH_FOOD_XP = 5, FSH_FOOD_MS = 15 * 60 * 1000, FSH_DEX_REWARD = 1000;
 // 出る確率（合計100%）。「レア」は普通の魚です
 const FSH_TIERS = [
@@ -15263,19 +15306,29 @@ const FSH_SHAPE = {
 };
 const fshGet = () => {
   const a = S.fsh && typeof S.fsh === 'object' ? S.fsh : {};
-  return { fish: Array.isArray(a.fish) ? a.fish : [], earn: +a.earn || 0, seen: a.seen && typeof a.seen === 'object' ? a.seen : {}, own: Array.isArray(a.own) ? a.own : ['basic'], th: a.th || 'basic', rw: !!a.rw, free: a.free || '' };
+  // 水槽（水族館の中の水槽）。古いデータは、水槽が1つ（t0）になる
+  const tanks = Array.isArray(a.tanks) && a.tanks.length ? a.tanks.slice(0, FSH_TANK_MAX).map((t, i) => ({ id: String(t.id || 't' + i), th: t.th || 'basic', n: t.n || '' })) : [{ id: 't0', th: a.th || 'basic', n: '' }];
+  return { fish: Array.isArray(a.fish) ? a.fish : [], earn: +a.earn || 0, seen: a.seen && typeof a.seen === 'object' ? a.seen : {}, own: Array.isArray(a.own) ? a.own : ['basic'], th: a.th || 'basic', rw: !!a.rw, free: a.free || '', tanks, cur: tanks.some(t => t.id === a.cur) ? a.cur : tanks[0].id, t: +a.t || 0 };
 };
 // 魚ガチャは1日1回無料（その日の最初の1回）
 const fshFreeOk = () => fshGet().free !== today();
 const fshCanPull = () => fshFreeOk() || spendXp() >= FSH_PRICE;
-function fshPut(a) { S.fsh = { fish: a.fish, earn: a.earn, seen: a.seen, own: a.own, th: a.th, rw: a.rw, free: a.free || '' }; save(); }
+// 水槽の中身の取り扱い。魚は、入っている水槽の番号（tk）を持つ。tk が無い古い魚は、1つ目の水槽
+const fshCurTank = a => a.tanks.find(t => t.id === a.cur) || a.tanks[0];
+const fshTankOf = (a, f) => a.tanks.find(t => t.id === f.tk) || a.tanks[0];
+const fshInTank = (a, t) => a.fish.filter(f => fshTankOf(a, f).id === t.id);
+const fshTankName = (a, t) => t.n || `水槽${a.tanks.indexOf(t) + 1}`;
+// 新しい魚を入れられる水槽（いま見ている水槽を優先）。空きが無ければ null
+const fshRoom = a => { const cur = fshCurTank(a); if (fshInTank(a, cur).length < FSH_MAX) return cur; return a.tanks.find(t => fshInTank(a, t).length < FSH_MAX) || null; };
+// t は、保存した時刻（同期のとき、新しいほうを残すために使う）
+function fshPut(a) { S.fsh = { fish: a.fish, earn: a.earn, seen: a.seen, own: a.own, th: a.th, rw: a.rw, free: a.free || '', tanks: a.tanks, cur: a.cur, t: Date.now() }; save(); }
 function fshEarn() { return fshGet().earn; }
 const fshSpec = id => FSH_SP.find(s => s.id === id) || FSH_SP[0];
 // 育った時間（エサで早めた分を足す）
 const fshAge = f => Date.now() - (f.t || 0) + (f.b || 0);
 const fshStage = f => (fshAge(f) >= FSH_GROW ? 'a' : 'f');
 const fshLeft = f => Math.max(0, FSH_GROW - fshAge(f));
-const fshPrice = f => (fshStage(f) === 'a' ? f.v : FSH_FRY) * (f.g ? FSH_GOLD_X : 1);
+const fshPrice = f => (fshStage(f) === 'a' ? (+f.v || 30) : FSH_FRY) * (f.g ? FSH_GOLD_X : 1);
 const fshLeftTxt = ms => { const m = Math.ceil(ms / 60000); return m >= 60 ? `${Math.floor(m / 60)}時間${m % 60 ? (m % 60) + '分' : ''}` : `${m}分`; };
 function fshHash(s) { let h = 2166136261; for (const c of String(s)) { h ^= c.charCodeAt(0); h = Math.imul(h, 16777619); } return (h >>> 0) / 4294967295; }
 function fshMix(a, b, t) { const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)), x = p(a), y = p(b); return '#' + x.map((v, i) => Math.round(v + (y[i] - v) * t).toString(16).padStart(2, '0')).join(''); }
@@ -15367,14 +15420,14 @@ function fshTankHtml(list, cls, th) {
     `<div class="fsh-fishes">${fishes}</div><div class="fsh-glass"></div>${list.length ? '' : '<p class="fsh-empty">まだ魚がいません</p>'}</div>`;
 }
 // 金の枠・ライト・台のついた水槽キャビネット
-function fshCabinet(list, big, th) {
+function fshCabinet(list, big, th, name) {
   const adult = list.filter(f => fshStage(f) === 'a').length;
   const t = FSH_THEMES.find(x => x.id === (th || fshGet().th)) || FSH_THEMES[0];
-  return `<div class="fsh-cab${big ? ' big' : ''}"><div class="fsh-sign">${ms('water')}<span>${esc(t.n)}</span></div><div class="fsh-hood"><i></i></div>${fshTankHtml(list, big ? 'big' : '', th)}<div class="fsh-stand"><span class="fsh-plate">展示中 ${list.length} 匹 ・ 大人 ${adult} 匹</span></div></div>`;
+  return `<div class="fsh-cab${big ? ' big' : ''}"><div class="fsh-sign">${ms('water')}<span>${esc(name || t.n)}</span><em>${esc(t.n)}</em></div><div class="fsh-hood"><i></i></div>${fshTankHtml(list, big ? 'big' : '', th)}<div class="fsh-stand"><span class="fsh-plate">${list.length} / ${FSH_MAX} 匹 ・ 大人 ${adult} 匹</span></div></div>`;
 }
 function fshCard() {
-  const a = fshGet(), sp = spendXp(), n = a.fish.length, can = fshCanPull() && n < FSH_MAX;
-  return `<section class="card fsh-card"><div class="fsh-hd"><h2>${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(a.fish, false)}<div class="fsh-ft"><small class="muted">${n ? `${n}匹` : 'まだ魚がいません'}</small><span class="sp" style="flex:1"></span><button type="button" class="btn tonal sm" data-act="fshopen">${ms('visibility')}水槽を見る</button><button type="button" class="btn sm" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}${fshFreeOk() ? '魚ガチャ（今日は無料）' : '魚ガチャ 100 XP'}</button></div></section>`;
+  const a = fshGet(), sp = spendXp(), n = a.fish.length, cur = fshCurTank(a), can = fshCanPull() && !!fshRoom(a);
+  return `<section class="card fsh-card"><div class="fsh-hd"><h2>${ms('set_meal')}水族館</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(fshInTank(a, cur), false, cur.th, fshTankName(a, cur))}<div class="fsh-ft"><small class="muted">水槽 ${a.tanks.length} つ ・ 全部で ${n} 匹</small><span class="sp" style="flex:1"></span><button type="button" class="btn tonal sm" data-act="fshopen">${ms('visibility')}水族館を見る</button><button type="button" class="btn sm" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}${fshFreeOk() ? '魚ガチャ（今日は無料）' : '魚ガチャ 100 XP'}</button></div></section>`;
 }
 let FSH_SELM = false; const FSH_SEL = new Set();   // まとめて売るモード（選んだ魚のID）
 function fshRowHtml(f) {
@@ -15400,11 +15453,14 @@ function fshFriendsHtml() {
 }
 function fshOpen() {
   if (CLOUD.user && !FR_HOME.rows) { try { frHomeLoad(false); } catch (e) { } }
-  const a = fshGet(), sp = spendXp(), n = a.fish.length, ex = a.fish.filter(f => f.ex).length, can = fshCanPull() && n < FSH_MAX;
+  const a = fshGet(), sp = spendXp(), n = a.fish.length, ex = a.fish.filter(f => f.ex).length;
+  const cur = fshCurTank(a), inT = fshInTank(a, cur), room = fshRoom(a), can = fshCanPull() && !!room;
   const old = dlg.open && dlg.querySelector('.fsh-full') && dlg.querySelector('.dlg'), sc = old ? old.scrollTop : 0;
-  const note = n >= FSH_MAX ? '水槽がいっぱいです。売ると、空きができます' : fshFreeOk() ? '今日は1回、無料で引けます（1日1回）。2回目からは 100 XP' : sp < FSH_PRICE ? `あと${FSH_PRICE - sp} XP で、1回引けます` : '1回 100 XP。出る魚は、下の確率です';
-  const themes = FSH_THEMES.map(t => { const own = a.own.includes(t.id), on = a.th === t.id; return `<button type="button" class="fsh-th${on ? ' on' : ''}" data-act="fshtheme" data-id="${t.id}">${esc(t.n)}<small>${on ? '使用中' : own ? '持っている' : t.c + ' XP で買う'}</small></button>`; }).join('');
-  openDlg(`<div class="fsh-full"><div class="fsh-hd"><h2 class="fsh-title">${ms('set_meal')}水槽</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div>${fshCabinet(a.fish, true)}<p class="muted fsh-stat">${n}/${FSH_MAX}匹・展示 ${ex}/${FSH_EX_MAX}</p><div class="fsh-gacha"><button type="button" class="btn" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}${fshFreeOk() ? '魚ガチャ（今日は無料）' : '魚ガチャ（100 XP）'}</button><small class="muted">${note}</small></div><div class="fsh-tools"><button type="button" class="btn tonal sm" data-act="fshfeedall">${ms('set_meal')}稚魚に全部エサ（${FSH_FOOD_XP}XPずつ）</button><button type="button" class="btn tonal sm" data-act="fshdex">${ms('menu_book')}魚の図鑑</button><button type="button" class="btn tonal sm" data-act="fshmixdlg">${ms('blender')}ミキサー</button><button type="button" class="btn tonal sm" data-act="fshselm">${ms(FSH_SELM ? 'close' : 'checklist')}${FSH_SELM ? '選ぶのをやめる' : 'まとめて売る'}</button></div><h3 class="fsh-h">水槽のテーマ</h3><div class="fsh-themes">${themes}</div><details class="fsh-odds"><summary>魚の出る確率</summary><ul>${FSH_TIERS.map(t => `<li><span class="fsh-tier ${t.c}">${t.n}</span><b>${t.p}%</b><small>大人の売値 ${t.lo}〜${t.hi} XP</small></li>`).join('')}<li><span class="fsh-gold">色違い</span><b>4096分の1</b><small>全身が金色。売値は${FSH_GOLD_X}倍</small></li></ul></details><h3 class="fsh-h">もっている魚</h3>${fshSelBar(a)}<div class="fsh-list">${a.fish.map(fshRowHtml).join('') || '<p class="muted">まだ魚がいません。魚ガチャで、最初の魚を手に入れましょう</p>'}</div><h3 class="fsh-h">友達の水槽（展示）</h3>${fshFriendsHtml()}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
+  const note = !room ? '水槽がいっぱいです。水槽を買うか、魚を売ると空きができます' : fshFreeOk() ? '今日は1回、無料で引けます（1日1回）。2回目からは 100 XP' : sp < FSH_PRICE ? `あと${FSH_PRICE - sp} XP で、1回引けます` : '1回 100 XP。出る魚は、下の確率です';
+  const gal = a.tanks.map(t => { const c = fshInTank(a, t).length, on = t.id === cur.id; return `<button type="button" class="fsh-gtab${on ? ' on' : ''}" data-act="fshtank" data-id="${t.id}" aria-pressed="${on}"><b>${ms('water')}${esc(fshTankName(a, t))}</b><span>${c} / ${FSH_MAX} 匹</span><i class="fsh-capbar"><u style="width:${Math.round(c / FSH_MAX * 100)}%"></u></i></button>`; }).join('')
+    + (a.tanks.length < FSH_TANK_MAX ? `<button type="button" class="fsh-gtab add" data-act="fshbuytank"><b>${ms('add')}水槽を買う</b><span>${FSH_TANK_PRICE[a.tanks.length]} XP</span></button>` : '');
+  const themes = FSH_THEMES.map(t => { const own = a.own.includes(t.id), on = cur.th === t.id; return `<button type="button" class="fsh-th${on ? ' on' : ''}" data-act="fshtheme" data-id="${t.id}">${esc(t.n)}<small>${on ? '使用中' : own ? '持っている' : t.c + ' XP で買う'}</small></button>`; }).join('');
+  openDlg(`<div class="fsh-full"><div class="fsh-hd"><h2 class="fsh-title">${ms('set_meal')}水族館</h2><span class="sp" style="flex:1"></span><span class="pillchip">${ms('stars')}${sp} XP</span></div><div class="fsh-gal">${gal}</div>${fshCabinet(inT, true, cur.th, fshTankName(a, cur))}<p class="muted fsh-stat">この水槽 ${inT.length}/${FSH_MAX}匹・展示 ${ex}/${FSH_EX_MAX}（水族館の全部で ${n} 匹）</p><div class="fsh-gacha"><button type="button" class="btn" data-act="fshpull" ${can ? '' : 'disabled'}>${ms('casino')}${fshFreeOk() ? '魚ガチャ（今日は無料）' : '魚ガチャ（100 XP）'}</button><small class="muted">${note}</small></div><div class="fsh-tools"><button type="button" class="btn tonal sm" data-act="fshfeedall">${ms('set_meal')}稚魚に全部エサ（${FSH_FOOD_XP}XPずつ）</button><button type="button" class="btn tonal sm" data-act="fshdex">${ms('menu_book')}魚の図鑑</button><button type="button" class="btn tonal sm" data-act="fshmixdlg">${ms('blender')}ミキサー</button><button type="button" class="btn tonal sm" data-act="fshselm">${ms(FSH_SELM ? 'close' : 'checklist')}${FSH_SELM ? '選ぶのをやめる' : 'まとめて売る'}</button></div><h3 class="fsh-h">${esc(fshTankName(a, cur))}の水の色</h3><div class="fsh-themes">${themes}</div><details class="fsh-odds"><summary>魚の出る確率</summary><ul>${FSH_TIERS.map(t => `<li><span class="fsh-tier ${t.c}">${t.n}</span><b>${t.p}%</b><small>大人の売値 ${t.lo}〜${t.hi} XP</small></li>`).join('')}<li><span class="fsh-gold">色違い</span><b>4096分の1</b><small>全身が金色。売値は${FSH_GOLD_X}倍</small></li></ul></details><h3 class="fsh-h">もっている魚（全部 ${n} 匹）</h3>${fshSelBar(a)}<div class="fsh-list">${a.fish.map(fshRowHtml).join('') || '<p class="muted">まだ魚がいません。魚ガチャで、最初の魚を手に入れましょう</p>'}</div><h3 class="fsh-h">友達の水槽（展示）</h3>${fshFriendsHtml()}<div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="close">とじる</button></div></div>`);
   const nd = dlg.querySelector('.dlg'); if (nd && sc) nd.scrollTop = sc;
   FSH_SIG = a.fish.map(fshStage).join('');
   if (!FSH_T) FSH_T = setInterval(fshTick, 30000);
@@ -15415,14 +15471,14 @@ function fshTick() { if (!dlg.open || !dlg.querySelector('.fsh-full')) return; c
 
 // ガチャ：抽選して、演出 → 結果の順に見せる
 function fshPull() {
-  const a = fshGet(), sp = spendXp(), free = fshFreeOk();
-  if (a.fish.length >= FSH_MAX) return toast('水槽がいっぱいです。売るか、ほかの魚を入れかえてください');
+  const a = fshGet(), sp = spendXp(), free = fshFreeOk(), room = fshRoom(a);
+  if (!room) return toast('水槽がいっぱいです。水槽を買うか、魚を売ってください');
   if (!free && sp < FSH_PRICE) return toast(`XPが${FSH_PRICE - sp}足りません`);
   const r = Math.random() * 100; let acc = 0, ti = 0;
   for (let i = 0; i < FSH_TIERS.length; i++) { acc += FSH_TIERS[i].p; ti = i; if (r < acc) break; }
   const T = FSH_TIERS[ti], pool = FSH_SP.filter(s => s.t === ti), sp2 = pool[Math.floor(Math.random() * pool.length)];
   const g = Math.random() < FSH_GOLD_P ? 1 : 0, v = T.lo + Math.floor(Math.random() * (T.hi - T.lo + 1));
-  const f = { id: uid(), s: sp2.id, t: Date.now(), v, g, ex: false, b: 0 };
+  const f = { id: uid(), s: sp2.id, t: Date.now(), v, g, ex: false, b: 0, tk: room.id };
   if (free) a.free = today(); else { const gg = growGet(); gg.spent += FSH_PRICE; growPut(gg); }
   const fresh = !a.seen[sp2.id];
   a.fish.push(f); a.seen[sp2.id] = Math.max(a.seen[sp2.id] || 0, g ? 2 : 1);
@@ -15445,7 +15501,7 @@ function fshGacha(f, info) {
 function fshSkip() { clearTimeout(FSH_FG); if (FSH_LAST) fshReveal(FSH_LAST.f, FSH_LAST.info); }
 function fshReveal(f, info) {
   clearTimeout(FSH_FG);
-  const s = fshSpec(f.s), T = FSH_TIERS[s.t], gold = !!f.g, leg = s.t >= 2, can = fshCanPull() && fshGet().fish.length < FSH_MAX;
+  const s = fshSpec(f.s), T = FSH_TIERS[s.t], gold = !!f.g, leg = s.t >= 2, can = fshCanPull() && !!fshRoom(fshGet());
   const fresh = info && info.fresh, bonus = info && info.bonus;
   openDlg(`<div class="fsh-rev${leg ? ' leg' : ''}"><div class="fsh-rev-fish">${fshFishSvg(s, gold, 'f')}</div><div class="fsh-rev-t"><span class="fsh-tier ${T.c}">${T.n}</span><span class="fsh-stars" aria-hidden="true">${'★'.repeat(s.t + 1)}</span>${gold ? '<span class="fsh-gold">色違い</span>' : ''}${fresh ? '<span class="fsh-new">図鑑に新登録！</span>' : ''}</div><h2>${gold ? '金色の' : ''}${esc(s.n)}</h2><p>稚魚を水槽に入れました。2時間ほどで大人になります。大人になったときの売値は ${f.v * (gold ? FSH_GOLD_X : 1)} XP です</p>${bonus ? `<p class="fsh-bonus">図鑑コンプリート！ ${bonus} XP を受け取りました</p>` : ''}<div class="dact"><button type="button" class="btn tonal" data-act="fshopen">${ms('visibility')}水槽を見る</button>${can ? `<button type="button" class="btn" data-act="fshpull">${ms('casino')}もう一回（100 XP）</button>` : ''}</div><div class="dact"><span class="sp"></span><button type="button" class="btn text" data-act="close">とじる</button></div></div>`);
 }
@@ -15455,13 +15511,31 @@ function fshDex() {
   const cards = FSH_SP.map(s => { const v = a.seen[s.id] || 0, T = FSH_TIERS[s.t]; return `<div class="fsh-dx${v ? '' : ' sil'}">${fshFishSvg(s, false, 'a')}<b>${v ? esc(s.n) : '？？？'}</b><span class="fsh-tier ${T.c}">${T.n}</span>${v >= 2 ? '<small class="fsh-gold">色違い ✓</small>' : v ? '<small class="muted">色違いは未発見</small>' : ''}</div>`; }).join('');
   openDlg(`<div class="fsh-dexw"><div class="fsh-hd"><h2 class="fsh-title">${ms('menu_book')}魚の図鑑</h2><span class="sp" style="flex:1"></span><span class="pillchip">${n} / ${FSH_SP.length}</span></div><p class="muted">全部集めると、${FSH_DEX_REWARD} XP もらえます${a.rw ? '（受け取り済み）' : ''}</p><div class="fsh-dex">${cards}</div><div class="dact"><span class="sp"></span><button type="button" class="btn" data-act="fshopen">水槽にもどる</button></div></div>`);
 }
+// 水の色は、いま見ている水槽ごとに決める（色は、水族館の全部の水槽で共通で買う）
 function fshTheme(id) {
   const a = fshGet(), th = FSH_THEMES.find(t => t.id === id); if (!th) return;
   if (!a.own.includes(id)) {
     if (spendXp() < th.c) return toast(`XPが${th.c - spendXp()}足りません`);
     const gg = growGet(); gg.spent += th.c; growPut(gg); a.own.push(id); toast(`${th.n}を買いました`);
   }
-  a.th = id; fshPut(a); render(); fshOpen();
+  fshCurTank(a).th = id; a.th = id; fshPut(a); render(); fshOpen();
+}
+function fshSetTank(id) {
+  const a = fshGet(); if (!a.tanks.some(t => t.id === id)) return;
+  a.cur = id; fshPut(a); fshOpen();
+}
+// 水槽を買う：2つ目から、だんだん高くなる（最大 FSH_TANK_MAX 個）
+function fshBuyTank() {
+  const a = fshGet(), n = a.tanks.length;
+  if (n >= FSH_TANK_MAX) return toast('水槽は、これ以上増やせません');
+  const price = FSH_TANK_PRICE[n] || 0;
+  if (spendXp() < price) return toast(`XPが${price - spendXp()}足りません`);
+  confirmDlg('水槽を買いますか？', `${price} XP で、水槽をもう1つ増やします。1つの水槽には、魚を${FSH_MAX}匹まで入ります`, '買う', () => {
+    const b = fshGet(); if (b.tanks.length >= FSH_TANK_MAX || spendXp() < price) return toast('買えませんでした');
+    const gg = growGet(); gg.spent += price; growPut(gg);
+    const id = 't' + Date.now().toString(36);
+    b.tanks.push({ id, th: 'basic', n: '' }); b.cur = id; fshPut(b); toast('水槽を買いました。魚は、この水槽に入ります'); render(); fshOpen();
+  });
 }
 function fshFeed(id) {
   const a = fshGet(), f = a.fish.find(x => x.id === id); if (!f) return;
@@ -15522,13 +15596,14 @@ function fshCombine(key) {
   const a = fshGet();
   const pick = a.fish.filter(f => !f.ex && fshStage(f) === 'a' && f.s === sid && !!f.g === gold).sort((x, y) => (x.t || 0) - (y.t || 0)).slice(0, 3);
   if (pick.length < 3) return toast('同じ魚が3匹そろっていません');
+  const tk = fshTankOf(a, pick[0]).id;
   const base = fshSpec(sid), up = base.t < FSH_TIERS.length - 1 && Math.random() < 0.6, tier = up ? base.t + 1 : base.t;
   let pool = FSH_SP.filter(x => x.t === tier && (up || x.id !== sid)); if (!pool.length) pool = FSH_SP.filter(x => x.t === tier);
   const sp2 = pool[Math.floor(Math.random() * pool.length)];
   const g = gold ? (Math.random() < 0.5 ? 1 : 0) : (Math.random() < FSH_GOLD_P ? 1 : 0);
   const T = FSH_TIERS[tier], v = T.lo + Math.floor(Math.random() * (T.hi - T.lo + 1));
   const ids = new Set(pick.map(f => f.id)); a.fish = a.fish.filter(f => !ids.has(f.id));
-  const f = { id: uid(), s: sp2.id, t: Date.now(), v, g, ex: false, b: 0 };
+  const f = { id: uid(), s: sp2.id, t: Date.now(), v, g, ex: false, b: 0, tk };
   a.fish.push(f); const fresh = !a.seen[sp2.id]; a.seen[sp2.id] = Math.max(a.seen[sp2.id] || 0, g ? 2 : 1);
   let bonus = 0; if (!a.rw && Object.keys(a.seen).length >= FSH_SP.length) { a.rw = true; a.earn += FSH_DEX_REWARD; bonus = FSH_DEX_REWARD; }
   fshPut(a); closeDlg(); render();
