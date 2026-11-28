@@ -3938,18 +3938,32 @@ a.td-t{text-decoration:none;color:inherit;display:block}
 @media (prefers-reduced-motion:reduce){.acc-sync{animation:none}}
 
 /* ナビゲーションバーの「ハンバーガーメニュー」モード：バーは隠し、左上の ≡ で出し入れする */
-.navham{display:none;position:fixed;z-index:60;width:64px;height:64px;border:0;border-radius:24px;place-items:center;background:var(--primary);color:var(--on-primary);box-shadow:var(--shadow);cursor:pointer;left:20px;top:calc(98px + env(safe-area-inset-top,0px))}
-.navham .ms{font-size:30px}
-html[data-navmode=menu] .navham{display:grid}
-html[data-hidden] *,html[data-hidden] *::before,html[data-hidden] *::after{animation-play-state:paused!important}
-html[data-navmode=menu] #nav{visibility:hidden!important;opacity:0!important;pointer-events:none!important;transform:translate3d(-125%,0,0)!important;transition:transform .42s var(--smooth),opacity .3s var(--smooth),visibility .42s!important;padding-top:176px}
-html[data-navmode=menu][data-navopen] #nav{visibility:visible!important;opacity:1!important;pointer-events:auto!important;transform:translate3d(0,0,0)!important}
-.navham{transition:transform .42s var(--spring),background .3s var(--smooth)}
+/* ナビゲーション「コンパクト」（ハンバーガー）：閉じているときは「≡」だけ。開くと、プラスボタンも出る */
+.navham{display:none;position:fixed;z-index:60;width:64px;height:64px;border:0;border-radius:24px;place-items:center;background:var(--primary);color:var(--on-primary);box-shadow:var(--shadow);cursor:pointer;left:16px;top:calc(22px + env(safe-area-inset-top,0px));transition:transform .42s var(--spring),background .3s var(--smooth)}
+.navham .ms{font-size:30px;transition:transform .42s var(--spring)}
 .navham:active{transform:scale(.92)!important}
-.navham .ms{transition:transform .42s var(--spring)}
+html[data-navmode=menu] .navham{display:grid}
 html[data-navmode=menu][data-navopen] .navham .ms{transform:rotate(90deg)}
-@media (max-width:699px){ .navham{left:14px;top:calc(12px + env(safe-area-inset-top,0px))} html[data-navmode=menu] #nav{padding-top:0!important;transform:translate3d(0,calc(100% + 40px),0)!important} html[data-navmode=menu][data-navopen] #nav{transform:translate3d(0,0,0)!important} }
-@media (prefers-reduced-motion:reduce){ html[data-navmode=menu] #nav,.navham,.navham .ms{transition:none!important} }
+html[data-navmode=menu] #fab{opacity:0!important;visibility:hidden!important;pointer-events:none!important;transform:translateY(-10px) scale(.8)!important;transition:opacity .28s var(--smooth),transform .42s var(--spring),visibility .28s!important}
+html[data-navmode=menu][data-navopen] #fab{opacity:1!important;visibility:visible!important;pointer-events:auto!important;transform:none!important}
+@media (min-width:700px){ html[data-navmode=menu][data-navopen] #fab{top:calc(98px + env(safe-area-inset-top,0px))!important} }
+html[data-navmode=menu] #nav{visibility:hidden!important;opacity:0!important;pointer-events:none!important;transform:translate3d(-125%,0,0)!important;transition:transform .42s var(--smooth),opacity .3s var(--smooth),visibility .42s!important;padding-top:calc(180px + env(safe-area-inset-top,0px))!important}
+html[data-navmode=menu][data-navopen] #nav{visibility:visible!important;opacity:1!important;pointer-events:auto!important;transform:translate3d(0,0,0)!important}
+@media (max-width:699px){ .navham{left:14px;top:calc(12px + env(safe-area-inset-top,0px))} }
+@media (prefers-reduced-motion:reduce){ html[data-navmode=menu] #nav,html[data-navmode=menu] #fab,.navham,.navham .ms{transition:none!important} }
+/* 背景を変えたとき、ホームのオーロラ（既定の背景の光）を消す */
+html[data-hbg="1"] .greet::before,html[data-hbg="1"] .greet::after{display:none}
+/* ナビゲーションの表示の選び方（イラストは、iPadでは タブレット、スマホでは スマホ の形） */
+.pick .ph.tab{position:relative;display:block;width:100%;max-width:200px;height:auto;aspect-ratio:4/3;border:0;border-radius:16px;background:#f6f7fb;box-shadow:inset 0 0 0 7px #2c313c;overflow:hidden;margin:0 auto}
+.pick .ph.tab i{position:absolute;background:#9aa6bd;border-radius:8px}
+.pick .ph.tab.ill-left i{left:14px;top:14px;bottom:14px;width:24%;border-radius:8px}
+.pick .ph.tab.ill-bottom i{left:18%;right:18%;bottom:14px;top:auto;height:16px;border-radius:12px}
+.pick .ph.tab.ill-compact i{left:14px;top:14px;width:32px;height:32px;border-radius:9px;background:linear-gradient(#fff,#fff) center 9px/16px 2px no-repeat,linear-gradient(#fff,#fff) center 15px/16px 2px no-repeat,linear-gradient(#fff,#fff) center 21px/16px 2px no-repeat,#9aa6bd}
+html[data-theme=dark] .pick .ph.tab{background:#15181f;box-shadow:inset 0 0 0 7px #2a2f3c}
+.navst-solo{display:grid;justify-items:center;gap:10px;padding:20px 24px 6px}
+.navst-solo .ph.phone{position:relative;display:block;width:104px;height:164px;border:0;border-radius:24px;background:#f6f7fb;box-shadow:inset 0 0 0 6px #2c313c;overflow:hidden}
+.navst-solo .ph.phone i{position:absolute;left:14px;right:14px;bottom:12px;height:18px;border-radius:12px;background:#9aa6bd}
+html[data-theme=dark] .navst-solo .ph.phone{background:#15181f;box-shadow:inset 0 0 0 6px #2a2f3c}
 </style>
 
 <script src="firebase-config.js"></script>
@@ -3957,8 +3971,8 @@ html[data-navmode=menu][data-navopen] .navham .ms{transform:rotate(90deg)}
 'use strict';
 // バージョン番号：大きな更新は +1（例 3.1 → 4.0）、小さな更新は +0.1（例 3.1 → 3.2）。sw.js の STABLE_VER / BETA_VER も同じ値にする
 // 正式版は STABLE_VER、ベータ版（/beta/ の中）は BETA_VER。ベータ版は、正式版より上の番号で出す（例：17.99.14-beta1 は 17.99.14 Beta1 と表示）
-const RELEASE_VER = '18.5.3'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
-const BETA_VER = '18.5.3';
+const RELEASE_VER = '18.5.4'; // この版に上がったとき、リリースのお知らせ（ありがとう）を出す
+const BETA_VER = '18.5.4';
 const STABLE_VER = RELEASE_VER;   // 正式版の表示も、リリースの版と必ず同じにする（古い値が残らないように）
 // ベータ版は /beta/ の中で動きます。正式版とは別の場所・別の名前のキャッシュを使うので、互いに消し合いません
 const IS_BETA = location.pathname.includes('/beta/');
@@ -4086,12 +4100,14 @@ const BADGES = [
   ['rk6000', 'military_tech', '石高6000', '歴打で1ゲームの石高を6000以上', c => c.rk >= 6000, c => [c.rk, 6000]],
   ['rk8000', 'emoji_events', '石高8000', '歴打で1ゲームの石高を8000以上', c => c.rk >= 8000, c => [c.rk, 8000]],
   ['rk10000', 'trophy', '石高1万', '歴打で1ゲームの石高を1万以上', c => c.rk >= 10000, c => [c.rk, 10000]],
+  ['rk20000', 'trophy', '石高2万', '歴打で1ゲームの石高を2万以上', c => c.rk >= 20000, c => [c.rk, 20000]],
   ['rkcb20', 'flash_on', '連撃20', '歴打で20連撃（間を空けずに正しく打つ）', c => c.rkcb >= 20, c => [c.rkcb, 20]],
   ['rkcb50', 'local_fire_department', '連撃50', '歴打で50連撃', c => c.rkcb >= 50, c => [c.rkcb, 50]],
   ['rkcb100', 'whatshot', '連撃100', '歴打で100連撃', c => c.rkcb >= 100, c => [c.rkcb, 100]],
   ['rkc100', 'task_alt', '正解100問', '歴打で問題に正解した数が累計100問', c => c.rkc >= 100, c => [c.rkc, 100]],
   ['rkc500', 'task_alt', '正解500問', '歴打で問題に正解した数が累計500問', c => c.rkc >= 500, c => [c.rkc, 500]],
   ['rkc1000', 'task_alt', '正解1000問', '歴打で問題に正解した数が累計1000問', c => c.rkc >= 1000, c => [c.rkc, 1000]],
+  ['rkc2000', 'task_alt', '正解2000問', '歴打で問題に正解した数が累計2000問', c => c.rkc >= 2000, c => [c.rkc, 2000]],
   ['rknh10', 'psychology', 'ヒントなし10問', '歴打でヒントを使わずに10問正解', c => c.rknh >= 10, c => [c.rknh, 10]],
   ['rknh100', 'psychology', 'ヒントなし100問', '歴打でヒントを使わずに100問正解', c => c.rknh >= 100, c => [c.rknh, 100]],
   ['rknh500', 'psychology', 'ヒントなし500問', '歴打でヒントを使わずに500問正解', c => c.rknh >= 500, c => [c.rknh, 500]],
@@ -4100,6 +4116,7 @@ const BADGES = [
   ['rkq50', 'menu_book', '図鑑50問', '歴打で正解した問題が図鑑に50種類たまる', c => c.rkq >= 50, c => [c.rkq, 50]],
   ['rkq150', 'menu_book', '図鑑150問', '歴打で正解した問題が図鑑に150種類たまる', c => c.rkq >= 150, c => [c.rkq, 150]],
   ['rkq300', 'menu_book', '図鑑300問', '歴打で正解した問題が図鑑に300種類たまる', c => c.rkq >= 300, c => [c.rkq, 300]],
+  ['rkq500', 'menu_book', '図鑑500問', '歴打で正解した問題が図鑑に500種類たまる', c => c.rkq >= 500, c => [c.rkq, 500]],
   ['rkera3', 'timeline', '3つの時代', '歴打で3つの時代の問題に正解', c => c.rkera >= 3, c => [c.rkera, 3]],
   ['rkera6', 'timeline', '6つの時代', '歴打で6つの時代の問題に正解', c => c.rkera >= 6, c => [c.rkera, 6]],
   ['rkera11', 'timeline', '全時代制覇', '歴打で11の時代すべての問題に正解', c => c.rkera >= 11, c => [c.rkera, 11]],
@@ -4116,6 +4133,7 @@ const BADGES = [
   ['t200', 'task_alt', '課題200個', '課題を200個完了', c => c.done >= 200, c => [c.done, 200]],
   ['p3000', 'menu_book', '3000ページ', '累計3000ページ', c => c.pages >= 3000, c => [c.pages, 3000]],
   ['p10000', 'auto_stories', '10000ページ', '累計10000ページ', c => c.pages >= 10000, c => [c.pages, 10000]],
+  ['p20000', 'auto_stories', '20000ページ', '累計20000ページ', c => c.pages >= 20000, c => [c.pages, 20000]],
   ['s90', 'calendar_month', '3か月連続', '90日続けて勉強', c => c.bestStreak >= 90, c => [c.bestStreak, 90]],
   ['s180', 'event', '半年連続', '180日続けて勉強', c => c.bestStreak >= 180, c => [c.bestStreak, 180]],
   ['s365', 'emoji_events', '1年連続', '365日続けて勉強', c => c.bestStreak >= 365, c => [c.bestStreak, 365]],
@@ -4129,6 +4147,7 @@ const BADGES = [
   ['lv30', 'auto_awesome', 'レベル30到達', 'レベル30になる', c => c.lv >= 30, c => [c.lv, 30]],
   ['lv40', 'workspace_premium', 'レベル40到達', 'レベル40になる', c => c.lv >= 40, c => [c.lv, 40]],
   ['lv50', 'trophy', 'レベル50到達', 'レベル50になる', c => c.lv >= 50, c => [c.lv, 50]],
+  ['lv60', 'trophy', 'レベル60到達', 'レベル60になる', c => c.lv >= 60, c => [c.lv, 60]],
   ['xp5000', 'savings', '経験値5000', '経験値を5000ためる', c => c.xp >= 5000, c => [c.xp, 5000]]
 ];
 function badgeHtml(b, i, c) {
@@ -5144,6 +5163,7 @@ function dueListView() {
 }
 /* ---------- 更新履歴・更新内容の表示 ---------- */
 const CHANGELOG = [
+  { v: '18.5.4', d: '2026/11/28 12:30', t: '機能追加', n: ['変更：ナビゲーションの表示を、iPadでは「左」「下」「コンパクト」から選べるようにしました（スマホは下のバーです）', '改善：コンパクトのとき、左上の「≡」だけを出し、開くとプラスボタンも出るようにしました。ボタンがタブに重ならないようにしました', '改善：背景を変えたとき、ホームのオーロラも消えるようにしました', '追加：実績を追加しました（図鑑500問・正解2000問・石高2万・20000ページ・レベル60）'] },
   { v: '18.5.3', d: '2026/11/28 08:00', t: '機能追加', n: ['修正：正式版で「最新」と出たまま更新されない不具合を直しました（配信されている版を直接確認し、新しい版が取り込めていないときは自動で取り直します）','改善：アプリを開くときの読み込みを軽くしました（漢字のデータは、漢字を使うときに読み込みます）','改善：ハンバーガーメニューの「≡」が、プラスボタンやタブと重ならないようにし、開く・閉じるときにアニメーションをつけました','変更：ナビゲーションの表示は、初期設定で縦に固定のバーに戻しました（設定で、いつでも選べます）','改善：アプリを別の画面で使っているとき（見えていないとき）は、背景の動きを止めて、端末の負担を減らしました'] },
   { v: '18.5.2', d: '2026/11/27 19:30', t: '機能追加', n: ['修正：アプリの更新が、通信はつながっているのに失敗することがある不具合を直しました（通信がゆっくりでも、途中で失敗と出ないようにしました）', '追加：更新に失敗したときは、失敗した理由と詳しい内容を表示するようにしました（「詳しい内容をコピー」で、そのまま送れます）', '追加：設定のナビゲーションバーに「ハンバーガーメニュー」を追加しました。左上の≡を押すとバーが出て、もう一度押すと隠れます', '追加：実績に「ヒントなし1000問」「ヒントなし3000問」を追加しました', '修正：歴打の実績の一覧に、「ヒントなし500問」が出ていなかったのを直しました'] },
   { v: '18.5.1', d: '2026/11/27 17:30', t: '機能追加', n: ['追加：元素ラボに「冷やす」を追加しました（水は氷に、二酸化炭素はドライアイスになります）', '変更：魚の水槽を、水族館の展示ケースのような見た目に変えました', '追加：設定に「UIの大きさ」（小・標準・大）を追加しました。文字の大きさとは別に、画面全体の大きさを変えられます', '変更：カードを追加する画面の下の説明を消しました', '修正：AI画面が、ときどき小さくなる不具合を直しました', '修正：iPadのマルチタスク（ウインドウを小さくしたとき）に、集中タイマーとAI画面のボタンが重なったり、崩れたりしないようにしました'] },
@@ -5753,7 +5773,7 @@ const ACH_TIPS = [
   { loc: 'tool:card', ids: ['wc50', 'wc200', 'q_known20'], act: '単語帳の学習で「覚えた」を押す' },
   { loc: 'tool:card', ids: ['q_cards10'], act: '単語帳で単語を1つ追加する' },
   { loc: 'tool:focus', ids: ['f1', 'f10', 'f25', 'f50', 'q_focus60', 'q_focus600'], act: '集中タイマーで時間を計って勉強する' },
-  { loc: 'tool:rekida', ids: ['rk1000', 'rk4500', 'rkt10000', 'q_rk500', 'rkp10', 'rkp300', 'rkh100', 'rke10', 'rkn10', 'rkall3', 'rkk1000', 'rkk10000', 'rkt3000', 'rkt300000', 'rk6000', 'rk10000', 'rkcb20', 'rkcb50', 'rkc100', 'rkc500', 'rknh10', 'rknh100', 'rknh500', 'rknh1000', 'rknh3000', 'rkq50', 'rkq150', 'rkera3', 'rkera6', 'q_rkkeys', 'q_rkcombo', 'q_rkhint'], act: '歴打を遊ぶ' },
+  { loc: 'tool:rekida', ids: ['rk1000', 'rk4500', 'rkt10000', 'q_rk500', 'rkp10', 'rkp300', 'rkh100', 'rke10', 'rkn10', 'rkall3', 'rkk1000', 'rkk10000', 'rkt3000', 'rkt300000', 'rk6000', 'rk10000', 'rkcb20', 'rkcb50', 'rkc100', 'rkc500', 'rknh10', 'rknh100', 'rknh500', 'rknh1000', 'rknh3000', 'rkq50', 'rkq150', 'rkera3', 'rkera6', 'q_rkkeys', 'q_rkcombo', 'q_rkhint', 'rk20000', 'rkc2000', 'rkq500'], act: '歴打を遊ぶ' },
   { loc: 'tool:merge', ids: ['q_mg1000', 'q_mglv11'], act: '元素マージで遊ぶ' },
   { loc: 'tool:ptable:game', ids: ['inv1', 'inv10', 'inv500', 'q_inv1000', 'ps100', 'ps1000'], act: '元素インベーダーを遊ぶ' },
   { loc: 'tool:ptable:lab', ids: ['lab10'], act: '元素ラボの「くっつけてみよう」で、物質をくっつけて見つける' },
@@ -6100,7 +6120,7 @@ const SET_ITEMS = {
     { id: 'ty', t: 'タイピング', s: '次の問題へ進みかた', ic: 'keyboard', body: () => { const on = S.set.tyAuto !== false; return `<div class="card"><div class="fld"><div class="lbl">次の問題へ</div><div class="seg">${[['true', '自動で次の問題へ'], ['false', 'ボタンで次へ']].map(([v, l]) => `<button class="${(v === 'true') === on ? 'on' : ''}" data-act="setv" data-id="tyAuto|${v}">${l}</button>`).join('')}</div></div></div>`; } },
   ],
   nav: [
-    { id: 'bar', t: 'タブの並びと表示', s: '下のタブの順番と、表示するタブ', ic: 'dock_to_right', body: () => `${navModeCard()}${navPosCard()}<div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>${navSettings()}` },
+    { id: 'bar', t: 'タブの並びと表示', s: '下のタブの順番と、表示するタブ', ic: 'dock_to_right', body: () => `${navStyleCard()}<div class="h-sec"><h2>${ms('dock_to_right')}ナビゲーションバー</h2><span class="sp"></span><button class="btn tonal xs" data-act="navreset">${ms('restart_alt')}元に戻す</button></div>${navSettings()}` },
   ],
   data: [
     { id: 'cloud', t: 'アカウントと同期', s: 'Googleアカウントと同期の状態', ic: 'cloud_sync', body: () => cloudCard() },
@@ -6125,8 +6145,15 @@ const SET_ITEMS = {
 };
 // 項目が少ない考査と教科・ナビゲーション・データ・ツールと集計は、一覧を使わず中身をそのまま出す
 const SET_DIRECT = ['exam', 'nav', 'data', 'tools', 'home', 'notif'];
-function navModeCard() { const v = S.set.navMode === 'menu' ? 'menu' : 'bar'; const o = [['bar', 'バーを表示', 'ill-auto'], ['menu', 'ハンバーガーメニュー', 'ill-bottom']]; return `<div class="card"><div class="pick-grid pick-2">${o.map(([k, l, c]) => `<button type="button" class="pick ${c} ${v === k ? 'on' : ''}" data-act="navmode" data-id="${k}" aria-pressed="${v === k}"><span class="ph ${c}"><i></i></span>${l}</button>`).join('')}</div><p class="set-note">ハンバーガーメニューにすると、バーは隠れます。左上の「≡」を押すとバーが出て、もう一度押すと隠れます。バーのタブを選ぶと、自動で隠れます。</p></div>`; }
-function navPosCard() { const v = S.set.navPos || 'auto'; const o = [['auto', '自動', 'ill-auto'], ['bottom', '下に固定', 'ill-bottom']]; return `<div class="card"><div class="pick-grid pick-2">${o.map(([k, l, c]) => `<button type="button" class="pick ${c} ${v === k ? 'on' : ''}" data-act="setv" data-id="navPos|${k}" aria-pressed="${v === k}"><span class="ph ${c}"><i></i></span>${l}</button>`).join('')}</div><p class="set-note">自動：iPadなど広い画面では左、スマホでは下に出ます。「下に固定」は、iPadでも下に出します。</p></div>`; }
+// ナビゲーションの表示：iPadは「左・下・コンパクト」から選ぶ。スマホは、下のバーだけ
+function navStyleNow() { if (innerWidth < 700) return 'bottom'; const s = S.set.navStyle; if (s === 'left' || s === 'bottom' || s === 'compact') return s; return S.set.navMode === 'menu' ? 'compact' : (S.set.navPos === 'bottom' ? 'bottom' : 'left'); }
+const NAVST_NOTE = { left: 'iPadでは、画面の左にバーが縦に固定で出ます。', bottom: 'iPadでも、画面の下にバーが出ます。', compact: '左上の「≡」だけを出します。押すとバーとプラスボタンが出て、もう一度押すと隠れます。タブを選ぶと、自動で隠れます。' };
+function navStyleCard() {
+  if (innerWidth < 700) return `<div class="card"><div class="navst-solo"><span class="ph phone"><i></i></span><b>下のバー</b></div><p class="set-note">スマホでは、画面の下にバーが出ます。</p></div>`;
+  const v = navStyleNow();
+  const o = [['left', '左', 'ill-left'], ['bottom', '下', 'ill-bottom'], ['compact', 'コンパクト', 'ill-compact']];
+  return `<div class="card"><div class="pick-grid">${o.map(([k, l, c]) => `<button type="button" class="pick ${v === k ? 'on' : ''}" data-act="navstyle" data-id="${k}" aria-pressed="${v === k}"><span class="ph tab ${c}"><i></i></span>${l}</button>`).join('')}</div><p class="set-note">${NAVST_NOTE[v]}</p></div>`;
+}
 // 先生の設定（AI）の選ぶ一覧：項目ごとに、説明つきの行
 function snPickList(key, list) { const cur = snCfg()[key]; return `<div class="card">${list.map(([v, t, ic, d]) => `<button type="button" class="setrow${cur === v ? ' on' : ''}" data-act="setsn" data-id="${key}|${v}"><span class="ric">${ms(ic)}</span><span class="t">${t}<small>${d}</small></span>${cur === v ? ms('check_circle') : ''}</button>`).join('')}</div>`; }
 function setAcctHtml() { const u = CLOUD.user; const name = u ? (u.displayName || u.email || 'Googleアカウント') : 'ログインしていません'; const sub = u ? 'Googleサービスと同期' : 'タップして、同期を設定'; const ini = String(name).trim().charAt(0).toUpperCase() || '?'; const av = u && u.photoURL ? `<img src="${esc(u.photoURL)}" alt="" referrerpolicy="no-referrer">` : u ? `<span>${esc(ini)}</span>` : ms('account_circle'); return `<button type="button" class="set-acct" data-act="setcat" data-id="data"><span class="set-av">${av}</span><span class="set-ct"><b>${esc(name)}</b><small>${sub}</small></span></button>`; }
@@ -6993,7 +7020,7 @@ const ACT = {
   subjup(id) { moveSubj(id, -1); }, subjdown(id) { moveSubj(id, 1); },
   theme(id) { S.set.theme = id; applyTheme(); commit(); },
   navpos(id) { S.set.navPos = id === 'bottom' ? 'bottom' : 'auto'; applyTheme(); commit(); },
-  navmode(id) { S.set.navMode = id === 'menu' ? 'menu' : 'bar'; delete document.documentElement.dataset.navopen; applyTheme(); commit(); },
+  navstyle(id) { const st = ['left', 'bottom', 'compact'].includes(id) ? id : 'left'; S.set.navStyle = st; S.set.navMode = st === 'compact' ? 'menu' : 'bar'; S.set.navPos = st === 'bottom' ? 'bottom' : 'auto'; delete document.documentElement.dataset.navopen; applyTheme(); commit(); },
   navtog() { const r = document.documentElement; if (r.dataset.navopen) delete r.dataset.navopen; else r.dataset.navopen = '1'; applyTheme(); },
   hue(id) { const h = +id; if (!SEEDS.some(s => s[0] === h) && !LV_HUES.some(x => x[0] === h && level().L >= x[2])) { toast('このレベルになると使えます'); return; } S.set.hue = h; applyTheme(); save(); },
   fs(id) { S.set.fs = id; applyTheme(); commit(); },
@@ -8047,8 +8074,9 @@ function applyFont() {
 function applyTheme() {
   const mode = S.set.theme, dark = mode === 'dark' || (mode === 'auto' && matchMedia('(prefers-color-scheme: dark)').matches), r = document.documentElement;
   r.dataset.theme = dark ? 'dark' : 'light';
-  r.dataset.nav = S.set.navPos === 'bottom' ? 'bottom' : '';
-  r.dataset.navmode = S.set.navMode === 'menu' ? 'menu' : '';
+  const st = navStyleNow(), phone = innerWidth < 700;
+  r.dataset.nav = (phone ? S.set.navPos === 'bottom' : st === 'bottom') ? 'bottom' : '';
+  r.dataset.navmode = st === 'compact' ? 'menu' : '';
   if (r.dataset.navmode !== 'menu') delete r.dataset.navopen;
   const hb = document.getElementById('navham'); if (hb) { const ic = r.dataset.navopen ? 'close' : 'menu'; if (hb.dataset.ic !== ic) { hb.innerHTML = ms(ic); hb.dataset.ic = ic; } hb.setAttribute('aria-expanded', r.dataset.navopen ? 'true' : 'false'); hb.setAttribute('aria-label', r.dataset.navopen ? 'メニューをとじる' : 'メニューを開く'); }
   try { applyFont(); } catch (e) { }
